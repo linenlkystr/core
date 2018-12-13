@@ -2,8 +2,7 @@
 <Scenario xmlns="uri:/mil/tatrc/physiology/datamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" contentVersion="BioGears_6.3.0-beta" xsi:schemaLocation="">
     <Name>ExerciseVO2max</Name>
     <Description>Exercise at about the anaerobic threshold.</Description>
-    <InitialParameters><PatientFile>StandardMale.xml</PatientFile></InitialParameters>
-    
+<InitialParameters><PatientFile>StandardMale.xml</PatientFile></InitialParameters>
 	<!-- Base system data required for all scenario verification -->
   <DataRequests>
   <DataRequest xsi:type="PatientDataRequestData"    Name="Weight"                            Unit="kg"           Precision="3"/>
@@ -65,6 +64,7 @@
   <DataRequest xsi:type="SubstanceDataRequestData" Substance="Sodium"	Name="MassInBody" Unit="mg"	Precision="3"/>
   
   <DataRequest Substance="Epinephrine" Name="BloodConcentration" xsi:type="SubstanceDataRequestData" Unit="ug/L" Precision="6"/>
+      <DataRequest Substance="Glucose" Name="BloodConcentration" xsi:type="SubstanceDataRequestData" Unit="mg/dL" Precision="6"/>
     <DataRequest xsi:type="PhysiologyDataRequestData" Name="LiverGlycogen" Unit="g" Precision="2"/>
   <DataRequest xsi:type="PhysiologyDataRequestData" Name="MuscleGlycogen" Unit="g" Precision="2"/>
 
@@ -102,14 +102,14 @@
 	
 	
     <Action xsi:type="AdvanceTimeData">
-        <Time value="30" unit="s"/>       
+        <Time value="10" unit="s"/>       
     </Action>
 	<!-- Exercise at a moderate level for an hour -->
 	<Action xsi:type="ExerciseData">
-        <Intensity value="0.234"/>
+        <Intensity value="0.34"/>
     </Action>
     <Action xsi:type="AdvanceTimeData">
-        <Time value="60" unit="min"/>       
+        <Time value="30" unit="min"/>       
     </Action>
 	<Action xsi:type="ExerciseData">
         <Intensity value="0"/>
