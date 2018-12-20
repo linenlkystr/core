@@ -233,7 +233,7 @@ void Hepatic::Glycogenesis()
   double hormoneFactor = CalculateRelativeHormoneChange(m_tsu->GetLiverInsulinSetPoint().GetValue(AmountPerVolumeUnit::mmol_Per_L) * 1e9, m_tsu->GetLiverGlucagonSetPoint().GetValue(MassPerVolumeUnit::mg_Per_mL) * 1e9, m_liverInsulin, m_liverGlucagon, m_data);
 
   //Useful debugging information
-  /*
+  
   double insulinDeviation = (m_liverInsulin->GetMolarity(AmountPerVolumeUnit::mmol_Per_L)*1e9 - m_tsu->GetLiverInsulinSetPoint().GetValue(AmountPerVolumeUnit::mmol_Per_L)*1e9) / (m_tsu->GetLiverInsulinSetPoint().GetValue(AmountPerVolumeUnit::mmol_Per_L)*1e9);
   double glucagonDeviation = (m_liverGlucagon->GetConcentration(MassPerVolumeUnit::mg_Per_mL)*1e9 - m_tsu->GetLiverGlucagonSetPoint().GetValue(MassPerVolumeUnit::mg_Per_mL)*1e9) / (m_tsu->GetLiverGlucagonSetPoint().GetValue(MassPerVolumeUnit::mg_Per_mL)*1e9);
 
@@ -244,7 +244,7 @@ void Hepatic::Glycogenesis()
   m_data.GetDataTrack().Probe("LiverInsulinSetPoint_pmol_Per_L", m_tsu->GetLiverInsulinSetPoint().GetValue(AmountPerVolumeUnit::mmol_Per_L)*1e9);
   m_data.GetDataTrack().Probe("LiverGlucagon_pg_Per_mL", m_liverGlucagon->GetConcentration(MassPerVolumeUnit::mg_Per_mL)*1e9);
   m_data.GetDataTrack().Probe("LiverInsulin_pmol_Per_L", m_liverInsulin->GetMolarity(AmountPerVolumeUnit::mmol_Per_L)*1e9);
-  */
+  
 
   //Normally, 2% of glycogen is regenerated per hour after exercise, but can reach 5% \cite tardie2008glycogen
   //Roughly .00375 g/s after a meal after a 64 hour fast \cite rothman1991quantitative
@@ -311,18 +311,19 @@ void Hepatic::Glycogenolysis()
   double glycogenolysisUpperRate_g_Per_s = .00329; //\cite rothman1991quantitation \cite petersen2004regulation
 
   //https://www.wolframalpha.com/input/?i=y%3D.000926%2B.002364%2F(1%2Be%5E(-6(x-1)))+from+0%3Cy%3C.004+and+0%3Cx%3C2
-  double glycogenolysisRate_g_Per_s = glycogenolysisLowerRate_g_Per_s + GeneralMath::LogisticFunction(glycogenolysisUpperRate_g_Per_s - glycogenolysisLowerRate_g_Per_s, 1, 6, -hormoneFactor);
+  //double glycogenolysisRate_g_Per_s = glycogenolysisLowerRate_g_Per_s + GeneralMath::LogisticFunction(glycogenolysisUpperRate_g_Per_s - glycogenolysisLowerRate_g_Per_s, 1, 6, -hormoneFactor);
+  double glycogenolysisRate_g_Per_s = glycogenolysisLowerRate_g_Per_s + GeneralMath::LogisticFunction(glycogenolysisUpperRate_g_Per_s - glycogenolysisLowerRate_g_Per_s, 0.3, 12, -hormoneFactor);
 
   //remove glucose from glycogen stores and dump into blood
-  if (hormoneFactor < 0) {
+  if (hormoneFactor < 0.15) {
     if (m_tsu->GetLiverGlycogen(MassUnit::g) < glycogenolysisRate_g_Per_s * m_dt_s) {
       //m_ss << "Not enough glycogen remaining!";
       //Info(m_ss);
       return;
     }
 
-    m_liverVascularGlucose->GetMass().IncrementValue(glycogenolysisRate_g_Per_s * m_dt_s, MassUnit::g);
-    m_tsu->GetLiverGlycogen().IncrementValue(-glycogenolysisRate_g_Per_s * m_dt_s, MassUnit::g);
+    m_liverVascularGlucose->GetMass().IncrementValue(glycogenolysisRate_g_Per_s * 0.5, MassUnit::g);
+    m_tsu->GetLiverGlycogen().IncrementValue(-glycogenolysisRate_g_Per_s * 0.5, MassUnit::g);
     m_liverVascularGlucose->Balance(BalanceLiquidBy::Mass);
   }
 }

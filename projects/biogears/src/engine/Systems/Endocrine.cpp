@@ -231,6 +231,7 @@ void Endocrine::SynthesizeGlucagon()
   //https://www.wolframalpha.com/input/?i=y%3D21.3-(21.3%2F(1%2Bexp((2-2x)%2F.3)))+from+.8%3Cx%3C1.2+and+0%3Cy%3C16
 
   double bloodGlucoseConcentration_g_Per_L = m_aortaGlucose->GetConcentration(MassPerVolumeUnit::g_Per_L);
+  //double glucagonSynthesisRate_pmol_Per_min = 23.0 - (16.0/(0.9 + exp(6.2 - 6.9*bloodGlucoseConcentration_g_Per_L)));
   double glucagonSynthesisRate_pmol_Per_min = 21.3 - (21.3 / (1.0 + exp((2 - 2 * bloodGlucoseConcentration_g_Per_L) / .3))); //should be ~14.07 pmol/min at .9 blood glucose (normal)
 
   //Diabetic patients see glucagon abnormalities chronically, but even in short time-scales we expect to see glucagon levels

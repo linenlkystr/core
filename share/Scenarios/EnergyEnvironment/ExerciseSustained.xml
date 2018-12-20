@@ -109,7 +109,7 @@
         <Intensity value="0.34"/>
     </Action>
     <Action xsi:type="AdvanceTimeData">
-        <Time value="30" unit="min"/>       
+        <Time value="5" unit="min"/>       
     </Action>
 	<Action xsi:type="ExerciseData">
         <Intensity value="0"/>
