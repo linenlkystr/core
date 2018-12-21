@@ -248,8 +248,8 @@ void Hepatic::Glycogenesis()
 
   //Normally, 2% of glycogen is regenerated per hour after exercise, but can reach 5% \cite tardie2008glycogen
   //Roughly .00375 g/s after a meal after a 64 hour fast \cite rothman1991quantitative
-  double glycogenesisLowerRate_g_Per_s = .02 * (m_maxLiverGlycogen_g + m_maxMuscleGlycogen_g) / 3600; //~.00365
-  double glycogenesisUpperRate_g_Per_s = .05 * (m_maxLiverGlycogen_g + m_maxMuscleGlycogen_g) / 3600; //~.009
+  double glycogenesisLowerRate_g_Per_s = .04 * (m_maxLiverGlycogen_g + m_maxMuscleGlycogen_g) / 3600; //~.00365
+  double glycogenesisUpperRate_g_Per_s = .1 * (m_maxLiverGlycogen_g + m_maxMuscleGlycogen_g) / 3600; //~.009
 
   //https://www.wolframalpha.com/input/?i=y%3D.0005417%2B.0008125%2F(1%2Be%5E(-6(x-1)))+from+0%3Cy%3C.0015+and+0%3Cx%3C2
   //Can tweak sigmoid midpoint based on ratio values observed; shape parameter should be tweaked to give appropriate refill rates for glycogen (>20 hours)

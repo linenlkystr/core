@@ -115,7 +115,7 @@
         <Intensity value="0"/>
     </Action>
 	<Action xsi:type="AdvanceTimeData">
-        <Time value="20" unit="min"/>       
+        <Time value="40" unit="min"/>       
     </Action>
 </Scenario>
 
