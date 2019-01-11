@@ -76,6 +76,10 @@ public:
   SEScalarFraction& GetFatigueLevel();
   double GetFatigueLevel() const;
 
+  bool HasHypoperfusionPowerDeficit() const;
+  SEScalarPower& GetHypoperfusionPowerDeficit();
+  double GetHypoperfusionPowerDeficit(const PowerUnit& unit) const;
+
   bool HasLactateProductionRate() const;
   SEScalarAmountPerTime& GetLactateProductionRate();
   double GetLactateProductionRate(const AmountPerTimeUnit& unit) const;
@@ -111,6 +115,7 @@ protected:
   SEScalarAmountPerTime* m_CreatinineProductionRate;
   SEScalarPressure* m_ExerciseMeanArterialPressureDelta;
   SEScalarFraction* m_FatigueLevel;
+  SEScalarPower* m_HypoperfusionPowerDeficit;
   SEScalarAmountPerTime* m_LactateProductionRate;
   SEScalarMass* m_PotassiumLostToSweat;
   SEScalarTemperature* m_SkinTemperature;

@@ -228,7 +228,9 @@ specific language governing permissions and limitations under the License.
                     <xs:element name="TotalWorkRateLevel" type="ScalarFractionData" minOccurs="0" maxOccurs="1"/> <!--<< @brief The current patient work rate above basal over the maximum work rate capable by the patient -->
                     <xs:element name="SodiumLostToSweat" type="ScalarMassData" minOccurs="0" maxOccurs="1"/> <!--<<@brief Tracks the total amount of sodium lost while sweating during exercise -->
                     <xs:element name="PotassiumLostToSweat" type="ScalarMassData" minOccurs="0" maxOccurs="1"/> <!--<<@brief Tracks the total amount of potassium lost while sweating during exercise --> 
-                    <xs:element name="ChlorideLostToSweat" type="ScalarMassData" minOccurs="0" maxOccurs="1"/> <!--<<@brief Tracks the total amount of chloride lost while sweating during exercise -->                    
+                    <xs:element name="ChlorideLostToSweat" type="ScalarMassData" minOccurs="0" maxOccurs="1"/> <!--<<@brief Tracks the total amount of chloride lost while sweating during exercise -->  
+					<xs:element name="HypoperfusionPowerDeficit" type="ScalarPowerData" minOccurs="0" maxOccurs="1"/> <!--@brief Tracks the amount extra energy the body must try to
+					generate to overcome deficit caused by poor tissue perfusion.  Hypoerfusion occurs during shock, i.e. hemorrhagic and septic shock-->
                 </xs:sequence>    
             </xs:extension>
         </xs:complexContent>

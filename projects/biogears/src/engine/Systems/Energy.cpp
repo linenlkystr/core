@@ -105,6 +105,7 @@ void Energy::Initialize()
   GetExerciseMeanArterialPressureDelta().SetValue(0.0, PressureUnit::mmHg);
   GetTotalWorkRateLevel().SetValue(0.0);
   GetFatigueLevel().SetValue(0.0);
+  GetHypoperfusionPowerDeficit().SetValue(0.0, PowerUnit::W);
   GetSweatRate().SetValue(0.0, MassPerTimeUnit::kg_Per_s);
   GetChlorideLostToSweat().SetValue(0.0, MassUnit::mg);
   GetPotassiumLostToSweat().SetValue(0.0, MassUnit::mg);
@@ -193,6 +194,7 @@ void Energy::PreProcess()
   CalculateSweatRate();
   UpdateHeatResistance();
   Exercise();
+  ManageHypoperfusion();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -826,4 +828,23 @@ void Energy::OverrideControlLoop()
   }
   return;
 }
+
+void Energy::ManageHypoperfusion()
+{
+  double hypoperfusionGain = 10.0;   //Assumes power unit of Watts 
+  double recoveryGain = 0.0001;       //Assumes power unit of Watts
+  double bloodVolumeBaseline_mL = m_Patient->GetBloodVolumeBaseline(VolumeUnit::mL);
+  double bloodVolume_mL = m_data.GetCardiovascular().GetBloodVolume(VolumeUnit::mL);
+  if (m_PatientActions->HasHemorrhage()) {
+    double hypoperfusionDeficit_W = hypoperfusionGain * (bloodVolumeBaseline_mL - bloodVolume_mL) / bloodVolumeBaseline_mL;    
+    GetHypoperfusionPowerDeficit().SetValue(hypoperfusionDeficit_W, PowerUnit::W);
+  } else {
+    if (GetHypoperfusionPowerDeficit(PowerUnit::W) > ZERO_APPROX) {
+      double previousDeficit = GetHypoperfusionPowerDeficit(PowerUnit::W);
+      double nextDeficit = previousDeficit - recoveryGain * previousDeficit / GetTotalMetabolicRate(PowerUnit::W);
+      GetHypoperfusionPowerDeficit().SetValue(nextDeficit, PowerUnit::W);
+      }
+  }
+}
+
 }

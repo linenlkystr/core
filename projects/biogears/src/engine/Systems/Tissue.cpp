@@ -745,6 +745,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
   //Inputs and outputs
   double TMR_kcal_Per_s = m_data.GetEnergy().GetTotalMetabolicRate(PowerUnit::kcal_Per_s);
   double BMR_kcal_Per_s = m_data.GetPatient().GetBasalMetabolicRate(PowerUnit::kcal_Per_s);
+  double HypoperfusionDeficit_kcal_Per_s = m_data.GetEnergy().GetHypoperfusionPowerDeficit(PowerUnit::kcal_Per_s);
   double baseEnergyRequested_kcal = BMR_kcal_Per_s * time_s;
   double exerciseEnergyRequested_kcal = (TMR_kcal_Per_s - BMR_kcal_Per_s) * time_s;
   double brainNeededEnergy_kcal = .2 * baseEnergyRequested_kcal; //brain requires a roughly constant 20% of basal energy regardless of exercise \cite raichle2002appraising
@@ -788,9 +789,9 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
   double AA_CellularEfficiency = energyPerMolATP_kcal * ATP_Per_AA / 387.189; //Alanine heat of combustion is 1.62 MJ/mol \cite livesey1984energy
   double ketones_CellularEfficiency = glucose_CellularEfficiency; //Assuming the same as glucose
   double mandatoryMuscleAnaerobicFraction = .1; //There is always some anaerobic consumption in the body, particularly in muscle fibers with few mitochondria \cite boron2012medical
-  double hypoperfusedFraction = 0.0; //This value represents the proportion of a tissue that is not receiving sufficient oxygen due to hypoperfusion (i.e. during sepsis)
   double kcal_Per_day_Per_Watt = 20.6362855;
   double maxWorkRate_W = 1200; //see Energy::Exercise
+  double hypoperfusedFraction = 0.0;
 
   //Patients with COPD show higher levels of anaerobic metabolism \cite mathur1999cerebral \cite engelen2000factors
   if (m_data.GetConditions().HasChronicObstructivePulmonaryDisease()) {
@@ -974,12 +975,13 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
     //They can also consume ketones in some quantities, but we're not modeling that
     //The muscles always have some level of anaerobic activity
     //Additionally, the muscles perform all of the additional work from exercise
-    double tissueNeededEnergy_kcal = nonbrainNeededEnergy_kcal * BloodFlowFraction;
+    double tissueNeededEnergy_kcal = (nonbrainNeededEnergy_kcal + HypoperfusionDeficit_kcal_Per_s) * BloodFlowFraction;
     double muscleMandatoryAnaerobicNeededEnergy_kcal = 0;
     if (tissue == m_MuscleTissue) {
       muscleMandatoryAnaerobicNeededEnergy_kcal = mandatoryMuscleAnaerobicFraction * tissueNeededEnergy_kcal;
       tissueNeededEnergy_kcal -= muscleMandatoryAnaerobicNeededEnergy_kcal;
       tissueNeededEnergy_kcal += exerciseEnergyRequested_kcal;
+      //tissueNeededEnergy_kcal += hypoperfusedEnergyDeficit;  //Adding because we need to increase the gap between eneryg demand and available energy to mimic decreased transport of O2 to tissue
 
       double creatinineProductionRate_mg_Per_s = 2.0e-5; /// \todo Creatinine production rate should be a function of muscle mass.
       intracellular.GetSubstanceQuantity(*m_Creatinine)->GetMass().IncrementValue(creatinineProductionRate_mg_Per_s * m_Dt_s, MassUnit::mg);
@@ -1738,14 +1740,16 @@ void Tissue::CheckGlycogenLevels()
 void Tissue::ManageSubstancesAndSaturation()
 {
   SEScalarMassPerVolume albuminConcentration;
-  albuminConcentration.SetValue(45.0, MassPerVolumeUnit::g_Per_L);
+  albuminConcentration = m_data.GetSubstances().GetAlbumin().GetBloodConcentration();
+  SEScalarAmountPerVolume strongIon;
+  strongIon = m_data.GetBloodChemistry().GetStrongIonDifference();
   // Currently, substances are not where they need to be, we will hard code this for now until we fix them
   /// \todo Remove SetBodyState hardcode and replace with computed values after substance redux is complete
   m_data.GetSaturationCalculator().SetBodyState(albuminConcentration,
-                                                m_data.GetBloodChemistry().GetHematocrit(),
-                                                m_data.GetEnergy().GetCoreTemperature(),
-                                                m_data.GetBloodChemistry().GetStrongIonDifference(),
-                                                m_data.GetBloodChemistry().GetPhosphate());
+    m_data.GetBloodChemistry().GetHematocrit(),
+    m_data.GetEnergy().GetCoreTemperature(),
+    strongIon,
+    m_data.GetBloodChemistry().GetPhosphate());
   for (SELiquidCompartment* cmpt : m_data.GetCompartments().GetVascularLeafCompartments()) {
     if (cmpt->HasVolume()) {
       m_data.GetSaturationCalculator().CalculateBloodGasDistribution(*cmpt);

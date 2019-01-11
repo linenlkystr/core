@@ -78,6 +78,7 @@ private:
   void UpdateHeatResistance();
   // Actions/Conditions
   void Exercise();
+  void ManageHypoperfusion();
 
   void ProcessOverride();
   void OverrideControlLoop();

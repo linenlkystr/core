@@ -30,6 +30,7 @@ namespace biogears {
   constexpr char idCreatinineProductionRate[] = "CreatinineProductionRate";
   constexpr char idExerciseMeanArterialPressureDelta[] = "ExerciseMeanArterialPressureDelta";
   constexpr char idFatigueLevel[] = "FatigueLevel";
+  constexpr char idHypoperfusionPowerDeficit[] = "HypoperfusionPowerDeficit";
   constexpr char idLactateProductionRate[] = "LactateProductionRate";
   constexpr char idPotassiumLostToSweat[] = "PotassiumLostToSweat";
   constexpr char idSkinTemperature[] = "SkinTemperature";
@@ -47,6 +48,7 @@ SEEnergySystem::SEEnergySystem(Logger* logger)
   m_CreatinineProductionRate = nullptr;
   m_ExerciseMeanArterialPressureDelta = nullptr;
   m_FatigueLevel = nullptr;
+  m_HypoperfusionPowerDeficit = nullptr;
   m_LactateProductionRate = nullptr;
   m_PotassiumLostToSweat = nullptr;
   m_SkinTemperature = nullptr;
@@ -72,6 +74,7 @@ void SEEnergySystem::Clear()
   SAFE_DELETE(m_CoreTemperature);
   SAFE_DELETE(m_CreatinineProductionRate);
   SAFE_DELETE(m_ExerciseMeanArterialPressureDelta);
+  SAFE_DELETE(m_HypoperfusionPowerDeficit);
   SAFE_DELETE(m_FatigueLevel);
   SAFE_DELETE(m_LactateProductionRate);
   SAFE_DELETE(m_PotassiumLostToSweat);
@@ -100,6 +103,8 @@ const SEScalar* SEEnergySystem::GetScalar(const std::string& name)
     return &GetExerciseMeanArterialPressureDelta();
   if (name == idFatigueLevel)
     return &GetFatigueLevel();
+  if (name == idHypoperfusionPowerDeficit)
+    return &GetHypoperfusionPowerDeficit();
   if (name == idLactateProductionRate)
     return &GetLactateProductionRate();
   if (name == idPotassiumLostToSweat)
@@ -134,6 +139,8 @@ bool SEEnergySystem::Load(const CDM::EnergySystemData& in)
     GetExerciseMeanArterialPressureDelta().Load(in.ExerciseMeanArterialPressureDelta().get());
   if (in.FatigueLevel().present())
     GetFatigueLevel().Load(in.FatigueLevel().get());
+  if (in.HypoperfusionPowerDeficit().present())
+    GetHypoperfusionPowerDeficit().Load(in.HypoperfusionPowerDeficit().get());
   if (in.LactateProductionRate().present())
     GetLactateProductionRate().Load(in.LactateProductionRate().get());
   if (in.PotassiumLostToSweat().present())
@@ -177,6 +184,8 @@ void SEEnergySystem::Unload(CDM::EnergySystemData& data) const
     data.ExerciseMeanArterialPressureDelta(std::unique_ptr<CDM::ScalarPressureData>(m_ExerciseMeanArterialPressureDelta->Unload()));
   if (m_FatigueLevel != nullptr)
     data.FatigueLevel(std::unique_ptr<CDM::ScalarFractionData>(m_FatigueLevel->Unload()));
+  if (m_HypoperfusionPowerDeficit != nullptr)
+    data.HypoperfusionPowerDeficit(std::unique_ptr<CDM::ScalarPowerData>(m_HypoperfusionPowerDeficit->Unload()));
   if (m_LactateProductionRate != nullptr)
     data.LactateProductionRate(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_LactateProductionRate->Unload()));
   if (m_PotassiumLostToSweat != nullptr)
@@ -311,6 +320,26 @@ double SEEnergySystem::GetFatigueLevel() const
     return SEScalar::dNaN();
   return m_FatigueLevel->GetValue();
 }
+//-------------------------------------------------------------------------------
+bool SEEnergySystem::HasHypoperfusionPowerDeficit() const
+{
+  return m_HypoperfusionPowerDeficit == nullptr ? false : m_HypoperfusionPowerDeficit->IsValid();
+}
+//-------------------------------------------------------------------------------
+SEScalarPower& SEEnergySystem::GetHypoperfusionPowerDeficit()
+{
+  if (m_HypoperfusionPowerDeficit == nullptr)
+    m_HypoperfusionPowerDeficit = new SEScalarPower();
+  return *m_HypoperfusionPowerDeficit;
+}
+//-------------------------------------------------------------------------------
+double SEEnergySystem::GetHypoperfusionPowerDeficit(const PowerUnit& unit) const
+{
+  if (m_HypoperfusionPowerDeficit == nullptr)
+    return SEScalar::dNaN();
+  return m_HypoperfusionPowerDeficit->GetValue(unit);
+}
+
 //-------------------------------------------------------------------------------
 
 bool SEEnergySystem::HasLactateProductionRate() const
