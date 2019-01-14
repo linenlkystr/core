@@ -975,13 +975,12 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
     //They can also consume ketones in some quantities, but we're not modeling that
     //The muscles always have some level of anaerobic activity
     //Additionally, the muscles perform all of the additional work from exercise
-    double tissueNeededEnergy_kcal = (nonbrainNeededEnergy_kcal + HypoperfusionDeficit_kcal_Per_s) * BloodFlowFraction;
+    double tissueNeededEnergy_kcal = nonbrainNeededEnergy_kcal * BloodFlowFraction;
     double muscleMandatoryAnaerobicNeededEnergy_kcal = 0;
     if (tissue == m_MuscleTissue) {
       muscleMandatoryAnaerobicNeededEnergy_kcal = mandatoryMuscleAnaerobicFraction * tissueNeededEnergy_kcal;
       tissueNeededEnergy_kcal -= muscleMandatoryAnaerobicNeededEnergy_kcal;
       tissueNeededEnergy_kcal += exerciseEnergyRequested_kcal;
-      //tissueNeededEnergy_kcal += hypoperfusedEnergyDeficit;  //Adding because we need to increase the gap between eneryg demand and available energy to mimic decreased transport of O2 to tissue
 
       double creatinineProductionRate_mg_Per_s = 2.0e-5; /// \todo Creatinine production rate should be a function of muscle mass.
       intracellular.GetSubstanceQuantity(*m_Creatinine)->GetMass().IncrementValue(creatinineProductionRate_mg_Per_s * m_Dt_s, MassUnit::mg);
@@ -999,11 +998,12 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
     //See if we actually have enough AA to meet the request and carry it out
     double intracellularAA_mol = TissueAA->GetMolarity(AmountPerVolumeUnit::mol_Per_L) * TissueVolume_L;
     double AADeficit_mol = intracellularAA_mol - AAToConsume_mol;
-
+    double perfusedFraction = 1.0 - m_data.GetEnergy().GetHypoperfusionPowerDeficit(PowerUnit::W) / m_data.GetEnergy().GetTotalMetabolicRate(PowerUnit::W);
+    BLIM(perfusedFraction, 0.0, 1.0);
     //There wasn't enough; consume all intracellular AA and track deficit if desired
     if (AADeficit_mol < 0) {
       //AA consumption is aerobic
-      if (TissueO2->GetMass(MassUnit::g) > intracellularAA_mol * O2_Per_AA * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
+      if (perfusedFraction * TissueO2->GetMass(MassUnit::g) > intracellularAA_mol * O2_Per_AA * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
         TissueAA->GetMass().SetValue(0, MassUnit::g);
         m_LiverExtracellular->GetSubstanceQuantity(*m_Urea)->GetMass().IncrementValue(intracellularAA_mol * Urea_Per_AA * m_Urea->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(intracellularAA_mol * CO2_Per_AA * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -1015,11 +1015,13 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         totalO2Consumed_mol += intracellularAA_mol * O2_Per_AA;
         totalCO2Produced_mol += intracellularAA_mol * CO2_Per_AA;
       } else {
-        double AAActuallyConsumed_mol = TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_AA;
+        double AAActuallyConsumed_mol = perfusedFraction * TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_AA;
         TissueAA->GetMass().IncrementValue(-AAActuallyConsumed_mol * m_AminoAcids->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         m_LiverExtracellular->GetSubstanceQuantity(*m_Urea)->GetMass().IncrementValue(AAActuallyConsumed_mol * Urea_Per_AA * m_Urea->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(AAActuallyConsumed_mol * CO2_Per_AA * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
-        TissueO2->GetMass().SetValue(0, MassUnit::g);
+        double O2Remaining_g = -AAActuallyConsumed_mol * O2_Per_AA * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+        LLIM(O2Remaining_g, 0.0);
+        TissueO2->GetMass().SetValue(O2Remaining_g, MassUnit::g);
         double totalEnergyUsed = AAActuallyConsumed_mol * ATP_Per_AA * energyPerMolATP_kcal / AA_CellularEfficiency;
         nonbrainNeededEnergy_kcal -= totalEnergyUsed;
         tissueNeededEnergy_kcal -= totalEnergyUsed;
@@ -1031,7 +1033,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
     //There was enough; consume the required amount
     else {
       //AA consumption is aerobic
-      if (TissueO2->GetMass(MassUnit::g) > AAToConsume_mol * O2_Per_AA * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
+      if (perfusedFraction * TissueO2->GetMass(MassUnit::g) > AAToConsume_mol * O2_Per_AA * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
         TissueAA->GetMass().IncrementValue(-AAToConsume_mol * m_AminoAcids->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         m_LiverExtracellular->GetSubstanceQuantity(*m_Urea)->GetMass().IncrementValue(AAToConsume_mol * Urea_Per_AA * m_Urea->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(AAToConsume_mol * CO2_Per_AA * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -1045,11 +1047,13 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
       }
       //O2 is limiting
       else {
-        double AAActuallyConsumed_mol = TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_AA;
+        double AAActuallyConsumed_mol = perfusedFraction * TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_AA;
         TissueAA->GetMass().IncrementValue(-AAActuallyConsumed_mol * m_AminoAcids->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         m_LiverExtracellular->GetSubstanceQuantity(*m_Urea)->GetMass().IncrementValue(AAActuallyConsumed_mol * Urea_Per_AA * m_Urea->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(AAActuallyConsumed_mol * CO2_Per_AA * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
-        TissueO2->GetMass().SetValue(0, MassUnit::g);
+        double O2Remaining_g = -AAActuallyConsumed_mol * O2_Per_AA * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+        LLIM(O2Remaining_g, 0.0);
+        TissueO2->GetMass().SetValue(O2Remaining_g, MassUnit::g);
         double totalEnergyUsed = AAActuallyConsumed_mol * ATP_Per_AA * energyPerMolATP_kcal / AA_CellularEfficiency;
         nonbrainNeededEnergy_kcal -= totalEnergyUsed;
         tissueNeededEnergy_kcal -= totalEnergyUsed;
@@ -1075,7 +1079,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
       double TAGToConsume_mol = TAG_CellularEfficiency * tissueNeededEnergy_kcal / energyPerMolATP_kcal / ATP_Per_TAG;
 
       //TAG consumption is aerobic
-      if (TissueO2->GetMass(MassUnit::g) > TAGToConsume_mol * O2_Per_TAG * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
+      if (perfusedFraction * TissueO2->GetMass(MassUnit::g) > TAGToConsume_mol * O2_Per_TAG * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
         TissueTAG->GetMass().IncrementValue(-TAGToConsume_mol * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(TAGToConsume_mol * CO2_Per_TAG * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueO2->GetMass().IncrementValue(-TAGToConsume_mol * O2_Per_TAG * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -1085,10 +1089,12 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         tissueNeededEnergy_kcal = 0;
         totalFatConsumed_g += TAGToConsume_mol * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol);
       } else {
-        TAGToConsume_mol = TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_TAG;
+        TAGToConsume_mol = perfusedFraction * TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_TAG;
         TissueTAG->GetMass().IncrementValue(-TAGToConsume_mol * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(TAGToConsume_mol * CO2_Per_TAG * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
-        TissueO2->GetMass().SetValue(0, MassUnit::g);
+        double O2Remaining_g = -TAGToConsume_mol * O2_Per_TAG * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+        LLIM(O2Remaining_g, 0.0);
+        TissueO2->GetMass().SetValue(O2Remaining_g, MassUnit::g);
         double totalEnergyUsed = TAGToConsume_mol * ATP_Per_TAG * energyPerMolATP_kcal / TAG_CellularEfficiency;
         nonbrainNeededEnergy_kcal -= totalEnergyUsed;
         heatGenerated_kcal += totalEnergyUsed * (1 - TAG_CellularEfficiency);
@@ -1103,7 +1109,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
       double TAGToConsume_mol = rateLimitingTuningFactor * TissueTAG->GetMolarity(AmountPerVolumeUnit::mol_Per_L) * TissueVolume_L;
 
       //TAG consumption is aerobic
-      if (TissueO2->GetMass(MassUnit::g) > TAGToConsume_mol * O2_Per_TAG * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
+      if (perfusedFraction * TissueO2->GetMass(MassUnit::g) > TAGToConsume_mol * O2_Per_TAG * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
         double massToConsume = ((TissueTAG->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_L) * TissueVolume_L) - (TAGToConsume_mol * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol))) < 0 ? TissueTAG->GetMass().GetValue(MassUnit::g) : (TAGToConsume_mol * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol)); //Since we're using the tuning factor, we want to avoid setting to 0 in the wrong cases
         TissueTAG->GetMass().IncrementValue(-massToConsume, MassUnit::g);
         TissueCO2->GetMass().IncrementValue(TAGToConsume_mol * CO2_Per_TAG * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -1114,10 +1120,12 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         tissueNeededEnergy_kcal -= totalEnergyUsed;
         totalFatConsumed_g += TAGToConsume_mol * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol);
       } else {
-        TAGToConsume_mol = TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_TAG;
+        TAGToConsume_mol = perfusedFraction * TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_TAG;
         TissueTAG->GetMass().IncrementValue(-TAGToConsume_mol * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(TAGToConsume_mol * CO2_Per_TAG * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
-        TissueO2->GetMass().SetValue(0, MassUnit::g);
+        double O2Remaining_g = -TAGToConsume_mol * O2_Per_TAG * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+        LLIM(O2Remaining_g, 0.0);
+        TissueO2->GetMass().SetValue(O2Remaining_g, MassUnit::g);
         double totalEnergyUsed = TAGToConsume_mol * ATP_Per_TAG * energyPerMolATP_kcal / TAG_CellularEfficiency;
         nonbrainNeededEnergy_kcal -= totalEnergyUsed;
         heatGenerated_kcal += totalEnergyUsed * (1 - TAG_CellularEfficiency);
@@ -1136,7 +1144,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
       double glucoseToConsume_mol = glucose_CellularEfficiency * tissueNeededEnergy_kcal / energyPerMolATP_kcal / ATP_Per_Glucose;
 
       //This is aerobic glucose consumption, so it's limited by O2
-      if (TissueO2->GetMass(MassUnit::g) > glucoseToConsume_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
+      if (perfusedFraction * TissueO2->GetMass(MassUnit::g) > glucoseToConsume_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
         TissueGlucose->GetMass().IncrementValue(-glucoseToConsume_mol * m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(glucoseToConsume_mol * CO2_Per_Glucose * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueO2->GetMass().IncrementValue(-glucoseToConsume_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -1145,10 +1153,12 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         heatGenerated_kcal += totalEnergyUsed * (1 - glucose_CellularEfficiency);
         tissueNeededEnergy_kcal = 0;
       } else {
-        glucoseToConsume_mol = TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_Glucose;
+        glucoseToConsume_mol = perfusedFraction * TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_Glucose;
         TissueGlucose->GetMass().IncrementValue(-glucoseToConsume_mol * m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(glucoseToConsume_mol * CO2_Per_Glucose * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
-        TissueO2->GetMass().SetValue(0, MassUnit::g);
+        double O2Remaining_g = -glucoseToConsume_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+        LLIM(O2Remaining_g, 0.0);
+        TissueO2->GetMass().SetValue(O2Remaining_g, MassUnit::g);
         double totalEnergyUsed = glucoseToConsume_mol * ATP_Per_Glucose * energyPerMolATP_kcal / glucose_CellularEfficiency;
         nonbrainNeededEnergy_kcal -= totalEnergyUsed;
         heatGenerated_kcal += totalEnergyUsed * (1 - glucose_CellularEfficiency);
@@ -1162,7 +1172,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
       double glucoseToConsume_mol = TissueGlucose->GetMolarity(AmountPerVolumeUnit::mol_Per_L) * TissueVolume_L;
 
       //If we have enough O2
-      if (TissueO2->GetMass(MassUnit::g) > glucoseToConsume_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
+      if (perfusedFraction * TissueO2->GetMass(MassUnit::g) > glucoseToConsume_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
         TissueGlucose->GetMass().SetValue(0, MassUnit::g);
         TissueCO2->GetMass().IncrementValue(glucoseToConsume_mol * CO2_Per_Glucose * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueO2->GetMass().IncrementValue(-glucoseToConsume_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -1171,10 +1181,12 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         heatGenerated_kcal += totalEnergyUsed * (1 - glucose_CellularEfficiency);
         tissueNeededEnergy_kcal -= totalEnergyUsed;
       } else {
-        glucoseToConsume_mol = TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_Glucose;
+        glucoseToConsume_mol = perfusedFraction * TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_Glucose;
         TissueGlucose->GetMass().IncrementValue(-glucoseToConsume_mol * m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         TissueCO2->GetMass().IncrementValue(glucoseToConsume_mol * CO2_Per_Glucose * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
-        TissueO2->GetMass().SetValue(0, MassUnit::g);
+        double O2Remaining_g = -glucoseToConsume_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+        LLIM(O2Remaining_g, 0.0);
+        TissueO2->GetMass().SetValue(O2Remaining_g, MassUnit::g);
         double totalEnergyUsed = glucoseToConsume_mol * ATP_Per_Glucose * energyPerMolATP_kcal / glucose_CellularEfficiency;
         nonbrainNeededEnergy_kcal -= totalEnergyUsed;
         heatGenerated_kcal += totalEnergyUsed * (1 - glucose_CellularEfficiency);
@@ -1194,7 +1206,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         double glycogenConsumed_mol = glucose_CellularEfficiency * tissueNeededEnergy_kcal / energyPerMolATP_kcal / aerobic_ATP_Per_Glycogen;
 
         //If we have enough O2
-        if (TissueO2->GetMass(MassUnit::g) > glycogenConsumed_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
+        if (perfusedFraction * TissueO2->GetMass(MassUnit::g) > glycogenConsumed_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
           GetMuscleGlycogen().IncrementValue(-glycogenConsumed_mol * m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
           TissueCO2->GetMass().IncrementValue(glycogenConsumed_mol * CO2_Per_Glucose * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
           TissueO2->GetMass().IncrementValue(-glycogenConsumed_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -1203,10 +1215,12 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
           heatGenerated_kcal += totalEnergyUsed * (1 - glucose_CellularEfficiency);
           tissueNeededEnergy_kcal = 0;
         } else {
-          glycogenConsumed_mol = TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_Glucose;
+          glycogenConsumed_mol = perfusedFraction * TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_Glucose;
           GetMuscleGlycogen().IncrementValue(-glycogenConsumed_mol * m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
           TissueCO2->GetMass().IncrementValue(glycogenConsumed_mol * CO2_Per_Glucose * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
-          TissueO2->GetMass().SetValue(0, MassUnit::g);
+          double O2Remaining_g = -glycogenConsumed_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+          LLIM(O2Remaining_g, 0.0);
+          TissueO2->GetMass().SetValue(O2Remaining_g, MassUnit::g);
           double totalEnergyUsed = glycogenConsumed_mol * aerobic_ATP_Per_Glycogen * energyPerMolATP_kcal / glucose_CellularEfficiency;
           nonbrainNeededEnergy_kcal -= totalEnergyUsed;
           heatGenerated_kcal += totalEnergyUsed * (1 - glucose_CellularEfficiency);
@@ -1220,7 +1234,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         double glycogenConsumed_mol = GetMuscleGlycogen(MassUnit::g) / m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol);
 
         //If we have enough O2
-        if (TissueO2->GetMass(MassUnit::g) > glycogenConsumed_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
+        if (perfusedFraction * TissueO2->GetMass(MassUnit::g) > glycogenConsumed_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
           GetMuscleGlycogen().SetValue(0, MassUnit::g);
           TissueCO2->GetMass().IncrementValue(glycogenConsumed_mol * CO2_Per_Glucose * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
           TissueO2->GetMass().IncrementValue(-glycogenConsumed_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -1229,10 +1243,12 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
           heatGenerated_kcal += totalEnergyUsed * (1 - glucose_CellularEfficiency);
           tissueNeededEnergy_kcal -= totalEnergyUsed;
         } else {
-          glycogenConsumed_mol = TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_Glucose;
+          glycogenConsumed_mol = perfusedFraction * TissueO2->GetMass(MassUnit::g) / m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol) / O2_Per_Glucose;
           GetMuscleGlycogen().IncrementValue(-glycogenConsumed_mol * m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
           TissueCO2->GetMass().IncrementValue(glycogenConsumed_mol * CO2_Per_Glucose * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
-          TissueO2->GetMass().SetValue(0, MassUnit::g);
+          double O2Remaining_g = -glycogenConsumed_mol * O2_Per_Glucose * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+          LLIM(O2Remaining_g, 0.0);
+          TissueO2->GetMass().SetValue(O2Remaining_g, MassUnit::g);
           double totalEnergyUsed = glycogenConsumed_mol * aerobic_ATP_Per_Glycogen * energyPerMolATP_kcal / glucose_CellularEfficiency;
           nonbrainNeededEnergy_kcal -= totalEnergyUsed;
           heatGenerated_kcal += totalEnergyUsed * (1 - glucose_CellularEfficiency);

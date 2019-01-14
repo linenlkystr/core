@@ -831,7 +831,7 @@ void Energy::OverrideControlLoop()
 
 void Energy::ManageHypoperfusion()
 {
-  double hypoperfusionGain = 10.0;   //Assumes power unit of Watts 
+  double hypoperfusionGain = 400.0;   //Assumes power unit of Watts 
   double recoveryGain = 0.0001;       //Assumes power unit of Watts
   double bloodVolumeBaseline_mL = m_Patient->GetBloodVolumeBaseline(VolumeUnit::mL);
   double bloodVolume_mL = m_data.GetCardiovascular().GetBloodVolume(VolumeUnit::mL);
