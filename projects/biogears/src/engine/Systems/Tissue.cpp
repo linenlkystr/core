@@ -765,8 +765,8 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
 
   //Data
   double energyPerMolATP_kcal = m_data.GetConfiguration().GetEnergyPerATP(EnergyPerAmountUnit::kcal_Per_mol);
-  double ATP_Per_Glucose = 29.85; //The full aerobic glucose breakdown gives ~29.85 ATP, including inefficiencies \cite rich2003molecular
-  double CO2_Per_Glucose = 6;
+  double ATP_Per_Glucose = 36.0;  //29.85; //The full aerobic glucose breakdown gives ~29.85 ATP, including inefficiencies \cite rich2003molecular
+  double CO2_Per_Glucose = 5.0;  //6;
   double O2_Per_Glucose = 6;
   double ATP_Per_Ketone = 24; //Assuming acetoacetate
   double CO2_Per_Ketone = 6; //double check this, ketones consumed via citric acid cycle, so should be the same as glucose
@@ -1397,11 +1397,11 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
   }
 
   //Useful debugging information
-  //m_data.GetDataTrack().Probe("InstantaneousBrainEnergyDeficit_kcal", brainEnergyDeficit_kcal);
-  //m_data.GetDataTrack().Probe("InstantaneousNonBrainEnergyDeficit_kcal", nonbrainEnergyDeficit_kcal);
-  //m_data.GetDataTrack().Probe("NonBrainDeficitFraction", nonbrainEnergyDeficit_kcal / (.8*baseEnergyRequested_kcal + exerciseEnergyRequested_kcal));
-  //m_data.GetDataTrack().Probe("InstantaneousMetabolicHeatGenerated_kcal", heatGenerated_kcal);
-  //m_data.GetDataTrack().Probe("CumulativeTAGConsumed_g", totalFatConsumed_g);
+  m_data.GetDataTrack().Probe("InstantaneousBrainEnergyDeficit_kcal", brainEnergyDeficit_kcal);
+  m_data.GetDataTrack().Probe("InstantaneousNonBrainEnergyDeficit_kcal", nonbrainEnergyDeficit_kcal);
+  m_data.GetDataTrack().Probe("NonBrainDeficitFraction", nonbrainEnergyDeficit_kcal / (.8*baseEnergyRequested_kcal + exerciseEnergyRequested_kcal));
+  m_data.GetDataTrack().Probe("InstantaneousMetabolicHeatGenerated_kcal", heatGenerated_kcal);
+  m_data.GetDataTrack().Probe("CumulativeTAGConsumed_g", totalFatConsumed_g);
 
   //Gives you an idea of what non-muscle compartments don't get enough O2 flow and is better than using Info every timestep
   //Can remove once we get everything tuned adequately
