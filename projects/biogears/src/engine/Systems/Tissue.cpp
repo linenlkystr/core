@@ -1397,11 +1397,11 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
   }
 
   //Useful debugging information
-  m_data.GetDataTrack().Probe("InstantaneousBrainEnergyDeficit_kcal", brainEnergyDeficit_kcal);
+  /*m_data.GetDataTrack().Probe("InstantaneousBrainEnergyDeficit_kcal", brainEnergyDeficit_kcal);
   m_data.GetDataTrack().Probe("InstantaneousNonBrainEnergyDeficit_kcal", nonbrainEnergyDeficit_kcal);
   m_data.GetDataTrack().Probe("NonBrainDeficitFraction", nonbrainEnergyDeficit_kcal / (.8*baseEnergyRequested_kcal + exerciseEnergyRequested_kcal));
   m_data.GetDataTrack().Probe("InstantaneousMetabolicHeatGenerated_kcal", heatGenerated_kcal);
-  m_data.GetDataTrack().Probe("CumulativeTAGConsumed_g", totalFatConsumed_g);
+  m_data.GetDataTrack().Probe("CumulativeTAGConsumed_g", totalFatConsumed_g);*/
 
   //Gives you an idea of what non-muscle compartments don't get enough O2 flow and is better than using Info every timestep
   //Can remove once we get everything tuned adequately
