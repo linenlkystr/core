@@ -258,8 +258,6 @@ void Hepatic::Glycogenesis()
   //remove excess glucose from blood and store in glycogen while there's room
   if (hormoneFactor > 0 && m_tsu->GetLiverGlycogen(MassUnit::g) < m_maxLiverGlycogen_g) {
     if (m_liverVascularGlucose->GetMass().GetValue(MassUnit::g) < glycogenesisRate_g_Per_s * m_dt_s) {
-      m_ss << "Not enough glucose in blood to store as glycogen!";
-      Info(m_ss);
       return;
     }
 

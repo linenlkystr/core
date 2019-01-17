@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scenario xmlns="uri:/mil/tatrc/physiology/datamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" contentVersion="BioGears_6.2.0-beta" xsi:schemaLocation="">
-    <Name>StarvationScenario</Name>
-    <Description>Patient has suffered from moderate dehydration</Description>
+    <Name>DehydrationScenario</Name>
+    <Description>Dehydration 5% body weight reduction </Description>
     <InitialParameters>
-		<PatientFile>StandardMale.xml</PatientFile>
-		<Condition xsi:type="ConsumeMealData">
-			<Meal>
-				<Water value="0.0" unit="L"/>
-				<ElapsedTime value="1.3" unit="day"/>	
-			</Meal>
+      <PatientFile>StandardMale.xml</PatientFile>
+		<Condition xsi:type="DehydrationData">
+			<DehydrationFraction value="0.05"/>
 		</Condition>
 	</InitialParameters>
 	

@@ -4,19 +4,8 @@
     <Description>We have eaten a good meal 2 hrs ago</Description>
     <InitialParameters>
 		<PatientFile>StandardMale.xml</PatientFile>
-		<Condition xsi:type="ConsumeMealData">
-			<Meal>
-				<Carbohydrate value="130.0" unit="g"/>
-				<CarbohydrateDigestionRate value="0.5" unit="g/min"/>
-				<Fat value="27.0" unit="g"/>
-				<FatDigestionRate value="0.055" unit="g/min"/>
-				<Protein value="20.0" unit="g"/>
-				<ProteinDigestionRate value="0.071" unit="g/min"/>
-				<Calcium value="300.0" unit="mg"/>
-				<Sodium value="0.5" unit="g"/>
-				<Water value="1.25" unit="L"/>
-				<ElapsedTime value="2.0" unit="hr"/>
-			</Meal>
+		<Condition xsi:type="StarvationData">
+			<TimeSinceMeal value="2" unit="hr"/>
 		</Condition>
 	</InitialParameters>
 	

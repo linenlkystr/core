@@ -4,12 +4,6 @@
     <Description>Patient has an empty stomach and gut</Description>
     <InitialParameters>
 		<PatientFile>StandardMale.xml</PatientFile>
-		<Condition xsi:type="ConsumeMealData">
-			<Meal>
-				<Water value="300" unit="mL"/>
-				<ElapsedTime value="0" unit="hr"/>
-			</Meal>
-		</Condition>
 	</InitialParameters>
 	
   <!-- Base system data required for all scenario verification -->
@@ -111,9 +105,23 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SmallIntestineVasculature" Substance="Urea"       Name="Concentration" Unit="mg/dL" Precision="1"/>
   </DataRequests>
 	
+	<Action xsi:type="ConsumeNutrientsData">
+		<Nutrition>
+    <Name>GoodMeal</Name>
+			<Carbohydrate value="0.0" unit="g"/>
+			<Fat value="0.0" unit="g"/>
+			<Protein value="0.0" unit="g"/>
+			<Calcium value="0.0" unit="g"/>
+			<Sodium value="0" unit="g"/>
+			<Water value="300.0" unit="mL"/>
+		</Nutrition>       
+	</Action>  
+
 	<Action xsi:type="AdvanceTimeData">
         <Time value="100" unit="min"/>
     </Action> 
+
+
 </Scenario>
 
 

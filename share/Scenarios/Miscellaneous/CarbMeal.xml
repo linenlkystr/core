@@ -102,6 +102,7 @@
 
 <Action xsi:type="ConsumeNutrientsData">
 		<Nutrition>
+			<Name>GoodMeal</Name>
 			<Carbohydrate value="40.0" unit="g"/>
 		</Nutrition>       
 	</Action>   

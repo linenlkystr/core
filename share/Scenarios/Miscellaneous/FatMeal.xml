@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scenario xmlns="uri:/mil/tatrc/physiology/datamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" contentVersion="BioGears_6.3.0-beta" xsi:schemaLocation="">
-	<Name>CarbMeal</Name>
-	<Description>Giving just a carb meal as action</Description>
+	<Name>FatMeal</Name>
+	<Description>Giving an all fat meal as action</Description>
 	<InitialParameters><PatientFile>StandardMale.xml</PatientFile></InitialParameters>
 	
 	<!-- Base system data required for all scenario verification -->
@@ -104,6 +104,7 @@
 
 	<Action xsi:type="ConsumeNutrientsData">
 		<Nutrition>
+			<Name>GoodMeal</Name>
 			<Fat value="40.0" unit="g"/>
 		</Nutrition>       
 	</Action>   
