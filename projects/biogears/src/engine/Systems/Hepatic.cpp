@@ -237,13 +237,13 @@ void Hepatic::Glycogenesis()
   double insulinDeviation = (m_liverInsulin->GetMolarity(AmountPerVolumeUnit::mmol_Per_L)*1e9 - m_tsu->GetLiverInsulinSetPoint().GetValue(AmountPerVolumeUnit::mmol_Per_L)*1e9) / (m_tsu->GetLiverInsulinSetPoint().GetValue(AmountPerVolumeUnit::mmol_Per_L)*1e9);
   double glucagonDeviation = (m_liverGlucagon->GetConcentration(MassPerVolumeUnit::mg_Per_mL)*1e9 - m_tsu->GetLiverGlucagonSetPoint().GetValue(MassPerVolumeUnit::mg_Per_mL)*1e9) / (m_tsu->GetLiverGlucagonSetPoint().GetValue(MassPerVolumeUnit::mg_Per_mL)*1e9);
 
-  m_data.GetDataTrack().Probe("LiverHormoneFactor", hormoneFactor);
-  m_data.GetDataTrack().Probe("LiverInsulinDeviation", insulinDeviation);
-  m_data.GetDataTrack().Probe("LiverGlucagonDeviation", glucagonDeviation);
-  m_data.GetDataTrack().Probe("LiverGlucagonSetPoint_pg_Per_mL", m_tsu->GetLiverGlucagonSetPoint().GetValue(MassPerVolumeUnit::mg_Per_mL)*1e9);
-  m_data.GetDataTrack().Probe("LiverInsulinSetPoint_pmol_Per_L", m_tsu->GetLiverInsulinSetPoint().GetValue(AmountPerVolumeUnit::mmol_Per_L)*1e9);
-  m_data.GetDataTrack().Probe("LiverGlucagon_pg_Per_mL", m_liverGlucagon->GetConcentration(MassPerVolumeUnit::mg_Per_mL)*1e9);
-  m_data.GetDataTrack().Probe("LiverInsulin_pmol_Per_L", m_liverInsulin->GetMolarity(AmountPerVolumeUnit::mmol_Per_L)*1e9);
+  //m_data.GetDataTrack().Probe("LiverHormoneFactor", hormoneFactor);
+  //m_data.GetDataTrack().Probe("LiverInsulinDeviation", insulinDeviation);
+  //m_data.GetDataTrack().Probe("LiverGlucagonDeviation", glucagonDeviation);
+  //m_data.GetDataTrack().Probe("LiverGlucagonSetPoint_pg_Per_mL", m_tsu->GetLiverGlucagonSetPoint().GetValue(MassPerVolumeUnit::mg_Per_mL)*1e9);
+  //m_data.GetDataTrack().Probe("LiverInsulinSetPoint_pmol_Per_L", m_tsu->GetLiverInsulinSetPoint().GetValue(AmountPerVolumeUnit::mmol_Per_L)*1e9);
+  //m_data.GetDataTrack().Probe("LiverGlucagon_pg_Per_mL", m_liverGlucagon->GetConcentration(MassPerVolumeUnit::mg_Per_mL)*1e9);
+  //m_data.GetDataTrack().Probe("LiverInsulin_pmol_Per_L", m_liverInsulin->GetMolarity(AmountPerVolumeUnit::mmol_Per_L)*1e9);
   
 
   //Normally, 2% of glycogen is regenerated per hour after exercise, but can reach 5% \cite tardie2008glycogen
