@@ -174,6 +174,7 @@ protected:
   SEFluidCircuitPath* m_rightGlomerularFilterResistancePath;
   SEFluidCircuitPath* m_rightAfferentArteriolePath;
   SEFluidCircuitPath* m_bladderToGroundPressurePath;
+  SEFluidCircuitPath* m_bladderCompliance;
   SEFluidCircuitPath* m_urethraPath;
   SEFluidCircuitPath* m_leftTubulesPath;
   SEFluidCircuitPath* m_rightTubulesPath;

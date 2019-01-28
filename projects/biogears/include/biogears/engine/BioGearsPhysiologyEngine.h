@@ -655,6 +655,7 @@ DEFINE_STATIC_STRING(RightUreterToBladder);
 
 DEFINE_STATIC_STRING(BladderToGround);
 DEFINE_STATIC_STRING(BladderToGroundSource);
+DEFINE_STATIC_STRING(BladderToGroundCompliance);
 
   static const std::vector<std::string>& GetValues()
   {

@@ -99,6 +99,7 @@ void Renal::Clear()
   m_rightGlomerularFilterResistancePath = nullptr;
   m_rightAfferentArteriolePath = nullptr;
   m_bladderToGroundPressurePath = nullptr;
+  m_bladderCompliance = nullptr;
   m_urethraPath = nullptr;
   m_leftTubulesPath = nullptr;
   m_rightTubulesPath = nullptr;
@@ -397,7 +398,8 @@ void Renal::SetUp()
   m_rightTubulesPath = m_RenalCircuit->GetPath(BGE::RenalPath::RightBowmansCapsulesToTubules);
   m_rightEfferentArteriolePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightEfferentArterioleToPeritubularCapillaries);
   //Individual
-  m_bladderToGroundPressurePath = m_RenalCircuit->GetPath(BGE::RenalPath::BladderToGroundPressure);
+  //m_bladderToGroundPressurePath = m_RenalCircuit->GetPath(BGE::RenalPath::BladderToGroundPressure);
+  m_bladderCompliance = m_RenalCircuit->GetPath(BGE::RenalPath::BladderCompliance);
   m_urethraPath = m_RenalCircuit->GetPath(BGE::RenalPath::BladderToGroundUrinate);
 
   m_aortaLactate = m_aorta->GetSubstanceQuantity(*m_lactate);
@@ -1540,19 +1542,40 @@ void Renal::UpdateBladderVolume()
   /// \todo Eventually replace this entire thing with a compliance and model peristaltic flow
 
   //Don't fill the bladder during stabilization
-  if (m_data.GetState() != EngineState::Active)
+  if (m_data.GetState() < EngineState::AtSecondaryStableState) {
+    m_leftUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+    m_rightUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+    m_data.GetDataTrack().Probe("BladderCompliance", m_bladderCompliance->GetCompliance(FlowComplianceUnit::mL_Per_mmHg));
+    m_data.GetDataTrack().Probe("FlowToBladder", 0.0);
     return;
+  }
+    
 
+  double bladderVolume_mL = m_bladder->GetVolume(VolumeUnit::mL);
+  double nextCompliance_mL_Per_mmHg = 0.0;
+  //Baseline bladder compliance holds up to 60 mL, adjust if it gets higher
+  if (bladderVolume_mL > 60.0) {
+    nextCompliance_mL_Per_mmHg = Convert(1.0 / 0.007, FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
+  } else if (m_bladder->GetVolume(VolumeUnit::mL) > 350.0) {
+    nextCompliance_mL_Per_mmHg = Convert(1.0 / (0.002 * bladderVolume_mL - 0.766), FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
+  } else {
+    nextCompliance_mL_Per_mmHg = m_bladderCompliance->GetComplianceBaseline(FlowComplianceUnit::mL_Per_mmHg);
+  }
+  double flowToBladder = m_leftUreterPath->GetNextFlow(VolumePerTimeUnit::mL_Per_min) + m_rightUreterPath->GetNextFlow(VolumePerTimeUnit::mL_Per_min);
+  m_data.GetDataTrack().Probe("BladderCompliance", nextCompliance_mL_Per_mmHg);
+  m_data.GetDataTrack().Probe("FlowToBladder", flowToBladder);
+
+  m_bladderCompliance->GetNextCompliance().SetValue(nextCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
   //Manually modify the bladder volume based on flow
   //This will work for both filling the bladder and urinating
-  double bladderFlow_mL_Per_s = m_bladderToGroundPressurePath->GetNextFlow(VolumePerTimeUnit::mL_Per_s);
-  double volumeIncrement_mL = bladderFlow_mL_Per_s * m_dt;
-  double bladderVolume_mL = m_bladderNode->GetNextVolume().GetValue(VolumeUnit::mL) + volumeIncrement_mL;
+  //double bladderFlow_mL_Per_s = m_bladderToGroundPressurePath->GetNextFlow(VolumePerTimeUnit::mL_Per_s);
+  //double volumeIncrement_mL = bladderFlow_mL_Per_s * m_dt;
+  //double bladderVolume_mL = m_bladderNode->GetNextVolume().GetValue(VolumeUnit::mL) + volumeIncrement_mL;
 
-  //Don't let this get below zero during urination
-  //The urination action will catch it next time around, so this shouldn't be hit more than once (and likely never)
-  bladderVolume_mL = std::max(bladderVolume_mL, 0.0);
-  m_bladderNode->GetNextVolume().SetValue(bladderVolume_mL, VolumeUnit::mL);
+  ////Don't let this get below zero during urination
+  ////The urination action will catch it next time around, so this shouldn't be hit more than once (and likely never)
+  //bladderVolume_mL = std::max(bladderVolume_mL, 0.0);
+  //m_bladderNode->GetNextVolume().SetValue(bladderVolume_mL, VolumeUnit::mL);
 }
 
 //--------------------------------------------------------------------------------------------------
