@@ -452,12 +452,15 @@ void Renal::AtSteadyState()
     //We were letting the substances flow out to get the initial concentrations correct
     //We want to do this out of the pressure source, not the urethra to ensure the flow bringing substances into the compartment is the same as the flow taking it out
     //But now we're stable and want to start filling the bladder, so make substances stay in bladder as they come in with the fluid
-    SELiquidCompartmentGraph* renalGraph = &m_data.GetCompartments().GetRenalGraph();
+    /*SELiquidCompartmentGraph* renalGraph = &m_data.GetCompartments().GetRenalGraph();
     SELiquidCompartmentGraph* combinedCardiovascularGraph = &m_data.GetCompartments().GetActiveCardiovascularGraph();
     renalGraph->RemoveLink(BGE::UrineLink::BladderToGroundSource);
     renalGraph->StateChange();
     combinedCardiovascularGraph->RemoveLink(BGE::UrineLink::BladderToGroundSource);
-    combinedCardiovascularGraph->StateChange();
+    combinedCardiovascularGraph->StateChange();*/
+    //Clear out bladder that got filled during stabilization
+    m_Urinating = true;
+    Urinate();
   }
 }
 
@@ -535,6 +538,7 @@ void Renal::CalculateUltrafiltrationFeedback()
   SEFluidCircuitPath* glomerularOsmoticSourcePath = nullptr;
   SEFluidCircuitPath* bowmansOsmoticSourcePath = nullptr;
   SEFluidCircuitPath* filterResistancePath = nullptr;
+  SELiquidCompartment* glomerularCapillaries = nullptr;
   double permeability_mL_Per_s_Per_mmHg_Per_m2 = 0.0;
   double surfaceArea_m2 = 0.0;
 
@@ -548,6 +552,7 @@ void Renal::CalculateUltrafiltrationFeedback()
 
       glomerularOsmoticSourcePath = m_leftGlomerularOsmoticSourcePath;
       bowmansOsmoticSourcePath = m_leftBowmansOsmoticSourcePath;
+      glomerularCapillaries = m_leftGlomerular;
     } else {
       //RIGHT
       filterResistancePath = m_rightGlomerularFilterResistancePath;
@@ -556,6 +561,7 @@ void Renal::CalculateUltrafiltrationFeedback()
 
       glomerularOsmoticSourcePath = m_rightGlomerularOsmoticSourcePath;
       bowmansOsmoticSourcePath = m_rightBowmansOsmoticSourcePath;
+      glomerularCapillaries = m_rightGlomerular;
     }
 
     //Set the filter resistance based on its physical properties
@@ -575,7 +581,7 @@ void Renal::CalculateUltrafiltrationFeedback()
     //This is the osmotic pressure effect
     ///\todo turn on colloid osmotic pressure once substances have been handled properly (and GI)
     // CACHE THIS SUBSTANCE QUANTITY IN SETUP
-    //CalculateColloidOsmoticPressure(glomerularNode->GetSubstanceQuantity(m_albumin)->GetNextConcentration(), glomerularOsmoticSourcePath->GetNextPressureSource());
+    //CalculateColloidOsmoticPressure(glomerularCapillaries->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), glomerularOsmoticSourcePath->GetNextPressureSource());
     //CalculateColloidOsmoticPressure(bowmansNode->GetSubstanceQuantity(m_albumin)->GetNextConcentration(), bowmansOsmoticSourcePath->GetNextPressureSource());
   }
 }
@@ -606,6 +612,8 @@ void Renal::CalculateReabsorptionFeedback()
   SEFluidCircuitPath* peritubularOsmoticSourcePath = nullptr;
   SEFluidCircuitPath* tubulesOsmoticSourcePath = nullptr;
   SEFluidCircuitPath* filterResistancePath = nullptr;
+  SELiquidCompartment* peritubularCapillaries = nullptr;
+  SELiquidCompartment* renalInterstitial = nullptr;
   double filterResistance_mmHg_s_Per_mL = 0.0;
   double permeability_mL_Per_s_Per_mmHg_Per_m2 = 0.0;
   double surfaceArea_m2 = 0.0;
@@ -620,6 +628,8 @@ void Renal::CalculateReabsorptionFeedback()
 
       peritubularOsmoticSourcePath = m_leftPeritubularOsmoticSourcePath;
       tubulesOsmoticSourcePath = m_leftTubulesOsmoticSourcePath;
+      peritubularCapillaries = m_leftPeritubular;
+      renalInterstitial = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LeftKidneyExtracellular);
     } else {
       //RIGHT
       filterResistancePath = m_rightReabsorptionResistancePath;
@@ -628,6 +638,8 @@ void Renal::CalculateReabsorptionFeedback()
 
       peritubularOsmoticSourcePath = m_rightPeritubularOsmoticSourcePath;
       tubulesOsmoticSourcePath = m_rightTubulesOsmoticSourcePath;
+      peritubularCapillaries = m_rightPeritubular;
+      renalInterstitial = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::RightKidneyExtracellular);
     }
 
     //Set the filter resistance based on its physical properties
@@ -644,10 +656,11 @@ void Renal::CalculateReabsorptionFeedback()
     //This is the osmotic pressure effect
     ///\todo turn on colloid osmotic pressure once substances have been handled properly (and GI)
     // CACHE THIS SUBSTANCE QUANTITY IN SETUP
-    //CalculateColloidOsmoticPressure(peritubularNode->GetSubstanceQuantity(m_albumin)->GetNextConcentration(), peritubularOsmoticSourcePath->GetNextPressureSource());
+   // CalculateColloidOsmoticPressure(peritubularCapillaries->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), peritubularOsmoticSourcePath->GetNextPressureSource());
     //Since we're not modeling the interstitial space, we'll just always keep this side constant
     //We just won't touch it and let it use the baseline value
     tubulesOsmoticSourcePath->GetNextPressureSource().SetValue(-15.0, PressureUnit::mmHg);
+   // CalculateColloidOsmoticPressure(renalInterstitial->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), tubulesOsmoticSourcePath->GetNextPressureSource());
   }
 }
 

@@ -2812,8 +2812,7 @@ void BioGears::SetupRenal()
   uBladderToGround.MapPath(BladderToGroundUrinate);
   //SELiquidCompartmentLink& uBladderToGroundSource = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderToGroundSource);
   //uBladderToGroundSource.MapPath(BladderToGroundPressure);
-  SELiquidCompartmentLink& uBladderCompliance = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderToGroundCompliance);
-  uBladderCompliance.MapPath(BladderCompliance);
+ 
 
   SELiquidCompartmentGraph& gRenal = m_Compartments->GetRenalGraph();
   gRenal.AddCompartment(vAorta);
