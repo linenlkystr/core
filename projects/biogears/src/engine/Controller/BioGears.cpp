@@ -2870,7 +2870,6 @@ void BioGears::SetupRenal()
   gRenal.AddCompartment(uBladder);
   gRenal.AddCompartment(vGround);
   gRenal.AddLink(uBladderToGround);
-  //gRenal.AddLink(uBladderCompliance);
   gRenal.StateChange();
 
   // We have discretized these compartments, so remove them
