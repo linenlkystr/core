@@ -1522,7 +1522,10 @@ void Renal::Urinate()
       //Reduce the urethra resistance to urinate
       //Use a urethra resistance based on the validated urination flow
       //R = (4 mmHg - 0 mmHg) / 22 mL/s = 0.182
-      m_urethraPath->GetNextResistance().SetValue(0.182, FlowResistanceUnit::mmHg_s_Per_mL);
+      double targetFlow_mL_Per_s = 22.0;
+      double currentBladderPressure_mmHg = m_bladderNode->GetPressure(PressureUnit::mmHg);
+      double urethraResistance_mmHg_s_Per_mL = currentBladderPressure_mmHg / targetFlow_mL_Per_s; 
+      m_urethraPath->GetNextResistance().SetValue(urethraResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
     }
 
     GetUrinationRate().Set(m_urethraPath->GetNextFlow());
@@ -1539,33 +1542,42 @@ void Renal::Urinate()
 //--------------------------------------------------------------------------------------------------
 void Renal::UpdateBladderVolume()
 {
-  /// \todo Eventually replace this entire thing with a compliance and model peristaltic flow
+  /// \todo This has been replaced with bladder compliance--leave this here while testing should we need to revert
+  return;
 
+  ///\ STEVEN LOOK AT ME USING COMMENTS FOR EVERY LINE
   //Don't fill the bladder during stabilization
-  if (m_data.GetState() < EngineState::AtSecondaryStableState) {
-    m_leftUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
-    m_rightUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
-    m_data.GetDataTrack().Probe("BladderCompliance", m_bladderCompliance->GetCompliance(FlowComplianceUnit::mL_Per_mmHg));
-    m_data.GetDataTrack().Probe("FlowToBladder", 0.0);
-    return;
-  }
-    
+  //if (m_data.GetState() < EngineState::AtSecondaryStableState) {
+    //m_leftUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+    //m_rightUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+    //m_data.GetDataTrack().Probe("BladderCompliance", m_bladderCompliance->GetCompliance(FlowComplianceUnit::mL_Per_mmHg));
+    //m_data.GetDataTrack().Probe("FlowToBladder", 0.0);
+    //m_data.GetDataTrack().Probe("ComplianceGain", 0.0);
+   // return;
+  //}
+  //  
 
-  double bladderVolume_mL = m_bladder->GetVolume(VolumeUnit::mL);
-  double nextCompliance_mL_Per_mmHg = 0.0;
-  //Baseline bladder compliance holds up to 60 mL, adjust if it gets higher
-  if (bladderVolume_mL > 60.0) {
-    nextCompliance_mL_Per_mmHg = Convert(1.0 / 0.007, FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
-  } else if (m_bladder->GetVolume(VolumeUnit::mL) > 350.0) {
-    nextCompliance_mL_Per_mmHg = Convert(1.0 / (0.002 * bladderVolume_mL - 0.766), FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
-  } else {
-    nextCompliance_mL_Per_mmHg = m_bladderCompliance->GetComplianceBaseline(FlowComplianceUnit::mL_Per_mmHg);
-  }
-  double flowToBladder = m_leftUreterPath->GetNextFlow(VolumePerTimeUnit::mL_Per_min) + m_rightUreterPath->GetNextFlow(VolumePerTimeUnit::mL_Per_min);
-  m_data.GetDataTrack().Probe("BladderCompliance", nextCompliance_mL_Per_mmHg);
-  m_data.GetDataTrack().Probe("FlowToBladder", flowToBladder);
+  //double bladderVolume_mL = m_bladder->GetVolume(VolumeUnit::mL);
+  //double targetCompliance_mL_Per_mmHg = 0.0;
+  //double nextCompliance_mL_Per_mmHg = 0.0;
+  //double previousCompliance_mL__Per_mmHg = m_bladderCompliance->GetCompliance(FlowComplianceUnit::mL_Per_mmHg);
+  //
+  ////Baseline bladder compliance holds up to 60 mL, adjust if it gets higher
+  //if (bladderVolume_mL < 20.0) {
+  //  targetCompliance_mL_Per_mmHg = m_bladderCompliance->GetComplianceBaseline(FlowComplianceUnit::mL_Per_mmHg);
+  //} else if (m_bladder->GetVolume(VolumeUnit::mL) < 350.0) {
+  //  targetCompliance_mL_Per_mmHg = Convert(1.0 / 0.007, FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
+  //} else {
+  //  targetCompliance_mL_Per_mmHg = Convert(1.0 / (0.002 * bladderVolume_mL - 0.766), FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
+  //}
+  //double complianceGain = std::exp(-std::abs(previousCompliance_mL__Per_mmHg - targetCompliance_mL_Per_mmHg));
+  //nextCompliance_mL_Per_mmHg = previousCompliance_mL__Per_mmHg + complianceGain * (targetCompliance_mL_Per_mmHg - previousCompliance_mL__Per_mmHg);
+  //double flowToBladder = m_leftUreterPath->GetNextFlow(VolumePerTimeUnit::mL_Per_min) + m_rightUreterPath->GetNextFlow(VolumePerTimeUnit::mL_Per_min);
+  //m_data.GetDataTrack().Probe("BladderCompliance", nextCompliance_mL_Per_mmHg);
+  //m_data.GetDataTrack().Probe("FlowToBladder", flowToBladder);
+  //m_data.GetDataTrack().Probe("ComplianceGain", complianceGain);
 
-  m_bladderCompliance->GetNextCompliance().SetValue(nextCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
+  //m_bladderCompliance->GetNextCompliance().SetValue(nextCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
   //Manually modify the bladder volume based on flow
   //This will work for both filling the bladder and urinating
   //double bladderFlow_mL_Per_s = m_bladderToGroundPressurePath->GetNextFlow(VolumePerTimeUnit::mL_Per_s);
