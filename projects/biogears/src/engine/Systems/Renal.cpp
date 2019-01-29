@@ -1618,8 +1618,8 @@ void Renal::CalculateColloidOsmoticPressure(SEScalarMassPerVolume& albuminConcen
   //We're using the Landis-Pappenheimer Equation
 
   //Assume a typical Albumin to total protein ratio
-  double totalProteinConentration_g_Per_dL = 1.6 * albuminConcentration.GetValue(MassPerVolumeUnit::g_Per_dL);
-  double osmoticPressure_mmHg = 2.1 * totalProteinConentration_g_Per_dL + 0.16 * std::pow(totalProteinConentration_g_Per_dL, 2.0) + 0.009 * std::pow(totalProteinConentration_g_Per_dL, 3.0);
+  double totalProteinConcentration_g_Per_dL = 1.6 * albuminConcentration.GetValue(MassPerVolumeUnit::g_Per_dL);
+  double osmoticPressure_mmHg = 2.1 * totalProteinConcentration_g_Per_dL + 0.16 * std::pow(totalProteinConcentration_g_Per_dL, 2.0) + 0.009 * std::pow(totalProteinConcentration_g_Per_dL, 3.0);
   osmoticPressure.SetValue(-osmoticPressure_mmHg, PressureUnit::mmHg);
 }
 
