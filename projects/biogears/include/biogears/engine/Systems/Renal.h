@@ -96,7 +96,6 @@ protected:
   void CalculateOsmoreceptorFeedback();
   void CalculateFluidPermeability();
   void CalculateTubuloglomerularFeedback();
-  void UpdateBladderVolume();
   void ProcessActions();
   void Urinate();
 

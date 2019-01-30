@@ -2498,11 +2498,8 @@ void BioGears::SetupRenal()
 
   ///////////////////////
   // BladderCompliance //
-  //SEFluidCircuitPath& BladderToGroundPressure = cRenal.CreatePath(Bladder, Ground, BGE::RenalPath::BladderToGroundPressure);
-  /// \todo Use a compliance here - make sure you remove the current handling of bladder volume in the renal system as a pressure source
   SEFluidCircuitPath& BladderCompliance = cRenal.CreatePath(Bladder, Ground, BGE::RenalPath::BladderCompliance);
   BladderCompliance.GetComplianceBaseline().SetValue(bladderCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
- //BladderToGroundPressure.GetPressureSourceBaseline().SetValue(-4.0, PressureUnit::mmHg); //Negative because source-target is for compliance
   //////////////
   // BladderGround //
   SEFluidCircuitPath& BladderToGroundUrinate = cRenal.CreatePath(Bladder, Ground, BGE::RenalPath::BladderToGroundUrinate);
@@ -2810,8 +2807,6 @@ void BioGears::SetupRenal()
   // BladderToGround //
   SELiquidCompartmentLink& uBladderToGround = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderToGround);
   uBladderToGround.MapPath(BladderToGroundUrinate);
-  //SELiquidCompartmentLink& uBladderToGroundSource = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderToGroundSource);
-  //uBladderToGroundSource.MapPath(BladderToGroundPressure);
  
 
   SELiquidCompartmentGraph& gRenal = m_Compartments->GetRenalGraph();
