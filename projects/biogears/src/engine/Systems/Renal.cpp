@@ -358,7 +358,7 @@ void Renal::SetUp()
   m_leftBowmansNode = m_RenalCircuit->GetNode(BGE::RenalNode::LeftBowmansCapsules);
   m_leftNetBowmansCapsulesNode = m_RenalCircuit->GetNode(BGE::RenalNode::LeftNetBowmansCapsules);
   m_leftPeritubularNode = m_RenalCircuit->GetNode(BGE::RenalNode::LeftPeritubularCapillaries);
-  m_leftNetPeritubularCapillariesNode = m_RenalCircuit->GetNode(BGE::RenalNode::LeftNetPeritubularCapillaries);
+  m_leftNetPeritubularCapillariesNode = m_RenalCircuit->GetNode(BGE::RenalNode::LeftPeritubularWallLumen);
   m_leftTubulesNode = m_RenalCircuit->GetNode(BGE::RenalNode::LeftTubules);
   m_leftNetTubulesNode = m_RenalCircuit->GetNode(BGE::RenalNode::LeftNetTubules);
   m_leftRenalArteryNode = m_RenalCircuit->GetNode(BGE::RenalNode::LeftRenalArtery);
@@ -368,7 +368,7 @@ void Renal::SetUp()
   m_rightBowmansNode = m_RenalCircuit->GetNode(BGE::RenalNode::RightBowmansCapsules);
   m_rightNetBowmansCapsulesNode = m_RenalCircuit->GetNode(BGE::RenalNode::RightNetBowmansCapsules);
   m_rightPeritubularNode = m_RenalCircuit->GetNode(BGE::RenalNode::RightPeritubularCapillaries);
-  m_rightNetPeritubularCapillariesNode = m_RenalCircuit->GetNode(BGE::RenalNode::RightNetPeritubularCapillaries);
+  m_rightNetPeritubularCapillariesNode = m_RenalCircuit->GetNode(BGE::RenalNode::RightPeritubularWallLumen);
   m_rightTubulesNode = m_RenalCircuit->GetNode(BGE::RenalNode::RightTubules);
   m_rightNetTubulesNode = m_RenalCircuit->GetNode(BGE::RenalNode::RightNetTubules);
   m_rightRenalArteryNode = m_RenalCircuit->GetNode(BGE::RenalNode::RightRenalArtery);
@@ -377,9 +377,9 @@ void Renal::SetUp()
   //Left
   m_leftGlomerularOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftGlomerularCapillariesToNetGlomerularCapillaries);
   m_leftBowmansOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftBowmansCapsulesToNetBowmansCapsules);
-  m_leftReabsorptionResistancePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftNetTubulesToNetPeritubularCapillaries);
-  m_leftTubulesOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftTubulesToNetTubules);
-  m_leftPeritubularOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftPeritubularCapillariesToNetPeritubularCapillaries);
+  m_leftReabsorptionResistancePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftTubulesToMedularInterstitium);
+  m_leftTubulesOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftMedularInterstitiumToPeritubularWallInterstitial);
+  m_leftPeritubularOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftPeritubularWallLumenToPeritubularCapillaries);
   m_leftUreterPath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftTubulesToUreter);
   m_leftGlomerularFilterResistancePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftNetGlomerularCapillariesToNetBowmansCapsules);
   m_leftAfferentArteriolePath = m_RenalCircuit->GetPath(BGE::RenalPath::LeftAfferentArterioleToGlomerularCapillaries);
@@ -389,9 +389,9 @@ void Renal::SetUp()
   //Right
   m_rightGlomerularOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightGlomerularCapillariesToNetGlomerularCapillaries);
   m_rightBowmansOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightBowmansCapsulesToNetBowmansCapsules);
-  m_rightReabsorptionResistancePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightNetTubulesToNetPeritubularCapillaries);
-  m_rightTubulesOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightTubulesToNetTubules);
-  m_rightPeritubularOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightPeritubularCapillariesToNetPeritubularCapillaries);
+  m_rightReabsorptionResistancePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightTubulesToMedularInterstitium);
+  m_rightTubulesOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightMedularInterstitiumToPeritubularWallInterstitial);
+  m_rightPeritubularOsmoticSourcePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightPeritubularWallLumenToPeritubularCapillaries);
   m_rightUreterPath = m_RenalCircuit->GetPath(BGE::RenalPath::RightTubulesToUreter);
   m_rightGlomerularFilterResistancePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightNetGlomerularCapillariesToNetBowmansCapsules);
   m_rightAfferentArteriolePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightAfferentArterioleToGlomerularCapillaries);
@@ -651,8 +651,9 @@ void Renal::CalculateReabsorptionFeedback()
 
     //Modify the pressure on both sides of the filter based on the protein (Albumin) concentration
     //This is the osmotic pressure effect
-     CalculateColloidOsmoticPressure(peritubularCapillaries->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), peritubularOsmoticSourcePath->GetNextPressureSource());
-     CalculateColloidOsmoticPressure(renalInterstitial->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), tubulesOsmoticSourcePath->GetNextPressureSource());
+    CalculateColloidOsmoticPressure(peritubularCapillaries->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), peritubularOsmoticSourcePath->GetNextPressureSource());
+    peritubularOsmoticSourcePath->GetNextPressureSource().SetValue(-peritubularOsmoticSourcePath->GetNextPressureSource(PressureUnit::mmHg), PressureUnit::mmHg); 
+    CalculateColloidOsmoticPressure(renalInterstitial->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), tubulesOsmoticSourcePath->GetNextPressureSource());
   }
 }
 
@@ -1256,7 +1257,7 @@ void Renal::CalculateVitalSigns()
       bowmansNode = m_leftBowmansNode;
       netGlomerularCapillariesNode = m_leftNetGlomerularCapillariesNode;
       netBowmansCapsulesNode = m_leftNetBowmansCapsulesNode;
-      netPeritubularNode = m_leftNetPeritubularCapillariesNode;
+     // netPeritubularNode = m_leftNetPeritubularCapillariesNode;
       netTubulesNode = m_leftNetTubulesNode;
       reabsorptionResistancePath = m_leftReabsorptionResistancePath;
       peritubularOsmoticSourcePath = m_leftPeritubularOsmoticSourcePath;
@@ -1289,7 +1290,8 @@ void Renal::CalculateVitalSigns()
       GetLeftTubularOsmoticPressure().Set(tubulesOsmoticSourcePath->GetNextPressureSource());
 
       GetLeftReabsorptionRate().Set(reabsorptionResistancePath->GetNextFlow());
-      pressureDiff_mmHg = netTubulesNode->GetNextPressure().GetValue(PressureUnit::mmHg) - netPeritubularNode->GetNextPressure().GetValue(PressureUnit::mmHg);
+      //This hydrostatic pressure gradient + COP gradient.  Note that tubularOsmoticPath already defined as negative (thus we just do + here)
+      pressureDiff_mmHg = (tubulesNode->GetNextPressure().GetValue(PressureUnit::mmHg) - peritubularNode->GetNextPressure().GetValue(PressureUnit::mmHg)) + (peritubularOsmoticSourcePath->GetPressureSource(PressureUnit::mmHg) + tubulesOsmoticSourcePath->GetPressureSource(PressureUnit::mmHg));
       GetLeftNetReabsorptionPressure().SetValue(pressureDiff_mmHg, PressureUnit::mmHg);
       filtrationCoefficient = 0.0;
       if (GetLeftNetReabsorptionPressure().GetValue(PressureUnit::mmHg) != 0.0)
@@ -1346,7 +1348,8 @@ void Renal::CalculateVitalSigns()
       GetRightTubularOsmoticPressure().Set(tubulesOsmoticSourcePath->GetNextPressureSource());
 
       GetRightReabsorptionRate().Set(reabsorptionResistancePath->GetNextFlow());
-      pressureDiff_mmHg = netTubulesNode->GetNextPressure().GetValue(PressureUnit::mmHg) - netPeritubularNode->GetNextPressure().GetValue(PressureUnit::mmHg);
+      //This hydrostatic pressure gradient + COP gradient.  Note that tubularOsmoticPath already defined as negative (thus we just do + here)
+      pressureDiff_mmHg = (tubulesNode->GetNextPressure().GetValue(PressureUnit::mmHg) - peritubularNode->GetNextPressure().GetValue(PressureUnit::mmHg))+(peritubularOsmoticSourcePath->GetPressureSource(PressureUnit::mmHg)+tubulesOsmoticSourcePath->GetPressureSource(PressureUnit::mmHg));
       GetRightNetReabsorptionPressure().SetValue(pressureDiff_mmHg, PressureUnit::mmHg);
 
       filtrationCoefficient = 0.0;

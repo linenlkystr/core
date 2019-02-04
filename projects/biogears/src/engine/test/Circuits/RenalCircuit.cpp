@@ -224,16 +224,16 @@ void BioGearsEngineTest::RenalFeedbackTest(RenalFeedback feedback, const std::st
   SEFluidCircuitPath* LeftAfferentArterioleToGlomerularCapillaries = rCircuit.GetPath(BGE::RenalPath::LeftAfferentArterioleToGlomerularCapillaries);
   SEFluidCircuitPath* LeftGlomerularCapillariesToNetGlomerularCapillaries = rCircuit.GetPath(BGE::RenalPath::LeftGlomerularCapillariesToNetGlomerularCapillaries);
   SEFluidCircuitPath* LeftBowmansCapsulesToNetBowmansCapsules = rCircuit.GetPath(BGE::RenalPath::LeftBowmansCapsulesToNetBowmansCapsules);
-  SEFluidCircuitPath* LeftTubulesToNetTubules = rCircuit.GetPath(BGE::RenalPath::LeftTubulesToNetTubules);
-  SEFluidCircuitPath* LeftNetTubulesToNetPeritubularCapillaries = rCircuit.GetPath(BGE::RenalPath::LeftNetTubulesToNetPeritubularCapillaries);
-  SEFluidCircuitPath* LeftPeritubularCapillariesToNetPeritubularCapillaries = rCircuit.GetPath(BGE::RenalPath::LeftPeritubularCapillariesToNetPeritubularCapillaries);
+  SEFluidCircuitPath* LeftTubulesToNetTubules = rCircuit.GetPath(BGE::RenalPath::LeftTubulesToMedularInterstitium);
+  SEFluidCircuitPath* LeftNetTubulesToNetPeritubularCapillaries = rCircuit.GetPath(BGE::RenalPath::LeftMedularInterstitiumToPeritubularWallInterstitial);
+  SEFluidCircuitPath* LeftPeritubularCapillariesToNetPeritubularCapillaries = rCircuit.GetPath(BGE::RenalPath::LeftPeritubularWallLumenToPeritubularCapillaries);
 
   SEFluidCircuitPath* RightAfferentArterioleToGlomerularCapillaries = rCircuit.GetPath(BGE::RenalPath::RightAfferentArterioleToGlomerularCapillaries);
   SEFluidCircuitPath* RightGlomerularCapillariesToNetGlomerularCapillaries = rCircuit.GetPath(BGE::RenalPath::RightGlomerularCapillariesToNetGlomerularCapillaries);
   SEFluidCircuitPath* RightBowmansCapsulesToNetBowmansCapsules = rCircuit.GetPath(BGE::RenalPath::RightBowmansCapsulesToNetBowmansCapsules);
-  SEFluidCircuitPath* RightTubulesToNetTubules = rCircuit.GetPath(BGE::RenalPath::RightTubulesToNetTubules);
-  SEFluidCircuitPath* RightNetTubulesToNetPeritubularCapillaries = rCircuit.GetPath(BGE::RenalPath::RightNetTubulesToNetPeritubularCapillaries);
-  SEFluidCircuitPath* RightPeritubularCapillariesToNetPeritubularCapillaries = rCircuit.GetPath(BGE::RenalPath::RightPeritubularCapillariesToNetPeritubularCapillaries);
+  SEFluidCircuitPath* RightTubulesToNetTubules = rCircuit.GetPath(BGE::RenalPath::RightTubulesToMedularInterstitium);
+  SEFluidCircuitPath* RightNetTubulesToNetPeritubularCapillaries = rCircuit.GetPath(BGE::RenalPath::RightMedularInterstitiumToPeritubularWallInterstitial);
+  SEFluidCircuitPath* RightPeritubularCapillariesToNetPeritubularCapillaries = rCircuit.GetPath(BGE::RenalPath::RightPeritubularWallLumenToPeritubularCapillaries);
 
   SELiquidTransporter txpt(VolumePerTimeUnit::mL_Per_s, VolumeUnit::mL, MassUnit::ug, MassPerVolumeUnit::ug_Per_mL, bg.GetLogger());
   SEFluidCircuitCalculator calc(FlowComplianceUnit::mL_Per_mmHg, VolumePerTimeUnit::mL_Per_s, FlowInertanceUnit::mmHg_s2_Per_mL, PressureUnit::mmHg, VolumeUnit::mL, FlowResistanceUnit::mmHg_s_Per_mL, bg.GetLogger());
