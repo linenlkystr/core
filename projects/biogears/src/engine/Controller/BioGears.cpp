@@ -2155,7 +2155,6 @@ void BioGears::SetupRenal()
   double afferentVolume_mL = singleKidneySmallVasculatureFluidVolume_mL / 5.0;
   double bowmansVolume_mL = singleKidneySmallVasculatureFluidVolume_mL / 5.0;
   double glomerularVolume_mL = singleKidneySmallVasculatureFluidVolume_mL / 5.0;
-  double medularInterstitialVolume_mL = 0.273 * 0.2 * m_Patient->GetSex() == CDM::enumSex::Male ? 155.0 : 137.5; //Assume standard value for now, adjust in tissue set up according to patient type
 
   //Using width = 1.8 mm and length = 11 inches => 710.6 mm^3
   double ureterVolume_mL = 0.71;
@@ -2167,16 +2166,12 @@ void BioGears::SetupRenal()
   double renalArteryPressure_mmHg = 0.0;
   double renalVeinPressure_mmHg = 0.0;
   double glomerularPressure_mmHg = cCardiovascular.GetNode(BGE::CardiovascularNode::LeftKidney1)->GetPressure(PressureUnit::mmHg);
-  double medularInterstitialPressure_mmHg = 3.0;    //Using total DeltaP of 15 between peritubular capillaries and interstitium from Aukland1994Renal
 
   //Pressure Sources
   double glomerularOsmoticPressure_mmHg = -26.77; //Assuming C_alb = 4.5, C_prot = 1.6 * C_alb, and L-P equation
   double bowmansOsmoticPressure_mmHg = 0.0;
   double tubulesOsmoticPressure_mmHg = -8.65; //Assuming C_alb = 2.0, "   ", direted from peritubular capillaries towards interstitium
   double peritubularOsmoticPressure_mmHg = 26.77; //Assuming C_alb = 4.5, "   "
-
-  //Interstitial space between tubules and peritubular capillaries
-  double medularInterstitialCompliance_mL_Per_mmHg = 0.01;  //medularInterstitialVolume_mL / medularInterstitialPressure_mmHg; //Total guess
 
   //Get renal circuit
   SEFluidCircuit& cRenal = m_Circuits->GetRenalCircuit();
@@ -2239,11 +2234,11 @@ void BioGears::SetupRenal()
   // RightNetGlomerularCapillaries //
   SEFluidCircuitNode& RightNetGlomerularCapillaries = cRenal.CreateNode(BGE::RenalNode::RightNetGlomerularCapillaries);
   ////////////////////////////////////
-  // RightPeritubularCapillaryWall-Interstitial Side//
-  SEFluidCircuitNode& RightPeritubularWallInterstitial = cRenal.CreateNode(BGE::RenalNode::RightPeritubularWallInterstitial);
+  // RightPeritubularCapillaryMembrane/
+  SEFluidCircuitNode& RightPeritubularMembrane = cRenal.CreateNode(BGE::RenalNode::RightPeritubularMembrane);
   ////////////////////////////////////
-  // RightPeritubularCapillaryWall-Lumen Side//
-  SEFluidCircuitNode& RightPeritubularWallLumen = cRenal.CreateNode(BGE::RenalNode::RightPeritubularWallLumen);
+  // RightPeritubularCapillaryLumen//
+  SEFluidCircuitNode& RightPeritubularLumen = cRenal.CreateNode(BGE::RenalNode::RightPeritubularLumen);
 
   // LeftNetPeritubularCapillaries //
   //SEFluidCircuitNode& RightNetPeritubularCapillaries = cRenal.CreateNode(BGE::RenalNode::RightNetPeritubularCapillaries);
@@ -2258,10 +2253,8 @@ void BioGears::SetupRenal()
   // RightNetTubules //
   //SEFluidCircuitNode& RightNetTubules = cRenal.CreateNode(BGE::RenalNode::RightNetTubules);
   /////////////////
-  //RightMedularInterstitium
-  SEFluidCircuitNode& RightMedularInterstitium = cRenal.CreateNode(BGE::RenalNode::RightMedularInterstitium);
-  RightMedularInterstitium.GetVolumeBaseline().SetValue(medularInterstitialVolume_mL, VolumeUnit::mL);
-  RightMedularInterstitium.GetPressure().SetValue(medularInterstitialPressure_mmHg, PressureUnit::mmHg);
+  //RightTubulesMembrane
+  SEFluidCircuitNode& RightTubulesMembrane = cRenal.CreateNode(BGE::RenalNode::RightTubulesMembrane);
   /////////////////
   // RightUreter //
   SEFluidCircuitNode& RightUreter = cRenal.CreateNode(BGE::RenalNode::RightUreter);
@@ -2315,11 +2308,11 @@ void BioGears::SetupRenal()
   // LeftNetGlomerularCapillaries //
   SEFluidCircuitNode& LeftNetGlomerularCapillaries = cRenal.CreateNode(BGE::RenalNode::LeftNetGlomerularCapillaries);
   ////////////////////////////////////
-  // LeftPeritubularCapillaryWall-Interstitial Side//
-  SEFluidCircuitNode& LeftPeritubularWallInterstitial = cRenal.CreateNode(BGE::RenalNode::LeftPeritubularWallInterstitial);
+  // LeftPeritubularCapillary Membrane/
+  SEFluidCircuitNode& LeftPeritubularMembrane = cRenal.CreateNode(BGE::RenalNode::LeftPeritubularMembrane);
   ////////////////////////////////////
-  // LeftPeritubularCapillaryWall-Lumen Side//
-  SEFluidCircuitNode& LeftPeritubularWallLumen = cRenal.CreateNode(BGE::RenalNode::LeftPeritubularWallLumen);
+  // LeftPeritubularCapillary Lumen//
+  SEFluidCircuitNode& LeftPeritubularLumen = cRenal.CreateNode(BGE::RenalNode::LeftPeritubularLumen);
   ////////////////////////////////////
   // LeftNetPeritubularCapillaries //
   //SEFluidCircuitNode& LeftNetPeritubularCapillaries = cRenal.CreateNode(BGE::RenalNode::LeftNetPeritubularCapillaries);
@@ -2334,10 +2327,8 @@ void BioGears::SetupRenal()
   // LeftNetTubules //
   // SEFluidCircuitNode& LeftNetTubules = cRenal.CreateNode(BGE::RenalNode::LeftNetTubules);
   /////////////////////
-  // LeftMedularInterstitium //
-  SEFluidCircuitNode& LeftMedularInterstitium = cRenal.CreateNode(BGE::RenalNode::LeftMedularInterstitium);
-  LeftMedularInterstitium.GetVolumeBaseline().SetValue(medularInterstitialVolume_mL, VolumeUnit::mL);
-  LeftMedularInterstitium.GetPressure().SetValue(medularInterstitialPressure_mmHg, PressureUnit::mmHg);
+  // LeftTubulesMembrane //
+  SEFluidCircuitNode& LeftTubulesMembrane = cRenal.CreateNode(BGE::RenalNode::LeftTubulesMembrane);
   /////////////////
   // LeftUreter //
   SEFluidCircuitNode& LeftUreter = cRenal.CreateNode(BGE::RenalNode::LeftUreter);
@@ -2440,29 +2431,26 @@ void BioGears::SetupRenal()
   //SEFluidCircuitPath& RightPeritubularCapillariesToNetPeritubularCapillaries = cRenal.CreatePath(RightPeritubularCapillaries, RightNetPeritubularCapillaries, BGE::RenalPath::RightPeritubularCapillariesToNetPeritubularCapillaries);
   //RightPeritubularCapillariesToNetPeritubularCapillaries.GetPressureSourceBaseline().SetValue(peritubularOsmoticPressure_mmHg, PressureUnit::mmHg);
   /////////////////////////////
-  // RightTubulesToRightInterstitialMedula //
-  SEFluidCircuitPath& RightTubulesToRightMedularInterstitium = cRenal.CreatePath(RightTubules, RightMedularInterstitium, BGE::RenalPath::RightTubulesToMedularInterstitium);
-  RightTubulesToRightMedularInterstitium.GetResistanceBaseline().SetValue(reabsorptionResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+  // RightTubulesToTubulesMembrane //
+  SEFluidCircuitPath& RightTubulesToTubulesMembrane = cRenal.CreatePath(RightTubules, RightTubulesMembrane, BGE::RenalPath::RightTubulesToTubulesMembrane);
+  RightTubulesToTubulesMembrane.GetResistanceBaseline().SetValue(reabsorptionResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   ///////////////////////////
-  //RightInterstitialMedullaToRightPeritubularWallInterstitial
-  SEFluidCircuitPath& RightInterstitialMedullaToRightPeritubularWallInterstitial = cRenal.CreatePath(RightMedularInterstitium, RightPeritubularWallInterstitial, BGE::RenalPath::RightMedularInterstitiumToPeritubularWallInterstitial);
-  RightInterstitialMedullaToRightPeritubularWallInterstitial.GetPressureSourceBaseline().SetValue(tubulesOsmoticPressure_mmHg, PressureUnit::mmHg);
+  //RightTubulesMembraneToPeritubularMembrane
+  SEFluidCircuitPath& RightTubulesMembraneToPeritubularMembrane = cRenal.CreatePath(RightTubulesMembrane, RightPeritubularMembrane, BGE::RenalPath::RightTubulesMembraneToPeritubularMembrane);
+  RightTubulesMembraneToPeritubularMembrane.GetPressureSourceBaseline().SetValue(tubulesOsmoticPressure_mmHg, PressureUnit::mmHg);
   //////////////////////////
-  //RightPeritubularWallInterstitialToLumen
-  SEFluidCircuitPath& RightPeritubularWallInterstitialToRightPeritubularWallLumen = cRenal.CreatePath(RightPeritubularWallInterstitial, RightPeritubularWallLumen, BGE::RenalPath::RightPeritubularWallInterstitialToPeritubularWallLumen);
-  RightPeritubularWallInterstitialToRightPeritubularWallLumen.GetResistanceBaseline().SetValue(peritubularEndothelialResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+  //RightPeritubularMembraneToLumen
+  SEFluidCircuitPath& RightPeritubularMembraneToPeritubularLumen = cRenal.CreatePath(RightPeritubularMembrane, RightPeritubularLumen, BGE::RenalPath::RightPeritubularMembraneToPeritubularLumen);
+  RightPeritubularMembraneToPeritubularLumen.GetResistanceBaseline().SetValue(peritubularEndothelialResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   /////////////////////////
-  //RightPeritubularWallLumenToPeritubularCapillary
-  SEFluidCircuitPath& RightPeritubularWallLumenToRightPeritubularCapillaries = cRenal.CreatePath(RightPeritubularWallLumen, RightPeritubularCapillaries, BGE::RenalPath::RightPeritubularWallLumenToPeritubularCapillaries);
-  RightPeritubularWallLumenToRightPeritubularCapillaries.GetPressureSourceBaseline().SetValue(peritubularOsmoticPressure_mmHg, PressureUnit::mmHg);
+  //RightPeritubularLumenToPeritubularCapillary
+  SEFluidCircuitPath& RightPeritubularLumenToPeritubularCapillaries = cRenal.CreatePath(RightPeritubularLumen, RightPeritubularCapillaries, BGE::RenalPath::RightPeritubularLumenToPeritubularCapillaries);
+  RightPeritubularLumenToPeritubularCapillaries.GetPressureSourceBaseline().SetValue(peritubularOsmoticPressure_mmHg, PressureUnit::mmHg);
   //////////////////////////
   // RightUreterToBladder //
   SEFluidCircuitPath& RightUreterToBladder = cRenal.CreatePath(RightUreter, Bladder, BGE::RenalPath::RightUreterToBladder);
   RightUreterToBladder.SetNextValve(CDM::enumOpenClosed::Closed);
-  //////////////////////////
-  // Right Medular Compliance//
-  SEFluidCircuitPath& RightMedularInterstitiumToGround = cRenal.CreatePath(RightMedularInterstitium, Ground, BGE::RenalPath::RightMedularInterstitiumToGround);
-  RightMedularInterstitiumToGround.GetComplianceBaseline().SetValue(medularInterstitialCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
+
 
   /////////////////
   // Left Blood //
@@ -2542,29 +2530,25 @@ void BioGears::SetupRenal()
   //SEFluidCircuitPath& LeftPeritubularCapillariesToNetPeritubularCapillaries = cRenal.CreatePath(LeftPeritubularCapillaries, LeftNetPeritubularCapillaries, BGE::RenalPath::LeftPeritubularCapillariesToNetPeritubularCapillaries);
   //LeftPeritubularCapillariesToNetPeritubularCapillaries.GetPressureSourceBaseline().SetValue(peritubularOsmoticPressure_mmHg, PressureUnit::mmHg);
   /////////////////////////////
-  // LeftTubulesToLeftInterstitialMedula //
-  SEFluidCircuitPath& LeftTubulesToLeftMedularInterstitium = cRenal.CreatePath(LeftTubules, LeftMedularInterstitium, BGE::RenalPath::LeftTubulesToMedularInterstitium);
-  LeftTubulesToLeftMedularInterstitium.GetResistanceBaseline().SetValue(reabsorptionResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+  // LeftTubulesToTubulesMembrane //
+  SEFluidCircuitPath& LeftTubulesToTubulesMembrane = cRenal.CreatePath(LeftTubules, LeftTubulesMembrane, BGE::RenalPath::LeftTubulesToTubulesMembrane);
+  LeftTubulesToTubulesMembrane.GetResistanceBaseline().SetValue(reabsorptionResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   ///////////////////////////
-  //LeftInterstitialMedullaToLeftPeritubularWallInterstitial
-  SEFluidCircuitPath& LeftInterstitialMedullaToLeftPeritubularWallInterstitial = cRenal.CreatePath(LeftMedularInterstitium, LeftPeritubularWallInterstitial, BGE::RenalPath::LeftMedularInterstitiumToPeritubularWallInterstitial);
-  LeftInterstitialMedullaToLeftPeritubularWallInterstitial.GetPressureSourceBaseline().SetValue(tubulesOsmoticPressure_mmHg, PressureUnit::mmHg);
+  //LeftTubulesMembraneToPeritubularMembrane
+  SEFluidCircuitPath& LeftTubulesMembraneToPeritubularMembrane = cRenal.CreatePath(LeftTubulesMembrane, LeftPeritubularMembrane, BGE::RenalPath::LeftTubulesMembraneToPeritubularMembrane);
+  LeftTubulesMembraneToPeritubularMembrane.GetPressureSourceBaseline().SetValue(tubulesOsmoticPressure_mmHg, PressureUnit::mmHg);
   //////////////////////////
-  //LeftPeritubularWallInterstitialToLumen
-  SEFluidCircuitPath& LeftPeritubularWallInterstitialToLeftPeritubularWallLumen = cRenal.CreatePath(LeftPeritubularWallInterstitial, LeftPeritubularWallLumen, BGE::RenalPath::LeftPeritubularWallInterstitialToPeritubularWallLumen);
-  LeftPeritubularWallInterstitialToLeftPeritubularWallLumen.GetResistanceBaseline().SetValue(peritubularEndothelialResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+  //LeftPeritubularMembraneToLumen
+  SEFluidCircuitPath& LeftPeritubularMembraneToPeritubularLumen = cRenal.CreatePath(LeftPeritubularMembrane, LeftPeritubularLumen, BGE::RenalPath::LeftPeritubularMembraneToPeritubularLumen);
+  LeftPeritubularMembraneToPeritubularLumen.GetResistanceBaseline().SetValue(peritubularEndothelialResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   /////////////////////////
-  //LeftPeritubularWallLumenToPeritubularCapillary
-  SEFluidCircuitPath& LeftPeritubularWallLumenToLeftPeritubularCapillaries = cRenal.CreatePath(LeftPeritubularWallLumen, LeftPeritubularCapillaries, BGE::RenalPath::LeftPeritubularWallLumenToPeritubularCapillaries);
-  LeftPeritubularWallLumenToLeftPeritubularCapillaries.GetPressureSourceBaseline().SetValue(peritubularOsmoticPressure_mmHg, PressureUnit::mmHg);
+  //LeftPeritubularLumenToPeritubularCapillary
+  SEFluidCircuitPath& LeftPeritubularLumenToPeritubularCapillaries = cRenal.CreatePath(LeftPeritubularLumen, LeftPeritubularCapillaries, BGE::RenalPath::LeftPeritubularLumenToPeritubularCapillaries);
+  LeftPeritubularLumenToPeritubularCapillaries.GetPressureSourceBaseline().SetValue(peritubularOsmoticPressure_mmHg, PressureUnit::mmHg);
   //////////////////////////
   // LeftUreterToBladder //
   SEFluidCircuitPath& LeftUreterToBladder = cRenal.CreatePath(LeftUreter, Bladder, BGE::RenalPath::LeftUreterToBladder);
   LeftUreterToBladder.SetNextValve(CDM::enumOpenClosed::Closed);
-  ////////////////////////
-  // LeftMedularCompliance //
-  SEFluidCircuitPath& LeftMedularInterstitiumToGround = cRenal.CreatePath(LeftMedularInterstitium, Ground, BGE::RenalPath::LeftMedularInterstitiumToGround);
-  LeftMedularInterstitiumToGround.GetComplianceBaseline().SetValue(medularInterstitialCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
   ///////////////////////
   // BladderCompliance //
   SEFluidCircuitPath& BladderCompliance = cRenal.CreatePath(Bladder, Ground, BGE::RenalPath::BladderCompliance);
@@ -2643,8 +2627,8 @@ void BioGears::SetupRenal()
   SELiquidCompartment& vRightPeritubularCapillaries = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightPeritubularCapillaries);
   vRightPeritubularCapillaries.MapNode(RightPeritubularCapillaries);
   //vRightPeritubularCapillaries.MapNode(RightNetPeritubularCapillaries);
-  vRightPeritubularCapillaries.MapNode(RightPeritubularWallInterstitial);
-  vRightPeritubularCapillaries.MapNode(RightPeritubularWallLumen);
+  vRightPeritubularCapillaries.MapNode(RightPeritubularMembrane);
+  vRightPeritubularCapillaries.MapNode(RightPeritubularLumen);
   ///////////////////
   // RightRenalVein //
   SELiquidCompartment& vRightRenalVein = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightRenalVein);
@@ -2658,11 +2642,9 @@ void BioGears::SetupRenal()
   // RightTubules //
   SELiquidCompartment& vRightTubules = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightTubules);
   vRightTubules.MapNode(RightTubules);
+  vRightTubules.MapNode(RightTubulesMembrane);
   //vRightTubules.MapNode(RightNetTubules);
-  ////////////////
-  //RightMedularInterstitium
-  SELiquidCompartment& vRightMedularInterstitium = m_Compartments->CreateLiquidCompartment(BGE::ExtravascularCompartment::RightKidneyExtracellularMedular);
-  vRightMedularInterstitium.MapNode(RightMedularInterstitium);
+
 
   /////////////////////
   // LeftRenalArtery //
@@ -2685,8 +2667,8 @@ void BioGears::SetupRenal()
   // LeftPeritubularCapillaries //
   SELiquidCompartment& vLeftPeritubularCapillaries = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::LeftPeritubularCapillaries);
   vLeftPeritubularCapillaries.MapNode(LeftPeritubularCapillaries);
-  vLeftPeritubularCapillaries.MapNode(LeftPeritubularWallInterstitial);
-  vLeftPeritubularCapillaries.MapNode(LeftPeritubularWallLumen);
+  vLeftPeritubularCapillaries.MapNode(LeftPeritubularMembrane);
+  vLeftPeritubularCapillaries.MapNode(LeftPeritubularLumen);
   //vLeftPeritubularCapillaries.MapNode(LeftNetPeritubularCapillaries);
   ///////////////////
   // LeftRenalVein //
@@ -2701,11 +2683,8 @@ void BioGears::SetupRenal()
   // LeftTubules //
   SELiquidCompartment& vLeftTubules = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::LeftTubules);
   vLeftTubules.MapNode(LeftTubules);
+  vLeftTubules.MapNode(LeftTubulesMembrane);
   //vLeftTubules.MapNode(LeftNetTubules);
-  //////////////////
-  //LeftMedularInterstitium
-  SELiquidCompartment& vLeftMedularInterstitium = m_Compartments->CreateLiquidCompartment(BGE::ExtravascularCompartment::LeftKidneyExtracellularMedular);
-  vLeftMedularInterstitium.MapNode(LeftMedularInterstitium);
 
   // Let's build out the hierarchy
   // Grab these, as cardiovascular already made them
@@ -2794,9 +2773,6 @@ void BioGears::SetupRenal()
   // RightBowmansCapsulesToTubules //
   SELiquidCompartmentLink& vRightBowmansCapsulesToTubules = m_Compartments->CreateLiquidLink(vRightBowmansCapsules, vRightTubules, BGE::VascularLink::RightBowmansCapsulesToTubules);
   vRightBowmansCapsulesToTubules.MapPath(RightBowmansCapsulesToTubules);
-  //////////////////////////////////
-  // RightMedularInterstitiumToPeritubularCapillaries
-  SELiquidCompartmentLink& vRightMedularInterstitiumToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vRightMedularInterstitium, vRightPeritubularCapillaries, BGE::VascularLink::RightMedularInterstitiumToPeritubularCapillaries);
   ///////////////////////////////////////////////////
   // RightEfferentArterioleToPeritubularCapillaries //
   SELiquidCompartmentLink& vRightEfferentArterioleToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vRightEfferentArteriole, vRightPeritubularCapillaries, BGE::VascularLink::RightEfferentArterioleToPeritubularCapillaries);
@@ -2844,10 +2820,6 @@ void BioGears::SetupRenal()
   SELiquidCompartmentLink& vLeftBowmansCapsulesToTubules = m_Compartments->CreateLiquidLink(vLeftBowmansCapsules, vLeftTubules, BGE::VascularLink::LeftBowmansCapsulesToTubules);
   vLeftBowmansCapsulesToTubules.MapPath(LeftBowmansCapsulesToTubules);
   /////////////////////////////////////////
-  // LeftMedularInterstitiumToPeritubularCapillaries
-  SELiquidCompartmentLink& vLeftMedularInterstitiumToLeftPeritubularCapillaries = m_Compartments->CreateLiquidLink(vLeftMedularInterstitium, vLeftPeritubularCapillaries, BGE::VascularLink::LeftMedularInterstitiumToPeritubularCapillaries);
-
-  ///////////////////////////////////////////////////
   // LeftEfferentArterioleToPeritubularCapillaries //
   SELiquidCompartmentLink& vLeftEfferentArterioleToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vLeftEfferentArteriole, vLeftPeritubularCapillaries, BGE::VascularLink::LeftEfferentArterioleToPeritubularCapillaries);
   vLeftEfferentArterioleToPeritubularCapillaries.MapPath(LeftEfferentArterioleToPeritubularCapillaries);
@@ -2905,7 +2877,6 @@ void BioGears::SetupRenal()
   gRenal.AddLink(vLeftAfferentArterioleToGlomerularCapillaries);
   gRenal.AddLink(vLeftGlomerularCapillariesToEfferentArteriole);
   gRenal.AddLink(vLeftBowmansCapsulesToTubules);
-  gRenal.AddLink(vLeftMedularInterstitiumToLeftPeritubularCapillaries);
   gRenal.AddLink(vLeftEfferentArterioleToPeritubularCapillaries);
   gRenal.AddLink(vLeftPeritubularCapillariesToRenalVein);
   gRenal.AddLink(vLeftRenalVeinToVenaCava);
@@ -2925,7 +2896,6 @@ void BioGears::SetupRenal()
   gRenal.AddLink(vLeftKidneyHemorrhage);
   gRenal.AddLink(vRightKidneyHemorrhage);
   gRenal.AddLink(vRightBowmansCapsulesToTubules);
-  gRenal.AddLink(vRightMedularInterstitiumToPeritubularCapillaries);
   gRenal.AddLink(vRightEfferentArterioleToPeritubularCapillaries);
   gRenal.AddLink(vRightPeritubularCapillariesToRenalVein);
   gRenal.AddLink(vRightRenalVeinToVenaCava);
@@ -3522,7 +3492,7 @@ void BioGears::SetupTissue()
   LeftKidneyE1.GetPressure().SetValue(e1NodePressure, PressureUnit::mmHg);
   LeftKidneyE2.GetPressure().SetValue(e2NodePressure, PressureUnit::mmHg);
   LeftKidneyE3.GetPressure().SetValue(e3NodePressure, PressureUnit::mmHg);
-  LeftKidneyE3.GetVolumeBaseline().SetValue(0.8 * LKidneyEWFraction * LKidneyTissueVolume * 1000.0, VolumeUnit::mL);
+  LeftKidneyE3.GetVolumeBaseline().SetValue(LKidneyEWFraction * LKidneyTissueVolume * 1000.0, VolumeUnit::mL);
   LeftKidneyI.GetPressure().SetValue(e3NodePressure, PressureUnit::mmHg); //No hydrostatic pressure difference between intra/extra
   LeftKidneyI.GetVolumeBaseline().SetValue(LKidneyIWFraction * LKidneyTissueVolume * 1000.0, VolumeUnit::mL); //intracellular node
   LeftKidneyL1.GetPressure().SetValue(l1NodePressure, PressureUnit::mmHg);
@@ -3926,7 +3896,7 @@ void BioGears::SetupTissue()
   RightKidneyE1.GetPressure().SetValue(e1NodePressure, PressureUnit::mmHg);
   RightKidneyE2.GetPressure().SetValue(e2NodePressure, PressureUnit::mmHg);
   RightKidneyE3.GetPressure().SetValue(e3NodePressure, PressureUnit::mmHg);
-  RightKidneyE3.GetVolumeBaseline().SetValue(0.8 * RKidneyEWFraction * RKidneyTissueVolume * 1000.0, VolumeUnit::mL);
+  RightKidneyE3.GetVolumeBaseline().SetValue(RKidneyEWFraction * RKidneyTissueVolume * 1000.0, VolumeUnit::mL);
   RightKidneyI.GetPressure().SetValue(e3NodePressure, PressureUnit::mmHg); //No hydrostatic pressure difference between intra/extra
   RightKidneyI.GetVolumeBaseline().SetValue(RKidneyIWFraction * RKidneyTissueVolume * 1000.0, VolumeUnit::mL); //intracellular node
   RightKidneyL1.GetPressure().SetValue(l1NodePressure, PressureUnit::mmHg);

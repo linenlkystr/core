@@ -450,8 +450,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   SELiquidCompartment* rightTubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightTubules);
   SELiquidCompartment* leftUreter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::LeftUreter);
   SELiquidCompartment* rightUreter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::RightUreter);
-  SELiquidCompartment* leftRenalMedulla = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LeftKidneyExtracellularMedular);
-  SELiquidCompartment* rightRenalMedulla = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::RightKidneyExtracellularMedular);
   // Lower Tract
   // Note I don't modify the urethra, it's just a flow pipe, with no volume, hence, no substance quantities (NaN)
   //SELiquidCompartment* urethra = m_data.GetCompartments().GetUrineCompartment("Urethra");
@@ -474,12 +472,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   leftTubules->GetSubstanceQuantity(*m_albumin)->SetToZero();
   rightTubules->GetSubstanceQuantity(*m_albumin)->SetToZero();
   concentration.SetValue(2.0, MassPerVolumeUnit::g_Per_dL);
-  subQ = leftRenalMedulla->GetSubstanceQuantity(*m_albumin);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightRenalMedulla->GetSubstanceQuantity(*m_albumin);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
   leftUreter->GetSubstanceQuantity(*m_albumin)->SetToZero();
   rightUreter->GetSubstanceQuantity(*m_albumin)->SetToZero();
   bladder->GetSubstanceQuantity(*m_albumin)->SetToZero();
@@ -528,12 +520,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   subQ = rightTubules->GetSubstanceQuantity(*m_calcium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftRenalMedulla->GetSubstanceQuantity(*m_calcium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightRenalMedulla->GetSubstanceQuantity(*m_calcium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = leftUreter->GetSubstanceQuantity(*m_calcium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
@@ -571,12 +557,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = rightTubules->GetSubstanceQuantity(*m_creatinine);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftRenalMedulla->GetSubstanceQuantity(*m_creatinine);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightRenalMedulla->GetSubstanceQuantity(*m_creatinine);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = leftUreter->GetSubstanceQuantity(*m_creatinine);
@@ -631,8 +611,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   subQ->Balance(BalanceLiquidBy::Concentration);
   leftTubules->GetSubstanceQuantity(*m_glucose)->SetToZero();
   rightTubules->GetSubstanceQuantity(*m_glucose)->SetToZero();
-  leftRenalMedulla->GetSubstanceQuantity(*m_glucose)->SetToZero();
-  rightRenalMedulla->GetSubstanceQuantity(*m_glucose)->SetToZero();
   leftUreter->GetSubstanceQuantity(*m_glucose)->SetToZero();
   rightUreter->GetSubstanceQuantity(*m_glucose)->SetToZero();
   bladder->GetSubstanceQuantity(*m_glucose)->SetToZero();
@@ -651,8 +629,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   rightBowmansCapsules->GetSubstanceQuantity(*m_insulin)->SetToZero();
   leftTubules->GetSubstanceQuantity(*m_insulin)->SetToZero();
   rightTubules->GetSubstanceQuantity(*m_insulin)->SetToZero();
-  leftRenalMedulla->GetSubstanceQuantity(*m_insulin)->SetToZero();
-  rightRenalMedulla->GetSubstanceQuantity(*m_insulin)->SetToZero();
   leftUreter->GetSubstanceQuantity(*m_insulin)->SetToZero();
   rightUreter->GetSubstanceQuantity(*m_insulin)->SetToZero();
   bladder->GetSubstanceQuantity(*m_insulin)->SetToZero();
@@ -676,8 +652,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   leftTubules->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
   rightTubules->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
   rightTubules->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
-  leftRenalMedulla->GetSubstanceQuantity(*m_ketones)->SetToZero();
-  rightRenalMedulla->GetSubstanceQuantity(*m_ketones)->SetToZero();
   leftUreter->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
   leftUreter->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
   rightUreter->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
@@ -702,12 +676,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = rightTubules->GetSubstanceQuantity(*m_lactate);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftRenalMedulla->GetSubstanceQuantity(*m_lactate);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightRenalMedulla->GetSubstanceQuantity(*m_lactate);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   bladder->GetSubstanceQuantity(*m_lactate)->SetToZero();
@@ -735,12 +703,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = rightTubules->GetSubstanceQuantity(*m_potassium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftRenalMedulla->GetSubstanceQuantity(*m_potassium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightRenalMedulla->GetSubstanceQuantity(*m_potassium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = leftUreter->GetSubstanceQuantity(*m_potassium);
@@ -776,12 +738,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   subQ = rightTubules->GetSubstanceQuantity(*m_sodium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftRenalMedulla->GetSubstanceQuantity(*m_sodium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightRenalMedulla->GetSubstanceQuantity(*m_sodium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = leftUreter->GetSubstanceQuantity(*m_sodium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
@@ -806,8 +762,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   rightBowmansCapsules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
   leftTubules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
   rightTubules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
-  leftRenalMedulla->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
-  rightRenalMedulla->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
   leftUreter->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
   rightUreter->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
   bladder->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
@@ -840,12 +794,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = rightTubules->GetSubstanceQuantity(*m_urea);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftRenalMedulla->GetSubstanceQuantity(*m_urea);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightRenalMedulla->GetSubstanceQuantity(*m_urea);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = leftUreter->GetSubstanceQuantity(*m_urea);

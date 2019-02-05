@@ -784,17 +784,16 @@ namespace tatrc {
         DEFINE_STATIC_STRING(RightEfferentArteriole);
         DEFINE_STATIC_STRING(RightPeritubularCapillaries);
         //DEFINE_STATIC_STRING(RightNetPeritubularCapillaries);
-        DEFINE_STATIC_STRING(RightPeritubularWallInterstitial);
-        DEFINE_STATIC_STRING(RightPeritubularWallLumen);
+        DEFINE_STATIC_STRING(RightPeritubularMembrane);
+        DEFINE_STATIC_STRING(RightPeritubularLumen);
         DEFINE_STATIC_STRING(RightRenalVein);
         DEFINE_STATIC_STRING(RightVenaCavaConnection);
         // Urine
         DEFINE_STATIC_STRING(RightBowmansCapsules);
         DEFINE_STATIC_STRING(RightNetBowmansCapsules);
         DEFINE_STATIC_STRING(RightTubules);
-        DEFINE_STATIC_STRING(RightNetTubules);
+        DEFINE_STATIC_STRING(RightTubulesMembrane);
         DEFINE_STATIC_STRING(RightUreter);
-        DEFINE_STATIC_STRING(RightMedularInterstitium);
 
         // Blood
         DEFINE_STATIC_STRING(LeftAortaConnection);
@@ -805,17 +804,16 @@ namespace tatrc {
         DEFINE_STATIC_STRING(LeftEfferentArteriole);
         DEFINE_STATIC_STRING(LeftPeritubularCapillaries);
         //DEFINE_STATIC_STRING(LeftNetPeritubularCapillaries);
-        DEFINE_STATIC_STRING(LeftPeritubularWallInterstitial);
-        DEFINE_STATIC_STRING(LeftPeritubularWallLumen);
+        DEFINE_STATIC_STRING(LeftPeritubularMembrane);
+        DEFINE_STATIC_STRING(LeftPeritubularLumen);
         DEFINE_STATIC_STRING(LeftRenalVein);
         DEFINE_STATIC_STRING(LeftVenaCavaConnection);
         // Urine
         DEFINE_STATIC_STRING(LeftNetBowmansCapsules);
         DEFINE_STATIC_STRING(LeftBowmansCapsules);
         DEFINE_STATIC_STRING(LeftTubules);
-        DEFINE_STATIC_STRING(LeftNetTubules);
+        DEFINE_STATIC_STRING(LeftTubulesMembrane);
         DEFINE_STATIC_STRING(LeftUreter);
-        DEFINE_STATIC_STRING(LeftMedularInterstitium);
 
         DEFINE_STATIC_STRING(Bladder);
 
@@ -840,11 +838,10 @@ namespace tatrc {
         DEFINE_STATIC_STRING(RightBowmansCapsulesToNetBowmansCapsules);
         DEFINE_STATIC_STRING(RightBowmansCapsulesToTubules);
         DEFINE_STATIC_STRING(RightTubulesToUreter);
-        DEFINE_STATIC_STRING(RightTubulesToMedularInterstitium);
-        DEFINE_STATIC_STRING(RightMedularInterstitiumToGround);
-        DEFINE_STATIC_STRING(RightMedularInterstitiumToPeritubularWallInterstitial);
-        DEFINE_STATIC_STRING(RightPeritubularWallInterstitialToPeritubularWallLumen);
-        DEFINE_STATIC_STRING(RightPeritubularWallLumenToPeritubularCapillaries);
+        DEFINE_STATIC_STRING(RightTubulesToTubulesMembrane);
+        DEFINE_STATIC_STRING(RightTubulesMembraneToPeritubularMembrane);
+        DEFINE_STATIC_STRING(RightPeritubularMembraneToPeritubularLumen);
+        DEFINE_STATIC_STRING(RightPeritubularLumenToPeritubularCapillaries);
         //DEFINE_STATIC_STRING(RightTubulesToNetTubules);
         //DEFINE_STATIC_STRING(RightNetTubulesToNetPeritubularCapillaries);
         //DEFINE_STATIC_STRING(RightPeritubularCapillariesToNetPeritubularCapillaries);
@@ -866,11 +863,10 @@ namespace tatrc {
         DEFINE_STATIC_STRING(LeftBowmansCapsulesToNetBowmansCapsules);
         DEFINE_STATIC_STRING(LeftBowmansCapsulesToTubules);
         DEFINE_STATIC_STRING(LeftTubulesToUreter);
-        DEFINE_STATIC_STRING(LeftTubulesToMedularInterstitium);
-        DEFINE_STATIC_STRING(LeftMedularInterstitiumToGround);
-        DEFINE_STATIC_STRING(LeftMedularInterstitiumToPeritubularWallInterstitial);
-        DEFINE_STATIC_STRING(LeftPeritubularWallInterstitialToPeritubularWallLumen);
-        DEFINE_STATIC_STRING(LeftPeritubularWallLumenToPeritubularCapillaries);
+        DEFINE_STATIC_STRING(LeftTubulesToTubulesMembrane);
+        DEFINE_STATIC_STRING(LeftTubulesMembraneToPeritubularMembrane);
+        DEFINE_STATIC_STRING(LeftPeritubularMembraneToPeritubularLumen);
+        DEFINE_STATIC_STRING(LeftPeritubularLumenToPeritubularCapillaries);
         //DEFINE_STATIC_STRING(LeftTubulesToNetTubules);
         //DEFINE_STATIC_STRING(LeftNetTubulesToNetPeritubularCapillaries);
         //DEFINE_STATIC_STRING(LeftPeritubularCapillariesToNetPeritubularCapillaries);

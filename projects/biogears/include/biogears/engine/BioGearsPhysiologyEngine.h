@@ -227,13 +227,11 @@ DEFINE_STATIC_STRING_EX(BrainExtracellular, BrainTissueExtracellular);
 DEFINE_STATIC_STRING_EX(FatExtracellular, FatTissueExtracellular);
 DEFINE_STATIC_STRING_EX(GutExtracellular, GutTissueExtracellular);
 DEFINE_STATIC_STRING_EX(LeftKidneyExtracellular, LeftKidneyTissueExtracellular);
-DEFINE_STATIC_STRING_EX(LeftKidneyExtracellularMedular, LeftKidneyTissueExtracellularMedular);
 DEFINE_STATIC_STRING_EX(LeftLungExtracellular, LeftLungTissueExtracellular);
 DEFINE_STATIC_STRING_EX(LiverExtracellular, LiverTissueExtracellular);
 DEFINE_STATIC_STRING_EX(MuscleExtracellular, MuscleTissueExtracellular);
 DEFINE_STATIC_STRING_EX(MyocardiumExtracellular, MyocardiumTissueExtracellular);
 DEFINE_STATIC_STRING_EX(RightKidneyExtracellular, RightKidneyTissueExtracellular);
-DEFINE_STATIC_STRING_EX(RightKidneyExtracellularMedular, RightKidneyTissueExtracellularMedular);
 DEFINE_STATIC_STRING_EX(RightLungExtracellular, RightLungTissueExtracellular);
 DEFINE_STATIC_STRING_EX(SkinExtracellular, SkinTissueExtracellular);
 DEFINE_STATIC_STRING_EX(SpleenExtracellular, SpleenTissueExtracellular);
@@ -525,7 +523,7 @@ DEFINE_STATIC_STRING(LeftAfferentArterioleToGlomerularCapillaries);
 DEFINE_STATIC_STRING(LeftGlomerularCapillariesToEfferentArteriole);
 DEFINE_STATIC_STRING(LeftGlomerularCapillariesToBowmansCapsules);
 DEFINE_STATIC_STRING(LeftBowmansCapsulesToTubules);
-DEFINE_STATIC_STRING(LeftMedularInterstitiumToPeritubularCapillaries);
+DEFINE_STATIC_STRING(LeftTubulesToPeritubularCapillaries);
 DEFINE_STATIC_STRING(LeftEfferentArterioleToPeritubularCapillaries);
 DEFINE_STATIC_STRING(LeftPeritubularCapillariesToRenalVein);
 // Reusing 'LeftKidneyToVenaCava' to connect the Left Renal Vein To Vena Cava
@@ -536,7 +534,7 @@ DEFINE_STATIC_STRING(RightAfferentArterioleToGlomerularCapillaries);
 DEFINE_STATIC_STRING(RightGlomerularCapillariesToEfferentArteriole);
 DEFINE_STATIC_STRING(RightGlomerularCapillariesToBowmansCapsules);
 DEFINE_STATIC_STRING(RightBowmansCapsulesToTubules);
-DEFINE_STATIC_STRING(RightMedularInterstitiumToPeritubularCapillaries);
+DEFINE_STATIC_STRING(RightTubulesToPeritubularCapillaries);
 DEFINE_STATIC_STRING(RightEfferentArterioleToPeritubularCapillaries);
 DEFINE_STATIC_STRING(RightPeritubularCapillariesToRenalVein);
 // Reusing 'RightKidneyToVenaCava' to connect the Right Renal Vein To Vena Cava);
@@ -612,7 +610,7 @@ DEFINE_STATIC_STRING(RightPeritubularCapillariesToRenalVein);
       ,LeftGlomerularCapillariesToEfferentArteriole
       ,LeftGlomerularCapillariesToBowmansCapsules
       ,LeftBowmansCapsulesToTubules
-      ,LeftMedularInterstitiumToPeritubularCapillaries
+      ,LeftTubulesToPeritubularCapillaries
       ,LeftEfferentArterioleToPeritubularCapillaries
       ,LeftPeritubularCapillariesToRenalVein
       ,RightRenalArteryToAfferentArteriole
@@ -620,7 +618,7 @@ DEFINE_STATIC_STRING(RightPeritubularCapillariesToRenalVein);
       ,RightGlomerularCapillariesToEfferentArteriole
       ,RightGlomerularCapillariesToBowmansCapsules
       ,RightBowmansCapsulesToTubules
-      ,RightMedularInterstitiumToPeritubularCapillaries
+      ,RightTubulesToPeritubularCapillaries
       ,RightEfferentArterioleToPeritubularCapillaries
       ,RightPeritubularCapillariesToRenalVein
     };
