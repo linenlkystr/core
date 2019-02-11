@@ -648,7 +648,6 @@ void Renal::CalculateReabsorptionFeedback()
     peritubularOsmoticSourcePath->GetNextPressureSource().SetValue(-peritubularOsmoticSourcePath->GetNextPressureSource(PressureUnit::mmHg), PressureUnit::mmHg); 
     //CalculateColloidOsmoticPressure(renalInterstitial->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), tubulesOsmoticSourcePath->GetNextPressureSource());   
   }
-  m_data.GetDataTrack().Probe("TubularOsmoticPressureSource", tubulesOsmoticSourcePath->GetNextPressureSource(PressureUnit::mmHg));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1406,7 +1405,7 @@ void Renal::CalculateVitalSigns()
   // Do running averages for events
   // Only calculate the running average when not urinating, since the production rate shuts off during urination
   // This will keep the events from freaking out when urinating
-  if (m_Urinating == false) {
+  if (!m_Urinating) {
     m_urineProductionRate_mL_Per_min_runningAvg.Sample(Convert(urineProductionRate_mL_Per_s, VolumePerTimeUnit::mL_Per_s, VolumePerTimeUnit::mL_Per_min));
     m_urineOsmolarity_mOsm_Per_L_runningAvg.Sample(GetUrineOsmolarity(OsmolarityUnit::mOsm_Per_L));
     m_sodiumExcretionRate_mg_Per_min_runningAvg.Sample(m_sodium->GetClearance().GetRenalExcretionRate(MassPerTimeUnit::mg_Per_min));
@@ -1414,7 +1413,7 @@ void Renal::CalculateVitalSigns()
 
   //Only check these once each cardiac cycle (using running average for entire cycle)
   //Otherwise, they could turn on and off like crazy as the flows fluctuate throughout the cycle
-  if (m_data.GetPatient().IsEventActive(CDM::enumPatientEvent::StartOfCardiacCycle) && m_Urinating == false) {
+  if (m_data.GetPatient().IsEventActive(CDM::enumPatientEvent::StartOfCardiacCycle) && !m_Urinating) {
     if (m_data.GetState() > EngineState::InitialStabilization) { // Don't throw events if we are initializing
       //Handle Events
       /// \cite lahav1992intermittent
@@ -1507,8 +1506,8 @@ void Renal::Urinate()
 
   //Now deal with the action
   if (m_Urinating) {
-    //Stop urinating when the bladder volume drops below 1.0 mL
-    if (m_bladderNode->GetNextVolume().GetValue(VolumeUnit::mL) < 1.0) {
+    //Stop urinating when the bladder volume drops below 10.0 mL
+    if (m_bladderNode->GetNextVolume().GetValue(VolumeUnit::mL) < 10.0) {
       m_Urinating = false;
       //The urethra resistances will use the baselines value of an open switch to stop the flow
 
@@ -1631,7 +1630,6 @@ void Renal::CalculateOsmoreceptorFeedback()
 {
   //Modify the reabsorption permeability based on plasma Sodium concentration
   //Note: the permeability feedback due to local pressure change has already occurred
-
   //Tuning parameters
   double sodiumSensitivity = 10.0;
 

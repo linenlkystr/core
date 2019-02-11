@@ -362,7 +362,10 @@ void Drugs::AdministerSubstanceCompoundInfusion()
   const std::map<const SESubstanceCompound*, SESubstanceCompoundInfusion*>& infusions = m_data.GetActions().GetPatientActions().GetSubstanceCompoundInfusions();
   if (infusions.empty())
     return;
-
+  //During burn wound treatment scenarios, it was noticed that as bladder emptied we could get large accumulations of compounds components in vena cava, which could flag things like
+  //hyernatremia, hyperkalemia, etc. leading to blood gas irregularities.  Thus, as a work-around, we will suspend infusion while bladder is emptying and then resume.  
+  if (m_data.GetPatient().IsEventActive(CDM::enumPatientEvent::FunctionalIncontinence))
+    return;
   SESubstanceCompoundInfusion* infusion;
   const SESubstanceCompound* compound;
   SELiquidSubstanceQuantity* subQ;
