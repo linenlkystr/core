@@ -2142,7 +2142,7 @@ void BioGears::SetupRenal()
   double glomerularCompliance_mL_Per_mmHg = totalCompliance * 0.11;
   ///\todo The bladder is currently not being modeled as a compliance
   //From data fit
-  double bladderCompliance_mL_Per_mmHg = Convert(1.0 / 0.022, FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
+  double bladderCompliance_mL_Per_mmHg = Convert(1.0 / 0.007, FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
 
   //Large Vasculature (divide total large vasculature fluid volume three ways):
   double tubulesVolume_mL = singleKidneyLargeVasculatureFluidVolume_mL / 3.0;
@@ -2161,7 +2161,7 @@ void BioGears::SetupRenal()
 
   //Tuned constants
   double bladderVolume_mL = 1.0;
-  double bladderEmptyPressure_mmHg = Convert(3.7, PressureUnit::cmH2O, PressureUnit::mmHg);
+  double bladderEmptyPressure_mmHg = Convert(7.0, PressureUnit::cmH2O, PressureUnit::mmHg);
   //Unstressed Pressures - set to zero to use unstressed properly
   double renalArteryPressure_mmHg = 0.0;
   double renalVeinPressure_mmHg = 0.0;
