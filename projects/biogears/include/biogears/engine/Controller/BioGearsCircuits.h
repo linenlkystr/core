@@ -860,7 +860,7 @@ namespace tatrc {
         DEFINE_STATIC_STRING(LeftPeritubularCapillariesToNetPeritubularCapillaries);
         DEFINE_STATIC_STRING(LeftUreterToBladder);
 
-        DEFINE_STATIC_STRING(BladderToGroundPressure);
+        DEFINE_STATIC_STRING(BladderCompliance);
         DEFINE_STATIC_STRING(BladderToGroundUrinate);
       };
 

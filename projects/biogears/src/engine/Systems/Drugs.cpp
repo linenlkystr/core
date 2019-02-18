@@ -362,7 +362,11 @@ void Drugs::AdministerSubstanceCompoundInfusion()
   const std::map<const SESubstanceCompound*, SESubstanceCompoundInfusion*>& infusions = m_data.GetActions().GetPatientActions().GetSubstanceCompoundInfusions();
   if (infusions.empty())
     return;
-
+  //When the bladder is full and patient is urinating, there is enough of a change in filtration to cause build up of ions (like sodium) in the vena cava, triggering hypernatremia
+  //If the vena cava volume is also reduced (i.e. hemorrhage, sepsis, burn shock), the solute increase can have very large undesirable effects.  Thus, suspend any infusions while bladder
+  //is emptying.
+  if (m_data.GetPatient().IsEventActive(CDM::enumPatientEvent::FunctionalIncontinence))
+    return;
   SESubstanceCompoundInfusion* infusion;
   const SESubstanceCompound* compound;
   SELiquidSubstanceQuantity* subQ;

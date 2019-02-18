@@ -2124,7 +2124,7 @@ void BioGears::SetupRenal()
   double glomerularResistance_mmHg_s_Per_mL = Convert(0.0019, FlowResistanceUnit::mmHg_min_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   double peritubularResistance_mmHg_s_Per_mL = Convert(0.0167, FlowResistanceUnit::mmHg_min_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   double renalVeinResistance_mmHg_s_Per_mL = Convert(0.0066, FlowResistanceUnit::mmHg_min_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
-  double glomerularFilterResistance_mmHg_s_Per_mL = Convert(0.1600 * urineTuningMultiplier, FlowResistanceUnit::mmHg_min_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+  double glomerularFilterResistance_mmHg_s_Per_mL = Convert(0.244 * urineTuningMultiplier, FlowResistanceUnit::mmHg_min_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);  //Was 0.16
   double tubulesResistance_mmHg_s_Per_mL = Convert(0.1920 * urineTuningMultiplier, FlowResistanceUnit::mmHg_min_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   double reabsoprtionResistance_mmHg_s_Per_mL = Convert(0.1613 * reabsorptionTuningMultiplier, FlowResistanceUnit::mmHg_min_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   //This one is tuned
@@ -2138,8 +2138,9 @@ void BioGears::SetupRenal()
   double renalArteryCompliance_mL_Per_mmHg = totalCompliance * 0.11;
   double renalVeinCompliance_mL_Per_mmHg = totalCompliance * 0.78;
   double glomerularCompliance_mL_Per_mmHg = totalCompliance * 0.11;
-  ///\todo The bladder is currently not being modeled as a compliance
-  //double bladderCompliance_mL_Per_mmHg = Convert(38.3, FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
+  //Bladder compliance comes from a data fit from ICRP.  Slope is most accurate between volumes of 50 mL and 350 mL, when bladder exhibits greatest compliance
+  //Lower compliance at initial filling and when extremely full, but we will use this value since it covers a wide range.
+  double bladderCompliance_mL_Per_mmHg = Convert(1.0 / 0.007, FlowComplianceUnit::mL_Per_cmH2O, FlowComplianceUnit::mL_Per_mmHg);
 
   //Large Vasculature (divide total large vasculature fluid volume three ways):
   double tubulesVolume_mL = singleKidneyLargeVasculatureFluidVolume_mL / 3.0;
@@ -2162,12 +2163,12 @@ void BioGears::SetupRenal()
   double renalArteryPressure_mmHg = 0.0;
   double renalVeinPressure_mmHg = 0.0;
   double glomerularPressure_mmHg = cCardiovascular.GetNode(BGE::CardiovascularNode::LeftKidney1)->GetPressure(PressureUnit::mmHg);
-  //double bladderPressure_mmHg = bladderVolume_mL / bladderCompliance_mL_Per_mmHg;
+  double bladderPressure_mmHg = 1.0;    //This will cause average bladder pressure from empty to full to be 4 mmHg, which was what it was set to when constant pressure source was used.
   //Pressure Sources
-  double glomerularOsmoticPressure_mmHg = -32.0;
+  double glomerularOsmoticPressure_mmHg = -26.77;  //Assuming C_alb = 4.5, using Landis-Pappenheimer Eq. //-32.0;
   double bowmansOsmoticPressure_mmHg = 0.0;
-  double tubulesOsmoticPressure_mmHg = -15.0;
-  double peritubularOsmoticPressure_mmHg = -32.0;
+  double tubulesOsmoticPressure_mmHg = -8.65;  //Assumin C_alb = 2.0 in interstitium, using Landis-Pappenheimer Eq.  //-15
+  double peritubularOsmoticPressure_mmHg = -26.77; //Assuming C_alb = 4.5, using Landis-Pappenheimer Eq. //-32.0;
 
   SEFluidCircuit& cRenal = m_Circuits->GetRenalCircuit();
 
@@ -2315,7 +2316,7 @@ void BioGears::SetupRenal()
   // Bladder //
   SEFluidCircuitNode& Bladder = cRenal.CreateNode(BGE::RenalNode::Bladder);
   Bladder.GetVolumeBaseline().SetValue(bladderVolume_mL, VolumeUnit::mL);
-  //Bladder.GetPressure().SetValue(0.0, PressureUnit::mmHg);
+  Bladder.GetPressure().SetValue(bladderPressure_mmHg, PressureUnit::mmHg);
 
   //////////////////
   // Create Paths //
@@ -2496,10 +2497,8 @@ void BioGears::SetupRenal()
 
   ///////////////////////
   // BladderCompliance //
-  SEFluidCircuitPath& BladderToGroundPressure = cRenal.CreatePath(Bladder, Ground, BGE::RenalPath::BladderToGroundPressure);
-  /// \todo Use a compliance here - make sure you remove the current handling of bladder volume in the renal system as a pressure source
-  //BladderCompliance.GetComplianceBaseline().SetValue(bladderCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
-  BladderToGroundPressure.GetPressureSourceBaseline().SetValue(-4.0, PressureUnit::mmHg); //Negative because source-target is for compliance
+  SEFluidCircuitPath& BladderCompliance = cRenal.CreatePath(Bladder, Ground, BGE::RenalPath::BladderCompliance);
+  BladderCompliance.GetComplianceBaseline().SetValue(bladderCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
   //////////////
   // BladderGround //
   SEFluidCircuitPath& BladderToGroundUrinate = cRenal.CreatePath(Bladder, Ground, BGE::RenalPath::BladderToGroundUrinate);
@@ -2807,8 +2806,8 @@ void BioGears::SetupRenal()
   // BladderToGround //
   SELiquidCompartmentLink& uBladderToGround = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderToGround);
   uBladderToGround.MapPath(BladderToGroundUrinate);
-  SELiquidCompartmentLink& uBladderToGroundSource = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderToGroundSource);
-  uBladderToGroundSource.MapPath(BladderToGroundPressure);
+  SELiquidCompartmentLink& uBladderCompliance = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderCompliance);
+  uBladderCompliance.MapPath(BladderCompliance);
 
   SELiquidCompartmentGraph& gRenal = m_Compartments->GetRenalGraph();
   gRenal.AddCompartment(vAorta);
@@ -2826,9 +2825,7 @@ void BioGears::SetupRenal()
   gRenal.AddLink(vLeftRenalArteryToAfferentArteriole);
   gRenal.AddLink(vLeftAfferentArterioleToGlomerularCapillaries);
   gRenal.AddLink(vLeftGlomerularCapillariesToEfferentArteriole);
-  //gRenal.AddLink(vLeftGlomerularCapillariesToBowmansCapsules); //Active transport only
   gRenal.AddLink(vLeftBowmansCapsulesToTubules);
-  //gRenal.AddLink(vLeftTubulesToPeritubularCapillaries); //Active transport only
   gRenal.AddLink(vLeftEfferentArterioleToPeritubularCapillaries);
   gRenal.AddLink(vLeftPeritubularCapillariesToRenalVein);
   gRenal.AddLink(vLeftRenalVeinToVenaCava);
@@ -2847,9 +2844,7 @@ void BioGears::SetupRenal()
   gRenal.AddLink(vRightGlomerularCapillariesToEfferentArteriole);
   gRenal.AddLink(vLeftKidneyHemorrhage);
   gRenal.AddLink(vRightKidneyHemorrhage);
-  //gRenal.AddLink(vRightGlomerularCapillariesToBowmansCapsules); //Active transport only
   gRenal.AddLink(vRightBowmansCapsulesToTubules);
-  //gRenal.AddLink(vRightTubulesToPeritubularCapillaries); //Active transport only
   gRenal.AddLink(vRightEfferentArterioleToPeritubularCapillaries);
   gRenal.AddLink(vRightPeritubularCapillariesToRenalVein);
   gRenal.AddLink(vRightRenalVeinToVenaCava);
@@ -2865,7 +2860,7 @@ void BioGears::SetupRenal()
   gRenal.AddCompartment(uBladder);
   gRenal.AddCompartment(vGround);
   gRenal.AddLink(uBladderToGround);
-  gRenal.AddLink(uBladderToGroundSource);
+  gRenal.AddLink(uBladderCompliance);
   gRenal.StateChange();
 
   // We have discretized these compartments, so remove them

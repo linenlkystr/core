@@ -397,7 +397,6 @@ void Renal::SetUp()
   m_rightTubulesPath = m_RenalCircuit->GetPath(BGE::RenalPath::RightBowmansCapsulesToTubules);
   m_rightEfferentArteriolePath = m_RenalCircuit->GetPath(BGE::RenalPath::RightEfferentArterioleToPeritubularCapillaries);
   //Individual
-  m_bladderToGroundPressurePath = m_RenalCircuit->GetPath(BGE::RenalPath::BladderToGroundPressure);
   m_urethraPath = m_RenalCircuit->GetPath(BGE::RenalPath::BladderToGroundUrinate);
 
   m_aortaLactate = m_aorta->GetSubstanceQuantity(*m_lactate);
@@ -445,18 +444,6 @@ void Renal::AtSteadyState()
     }
     */
   }
-
-  if (m_data.GetState() == EngineState::AtSecondaryStableState) {
-    //We were letting the substances flow out to get the initial concentrations correct
-    //We want to do this out of the pressure source, not the urethra to ensure the flow bringing substances into the compartment is the same as the flow taking it out
-    //But now we're stable and want to start filling the bladder, so make substances stay in bladder as they come in with the fluid
-    SELiquidCompartmentGraph* renalGraph = &m_data.GetCompartments().GetRenalGraph();
-    SELiquidCompartmentGraph* combinedCardiovascularGraph = &m_data.GetCompartments().GetActiveCardiovascularGraph();
-    renalGraph->RemoveLink(BGE::UrineLink::BladderToGroundSource);
-    renalGraph->StateChange();
-    combinedCardiovascularGraph->RemoveLink(BGE::UrineLink::BladderToGroundSource);
-    combinedCardiovascularGraph->StateChange();
-  }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -475,7 +462,7 @@ void Renal::PreProcess()
   CalculateUltrafiltrationFeedback();
   CalculateReabsorptionFeedback();
   CalculateTubuloglomerularFeedback();
-  UpdateBladderVolume();
+ // UpdateBladderVolume();
   ProcessActions();
 }
 
@@ -576,7 +563,7 @@ void Renal::CalculateUltrafiltrationFeedback()
     //This is the osmotic pressure effect
     ///\todo turn on colloid osmotic pressure once substances have been handled properly (and GI)
     // CACHE THIS SUBSTANCE QUANTITY IN SETUP
-    //CalculateColloidOsmoticPressure(glomerularCapillaries->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), glomerularOsmoticSourcePath->GetNextPressureSource());
+    CalculateColloidOsmoticPressure(glomerularCapillaries->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), glomerularOsmoticSourcePath->GetNextPressureSource());
     //CalculateColloidOsmoticPressure(bowmansNode->GetSubstanceQuantity(m_albumin)->GetNextConcentration(), bowmansOsmoticSourcePath->GetNextPressureSource());
   }
 }
@@ -651,11 +638,11 @@ void Renal::CalculateReabsorptionFeedback()
     //This is the osmotic pressure effect
     ///\todo turn on colloid osmotic pressure once substances have been handled properly (and GI)
     // CACHE THIS SUBSTANCE QUANTITY IN SETUP
-    //CalculateColloidOsmoticPressure(peritubularCapillaries->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), peritubularOsmoticSourcePath->GetNextPressureSource());
+    CalculateColloidOsmoticPressure(peritubularCapillaries->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), peritubularOsmoticSourcePath->GetNextPressureSource());
     //Since we're not modeling the interstitial space, we'll just always keep this side constant
     //We just won't touch it and let it use the baseline value
-    //CalculateColloidOsmoticPressure(renalInterstitial->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), tubulesOsmoticSourcePath->GetNextPressureSource());
-    tubulesOsmoticSourcePath->GetNextPressureSource().SetValue(-15.0, PressureUnit::mmHg);
+    CalculateColloidOsmoticPressure(renalInterstitial->GetSubstanceQuantity(m_data.GetSubstances().GetAlbumin())->GetConcentration(), tubulesOsmoticSourcePath->GetNextPressureSource());
+    //tubulesOsmoticSourcePath->GetNextPressureSource().SetValue(-8.65, PressureUnit::mmHg);
   }
 }
 
@@ -1513,31 +1500,25 @@ void Renal::Urinate()
 
   //Now deal with the action
   if (m_Urinating) {
-    ////Stop urinating when the bladder volume drops below 1.0 mL
-    //if (m_bladderNode->GetNextVolume().GetValue(VolumeUnit::mL) < 1.0) {
-    //  m_Urinating = false;
-    //  //The urethra resistances will use the baselines value of an open switch to stop the flow
+    //Stop urinating when the bladder volume drops below 1.0 mL
+    if (m_bladderNode->GetNextVolume().GetValue(VolumeUnit::mL) < 1.0) {
+      m_Urinating = false;
+      //The urethra resistances will use the baselines value of an open switch to stop the flow
 
-    //  //Turn off the event
-    //  if (m_patient->IsEventActive(CDM::enumPatientEvent::FunctionalIncontinence)) {
-    //    m_patient->SetEvent(CDM::enumPatientEvent::FunctionalIncontinence, false, m_data.GetSimulationTime());
-    //  }
-    //} else {
-    //  //Prevent anything from leaving except for what's in the bladder
-    //  m_leftUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
-    //  m_rightUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
-    //  //Reduce the urethra resistance to urinate
-    //  //Use a urethra resistance based on the validated urination flow
-    //  //R = (4 mmHg - 0 mmHg) / 22 mL/s = 0.182
-    //  m_urethraPath->GetNextResistance().SetValue(0.01, FlowResistanceUnit::mmHg_s_Per_mL); //0.182
-    //}
-    m_bladderNode->GetNextVolume().SetValue(1.0, VolumeUnit::mL);
-    for (auto sub : m_data.GetSubstances().GetActiveSubstances()) {
-      if (m_bladder->GetSubstanceQuantity(*sub)->GetMass(MassUnit::ug) > ZERO_APPROX) {
-        m_bladder->GetSubstanceQuantity(*sub)->Balance(BalanceLiquidBy::Concentration);
+      //Turn off the event
+      if (m_patient->IsEventActive(CDM::enumPatientEvent::FunctionalIncontinence)) {
+        m_patient->SetEvent(CDM::enumPatientEvent::FunctionalIncontinence, false, m_data.GetSimulationTime());
       }
+    } else {
+      //Prevent anything from leaving except for what's in the bladder
+      m_leftUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+      m_rightUreterPath->GetNextResistance().SetValue(m_defaultOpenResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+
+      double targetFlow_mL_Per_s = 22.0;
+      double currentBladderPressure_mmHg = m_bladderNode->GetPressure(PressureUnit::mmHg);
+      double urethraResistance_mmHg_s_Per_m = currentBladderPressure_mmHg / targetFlow_mL_Per_s;
+      m_urethraPath->GetNextResistance().SetValue(urethraResistance_mmHg_s_Per_m, FlowResistanceUnit::mmHg_s_Per_mL); //0.182
     }
-    m_Urinating = false;
 
     GetUrinationRate().Set(m_urethraPath->GetNextFlow());
   }
@@ -1551,25 +1532,25 @@ void Renal::Urinate()
 /// The current renal model does not use a compliance to represent the bladder. This function therefore
 /// sums the inflow and outflow to the bladder node each time step and updates the bladder volume accordingly.
 //--------------------------------------------------------------------------------------------------
-void Renal::UpdateBladderVolume()
-{
-  /// \todo Eventually replace this entire thing with a compliance and model peristaltic flow
-
-  //Don't fill the bladder during stabilization
-  if (m_data.GetState() != EngineState::Active)
-    return;
-
-  //Manually modify the bladder volume based on flow
-  //This will work for both filling the bladder and urinating
-  double bladderFlow_mL_Per_s = m_bladderToGroundPressurePath->GetNextFlow(VolumePerTimeUnit::mL_Per_s);
-  double volumeIncrement_mL = bladderFlow_mL_Per_s * m_dt;
-  double bladderVolume_mL = m_bladderNode->GetNextVolume().GetValue(VolumeUnit::mL) + volumeIncrement_mL;
-
-  //Don't let this get below zero during urination
-  //The urination action will catch it next time around, so this shouldn't be hit more than once (and likely never)
-  bladderVolume_mL = std::max(bladderVolume_mL, 0.0);
-  m_bladderNode->GetNextVolume().SetValue(bladderVolume_mL, VolumeUnit::mL);
-}
+//void Renal::UpdateBladderVolume()
+//{
+//  /// \todo Eventually replace this entire thing with a compliance and model peristaltic flow
+//
+//  //Don't fill the bladder during stabilization
+//  if (m_data.GetState() != EngineState::Active)
+//    return;
+//
+//  //Manually modify the bladder volume based on flow
+//  //This will work for both filling the bladder and urinating
+//  double bladderFlow_mL_Per_s = m_bladderToGroundPressurePath->GetNextFlow(VolumePerTimeUnit::mL_Per_s);
+//  double volumeIncrement_mL = bladderFlow_mL_Per_s * m_dt;
+//  double bladderVolume_mL = m_bladderNode->GetNextVolume().GetValue(VolumeUnit::mL) + volumeIncrement_mL;
+//
+//  //Don't let this get below zero during urination
+//  //The urination action will catch it next time around, so this shouldn't be hit more than once (and likely never)
+//  bladderVolume_mL = std::max(bladderVolume_mL, 0.0);
+//  m_bladderNode->GetNextVolume().SetValue(bladderVolume_mL, VolumeUnit::mL);
+//}
 
 //--------------------------------------------------------------------------------------------------
 /// \brief
