@@ -127,6 +127,10 @@ void BioGearsEngineTest::FillFunctionMap()
     "RespiratoryWithMechanicalVentilatorCircuitAndTransportTest",
     &BioGearsEngineTest::
       RespiratoryWithMechanicalVentilatorCircuitAndTransportTest));
+  bgeMap.insert(std::make_pair(
+    "LiteRespiratoryCircuitTest",
+    &BioGearsEngineTest::
+      LiteRespiratoryCircuitTest));
 
   bgeMap.insert(std::make_pair(
     "InternalTemperatureVariableBMRCircuitTest",

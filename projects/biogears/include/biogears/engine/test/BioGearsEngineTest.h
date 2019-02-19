@@ -89,6 +89,7 @@ public:
   // Respiratory //
   void RespiratoryCircuitAndTransportTest(const std::string& sTestDirectory);
   void RespiratoryDriverTest(const std::string& sTestDirectory);
+  void LiteRespiratoryCircuitTest(const std::string& sTestDirectory);
 
 protected:
   enum RespiratoryConfiguration { RespiratorySolo,

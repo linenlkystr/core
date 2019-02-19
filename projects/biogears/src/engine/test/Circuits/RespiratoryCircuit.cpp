@@ -277,4 +277,154 @@ void BioGearsEngineTest::RespiratoryDriverTest(const std::string& sTestDirectory
   ss << "It took " << tmr.GetElapsedTime_s("Test") << "s to run";
   bg.GetLogger()->Info(ss.str(), "RespiratoryDriverTest");
 }
+
+void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDirectory)
+{
+  //Elements needed for test
+  m_Logger->ResetLogFile(sTestDirectory + "/RespiratoryLite.log");
+  std::string resultsFile = sTestDirectory + "/RespiratoryLite.csv";
+  BioGears bg(m_Logger);
+  SECircuitManager circuits(m_Logger);
+  SELiquidTransporter txpt(VolumePerTimeUnit::mL_Per_s, VolumeUnit::mL, MassUnit::ug, MassPerVolumeUnit::ug_Per_mL, m_Logger);
+  SEFluidCircuitCalculator calc(FlowComplianceUnit::mL_Per_mmHg, VolumePerTimeUnit::mL_Per_s, FlowInertanceUnit::mmHg_s2_Per_mL, PressureUnit::mmHg, VolumeUnit::mL, FlowResistanceUnit::mmHg_s_Per_mL, m_Logger);
+  DataTrack circuitTrk;
+  SEFluidCircuit* respLite = &circuits.CreateFluidCircuit("RespLite");
+
+  //Set up circuit constants
+  //Compliances
+  double larynxCompliance_L_Per_cmH2O = 0.00127;
+  double tracheaCompliance_L_Per_cmH2O = 0.00238;
+  double throatCompliance_L_Per_cmH2O = 1.0 / (1.0 / larynxCompliance_L_Per_cmH2O + 1.0 / tracheaCompliance_L_Per_cmH2O);
+  double broncheaCompliance_L_Per_cmH2O = 0.0131;
+  double alveoliCompliance_L_Per_cmH2O = 0.2;
+  double chestWallCompliance_L_Per_cmH2O = 0.2445;
+  //Resistances
+  double mouthToLarynxResistance_cmH2O_s_Per_L = 1.021;
+  double larynxToTracheaResistance_cmH2O_s_Per_L = 0.3369;
+  double mouthToThroatResistance_cmH2O_s_Per_L = mouthToLarynxResistance_cmH2O_s_Per_L + larynxToTracheaResistance_cmH2O_s_Per_L;
+  double tracheaToBroncheaResistance_cmH2O_s_Per_L = 0.3063;
+  double broncheaToAlveoliResistance_cmH2O_s_Per_L = 0.0817;
+  //Target volumes are end-expiratory (i.e. bottom of breathing cycle, pressures = ambient pressure)
+  double functionalResidualCapacity_L = 2.4;   //This includes what's left in alveoli and dead space
+  double targetDeadSpace_mL = 135.0;           //This includes bronchea, larynx, thrachea
+  double larynxVolume_mL = 34.4;
+  double tracheaVolume_mL = 6.63;
+  double broncheaVolume_mL = targetDeadSpace_mL - (larynxVolume_mL + tracheaVolume_mL);
+  double alveoliVolume_L = functionalResidualCapacity_L - (larynxVolume_mL + tracheaVolume_mL + broncheaVolume_mL) / 1000.0;
+  //Pressures
+  double ambientPressure_cmH2O = Convert(760.0, PressureUnit::mmHg, PressureUnit::cmH2O);
+  double pleuralPressure_cmH20 = ambientPressure_cmH2O - 5.0;
+  //Circuit Nodes
+  SEFluidCircuitNode& mouth = respLite->CreateNode("Mouth");
+  mouth.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  mouth.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  /*SEFluidCircuitNode& trachea = respLite->CreateNode("Trachea");
+  trachea.GetVolumeBaseline().SetValue(tracheaVolume_mL, VolumeUnit::mL);
+  trachea.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  trachea.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);*/
+  SEFluidCircuitNode& throat = respLite->CreateNode("Throat");
+  throat.GetVolumeBaseline().SetValue(tracheaVolume_mL + larynxVolume_mL, VolumeUnit::mL);
+  throat.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  throat.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  SEFluidCircuitNode& bronchea = respLite->CreateNode("Bronchea");
+  bronchea.GetVolumeBaseline().SetValue(broncheaVolume_mL, VolumeUnit::mL);
+  bronchea.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  bronchea.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  SEFluidCircuitNode& alveoli = respLite->CreateNode("Alveoli");
+  alveoli.GetVolumeBaseline().SetValue(alveoliVolume_L, VolumeUnit::L);
+  alveoli.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  alveoli.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  SEFluidCircuitNode& pleural = respLite->CreateNode("Pleural");
+  pleural.GetPressure().SetValue(pleuralPressure_cmH20, PressureUnit::cmH2O);
+  pleural.GetNextPressure().SetValue(pleuralPressure_cmH20, PressureUnit::cmH2O);
+  pleural.GetVolumeBaseline().SetValue(0.017, VolumeUnit::L); //From BioGears.cpp
+  SEFluidCircuitNode& chestWall = respLite->CreateNode("ChestWall");
+  chestWall.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  chestWall.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  SEFluidCircuitNode& ground = respLite->CreateNode("Ground");
+  ground.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  ground.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  ground.GetVolumeBaseline().SetValue(std::numeric_limits<double>::infinity(), VolumeUnit::L);
+  respLite->AddReferenceNode(ground);
+
+  //Pathways
+  SEFluidCircuitPath& amToMouth = respLite->CreatePath(ground, mouth, "GroundToMouth");
+  amToMouth.GetPressureSourceBaseline().SetValue(0.0, PressureUnit::cmH2O);
+  SEFluidCircuitPath& mouthToThroat = respLite->CreatePath(mouth, throat, "MouthToTrachea");
+  mouthToThroat.GetResistanceBaseline().SetValue(mouthToThroatResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+  /*SEFluidCircuitPath& larynxToTrachea = respLite->CreatePath(larynx, trachea, "LarynxToTrachea");
+  larynxToTrachea.GetResistanceBaseline().SetValue(larynxToTracheaResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+  SEFluidCircuitPath& larynxCompliance = respLite->CreatePath(larynx, ground, "LarynxCompliance");
+  larynxCompliance.GetComplianceBaseline().SetValue(larynxCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);*/
+  SEFluidCircuitPath& throatToBronchea = respLite->CreatePath(throat, bronchea, "ThroatToBronchea");
+  throatToBronchea.GetResistanceBaseline().SetValue(tracheaToBroncheaResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+  SEFluidCircuitPath& tracheaCompliance = respLite->CreatePath(throat, pleural, "ThroatToPleural");
+  tracheaCompliance.GetComplianceBaseline().SetValue(throatCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
+  SEFluidCircuitPath& broncheaToAlveoli = respLite->CreatePath(bronchea, alveoli, "BroncheaToAlveoli");
+  broncheaToAlveoli.GetResistanceBaseline().SetValue(broncheaToAlveoliResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+  SEFluidCircuitPath& broncheaCompliance = respLite->CreatePath(bronchea, pleural, "BroncheaCompliance");
+  broncheaCompliance.GetComplianceBaseline().SetValue(broncheaCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
+  SEFluidCircuitPath& alveoliCompliance = respLite->CreatePath(alveoli, pleural, "AlveoliCompliance");
+  alveoliCompliance.GetComplianceBaseline().SetValue(alveoliCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
+  SEFluidCircuitPath& pleuralCompliance = respLite->CreatePath(pleural, chestWall, "PleuralToChestWall");
+  pleuralCompliance.GetComplianceBaseline().SetValue(chestWallCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
+  SEFluidCircuitPath& driver = respLite->CreatePath(ground, chestWall, "Driver");
+  driver.GetPressureSourceBaseline().SetValue(0.0, PressureUnit::cmH2O);
+
+  respLite->SetNextAndCurrentFromBaselines();
+  respLite->StateChange();
+
+  //Chemoreceptor parameters
+  double tau_p_P = 83.0;
+  double gain_p_P = 1310.0;
+  double tau_p_RR = 147.78;
+  double gain_p_RR = 0.8735;
+  double f_base = 3.7;
+  double tau_c_P = 105.0;
+  double gain_c_P = 850.0;
+  double tau_c_RR = 400.0;
+  double gain_c_RR = 0.9;
+  double pCO2_base = 40.0;
+  
+
+  double nextDriverPressure_cmH2O = 0.0;
+  double totalVolume_mL = 0.0;
+  double deadSpaceVolume_mL = 0.0;
+  double timeStep_s = 0.02;
+  double simTime_min = 0.25;
+  double currentTime_s = 0.0;
+  double driveFrequency_Per_min = 12.0;
+  double ieRatio = 0.6;
+  double cycleTime_s = 60.0 / driveFrequency_Per_min;
+  double timeInCycle_s = 0.0;
+  double expTime_s = cycleTime_s / (1.0 + ieRatio);
+  double inTime_s = expTime_s * ieRatio;
+  double tau_s = expTime_s / 5.0;
+
+  for (int i = 0; i < simTime_min * 60.0 / timeStep_s; i++) {
+    //nextDriverPressure_cmH2O = maxAmplitude_cmH2O * std::cos(2.0 * pi * driveFrequency_Per_min / 60.0 * currentTime_s) + driveOffset_cmH2O;
+    if (timeInCycle_s < inTime_s) {
+      nextDriverPressure_cmH2O = 5.0 / (inTime_s * expTime_s) * std::pow(timeInCycle_s, 2.0) + -5.0 * cycleTime_s / (inTime_s * expTime_s) * timeInCycle_s;
+    } else {
+      nextDriverPressure_cmH2O = -5.0 / (1.0 - std::exp(-expTime_s / tau_s)) * (std::exp(-(timeInCycle_s - inTime_s) / tau_s) - std::exp(-expTime_s / tau_s));
+    }
+    driver.GetNextPressureSource().SetValue(nextDriverPressure_cmH2O, PressureUnit::cmH2O);
+    calc.Process(*respLite, timeStep_s);
+    totalVolume_mL = (throat.GetVolume(VolumeUnit::mL) + bronchea.GetVolume(VolumeUnit::mL) + alveoli.GetVolume(VolumeUnit::mL)); // + pleural.GetVolume(VolumeUnit::mL);
+    deadSpaceVolume_mL = totalVolume_mL - alveoli.GetVolume(VolumeUnit::mL);
+    calc.PostProcess(*respLite);
+    circuitTrk.Track(currentTime_s, *respLite);
+    circuitTrk.Track("DriveInput", currentTime_s, nextDriverPressure_cmH2O);
+    circuitTrk.Track("TotalLungVolume_mL", currentTime_s, totalVolume_mL);
+    circuitTrk.Track("DeadSpace (mL)", currentTime_s, deadSpaceVolume_mL);
+    currentTime_s += timeStep_s;
+    timeInCycle_s += timeStep_s;
+    if (timeInCycle_s >= cycleTime_s) {
+      timeInCycle_s = 0.0;
+    }
+  }
+
+  circuitTrk.WriteTrackToFile(resultsFile.c_str());
+  std::cout << "Success" << std::endl;
+}
 }
