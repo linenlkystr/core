@@ -177,21 +177,26 @@ def plot(root_dir, source, skip_count, plotTime):
             if( not yData.size ):
                 log("Error: Column is empty did you provide a non resonable skip_count?", LOG_LEVEL_0)
             else:
-                yRange = max(yData)-min(yData)
                 #For most scenarios, set plot min to 0 and set upper boundary 25% above max value
-                if yRange > 0:
-                    if min(yData) >=0:
-                        plotMin = 0.0
-                        plotMax = 1.25 * max(yData)
+                try:
+                    yRange = max(yData)-min(yData)
+                    #For most scenarios, set plot min to 0 and set upper boundary 25% above max value
+                    if yRange > 0:
+                        if min(yData) >=0:
+                            plotMin = 0.0
+                            plotMax = 1.25 * max(yData)
+                        else:
+                            #We have negative values somewhere, so lets just take 25% above and below
+                            plotMin = min(yData)-0.25*abs(min(yData))
+                            plotMax = max(yData) + 0.25*abs(max(yData))
                     else:
-                        #We have negative values somewhere, so lets just take 25% above and below
-                        plotMin = min(yData)-0.25*abs(min(yData))
-                        plotMax = max(yData) + 0.25*abs(max(yData))
-                else:
-                    #This means we're probably plotting a bunch of zeros...
-                    plotMin = yData[0] - 5
-                    plotMax = yData[0] + 5
-            
+                        #This means we're probably plotting a bunch of zeros...
+                        plotMin = yData[0] - 5
+                        plotMax = yData[0] + 5
+                except TypeError:
+                    err("Non-numeric data", LOG_LEVEL_0)
+                    plotMin=0
+                    plotMax=100
                 #Extract unit--assuming they are specified in parentheses
                 unitIndex = col.find('(')
                 if(unitIndex == -1):
@@ -214,18 +219,21 @@ def plot(root_dir, source, skip_count, plotTime):
                         plt.plot(xBase,yBase,'xkcd:apple green',linestyle=':',label='Baseline')
                     except KeyError:
                         err('No baseline information for {}'.format(plotCol),LOG_LEVEL_0)
-                plt.title(plotCol)
-                plt.ylim([plotMin,plotMax])
-                plt.xlabel(xLabel)
-                plt.ylabel(plotCol + unit)
-                plt.grid()
-                plt.legend()
-                figName = os.path.join(out_dir,"{}.png".format(plotCol))
-                log("Saving : {0}".format(figName), LOG_LEVEL_3)
-                if os.path.exists(figName):
-                    os.remove(figName)
-                plt.savefig(figName)
-                plt.close()
+                try:
+                    plt.title(plotCol)
+                    plt.ylim([plotMin,plotMax])
+                    plt.xlabel(xLabel)
+                    plt.ylabel(plotCol + unit)
+                    plt.grid()
+                    plt.legend()
+                    figName = os.path.join(out_dir,"{}.png".format(plotCol))
+                    log("Saving : {0}".format(figName), LOG_LEVEL_3)
+                    if os.path.exists(figName):
+                        os.remove(figName)
+                    plt.savefig(figName)
+                    plt.close()
+                except ValueError:
+                    err("Non-numeric data or range, not plotting {}".format(col),LOG_LEVEL_0)
 
 def err(message, level):
     print( "{}\n".format(message) if _log_verbose >= level else "" , end="", file=sys.stderr)

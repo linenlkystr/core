@@ -283,11 +283,13 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   //Elements needed for test
   m_Logger->ResetLogFile(sTestDirectory + "/RespiratoryLite.log");
   std::string resultsFile = sTestDirectory + "/RespiratoryLite.csv";
+  std::string resultsGraph = sTestDirectory + "/RespiratoryLiteGraph.csv";
   BioGears bg(m_Logger);
   SECircuitManager circuits(m_Logger);
-  SELiquidTransporter txpt(VolumePerTimeUnit::mL_Per_s, VolumeUnit::mL, MassUnit::ug, MassPerVolumeUnit::ug_Per_mL, m_Logger);
+  SEGasTransporter gtxpt(VolumePerTimeUnit::L_Per_s, VolumeUnit::L, VolumeUnit::L, NoUnit::unitless, bg.GetLogger());
   SEFluidCircuitCalculator calc(FlowComplianceUnit::mL_Per_mmHg, VolumePerTimeUnit::mL_Per_s, FlowInertanceUnit::mmHg_s2_Per_mL, PressureUnit::mmHg, VolumeUnit::mL, FlowResistanceUnit::mmHg_s_Per_mL, m_Logger);
   DataTrack circuitTrk;
+  DataTrack graphTrk;
   SEFluidCircuit* respLite = &circuits.CreateFluidCircuit("RespLite");
 
   //Set up circuit constants
@@ -318,10 +320,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   SEFluidCircuitNode& mouth = respLite->CreateNode("Mouth");
   mouth.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
   mouth.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
-  /*SEFluidCircuitNode& trachea = respLite->CreateNode("Trachea");
-  trachea.GetVolumeBaseline().SetValue(tracheaVolume_mL, VolumeUnit::mL);
-  trachea.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
-  trachea.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);*/
+  mouth.GetVolumeBaseline().SetValue(20.6, VolumeUnit::mL);   //From BioGears.cpp -- no compliance, so volume constant, but need this to define gas volume fractions and transport
   SEFluidCircuitNode& throat = respLite->CreateNode("Throat");
   throat.GetVolumeBaseline().SetValue(tracheaVolume_mL + larynxVolume_mL, VolumeUnit::mL);
   throat.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
@@ -352,14 +351,10 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   amToMouth.GetPressureSourceBaseline().SetValue(0.0, PressureUnit::cmH2O);
   SEFluidCircuitPath& mouthToThroat = respLite->CreatePath(mouth, throat, "MouthToTrachea");
   mouthToThroat.GetResistanceBaseline().SetValue(mouthToThroatResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-  /*SEFluidCircuitPath& larynxToTrachea = respLite->CreatePath(larynx, trachea, "LarynxToTrachea");
-  larynxToTrachea.GetResistanceBaseline().SetValue(larynxToTracheaResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-  SEFluidCircuitPath& larynxCompliance = respLite->CreatePath(larynx, ground, "LarynxCompliance");
-  larynxCompliance.GetComplianceBaseline().SetValue(larynxCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);*/
   SEFluidCircuitPath& throatToBronchea = respLite->CreatePath(throat, bronchea, "ThroatToBronchea");
   throatToBronchea.GetResistanceBaseline().SetValue(tracheaToBroncheaResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-  SEFluidCircuitPath& tracheaCompliance = respLite->CreatePath(throat, pleural, "ThroatToPleural");
-  tracheaCompliance.GetComplianceBaseline().SetValue(throatCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
+  SEFluidCircuitPath& throatCompliance = respLite->CreatePath(throat, pleural, "ThroatToPleural");
+  throatCompliance.GetComplianceBaseline().SetValue(throatCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
   SEFluidCircuitPath& broncheaToAlveoli = respLite->CreatePath(bronchea, alveoli, "BroncheaToAlveoli");
   broncheaToAlveoli.GetResistanceBaseline().SetValue(broncheaToAlveoliResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
   SEFluidCircuitPath& broncheaCompliance = respLite->CreatePath(bronchea, pleural, "BroncheaCompliance");
@@ -374,6 +369,78 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   respLite->SetNextAndCurrentFromBaselines();
   respLite->StateChange();
 
+  //Set up compartments
+  SEGasCompartmentGraph* liteGraph = &bg.GetCompartments().CreateGasGraph("LiteGraph");
+  liteGraph->Clear();
+  liteGraph->StateChange();
+
+  SEGasCompartment& cAmbient = bg.GetCompartments().CreateGasCompartment("cAmbient");
+  cAmbient.MapNode(ground);
+  SEGasCompartment& cMouth = bg.GetCompartments().CreateGasCompartment("cMouth");
+  cMouth.MapNode(mouth);
+  SEGasCompartment& cThroat = bg.GetCompartments().CreateGasCompartment("cThroat");
+  cThroat.MapNode(throat);
+  SEGasCompartment& cBronchea = bg.GetCompartments().CreateGasCompartment("cBronchea");
+  cBronchea.MapNode(bronchea);
+  SEGasCompartment& cAlveoli = bg.GetCompartments().CreateGasCompartment("cAlveoli");
+  cAlveoli.MapNode(alveoli);
+  SEGasCompartment& cPleuralSpace = bg.GetCompartments().CreateGasCompartment("cPleuralSpace");
+  cPleuralSpace.MapNode(pleural);
+  cPleuralSpace.MapNode(chestWall);
+  SEGasCompartment& cDeadSpace = bg.GetCompartments().CreateGasCompartment("cDeadSpace");
+  cDeadSpace.AddChild(cThroat);
+  cDeadSpace.AddChild(cBronchea);
+
+  SEGasCompartmentLink& lAmbientToMouth = bg.GetCompartments().CreateGasLink(cAmbient,cMouth,"lAmbientToMouth");
+  lAmbientToMouth.MapPath(amToMouth);
+  SEGasCompartmentLink& lMouthToThroat = bg.GetCompartments().CreateGasLink(cMouth, cThroat, "lMouthToThroat");
+  lMouthToThroat.MapPath(mouthToThroat);
+  SEGasCompartmentLink& lThroatToBronchea = bg.GetCompartments().CreateGasLink(cThroat, cBronchea, "lThroatToBronchea");
+  lThroatToBronchea.MapPath(throatToBronchea);
+  SEGasCompartmentLink& lThroatToPleural = bg.GetCompartments().CreateGasLink(cThroat, cPleuralSpace, "lThroatToPleural");
+  lThroatToPleural.MapPath(throatCompliance);
+  SEGasCompartmentLink& lBroncheaToAlveoli = bg.GetCompartments().CreateGasLink(cBronchea, cAlveoli, "lBroncheaToAlveoli");
+  lBroncheaToAlveoli.MapPath(broncheaToAlveoli);
+  SEGasCompartmentLink& lBroncheaToPleural = bg.GetCompartments().CreateGasLink(cBronchea, cPleuralSpace, "lBroncheaToPleural");
+  lBroncheaToPleural.MapPath(broncheaCompliance);
+  SEGasCompartmentLink& lAlveoliToPleural = bg.GetCompartments().CreateGasLink(cAlveoli, cPleuralSpace, "lAlveoliToPleural");
+  lAlveoliToPleural.MapPath(alveoliCompliance);
+
+  liteGraph->AddCompartment(cAmbient);
+  liteGraph->AddCompartment(cMouth);
+  liteGraph->AddCompartment(cThroat);
+  liteGraph->AddCompartment(cBronchea);
+  liteGraph->AddCompartment(cAlveoli);
+  liteGraph->AddCompartment(cPleuralSpace);
+  liteGraph->AddLink(lAmbientToMouth);
+  liteGraph->AddLink(lMouthToThroat);
+  liteGraph->AddLink(lThroatToBronchea);
+  liteGraph->AddLink(lThroatToPleural);
+  liteGraph->AddLink(lBroncheaToAlveoli);
+  liteGraph->AddLink(lBroncheaToPleural);
+  liteGraph->AddLink(lAlveoliToPleural);
+  liteGraph->StateChange();
+
+  //Set up substances
+  SESubstance& O2 = bg.GetSubstances().GetO2();
+  bg.GetSubstances().AddActiveSubstance(O2);
+  SESubstance& CO2 = bg.GetSubstances().GetCO2();
+  bg.GetSubstances().AddActiveSubstance(CO2);
+  SESubstance& N2 = bg.GetSubstances().GetN2();
+  bg.GetSubstances().AddActiveSubstance(N2);
+  double o2Fraction = 0.21;
+  double n2Fraction = 0.7896;
+  double co2Fraction = 0.0004;
+
+  //Intialize partial pressures
+  for (auto c : liteGraph->GetCompartments()) {
+    
+    c->GetSubstanceQuantity(O2)->GetVolumeFraction().SetValue(o2Fraction);
+    c->GetSubstanceQuantity(CO2)->GetVolumeFraction().SetValue(co2Fraction);
+    c->GetSubstanceQuantity(N2)->GetVolumeFraction().SetValue(n2Fraction);
+    c->Balance(BalanceGasBy::VolumeFraction);
+  }
+  std::cout << "Graph Set" << std::endl;
   //Chemoreceptor parameters
   double tau_p_P = 83.0;
   double gain_p_P = 1310.0;
@@ -410,6 +477,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
     }
     driver.GetNextPressureSource().SetValue(nextDriverPressure_cmH2O, PressureUnit::cmH2O);
     calc.Process(*respLite, timeStep_s);
+    gtxpt.Transport(*liteGraph, timeStep_s);
     totalVolume_mL = (throat.GetVolume(VolumeUnit::mL) + bronchea.GetVolume(VolumeUnit::mL) + alveoli.GetVolume(VolumeUnit::mL)); // + pleural.GetVolume(VolumeUnit::mL);
     deadSpaceVolume_mL = totalVolume_mL - alveoli.GetVolume(VolumeUnit::mL);
     calc.PostProcess(*respLite);
@@ -417,6 +485,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
     circuitTrk.Track("DriveInput", currentTime_s, nextDriverPressure_cmH2O);
     circuitTrk.Track("TotalLungVolume_mL", currentTime_s, totalVolume_mL);
     circuitTrk.Track("DeadSpace (mL)", currentTime_s, deadSpaceVolume_mL);
+    graphTrk.Track(currentTime_s, *liteGraph);
     currentTime_s += timeStep_s;
     timeInCycle_s += timeStep_s;
     if (timeInCycle_s >= cycleTime_s) {
@@ -425,6 +494,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   }
 
   circuitTrk.WriteTrackToFile(resultsFile.c_str());
+  graphTrk.WriteTrackToFile(resultsGraph.c_str());
   std::cout << "Success" << std::endl;
 }
 }
