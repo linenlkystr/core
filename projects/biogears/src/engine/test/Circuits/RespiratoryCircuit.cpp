@@ -287,11 +287,12 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   BioGears bg(m_Logger);
   SECircuitManager circuits(m_Logger);
   SEGasTransporter gtxpt(VolumePerTimeUnit::L_Per_s, VolumeUnit::L, VolumeUnit::L, NoUnit::unitless, bg.GetLogger());
-  SEFluidCircuitCalculator calc(FlowComplianceUnit::mL_Per_mmHg, VolumePerTimeUnit::mL_Per_s, FlowInertanceUnit::mmHg_s2_Per_mL, PressureUnit::mmHg, VolumeUnit::mL, FlowResistanceUnit::mmHg_s_Per_mL, m_Logger);
+  SEFluidCircuitCalculator calc(FlowComplianceUnit::L_Per_cmH2O, VolumePerTimeUnit::L_Per_s, FlowInertanceUnit::cmH2O_s2_Per_L, PressureUnit::cmH2O, VolumeUnit::L, FlowResistanceUnit::cmH2O_s_Per_L, m_Logger);
   DataTrack circuitTrk;
   DataTrack graphTrk;
   SEFluidCircuit* respLite = &circuits.CreateFluidCircuit("RespLite");
-
+  Tissue& tsu = (Tissue&)bg.GetTissue();
+  
   //Set up circuit constants
   //Compliances
   double larynxCompliance_L_Per_cmH2O = 0.00127;
@@ -307,8 +308,8 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   double tracheaToBroncheaResistance_cmH2O_s_Per_L = 0.3063;
   double broncheaToAlveoliResistance_cmH2O_s_Per_L = 0.0817;
   //Target volumes are end-expiratory (i.e. bottom of breathing cycle, pressures = ambient pressure)
-  double functionalResidualCapacity_L = 2.4;   //This includes what's left in alveoli and dead space
-  double targetDeadSpace_mL = 135.0;           //This includes bronchea, larynx, thrachea
+  double functionalResidualCapacity_L = 2.4; //This includes what's left in alveoli and dead space
+  double targetDeadSpace_mL = 135.0; //This includes bronchea, larynx, thrachea
   double larynxVolume_mL = 34.4;
   double tracheaVolume_mL = 6.63;
   double broncheaVolume_mL = targetDeadSpace_mL - (larynxVolume_mL + tracheaVolume_mL);
@@ -320,7 +321,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   SEFluidCircuitNode& mouth = respLite->CreateNode("Mouth");
   mouth.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
   mouth.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
-  mouth.GetVolumeBaseline().SetValue(20.6, VolumeUnit::mL);   //From BioGears.cpp -- no compliance, so volume constant, but need this to define gas volume fractions and transport
+  mouth.GetVolumeBaseline().SetValue(20.6, VolumeUnit::mL); //From BioGears.cpp -- no compliance, so volume constant, but need this to define gas volume fractions and transport
   SEFluidCircuitNode& throat = respLite->CreateNode("Throat");
   throat.GetVolumeBaseline().SetValue(tracheaVolume_mL + larynxVolume_mL, VolumeUnit::mL);
   throat.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
@@ -369,7 +370,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   respLite->SetNextAndCurrentFromBaselines();
   respLite->StateChange();
 
-  //Set up compartments
+  //Set up gas compartment graph
   SEGasCompartmentGraph* liteGraph = &bg.GetCompartments().CreateGasGraph("LiteGraph");
   liteGraph->Clear();
   liteGraph->StateChange();
@@ -391,7 +392,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   cDeadSpace.AddChild(cThroat);
   cDeadSpace.AddChild(cBronchea);
 
-  SEGasCompartmentLink& lAmbientToMouth = bg.GetCompartments().CreateGasLink(cAmbient,cMouth,"lAmbientToMouth");
+  SEGasCompartmentLink& lAmbientToMouth = bg.GetCompartments().CreateGasLink(cAmbient, cMouth, "lAmbientToMouth");
   lAmbientToMouth.MapPath(amToMouth);
   SEGasCompartmentLink& lMouthToThroat = bg.GetCompartments().CreateGasLink(cMouth, cThroat, "lMouthToThroat");
   lMouthToThroat.MapPath(mouthToThroat);
@@ -434,13 +435,13 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
 
   //Intialize partial pressures
   for (auto c : liteGraph->GetCompartments()) {
-    
+
     c->GetSubstanceQuantity(O2)->GetVolumeFraction().SetValue(o2Fraction);
     c->GetSubstanceQuantity(CO2)->GetVolumeFraction().SetValue(co2Fraction);
     c->GetSubstanceQuantity(N2)->GetVolumeFraction().SetValue(n2Fraction);
     c->Balance(BalanceGasBy::VolumeFraction);
   }
-  std::cout << "Graph Set" << std::endl;
+
   //Chemoreceptor parameters
   double tau_p_P = 83.0;
   double gain_p_P = 1310.0;
@@ -452,28 +453,126 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   double tau_c_RR = 400.0;
   double gain_c_RR = 0.9;
   double pCO2_base = 40.0;
-  
+  double a1 = 0.3836;
+  double K1 = 14.99;
+  double C1 = 9.0;
+  double alpha1 = 0.03198;
+  double beta1 = 0.008275;
+  double CaO2max = 0.2;
+  double a2 = 1.819;
+  double K2 = 194.4;
+  double C2 = 86.11;
+  double alpha2 = 0.05591;
+  double beta2 = 0.03255;
+  double Z = 0.0227;
+  double A = 600.0;
+  double B = 10.18;
+  double KO2 = 200.0;
+  double KCO2 = 1.0;
+  double Ct = 0.36;
+  double Kstat = 20.0;
+  double tauPH = 3.5;
+  double tauZH = 600.0;
+  double tauPL = 3.5;
+  double Kdyn = 45.0;
+  //Intermediate values
+  double CaO2 = 0.0;
+  double FaO2 = 0.0;
+  double SaO2 = 0.0;
+  double CaCO2 = 0.0;
+  double CaCO2_previous = 0.48407;    //Based on parameters and initial PO2 and PCO2
+  double FaCO2 = 0.0;
+  double xO2 = 0.0;
+  double psiO2 = 0.0;
+  double psiCO2 = 0.0;
+  double psi = 0.0;
+  double psiCO2Dyn = 0.0;
+  double psiC = f_base;
+  double psiCbar = 0.0;
+  double deltaCO2dyn = 0.0;
+  double deltaPsiC = 0.0;
+  double deltaRR_p = 0.0;
+  double deltaRR_c = 0.0;
+  double deltaP_p = 0.0;
+  double deltaP_c = 0.0;
+  double RR_p = 0.0;
+  double RR_c = 0.0;
+  double P_p = 0.0;
+  double P_c = 0.0;
+  double firingRate = 0.0;
+  double inputP = 0.0;
+  double inputC = 0.0;
 
   double nextDriverPressure_cmH2O = 0.0;
   double totalVolume_mL = 0.0;
   double deadSpaceVolume_mL = 0.0;
   double timeStep_s = 0.02;
-  double simTime_min = 0.25;
+  double simTime_min = 5.0;
   double currentTime_s = 0.0;
-  double driveFrequency_Per_min = 12.0;
+  double driveFrequency_Per_min_base = 12.0;
+  double driveFrequency_Per_min = driveFrequency_Per_min_base;
+  double driveAmplitude_cmH2O_base = -5.0;
+  double driveAmplitude_cmH2O = driveAmplitude_cmH2O_base;
   double ieRatio = 0.6;
-  double cycleTime_s = 60.0 / driveFrequency_Per_min;
+  double cycleTime_s = 60.0 / driveFrequency_Per_min_base;
   double timeInCycle_s = 0.0;
   double expTime_s = cycleTime_s / (1.0 + ieRatio);
   double inTime_s = expTime_s * ieRatio;
   double tau_s = expTime_s / 5.0;
+  double PaO2 = 95;
+  double PaCO2 = 40.0;
+  double topVolume_mL = 0.0;
+  double bottomVolume_mL = 0.0;
+  double tidalVolume_mL = topVolume_mL - bottomVolume_mL;
+  double interventionTime_min = 1.0;
+
 
   for (int i = 0; i < simTime_min * 60.0 / timeStep_s; i++) {
-    //nextDriverPressure_cmH2O = maxAmplitude_cmH2O * std::cos(2.0 * pi * driveFrequency_Per_min / 60.0 * currentTime_s) + driveOffset_cmH2O;
+    //Chemoreceptors apply at top of breathing cycle--compare to timeStep/2 to make sure we don't get any weird rounding behavior trying to do if time == 0)
+    if (timeInCycle_s <= timeStep_s / 2.0) {
+      FaO2 = PaO2 * (1.0 + beta1 * PaCO2) / (K1 * (1.0 + alpha1 * PaCO2));
+      CaO2 = Z * C1 * std::pow(FaO2, 1.0 / a1) / (1 + std::pow(FaO2, 1.0 / a1));
+      SaO2 = CaO2 / CaO2max;
+      FaCO2 = PaCO2 * (1.0 + beta2 * PaO2) / (K2 * (1.0 + alpha2 * PaO2));
+      CaCO2 = Z * C2 * std::pow(FaCO2, 1.0 / a2) / (1.0 + std::pow(FaCO2, 1.0 / a2));
+      xO2 = A * (1.0 - SaO2) + B;
+      psiO2 = KO2 * (1 - std::exp(-xO2 / KO2));
+      psiCO2 = KCO2 * (CaCO2 - Ct);
+      psi = psiO2 * psiCO2;
+      deltaCO2dyn = (tauZH * (CaCO2 - CaCO2_previous) / timeStep_s - psiCO2Dyn) / tauPH * timeStep_s;
+      CaCO2_previous = CaCO2;
+      psiCO2Dyn += deltaCO2dyn;
+      psiCbar = Kstat * (1.0 - std::exp(-psi / Kstat)) + Kdyn * (1.0 - exp(-psiCO2Dyn / Kdyn));
+      deltaPsiC = (psiCbar - psiC) / tauPL * timeStep_s;
+      psiC += deltaPsiC;
+      if (psiC > 0) {
+        firingRate = psiC;
+      } else {
+        firingRate = 0.0;
+      }
+      inputC = PaCO2 - 40.0;
+      inputP = firingRate - f_base;
+      deltaP_c = (-P_c + gain_c_P * inputC) / tau_c_P * timeStep_s;
+      deltaRR_c = (-RR_c + gain_c_RR * inputC) / tau_c_RR * timeStep_s;
+      deltaP_p = (-P_p + gain_p_P * inputP) / tau_p_P * timeStep_s;
+      deltaRR_p = (-RR_p + gain_p_RR * inputP) / tau_p_RR * timeStep_s;
+      P_c += deltaP_c;
+      RR_c += deltaRR_c;
+      P_p += deltaP_p;
+      RR_p += deltaRR_p;
+      driveAmplitude_cmH2O = driveAmplitude_cmH2O_base + P_c + P_p;
+      driveFrequency_Per_min = driveFrequency_Per_min_base + RR_c + RR_p;
+      cycleTime_s = 60.0 / driveFrequency_Per_min;
+      expTime_s = cycleTime_s / (1.0 + ieRatio);
+      inTime_s = expTime_s * ieRatio;
+      tidalVolume_mL = topVolume_mL - bottomVolume_mL;
+    }
     if (timeInCycle_s < inTime_s) {
-      nextDriverPressure_cmH2O = 5.0 / (inTime_s * expTime_s) * std::pow(timeInCycle_s, 2.0) + -5.0 * cycleTime_s / (inTime_s * expTime_s) * timeInCycle_s;
+      nextDriverPressure_cmH2O = -driveAmplitude_cmH2O / (inTime_s * expTime_s) * std::pow(timeInCycle_s, 2.0) + driveAmplitude_cmH2O * cycleTime_s / (inTime_s * expTime_s) * timeInCycle_s;
+      topVolume_mL = (throat.GetVolume(VolumeUnit::mL) + bronchea.GetVolume(VolumeUnit::mL) + alveoli.GetVolume(VolumeUnit::mL)); 
     } else {
-      nextDriverPressure_cmH2O = -5.0 / (1.0 - std::exp(-expTime_s / tau_s)) * (std::exp(-(timeInCycle_s - inTime_s) / tau_s) - std::exp(-expTime_s / tau_s));
+      nextDriverPressure_cmH2O = driveAmplitude_cmH2O / (1.0 - std::exp(-expTime_s / tau_s)) * (std::exp(-(timeInCycle_s - inTime_s) / tau_s) - std::exp(-expTime_s / tau_s));
+      bottomVolume_mL = (throat.GetVolume(VolumeUnit::mL) + bronchea.GetVolume(VolumeUnit::mL) + alveoli.GetVolume(VolumeUnit::mL));
     }
     driver.GetNextPressureSource().SetValue(nextDriverPressure_cmH2O, PressureUnit::cmH2O);
     calc.Process(*respLite, timeStep_s);
@@ -485,6 +584,10 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
     circuitTrk.Track("DriveInput", currentTime_s, nextDriverPressure_cmH2O);
     circuitTrk.Track("TotalLungVolume_mL", currentTime_s, totalVolume_mL);
     circuitTrk.Track("DeadSpace (mL)", currentTime_s, deadSpaceVolume_mL);
+    circuitTrk.Track("MaxDriverPressure", currentTime_s, driveAmplitude_cmH2O);
+    circuitTrk.Track("RespirationRate", currentTime_s, driveFrequency_Per_min);
+    circuitTrk.Track("TidalVolume", currentTime_s, tidalVolume_mL);
+    circuitTrk.Track("Ventilation", currentTime_s, tidalVolume_mL / 1000.0 * driveFrequency_Per_min);
     graphTrk.Track(currentTime_s, *liteGraph);
     currentTime_s += timeStep_s;
     timeInCycle_s += timeStep_s;
