@@ -81,6 +81,7 @@ BioGearsConfiguration::BioGearsConfiguration(SESubstanceManager& substances)
   m_StandardPulmonaryCapillaryCoverage = nullptr;
 
   // Circuit
+  m_BioGearsLiteEnabled = CDM::enumOnOff::value(-1);
   m_CardiovascularOpenResistance = nullptr;
   m_DefaultClosedElectricResistance = nullptr;
   m_DefaultClosedFlowResistance = nullptr;
@@ -205,6 +206,7 @@ void BioGearsConfiguration::Clear()
   SAFE_DELETE(m_StandardPulmonaryCapillaryCoverage);
 
   // Circuit
+  m_BioGearsLiteEnabled = CDM::enumOnOff::value(-1);
   SAFE_DELETE(m_CardiovascularOpenResistance);
   SAFE_DELETE(m_DefaultClosedElectricResistance);
   SAFE_DELETE(m_DefaultClosedFlowResistance);
@@ -332,6 +334,7 @@ void BioGearsConfiguration::Initialize()
   GetStandardPulmonaryCapillaryCoverage().SetValue(0.70);
 
   // Circuits
+  m_BioGearsLiteEnabled = CDM::enumOnOff::Off;
   GetCardiovascularOpenResistance().SetValue(100.0, FlowResistanceUnit::mmHg_s_Per_mL);
   GetDefaultOpenElectricResistance().SetValue(1E100, ElectricResistanceUnit::Ohm);
   GetDefaultOpenFlowResistance().SetValue(1E100, FlowResistanceUnit::Pa_s_Per_m3);
@@ -531,6 +534,8 @@ bool BioGearsConfiguration::Load(const CDM::BioGearsConfigurationData& in)
   // Circuit
   if (in.CircuitConfiguration().present()) {
     const CDM::CircuitConfigurationData& config = in.CircuitConfiguration().get();
+    if (config.EnableBioGearsLite().present())
+      EnableBioGearsLite(config.EnableBioGearsLite().get());
     if (config.CardiovascularOpenResistance().present())
       GetCardiovascularOpenResistance().Load(config.CardiovascularOpenResistance().get());
     if (config.DefaultOpenElectricResistance().present())
@@ -811,6 +816,8 @@ void BioGearsConfiguration::Unload(CDM::BioGearsConfigurationData& data) const
 
   // Circuits
   CDM::CircuitConfigurationData* circuit(new CDM::CircuitConfigurationData());
+  if (HasEnableBioGearsLite())
+    circuit->EnableBioGearsLite(m_BioGearsLiteEnabled);
   if (HasCardiovascularOpenResistance())
     circuit->CardiovascularOpenResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_CardiovascularOpenResistance->Unload()));
   if (HasDefaultClosedElectricResistance())

@@ -70,6 +70,7 @@
     <xs:complexContent>
       <xs:extension base="ObjectData">
         <xs:sequence>
+		  <xs:element name="EnableBioGearsLite" type="enumOnOff" minOccurs="0" maxOccurs="1"/>
           <xs:element name="CardiovascularOpenResistance" type="ScalarFlowResistanceData" minOccurs="0" maxOccurs="1"/>
           <xs:element name="DefaultClosedElectricResistance" type="ScalarElectricResistanceData" minOccurs="0" maxOccurs="1"/>
           <xs:element name="DefaultOpenElectricResistance" type="ScalarElectricResistanceData" minOccurs="0" maxOccurs="1"/>

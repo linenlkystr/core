@@ -271,6 +271,10 @@ public:
   virtual SEScalarFlowResistance& GetRespiratoryOpenResistance();
   virtual double GetRespiratoryOpenResistance(const FlowResistanceUnit& unit) const;
 
+  virtual bool HasEnableBioGearsLite() const { return m_BioGearsLiteEnabled != (CDM::enumOnOff::value)-1; }
+  virtual bool IsBioGearsLiteEnabled() const { return m_BioGearsLiteEnabled == CDM::enumOnOff::On; }
+  virtual void EnableBioGearsLite(CDM::enumOnOff::value s) { m_BioGearsLiteEnabled = s; }
+
 protected:
   SEScalarFlowResistance* m_CardiovascularOpenResistance;
   SEScalarElectricResistance* m_DefaultClosedElectricResistance;
@@ -283,6 +287,7 @@ protected:
   SEScalarFlowResistance* m_MachineOpenResistance;
   SEScalarFlowResistance* m_RespiratoryClosedResistance;
   SEScalarFlowResistance* m_RespiratoryOpenResistance;
+  CDM::enumOnOff::value m_BioGearsLiteEnabled;
 
   ////////////////
   /** Constants */
