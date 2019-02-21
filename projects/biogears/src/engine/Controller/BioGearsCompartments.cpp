@@ -149,11 +149,30 @@ bool BioGearsCompartments::Load(const CDM::CompartmentManagerData& in, SECircuit
     if (!cmpt->HasChildren())                                                                                        \
       m_##bin##LeafCompartments.push_back(cmpt);                                                                     \
   }
+
+#define SORT_CMPTS_LITE(bin, type)                                                                                     \
+  m_##bin##Compartments.clear();                                                                                       \
+  m_##bin##LeafCompartments.clear();                                                                                   \
+  for (const std::string& name : BGE::bin##LiteCompartment::GetValues()) {                                             \
+    SE##type##Compartment* cmpt = Get##type##Compartment(name);                                                        \
+    if (cmpt == nullptr) {                                                                                             \
+      SE##type##Compartment* cmpt = Get##type##Compartment(name + "Lite");                                             \
+      if (cmpt == nullptr) {                                                                                           \
+        Warning("Could not find expected " + std::string(#bin) + " compartment, " + name + " in compartment manager"); \
+        continue;                                                                                                      \
+      }                                                                                                                \
+    }                                                                                                                  \
+    m_##bin##Compartments.push_back(cmpt);                                                                             \
+    if (!cmpt->HasChildren())                                                                                          \
+      m_##bin##LeafCompartments.push_back(cmpt);                                                                       \
+  }                                                                                                                   \
+
 void BioGearsCompartments::StateChange()
 {
   SECompartmentManager::StateChange();
 
-  // Hook up our compartment categories
+  // Hook up our compartment categories---use SORT_CMPTS_LITE macro for your compartment if BioGearsLite is enabled.  Note you must have *System*LiteCompartment 
+  // defined in BioGearsPhysiologyEngine.h with associated GetValues() function, e.g. PulmonaryLiteCompartment
   // Anatomy
   SORT_CMPTS(Chyme, Liquid);
   SORT_CMPTS(Pulmonary, Gas);
