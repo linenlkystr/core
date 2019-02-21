@@ -97,11 +97,20 @@ bool BioGearsCompartments::Load(const CDM::CompartmentManagerData& in, SECircuit
     Error("Could not find required Graph " + std::string(BGE::Graph::Renal));
     return false;
   }
-  m_RespiratoryGraph = GetGasGraph(BGE::Graph::Respiratory);
-  if (m_RespiratoryGraph == nullptr) {
-    Error("Could not find required Graph " + std::string(BGE::Graph::Respiratory));
-    return false;
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    m_RespiratoryGraph = GetGasGraph(BGE::Graph::Respiratory);
+    if (m_RespiratoryGraph == nullptr) {
+      Error("Could not find required Graph " + std::string(BGE::Graph::Respiratory));
+      return false;
+    }
+  } else {
+    m_RespiratoryGraph = GetGasGraph(BGE::Graph::RespiratoryLite);
+    if (m_RespiratoryGraph == nullptr) {
+      Error("Could not find required Graph " + std::string(BGE::Graph::RespiratoryLite));
+      return false;
+    }
   }
+  ////////////////
   m_AnesthesiaMachineGraph = GetGasGraph(BGE::Graph::AnesthesiaMachine);
   if (m_AnesthesiaMachineGraph == nullptr) {
     Error("Could not find required Graph " + std::string(BGE::Graph::AnesthesiaMachine));
@@ -175,7 +184,12 @@ void BioGearsCompartments::StateChange()
   // defined in BioGearsPhysiologyEngine.h with associated GetValues() function, e.g. PulmonaryLiteCompartment
   // Anatomy
   SORT_CMPTS(Chyme, Liquid);
-  SORT_CMPTS(Pulmonary, Gas);
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    SORT_CMPTS(Pulmonary, Gas);
+  } else {
+    SORT_CMPTS_LITE(Pulmonary, Gas);
+  }
+ 
   SORT_CMPTS(Temperature, Thermal);
   if (m_data.GetConfiguration().IsTissueEnabled()) {
     SORT_CMPTS(Tissue, Tissue);
@@ -188,13 +202,13 @@ void BioGearsCompartments::StateChange()
     m_ExtracellularFluid.clear();
     m_IntracellularFluid.clear();
     for (SETissueCompartment* t : m_TissueLeafCompartments) {
-      cmpt = GetLiquidCompartment(std::string{ t->GetName() }+"Extracellular");
+      cmpt = GetLiquidCompartment(std::string{ t->GetName() } + "Extracellular");
       if (cmpt == nullptr)
-        Fatal(std::string{ "Could not find the tissue " }+t->GetName() + " Extracellular compartment");
+        Fatal(std::string{ "Could not find the tissue " } + t->GetName() + " Extracellular compartment");
       m_ExtracellularFluid[t] = cmpt;
-      cmpt = GetLiquidCompartment(std::string{ t->GetName() }+"Intracellular");
+      cmpt = GetLiquidCompartment(std::string{ t->GetName() } + "Intracellular");
       if (cmpt == nullptr)
-        Fatal(std::string{ "Could not find the tissue " }+t->GetName() + " Intracellular compartment");
+        Fatal(std::string{ "Could not find the tissue " } + t->GetName() + " Intracellular compartment");
       m_IntracellularFluid[t] = cmpt;
     }
   }

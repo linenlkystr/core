@@ -316,7 +316,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   double alveoliVolume_L = functionalResidualCapacity_L - (larynxVolume_mL + tracheaVolume_mL + broncheaVolume_mL) / 1000.0;
   //Pressures
   double ambientPressure_cmH2O = Convert(760.0, PressureUnit::mmHg, PressureUnit::cmH2O);
-  double pleuralPressure_cmH20 = ambientPressure_cmH2O - 5.0;
+  double pleuralPressure_cmH2O = ambientPressure_cmH2O - 5.0;
   //Circuit Nodes
   SEFluidCircuitNode& mouth = respLite->CreateNode("Mouth");
   mouth.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
@@ -334,9 +334,12 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   alveoli.GetVolumeBaseline().SetValue(alveoliVolume_L, VolumeUnit::L);
   alveoli.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
   alveoli.GetNextPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
+  SEFluidCircuitNode& pleuralConnection = respLite->CreateNode("PleuralConnection");
+  pleuralConnection.GetPressure().SetValue(pleuralPressure_cmH2O, PressureUnit::cmH2O);
+  pleuralConnection.GetNextPressure().SetValue(pleuralPressure_cmH2O, PressureUnit::cmH2O);
   SEFluidCircuitNode& pleural = respLite->CreateNode("Pleural");
-  pleural.GetPressure().SetValue(pleuralPressure_cmH20, PressureUnit::cmH2O);
-  pleural.GetNextPressure().SetValue(pleuralPressure_cmH20, PressureUnit::cmH2O);
+  pleural.GetPressure().SetValue(pleuralPressure_cmH2O, PressureUnit::cmH2O);
+  pleural.GetNextPressure().SetValue(pleuralPressure_cmH2O, PressureUnit::cmH2O);
   pleural.GetVolumeBaseline().SetValue(0.017, VolumeUnit::L); //From BioGears.cpp
   SEFluidCircuitNode& chestWall = respLite->CreateNode("ChestWall");
   chestWall.GetPressure().SetValue(ambientPressure_cmH2O, PressureUnit::cmH2O);
@@ -354,14 +357,15 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   mouthToThroat.GetResistanceBaseline().SetValue(mouthToThroatResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
   SEFluidCircuitPath& throatToBronchea = respLite->CreatePath(throat, bronchea, "ThroatToBronchea");
   throatToBronchea.GetResistanceBaseline().SetValue(tracheaToBroncheaResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-  SEFluidCircuitPath& throatCompliance = respLite->CreatePath(throat, pleural, "ThroatToPleural");
+  SEFluidCircuitPath& throatCompliance = respLite->CreatePath(throat, pleuralConnection, "ThroatToPleural");
   throatCompliance.GetComplianceBaseline().SetValue(throatCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
   SEFluidCircuitPath& broncheaToAlveoli = respLite->CreatePath(bronchea, alveoli, "BroncheaToAlveoli");
   broncheaToAlveoli.GetResistanceBaseline().SetValue(broncheaToAlveoliResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-  SEFluidCircuitPath& broncheaCompliance = respLite->CreatePath(bronchea, pleural, "BroncheaCompliance");
+  SEFluidCircuitPath& broncheaCompliance = respLite->CreatePath(bronchea, pleuralConnection, "BroncheaCompliance");
   broncheaCompliance.GetComplianceBaseline().SetValue(broncheaCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
-  SEFluidCircuitPath& alveoliCompliance = respLite->CreatePath(alveoli, pleural, "AlveoliCompliance");
+  SEFluidCircuitPath& alveoliCompliance = respLite->CreatePath(alveoli, pleuralConnection, "AlveoliCompliance");
   alveoliCompliance.GetComplianceBaseline().SetValue(alveoliCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
+  SEFluidCircuitPath& pleuralConnectionToPleural = respLite->CreatePath(pleuralConnection, pleural, "PleuralConnection");
   SEFluidCircuitPath& pleuralCompliance = respLite->CreatePath(pleural, chestWall, "PleuralToChestWall");
   pleuralCompliance.GetComplianceBaseline().SetValue(chestWallCompliance_L_Per_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
   SEFluidCircuitPath& driver = respLite->CreatePath(ground, chestWall, "Driver");
@@ -507,7 +511,7 @@ void BioGearsEngineTest::LiteRespiratoryCircuitTest(const std::string& sTestDire
   double totalVolume_mL = 0.0;
   double deadSpaceVolume_mL = 0.0;
   double timeStep_s = 0.02;
-  double simTime_min = 5.0;
+  double simTime_min = 0.25;
   double currentTime_s = 0.0;
   double driveFrequency_Per_min_base = 12.0;
   double driveFrequency_Per_min = driveFrequency_Per_min_base;

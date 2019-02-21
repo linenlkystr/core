@@ -91,7 +91,7 @@ namespace tatrc {
     namespace biogears {
 
       namespace Circuits {
-      
+
         DEFINE_STATIC_STRING(FullCardiovascular);
         DEFINE_STATIC_STRING(Cardiovascular);
         DEFINE_STATIC_STRING(Renal);
@@ -110,19 +110,19 @@ namespace tatrc {
       ///////////////////////////
 
       namespace ChymeNode {
-      
+
         DEFINE_STATIC_STRING(SmallIntestineC1);
       };
 
       namespace ChymePath {
-      
+
         DEFINE_STATIC_STRING(SmallIntestineC1ToSmallIntestine1);
         DEFINE_STATIC_STRING(GroundToSmallIntestineC1);
         DEFINE_STATIC_STRING(GutE3ToGroundGI);
       };
 
       namespace RespiratoryNode {
-      
+
         DEFINE_STATIC_STRING(Carina);
 
         DEFINE_STATIC_STRING(LeftAlveoli);
@@ -145,8 +145,18 @@ namespace tatrc {
         DEFINE_STATIC_STRING(RespiratoryMuscle);
       };
 
+      namespace RespiratoryLiteNode {
+        DEFINE_STATIC_STRING(Mouth);
+        DEFINE_STATIC_STRING(Trachea);
+        DEFINE_STATIC_STRING(Bronchi);
+        DEFINE_STATIC_STRING(Alveoli);
+        DEFINE_STATIC_STRING(PleuralConnection);
+        DEFINE_STATIC_STRING(Pleural);
+        DEFINE_STATIC_STRING(RespiratoryMuscle);
+      };
+
       namespace RespiratoryPath {
-      
+
         DEFINE_STATIC_STRING(CarinaToLeftAnatomicDeadSpace);
         DEFINE_STATIC_STRING(CarinaToRightAnatomicDeadSpace);
 
@@ -181,12 +191,25 @@ namespace tatrc {
         DEFINE_STATIC_STRING(StomachToEnvironment);
       };
 
+      namespace RespiratoryLitePath {
+        DEFINE_STATIC_STRING(EnvironmentToMouth);
+        DEFINE_STATIC_STRING(MouthToTrachea);
+        DEFINE_STATIC_STRING(TracheaToBronchi);
+        DEFINE_STATIC_STRING(TracheaToPleuralConnection);
+        DEFINE_STATIC_STRING(BronchiToAlveoli);
+        DEFINE_STATIC_STRING(BronchiToPleuralConnection);
+        DEFINE_STATIC_STRING(AlveoliToPleuralConnection);
+        DEFINE_STATIC_STRING(PleuralConnectionToPleural);
+        DEFINE_STATIC_STRING(PleuralToRespiratoryMuscle);
+        DEFINE_STATIC_STRING(RespiratoryMuscleDriver);
+      };
+
       //////////////////////////////////////
       // Anesthesia Machine Circuit Enums //
       //////////////////////////////////////
 
       namespace AnesthesiaMachineNode {
-      
+
         DEFINE_STATIC_STRING(AnesthesiaConnection);
         DEFINE_STATIC_STRING(ExpiratoryLimb);
         DEFINE_STATIC_STRING(GasInlet);
@@ -201,7 +224,7 @@ namespace tatrc {
       };
 
       namespace AnesthesiaMachinePath {
-      
+
         DEFINE_STATIC_STRING(EnvironmentToVentilator);
         DEFINE_STATIC_STRING(EnvironmentToReliefValve);
         DEFINE_STATIC_STRING(VentilatorToVentilatorConnection);
@@ -221,7 +244,7 @@ namespace tatrc {
       };
 
       namespace CombinedAnesthesiaMachinePath {
-      
+
         DEFINE_STATIC_STRING(AnesthesiaConnectionToMouth);
         DEFINE_STATIC_STRING(GroundConnection);
       };
@@ -231,12 +254,12 @@ namespace tatrc {
       ///////////////////////////
 
       namespace InhalerNode {
-      
+
         DEFINE_STATIC_STRING(Mouthpiece);
       };
 
       namespace InhalerPath {
-      
+
         DEFINE_STATIC_STRING(EnvironmentToMouthpiece);
         DEFINE_STATIC_STRING(MouthpieceToMouth);
       };
@@ -246,12 +269,12 @@ namespace tatrc {
       ////////////////////////////////////////
 
       namespace MechanicalVentilatorNode {
-      
+
         DEFINE_STATIC_STRING_EX(Connection, MechanicalVentilatorConnection);
       };
 
       namespace MechanicalVentilatorPath {
-      
+
         DEFINE_STATIC_STRING_EX(ConnectionToMouth, MechanicalVentilatorConnectionToMouth);
         DEFINE_STATIC_STRING_EX(GroundToConnection, MechanicalVentilatorGroundToConnection);
       };
@@ -261,7 +284,7 @@ namespace tatrc {
       ///////////////////////////////////
 
       namespace EnvironmentNode {
-      
+
         DEFINE_STATIC_STRING(Ambient);
       };
 
@@ -270,7 +293,7 @@ namespace tatrc {
       ///////////////////////////////////////////
 
       namespace ExternalTemperatureNode {
-      
+
         DEFINE_STATIC_STRING(Active);
         DEFINE_STATIC_STRING(Clothing);
         DEFINE_STATIC_STRING(Enclosure);
@@ -281,7 +304,7 @@ namespace tatrc {
       };
 
       namespace ExternalTemperaturePath {
-      
+
         DEFINE_STATIC_STRING(ActiveToClothing);
         DEFINE_STATIC_STRING(ClothingToEnclosure);
         DEFINE_STATIC_STRING(ClothingToEnvironment);
@@ -299,14 +322,14 @@ namespace tatrc {
       ////////////////////////////////////////
 
       namespace InternalTemperatureNode {
-      
+
         DEFINE_STATIC_STRING(InternalCore);
         DEFINE_STATIC_STRING(InternalSkin);
         DEFINE_STATIC_STRING(InternalGround);
       };
 
       namespace InternalTemperaturePath {
-      
+
         DEFINE_STATIC_STRING(GroundToInternalCore);
         DEFINE_STATIC_STRING(InternalCoreToInternalSkin);
         DEFINE_STATIC_STRING(InternalCoreToGround);
@@ -318,13 +341,13 @@ namespace tatrc {
       ////////////////////////////////////////
 
       namespace CombinedTemperaturePath {
-      
+
         DEFINE_STATIC_STRING(InternalCoreToExternalCore);
         DEFINE_STATIC_STRING(InternalSkinToExternalSkin);
       };
 
       namespace CardiovascularNode {
-      
+
         DEFINE_STATIC_STRING(RightHeart1);
         DEFINE_STATIC_STRING(RightHeart2);
         DEFINE_STATIC_STRING(RightHeart3);
@@ -407,7 +430,7 @@ namespace tatrc {
       };
 
       namespace CardiovascularPath {
-      
+
         // Heart and Lungs
         DEFINE_STATIC_STRING(VenaCavaToRightHeart2);
         DEFINE_STATIC_STRING(RightHeart2ToRightHeart1);
@@ -551,7 +574,7 @@ namespace tatrc {
       };
 
       namespace TissueNode {
-      
+
         DEFINE_STATIC_STRING(BoneE1);
         DEFINE_STATIC_STRING(BoneE2);
         DEFINE_STATIC_STRING(BoneE3);
@@ -774,7 +797,7 @@ namespace tatrc {
       };
 
       namespace RenalNode {
-      
+
         // Blood
         DEFINE_STATIC_STRING(RightAortaConnection);
         DEFINE_STATIC_STRING(RightRenalArtery);
@@ -817,7 +840,7 @@ namespace tatrc {
       };
 
       namespace RenalPath {
-      
+
         DEFINE_STATIC_STRING(RightAortaConnectionToRenalArtery);
         DEFINE_STATIC_STRING(RightRenalArteryToAfferentArteriole);
         DEFINE_STATIC_STRING(RightRenalArteryCompliance);
@@ -869,7 +892,7 @@ namespace tatrc {
       };
 
       namespace DigestionPath {
-      
+
         DEFINE_STATIC_STRING(GutChymeToSmallIntestineVascular);
       };
     } //namespace biogears

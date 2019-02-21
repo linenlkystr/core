@@ -66,6 +66,7 @@ Respiratory::Respiratory(BioGears& bg)
   , m_AerosolTransporter(VolumePerTimeUnit::mL_Per_s, VolumeUnit::mL, MassUnit::ug, MassPerVolumeUnit::ug_Per_mL, GetLogger())
 {
   Clear();
+  m_TuningFile = "./LiteTuning.csv";
 }
 
 Respiratory::~Respiratory()
@@ -200,7 +201,8 @@ void Respiratory::Initialize()
   GetCarricoIndex().SetValue(452.0, PressureUnit::mmHg);
   GetInspiratoryExpiratoryRatio().SetValue(0.5);
 
-  double DeadSpace_L = m_LeftDeadSpace->GetVolumeBaseline(VolumeUnit::L) + m_RightDeadSpace->GetVolumeBaseline(VolumeUnit::L);
+  //double DeadSpace_L = m_LeftDeadSpace->GetVolumeBaseline(VolumeUnit::L) + m_RightDeadSpace->GetVolumeBaseline(VolumeUnit::L);
+  double DeadSpace_L = 0.14;
   GetTotalAlveolarVentilation().SetValue(RespirationRate_Per_min * (TidalVolume_L - DeadSpace_L), VolumePerTimeUnit::L_Per_min);
   GetTotalPulmonaryVentilation().SetValue(RespirationRate_Per_min * TidalVolume_L, VolumePerTimeUnit::L_Per_min);
   GetTotalDeadSpaceVentilation().SetValue(0.15 * RespirationRate_Per_min, VolumePerTimeUnit::L_Per_min);
@@ -343,65 +345,65 @@ void Respiratory::SetUp()
   m_VentilatoryOcclusionPressure_cmH2O = m_data.GetConfiguration().GetVentilatoryOcclusionPressure(PressureUnit::cmH2O); //This increases the absolute max driver pressure
   m_PleuralComplianceSensitivity_Per_L = m_data.GetConfiguration().GetPleuralComplianceSensitivity(InverseVolumeUnit::Inverse_L);
   //Compartments
-  m_Environment = m_data.GetCompartments().GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
-  m_AerosolMouth = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::Mouth);
-  m_AerosolCarina = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::Carina);
-  m_AerosolLeftDeadSpace = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::LeftDeadSpace);
-  m_AerosolLeftAlveoli = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::LeftAlveoli);
-  m_AerosolRightDeadSpace = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::RightDeadSpace);
-  m_AerosolRightAlveoli = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::RightAlveoli);
-  m_Lungs = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::Lungs);
-  m_LeftLungExtravascular = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LeftLungIntracellular);
-  m_RightLungExtravascular = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::RightLungIntracellular);
-  m_Carina = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::Carina);
-  m_CarinaO2 = m_Carina->GetSubstanceQuantity(m_data.GetSubstances().GetO2());
-  m_CarinaCO2 = m_Carina->GetSubstanceQuantity(m_data.GetSubstances().GetCO2());
+  //m_Environment = m_data.GetCompartments().GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
+  //m_AerosolMouth = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::Mouth);
+  //m_AerosolCarina = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::Carina);
+  //m_AerosolLeftDeadSpace = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::LeftDeadSpace);
+  //m_AerosolLeftAlveoli = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::LeftAlveoli);
+  //m_AerosolRightDeadSpace = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::RightDeadSpace);
+  //m_AerosolRightAlveoli = m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::RightAlveoli);
+  //m_Lungs = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::Lungs);
+  //m_LeftLungExtravascular = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LeftLungIntracellular);
+  //m_RightLungExtravascular = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::RightLungIntracellular);
+  //m_Carina = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::Carina);
+  //m_CarinaO2 = m_Carina->GetSubstanceQuantity(m_data.GetSubstances().GetO2());
+  //m_CarinaCO2 = m_Carina->GetSubstanceQuantity(m_data.GetSubstances().GetCO2());
   SELiquidCompartment* Aorta = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Aorta);
   m_AortaO2 = Aorta->GetSubstanceQuantity(m_data.GetSubstances().GetO2());
   m_AortaCO2 = Aorta->GetSubstanceQuantity(m_data.GetSubstances().GetCO2());
-  m_LeftAlveoliO2 = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::LeftAlveoli)->GetSubstanceQuantity(m_data.GetSubstances().GetO2());
-  m_RightAlveoliO2 = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::RightAlveoli)->GetSubstanceQuantity(m_data.GetSubstances().GetO2());
-  m_LeftAlveoliCO2 = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::LeftAlveoli)->GetSubstanceQuantity(m_data.GetSubstances().GetCO2());
-  m_RightAlveoliCO2 = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::RightAlveoli)->GetSubstanceQuantity(m_data.GetSubstances().GetCO2());
-  m_MechanicalVentilatorConnection = m_data.GetCompartments().GetGasCompartment(BGE::MechanicalVentilatorCompartment::Connection);
-  // Compartments we will process aerosol effects on
-  m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::Carina));
-  m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::LeftAlveoli));
-  m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::LeftDeadSpace));
-  m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::RightAlveoli));
-  m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::RightDeadSpace));
+  //m_LeftAlveoliO2 = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::LeftAlveoli)->GetSubstanceQuantity(m_data.GetSubstances().GetO2());
+  //m_RightAlveoliO2 = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::RightAlveoli)->GetSubstanceQuantity(m_data.GetSubstances().GetO2());
+  //m_LeftAlveoliCO2 = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::LeftAlveoli)->GetSubstanceQuantity(m_data.GetSubstances().GetCO2());
+  //m_RightAlveoliCO2 = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryCompartment::RightAlveoli)->GetSubstanceQuantity(m_data.GetSubstances().GetCO2());
+  //m_MechanicalVentilatorConnection = m_data.GetCompartments().GetGasCompartment(BGE::MechanicalVentilatorCompartment::Connection);
+  //// Compartments we will process aerosol effects on
+  //m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::Carina));
+  //m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::LeftAlveoli));
+  //m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::LeftDeadSpace));
+  //m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::RightAlveoli));
+  //m_AerosolEffects.push_back(m_data.GetCompartments().GetLiquidCompartment(BGE::PulmonaryCompartment::RightDeadSpace));
   //Circuits
   m_RespiratoryCircuit = &m_data.GetCircuits().GetRespiratoryCircuit();
-  //Nodes
-  m_LeftAlveoli = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::LeftAlveoli);
-  m_LeftDeadSpace = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::LeftAnatomicDeadSpace);
-  m_LeftPleural = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::LeftPleural);
-  m_RespiratoryMuscle = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::RespiratoryMuscle);
-  m_RightAlveoli = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::RightAlveoli);
-  m_RightDeadSpace = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::RightAnatomicDeadSpace);
-  m_RightPleural = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::RightPleural);
-  m_Ambient = m_RespiratoryCircuit->GetNode(BGE::EnvironmentNode::Ambient);
-  m_Stomach = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::Stomach);
-  //Paths
-  m_CarinaToLeftAnatomicDeadSpace = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::CarinaToLeftAnatomicDeadSpace);
-  m_CarinaToRightAnatomicDeadSpace = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::CarinaToRightAnatomicDeadSpace);
-  m_LeftAnatomicDeadSpaceToLeftAlveoli = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftAnatomicDeadSpaceToLeftAlveoli);
-  m_RightAnatomicDeadSpaceToRightAlveoli = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightAnatomicDeadSpaceToRightAlveoli);
-  m_RightPleuralToRespiratoryMuscle = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightPleuralToRespiratoryMuscle);
-  m_LeftPleuralToRespiratoryMuscle = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftPleuralToRespiratoryMuscle);
-  m_DriverPressurePath = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::EnvironmentToRespiratoryMuscle);
-  m_MouthToCarina = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::MouthToCarina);
-  m_MouthToStomach = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::MouthToStomach);
-  m_EnvironmentToLeftChestLeak = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::EnvironmentToLeftChestLeak);
-  m_EnvironmentToRightChestLeak = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::EnvironmentToRightChestLeak);
-  m_LeftAlveoliLeakToLeftPleural = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftAlveoliLeakToLeftPleural);
-  m_RightAlveoliLeakToRightPleural = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightAlveoliLeakToRightPleural);
-  m_LeftPleuralToEnvironment = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftPleuralToEnvironment);
-  m_RightPleuralToEnvironment = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightPleuralToEnvironment);
-  m_RightAlveoliToRightPleuralConnection = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightAlveoliToRightPleuralConnection);
-  m_LeftAlveoliToLeftPleuralConnection = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftAlveoliToLeftPleuralConnection);
-  m_RightAnatomicDeadSpaceToRightPleuralConnection = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightAnatomicDeadSpaceToRightPleuralConnection);
-  m_LeftAnatomicDeadSpaceToLeftPleuralConnection = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftAnatomicDeadSpaceToLeftPleuralConnection);
+  ////Nodes
+  //m_LeftAlveoli = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::LeftAlveoli);
+  //m_LeftDeadSpace = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::LeftAnatomicDeadSpace);
+  //m_LeftPleural = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::LeftPleural);
+  //m_RespiratoryMuscle = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::RespiratoryMuscle);
+  //m_RightAlveoli = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::RightAlveoli);
+  //m_RightDeadSpace = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::RightAnatomicDeadSpace);
+  //m_RightPleural = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::RightPleural);
+  //m_Ambient = m_RespiratoryCircuit->GetNode(BGE::EnvironmentNode::Ambient);
+  //m_Stomach = m_RespiratoryCircuit->GetNode(BGE::RespiratoryNode::Stomach);
+  ////Paths
+  //m_CarinaToLeftAnatomicDeadSpace = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::CarinaToLeftAnatomicDeadSpace);
+  //m_CarinaToRightAnatomicDeadSpace = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::CarinaToRightAnatomicDeadSpace);
+  //m_LeftAnatomicDeadSpaceToLeftAlveoli = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftAnatomicDeadSpaceToLeftAlveoli);
+  //m_RightAnatomicDeadSpaceToRightAlveoli = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightAnatomicDeadSpaceToRightAlveoli);
+  //m_RightPleuralToRespiratoryMuscle = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightPleuralToRespiratoryMuscle);
+  //m_LeftPleuralToRespiratoryMuscle = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftPleuralToRespiratoryMuscle);
+  //m_DriverPressurePath = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::EnvironmentToRespiratoryMuscle);
+  //m_MouthToCarina = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::MouthToCarina);
+  //m_MouthToStomach = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::MouthToStomach);
+  //m_EnvironmentToLeftChestLeak = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::EnvironmentToLeftChestLeak);
+  //m_EnvironmentToRightChestLeak = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::EnvironmentToRightChestLeak);
+  //m_LeftAlveoliLeakToLeftPleural = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftAlveoliLeakToLeftPleural);
+  //m_RightAlveoliLeakToRightPleural = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightAlveoliLeakToRightPleural);
+  //m_LeftPleuralToEnvironment = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftPleuralToEnvironment);
+  //m_RightPleuralToEnvironment = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightPleuralToEnvironment);
+  //m_RightAlveoliToRightPleuralConnection = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightAlveoliToRightPleuralConnection);
+  //m_LeftAlveoliToLeftPleuralConnection = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftAlveoliToLeftPleuralConnection);
+  //m_RightAnatomicDeadSpaceToRightPleuralConnection = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::RightAnatomicDeadSpaceToRightPleuralConnection);
+  //m_LeftAnatomicDeadSpaceToLeftPleuralConnection = m_RespiratoryCircuit->GetPath(BGE::RespiratoryPath::LeftAnatomicDeadSpaceToLeftPleuralConnection);
   m_ConnectionToMouth = m_data.GetCircuits().GetRespiratoryAndMechanicalVentilatorCircuit().GetPath(BGE::MechanicalVentilatorPath::ConnectionToMouth);
   m_GroundToConnection = m_data.GetCircuits().GetRespiratoryAndMechanicalVentilatorCircuit().GetPath(BGE::MechanicalVentilatorPath::GroundToConnection);
 
@@ -1012,7 +1014,7 @@ void Respiratory::ProcessDriverActions()
 
   //Process Pain effects
   double painVAS = 0.1 * m_data.GetNervous().GetPainVisualAnalogueScale().GetValue(); //already processed pain score from nervous [0,10]
-  double painModifier = 1.0 + 0.75 * (painVAS / (painVAS + 0.2)); 
+  double painModifier = 1.0 + 0.75 * (painVAS / (painVAS + 0.2));
 
   //Process Sepsis effects
   double sepsisModifier = 0.0;
@@ -1053,7 +1055,7 @@ void Respiratory::ProcessDriverActions()
   } else {
     m_VentilationFrequency_Per_min = GetTargetPulmonaryVentilation(VolumePerTimeUnit::L_Per_min) / m_TargetTidalVolume_L;
     m_VentilationFrequency_Per_min += sepsisModifier;
-    m_VentilationFrequency_Per_min *= painModifier; 
+    m_VentilationFrequency_Per_min *= painModifier;
     m_VentilationFrequency_Per_min *= NMBModifier * SedationModifier;
     m_VentilationFrequency_Per_min += DrugRRChange_Per_min;
     m_VentilationFrequency_Per_min += diffPH;
@@ -1177,8 +1179,8 @@ void Respiratory::Intubation()
     m_data.SetIntubation(CDM::enumOnOff::On);
     SEIntubation* intubation = m_PatientActions->GetIntubation();
     switch (intubation->GetType()) {
-    case CDM::enumIntubationType::Tracheal: { 
-     // The proper way to intubate
+    case CDM::enumIntubationType::Tracheal: {
+      // The proper way to intubate
       // Airway mode handles this case by default
       break;
     }
@@ -1663,14 +1665,14 @@ void Respiratory::CalculateVitalSigns()
   double dTimeTol = 0.004167;
   m_ElapsedBreathingCycleTime_min += m_dt_min;
   if (m_BreathingCycle && ((GetTotalLungVolume(VolumeUnit::L) - m_PreviousTotalLungVolume_L) > ZERO_APPROX)
-    && (m_ElapsedBreathingCycleTime_min > dTimeTol)) {
+      && (m_ElapsedBreathingCycleTime_min > dTimeTol)) {
     m_Patient->SetEvent(CDM::enumPatientEvent::StartOfInhale, true, m_data.GetSimulationTime());
     // Calculate Respiration Rate and track time and update cycle flag
     double RespirationRate_Per_min = 0.0;
     RespirationRate_Per_min = 1.0 / m_ElapsedBreathingCycleTime_min;
     if (m_data.GetActions().GetPatientActions().HasOverride()
-      && m_data.GetActions().GetPatientActions().GetOverride()->HasRespirationRateOverride()) {
-        RespirationRate_Per_min = m_data.GetActions().GetPatientActions().GetOverride()->GetRespirationRateOverride(FrequencyUnit::Per_min);
+        && m_data.GetActions().GetPatientActions().GetOverride()->HasRespirationRateOverride()) {
+      RespirationRate_Per_min = m_data.GetActions().GetPatientActions().GetOverride()->GetRespirationRateOverride(FrequencyUnit::Per_min);
     }
     GetRespirationRate().SetValue(RespirationRate_Per_min, FrequencyUnit::Per_min);
 
@@ -1713,8 +1715,8 @@ void Respiratory::CalculateVitalSigns()
     // Calculate Total Circuit Values
     GetPulmonaryCompliance().SetValue(TidalVolume_L / PleuralDeltaPressure_cmH2O, FlowComplianceUnit::L_Per_cmH2O);
   } else if (!m_BreathingCycle
-    && (m_PreviousTotalLungVolume_L - GetTotalLungVolume(VolumeUnit::L) > ZERO_APPROX)
-    && (m_ElapsedBreathingCycleTime_min > dTimeTol)) {
+             && (m_PreviousTotalLungVolume_L - GetTotalLungVolume(VolumeUnit::L) > ZERO_APPROX)
+             && (m_ElapsedBreathingCycleTime_min > dTimeTol)) {
     m_Patient->SetEvent(CDM::enumPatientEvent::StartOfExhale, true, m_data.GetSimulationTime());
     m_BreathTimeExhale_min = m_ElapsedBreathingCycleTime_min;
     m_BreathingCycle = true;
@@ -1869,7 +1871,7 @@ void Respiratory::CalculateVitalSigns()
 void Respiratory::UpdateObstructiveResistance()
 {
   if ((!m_PatientActions->HasAsthmaAttack() && !m_data.GetConditions().HasChronicObstructivePulmonaryDisease())
-    || GetExpiratoryFlow(VolumePerTimeUnit::L_Per_s) < 0.0) // Only on exhalation
+      || GetExpiratoryFlow(VolumePerTimeUnit::L_Per_s) < 0.0) // Only on exhalation
   {
     return;
   }
@@ -2154,14 +2156,43 @@ bool Respiratory::CalculatePulmonaryFunctionTest(SEPulmonaryFunctionTest& pft)
 //--------------------------------------------------------------------------------------------------
 void Respiratory::TuneCircuit()
 {
+  DataTrack circuitTrk;
+  std::ofstream circuitFile;
   SEFluidCircuit& RespiratoryCircuit = m_data.GetCircuits().GetRespiratoryCircuit();
   //This is precharge everything to help stabilization
   //Hold it steady for 5s to make sure the compliances are fully charged
-  for (unsigned int loops = 0; loops < static_cast<unsigned int>(5.0 / m_dt_s); loops++) {
+  double time_s = 0.0;
+  double timeInCycle_s = 0.0;
+  double cycleTime_s = 5.0; //12 /min
+  double nextDriverPressure_cmH2O;
+  double driveAmplitude_cmH2O = -5.0;
+  double ieRatio = 0.6;
+  double expTime_s = cycleTime_s / (1.0 + ieRatio);
+  double inTime_s = expTime_s * ieRatio;
+  double tau_s = expTime_s / 5.0;
+  for (unsigned int loops = 0; loops < static_cast<unsigned int>(30.0 / m_dt_s); loops++) {
     //Set the starting/default driver pressure
-    m_DriverPressurePath->GetNextPressureSource().SetValue(m_DefaultDrivePressure_cmH2O, PressureUnit::cmH2O);
+    //m_DriverPressurePath->GetNextPressureSource().SetValue(m_DefaultDrivePressure_cmH2O, PressureUnit::cmH2O);
+    if (timeInCycle_s < inTime_s) {
+      nextDriverPressure_cmH2O = -driveAmplitude_cmH2O / (inTime_s * expTime_s) * std::pow(timeInCycle_s, 2.0) + driveAmplitude_cmH2O * cycleTime_s / (inTime_s * expTime_s) * timeInCycle_s;
+    } else {
+      nextDriverPressure_cmH2O = driveAmplitude_cmH2O / (1.0 - std::exp(-expTime_s / tau_s)) * (std::exp(-(timeInCycle_s - inTime_s) / tau_s) - std::exp(-expTime_s / tau_s));
+    }
+    RespiratoryCircuit.GetPath(BGE::RespiratoryLitePath::RespiratoryMuscleDriver)->GetNextPressureSource().SetValue(nextDriverPressure_cmH2O, PressureUnit::cmH2O);
     m_Calculator.Process(RespiratoryCircuit, m_dt_s);
     m_Calculator.PostProcess(RespiratoryCircuit);
+    if (!m_TuningFile.empty()) {
+      circuitTrk.Track(time_s, RespiratoryCircuit);
+      if (time_s == 0)
+        circuitTrk.CreateFile(m_TuningFile.c_str(), circuitFile);
+      circuitTrk.StreamTrackToFile(circuitFile);
+    }
+    time_s += m_dt_s;
+    timeInCycle_s += m_dt_s;
+    if (timeInCycle_s >= cycleTime_s) {
+      timeInCycle_s = 0.0;
+    }
+
   }
 
   //Make sure the new volumes are accounted for with all the substance stuff
@@ -2246,7 +2277,7 @@ void Respiratory::OverrideControlLoop()
   constexpr double minTotalLungVolumeOverride = 0.0; // L
   constexpr double maxTotalPulmonaryVentilationOverride = 1000.0; // L/min
   constexpr double minTotalPulmonaryVentilationOverride = 0.0; // L/min
-  
+
   double currentExpiratoryFlowOverride = 0.0; // value gets changed in next check
   double currentInspiratoryFlowOverride = 0.0; // value gets changed in next check
   double currentPulmonaryComplianceOverride = 0.0; // value gets changed in next check
@@ -2257,7 +2288,7 @@ void Respiratory::OverrideControlLoop()
   double currentTotalAlveolarVentilationOverride = 0.0; // value gets changed in next check
   double currentTotalLungVolumeOverride = 0.0; // value gets changed in next check
   double currentTotalPulmonaryVentilationOverride = 0.0; // value gets changed in next check
-  
+
   if (override->HasExpiratoryFlowOverride()) {
     currentExpiratoryFlowOverride = override->GetExpiratoryFlowOverride(VolumePerTimeUnit::L_Per_min);
   }
@@ -2288,7 +2319,6 @@ void Respiratory::OverrideControlLoop()
   if (override->HasTotalPulmonaryVentilationOverride()) {
     currentTotalPulmonaryVentilationOverride = override->GetTotalPulmonaryVentilationOverride(VolumePerTimeUnit::L_Per_min);
   }
-
 
   if ((currentExpiratoryFlowOverride < minExpiratoryFlowOverride || currentExpiratoryFlowOverride > maxExpiratoryFlowOverride) && (override->GetOverrideConformance() == CDM::enumOnOff::On)) {
     m_ss << "Expiratory Flow Override (Respiratory) set outside of bounds of validated parameter override. BioGears is no longer conformant.";

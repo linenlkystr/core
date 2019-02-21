@@ -139,7 +139,7 @@ protected:
   void OverrideControlLoop();
 
 private:
-
+  std::string m_TuningFile; 
   // Serializable member variables (Set in Initialize and in schema)
   //   Initial patient values
   double m_InitialExpiratoryReserveVolume_L;
