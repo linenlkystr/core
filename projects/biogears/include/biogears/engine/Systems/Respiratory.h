@@ -132,6 +132,7 @@ private:
 
   //Process
   void CalculateVitalSigns();
+  void CalculateVitalSignsLite();
 
 protected:
   // Override

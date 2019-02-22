@@ -97,18 +97,10 @@ bool BioGearsCompartments::Load(const CDM::CompartmentManagerData& in, SECircuit
     Error("Could not find required Graph " + std::string(BGE::Graph::Renal));
     return false;
   }
-  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-    m_RespiratoryGraph = GetGasGraph(BGE::Graph::Respiratory);
-    if (m_RespiratoryGraph == nullptr) {
-      Error("Could not find required Graph " + std::string(BGE::Graph::Respiratory));
-      return false;
-    }
-  } else {
-    m_RespiratoryGraph = GetGasGraph(BGE::Graph::RespiratoryLite);
-    if (m_RespiratoryGraph == nullptr) {
-      Error("Could not find required Graph " + std::string(BGE::Graph::RespiratoryLite));
-      return false;
-    }
+  m_RespiratoryGraph = GetGasGraph(BGE::Graph::Respiratory);
+  if (m_RespiratoryGraph == nullptr) {
+    Error("Could not find required Graph " + std::string(BGE::Graph::Respiratory));
+    return false;
   }
   ////////////////
   m_AnesthesiaMachineGraph = GetGasGraph(BGE::Graph::AnesthesiaMachine);
@@ -184,10 +176,33 @@ void BioGearsCompartments::StateChange()
   // defined in BioGearsPhysiologyEngine.h with associated GetValues() function, e.g. PulmonaryLiteCompartment
   // Anatomy
   SORT_CMPTS(Chyme, Liquid);
+
+  m_AerosolCompartments.clear();
+  m_AerosolLeafCompartments.clear();
   if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
     SORT_CMPTS(Pulmonary, Gas);
+    for (const std::string& name : BGE::PulmonaryCompartment::GetValues()) {
+      SELiquidCompartment* cmpt = GetLiquidCompartment(name);
+      if (cmpt == nullptr) {
+        Warning("Could not find expected Aerosol compartment, " + name + " in compartment manager");
+        continue;
+      }
+      m_AerosolCompartments.push_back(cmpt);
+      if (!cmpt->HasChildren())
+        m_AerosolLeafCompartments.push_back(cmpt);
+    }
   } else {
     SORT_CMPTS_LITE(Pulmonary, Gas);
+    for (const std::string& name : BGE::PulmonaryLiteCompartment::GetValues()) {
+      SELiquidCompartment* cmpt = GetLiquidCompartment(name);
+      if (cmpt == nullptr) {
+        Warning("Could not find expected Aerosol compartment, " + name + " in compartment manager");
+        continue;
+      }
+      m_AerosolCompartments.push_back(cmpt);
+      if (!cmpt->HasChildren())
+        m_AerosolLeafCompartments.push_back(cmpt);
+    }
   }
  
   SORT_CMPTS(Temperature, Thermal);
@@ -234,18 +249,7 @@ void BioGearsCompartments::StateChange()
       m_InhalerAerosolLeafCompartments.push_back(cmpt);
   }
 
-  m_AerosolCompartments.clear();
-  m_AerosolLeafCompartments.clear();
-  for (const std::string& name : BGE::PulmonaryCompartment::GetValues()) {
-    SELiquidCompartment* cmpt = GetLiquidCompartment(name);
-    if (cmpt == nullptr) {
-      Warning("Could not find expected Aerosol compartment, " + name + " in compartment manager");
-      continue;
-    }
-    m_AerosolCompartments.push_back(cmpt);
-    if (!cmpt->HasChildren())
-      m_AerosolLeafCompartments.push_back(cmpt);
-  }
+
 
   SORT_CMPTS(MechanicalVentilator, Gas);
 

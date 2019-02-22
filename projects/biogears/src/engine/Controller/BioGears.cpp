@@ -4184,6 +4184,9 @@ void BioGears::SetupRespiratory()
   SEGasCompartmentGraph& gRespiratory = m_Compartments->GetRespiratoryGraph();
   SEGasCompartment* gEnvironment = m_Compartments->GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
   double AmbientPressure = 1033.23; // = 1 atm
+  //Values from standard
+  double FunctionalResidualCapacity_L = 2.313; //2.5;
+  double LungResidualVolume_L = 1.234; //1.45;
 
   if (!GetConfiguration().IsBioGearsLiteEnabled()) {
     //Tuning parameters
@@ -4203,10 +4206,6 @@ void BioGears::SetupRespiratory()
     double TracheaResistance = TotalAirwayResistance - (BronchiResistancePercent * TotalAirwayResistance + AlveoliDuctResistancePercent * TotalAirwayResistance) / 2;
     double BronchiResistance = 2 * (TotalAirwayResistance - TracheaResistance) - AlveoliDuctResistancePercent * TotalAirwayResistance;
     double AlveoliDuctResistance = 2 * (TotalAirwayResistance - TracheaResistance) - BronchiResistance;
-
-    //Values from standard
-    double FunctionalResidualCapacity_L = 2.313; //2.5;
-    double LungResidualVolume_L = 1.234; //1.45;
 
     double DefaultRespDrivePressure = -55.0; //This shouldn't really matter, since the pressure source is set in the Respiratory System
     double OpenResistance_cmH2O_s_Per_L = m_Config->GetDefaultOpenFlowResistance(FlowResistanceUnit::cmH2O_s_Per_L);
@@ -4532,7 +4531,7 @@ void BioGears::SetupRespiratory()
     Bronchi.GetVolumeBaseline().SetValue(broncheaVolume_mL, VolumeUnit::mL);
     Bronchi.GetPressure().SetValue(AmbientPressure, PressureUnit::cmH2O);
     SEFluidCircuitNode& Alveoli = cRespiratory.CreateNode(BGE::RespiratoryLiteNode::Alveoli);
-    Alveoli.GetVolumeBaseline().SetValue(alveoliVolume_L, VolumeUnit::L);
+    Alveoli.GetVolumeBaseline().SetValue(LungResidualVolume_L, VolumeUnit::L);
     Alveoli.GetPressure().SetValue(AmbientPressure, PressureUnit::cmH2O);
     SEFluidCircuitNode& PleuralConnection = cRespiratory.CreateNode(BGE::RespiratoryLiteNode::PleuralConnection);
     PleuralConnection.GetPressure().SetValue(pleuralPressure_cmH2O, PressureUnit::cmH2O);

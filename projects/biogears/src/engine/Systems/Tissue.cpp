@@ -714,24 +714,36 @@ void Tissue::CalculatePulmonaryCapillarySubstanceTransfer()
   double StandardDiffusingCapacityOfOxygen_mLPersPermmHg = (DiffusionSurfaceArea_cm2 * Configuration.GetStandardOxygenDiffusionCoefficient(AreaPerTimePressureUnit::cm2_Per_s_mmHg)) / Configuration.GetStandardDiffusionDistance(LengthUnit::cm);
   double DiffusingCapacityPerSide_mLPerSPermmHg = StandardDiffusingCapacityOfOxygen_mLPersPermmHg;
 
-  for (SESubstance* sub : m_data.GetSubstances().GetActiveGases()) {
-    sub->GetAlveolarTransfer().SetValue(0, VolumePerTimeUnit::mL_Per_s);
-    sub->GetDiffusingCapacity().SetValue(0, VolumePerTimePressureUnit::mL_Per_s_mmHg);
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    for (SESubstance* sub : m_data.GetSubstances().GetActiveGases()) {
+      sub->GetAlveolarTransfer().SetValue(0, VolumePerTimeUnit::mL_Per_s);
+      sub->GetDiffusingCapacity().SetValue(0, VolumePerTimePressureUnit::mL_Per_s_mmHg);
+      if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+      }
+      //Left Side Alveoli Transfer
+      DiffusingCapacityPerSide_mLPerSPermmHg = StandardDiffusingCapacityOfOxygen_mLPersPermmHg * (1 - RightLungRatio);
+      AlveolarPartialPressureGradientDiffusion(*m_LeftAlveoli, *m_LeftPulmonaryCapillaries, *sub, DiffusingCapacityPerSide_mLPerSPermmHg, m_Dt_s);
 
-    //Left Side Alveoli Transfer
-    DiffusingCapacityPerSide_mLPerSPermmHg = StandardDiffusingCapacityOfOxygen_mLPersPermmHg * (1 - RightLungRatio);
-    AlveolarPartialPressureGradientDiffusion(*m_LeftAlveoli, *m_LeftPulmonaryCapillaries, *sub, DiffusingCapacityPerSide_mLPerSPermmHg, m_Dt_s);
+      //Right Side Alveoli Transfer
+      DiffusingCapacityPerSide_mLPerSPermmHg = StandardDiffusingCapacityOfOxygen_mLPersPermmHg * RightLungRatio;
+      AlveolarPartialPressureGradientDiffusion(*m_RightAlveoli, *m_RightPulmonaryCapillaries, *sub, DiffusingCapacityPerSide_mLPerSPermmHg, m_Dt_s);
 
-    //Right Side Alveoli Transfer
-    DiffusingCapacityPerSide_mLPerSPermmHg = StandardDiffusingCapacityOfOxygen_mLPersPermmHg * RightLungRatio;
-    AlveolarPartialPressureGradientDiffusion(*m_RightAlveoli, *m_RightPulmonaryCapillaries, *sub, DiffusingCapacityPerSide_mLPerSPermmHg, m_Dt_s);
+      if (m_LeftAlveoli->GetSubstanceQuantity(*sub)->GetVolume(VolumeUnit::mL) < 0.0 || m_LeftPulmonaryCapillaries->GetSubstanceQuantity(*sub)->GetMass(MassUnit::ug) < 0.0 || m_RightAlveoli->GetSubstanceQuantity(*sub)->GetVolume(VolumeUnit::mL) < 0.0 || m_RightPulmonaryCapillaries->GetSubstanceQuantity(*sub)->GetMass(MassUnit::ug) < 0.0) {
+        Fatal("Diffusion mass cannot be negative");
+      }
+    }
+    m_LeftAlveoli->Balance(BalanceGasBy::Volume);
+    m_RightAlveoli->Balance(BalanceGasBy::Volume);
+  } else {
+    for (SESubstance* sub : m_data.GetSubstances().GetActiveGases()) {
+      SEGasCompartment* liteAlveoli = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Alveoli);
+      SELiquidCompartment* pulmonaryCapillaries = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::PulmonaryCapillaries);
+      AlveolarPartialPressureGradientDiffusion(*liteAlveoli, *m_LeftPulmonaryCapillaries, *sub, StandardDiffusingCapacityOfOxygen_mLPersPermmHg, m_Dt_s);
+      AlveolarPartialPressureGradientDiffusion(*liteAlveoli, *m_RightPulmonaryCapillaries, *sub, StandardDiffusingCapacityOfOxygen_mLPersPermmHg, m_Dt_s);
 
-    if (m_LeftAlveoli->GetSubstanceQuantity(*sub)->GetVolume(VolumeUnit::mL) < 0.0 || m_LeftPulmonaryCapillaries->GetSubstanceQuantity(*sub)->GetMass(MassUnit::ug) < 0.0 || m_RightAlveoli->GetSubstanceQuantity(*sub)->GetVolume(VolumeUnit::mL) < 0.0 || m_RightPulmonaryCapillaries->GetSubstanceQuantity(*sub)->GetMass(MassUnit::ug) < 0.0) {
-      Fatal("Diffusion mass cannot be negative");
+      liteAlveoli->Balance(BalanceGasBy::Volume);
     }
   }
-  m_LeftAlveoli->Balance(BalanceGasBy::Volume);
-  m_RightAlveoli->Balance(BalanceGasBy::Volume);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -809,8 +821,8 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
     //scenarios will have more time to accumulate lactate
     mandatoryMuscleAnaerobicFraction *= (1.0 + m_PatientActions->GetSepsis()->GetSeverity().GetValue() / 2.0);
     //If we get to severe sepsis but do not have lactic acidosis yet, ramp up fraction another 50% (theoretical max = 0.1 * (1.5)^2 = 0.225)
-    if (m_Patient->IsEventActive(CDM::enumPatientEvent::SevereSepsis)&&!m_Patient->IsEventActive(CDM::enumPatientEvent::LacticAcidosis)) {
-        mandatoryMuscleAnaerobicFraction *=1.5;
+    if (m_Patient->IsEventActive(CDM::enumPatientEvent::SevereSepsis) && !m_Patient->IsEventActive(CDM::enumPatientEvent::LacticAcidosis)) {
+      mandatoryMuscleAnaerobicFraction *= 1.5;
     }
   }
   //Reusable values for looping
@@ -1261,7 +1273,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
       tissueNeededEnergy_kcal = 0;
       lactateProductionRate_mol_Per_s += glucoseToConsume_mol * lactate_Per_Glucose / time_s;
       if (m_AnaerobicTissues.find(tissue->GetName()) == std::string::npos) //for tracking only
-        m_AnaerobicTissues.append(std::string{ tissue->GetName() } +" ");
+        m_AnaerobicTissues.append(std::string{ tissue->GetName() } + " ");
     }
     //If we'll use up all the glucose
     else if (tissueNeededEnergy_kcal > 0) {
@@ -1272,7 +1284,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
       tissueNeededEnergy_kcal -= glucoseToConsume_mol * anaerobic_ATP_Per_Glucose * energyPerMolATP_kcal;
       lactateProductionRate_mol_Per_s += glucoseToConsume_mol * lactate_Per_Glucose / time_s;
       if (m_AnaerobicTissues.find(tissue->GetName()) == std::string::npos) //for tracking only
-        m_AnaerobicTissues.append(std::string{ tissue->GetName() }+" ");
+        m_AnaerobicTissues.append(std::string{ tissue->GetName() } + " ");
     }
 
     //Muscles can convert glycogen anaerobically, too
@@ -1289,7 +1301,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         nonbrainNeededEnergy_kcal -= glycogenConsumed_mol * anaerobic_ATP_Per_Glycogen * energyPerMolATP_kcal;
         lactateProductionRate_mol_Per_s += glycogenConsumed_mol * lactate_Per_Glycogen / time_s;
         if (m_AnaerobicTissues.find(tissue->GetName()) == std::string::npos && tissueNeededEnergy_kcal != 0) //for tracking only
-          m_AnaerobicTissues.append(std::string{ tissue->GetName() }+" ");
+          m_AnaerobicTissues.append(std::string{ tissue->GetName() } + " ");
         muscleMandatoryAnaerobicNeededEnergy_kcal = 0;
         tissueNeededEnergy_kcal = 0;
       }
@@ -1302,7 +1314,7 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
         tissueNeededEnergy_kcal -= glycogenConsumed_mol * anaerobic_ATP_Per_Glycogen * energyPerMolATP_kcal;
         lactateProductionRate_mol_Per_s += glycogenConsumed_mol * lactate_Per_Glycogen / time_s;
         if (m_AnaerobicTissues.find(tissue->GetName()) == std::string::npos && tissueNeededEnergy_kcal != 0) //for tracking only
-          m_AnaerobicTissues.append(std::string{ tissue->GetName() } +" ");
+          m_AnaerobicTissues.append(std::string{ tissue->GetName() } + " ");
         tissueNeededEnergy_kcal += muscleMandatoryAnaerobicNeededEnergy_kcal; //add the still-needed mandatory anaerobic energy back to muscle's needed energy for tracking of the deficit
       }
     }
@@ -2632,5 +2644,4 @@ void Tissue::OverrideControlLoop()
   }
   return;
 }
-
 }

@@ -38,7 +38,6 @@ namespace tatrc {
         DEFINE_STATIC_STRING(Cardiovascular);
         DEFINE_STATIC_STRING(Renal);
         DEFINE_STATIC_STRING(Respiratory);
-        DEFINE_STATIC_STRING(RespiratoryLite);
         DEFINE_STATIC_STRING(RespiratoryAndAnesthesiaMachine);
         DEFINE_STATIC_STRING(RespiratoryAndInhaler);
         DEFINE_STATIC_STRING(RespiratoryAndMechanicalVentilator);
