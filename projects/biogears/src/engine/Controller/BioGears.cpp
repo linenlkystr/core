@@ -4531,7 +4531,7 @@ void BioGears::SetupRespiratory()
     Bronchi.GetVolumeBaseline().SetValue(broncheaVolume_mL, VolumeUnit::mL);
     Bronchi.GetPressure().SetValue(AmbientPressure, PressureUnit::cmH2O);
     SEFluidCircuitNode& Alveoli = cRespiratory.CreateNode(BGE::RespiratoryLiteNode::Alveoli);
-    Alveoli.GetVolumeBaseline().SetValue(LungResidualVolume_L, VolumeUnit::L);
+    Alveoli.GetVolumeBaseline().SetValue(alveoliVolume_L, VolumeUnit::L);
     Alveoli.GetPressure().SetValue(AmbientPressure, PressureUnit::cmH2O);
     SEFluidCircuitNode& PleuralConnection = cRespiratory.CreateNode(BGE::RespiratoryLiteNode::PleuralConnection);
     PleuralConnection.GetPressure().SetValue(pleuralPressure_cmH2O, PressureUnit::cmH2O);

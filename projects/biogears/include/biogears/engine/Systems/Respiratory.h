@@ -111,6 +111,7 @@ private:
   void Apnea();
   // Driver
   void RespiratoryDriver();
+  void RespiratoryDriverLite();
   void ProcessDriverActions();
 
   // Shared Utility Methods for Actions/Driver
