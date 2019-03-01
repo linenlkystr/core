@@ -156,6 +156,7 @@ public:
   void CombinedInternalAndEnvironmentVariableBMRandTemperatureCircuitTest(const std::string& sTestDirectory);
   void CombinedInternalAndEnvironmentSkinTempDropCircuitTest(const std::string& sTestDirectory);
   void EnvironmentISO7730ComparisonTest(const std::string& sTestDirectory);
+  void LiteThermalCircuitTest(const std::string& sTestDirectory);
 
 protected:
 public:
