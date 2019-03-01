@@ -152,9 +152,14 @@ void BioGearsEngineTest::FillFunctionMap()
     "CombinedInternalAndEnvironmentSkinTempDropCircuitTest",
     &BioGearsEngineTest::
       CombinedInternalAndEnvironmentSkinTempDropCircuitTest));
-  bgeMap.insert(
-    std::make_pair("EnvironmentISO7730ComparisonTest",
-      &BioGearsEngineTest::EnvironmentISO7730ComparisonTest));
+  bgeMap.insert(std::make_pair(
+    "EnvironmentISO7730ComparisonTest",
+    &BioGearsEngineTest::
+      EnvironmentISO7730ComparisonTest));
+  bgeMap.insert(std::make_pair(
+    "LiteThermalCircuitTest",
+    &BioGearsEngineTest::
+      LiteThermalCircuitTest));
 
   bgeMap.insert(
     std::make_pair("DiffusionClearanceExcretionTests",

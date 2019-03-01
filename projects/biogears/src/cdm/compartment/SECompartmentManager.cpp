@@ -833,7 +833,30 @@ const std::vector<SEThermalCompartmentLink*>& SECompartmentManager::GetThermalLi
 {
   return m_ThermalLinks;
 }
+/*
 //-------------------------------------------------------------------------------
+SEThermalCompartmentGraph& SECompartmentManager::CreateThermalGraph(const char* name)
+{
+  return CreateThermalGraph(std::string{ name });
+}
+//-------------------------------------------------------------------------------
+SEThermalCompartmentGraph& SECompartmentManager::CreateThermalGraph(const std::string& name)
+{
+  SEThermalCompartmentGraph* graph = nullptr;
+
+  auto find = m_ThermalName2Graphs.find(name);
+  if (find == end(m_ThermalName2Graphs)) {
+    graph = new SEThermalCompartmentGraph(name, GetLogger());
+    m_ThermalName2Graphs[name] = graph;
+    m_ThermalGraphs.push_back(graph);
+  } else {
+    graph = find->second;
+    if (graph->GetName() != name)
+      throw CommonDataModelException("Compartment Graph already exists for name(" + name + ")");
+  }
+  return *graph;
+}
+  */
 
 /////////////////////////
 // TISSUE COMPARTMENTS //
