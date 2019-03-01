@@ -5049,11 +5049,11 @@ void BioGears::SetupInternalTemperature()
 
   SEThermalCompartmentLink& GroundToInternalCore = m_Compartments->CreateThermalLink(InternalGround, InternalCore, BGE::TemperatureLink::GroundToInternalCore);
   GroundToInternalCore.MapPath(TemperatureGroundToCore);
-  SEThermalCompartmentLink& InternalCoreToInternalSkin = m_Compartments->CreateThermalLink(InternalGround, InternalCore, BGE::TemperatureLink::InternalCoreToInternalSkin);
+  SEThermalCompartmentLink& InternalCoreToInternalSkin = m_Compartments->CreateThermalLink(InternalCore, InternalSkin, BGE::TemperatureLink::InternalCoreToInternalSkin);
   InternalCoreToInternalSkin.MapPath(CoreToSkin);
-  SEThermalCompartmentLink& InternalCoreToGround = m_Compartments->CreateThermalLink(InternalGround, InternalCore, BGE::TemperatureLink::InternalCoreToGround);
+  SEThermalCompartmentLink& InternalCoreToGround = m_Compartments->CreateThermalLink(InternalCore, InternalGround, BGE::TemperatureLink::InternalCoreToGround);
   InternalCoreToGround.MapPath(CoreToTemperatureGround);
-  SEThermalCompartmentLink& InternalSkinToGround = m_Compartments->CreateThermalLink(InternalGround, InternalCore, BGE::TemperatureLink::InternalSkinToGround);
+  SEThermalCompartmentLink& InternalSkinToGround = m_Compartments->CreateThermalLink(InternalSkin, InternalGround, BGE::TemperatureLink::InternalSkinToGround);
   InternalSkinToGround.MapPath(SkinToTemperatureGround);
 }
 }
