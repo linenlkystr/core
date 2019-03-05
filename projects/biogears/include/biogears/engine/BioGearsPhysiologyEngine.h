@@ -553,6 +553,7 @@ namespace tatrc {
         }
       };
 
+
       namespace TemperatureLink {
 
         DEFINE_STATIC_STRING(ActiveToClothing);
@@ -593,6 +594,55 @@ namespace tatrc {
           return _values;
         }
       };
+
+namespace TemperatureLiteCompartment {
+
+  DEFINE_STATIC_STRING(Core);
+  DEFINE_STATIC_STRING(Environment);
+  DEFINE_STATIC_STRING(Skin);
+  DEFINE_STATIC_STRING(Ground);
+  DEFINE_STATIC_STRING(Ref);
+
+  static const std::vector<std::string>& GetValues()
+  {
+    static std::vector<std::string> _values = {
+      Core, Environment, Skin, Ground
+    };
+    return _values;
+  }
+};
+
+namespace TemperatureLiteLink {
+
+  DEFINE_STATIC_STRING(CoreToRef); //Respiration
+  DEFINE_STATIC_STRING(RefToEnvironment); //TempSource
+  DEFINE_STATIC_STRING(EnvironmentToSkin); //Resistor
+  DEFINE_STATIC_STRING(GroundToCore); //Metabolism
+  DEFINE_STATIC_STRING(CoreToSkin); //Resistor
+  DEFINE_STATIC_STRING(CoreToGround); //Capacitor
+  DEFINE_STATIC_STRING(SkinToGround); //Capacitor
+
+  static const std::vector<std::string>& GetValues()
+  {
+    static std::vector<std::string> _values = {
+      CoreToRef, RefToEnvironment, EnvironmentToSkin, GroundToCore, CoreToSkin, CoreToGround, SkinToGround
+    };
+    return _values;
+  }
+};
+
+namespace EnvironmentLiteCompartment {
+
+  DEFINE_STATIC_STRING(Environment);
+
+  static const std::vector<std::string>& GetValues()
+  {
+    static std::vector<std::string> _values = {
+      Environment
+    };
+    return _values;
+  }
+};
 
       namespace AnesthesiaMachineCompartment {
 

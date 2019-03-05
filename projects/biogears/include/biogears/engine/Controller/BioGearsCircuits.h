@@ -341,6 +341,30 @@ namespace tatrc {
       };
 
       ////////////////////////////////////////
+      // Thermal Lite Circuit Enums //
+      ////////////////////////////////////////
+
+      namespace ThermalLiteNode {
+
+        DEFINE_STATIC_STRING(Core);
+        DEFINE_STATIC_STRING(Skin);
+        DEFINE_STATIC_STRING(Environment);
+        DEFINE_STATIC_STRING(Ground);
+        DEFINE_STATIC_STRING(Ref);
+      };
+
+      namespace ThermalLitePath {
+
+        DEFINE_STATIC_STRING(CoreToRef); //Respiration
+        DEFINE_STATIC_STRING(RefToEnvironment); //TempSource
+        DEFINE_STATIC_STRING(EnvironmentToSkin); //Resistor
+        DEFINE_STATIC_STRING(GroundToCore); //Metabolism
+        DEFINE_STATIC_STRING(CoreToSkin); //Resistor
+        DEFINE_STATIC_STRING(CoreToGround); //Capacitor
+        DEFINE_STATIC_STRING(SkinToGround); //Capacitor
+      };
+
+      ////////////////////////////////////////
       // Combined Temperature Circuit Enums //
       ////////////////////////////////////////
 

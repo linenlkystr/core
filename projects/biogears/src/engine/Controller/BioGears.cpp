@@ -4925,4 +4925,97 @@ void BioGears::SetupInternalTemperature()
   SEThermalCompartmentLink& InternalSkinToGround = m_Compartments->CreateThermalLink(InternalSkin, InternalGround, BGE::TemperatureLink::InternalSkinToGround);
   InternalSkinToGround.MapPath(SkinToTemperatureGround);
 }
+
+void BioGears::SetupLiteTemperature()
+{
+  Info("Setting Up Thermal Lite");
+  SEThermalCircuit& thermLite = m_Circuits->GetTemperatureCircuit();
+
+  //Set up circuit constants
+  //Capacitances
+  double capCore_J_Per_K;
+  double skinMassFraction = 0.09; //0.09 is fraction of mass that the skin takes up in a typical human /cite herman2006physics
+  capCore_J_Per_K = ((1.0 - skinMassFraction) * 80.0 * 3490);
+  double capSkin_J_per_K = 25011;
+  //Resistances
+  double skinBloodFlow_m3Persec = 4.97E-06;
+  double bloodDensity_kgPerm3 = 1050;
+  double bloodSpecificHeat_JPerkgK = 3617;
+  double alphaScale = 0.79; //tuning parameter for scaling resistance
+  double coreToSkinR_K_Per_W;
+  coreToSkinR_K_Per_W = 1.0 / (alphaScale * bloodDensity_kgPerm3 * bloodSpecificHeat_JPerkgK * skinBloodFlow_m3Persec);
+  //double skinToExternalR_K_Per_W = 5.0;
+  double skinToExternalR_K_Per_W = std::pow(20, 5) * std::abs(2.27 / (10.3 + (1.67 * (10 ^ -7) * std::pow((297 + 307) / 2, 3)))); //check this first num
+
+  std::cout << coreToSkinR_K_Per_W << std::endl;
+  std::cout << skinToExternalR_K_Per_W << std::endl;
+
+  //Sources
+  double MetabolicHeat_W = 100.0;
+  double RespirationHeat_W = 10.0;
+  double ExternalTemp_K = 299.0;
+
+  //Circuit Nodes
+  SEThermalCircuitNode& Ground = thermLite.CreateNode(BGE::ThermalLiteNode::Ground);
+  Ground.GetTemperature().SetValue(0.0, TemperatureUnit::K);
+  Ground.GetNextTemperature().SetValue(0.0, TemperatureUnit::K);
+  thermLite.AddReferenceNode(Ground);
+  SEThermalCircuitNode& Core = thermLite.CreateNode(BGE::ThermalLiteNode::Core);
+  Core.GetTemperature().SetValue(37.0, TemperatureUnit::C);
+  SEThermalCircuitNode& Skin = thermLite.CreateNode(BGE::ThermalLiteNode::Skin);
+  Skin.GetTemperature().SetValue(33.0, TemperatureUnit::C);
+  SEThermalCircuitNode& Environment = thermLite.CreateNode(BGE::ThermalLiteNode::Environment);
+  Environment.GetTemperature().SetValue(299, TemperatureUnit::K);
+  SEThermalCircuitNode& Ref = thermLite.CreateNode(BGE::ThermalLiteNode::Ref);
+  Ref.GetTemperature().SetValue(0.0, TemperatureUnit::K);
+  Ref.GetNextTemperature().SetValue(0.0, TemperatureUnit::K);
+  thermLite.AddReferenceNode(Ref);
+
+  //Pathways
+  SEThermalCircuitPath& groundToCore = thermLite.CreatePath(Ground, Core, BGE::ThermalLitePath::GroundToCore);
+  groundToCore.GetHeatSourceBaseline().SetValue(MetabolicHeat_W, PowerUnit::W);
+  SEThermalCircuitPath& coreToGround = thermLite.CreatePath(Core, Ground, BGE::ThermalLitePath::CoreToGround);
+  coreToGround.GetCapacitanceBaseline().SetValue(capCore_J_Per_K, HeatCapacitanceUnit::J_Per_K);
+  SEThermalCircuitPath& coreToSkin = thermLite.CreatePath(Core, Skin, BGE::ThermalLitePath::CoreToSkin);
+  coreToSkin.GetResistanceBaseline().SetValue(coreToSkinR_K_Per_W, HeatResistanceUnit::K_Per_W);
+  SEThermalCircuitPath& skinToGround = thermLite.CreatePath(Skin, Ground, BGE::ThermalLitePath::SkinToGround);
+  skinToGround.GetCapacitanceBaseline().SetValue(capSkin_J_per_K, HeatCapacitanceUnit::J_Per_K);
+  SEThermalCircuitPath& refToExternal = thermLite.CreatePath(Ref, Environment, BGE::ThermalLitePath::RefToEnvironment);
+  refToExternal.GetTemperatureSourceBaseline().SetValue(ExternalTemp_K, TemperatureUnit::K);
+  SEThermalCircuitPath& externalToSkin = thermLite.CreatePath(Environment, Skin, BGE::ThermalLitePath::EnvironmentToSkin);
+  externalToSkin.GetResistanceBaseline().SetValue(skinToExternalR_K_Per_W, HeatResistanceUnit::K_Per_W);
+  SEThermalCircuitPath& coreToRef = thermLite.CreatePath(Core, Ref, BGE::ThermalLitePath::CoreToRef);
+  coreToRef.GetHeatSourceBaseline().SetValue(RespirationHeat_W, PowerUnit::W);
+
+  thermLite.SetNextAndCurrentFromBaselines();
+  thermLite.StateChange();
+
+  SEThermalCompartment& cGround = m_Compartments->CreateThermalCompartment(BGE::TemperatureLiteCompartment::Ground);
+  cGround.MapNode(Ground);
+  SEThermalCompartment& cCore = m_Compartments->CreateThermalCompartment(BGE::TemperatureLiteCompartment::Core);
+  cCore.MapNode(Core);
+  SEThermalCompartment& cSkin = m_Compartments->CreateThermalCompartment(BGE::TemperatureLiteCompartment::Skin);
+  cSkin.MapNode(Skin);
+  SEThermalCompartment& cEnvironment = m_Compartments->CreateThermalCompartment(BGE::TemperatureLiteCompartment::Environment);
+  cEnvironment.MapNode(Environment);
+  SEThermalCompartment& cRef = m_Compartments->CreateThermalCompartment(BGE::TemperatureLiteCompartment::Ref);
+  cRef.MapNode(Ref);
+
+  SEThermalCompartmentLink& lGroundToCore = m_Compartments->CreateThermalLink(cGround, cCore, BGE::TemperatureLiteLink::GroundToCore);
+  lGroundToCore.MapPath(groundToCore);
+  SEThermalCompartmentLink& lCoreToGround = m_Compartments->CreateThermalLink(cCore, cGround, BGE::TemperatureLiteLink::CoreToGround);
+  lCoreToGround.MapPath(coreToGround);
+  SEThermalCompartmentLink& lCoreToSkin = m_Compartments->CreateThermalLink(cCore, cSkin, BGE::TemperatureLiteLink::CoreToSkin);
+  lCoreToSkin.MapPath(coreToSkin);
+  SEThermalCompartmentLink& lSkinToGround = m_Compartments->CreateThermalLink(cSkin, cGround, BGE::TemperatureLiteLink::SkinToGround);
+  lSkinToGround.MapPath(skinToGround);
+  SEThermalCompartmentLink& lRefToEnvironment = m_Compartments->CreateThermalLink(cRef, cEnvironment, BGE::TemperatureLiteLink::RefToEnvironment);
+  lRefToEnvironment.MapPath(refToExternal);
+  SEThermalCompartmentLink& lEnvironmentToSkin = m_Compartments->CreateThermalLink(cEnvironment, cSkin, BGE::TemperatureLiteLink::EnvironmentToSkin);
+  lEnvironmentToSkin.MapPath(externalToSkin);
+  SEThermalCompartmentLink& lCoreToRef = m_Compartments->CreateThermalLink(cCore, cRef, BGE::TemperatureLiteLink::CoreToRef);
+  lCoreToRef.MapPath(coreToRef);
+
+}
+
 }
