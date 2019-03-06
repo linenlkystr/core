@@ -718,8 +718,6 @@ void Tissue::CalculatePulmonaryCapillarySubstanceTransfer()
     for (SESubstance* sub : m_data.GetSubstances().GetActiveGases()) {
       sub->GetAlveolarTransfer().SetValue(0, VolumePerTimeUnit::mL_Per_s);
       sub->GetDiffusingCapacity().SetValue(0, VolumePerTimePressureUnit::mL_Per_s_mmHg);
-      if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-      }
       //Left Side Alveoli Transfer
       DiffusingCapacityPerSide_mLPerSPermmHg = StandardDiffusingCapacityOfOxygen_mLPersPermmHg * (1 - RightLungRatio);
       AlveolarPartialPressureGradientDiffusion(*m_LeftAlveoli, *m_LeftPulmonaryCapillaries, *sub, DiffusingCapacityPerSide_mLPerSPermmHg, m_Dt_s);
@@ -735,14 +733,15 @@ void Tissue::CalculatePulmonaryCapillarySubstanceTransfer()
     m_LeftAlveoli->Balance(BalanceGasBy::Volume);
     m_RightAlveoli->Balance(BalanceGasBy::Volume);
   } else {
+    SEGasCompartment* liteAlveoli = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Alveoli);
+    SELiquidCompartment* pulmonaryCapillaries = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::PulmonaryCapillaries);
     for (SESubstance* sub : m_data.GetSubstances().GetActiveGases()) {
-      SEGasCompartment* liteAlveoli = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Alveoli);
-      SELiquidCompartment* pulmonaryCapillaries = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::PulmonaryCapillaries);
-      AlveolarPartialPressureGradientDiffusion(*liteAlveoli, *m_LeftPulmonaryCapillaries, *sub, StandardDiffusingCapacityOfOxygen_mLPersPermmHg, m_Dt_s);
-      AlveolarPartialPressureGradientDiffusion(*liteAlveoli, *m_RightPulmonaryCapillaries, *sub, StandardDiffusingCapacityOfOxygen_mLPersPermmHg, m_Dt_s);
-
-      liteAlveoli->Balance(BalanceGasBy::Volume);
+      sub->GetAlveolarTransfer().SetValue(0, VolumePerTimeUnit::mL_Per_s);
+      sub->GetDiffusingCapacity().SetValue(0, VolumePerTimePressureUnit::mL_Per_s_mmHg);
+      AlveolarPartialPressureGradientDiffusion(*liteAlveoli, *m_LeftPulmonaryCapillaries, *sub, StandardDiffusingCapacityOfOxygen_mLPersPermmHg /2.0, m_Dt_s);
+      AlveolarPartialPressureGradientDiffusion(*liteAlveoli, *m_RightPulmonaryCapillaries, *sub, StandardDiffusingCapacityOfOxygen_mLPersPermmHg / 2.0, m_Dt_s);
     }
+    liteAlveoli->Balance(BalanceGasBy::Volume);
   }
 }
 
@@ -1978,16 +1977,24 @@ void Tissue::AlveolarPartialPressureGradientDiffusion(SEGasCompartment& pulmonar
       DiffusedVolume_mL = DiffusedMass_ug / sub.GetDensity(MassPerVolumeUnit::ug_Per_mL);
     }
   }
-
   pSubQ->GetVolume().IncrementValue(-DiffusedVolume_mL, VolumeUnit::mL);
   sub.GetAlveolarTransfer().IncrementValue(DiffusedVolume_mL / timestep_s, VolumePerTimeUnit::mL_Per_s);
   sub.GetDiffusingCapacity().IncrementValue(DiffusingCapacityO2_mL_Per_s_mmHg * sub.GetRelativeDiffusionCoefficient().GetValue(), VolumePerTimePressureUnit::mL_Per_s_mmHg);
 
+  
+  // Diffused Mass > 0 --> leaving pulmonary capillaries (Distribute By Mass)
+  // Diffused Mass < 0 --> going into pulmonary capillaries (Distribute by Volume)
+  //if (DiffusedMass_ug > 0.0) {
+  //  DistributeMassbyMassWeighted(vascular, sub, DiffusedMass_ug, MassUnit::ug);
+  //} else {
+  //  DistributeMassbyVolumeWeighted(vascular, sub, DiffusedMass_ug, MassUnit::ug);
+  //}
   vSubQ->GetMass().IncrementValue(DiffusedMass_ug, MassUnit::ug);
   if (std::abs(vSubQ->GetMass(MassUnit::ug)) < ZERO_APPROX) {
     vSubQ->GetMass().SetValue(0.0, MassUnit::ug);
   }
   vSubQ->Balance(BalanceLiquidBy::Mass);
+  //vascular.GetSubstanceQuantity(sub)->Balance(BalanceLiquidBy::Mass);
 }
 
 /// --------------------------------------------------------------------------------------------------
