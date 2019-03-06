@@ -92,6 +92,10 @@ public:
   SEScalarPressure& GetRespirationDriverPressure();
   double GetRespirationDriverPressure(const PressureUnit& unit) const;
 
+  bool HasRespirationDriverFrequency() const;
+  SEScalarFrequency& GetRespirationDriverFrequency();
+  double GetRespirationDriverFrequency(const FrequencyUnit& unit) const;
+
   bool HasRespirationMusclePressure() const;
   SEScalarPressure& GetRespirationMusclePressure();
   double GetRespirationMusclePressure(const PressureUnit& unit) const;
@@ -143,6 +147,7 @@ protected:
   SEScalarFlowCompliance* m_PulmonaryCompliance;
   SEScalarFlowResistance* m_PulmonaryResistance;
   SEScalarPressure* m_RespirationDriverPressure;
+  SEScalarFrequency* m_RespirationDriverFrequency;
   SEScalarPressure* m_RespirationMusclePressure;
   SEScalarFrequency* m_RespirationRate;
   SEScalar* m_SpecificVentilation;

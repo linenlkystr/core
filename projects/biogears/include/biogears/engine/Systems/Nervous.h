@@ -77,6 +77,13 @@ protected:
   double m_ChemoreceptorFiringRateSetPoint_Hz;
   double m_PeripheralBloodGasInteractionBaseline_Hz;
   double m_PeripheralVentilationDelta_L_Per_min;
+  double m_CentralFrequencyDelta_Per_min;
+  double m_CentralPressureDelta_cmH2O;
+  double m_PeripheralFrequencyDelta_Per_min;
+  double m_PeripheralPressureDelta_cmH2O;
+  double m_DynamicCO2Signal;
+  double m_LastArterialCO2;
+
 
   // Stateless member variable (Set in SetUp())
   bool m_FeedbackActive;

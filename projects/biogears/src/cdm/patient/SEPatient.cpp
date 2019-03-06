@@ -49,6 +49,7 @@ SEPatient::SEPatient(Logger* logger)
   m_MeanArterialPressureBaseline = nullptr;
   m_PainSusceptibility = nullptr;
   m_ResidualVolume = nullptr;
+  m_RespiratoryDriverAmplitudeBaseline = nullptr;
   m_RespirationRateBaseline = nullptr;
   m_RightLungRatio = nullptr;
   m_SkinSurfaceArea = nullptr;
@@ -117,6 +118,7 @@ void SEPatient::Clear()
   SAFE_DELETE(m_PainSusceptibility);
   SAFE_DELETE(m_ResidualVolume);
   SAFE_DELETE(m_RespirationRateBaseline);
+  SAFE_DELETE(m_RespiratoryDriverAmplitudeBaseline);
   SAFE_DELETE(m_RightLungRatio);
   SAFE_DELETE(m_SkinSurfaceArea);
   SAFE_DELETE(m_SystolicArterialPressureBaseline);
@@ -182,8 +184,10 @@ const SEScalar* SEPatient::GetScalar(const std::string& name)
     return &GetResidualVolume();
   if (name.compare("RespirationRateBaseline") == 0)
     return &GetRespirationRateBaseline();
+  if (name.compare("RespiratoryDriverAmplitudeBaseline") == 0)
+    return &GetRespiratoryDriverAmplitudeBaseline();
   if (name.compare("RightLungRatio") == 0)
-    return &GetRightLungRatio();
+      return &GetRightLungRatio();
   if (name.compare("SkinSurfaceArea") == 0)
     return &GetSkinSurfaceArea();
   if (name.compare("SystolicArterialPressureBaseline") == 0)
@@ -279,6 +283,9 @@ bool SEPatient::Load(const CDM::PatientData& in)
   }
   if (in.RespirationRateBaseline().present()) {
     GetRespirationRateBaseline().Load(in.RespirationRateBaseline().get());
+  }
+  if (in.RespiratoryDriverAmplitudeBaseline().present()) {
+    GetRespiratoryDriverAmplitudeBaseline().Load(in.RespiratoryDriverAmplitudeBaseline().get());
   }
   if (in.RightLungRatio().present()) {
     GetRightLungRatio().Load(in.RightLungRatio().get());
@@ -398,6 +405,9 @@ void SEPatient::Unload(CDM::PatientData& data) const
   }
   if (m_RespirationRateBaseline != nullptr) {
     data.RespirationRateBaseline(std::unique_ptr<CDM::ScalarFrequencyData>(m_RespirationRateBaseline->Unload()));
+  }
+  if (m_RespiratoryDriverAmplitudeBaseline != nullptr) {
+    data.RespiratoryDriverAmplitudeBaseline(std::unique_ptr<CDM::ScalarPressureData>(m_RespiratoryDriverAmplitudeBaseline->Unload()));
   }
   if (m_RightLungRatio != nullptr) {
     data.RightLungRatio(std::unique_ptr<CDM::ScalarFractionData>(m_RightLungRatio->Unload()));
@@ -793,7 +803,7 @@ void SEPatient::SetName(const std::string& name)
 {
   m_Name = name;
 }
-  //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 bool SEPatient::HasName() const
 {
   return m_Name.empty() ? false : true;
@@ -824,22 +834,20 @@ void SEPatient::InvalidateGender()
   m_Sex = (CDM::enumSex::value)-1;
 }
 //-----------------------------------------------------------------------------
-[[deprecated("Use GetGender instead")]] CDM::enumSex::value SEPatient::GetSex() const
-{
+[[deprecated("Use GetGender instead")]] CDM::enumSex::value SEPatient::GetSex() const {
   return m_Sex;
 }
-//-----------------------------------------------------------------------------
-[[deprecated("Use SetGender instead")]] void SEPatient::SetSex(CDM::enumSex::value sex)
+  //-----------------------------------------------------------------------------
+  [[deprecated("Use SetGender instead")]] void SEPatient::SetSex(CDM::enumSex::value sex)
 {
   m_Sex = sex;
 }
 //-----------------------------------------------------------------------------
-[[deprecated("Use HasGender instead")]] bool SEPatient::HasSex() const
-{
+[[deprecated("Use HasGender instead")]] bool SEPatient::HasSex() const {
   return m_Sex == ((CDM::enumSex::value)-1) ? false : true;
 }
-//-----------------------------------------------------------------------------
-[[deprecated("Use InvalidateGender instead")]] void SEPatient::InvalidateSex()
+  //-----------------------------------------------------------------------------
+  [[deprecated("Use InvalidateGender instead")]] void SEPatient::InvalidateSex()
 {
   m_Sex = (CDM::enumSex::value)-1;
 }
@@ -1344,6 +1352,27 @@ double SEPatient::GetRespirationRateBaseline(const FrequencyUnit& unit) const
   return m_RespirationRateBaseline->GetValue(unit);
 }
 //-----------------------------------------------------------------------------
+bool SEPatient::HasRespiratoryDriverAmplitudeBaseline() const
+{
+  return m_RespiratoryDriverAmplitudeBaseline == nullptr ? false : m_RespiratoryDriverAmplitudeBaseline->IsValid();
+}
+//-----------------------------------------------------------------------------
+SEScalarPressure& SEPatient::GetRespiratoryDriverAmplitudeBaseline()
+{
+  if (m_RespiratoryDriverAmplitudeBaseline == nullptr) {
+    m_RespiratoryDriverAmplitudeBaseline = new SEScalarPressure();
+  }
+  return *m_RespiratoryDriverAmplitudeBaseline;
+}
+//-----------------------------------------------------------------------------
+double SEPatient::GetRespiratoryDriverAmplitudeBaseline(const PressureUnit& unit) const
+{
+  if (m_RespiratoryDriverAmplitudeBaseline == nullptr) {
+    return SEScalar::dNaN();
+  }
+  return m_RespiratoryDriverAmplitudeBaseline->GetValue(unit);
+}
+//-----------------------------------------------------------------------------
 bool SEPatient::HasRightLungRatio() const
 {
   return m_RightLungRatio == nullptr ? false : m_RightLungRatio->IsValid();
@@ -1490,5 +1519,5 @@ double SEPatient::GetVitalCapacity(const VolumeUnit& unit) const
   }
   return m_VitalCapacity->GetValue(unit);
 }
-  //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 }
