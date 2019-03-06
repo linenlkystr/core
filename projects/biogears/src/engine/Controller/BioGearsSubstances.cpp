@@ -181,9 +181,9 @@ void BioGearsSubstances::InitializeGasCompartments()
     Bronchi->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().SetValue(1 - 0.011 - 0.195);
     Bronchi->Balance(BalanceGasBy::VolumeFraction);
     SEGasCompartment* Alveoli = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Alveoli);
-    Alveoli->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().SetValue(0.050);
-    Alveoli->GetSubstanceQuantity(*m_O2)->GetVolumeFraction().SetValue(0.155);
-    Alveoli->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().SetValue(1 - 0.050 - 0.155);
+    Alveoli->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().SetValue(0.045);  //0.06
+    Alveoli->GetSubstanceQuantity(*m_O2)->GetVolumeFraction().SetValue(0.151);  //0.131
+    Alveoli->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().SetValue(1 - 0.045 - 0.151);
     Alveoli->Balance(BalanceGasBy::VolumeFraction);
     SEGasCompartment* PleuralCavity = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Pleural);
     PleuralCavity->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().SetValue(AmbientCO2VF);
@@ -242,7 +242,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentGases()
   double Hb_total_mM = Hb_total_g_Per_dL / m_Hb->GetMolarMass(MassPerAmountUnit::g_Per_mmol) * 10.0;
 
   // Bootstrapped values from many runs (using standard patient)
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Aorta), Hb_total_mM, 0.974905, 0.129608, 0.02817, 1.3012, 25.9389, 7.39961);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Aorta), Hb_total_mM, 0.974905, 0.129608, 0.02817, 1.3012, 25.9389, 7.39961);   //0.129608
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Bone), Hb_total_mM, 0.830363, 0.0616873, 0.13056, 1.3881, 26.0892, 7.37404);
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Brain), Hb_total_mM, 0.827281, 0.0612181, 0.133288, 1.38958, 26.0916, 7.37362);
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Fat), Hb_total_mM, 0.830303, 0.0616616, 0.128914, 1.38717, 26.0876, 7.3743);

@@ -699,8 +699,8 @@ bool BioGears::SetupPatient()
   double tidalVolume_L = 37.0 * weight_kg / 1000.0 - functionalResidualCapacity_L;
   double targetVent_L_Per_min = tidalVolume_L * respirationRate_bpm;
   m_Patient->GetTotalVentilationBaseline().SetValue(targetVent_L_Per_min, VolumePerTimeUnit::L_Per_min);
+  m_Patient->GetRespiratoryDriverAmplitudeBaseline().SetValue(-4.25, PressureUnit::cmH2O);
 
-  //m_Patient->GetTargetVentilationBaseline().SetValue(10.75, VolumePerTimeUnit::L_Per_min);
   double vitalCapacity = totalLungCapacity_L - residualVolume_L;
   double expiratoryReserveVolume = functionalResidualCapacity_L - residualVolume_L;
   double inspiratoryReserveVolume = totalLungCapacity_L - functionalResidualCapacity_L - tidalVolume_L;
@@ -4497,27 +4497,31 @@ void BioGears::SetupRespiratory()
     }
     lAerosol.StateChange();
   } else {
-    //We are using BioGears Lite.  This circuit combines left/right lung into single entity.  Based off circuit in Albanese2015Integrated 
+    //We are using BioGears Lite.  This circuit combines left/right lung into single entity.  Based off circuit in Albanese2015Integrated
     //Compliances
-    double larynxCompliance_L_Per_cmH2O = 0.00127;      //Larynx removed from circuit, but values used here to derive combined circuit baselines
+    double larynxCompliance_L_Per_cmH2O = 0.00127; //Larynx removed from circuit, but values used here to derive combined circuit baselines
     double tracheaCompliance_L_Per_cmH2O = 0.00238;
-    double throatCompliance_L_Per_cmH2O = 1.0 / (1.0 / larynxCompliance_L_Per_cmH2O + 1.0 / tracheaCompliance_L_Per_cmH2O);
-    double bronchiCompliance_L_Per_cmH2O = 0.0131;
+    double throatCompliance_L_Per_cmH2O = tracheaCompliance_L_Per_cmH2O;
+    double bronchiCompliance_L_Per_cmH2O = 0.075; //0.0131;
     double alveoliCompliance_L_Per_cmH2O = 0.2;
-    double chestWallCompliance_L_Per_cmH2O = 0.2445;
+    double chestWallCompliance_L_Per_cmH2O = 0.275; //0.2445;
     //Resistances
+    double totalPulmonaryResistance = 1.75;
+    double TracheaResistancePercent = 0.6;
+    double BronchiResistancePercent = 0.3;
+    double AlveoliDuctResistancePercent = 0.1;
     double mouthToLarynxResistance_cmH2O_s_Per_L = 1.021;
     double larynxToTracheaResistance_cmH2O_s_Per_L = 0.3369;
-    double mouthToTracheaResistance_cmH2O_s_Per_L = mouthToLarynxResistance_cmH2O_s_Per_L + larynxToTracheaResistance_cmH2O_s_Per_L;
-    double tracheaToBronchiResistance_cmH2O_s_Per_L = 0.3063;
-    double bronchiToAlveoliResistance_cmH2O_s_Per_L = 0.0817;
+    double mouthToTracheaResistance_cmH2O_s_Per_L = TracheaResistancePercent * totalPulmonaryResistance; // +larynxToTracheaResistance_cmH2O_s_Per_L;
+    double tracheaToBronchiResistance_cmH2O_s_Per_L = BronchiResistancePercent * totalPulmonaryResistance; //0.3063;
+    double bronchiToAlveoliResistance_cmH2O_s_Per_L = AlveoliDuctResistancePercent * totalPulmonaryResistance; //0.0817;
     //Target volumes are end-expiratory (i.e. bottom of breathing cycle, pressures = ambient pressure)
-    double functionalResidualCapacity_L = 2.4; //This includes what's left in alveoli and dead space
+    double functionalResidualCapacity_L = 2.4; //m_Patient->GetFunctionalResidualCapacity(VolumeUnit::L); //2.4; //This includes what's left in alveoli and dead space
     double targetDeadSpace_mL = 135.0; //This includes bronchea, larynx, thrachea
     double larynxVolume_mL = 34.4;
     double tracheaVolume_mL = 6.63;
-    double broncheaVolume_mL = targetDeadSpace_mL - (larynxVolume_mL + tracheaVolume_mL);
-    double alveoliVolume_L = functionalResidualCapacity_L - (larynxVolume_mL + tracheaVolume_mL + broncheaVolume_mL) / 1000.0;
+    double bronchiVolume_mL = targetDeadSpace_mL - (larynxVolume_mL + tracheaVolume_mL);
+    double alveoliVolume_L = functionalResidualCapacity_L - (larynxVolume_mL + tracheaVolume_mL + bronchiVolume_mL) / 1000.0;
     //Pressure--others set to ambient
     double pleuralPressure_cmH2O = AmbientPressure - 5.0;
     //Circuit Nodes
@@ -4528,7 +4532,7 @@ void BioGears::SetupRespiratory()
     Trachea.GetVolumeBaseline().SetValue(tracheaVolume_mL + larynxVolume_mL, VolumeUnit::mL);
     Trachea.GetPressure().SetValue(AmbientPressure, PressureUnit::cmH2O);
     SEFluidCircuitNode& Bronchi = cRespiratory.CreateNode(BGE::RespiratoryLiteNode::Bronchi);
-    Bronchi.GetVolumeBaseline().SetValue(broncheaVolume_mL, VolumeUnit::mL);
+    Bronchi.GetVolumeBaseline().SetValue(bronchiVolume_mL, VolumeUnit::mL);
     Bronchi.GetPressure().SetValue(AmbientPressure, PressureUnit::cmH2O);
     SEFluidCircuitNode& Alveoli = cRespiratory.CreateNode(BGE::RespiratoryLiteNode::Alveoli);
     Alveoli.GetVolumeBaseline().SetValue(alveoliVolume_L, VolumeUnit::L);
@@ -4542,7 +4546,7 @@ void BioGears::SetupRespiratory()
     RespiratoryMuscle.GetPressure().SetValue(AmbientPressure, PressureUnit::cmH2O);
 
     //Pathways
-    SEFluidCircuitPath& EnvironmentToMouth = cRespiratory.CreatePath(*Ambient, Mouth, BGE::RespiratoryLitePath::EnvironmentToMouth);   //This could be ambient air or the Lite Anesthesia Machine
+    SEFluidCircuitPath& EnvironmentToMouth = cRespiratory.CreatePath(*Ambient, Mouth, BGE::RespiratoryLitePath::EnvironmentToMouth); //This could be ambient air or the Lite Anesthesia Machine
     EnvironmentToMouth.GetPressureSourceBaseline().SetValue(0.0, PressureUnit::cmH2O);
     SEFluidCircuitPath& MouthToTrachea = cRespiratory.CreatePath(Mouth, Trachea, BGE::RespiratoryLitePath::MouthToTrachea);
     MouthToTrachea.GetResistanceBaseline().SetValue(mouthToTracheaResistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
@@ -4603,7 +4607,7 @@ void BioGears::SetupRespiratory()
     gRespiratory.AddLink(pBronchiToAlveoli);
     gRespiratory.StateChange();
 
-      // Generically set up the Aerosol Graph, this is a mirror of the Respiratory Gas Graph, only it's a liquid graph
+    // Generically set up the Aerosol Graph, this is a mirror of the Respiratory Gas Graph, only it's a liquid graph
     //MCM--Unclear if we want to keep this for BgLite, but here it is if we want it
     SELiquidCompartmentGraph& lAerosol = m_Compartments->GetAerosolGraph();
     SELiquidCompartment* lEnvironment = m_Compartments->GetLiquidCompartment(BGE::EnvironmentCompartment::Ambient);
@@ -4648,8 +4652,6 @@ void BioGears::SetupRespiratory()
     }
     lAerosol.StateChange();
   }
-
-
 }
 
 void BioGears::SetupGastrointestinal()
