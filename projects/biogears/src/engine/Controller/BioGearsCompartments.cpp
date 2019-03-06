@@ -176,7 +176,11 @@ void BioGearsCompartments::StateChange()
   // Anatomy
   SORT_CMPTS(Chyme, Liquid);
   SORT_CMPTS(Pulmonary, Gas);
-  SORT_CMPTS(Temperature, Thermal);
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    SORT_CMPTS(Temperature, Thermal);
+  } else {
+    SORT_CMPTS_LITE(Temperature, Thermal)
+  }
   if (m_data.GetConfiguration().IsTissueEnabled()) {
     SORT_CMPTS(Tissue, Tissue);
     for (const std::string& name : BGE::ExtravascularCompartment::GetValues()) {

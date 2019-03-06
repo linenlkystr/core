@@ -39,8 +39,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/environment/SEAppliedTemperature.h>
 #include <biogears/cdm/utils/GeneralMath.h>
 
-#include <biogears/engine/Controller/BioGears.h>
 #include <biogears/engine/BioGearsPhysiologyEngine.h>
+#include <biogears/engine/Controller/BioGears.h>
 namespace BGE = mil::tatrc::physiology::biogears;
 
 namespace biogears {
@@ -135,26 +135,39 @@ void Environment::SetUp()
   m_PatientActions = &m_data.GetActions().GetPatientActions();
   m_EnvironmentActions = &m_data.GetActions().GetEnvironmentActions();
   //Circuits
-  m_EnvironmentCircuit = &m_data.GetCircuits().GetExternalTemperatureCircuit();
-  //Compartments
-  m_AmbientGases = m_data.GetCompartments().GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
-  m_AmbientAerosols = m_data.GetCompartments().GetLiquidCompartment(BGE::EnvironmentCompartment::Ambient);
-  //Nodes
-  m_ThermalEnvironment = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Ambient);
-  m_SkinNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::ExternalSkin);
-  m_ClothingNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Clothing);
-  m_EnclosureNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Enclosure);
-  //Paths
-  m_SkinToClothing = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalSkinToClothing);
-  m_ActiveHeatTransferRatePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToClothing);
-  m_ActiveTemperaturePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToActive);
-  m_ActiveSwitchPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ActiveToClothing);
-  m_ClothingToEnclosurePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ClothingToEnclosure);
-  m_GroundToEnclosurePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToEnclosure);
-  m_ClothingToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ClothingToEnvironment);
-  m_GroundToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToEnvironment);
-  m_EnvironmentSkinToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalSkinToGround);
-  m_EnvironmentCoreToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalCoreToGround);
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    m_EnvironmentCircuit = &m_data.GetCircuits().GetExternalTemperatureCircuit();
+    //Compartments
+    m_AmbientGases = m_data.GetCompartments().GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
+    m_AmbientAerosols = m_data.GetCompartments().GetLiquidCompartment(BGE::EnvironmentCompartment::Ambient);
+    //Nodes
+    m_ThermalEnvironment = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Ambient);
+    m_SkinNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::ExternalSkin);
+    m_ClothingNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Clothing);
+    m_EnclosureNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Enclosure);
+    //Paths
+    m_SkinToClothing = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalSkinToClothing);
+    m_ActiveHeatTransferRatePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToClothing);
+    m_ActiveTemperaturePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToActive);
+    m_ActiveSwitchPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ActiveToClothing);
+    m_ClothingToEnclosurePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ClothingToEnclosure);
+    m_GroundToEnclosurePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToEnclosure);
+    m_ClothingToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ClothingToEnvironment);
+    m_GroundToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToEnvironment);
+    m_EnvironmentSkinToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalSkinToGround);
+    m_EnvironmentCoreToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalCoreToGround);
+  } else {
+    m_EnvironmentCircuit = &m_data.GetCircuits().GetTemperatureCircuit();
+    //Compartments
+    m_AmbientGases = m_data.GetCompartments().GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
+    m_AmbientAerosols = m_data.GetCompartments().GetLiquidCompartment(BGE::EnvironmentCompartment::Ambient);
+    //Nodes
+    m_ThermalEnvironment = m_EnvironmentCircuit->GetNode(BGE::ThermalLiteNode::Environment);
+    m_SkinNode = m_EnvironmentCircuit->GetNode(BGE::ThermalLiteNode::Skin);
+    m_ClothingNode = m_SkinNode;
+    m_EnclosureNode = m_ThermalEnvironment;
+    //Paths
+  }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -235,7 +248,7 @@ void Environment::PreProcess()
     ProcessChange(*m_EnvironmentActions->GetChange());
     m_EnvironmentActions->RemoveChange();
   }
-
+  /*
   //Set clothing resistor
   double dClothingResistance_rsi = GetConditions().GetClothingResistance(HeatResistanceAreaUnit::rsi); //1 rsi = 1 m^2-K/W
   double dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
@@ -247,13 +260,17 @@ void Environment::PreProcess()
     dSkinHeatLoss_W = m_SkinToClothing->GetHeatTransferRate().GetValue(PowerUnit::W);
   }
   GetSkinHeatLoss().SetValue(dSkinHeatLoss_W, PowerUnit::W);
-
+  */
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
   ProcessActions();
   CalculateSupplementalValues();
   CalculateRadiation();
   CalculateConvection();
   CalculateEvaporation();
   CalculateRespiration();
+  } else {
+
+  }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -287,6 +304,7 @@ void Environment::PostProcess()
 //--------------------------------------------------------------------------------------------------
 void Environment::ProcessActions()
 {
+  
   //Begin by assuming nothing is active
   //Set the power source to zero
   m_ActiveHeatTransferRatePath->GetNextHeatSource().SetValue(0.0, PowerUnit::W);
@@ -294,7 +312,7 @@ void Environment::ProcessActions()
   m_ActiveTemperaturePath->GetNextTemperatureSource().SetValue(0.0, TemperatureUnit::K);
   //Open the switch
   m_ActiveSwitchPath->SetNextSwitch(CDM::enumOpenClosed::Open);
-
+  
   if (!m_EnvironmentActions->HasThermalApplication()) {
     //No action
     return;
@@ -310,7 +328,7 @@ void Environment::ProcessActions()
   //We'll allow heating and cooling to be done simultaneously by just summing the effects
 
   double dTotalEffect_W = 0.0;
-
+  
   if (ta->HasActiveHeating()) {
     SEActiveHeating& ah = ta->GetActiveHeating();
     if (ah.HasSurfaceArea() && ah.HasSurfaceAreaFraction()) {
@@ -369,7 +387,7 @@ void Environment::ProcessActions()
 
     dTotalEffect_W -= ac.GetPower(PowerUnit::W) * dEffectiveAreaFraction;
   }
-
+  
   //Set the the power source
   m_ActiveHeatTransferRatePath->GetNextHeatSource().SetValue(dTotalEffect_W, PowerUnit::W);
 
