@@ -606,7 +606,7 @@ namespace TemperatureLiteCompartment {
   static const std::vector<std::string>& GetValues()
   {
     static std::vector<std::string> _values = {
-      Core, Environment, Skin, Ground
+      Core, Environment, Skin, Ground, Ref
     };
     return _values;
   }
@@ -626,19 +626,6 @@ namespace TemperatureLiteLink {
   {
     static std::vector<std::string> _values = {
       CoreToRef, RefToEnvironment, EnvironmentToSkin, GroundToCore, CoreToSkin, CoreToGround, SkinToGround
-    };
-    return _values;
-  }
-};
-
-namespace EnvironmentLiteCompartment {
-
-  DEFINE_STATIC_STRING(Environment);
-
-  static const std::vector<std::string>& GetValues()
-  {
-    static std::vector<std::string> _values = {
-      Environment
     };
     return _values;
   }

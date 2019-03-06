@@ -1029,9 +1029,10 @@ bool BioGears::CreateCircuitsAndCompartments()
   ///////////////////////////////////////////////////////////////////
   // Create and Combine External and Internal Temperature Circuits //
   ///////////////////////////////////////////////////////////////////
+  SEThermalCircuit& cThermal = m_Circuits->GetTemperatureCircuit();
+  if (!GetConfiguration().IsBioGearsLiteEnabled()) {
   SetupExternalTemperature();
   SetupInternalTemperature();
-  SEThermalCircuit& cThermal = m_Circuits->GetTemperatureCircuit();
   SEThermalCircuit& CInthermal = m_Circuits->GetInternalTemperatureCircuit();
   SEThermalCircuit& cExthermal = m_Circuits->GetExternalTemperatureCircuit();
   cThermal.AddCircuit(CInthermal);
@@ -1053,6 +1054,12 @@ bool BioGears::CreateCircuitsAndCompartments()
   InternalCoreToExternalCore.MapPath(CoreTemperatureConnection);
   SEThermalCompartmentLink& InternalSkinToExternalSkin = m_Compartments->CreateThermalLink(*cInSkin, *cExSkin, BGE::TemperatureLink::InternalSkinToExternalSkin);
   InternalSkinToExternalSkin.MapPath(SkinTemperatureConnection);
+  } else {
+    SetupLiteTemperature();
+    cThermal.SetNextAndCurrentFromBaselines();
+    cThermal.StateChange();
+
+  }
 
   // This node is shared between the respiratory, anesthesia, and inhaler circuits
   SEFluidCircuitNode& Ambient = m_Circuits->CreateFluidNode(BGE::EnvironmentNode::Ambient);
@@ -4929,7 +4936,7 @@ void BioGears::SetupInternalTemperature()
 void BioGears::SetupLiteTemperature()
 {
   Info("Setting Up Thermal Lite");
-  SEThermalCircuit& thermLite = m_Circuits->GetTemperatureCircuit();
+  SEThermalCircuit& cThermal = m_Circuits->GetTemperatureCircuit();
 
   //Set up circuit constants
   //Capacitances
@@ -4956,39 +4963,39 @@ void BioGears::SetupLiteTemperature()
   double ExternalTemp_K = 299.0;
 
   //Circuit Nodes
-  SEThermalCircuitNode& Ground = thermLite.CreateNode(BGE::ThermalLiteNode::Ground);
+  SEThermalCircuitNode& Ground = cThermal.CreateNode(BGE::ThermalLiteNode::Ground);
   Ground.GetTemperature().SetValue(0.0, TemperatureUnit::K);
   Ground.GetNextTemperature().SetValue(0.0, TemperatureUnit::K);
-  thermLite.AddReferenceNode(Ground);
-  SEThermalCircuitNode& Core = thermLite.CreateNode(BGE::ThermalLiteNode::Core);
+  cThermal.AddReferenceNode(Ground);
+  SEThermalCircuitNode& Core = cThermal.CreateNode(BGE::ThermalLiteNode::Core);
   Core.GetTemperature().SetValue(37.0, TemperatureUnit::C);
-  SEThermalCircuitNode& Skin = thermLite.CreateNode(BGE::ThermalLiteNode::Skin);
+  SEThermalCircuitNode& Skin = cThermal.CreateNode(BGE::ThermalLiteNode::Skin);
   Skin.GetTemperature().SetValue(33.0, TemperatureUnit::C);
-  SEThermalCircuitNode& Environment = thermLite.CreateNode(BGE::ThermalLiteNode::Environment);
+  SEThermalCircuitNode& Environment = cThermal.CreateNode(BGE::ThermalLiteNode::Environment);
   Environment.GetTemperature().SetValue(299, TemperatureUnit::K);
-  SEThermalCircuitNode& Ref = thermLite.CreateNode(BGE::ThermalLiteNode::Ref);
+  SEThermalCircuitNode& Ref = cThermal.CreateNode(BGE::ThermalLiteNode::Ref);
   Ref.GetTemperature().SetValue(0.0, TemperatureUnit::K);
   Ref.GetNextTemperature().SetValue(0.0, TemperatureUnit::K);
-  thermLite.AddReferenceNode(Ref);
+  cThermal.AddReferenceNode(Ref);
 
   //Pathways
-  SEThermalCircuitPath& groundToCore = thermLite.CreatePath(Ground, Core, BGE::ThermalLitePath::GroundToCore);
+  SEThermalCircuitPath& groundToCore = cThermal.CreatePath(Ground, Core, BGE::ThermalLitePath::GroundToCore);
   groundToCore.GetHeatSourceBaseline().SetValue(MetabolicHeat_W, PowerUnit::W);
-  SEThermalCircuitPath& coreToGround = thermLite.CreatePath(Core, Ground, BGE::ThermalLitePath::CoreToGround);
+  SEThermalCircuitPath& coreToGround = cThermal.CreatePath(Core, Ground, BGE::ThermalLitePath::CoreToGround);
   coreToGround.GetCapacitanceBaseline().SetValue(capCore_J_Per_K, HeatCapacitanceUnit::J_Per_K);
-  SEThermalCircuitPath& coreToSkin = thermLite.CreatePath(Core, Skin, BGE::ThermalLitePath::CoreToSkin);
+  SEThermalCircuitPath& coreToSkin = cThermal.CreatePath(Core, Skin, BGE::ThermalLitePath::CoreToSkin);
   coreToSkin.GetResistanceBaseline().SetValue(coreToSkinR_K_Per_W, HeatResistanceUnit::K_Per_W);
-  SEThermalCircuitPath& skinToGround = thermLite.CreatePath(Skin, Ground, BGE::ThermalLitePath::SkinToGround);
+  SEThermalCircuitPath& skinToGround = cThermal.CreatePath(Skin, Ground, BGE::ThermalLitePath::SkinToGround);
   skinToGround.GetCapacitanceBaseline().SetValue(capSkin_J_per_K, HeatCapacitanceUnit::J_Per_K);
-  SEThermalCircuitPath& refToExternal = thermLite.CreatePath(Ref, Environment, BGE::ThermalLitePath::RefToEnvironment);
+  SEThermalCircuitPath& refToExternal = cThermal.CreatePath(Ref, Environment, BGE::ThermalLitePath::RefToEnvironment);
   refToExternal.GetTemperatureSourceBaseline().SetValue(ExternalTemp_K, TemperatureUnit::K);
-  SEThermalCircuitPath& externalToSkin = thermLite.CreatePath(Environment, Skin, BGE::ThermalLitePath::EnvironmentToSkin);
+  SEThermalCircuitPath& externalToSkin = cThermal.CreatePath(Environment, Skin, BGE::ThermalLitePath::EnvironmentToSkin);
   externalToSkin.GetResistanceBaseline().SetValue(skinToExternalR_K_Per_W, HeatResistanceUnit::K_Per_W);
-  SEThermalCircuitPath& coreToRef = thermLite.CreatePath(Core, Ref, BGE::ThermalLitePath::CoreToRef);
+  SEThermalCircuitPath& coreToRef = cThermal.CreatePath(Core, Ref, BGE::ThermalLitePath::CoreToRef);
   coreToRef.GetHeatSourceBaseline().SetValue(RespirationHeat_W, PowerUnit::W);
 
-  thermLite.SetNextAndCurrentFromBaselines();
-  thermLite.StateChange();
+  //cThermal.SetNextAndCurrentFromBaselines();
+  //cThermal.StateChange();
 
   SEThermalCompartment& cGround = m_Compartments->CreateThermalCompartment(BGE::TemperatureLiteCompartment::Ground);
   cGround.MapNode(Ground);

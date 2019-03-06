@@ -334,7 +334,7 @@ void BioGearsConfiguration::Initialize()
   GetStandardPulmonaryCapillaryCoverage().SetValue(0.70);
 
   // Circuits
-  m_BioGearsLiteEnabled = CDM::enumOnOff::Off;
+  m_BioGearsLiteEnabled = CDM::enumOnOff::On;
   GetCardiovascularOpenResistance().SetValue(100.0, FlowResistanceUnit::mmHg_s_Per_mL);
   GetDefaultOpenElectricResistance().SetValue(1E100, ElectricResistanceUnit::Ohm);
   GetDefaultOpenFlowResistance().SetValue(1E100, FlowResistanceUnit::Pa_s_Per_m3);
