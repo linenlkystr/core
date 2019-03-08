@@ -699,7 +699,11 @@ bool BioGears::SetupPatient()
   double tidalVolume_L = 37.0 * weight_kg / 1000.0 - functionalResidualCapacity_L;
   double targetVent_L_Per_min = tidalVolume_L * respirationRate_bpm;
   m_Patient->GetTotalVentilationBaseline().SetValue(targetVent_L_Per_min, VolumePerTimeUnit::L_Per_min);
-  m_Patient->GetRespiratoryDriverAmplitudeBaseline().SetValue(-4.25, PressureUnit::cmH2O);
+  //Stabilization goes faster if we start the driver with a good amplitude that pushes blood gas levels to setpoint.
+  //Based off testing, this relationship holds up well between RR = 12 and RR = 16.  Can stabilize up to RR = 20, but not as quickly (slope decreases from 0.25 to 0.125).
+  double baselineDriverPressure_cmH2O = -5.5 + 0.25 * (respirationRate_bpm - 12.0);
+  BLIM(baselineDriverPressure_cmH2O, -5.5, -3.5);
+  m_Patient->GetRespiratoryDriverAmplitudeBaseline().SetValue(baselineDriverPressure_cmH2O, PressureUnit::cmH2O);
 
   double vitalCapacity = totalLungCapacity_L - residualVolume_L;
   double expiratoryReserveVolume = functionalResidualCapacity_L - residualVolume_L;
@@ -4499,24 +4503,20 @@ void BioGears::SetupRespiratory()
   } else {
     //We are using BioGears Lite.  This circuit combines left/right lung into single entity.  Based off circuit in Albanese2015Integrated
     //Compliances
-    double larynxCompliance_L_Per_cmH2O = 0.00127; //Larynx removed from circuit, but values used here to derive combined circuit baselines
-    double tracheaCompliance_L_Per_cmH2O = 0.00238;
-    double throatCompliance_L_Per_cmH2O = tracheaCompliance_L_Per_cmH2O;
-    double bronchiCompliance_L_Per_cmH2O = 0.075; //0.0131;
-    double alveoliCompliance_L_Per_cmH2O = 0.2;
-    double chestWallCompliance_L_Per_cmH2O = 0.275; //0.2445;
+    double throatCompliance_L_Per_cmH2O = 0.00238;
+    double bronchiCompliance_L_Per_cmH2O = 0.05; //0.0131-->0.075;
+    double alveoliCompliance_L_Per_cmH2O = 0.155; //0.2
+    double chestWallCompliance_L_Per_cmH2O = 0.21; //0.2445-->0.275  Lower this and then make bronchi/alveoli compliances proportional to desired ventilation
     //Resistances
     double totalPulmonaryResistance = 1.75;
     double TracheaResistancePercent = 0.6;
     double BronchiResistancePercent = 0.3;
     double AlveoliDuctResistancePercent = 0.1;
-    double mouthToLarynxResistance_cmH2O_s_Per_L = 1.021;
-    double larynxToTracheaResistance_cmH2O_s_Per_L = 0.3369;
     double mouthToTracheaResistance_cmH2O_s_Per_L = TracheaResistancePercent * totalPulmonaryResistance; // +larynxToTracheaResistance_cmH2O_s_Per_L;
     double tracheaToBronchiResistance_cmH2O_s_Per_L = BronchiResistancePercent * totalPulmonaryResistance; //0.3063;
     double bronchiToAlveoliResistance_cmH2O_s_Per_L = AlveoliDuctResistancePercent * totalPulmonaryResistance; //0.0817;
     //Target volumes are end-expiratory (i.e. bottom of breathing cycle, pressures = ambient pressure)
-    double functionalResidualCapacity_L = 2.4; //m_Patient->GetFunctionalResidualCapacity(VolumeUnit::L); //2.4; //This includes what's left in alveoli and dead space
+    double functionalResidualCapacity_L = 2.4;
     double targetDeadSpace_mL = 135.0; //This includes bronchea, larynx, thrachea
     double larynxVolume_mL = 34.4;
     double tracheaVolume_mL = 6.63;

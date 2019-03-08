@@ -615,13 +615,14 @@ void Nervous::ChemoreceptorFeedback()
     m_PeripheralVentilationDelta_L_Per_min += dPeripheralVentilation_L_Per_min;
   } else {
       //Chemoreceptor time constants (all in s)
-      double tau_p_P = 13.0, tau_p_RR = 13.0, tau_c_P = 180.0, tau_c_RR = 180.0;
+      double tau_p_P = 100.0, tau_p_RR = 100.0, tau_c_P = 180.0, tau_c_RR = 180.0;
       //Chemoreceptor gains--Tuned to data from Reynold, 1972 and Reynolds, 1973 (cited in Cheng, 2016)
-      double gain_p_P = 0.925, gain_p_RR = 0.75, gain_c_P = 0.55, gain_c_RR = 0.75; 
+      double gain_p_P = 1.25, gain_p_RR = 0.70, gain_c_P = 0.75, gain_c_RR = 0.70; //cp=0.55
 
       ////Inputs
       double arterialO2Pressure_mmHg = m_data.GetBloodChemistry().GetArterialOxygenPressure(PressureUnit::mmHg);
       double arterialCO2Pressure_mmHg = m_data.GetBloodChemistry().GetArterialCarbonDioxidePressure(PressureUnit::mmHg);
+      
       //Magosso and Ursino cite findings that central chemoreceptors are less sensitive at sub-normal levels of CO2 than to super-normal levels
       if (arterialCO2Pressure_mmHg < m_ArterialCarbonDioxideSetPoint_mmHg) {
         gain_c_P *= 0.067;
