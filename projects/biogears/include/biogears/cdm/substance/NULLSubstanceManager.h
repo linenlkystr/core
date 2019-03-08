@@ -11,19 +11,18 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
 #pragma once
+#include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 CDM_BIND_DECL(SubstanceData);
 CDM_BIND_DECL(SubstanceCompoundData);
 
 namespace biogears {
-class SESubstance;
-class SESubstanceCompound;
 
-class BIOGEARS_API SESubstanceManager : public Loggable {
+class BIOGEARS_API NULLSubstanceManager : public SESubstanceManager {
 public:
-  SESubstanceManager(Logger* logger);
-  virtual ~SESubstanceManager();
+  NULLSubstanceManager(Logger* logger);
+  virtual ~NULLSubstanceManager();
 
   virtual void Clear();
   virtual void Reset();
@@ -57,35 +56,5 @@ public:
 
   virtual SESubstance* ReadSubstanceFile(const char* xmlFile);
   virtual SESubstance* ReadSubstanceFile(const std::string& xmlFile);
-
-protected:
-  // I am making all these vectors of SESubstances,
-  // Usually these are passed to methods that take a
-  // vector of substances, and a vector of drugs won't be accepted
-  // I could do some crazy template methods that will auto convert
-  // these to substance vectors, but I think that would be too
-  // slow for the amount of times we call stuff
-  // So for now, these will just be substance vectors
-  // If we want drug vectors, I can rename methods to
-  // std::vector<SESubstance*>* GetActiveDrugSubstances
-  // std::vector<SEDrug*>* GetActiveDrugs()
-  // But I don't see a need for that yet...
-  // So will just leave it as it now
-
-  std::vector<SESubstance*> m_Substances;
-  std::vector<SESubstance*> m_ActiveSubstances;
-  std::vector<SESubstance*> m_ActiveGases;
-  std::vector<SESubstance*> m_ActiveLiquids;
-
-  std::vector<SESubstanceCompound*> m_Compounds;
-  std::vector<SESubstanceCompound*> m_ActiveCompounds;
-  ////////////////////////////////////////////////
-  std::map<SESubstance*, const CDM::SubstanceData*> m_OriginalSubstanceData;
-  std::map<SESubstanceCompound*, const CDM::SubstanceCompoundData*> m_OriginalCompoundData;
-  ////////////////////////////////////////////////
-private: //Note I moved these from private to protected because the NULLSubstanceManager isn't staying in
-         //This change shouldn't actually get committed, if you see it in a pull request say no
-//  std::map<SESubstance*, const CDM::SubstanceData*> m_OriginalSubstanceData;
-//  std::map<SESubstanceCompound*, const CDM::SubstanceCompoundData*> m_OriginalCompoundData;
 };
 }
