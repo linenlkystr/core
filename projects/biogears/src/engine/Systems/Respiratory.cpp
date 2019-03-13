@@ -66,7 +66,7 @@ Respiratory::Respiratory(BioGears& bg)
   , m_AerosolTransporter(VolumePerTimeUnit::mL_Per_s, VolumeUnit::mL, MassUnit::ug, MassPerVolumeUnit::ug_Per_mL, GetLogger())
 {
   Clear();
-  m_TuningFile = "";
+  m_TuningFile = "LiteTuning.csv";
 }
 
 Respiratory::~Respiratory()
@@ -209,6 +209,7 @@ void Respiratory::Initialize()
     DeadSpace_L = m_LeftDeadSpace->GetVolumeBaseline(VolumeUnit::L) + m_RightDeadSpace->GetVolumeBaseline(VolumeUnit::L);
   } else {
     DeadSpace_L = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::DeadSpace)->GetVolume(VolumeUnit::L);
+    m_DefaultDrivePressure_cmH2O = -10.0;
   }
 
   GetTotalAlveolarVentilation().SetValue(RespirationRate_Per_min * (TidalVolume_L - DeadSpace_L), VolumePerTimeUnit::L_Per_min);
@@ -218,7 +219,6 @@ void Respiratory::Initialize()
   GetSpecificVentilation().SetValue(0.21);
   GetEndTidalCarbonDioxideFraction().SetValue(0.0827);
   GetEndTidalCarbonDioxidePressure().SetValue(0.0, PressureUnit::mmHg);
-
 
   //Get the fluid mechanics to a good starting point
   TuneCircuit();
@@ -513,15 +513,13 @@ void Respiratory::PreProcess()
     BronchoConstriction();
     BronchoDilation();
     Intubation();
-    Pneumothorax();
     ConsciousRespiration();
     MechanicalVentilation();
     RespiratoryDriver();
-  }else{
+  } else {
+    Pneumothorax();
     RespiratoryDriverLite();
   }
-
-  
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -610,6 +608,9 @@ void Respiratory::UpdatePleuralCompliance()
 
   m_RightPleuralToRespiratoryMuscle->GetNextCompliance().SetValue(dRightPleuralCompliance, FlowComplianceUnit::L_Per_cmH2O);
   m_LeftPleuralToRespiratoryMuscle->GetNextCompliance().SetValue(dLeftPleuralCompliance, FlowComplianceUnit::L_Per_cmH2O);
+
+  m_data.GetDataTrack().Probe("PleuralCompliance", dRightPleuralCompliance);
+  m_data.GetDataTrack().Probe("AlveolarCompliance", m_RightAlveoliToRightPleuralConnection->GetNextCompliance(FlowComplianceUnit::L_Per_cmH2O));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1012,12 +1013,11 @@ void Respiratory::RespiratoryDriverLite()
   } else {
     TotalBreathingCycleTime_s = 60.0 / m_VentilationFrequency_Per_min; //Total time of one breathing cycle
   }
-  
-  if (m_BreathingCycleTime_s > TotalBreathingCycleTime_s){
+
+  if (m_BreathingCycleTime_s > TotalBreathingCycleTime_s) {
     m_PeakRespiratoryDrivePressure_cmH2O = GetRespirationMusclePressure(PressureUnit::cmH2O);
     m_VentilationFrequency_Per_min = GetRespirationDriverFrequency(FrequencyUnit::Per_min);
     //Don't need a separate "ProcessDriverActions"--just do whatever we support (e.g. drugs) here
-
 
     m_BreathingCycleTime_s = 0.0;
   }
@@ -1029,17 +1029,17 @@ void Respiratory::RespiratoryDriverLite()
   ////New driver
   if (m_BreathingCycleTime_s < driverInspirationTime_s) {
     //Inspiration
-    m_DriverPressure_cmH2O = -m_PeakRespiratoryDrivePressure_cmH2O * std::pow(m_BreathingCycleTime_s, 2) / (driverInspirationTime_s * driverExpirationTime_s) + (m_PeakRespiratoryDrivePressure_cmH2O * TotalBreathingCycleTime_s * m_BreathingCycleTime_s / (driverInspirationTime_s * driverExpirationTime_s));
+    m_DriverPressure_cmH2O = m_DefaultDrivePressure_cmH2O + (-m_PeakRespiratoryDrivePressure_cmH2O * std::pow(m_BreathingCycleTime_s, 2) / (driverInspirationTime_s * driverExpirationTime_s) + (m_PeakRespiratoryDrivePressure_cmH2O * TotalBreathingCycleTime_s * m_BreathingCycleTime_s / (driverInspirationTime_s * driverExpirationTime_s)));
   } else if (m_BreathingCycleTime_s < TotalBreathingCycleTime_s) {
     //Expiration
-    m_DriverPressure_cmH2O = m_PeakRespiratoryDrivePressure_cmH2O / (1.0 - std::exp(-driverExpirationTime_s / tauExpiration_s)) * (std::exp(-(m_BreathingCycleTime_s - driverInspirationTime_s) / tauExpiration_s) - std::exp(-driverExpirationTime_s / tauExpiration_s));
+    m_DriverPressure_cmH2O = m_DefaultDrivePressure_cmH2O + m_PeakRespiratoryDrivePressure_cmH2O / (1.0 - std::exp(-driverExpirationTime_s / tauExpiration_s)) * (std::exp(-(m_BreathingCycleTime_s - driverInspirationTime_s) / tauExpiration_s) - std::exp(-driverExpirationTime_s / tauExpiration_s));
   } else {
-    m_DriverPressure_cmH2O = 0.0;
+    m_DriverPressure_cmH2O = m_DefaultDrivePressure_cmH2O;
   }
 
   //Push Driving Data to the Circuit -------------------------------------------------------------------------------
   m_DriverPressurePath->GetNextPressureSource().SetValue(m_DriverPressure_cmH2O, PressureUnit::cmH2O);
-} 
+}
 //-------------------------------------------------------------------------------------------------
 ///\brief
 /// Process actions that affect respiratory driver
@@ -1064,7 +1064,6 @@ void Respiratory::ProcessDriverActions()
   double DrugsTVChange_L = Drugs.GetTidalVolumeChange(VolumeUnit::L);
   double NMBModifier = 1.0;
   double SedationModifier = 1.0;
-
 
   if (Drugs.GetNeuromuscularBlockLevel().GetValue() > 0.135) {
     NMBModifier = 0.0;
@@ -1096,7 +1095,6 @@ void Respiratory::ProcessDriverActions()
   m_TargetTidalVolume_L *= cardiacArrestEffect;
   m_TargetTidalVolume_L *= NMBModifier;
   m_TargetTidalVolume_L += DrugsTVChange_L;
-
 
   //That tidal volume cannot exceed 1/2 * Vital Capacity after modifications.  The Respiration Rate will make up for the Alveoli Ventilation difference
   double dHalfVitalCapacity_L = m_Patient->GetVitalCapacity(VolumeUnit::L) / 2;
@@ -1135,10 +1133,20 @@ void Respiratory::AirwayObstruction()
     return;
 
   double Severity = m_PatientActions->GetAirwayObstruction()->GetSeverity().GetValue();
-  double AirwayResistance = m_MouthToCarina->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
-  double dClosedResistance = AirwayResistance;
-  AirwayResistance = GeneralMath::ResistanceFunction(20.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, Severity);
-  m_MouthToCarina->GetNextResistance().SetValue(AirwayResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+  double AirwayResistance;
+  double dClosedResistance;
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    AirwayResistance = m_MouthToCarina->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
+    dClosedResistance = AirwayResistance;
+    AirwayResistance = GeneralMath::ResistanceFunction(20.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, Severity);
+    m_MouthToCarina->GetNextResistance().SetValue(AirwayResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+  } else {
+    AirwayResistance = m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::MouthToTrachea)->GetNextResistance(FlowResistanceUnit::cmH2O_s_Per_L);
+    ;
+    dClosedResistance = AirwayResistance;
+    AirwayResistance = GeneralMath::ResistanceFunction(20.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, Severity);
+    m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::RespiratoryLitePath::MouthToTrachea)->GetNextResistance().SetValue(AirwayResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+  }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1156,16 +1164,23 @@ void Respiratory::BronchoConstriction()
   if (!m_PatientActions->HasBronchoconstriction())
     return;
 
-  double LeftBronchiResistance = m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
-  double RightBronchiResistance = m_CarinaToRightAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
   double dSeverity = m_PatientActions->GetBronchoconstriction()->GetSeverity().GetValue();
-  double dClosedResistance = LeftBronchiResistance;
-  LeftBronchiResistance = GeneralMath::ResistanceFunction(70.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, dSeverity);
-  dClosedResistance = RightBronchiResistance;
-  RightBronchiResistance = GeneralMath::ResistanceFunction(70.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, dSeverity);
 
-  m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().SetValue(LeftBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
-  m_CarinaToRightAnatomicDeadSpace->GetNextResistance().SetValue(RightBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    double LeftBronchiResistance = m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
+    double RightBronchiResistance = m_CarinaToRightAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
+
+    double dClosedResistance = LeftBronchiResistance;
+    LeftBronchiResistance = GeneralMath::ResistanceFunction(70.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, dSeverity);
+    dClosedResistance = RightBronchiResistance;
+    RightBronchiResistance = GeneralMath::ResistanceFunction(70.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, dSeverity);
+
+    m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().SetValue(LeftBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+    m_CarinaToRightAnatomicDeadSpace->GetNextResistance().SetValue(RightBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+
+  } else {
+    double dBronchiResistance = m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::TracheaToBronchi)->GetNextResistance(FlowResistanceUnit::cmH2O_s_Per_L);
+  }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1290,94 +1305,120 @@ void Respiratory::Pneumothorax()
     // Flow resistance for the decompression needle, if used
     double dNeedleFlowResistance_cmH2O_s_Per_L = 15.0;
 
-    if (m_PatientActions->HasLeftOpenTensionPneumothorax()) {
-      // Scale the flow resistance through the chest opening based on severity
-      double severity = m_PatientActions->GetLeftOpenTensionPneumothorax()->GetSeverity().GetValue();
-      double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
-      if (severity > 0.0 && !m_PatientActions->HasLeftChestOcclusiveDressing()) {
-        resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
-      }
-      resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
-      m_EnvironmentToLeftChestLeak->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-      if (severity == 0) {
-        m_EnvironmentToLeftChestLeak->SetNextValve(CDM::enumOpenClosed::Open);
-      }
-      if (m_PatientActions->HasLeftNeedleDecompression()) {
-        DoLeftNeedleDecompression(dNeedleFlowResistance_cmH2O_s_Per_L);
-      }
-    }
-
-    if (m_PatientActions->HasRightOpenTensionPneumothorax()) {
-      // Scale the flow resistance through the chest opening based on severity
-      double severity = m_PatientActions->GetRightOpenTensionPneumothorax()->GetSeverity().GetValue();
-      double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
-      if (severity > 0.0 && !m_PatientActions->HasRightChestOcclusiveDressing()) {
-        resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
-      }
-      resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
-      m_EnvironmentToRightChestLeak->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-      if (severity == 0) {
-        m_EnvironmentToRightChestLeak->SetNextValve(CDM::enumOpenClosed::Open);
+    if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+      if (m_PatientActions->HasLeftOpenTensionPneumothorax()) {
+        // Scale the flow resistance through the chest opening based on severity
+        double severity = m_PatientActions->GetLeftOpenTensionPneumothorax()->GetSeverity().GetValue();
+        double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
+        if (severity > 0.0 && !m_PatientActions->HasLeftChestOcclusiveDressing()) {
+          resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
+        }
+        resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
+        m_EnvironmentToLeftChestLeak->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+        if (severity == 0) {
+          m_EnvironmentToLeftChestLeak->SetNextValve(CDM::enumOpenClosed::Open);
+        }
+        if (m_PatientActions->HasLeftNeedleDecompression()) {
+          DoLeftNeedleDecompression(dNeedleFlowResistance_cmH2O_s_Per_L);
+        }
       }
 
-      if (m_PatientActions->HasRightNeedleDecompression()) {
-        DoRightNeedleDecompression(dNeedleFlowResistance_cmH2O_s_Per_L);
-      }
-    }
+      if (m_PatientActions->HasRightOpenTensionPneumothorax()) {
+        // Scale the flow resistance through the chest opening based on severity
+        double severity = m_PatientActions->GetRightOpenTensionPneumothorax()->GetSeverity().GetValue();
+        double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
+        if (severity > 0.0 && !m_PatientActions->HasRightChestOcclusiveDressing()) {
+          resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
+        }
+        resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
+        m_EnvironmentToRightChestLeak->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+        if (severity == 0) {
+          m_EnvironmentToRightChestLeak->SetNextValve(CDM::enumOpenClosed::Open);
+        }
 
-    if (m_PatientActions->HasLeftClosedTensionPneumothorax()) {
-      // Scale the flow resistance through the chest opening based on severity
-      double severity = m_PatientActions->GetLeftClosedTensionPneumothorax()->GetSeverity().GetValue();
-      double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
-      if (severity > 0.0) {
-        resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
-      }
-      resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
-      m_LeftAlveoliLeakToLeftPleural->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-      if (severity == 0) {
-        m_LeftAlveoliLeakToLeftPleural->SetNextValve(CDM::enumOpenClosed::Open);
-      }
-
-      if (m_PatientActions->HasLeftNeedleDecompression()) {
-        DoLeftNeedleDecompression(dNeedleFlowResistance_cmH2O_s_Per_L);
-      }
-    }
-
-    if (m_PatientActions->HasRightClosedTensionPneumothorax()) {
-      // Scale the flow resistance through the chest opening based on severity
-      double severity = m_PatientActions->GetRightClosedTensionPneumothorax()->GetSeverity().GetValue();
-      double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
-      if (severity > 0.0) {
-        resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
-      }
-      resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
-      m_RightAlveoliLeakToRightPleural->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
-      if (severity == 0) {
-        m_RightAlveoliLeakToRightPleural->SetNextValve(CDM::enumOpenClosed::Open);
+        if (m_PatientActions->HasRightNeedleDecompression()) {
+          DoRightNeedleDecompression(dNeedleFlowResistance_cmH2O_s_Per_L);
+        }
       }
 
-      if (m_PatientActions->HasRightNeedleDecompression()) {
-        DoRightNeedleDecompression(dNeedleFlowResistance_cmH2O_s_Per_L);
-      }
-    }
+      if (m_PatientActions->HasLeftClosedTensionPneumothorax()) {
+        // Scale the flow resistance through the chest opening based on severity
+        double severity = m_PatientActions->GetLeftClosedTensionPneumothorax()->GetSeverity().GetValue();
+        double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
+        if (severity > 0.0) {
+          resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
+        }
+        resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
+        m_LeftAlveoliLeakToLeftPleural->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+        if (severity == 0) {
+          m_LeftAlveoliLeakToLeftPleural->SetNextValve(CDM::enumOpenClosed::Open);
+        }
 
-    //Check for interventions without insult
-    if (!m_PatientActions->HasLeftClosedTensionPneumothorax() && !m_PatientActions->HasLeftOpenTensionPneumothorax()) {
-      if (m_PatientActions->HasLeftChestOcclusiveDressing() || m_PatientActions->HasLeftNeedleDecompression()) {
-        /// \error Patient: Cannot perform an intervention if Tension Pneumothorax is not present on that side.
-        Error("Cannot perform an intervention if Tension Pneumothorax is not present on that side.");
-        m_PatientActions->RemoveLeftChestOcclusiveDressing();
-        m_PatientActions->RemoveLeftNeedleDecompression();
-        return;
+        if (m_PatientActions->HasLeftNeedleDecompression()) {
+          DoLeftNeedleDecompression(dNeedleFlowResistance_cmH2O_s_Per_L);
+        }
       }
-    }
-    if (!m_PatientActions->HasRightClosedTensionPneumothorax() && !m_PatientActions->HasRightOpenTensionPneumothorax()) {
-      if (m_PatientActions->HasRightChestOcclusiveDressing() || m_PatientActions->HasRightNeedleDecompression()) {
-        /// \error Patient: Cannot perform an intervention if Tension Pneumothorax is not present on that side.
-        Error("Cannot perform an intervention if Tension Pneumothorax is not present on that side.");
-        m_PatientActions->RemoveRightChestOcclusiveDressing();
-        m_PatientActions->RemoveRightNeedleDecompression();
-        return;
+
+      if (m_PatientActions->HasRightClosedTensionPneumothorax()) {
+        // Scale the flow resistance through the chest opening based on severity
+        double severity = m_PatientActions->GetRightClosedTensionPneumothorax()->GetSeverity().GetValue();
+        double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
+        if (severity > 0.0) {
+          resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
+        }
+        resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
+        m_RightAlveoliLeakToRightPleural->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+        if (severity == 0) {
+          m_RightAlveoliLeakToRightPleural->SetNextValve(CDM::enumOpenClosed::Open);
+        }
+
+        if (m_PatientActions->HasRightNeedleDecompression()) {
+          DoRightNeedleDecompression(dNeedleFlowResistance_cmH2O_s_Per_L);
+        }
+      }
+
+      //Check for interventions without insult
+      if (!m_PatientActions->HasLeftClosedTensionPneumothorax() && !m_PatientActions->HasLeftOpenTensionPneumothorax()) {
+        if (m_PatientActions->HasLeftChestOcclusiveDressing() || m_PatientActions->HasLeftNeedleDecompression()) {
+          /// \error Patient: Cannot perform an intervention if Tension Pneumothorax is not present on that side.
+          Error("Cannot perform an intervention if Tension Pneumothorax is not present on that side.");
+          m_PatientActions->RemoveLeftChestOcclusiveDressing();
+          m_PatientActions->RemoveLeftNeedleDecompression();
+          return;
+        }
+      }
+      if (!m_PatientActions->HasRightClosedTensionPneumothorax() && !m_PatientActions->HasRightOpenTensionPneumothorax()) {
+        if (m_PatientActions->HasRightChestOcclusiveDressing() || m_PatientActions->HasRightNeedleDecompression()) {
+          /// \error Patient: Cannot perform an intervention if Tension Pneumothorax is not present on that side.
+          Error("Cannot perform an intervention if Tension Pneumothorax is not present on that side.");
+          m_PatientActions->RemoveRightChestOcclusiveDressing();
+          m_PatientActions->RemoveRightNeedleDecompression();
+          return;
+        }
+      }
+    } else {
+      if (m_PatientActions->HasLeftClosedTensionPneumothorax() || m_PatientActions->HasRightClosedTensionPneumothorax()) {
+        // Scale the flow resistance through the chest opening based on severity
+        double severity = 0.0;
+        dPneumoMinFlowResistance_cmH2O_s_Per_L = 5.0;
+        if (m_PatientActions->HasLeftClosedTensionPneumothorax())
+          severity = m_PatientActions->GetLeftClosedTensionPneumothorax()->GetSeverity().GetValue();
+        if (m_PatientActions->HasRightClosedTensionPneumothorax())
+          severity = m_PatientActions->GetRightClosedTensionPneumothorax()->GetSeverity().GetValue();
+        double resistance_cmH2O_s_Per_L = dPneumoMaxFlowResistance_cmH2O_s_Per_L;
+        if (severity > 0.0) {
+          resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
+        }
+        resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
+        m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::AlveoliLeakToPleural)->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+        if (severity == 0) {
+          m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::AlveoliToAlveoliLeak)->SetNextValve(CDM::enumOpenClosed::Open);
+        }
+        if (m_PatientActions->HasLeftNeedleDecompression() || m_PatientActions->HasRightNeedleDecompression()) {
+          double dScalingFactor = 0.5; //Tuning parameter to allow gas flow due to needle decompression using lung resistance as reference
+          double dFlowResistanceLeftNeedle = dScalingFactor * dNeedleFlowResistance_cmH2O_s_Per_L;
+          m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::PleuralToEnvironment)->GetNextResistance().SetValue(dFlowResistanceLeftNeedle, FlowResistanceUnit::cmH2O_s_Per_L);
+        }
       }
     }
   } else {
@@ -1697,9 +1738,11 @@ void Respiratory::CalculateVitalSigns()
   double dAlveolarPressure = (m_LeftAlveoli->GetNextPressure().GetValue(PressureUnit::cmH2O) + m_RightAlveoli->GetNextPressure().GetValue(PressureUnit::cmH2O)) / 2.0; //Average of L and R
   GetPulmonaryResistance().SetValue((dEnvironmentPressure - dAlveolarPressure) / tracheaFlow_L_Per_s, FlowResistanceUnit::cmH2O_s_Per_L);
 
+  m_data.GetDataTrack().Probe("BaselineAlveoli", m_LeftAlveoli->GetVolumeBaseline(VolumeUnit::mL) + m_RightAlveoli->GetVolumeBaseline(VolumeUnit::mL));
+
   double dPleuralPressure_cmH2O = (m_LeftPleural->GetNextPressure().GetValue(PressureUnit::cmH2O) + m_RightPleural->GetNextPressure().GetValue(PressureUnit::cmH2O)) / 2.0; //Average of L and R
   GetTranspulmonaryPressure().SetValue(dAlveolarPressure - dPleuralPressure_cmH2O, PressureUnit::cmH2O);
-
+  m_data.GetDataTrack().Probe("PleuralPressure_cmH2O", dPleuralPressure_cmH2O - dEnvironmentPressure);
   GetRespirationDriverPressure().Set(m_RespiratoryMuscle->GetNextPressure());
   GetRespirationMusclePressure().Set(m_RespiratoryMuscle->GetNextPressure());
 
@@ -1942,7 +1985,7 @@ void Respiratory::CalculateVitalSignsLite()
 
   //Total Respiratory Volume - this should not include the Pleural Space
   GetTotalLungVolume().SetValue(cDeadSpace->GetVolume(VolumeUnit::mL) + cAlveoli->GetVolume(VolumeUnit::mL), VolumeUnit::mL);
-  
+
   //Record values each time-step
   double tracheaFlow_L_Per_s = pMouthToTrachea->GetNextFlow().GetValue(VolumePerTimeUnit::L_Per_s);
   GetInspiratoryFlow().SetValue(tracheaFlow_L_Per_s, VolumePerTimeUnit::L_Per_s);
@@ -1953,7 +1996,7 @@ void Respiratory::CalculateVitalSignsLite()
   GetPulmonaryResistance().SetValue((dEnvironmentPressure - dAlveolarPressure) / tracheaFlow_L_Per_s, FlowResistanceUnit::cmH2O_s_Per_L);
 
   double dPleuralPressure_cmH2O = nPleural->GetNextPressure(PressureUnit::cmH2O);
-  m_data.GetDataTrack().Probe("PleuralPressure_cmH2O", dPleuralPressure_cmH2O-dEnvironmentPressure);
+  m_data.GetDataTrack().Probe("PleuralPressure_cmH2O", dPleuralPressure_cmH2O - dEnvironmentPressure);
   GetTranspulmonaryPressure().SetValue(dAlveolarPressure - dPleuralPressure_cmH2O, PressureUnit::cmH2O);
 
   GetRespirationDriverPressure().SetValue(nRespiratoryMuscle->GetNextPressure(PressureUnit::cmH2O) - m_Ambient->GetPressure(PressureUnit::cmH2O), PressureUnit::cmH2O);
@@ -2202,14 +2245,20 @@ void Respiratory::UpdateObstructiveResistance()
     combinedResistanceScalingFactor = std::max(combinedResistanceScalingFactor, dResistanceScalingFactor);
   }
 
-  // Get the path resistances
-  double dLeftBronchiResistance = m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
-  double dRightBronchiResistance = m_CarinaToRightAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    // Get the path resistances
+    double dLeftBronchiResistance = m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
+    double dRightBronchiResistance = m_CarinaToRightAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
 
-  dLeftBronchiResistance *= combinedResistanceScalingFactor;
-  m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().SetValue(dLeftBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
-  dRightBronchiResistance *= combinedResistanceScalingFactor;
-  m_CarinaToRightAnatomicDeadSpace->GetNextResistance().SetValue(dRightBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+    dLeftBronchiResistance *= combinedResistanceScalingFactor;
+    m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().SetValue(dLeftBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+    dRightBronchiResistance *= combinedResistanceScalingFactor;
+    m_CarinaToRightAnatomicDeadSpace->GetNextResistance().SetValue(dRightBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+  } else {
+    double dBronchiResistance = m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::RespiratoryLitePath::TracheaToBronchi)->GetNextResistance(FlowResistanceUnit::cmH2O_s_Per_L);
+    dBronchiResistance *= (2 * combinedResistanceScalingFactor);
+    m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::RespiratoryLitePath::TracheaToBronchi)->GetNextResistance().SetValue(dBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+  }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2483,7 +2532,7 @@ void Respiratory::TuneCircuit()
   for (unsigned int loops = 0; loops < static_cast<unsigned int>(30.0 / m_dt_s); loops++) {
     //Set the starting/default driver pressure
     if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-      m_DriverPressurePath->GetNextPressureSource().SetValue(m_DefaultDrivePressure_cmH2O, PressureUnit::cmH2O);
+      m_DriverPressurePath->GetNextPressureSource().SetValue(-55, PressureUnit::cmH2O);
       m_Calculator.Process(RespiratoryCircuit, m_dt_s);
       m_Calculator.PostProcess(RespiratoryCircuit);
       if (!m_TuningFile.empty()) {
@@ -2499,7 +2548,8 @@ void Respiratory::TuneCircuit()
       } else {
         nextDriverPressure_cmH2O = driveAmplitude_cmH2O / (1.0 - std::exp(-expTime_s / tau_s)) * (std::exp(-(timeInCycle_s - inTime_s) / tau_s) - std::exp(-expTime_s / tau_s));
       }
-      m_DriverPressurePath->GetNextPressureSource().SetValue(nextDriverPressure_cmH2O, PressureUnit::cmH2O);
+      nextDriverPressure_cmH2O = m_Patient->GetRespiratoryDriverAmplitudeBaseline(PressureUnit::cmH2O);
+      m_DriverPressurePath->GetNextPressureSource().SetValue(m_DefaultDrivePressure_cmH2O, PressureUnit::cmH2O);
       m_Calculator.Process(RespiratoryCircuit, m_dt_s);
       m_Calculator.PostProcess(RespiratoryCircuit);
       if (!m_TuningFile.empty()) {
