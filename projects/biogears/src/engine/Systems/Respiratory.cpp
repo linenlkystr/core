@@ -517,6 +517,8 @@ void Respiratory::PreProcess()
     MechanicalVentilation();
     RespiratoryDriver();
   } else {
+    AirwayObstruction();
+    BronchoConstriction();
     Pneumothorax();
     RespiratoryDriverLite();
   }
@@ -1141,11 +1143,11 @@ void Respiratory::AirwayObstruction()
     AirwayResistance = GeneralMath::ResistanceFunction(20.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, Severity);
     m_MouthToCarina->GetNextResistance().SetValue(AirwayResistance, FlowResistanceUnit::cmH2O_s_Per_L);
   } else {
-    AirwayResistance = m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::MouthToTrachea)->GetNextResistance(FlowResistanceUnit::cmH2O_s_Per_L);
-    ;
+    SEFluidCircuitPath* mouthToTrachea = m_RespiratoryCircuit->GetPath(BGE::RespiratoryLitePath::MouthToTrachea);
+    AirwayResistance = mouthToTrachea->GetNextResistance(FlowResistanceUnit::cmH2O_s_Per_L);
     dClosedResistance = AirwayResistance;
     AirwayResistance = GeneralMath::ResistanceFunction(20.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, Severity);
-    m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::RespiratoryLitePath::MouthToTrachea)->GetNextResistance().SetValue(AirwayResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+    mouthToTrachea->GetNextResistance().SetValue(AirwayResistance, FlowResistanceUnit::cmH2O_s_Per_L);
   }
 }
 
@@ -1179,7 +1181,12 @@ void Respiratory::BronchoConstriction()
     m_CarinaToRightAnatomicDeadSpace->GetNextResistance().SetValue(RightBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
 
   } else {
-    double dBronchiResistance = m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::TracheaToBronchi)->GetNextResistance(FlowResistanceUnit::cmH2O_s_Per_L);
+    SEFluidCircuitPath* tracheaToBronchi = m_RespiratoryCircuit->GetPath(BGE::RespiratoryLitePath::TracheaToBronchi);
+    double dBronchiResistance = tracheaToBronchi->GetNextResistance(FlowResistanceUnit::cmH2O_s_Per_L);
+    double dClosedResistance = dBronchiResistance;
+
+    dBronchiResistance = GeneralMath::ResistanceFunction(70.0, m_dRespOpenResistance_cmH2O_s_Per_L, dClosedResistance, dSeverity);
+    tracheaToBronchi->GetNextResistance().SetValue(dBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
   }
 }
 
@@ -1410,14 +1417,14 @@ void Respiratory::Pneumothorax()
           resistance_cmH2O_s_Per_L = dPneumoMinFlowResistance_cmH2O_s_Per_L / std::pow(severity, 2.0);
         }
         resistance_cmH2O_s_Per_L = std::min(resistance_cmH2O_s_Per_L, dPneumoMaxFlowResistance_cmH2O_s_Per_L);
-        m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::AlveoliLeakToPleural)->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
+        m_RespiratoryCircuit->GetPath(BGE::RespiratoryLitePath::AlveoliLeakToPleural)->GetNextResistance().SetValue(resistance_cmH2O_s_Per_L, FlowResistanceUnit::cmH2O_s_Per_L);
         if (severity == 0) {
-          m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::AlveoliToAlveoliLeak)->SetNextValve(CDM::enumOpenClosed::Open);
+          m_RespiratoryCircuit->GetPath(BGE::RespiratoryLitePath::AlveoliToAlveoliLeak)->SetNextValve(CDM::enumOpenClosed::Open);
         }
         if (m_PatientActions->HasLeftNeedleDecompression() || m_PatientActions->HasRightNeedleDecompression()) {
           double dScalingFactor = 0.5; //Tuning parameter to allow gas flow due to needle decompression using lung resistance as reference
           double dFlowResistanceLeftNeedle = dScalingFactor * dNeedleFlowResistance_cmH2O_s_Per_L;
-          m_data.GetCircuits().GetActiveRespiratoryCircuit().GetPath(BGE::RespiratoryLitePath::PleuralToEnvironment)->GetNextResistance().SetValue(dFlowResistanceLeftNeedle, FlowResistanceUnit::cmH2O_s_Per_L);
+          m_RespiratoryCircuit->GetPath(BGE::RespiratoryLitePath::PleuralToEnvironment)->GetNextResistance().SetValue(dFlowResistanceLeftNeedle, FlowResistanceUnit::cmH2O_s_Per_L);
         }
       }
     }
@@ -2245,20 +2252,15 @@ void Respiratory::UpdateObstructiveResistance()
     combinedResistanceScalingFactor = std::max(combinedResistanceScalingFactor, dResistanceScalingFactor);
   }
 
-  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-    // Get the path resistances
-    double dLeftBronchiResistance = m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
-    double dRightBronchiResistance = m_CarinaToRightAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
+  // Get the path resistances
+  double dLeftBronchiResistance = m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
+  double dRightBronchiResistance = m_CarinaToRightAnatomicDeadSpace->GetNextResistance().GetValue(FlowResistanceUnit::cmH2O_s_Per_L);
 
-    dLeftBronchiResistance *= combinedResistanceScalingFactor;
-    m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().SetValue(dLeftBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
-    dRightBronchiResistance *= combinedResistanceScalingFactor;
-    m_CarinaToRightAnatomicDeadSpace->GetNextResistance().SetValue(dRightBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
-  } else {
-    double dBronchiResistance = m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::RespiratoryLitePath::TracheaToBronchi)->GetNextResistance(FlowResistanceUnit::cmH2O_s_Per_L);
-    dBronchiResistance *= (2 * combinedResistanceScalingFactor);
-    m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::RespiratoryLitePath::TracheaToBronchi)->GetNextResistance().SetValue(dBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
-  }
+  dLeftBronchiResistance *= combinedResistanceScalingFactor;
+  m_CarinaToLeftAnatomicDeadSpace->GetNextResistance().SetValue(dLeftBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+  dRightBronchiResistance *= combinedResistanceScalingFactor;
+  m_CarinaToRightAnatomicDeadSpace->GetNextResistance().SetValue(dRightBronchiResistance, FlowResistanceUnit::cmH2O_s_Per_L);
+
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2338,6 +2340,7 @@ void Respiratory::UpdateAlveoliCompliance(double dScalingFactor, double dLeftLun
     dLeftLungFraction = 0.675;
     dRightLungFraction = 0.657;
   }
+
   // Get path compliances
   double dRightAlveoliBaselineCompliance = m_RightAlveoliToRightPleuralConnection->GetComplianceBaseline().GetValue(FlowComplianceUnit::L_Per_cmH2O);
   double dLeftAlveoliBaselineCompliance = m_LeftAlveoliToLeftPleuralConnection->GetComplianceBaseline().GetValue(FlowComplianceUnit::L_Per_cmH2O);
@@ -2351,6 +2354,8 @@ void Respiratory::UpdateAlveoliCompliance(double dScalingFactor, double dLeftLun
   double dRightScalingFactor = GeneralMath::ResistanceFunction(10, 1.000, 0.005, 1.0 - dScalingFactor * dRightLungFraction);
   dRightAlveoliBaselineCompliance *= dRightScalingFactor;
   m_RightAlveoliToRightPleuralConnection->GetComplianceBaseline().SetValue(dRightAlveoliBaselineCompliance, FlowComplianceUnit::L_Per_cmH2O);
+
+
 }
 
 //--------------------------------------------------------------------------------------------------

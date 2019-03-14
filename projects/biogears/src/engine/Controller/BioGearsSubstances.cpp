@@ -181,8 +181,8 @@ void BioGearsSubstances::InitializeGasCompartments()
     Bronchi->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().SetValue(1 - 0.011 - 0.195);
     Bronchi->Balance(BalanceGasBy::VolumeFraction);
     SEGasCompartment* Alveoli = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Alveoli);
-    Alveoli->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().SetValue(0.04);
-    Alveoli->GetSubstanceQuantity(*m_O2)->GetVolumeFraction().SetValue(0.15);
+    Alveoli->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().SetValue(0.04); //0.04
+    Alveoli->GetSubstanceQuantity(*m_O2)->GetVolumeFraction().SetValue(0.15);  //0.15
     Alveoli->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().SetValue(1 - 0.04 - 0.15);
     Alveoli->Balance(BalanceGasBy::VolumeFraction);
     SEGasCompartment* PleuralCavity = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Pleural);
