@@ -208,7 +208,10 @@ void Energy::PreProcess()
   UpdateHeatResistance();
   Exercise();
   } else {
-  
+    CalculateMetabolicHeatGeneration();
+    CalculateSweatRate();
+    UpdateHeatResistance();
+    //Exercise();
     
   }
 }

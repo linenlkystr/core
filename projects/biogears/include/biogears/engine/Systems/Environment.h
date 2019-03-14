@@ -78,6 +78,7 @@ protected:
   void CalculateConvection();
   void CalculateEvaporation();
   void CalculateRespiration();
+  void CalculateLiteExternal();
 
   // Serializable member variables (Set in Initialize and in schema)
 
@@ -121,5 +122,9 @@ protected:
   SEThermalCircuitPath* m_GroundToEnvironmentPath;
   SEThermalCircuitPath* m_EnvironmentSkinToGroundPath;
   SEThermalCircuitPath* m_EnvironmentCoreToGroundPath;
+
+  SEThermalCircuitPath* m_CoreToRef;
+  SEThermalCircuitPath* m_RefToEnvironment;
+  SEThermalCircuitPath* m_EnvironmentToSkin;
 };
 }
