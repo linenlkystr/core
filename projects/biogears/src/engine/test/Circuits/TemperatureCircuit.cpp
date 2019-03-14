@@ -823,7 +823,7 @@ void BioGearsEngineTest::LiteThermalCircuitTest(const std::string& sTestDirector
   double nextDriverTemperature_K = Convert(nextDriverTemperature_C, TemperatureUnit::C, TemperatureUnit::K);
   double nextDriverAdjustment = ((0.00001 * std::pow(nextDriverTemperature_C, 2.0)) - (0.0042 * nextDriverTemperature_C) + 2.0016); // Should not go above or below +/- 100 Celsius
   //std::cout << nextDriverAdjustment << std::endl;
-  double nextDriverTemperature_adjusted = 1.92 * nextDriverTemperature_K;
+  double nextDriverTemperature_adjusted = nextDriverAdjustment * nextDriverTemperature_K;
   double timeStep_s = 0.02;
   double simTime_min = 0.25;
   double currentTime_s = 0.0;
