@@ -235,7 +235,7 @@ public class TestReport
 	{
 		return toHTML(null);
 	}
-
+// THIS IS THE IMPORTANT STUFF /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 	public String toHTML(Map<String,List<String>> groups)
 	{
 		boolean sortResults = true;
@@ -401,4 +401,5 @@ public class TestReport
 
 		return buffer.toString();
 	}
+///!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 }

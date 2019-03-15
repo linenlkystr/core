@@ -65,9 +65,9 @@ void ThreadPool::Implementation::pool_process_func()
   while (poolRunning.load()) {
     if ( poolProcessing.load() )
     {
-      auto work = workQueue->consume();
-      if ( work )
-      { work(); }
+      auto work = workQueue->consume(); //So in a very roundabout way, calling 
+      if ( work )                       //workQueue->consume() pops work off the top of the queue
+      { work(); }                       //which is how the queue is modified
     }
     else {
       std::unique_lock<std::mutex> lock(poolMutex);
@@ -108,10 +108,9 @@ void ThreadPool::start()
   {
     _impl->poolRunning.store( true );
     for (auto& thread : _impl->pool)
-    {
+    { //So in this case, pool_process_func is the function which gets called, which then in turn calls the function passed in
       thread = std::thread( &Implementation::pool_process_func, _impl.get() );
     }
-    
   }
 }
 //-------------------------------------------------------------------------------

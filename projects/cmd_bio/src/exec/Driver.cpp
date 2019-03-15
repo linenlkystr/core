@@ -37,24 +37,30 @@ void Driver::configure(const Config& runs)
 //-----------------------------------------------------------------------------
 void Driver::queue(const Config& runs)
 {
+  int i = 0;
+  std::vector<std::pair<std::string,unsigned char>> results;
   for (auto& exec : runs) {
+    results.push_back(std::pair<std::string,unsigned char>("",0));
+    results[i].first = "Scenario:" + exec.Scenario() + " " + "Patient:" + exec.Patient();
+    std::pair<std::string, unsigned char>* item = &(results[i]);
     switch (exec.Driver()) {
     case EDriver::Undefined:
       std::cerr << "Unable to queue Undefined Executor for " << exec.Name() << "\n";
       break;
     case EDriver::BGEUnitTestDriver:
-      queue_BGEUnitTest(exec);
+      queue_BGEUnitTest(exec,item);
       break;
     case EDriver::CDMUnitTestDriver:
-      queue_CDMUnitTest(exec);
+      queue_CDMUnitTest(exec,item);
       break;
     case EDriver::ScenarioTestDriver:
-      queue_Scenario(exec);
+      queue_Scenario(exec,item);
       break;
     default:
       std::cerr << "Unsupported Driver type " << exec.Driver() << "please update your biogears libraries ";
       break;
     }
+    ++i;
   }
 }
 //-----------------------------------------------------------------------------
@@ -86,11 +92,11 @@ void Driver::join()
   _pool.join();
 }
 //-----------------------------------------------------------------------------
-void Driver::queue_BGEUnitTest(const Executor& exec)
+void Driver::queue_BGEUnitTest(const Executor& exec, std::pair<std::string, unsigned char>* index)
 {
 #ifdef CMD_BIO_SUPPORT_CIRCUIT_TEST
   _pool.queue_work(
-    [=]() {
+    [&]() {
       BioGearsEngineTest* executor;
       try {
         executor = new BioGearsEngineTest;
@@ -106,7 +112,7 @@ void Driver::queue_BGEUnitTest(const Executor& exec)
 }
 
 //-----------------------------------------------------------------------------
-void Driver::queue_CDMUnitTest(const Executor& exec)
+void Driver::queue_CDMUnitTest(const Executor& exec, std::pair<std::string, unsigned char>* index)
 {
 #ifdef CMD_BIO_SUPPORT_CIRCUIT_TEST
   _pool.queue_work(
@@ -125,15 +131,15 @@ void Driver::queue_CDMUnitTest(const Executor& exec)
 #endif
 }
 //-----------------------------------------------------------------------------
-void Driver::queue_Scenario(const Executor& exec)
+int Driver::queue_Scenario(const Executor& exec, std::pair<std::string, unsigned char>* index)
 {
   const auto& patient_path = exec.Patient();
   std::string scenario_path = exec.Scenario();
 
   std::string nc_patient_path = exec.Patient();
   std::transform(nc_patient_path.begin(), nc_patient_path.end(), nc_patient_path.begin(), ::tolower);
-
-  auto scenario_launch = [](Executor ex) {
+    //!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@
+  auto scenario_launch = [&](Executor& ex, std::pair<std::string, unsigned char>* index) {
     std::string trimed_patient_path(trim(ex.Patient()));
     auto split_patient_path = split(trimed_patient_path, '/');
     auto patient_no_extension = split(split_patient_path.back(), '.').front();
@@ -161,26 +167,36 @@ void Driver::queue_Scenario(const Executor& exec)
       eng = CreateBioGearsEngine(ex.Computed()+parent_dir+console_file);
     } catch (std::exception e) {
       std::cout << e.what();
+      (*index).second = 1;
+      return 1;
     }
 
     BioGearsScenario sce(eng->GetSubstanceManager());
     sce.Load("Scenarios/" + trim(trimed_scenario_path));
     sce.GetInitialParameters().SetPatientFile(trim(trimed_patient_path));
-
-    BioGearsScenarioExec* exec = new BioGearsScenarioExec(*eng);
-    exec->Execute(sce, ex.Computed()+parent_dir+results_file, nullptr);
-    delete exec;
+    
+    try {
+      BioGearsScenarioExec* exec = new BioGearsScenarioExec(*eng);
+      exec->Execute(sce, ex.Computed()+parent_dir+results_file, nullptr);
+      delete exec;
+    } catch (std::exception e) {
+      std::cout << e.what();
+      (*index).second = 1;
+      return 1;
+    }
+    (*index).second = 0;
+    return 0;
   };
-
+//!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@
   if (nc_patient_path == "all") {
     auto patientEx{ exec };
     auto patient_files = biogears::ListFiles("patients", R"(\.xml)");
     for (const std::string& patient_file : patient_files) {
       patientEx.Patient(patient_file);
-      _pool.queue_work(std::bind(scenario_launch, patientEx));
+      _pool.queue_work(std::bind(scenario_launch, patientEx, index));
     }
   } else {
-    _pool.queue_work(std::bind(scenario_launch, exec));
+    _pool.queue_work(std::bind(scenario_launch, exec, index));
   }
 }
 //-----------------------------------------------------------------------------

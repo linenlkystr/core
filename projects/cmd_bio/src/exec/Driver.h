@@ -28,9 +28,10 @@ public:
   void join() override;
 
 protected:
-  void queue_BGEUnitTest(const Executor&);
-  void queue_CDMUnitTest(const Executor&);
-  void queue_Scenario(const Executor&);
+  void queue_BGEUnitTest(const Executor&, std::pair<std::string,unsigned char>* index);
+  void queue_CDMUnitTest(const Executor&, std::pair<std::string,unsigned char>* index);
+  int queue_Scenario(const Executor&, std::pair<std::string,unsigned char>* index);
+
 private:
   ThreadPool _pool;
   Config _globals;

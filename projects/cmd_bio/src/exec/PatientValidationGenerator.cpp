@@ -79,10 +79,14 @@ int runPatientScenario(const std::string patient, std::string&& XMLString)
   BioGearsScenario sce(eng->GetSubstanceManager());
   sce.Load(XMLString);
   sce.GetInitialParameters().SetPatientFile(patientXML);
-
-  BioGearsScenarioExec* exec = new BioGearsScenarioExec(*eng);
-  exec->Execute(sce, outputFile, nullptr);
-  delete exec;
+  try {
+    BioGearsScenarioExec* exec = new BioGearsScenarioExec(*eng);
+    exec->Execute(sce, outputFile, nullptr);
+    delete exec;
+  } catch (std::exception e) {
+    std::cout << e.what();
+    return 1;
+  }
 
   return 0;
 }
