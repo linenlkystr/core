@@ -47,6 +47,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/BioGearsPhysiologyEngine.h>
 #include <biogears/engine/Controller/BioGears.h>
 
+
 namespace BGE = mil::tatrc::physiology::biogears;
 
 #ifdef _MSC_VER
@@ -66,7 +67,7 @@ Respiratory::Respiratory(BioGears& bg)
   , m_AerosolTransporter(VolumePerTimeUnit::mL_Per_s, VolumeUnit::mL, MassUnit::ug, MassPerVolumeUnit::ug_Per_mL, GetLogger())
 {
   Clear();
-  m_TuningFile = "LiteTuning.csv";
+  m_TuningFile = ";";
 }
 
 Respiratory::~Respiratory()
@@ -548,7 +549,6 @@ void Respiratory::Process()
   SELiquidCompartmentGraph& AerosolGraph = m_data.GetCompartments().GetActiveAerosolGraph();
   // Transport substances
   m_GasTransporter.Transport(RespirationGraph, m_dt_s);
-
   //Update system data
   if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
     if (m_AerosolMouth->HasSubstanceQuantities())
@@ -1021,6 +1021,57 @@ void Respiratory::RespiratoryDriverLite()
     m_VentilationFrequency_Per_min = GetRespirationDriverFrequency(FrequencyUnit::Per_min);
     //Don't need a separate "ProcessDriverActions"--just do whatever we support (e.g. drugs) here
 
+    // Process Cardiac Arrest action 
+    double cardiacArrestEffect = 1.0;
+    if (m_Patient->IsEventActive(CDM::enumPatientEvent::CardiacArrest)) {
+      cardiacArrestEffect = 0.0;
+    }
+
+    //Process drug effects--adjust them based on neuromuscular block level
+    SEDrugSystem& Drugs = m_data.GetDrugs();
+    double DrugRRChange_Per_min = Drugs.GetRespirationRateChange(FrequencyUnit::Per_min);
+    double DrugsTVChange_L = Drugs.GetTidalVolumeChange(VolumeUnit::L);
+    double NMBModifier = 1.0;
+    double SedationModifier = 1.0;
+
+    if (Drugs.GetNeuromuscularBlockLevel().GetValue() > 0.135) {
+      NMBModifier = 0.0;
+      DrugRRChange_Per_min = 0.0;
+      DrugsTVChange_L = 0.0;
+    } else if (Drugs.GetNeuromuscularBlockLevel().GetValue() > 0.11) {
+      NMBModifier = 0.5;
+      DrugRRChange_Per_min = 0.0;
+      DrugsTVChange_L = 0.0;
+    } else if (Drugs.GetSedationLevel().GetValue() > 0.15 && std::abs(m_Patient->GetRespirationRateBaseline(FrequencyUnit::Per_min) + DrugRRChange_Per_min) < 1.0) {
+      SedationModifier = 0.0;
+      DrugRRChange_Per_min = 0.0;
+      DrugsTVChange_L = 0.0;
+    }
+
+    //Process Pain effects
+    double painVAS = 0.1 * m_data.GetNervous().GetPainVisualAnalogueScale().GetValue(); //already processed pain score from nervous [0,10]
+    double painModifier = 1.0 + 0.75 * (painVAS / (painVAS + 0.2));
+
+    //Process Sepsis effects
+    double sepsisModifier = 0.0;
+    if (m_PatientActions->HasSepsis()) {
+      double baselineRR_Per_min = m_Patient->GetRespirationRateBaseline(FrequencyUnit::Per_min);
+      double sigmoidInput = 1.0 - m_data.GetBloodChemistry().GetAcuteInflammatoryResponse().GetTissueIntegrity().GetValue();
+      sepsisModifier = baselineRR_Per_min * sigmoidInput / (sigmoidInput + 0.4);
+    }
+    //Placeholder to process tidal volume effect--this will need to alter drive amplitude
+
+    
+    //
+    m_VentilationFrequency_Per_min += sepsisModifier;
+    m_VentilationFrequency_Per_min *= painModifier;
+    m_VentilationFrequency_Per_min *= NMBModifier * SedationModifier;
+    m_VentilationFrequency_Per_min += DrugRRChange_Per_min;
+
+    double dHalfVitalCapacity_L = m_Patient->GetVitalCapacity(VolumeUnit::L) / 2;
+    double dMaximumPulmonaryVentilationRate = m_data.GetConfiguration().GetPulmonaryVentilationRateMaximum(VolumePerTimeUnit::L_Per_min);
+    m_VentilationFrequency_Per_min = BLIM(m_VentilationFrequency_Per_min, 0.0, dMaximumPulmonaryVentilationRate / dHalfVitalCapacity_L);
+
     m_BreathingCycleTime_s = 0.0;
   }
   UpdateIERatio();
@@ -1407,7 +1458,7 @@ void Respiratory::Pneumothorax()
       if (m_PatientActions->HasLeftClosedTensionPneumothorax() || m_PatientActions->HasRightClosedTensionPneumothorax()) {
         // Scale the flow resistance through the chest opening based on severity
         double severity = 0.0;
-        dPneumoMinFlowResistance_cmH2O_s_Per_L = 5.0;
+        dPneumoMinFlowResistance_cmH2O_s_Per_L = 4.0;
         if (m_PatientActions->HasLeftClosedTensionPneumothorax())
           severity = m_PatientActions->GetLeftClosedTensionPneumothorax()->GetSeverity().GetValue();
         if (m_PatientActions->HasRightClosedTensionPneumothorax())

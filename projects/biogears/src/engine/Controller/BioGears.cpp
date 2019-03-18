@@ -4512,20 +4512,14 @@ void BioGears::SetupRespiratory()
     double TracheaResistancePercent = 0.6;
     double BronchiResistancePercent = 0.3;
     double AlveoliDuctResistancePercent = 0.1;
-    double mouthToTracheaResistance_cmH2O_s_Per_L = TracheaResistancePercent * totalPulmonaryResistance; // +larynxToTracheaResistance_cmH2O_s_Per_L;
-    double tracheaToBronchiResistance_cmH2O_s_Per_L = BronchiResistancePercent * totalPulmonaryResistance; //0.3063;
-    double bronchiToAlveoliResistance_cmH2O_s_Per_L = AlveoliDuctResistancePercent * totalPulmonaryResistance; //0.0817;
+    double mouthToTracheaResistance_cmH2O_s_Per_L = TracheaResistancePercent * totalPulmonaryResistance;
+    double tracheaToBronchiResistance_cmH2O_s_Per_L = BronchiResistancePercent * totalPulmonaryResistance;
+    double bronchiToAlveoliResistance_cmH2O_s_Per_L = AlveoliDuctResistancePercent * totalPulmonaryResistance;
     //Target volumes are end-expiratory (i.e. bottom of breathing cycle, pressures = ambient pressure)
-    double functionalResidualCapacity_L = 2.4;
-    double targetDeadSpace_mL = 135.0; //This includes bronchea, larynx, thrachea
     double larynxVolume_mL = 34.4;
     double tracheaVolume_mL = 6.63;
-    double bronchiVolume_mL = targetDeadSpace_mL-tracheaVolume_mL;
-    bronchiVolume_mL = 20.0;
-    //double alveoliVolume_L = functionalResidualCapacity_L - (tracheaVolume_mL + bronchiVolume_mL) / 1000.0;
+    double bronchiVolume_mL = 20.0;
     double alveoliVolume_L = LungResidualVolume_L;
-    //Pressure--others set to ambient
-    double pleuralPressure_cmH2O = AmbientPressure - 5.0;
     //Circuit Nodes
     SEFluidCircuitNode& Mouth = cRespiratory.CreateNode(BGE::RespiratoryLiteNode::Mouth);
     Mouth.GetPressure().SetValue(AmbientPressure, PressureUnit::cmH2O);
@@ -4594,9 +4588,9 @@ void BioGears::SetupRespiratory()
     SEGasCompartment& pAlveoli = m_Compartments->CreateGasCompartment(BGE::PulmonaryLiteCompartment::Alveoli);
     pAlveoli.MapNode(Alveoli);
     SEGasCompartment& pPleural = m_Compartments->CreateGasCompartment(BGE::PulmonaryLiteCompartment::Pleural);
-   // pPleural.MapNode(PleuralConnection);
+    pPleural.MapNode(PleuralConnection);
     pPleural.MapNode(Pleural);
-    //pPleural.MapNode(RespiratoryMuscle);
+    pPleural.MapNode(RespiratoryMuscle);
     SEGasCompartment& pDeadSpace = m_Compartments->CreateGasCompartment(BGE::PulmonaryLiteCompartment::DeadSpace);
     pDeadSpace.AddChild(pTrachea);
     pDeadSpace.AddChild(pBronchi);

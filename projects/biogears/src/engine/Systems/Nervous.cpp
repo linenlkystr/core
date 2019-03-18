@@ -692,6 +692,18 @@ void Nervous::ChemoreceptorFeedback()
 
         nextRespirationRate_Per_min = baselineRespirationRate_Per_min + m_CentralFrequencyDelta_Per_min + m_PeripheralFrequencyDelta_Per_min;
         nextDrivePressure_cmH2O = baselineDrivePressure_cmH2O - m_CentralPressureDelta_cmH2O - m_PeripheralPressureDelta_cmH2O;
+
+        //This tuning of CNS modifier was done so that standard Fentanyl and Morphine runs approximately match main engine baselines.  
+        if (drugCNSModifier > ZERO_APPROX) {
+          for (auto drug : m_data.GetSubstances().GetActiveSubstances()) {
+            if (drug->GetClassification() == CDM::enumSubstanceClass::Opioid) {
+              nextRespirationRate_Per_min *= (1.0 - drugCNSModifier / 5.0);
+              nextDrivePressure_cmH2O *= (1.0 - drugCNSModifier / 2.0);
+              break; //Don't evaluate more than once if for some reason we give someone morphine and fentanyl
+            }
+          }
+        }
+
         m_data.GetRespiratory().GetRespirationDriverFrequency().SetValue(nextRespirationRate_Per_min, FrequencyUnit::Per_min);
         m_data.GetRespiratory().GetRespirationMusclePressure().SetValue(nextDrivePressure_cmH2O, PressureUnit::cmH2O);
       }
