@@ -40,14 +40,14 @@
     <DataRequest xsi:type="PhysiologyDataRequestData" Name="LeftAfferentArterioleResistance"   Unit="mmHg min/mL" Precision="4"/>
     <DataRequest xsi:type="PhysiologyDataRequestData" Name="RightAfferentArterioleResistance"  Unit="mmHg min/mL" Precision="4"/>
   
-    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="LeftAlveoli"                            Name="Pressure"        Unit="cmH2O" Precision="0"/>
-    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="LeftAlveoli"  Substance="Oxygen"        Name="PartialPressure" Unit="mmHg"  Precision="0"/>
-    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="LeftAlveoli"  Substance="CarbonDioxide" Name="PartialPressure" Unit="mmHg"  Precision="1"/>
-    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="RightAlveoli"                           Name="Pressure"        Unit="cmH2O" Precision="0"/>
-    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="RightAlveoli" Substance="Oxygen"        Name="PartialPressure" Unit="mmHg"  Precision="0"/>
-    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="RightAlveoli" Substance="CarbonDioxide" Name="PartialPressure" Unit="mmHg"  Precision="1"/>
-    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Carina"       Substance="Oxygen"        Name="PartialPressure" Unit="cmH2O" Precision="0"/>
-    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Carina"       Substance="CarbonDioxide" Name="PartialPressure" Unit="cmH2O" Precision="1"/>
+    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Alveoli"                            Name="Pressure"        Unit="cmH2O" Precision="0"/>
+    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Alveoli"  Substance="Oxygen"        Name="PartialPressure" Unit="mmHg"  Precision="0"/>
+    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Alveoli"  Substance="CarbonDioxide" Name="PartialPressure" Unit="mmHg"  Precision="1"/>
+    
+    
+    
+    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Trachea"       Substance="Oxygen"        Name="PartialPressure" Unit="cmH2O" Precision="0"/>
+    <DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Trachea"       Substance="CarbonDioxide" Name="PartialPressure" Unit="cmH2O" Precision="1"/>
  
     <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="Aorta"     Substance="Oxygen"        Name="PartialPressure" Unit="mmHg" Precision="1"/>
     <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="Aorta"     Substance="CarbonDioxide" Name="PartialPressure" Unit="mmHg" Precision="1"/>
@@ -138,11 +138,10 @@
   
   <!-- Aerosol Compartments -->
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="Mouth"          Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	  
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="Carina"         Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftAlveoli"    Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftDeadSpace"  Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightAlveoli"   Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightDeadSpace" Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="Trachea"         Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="Alveoli"    Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="DeadSpace"  Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="Bronchi"   Substance="Sarin" Name="Concentration" Unit="ug/L" Precision="4"/>	
 	
   </DataRequests>
 	

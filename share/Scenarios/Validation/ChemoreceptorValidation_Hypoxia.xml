@@ -43,10 +43,10 @@
 	<DataRequest xsi:type="PhysiologyDataRequestData" Name="TotalLungVolume"                Unit="mL"        Precision="4"/>	
 	<DataRequest xsi:type="PhysiologyDataRequestData" Name="TotalPulmonaryVentilation"      Unit="L/min"     Precision="4"/>
 	<DataRequest xsi:type="PhysiologyDataRequestData" Name="TranspulmonaryPressure"         Unit="cmH2O"     Precision="4"/>
-	<DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="LeftAlveoli"  Substance="Oxygen"        Name="PartialPressure" Unit="mmHg"  Precision="2"/>
-	<DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="LeftAlveoli"  Substance="CarbonDioxide" Name="PartialPressure" Unit="mmHg"  Precision="2"/>
-	<DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="RightAlveoli" Substance="Oxygen"        Name="PartialPressure" Unit="mmHg"  Precision="2"/>
-	<DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="RightAlveoli" Substance="CarbonDioxide" Name="PartialPressure" Unit="mmHg"  Precision="2"/>
+	<DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Alveoli"  Substance="Oxygen"        Name="PartialPressure" Unit="mmHg"  Precision="2"/>
+	<DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Alveoli"  Substance="CarbonDioxide" Name="PartialPressure" Unit="mmHg"  Precision="2"/>
+	<DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Bronchi" Substance="Oxygen"        Name="PartialPressure" Unit="mmHg"  Precision="2"/>
+	<DataRequest xsi:type="GasCompartmentDataRequestData" Compartment="Bronchi" Substance="CarbonDioxide" Name="PartialPressure" Unit="mmHg"  Precision="2"/>
 	
 	<!--Blood Gas Data-->
 	<DataRequest Name="ArterialCarbonDioxidePressure" xsi:type="PhysiologyDataRequestData" Unit="mmHg" Precision="2"/>
