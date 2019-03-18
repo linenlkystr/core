@@ -15,16 +15,13 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/cdm/patient/conditions/SEChronicAnemia.h>
 #include <biogears/cdm/patient/conditions/SEChronicHeartFailure.h>
-#include <biogears/cdm/patient/conditions/SEChronicObstructivePulmonaryDisease.h>
 #include <biogears/cdm/patient/conditions/SEChronicPericardialEffusion.h>
 #include <biogears/cdm/patient/conditions/SEChronicRenalStenosis.h>
 #include <biogears/cdm/patient/conditions/SEChronicVentricularSystolicDysfunction.h>
 #include <biogears/cdm/patient/conditions/SEDehydration.h>
 #include <biogears/cdm/patient/conditions/SEDiabetesType1.h>
 #include <biogears/cdm/patient/conditions/SEDiabetesType2.h>
-#include <biogears/cdm/patient/conditions/SELobarPneumonia.h>
 #include <biogears/cdm/patient/conditions/SEStarvation.h>
-#include <biogears/cdm/patient/conditions/SEImpairedAlveolarExchange.h>
 #include <biogears/cdm/system/environment/conditions/SEInitialEnvironment.h>
 
 namespace biogears {
@@ -33,16 +30,13 @@ SEConditionManager::SEConditionManager(SESubstanceManager& substances)
   , m_Substances(substances)
 {
   m_Anemia = nullptr;
-  m_COPD = nullptr;
   m_HeartFailure = nullptr;
   m_RenalStenosis = nullptr;
   m_Dehydration = nullptr;
   m_DiabetesType1 = nullptr;
   m_DiabetesType2 = nullptr;
   m_Starvation = nullptr;
-  m_LobarPneumonia = nullptr;
   m_PericardialEffusion = nullptr;
-  m_ImpairedAlveolarExchange = nullptr;
   m_InitialEnvironment = nullptr;
 }
 
@@ -54,16 +48,13 @@ SEConditionManager::~SEConditionManager()
 void SEConditionManager::Clear()
 {
   m_Anemia = nullptr;
-  m_COPD = nullptr;
   m_HeartFailure = nullptr;
   m_RenalStenosis = nullptr;
   m_Dehydration = nullptr;
   m_DiabetesType1 = nullptr;
   m_DiabetesType2 = nullptr;
   m_Starvation = nullptr;
-  m_LobarPneumonia = nullptr;
   m_PericardialEffusion = nullptr;
-  m_ImpairedAlveolarExchange = nullptr;
   m_InitialEnvironment = nullptr;
   DELETE_VECTOR(m_Conditions);
 }
@@ -95,18 +86,6 @@ bool SEConditionManager::ProcessCondition(const CDM::ConditionData& condition)
     m_Anemia = new SEChronicAnemia();
     m_Anemia->Load(*anemiaData);
     m_Conditions.push_back(m_Anemia);
-    return true;
-  }
-
-  const CDM::ChronicObstructivePulmonaryDiseaseData* copdData = dynamic_cast<const CDM::ChronicObstructivePulmonaryDiseaseData*>(&condition);
-  if (copdData != nullptr) {
-    if (HasChronicObstructivePulmonaryDisease()) {
-      Error("Cannot have multiple COPD conditions");
-      return false;
-    }
-    m_COPD = new SEChronicObstructivePulmonaryDisease();
-    m_COPD->Load(*copdData);
-    m_Conditions.push_back(m_COPD);
     return true;
   }
 
@@ -199,30 +178,6 @@ bool SEConditionManager::ProcessCondition(const CDM::ConditionData& condition)
     return true;
   }
 
-  const CDM::ImpairedAlveolarExchangeData* impairedAlvioliData = dynamic_cast<const CDM::ImpairedAlveolarExchangeData*>(&condition);
-  if (impairedAlvioliData != nullptr) {
-    if (HasImpairedAlveolarExchange()) {
-      Error("Cannot have multiple Impaired Alveolar Exchange conditions");
-      return false;
-    }
-    m_ImpairedAlveolarExchange = new SEImpairedAlveolarExchange();
-    m_ImpairedAlveolarExchange->Load(*impairedAlvioliData);
-    m_Conditions.push_back(m_ImpairedAlveolarExchange);
-    return true;
-  }
-
-  const CDM::LobarPneumoniaData* pneumoniaData = dynamic_cast<const CDM::LobarPneumoniaData*>(&condition);
-  if (pneumoniaData != nullptr) {
-    if (HasLobarPneumonia()) {
-      Error("Cannot have multiple Lobar Pneumonia conditions");
-      return false;
-    }
-    m_LobarPneumonia = new SELobarPneumonia();
-    m_LobarPneumonia->Load(*pneumoniaData);
-    m_Conditions.push_back(m_LobarPneumonia);
-    return true;
-  }
-
   const CDM::InitialEnvironmentData* environmentData = dynamic_cast<const CDM::InitialEnvironmentData*>(&condition);
   if (environmentData != nullptr) {
     if (HasInitialEnvironment()) {
@@ -247,15 +202,6 @@ bool SEConditionManager::HasChronicAnemia() const
 SEChronicAnemia* SEConditionManager::GetChronicAnemia() const
 {
   return m_Anemia;
-}
-
-bool SEConditionManager::HasChronicObstructivePulmonaryDisease() const
-{
-  return m_COPD != nullptr;
-}
-SEChronicObstructivePulmonaryDisease* SEConditionManager::GetChronicObstructivePulmonaryDisease() const
-{
-  return m_COPD;
 }
 
 bool SEConditionManager::HasChronicHeartFailure() const
@@ -323,24 +269,6 @@ bool SEConditionManager::HasStarvation() const
 SEStarvation* SEConditionManager::GetStarvation() const
 {
   return m_Starvation;
-}
-
-bool SEConditionManager::HasImpairedAlveolarExchange() const
-{
-  return m_ImpairedAlveolarExchange == nullptr ? false : true;
-}
-SEImpairedAlveolarExchange* SEConditionManager::GetImpairedAlveolarExchange() const
-{
-  return m_ImpairedAlveolarExchange;
-}
-
-bool SEConditionManager::HasLobarPneumonia() const
-{
-  return m_LobarPneumonia != nullptr;
-}
-SELobarPneumonia* SEConditionManager::GetLobarPneumonia() const
-{
-  return m_LobarPneumonia;
 }
 
 bool SEConditionManager::HasInitialEnvironment() const

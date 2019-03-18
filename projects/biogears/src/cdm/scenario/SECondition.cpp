@@ -13,15 +13,12 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/patient/conditions/SEChronicAnemia.h>
 #include <biogears/cdm/patient/conditions/SEChronicHeartFailure.h>
-#include <biogears/cdm/patient/conditions/SEChronicObstructivePulmonaryDisease.h>
 #include <biogears/cdm/patient/conditions/SEChronicPericardialEffusion.h>
 #include <biogears/cdm/patient/conditions/SEChronicRenalStenosis.h>
 #include <biogears/cdm/patient/conditions/SEChronicVentricularSystolicDysfunction.h>
 #include <biogears/cdm/patient/conditions/SEDehydration.h>
 #include <biogears/cdm/patient/conditions/SEDiabetesType1.h>
 #include <biogears/cdm/patient/conditions/SEDiabetesType2.h>
-#include <biogears/cdm/patient/conditions/SEImpairedAlveolarExchange.h>
-#include <biogears/cdm/patient/conditions/SELobarPneumonia.h>
 #include <biogears/cdm/patient/conditions/SEStarvation.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/cdm/system/environment/conditions/SEInitialEnvironment.h>
@@ -51,12 +48,6 @@ SECondition* SECondition::newFromBind(const CDM::ConditionData& data, SESubstanc
   if (ccAnemiaData != nullptr) {
     SEChronicAnemia* cc = new SEChronicAnemia();
     cc->Load(*ccAnemiaData);
-    return cc;
-  }
-  const CDM::ChronicObstructivePulmonaryDiseaseData* ccopdData = dynamic_cast<const CDM::ChronicObstructivePulmonaryDiseaseData*>(&data);
-  if (ccopdData != nullptr) {
-    SEChronicObstructivePulmonaryDisease* cc = new SEChronicObstructivePulmonaryDisease();
-    cc->Load(*ccopdData);
     return cc;
   }
   const CDM::ChronicVentricularSystolicDysfunctionData* ccVentSysDysfuncData = dynamic_cast<const CDM::ChronicVentricularSystolicDysfunctionData*>(&data);
@@ -99,18 +90,6 @@ SECondition* SECondition::newFromBind(const CDM::ConditionData& data, SESubstanc
   if (ccStarvationData != nullptr) {
     SEStarvation* cc = new SEStarvation();
     cc->Load(*ccStarvationData);
-    return cc;
-  }
-  const CDM::ImpairedAlveolarExchangeData* ccImpairedAlveolarExchangeData = dynamic_cast<const CDM::ImpairedAlveolarExchangeData*>(&data);
-  if (ccImpairedAlveolarExchangeData != nullptr) {
-    SEImpairedAlveolarExchange* cc = new SEImpairedAlveolarExchange();
-    cc->Load(*ccImpairedAlveolarExchangeData);
-    return cc;
-  }
-  const CDM::LobarPneumoniaData* ccLobarPneumoniaData = dynamic_cast<const CDM::LobarPneumoniaData*>(&data);
-  if (ccLobarPneumoniaData != nullptr) {
-    SELobarPneumonia* cc = new SELobarPneumonia();
-    cc->Load(*ccLobarPneumoniaData);
     return cc;
   }
   const CDM::InitialEnvironmentData* ccInitialEnvironmentData = dynamic_cast<const CDM::InitialEnvironmentData*>(&data);
