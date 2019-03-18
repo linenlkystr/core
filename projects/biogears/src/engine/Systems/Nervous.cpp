@@ -509,15 +509,6 @@ void Nervous::CheckNervousStatus()
 //--------------------------------------------------------------------------------------------------
 void Nervous::ChemoreceptorFeedback()
 {
-
-  //Debugging
-  double centralRRChange = 0.0;
-  double centralPChange = 0.0;
-  double peripheralRRChange = 0.0;
-  double peripheralPChange = 0.0;
-  double peripheralFiringRate = 0.0;
-  double dynamicCO2 = 0.0;
-
   double drugCNSModifier = m_data.GetDrugs().GetCentralNervousResponse().GetValue();
   //-------Respiratory Feedback:  This is active throughtout the simulation (including stabilization)------------------------------
   if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
@@ -708,19 +699,7 @@ void Nervous::ChemoreceptorFeedback()
         m_data.GetRespiratory().GetRespirationMusclePressure().SetValue(nextDrivePressure_cmH2O, PressureUnit::cmH2O);
       }
   }
-  centralRRChange = m_CentralFrequencyDelta_Per_min;
-  centralPChange = m_CentralPressureDelta_cmH2O;
-  peripheralRRChange = m_PeripheralFrequencyDelta_Per_min;
-  peripheralPChange = m_PeripheralPressureDelta_cmH2O;
-  peripheralFiringRate = m_ChemoreceptorFiringRate_Hz;
-  dynamicCO2 = m_DynamicCO2Signal;
-  m_data.GetDataTrack().Probe("CentralRR", centralRRChange);
-  m_data.GetDataTrack().Probe("CentralP", centralPChange);
-  m_data.GetDataTrack().Probe("PeripheralRR", peripheralRRChange);
-  m_data.GetDataTrack().Probe("PeripheralP", peripheralPChange);
-  m_data.GetDataTrack().Probe("PeripheralFiringRate", peripheralFiringRate);
-  m_data.GetDataTrack().Probe("PeripheralDynamicCO2", dynamicCO2);
-  m_data.GetDataTrack().Probe("PeripheralSetPoint", m_ChemoreceptorFiringRateSetPoint_Hz);
+
   //-----Cardiovascular Feedback:  This functionality is currently only active after stabilization.
   if (!m_FeedbackActive)
     return;
