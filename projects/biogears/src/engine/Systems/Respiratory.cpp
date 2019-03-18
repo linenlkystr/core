@@ -1109,7 +1109,7 @@ void Respiratory::CalculateVitalSignsLite()
   GetPulmonaryResistance().SetValue((dEnvironmentPressure - dAlveolarPressure) / tracheaFlow_L_Per_s, FlowResistanceUnit::cmH2O_s_Per_L);
 
   double dPleuralPressure_cmH2O = nPleural->GetNextPressure(PressureUnit::cmH2O);
-  m_data.GetDataTrack().Probe("PleuralPressure_cmH2O", dPleuralPressure_cmH2O - dEnvironmentPressure);
+ 
   GetTranspulmonaryPressure().SetValue(dAlveolarPressure - dPleuralPressure_cmH2O, PressureUnit::cmH2O);
 
   GetRespirationDriverPressure().SetValue(nRespiratoryMuscle->GetNextPressure(PressureUnit::cmH2O) - m_Ambient->GetPressure(PressureUnit::cmH2O), PressureUnit::cmH2O);
