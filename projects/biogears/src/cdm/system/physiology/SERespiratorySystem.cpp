@@ -37,7 +37,6 @@ constexpr char idRespirationDriverFrequency[] = "RespirationDriverFrequency";
 constexpr char idRespirationMusclePressure[] = "RespirationMusclePressure";
 constexpr char idRespirationRate[] = "RespirationRate";
 constexpr char idSpecificVentilation[] = "SpecificVentilation";
-constexpr char idTargetPulmonaryVentilation[] = "TargetPulmonaryVentilation";
 constexpr char idTidalVolume[] = "TidalVolume";
 constexpr char idTotalAlveolarVentilation[] = "TotalAlveolarVentilation";
 constexpr char idTotalDeadSpaceVentilation[] = "TotalDeadSpaceVentilation";
@@ -61,7 +60,6 @@ SERespiratorySystem::SERespiratorySystem(Logger* logger)
   m_RespirationMusclePressure = nullptr;
   m_RespirationRate = nullptr;
   m_SpecificVentilation = nullptr;
-  m_TargetPulmonaryVentilation = nullptr;
   m_TidalVolume = nullptr;
   m_TotalAlveolarVentilation = nullptr;
   m_TotalDeadSpaceVentilation = nullptr;
@@ -94,7 +92,6 @@ void SERespiratorySystem::Clear()
   SAFE_DELETE(m_RespirationDriverFrequency);
   SAFE_DELETE(m_RespirationMusclePressure);
   SAFE_DELETE(m_RespirationRate);
-  SAFE_DELETE(m_TargetPulmonaryVentilation);
   SAFE_DELETE(m_TidalVolume);
   SAFE_DELETE(m_TotalAlveolarVentilation);
   SAFE_DELETE(m_TotalDeadSpaceVentilation);
@@ -138,8 +135,6 @@ const SEScalar* SERespiratorySystem::GetScalar(const std::string& name)
     return &GetRespirationRate();
   if (name == idSpecificVentilation)
     return &GetSpecificVentilation();
-  if (name == idTargetPulmonaryVentilation)
-    return &GetTargetPulmonaryVentilation();
   if (name == idTidalVolume)
     return &GetTidalVolume();
   if (name == idTotalAlveolarVentilation)
@@ -188,8 +183,6 @@ bool SERespiratorySystem::Load(const CDM::RespiratorySystemData& in)
     GetRespirationRate().Load(in.RespirationRate().get());
   if (in.SpecificVentilation().present())
     GetSpecificVentilation().Load(in.SpecificVentilation().get());
-  if (in.TargetPulmonaryVentilation().present())
-    GetTargetPulmonaryVentilation().Load(in.TargetPulmonaryVentilation().get());
   if (in.TidalVolume().present())
     GetTidalVolume().Load(in.TidalVolume().get());
   if (in.TotalAlveolarVentilation().present())
@@ -247,8 +240,6 @@ void SERespiratorySystem::Unload(CDM::RespiratorySystemData& data) const
     data.RespirationRate(std::unique_ptr<CDM::ScalarFrequencyData>(m_RespirationRate->Unload()));
   if (m_SpecificVentilation != nullptr)
     data.SpecificVentilation(std::unique_ptr<CDM::ScalarData>(m_SpecificVentilation->Unload()));
-  if (m_TargetPulmonaryVentilation != nullptr)
-    data.TargetPulmonaryVentilation(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_TargetPulmonaryVentilation->Unload()));
   if (m_TidalVolume != nullptr)
     data.TidalVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_TidalVolume->Unload()));
   if (m_TotalAlveolarVentilation != nullptr)
@@ -543,26 +534,6 @@ double SERespiratorySystem::GetSpecificVentilation() const
 }
 //-------------------------------------------------------------------------------
 
-bool SERespiratorySystem::HasTargetPulmonaryVentilation() const
-{
-  return m_TargetPulmonaryVentilation == nullptr ? false : m_TargetPulmonaryVentilation->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarVolumePerTime& SERespiratorySystem::GetTargetPulmonaryVentilation()
-{
-  if (m_TargetPulmonaryVentilation == nullptr)
-    m_TargetPulmonaryVentilation = new SEScalarVolumePerTime();
-  return *m_TargetPulmonaryVentilation;
-}
-//-------------------------------------------------------------------------------
-double SERespiratorySystem::GetTargetPulmonaryVentilation(const VolumePerTimeUnit& unit) const
-{
-  if (m_TargetPulmonaryVentilation == nullptr)
-    return SEScalar::dNaN();
-  return m_TargetPulmonaryVentilation->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
 bool SERespiratorySystem::HasTidalVolume() const
 {
   return m_TidalVolume == nullptr ? false : m_TidalVolume->IsValid();
@@ -693,10 +664,10 @@ Tree<const char*> SERespiratorySystem::GetPhysiologyRequestGraph() const
     .emplace_back(idPulmonaryCompliance)
     .emplace_back(idPulmonaryResistance)
     .emplace_back(idRespirationDriverPressure)
+    .emplace_back(idRespirationDriverFrequency)
     .emplace_back(idRespirationMusclePressure)
     .emplace_back(idRespirationRate)
     .emplace_back(idSpecificVentilation)
-    .emplace_back(idTargetPulmonaryVentilation)
     .emplace_back(idTidalVolume)
     .emplace_back(idTotalAlveolarVentilation)
     .emplace_back(idTotalDeadSpaceVentilation)

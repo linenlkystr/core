@@ -108,10 +108,6 @@ public:
   SEScalar& GetSpecificVentilation();
   double GetSpecificVentilation() const;
 
-  bool HasTargetPulmonaryVentilation() const;
-  SEScalarVolumePerTime& GetTargetPulmonaryVentilation();
-  double GetTargetPulmonaryVentilation(const VolumePerTimeUnit& unit) const;
-
   bool HasTidalVolume() const;
   SEScalarVolume& GetTidalVolume();
   double GetTidalVolume(const VolumeUnit& unit) const;
@@ -151,7 +147,6 @@ protected:
   SEScalarPressure* m_RespirationMusclePressure;
   SEScalarFrequency* m_RespirationRate;
   SEScalar* m_SpecificVentilation;
-  SEScalarVolumePerTime* m_TargetPulmonaryVentilation;
   SEScalarVolume* m_TidalVolume;
   SEScalarVolumePerTime* m_TotalAlveolarVentilation;
   SEScalarVolumePerTime* m_TotalDeadSpaceVentilation;

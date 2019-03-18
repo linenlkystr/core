@@ -113,10 +113,6 @@ void BioGearsCircuits::SetReadOnlyFluid(bool b)
   // These don't need to be locked
   GetFluidNode(BGE::EnvironmentNode::Ambient)->GetPressure().SetReadOnly(false);
   GetFluidNode(BGE::EnvironmentNode::Ambient)->GetNextPressure().SetReadOnly(false);
-  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-    GetFluidNode(BGE::RespiratoryNode::Stomach)->GetPressure().SetReadOnly(false);
-    GetFluidNode(BGE::RespiratoryNode::Stomach)->GetNextPressure().SetReadOnly(false);
-  }
   GetFluidNode(BGE::InhalerNode::Mouthpiece)->GetPressure().SetReadOnly(false);
   GetFluidNode(BGE::InhalerNode::Mouthpiece)->GetNextPressure().SetReadOnly(false);
 }

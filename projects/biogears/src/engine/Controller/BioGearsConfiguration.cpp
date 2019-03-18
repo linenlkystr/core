@@ -334,7 +334,7 @@ void BioGearsConfiguration::Initialize()
   GetStandardPulmonaryCapillaryCoverage().SetValue(0.70);
 
   // Circuits
-  m_BioGearsLiteEnabled = CDM::enumOnOff::On;
+  m_BioGearsLiteEnabled = CDM::enumOnOff::Off;
   GetCardiovascularOpenResistance().SetValue(100.0, FlowResistanceUnit::mmHg_s_Per_mL);
   GetDefaultOpenElectricResistance().SetValue(1E100, ElectricResistanceUnit::Ohm);
   GetDefaultOpenFlowResistance().SetValue(1E100, FlowResistanceUnit::Pa_s_Per_m3);
@@ -408,13 +408,7 @@ void BioGearsConfiguration::Initialize()
   GetTargetSodiumDelivery().SetValue(0.201, MassPerTimeUnit::g_Per_min);
 
   // Respiratory
-  GetCentralControllerCO2PressureSetPoint().SetValue(35.5, PressureUnit::mmHg);
-  GetCentralVentilatoryControllerGain().SetValue(1.44); //How much to add to the amplitude when the CO2 is off
-  GetPeripheralControllerCO2PressureSetPoint().SetValue(35.5, PressureUnit::mmHg);
-  GetPeripheralVentilatoryControllerGain().SetValue(30.24); //How much to add to the amplitude when the CO2 is off
-  GetPleuralComplianceSensitivity().SetValue(5.0, InverseVolumeUnit::Inverse_L);
   GetPulmonaryVentilationRateMaximum().SetValue(150.0, VolumePerTimeUnit::L_Per_min);
-  GetVentilationTidalVolumeIntercept().SetValue(0.3, VolumeUnit::L);
   GetVentilatoryOcclusionPressure().SetValue(0.75, PressureUnit::cmH2O); //This increases the absolute max driver pressure
 
   // Tissue
