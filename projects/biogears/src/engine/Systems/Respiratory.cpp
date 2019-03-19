@@ -786,6 +786,7 @@ void Respiratory::RespiratoryDriverLite()
     m_DriverPressure_cmH2O = m_DefaultDrivePressure_cmH2O;
   }
 
+  Apnea();
   //Push Driving Data to the Circuit -------------------------------------------------------------------------------
   m_DriverPressurePath->GetNextPressureSource().SetValue(m_DriverPressure_cmH2O, PressureUnit::cmH2O);
 }
