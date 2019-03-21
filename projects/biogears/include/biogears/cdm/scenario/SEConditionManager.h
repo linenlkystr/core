@@ -20,6 +20,7 @@ namespace biogears {
 class SECondition;
 class SEChronicAnemia;
 class SEChronicHeartFailure;
+class SEChronicObstructivePulmonaryDisease;
 class SEChronicPericardialEffusion;
 class SEChronicVentricularSystolicDysfunction;
 class SEChronicRenalStenosis;
@@ -28,6 +29,8 @@ class SEDehydration;
 class SEDiabetesType1;
 class SEDiabetesType2;
 class SEFasting;
+class SEImpairedAlveolarExchange;
+class SELobarPneumonia;
 class SEInitialEnvironment;
 class SESubstanceManager;
 
@@ -51,6 +54,9 @@ public:
   bool HasChronicAnemia() const;
   SEChronicAnemia* GetChronicAnemia() const;
 
+  bool HasChronicObstructivePulmonaryDisease() const;
+  SEChronicObstructivePulmonaryDisease* GetChronicObstructivePulmonaryDisease() const;
+
   bool HasChronicHeartFailure() const;
   bool HasChronicVentricularSystolicDysfunction() const;
   SEChronicVentricularSystolicDysfunction* GetChronicVentricularSystolicDysfunction() const;
@@ -73,6 +79,12 @@ public:
   bool HasDiabetesType2() const;
   SEDiabetesType2* GetDiabetesType2() const;
 
+  bool HasImpairedAlveolarExchange() const;
+  SEImpairedAlveolarExchange* GetImpairedAlveolarExchange() const;
+
+  bool HasLobarPneumonia() const;
+  SELobarPneumonia* GetLobarPneumonia() const;
+
   // Environment Conditions
 
   bool HasInitialEnvironment() const;
@@ -82,11 +94,14 @@ protected:
   SESubstanceManager& m_Substances;
   SEChronicAnemia* m_Anemia;
   SEStarvation* m_Starvation;
+  SEChronicObstructivePulmonaryDisease* m_COPD;
   SEDehydration* m_Dehydration;
   SEDiabetesType1* m_DiabetesType1;
   SEDiabetesType2* m_DiabetesType2;
   SEChronicHeartFailure* m_HeartFailure;
+  SEImpairedAlveolarExchange* m_ImpairedAlveolarExchange;
   SEChronicPericardialEffusion* m_PericardialEffusion;
+  SELobarPneumonia* m_LobarPneumonia;
   SEChronicRenalStenosis* m_RenalStenosis;
 
   SEInitialEnvironment* m_InitialEnvironment;

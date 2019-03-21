@@ -789,6 +789,10 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
   double kcal_Per_day_Per_Watt = 20.6362855;
   double maxWorkRate_W = 1200; //see Energy::Exercise
 
+  //Patients with COPD show higher levels of anaerobic metabolism \cite mathur1999cerebral \cite engelen2000factors
+  if (m_data.GetConditions().HasChronicObstructivePulmonaryDisease()) {
+    mandatoryMuscleAnaerobicFraction *= 1.5; //50% increase
+  }
   //Patients with sepsis have elevated lactate levels (i.e. increased anaerobic activity) because of poor oxygen perfusion to tissues
   //Assume that the muscles are most effected by this deficit and increase the anaerobic fraction as a function of sepsis progression
   if (m_PatientActions->HasSepsis()) {
@@ -1446,6 +1450,11 @@ void Tissue::ProteinStorageAndRelease()
 
   //https://www.wolframalpha.com/input/?i=y%3D.1%2B.1%2F(1%2Be%5E(-15(x-.75)))+from+0%3Cy%3C.2+and+0%3Cx%3C2
   double proteinBreakdownRate_g_Per_s = proteinBreakdownLowerRate_g_Per_s + GeneralMath::LogisticFunction(proteinBreakdownUpperRate_g_Per_s - proteinBreakdownLowerRate_g_Per_s, .75, 15, -hormoneFactor);
+
+  //Patients with COPD experience high protein turnover, so up the breakdown rate by a percentage \cite engelen2000enhanced
+  if (m_data.GetConditions().HasChronicObstructivePulmonaryDisease()) {
+    proteinBreakdownRate_g_Per_s *= 1.13; //13% increase
+  }
 
   //remove excess amino acids from blood and store in muscle while there's room
   //Body mobilizes protein when glucagon dominates, but we'll have protein shift toward storage unless insulin drops significantly
