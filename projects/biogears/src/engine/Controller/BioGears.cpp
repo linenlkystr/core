@@ -1058,7 +1058,6 @@ bool BioGears::CreateCircuitsAndCompartments()
     SetupLiteTemperature();
     cThermal.SetNextAndCurrentFromBaselines();
     cThermal.StateChange();
-
   }
 
   // This node is shared between the respiratory, anesthesia, and inhaler circuits
@@ -4942,13 +4941,13 @@ void BioGears::SetupLiteTemperature()
   //Capacitances
   double capCore_J_Per_K;
   double skinMassFraction = 0.09; //0.09 is fraction of mass that the skin takes up in a typical human /cite herman2006physics
-  capCore_J_Per_K = ((1.0 - skinMassFraction) * 80.0 * 3490);
-  double capSkin_J_per_K = 25011;
+  capCore_J_Per_K = 0.8*((1.0 - skinMassFraction) * 80.0 * 3490);
+  double capSkin_J_per_K = ((skinMassFraction)*80.0 * 3490); //0.8 * 25011;
   //Resistances
   double skinBloodFlow_m3Persec = 4.97E-06;
   double bloodDensity_kgPerm3 = 1050;
   double bloodSpecificHeat_JPerkgK = 3617;
-  double alphaScale = 0.79; //tuning parameter for scaling resistance
+  double alphaScale = 0.95; //tuning parameter for scaling resistance
   double coreToSkinR_K_Per_W;
   coreToSkinR_K_Per_W = 1.0 / (alphaScale * bloodDensity_kgPerm3 * bloodSpecificHeat_JPerkgK * skinBloodFlow_m3Persec);
   //double skinToExternalR_K_Per_W = 5.0;
@@ -4972,7 +4971,7 @@ void BioGears::SetupLiteTemperature()
   SEThermalCircuitNode& Skin = cThermal.CreateNode(BGE::ThermalLiteNode::Skin);
   Skin.GetTemperature().SetValue(33.0, TemperatureUnit::C);
   SEThermalCircuitNode& Environment = cThermal.CreateNode(BGE::ThermalLiteNode::Environment);
-  Environment.GetTemperature().SetValue(299, TemperatureUnit::K);
+  Environment.GetTemperature().SetValue(22, TemperatureUnit::C);
   SEThermalCircuitNode& Ref = cThermal.CreateNode(BGE::ThermalLiteNode::Ref);
   Ref.GetTemperature().SetValue(0.0, TemperatureUnit::K);
   Ref.GetNextTemperature().SetValue(0.0, TemperatureUnit::K);
@@ -4986,10 +4985,10 @@ void BioGears::SetupLiteTemperature()
   coreToGround.GetCapacitanceBaseline().SetValue((1.0 - skinMassFraction) * m_Patient->GetWeight(MassUnit::kg) * GetConfiguration().GetBodySpecificHeat(HeatCapacitancePerMassUnit::J_Per_K_kg), HeatCapacitanceUnit::J_Per_K);
   Core.GetHeatBaseline().SetValue(coreToGround.GetCapacitanceBaseline().GetValue(HeatCapacitanceUnit::J_Per_K) * Core.GetTemperature().GetValue(TemperatureUnit::K), EnergyUnit::J);
   SEThermalCircuitPath& coreToSkin = cThermal.CreatePath(Core, Skin, BGE::ThermalLitePath::CoreToSkin);
-  coreToSkin.GetResistanceBaseline().SetValue(coreToSkinR_K_Per_W, HeatResistanceUnit::K_Per_W);
+  coreToSkin.GetResistanceBaseline().SetValue(0.056, HeatResistanceUnit::K_Per_W);
   SEThermalCircuitPath& skinToGround = cThermal.CreatePath(Skin, Ground, BGE::ThermalLitePath::SkinToGround);
   //skinToGround.GetCapacitanceBaseline().SetValue(capSkin_J_per_K, HeatCapacitanceUnit::J_Per_K);
-  skinToGround.GetCapacitanceBaseline().SetValue(skinMassFraction * m_Patient->GetWeight(MassUnit::kg) * GetConfiguration().GetBodySpecificHeat(HeatCapacitancePerMassUnit::J_Per_K_kg), HeatCapacitanceUnit::J_Per_K);
+  skinToGround.GetCapacitanceBaseline().SetValue(0.8*skinMassFraction * m_Patient->GetWeight(MassUnit::kg) * GetConfiguration().GetBodySpecificHeat(HeatCapacitancePerMassUnit::J_Per_K_kg), HeatCapacitanceUnit::J_Per_K);
   Skin.GetHeatBaseline().SetValue(skinToGround.GetCapacitanceBaseline().GetValue(HeatCapacitanceUnit::J_Per_K) * Skin.GetTemperature().GetValue(TemperatureUnit::K), EnergyUnit::J);
   
   SEThermalCircuitPath& refToExternal = cThermal.CreatePath(Ref, Environment, BGE::ThermalLitePath::RefToEnvironment);
@@ -5027,7 +5026,5 @@ void BioGears::SetupLiteTemperature()
   lEnvironmentToSkin.MapPath(externalToSkin);
   SEThermalCompartmentLink& lCoreToRef = m_Compartments->CreateThermalLink(cCore, cRef, BGE::TemperatureLiteLink::CoreToRef);
   lCoreToRef.MapPath(coreToRef);
-
 }
-
 }
