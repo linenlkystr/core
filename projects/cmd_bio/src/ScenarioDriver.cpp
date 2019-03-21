@@ -41,7 +41,7 @@ ScenarioDriver::~ScenarioDriver()
 void ScenarioDriver::LoadPatients(std::vector<std::string> files, std::string xml)
 {
   for (auto& patient : files) {
-    std::function<void()> work = [=]() { biogears::runScenario(patient, xml); };
+    std::function<void()> work = [=]() { biogears::runScenario(patient,  xml); };
     _pool.queue_work(work);
   }
 }

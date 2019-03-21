@@ -211,9 +211,10 @@ void Energy::PreProcess()
     CalculateMetabolicHeatGeneration();
     CalculateSweatRate();
     UpdateHeatResistance();
-    //Exercise();
+    Exercise();
     
   }
+  //m_data.GetDataTrack().Probe("TMR", GetTotalMetabolicRate().GetValue(PowerUnit::kcal_Per_day));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -573,14 +574,14 @@ void Energy::UpdateHeatResistance()
   double bloodDensity_kg_Per_m3 = m_data.GetBloodChemistry().GetBloodDensity().GetValue(MassPerVolumeUnit::kg_Per_m3);
   double bloodSpecificHeat_J_Per_K_kg = m_data.GetBloodChemistry().GetBloodSpecificHeat().GetValue(HeatCapacitancePerMassUnit::J_Per_K_kg);
 
-  double alphaScale = .5; //Scaling factor for convective heat transfer from core to skin (35 seems to be near the upper limit before non-stabilization)
+  double alphaScale = 0.95; //Scaling factor for convective heat transfer from core to skin (35 seems to be near the upper limit before non-stabilization) 0.5
 
   //The heat transfer resistance from the core to the skin is inversely proportional to the skin blood flow.
   //When skin blood flow increases, then heat transfer resistance decreases leading to more heat transfer from core to skin.
   //The opposite occurs for skin blood flow decrease.
   double coreToSkinResistance_K_Per_W = 1.0 / (alphaScale * bloodDensity_kg_Per_m3 * bloodSpecificHeat_J_Per_K_kg * skinBloodFlow_m3_Per_s);
 
-  coreToSkinResistance_K_Per_W = BLIM(coreToSkinResistance_K_Per_W, 0.0001, 20.0);
+  coreToSkinResistance_K_Per_W = BLIM(coreToSkinResistance_K_Per_W, ZERO_APPROX, 20.0);
   //m_data.GetDataTrack().Probe("CoreToSkinResistance", coreToSkinResistance_K_Per_W);
   m_coreToSkinPath->GetNextResistance().SetValue(coreToSkinResistance_K_Per_W, HeatResistanceUnit::K_Per_W);
 }
