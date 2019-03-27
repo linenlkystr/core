@@ -685,6 +685,61 @@ namespace tatrc {
         DEFINE_STATIC_STRING(SpleenL2);
       };
 
+      namespace TissueLiteNode {
+        DEFINE_STATIC_STRING(BoneE1);
+        DEFINE_STATIC_STRING(BoneE2);
+        DEFINE_STATIC_STRING(BoneE3);
+        DEFINE_STATIC_STRING(BoneI);
+        DEFINE_STATIC_STRING(BoneL);
+        DEFINE_STATIC_STRING(BrainE1);
+        DEFINE_STATIC_STRING(BrainE2);
+        DEFINE_STATIC_STRING(BrainE3);
+        DEFINE_STATIC_STRING(BrainI);
+        DEFINE_STATIC_STRING(BrainL);
+        DEFINE_STATIC_STRING(FatE1);
+        DEFINE_STATIC_STRING(FatE2);
+        DEFINE_STATIC_STRING(FatE3);
+        DEFINE_STATIC_STRING(FatI);
+        DEFINE_STATIC_STRING(FatL);
+        DEFINE_STATIC_STRING(KidneyE1);
+        DEFINE_STATIC_STRING(KidneyE2);
+        DEFINE_STATIC_STRING(KidneyE3);
+        DEFINE_STATIC_STRING(KidneyI);
+        DEFINE_STATIC_STRING(KidneyL);
+        DEFINE_STATIC_STRING(LiverE1);
+        DEFINE_STATIC_STRING(LiverE2);
+        DEFINE_STATIC_STRING(LiverE3);
+        DEFINE_STATIC_STRING(LiverI);
+        DEFINE_STATIC_STRING(LiverL);
+        DEFINE_STATIC_STRING(LungE1);
+        DEFINE_STATIC_STRING(LungE2);
+        DEFINE_STATIC_STRING(LungE3);
+        DEFINE_STATIC_STRING(LungI);
+        DEFINE_STATIC_STRING(LungL);
+        DEFINE_STATIC_STRING(Lymph)
+        DEFINE_STATIC_STRING(MuscleE1);
+        DEFINE_STATIC_STRING(MuscleE2);
+        DEFINE_STATIC_STRING(MuscleE3)
+        DEFINE_STATIC_STRING(MuscleI);
+        DEFINE_STATIC_STRING(MuscleL);
+        DEFINE_STATIC_STRING(MyocardiumE1);
+        DEFINE_STATIC_STRING(MyocardiumE2);
+        DEFINE_STATIC_STRING(MyocardiumE3);
+        DEFINE_STATIC_STRING(MyocardiumI);
+        DEFINE_STATIC_STRING(MyocardiumL);
+        //Using Splanchnic for Tissue to refer to intestines, spleen, and "vascular splanchnic", which is basically the pancreas.
+        DEFINE_STATIC_STRING(SplanchnicE1);
+        DEFINE_STATIC_STRING(SplanchnicE2);
+        DEFINE_STATIC_STRING(SplanchnicE3);
+        DEFINE_STATIC_STRING(SplanchnicI);
+        DEFINE_STATIC_STRING(SplanchnicL);
+        DEFINE_STATIC_STRING(SkinE1);
+        DEFINE_STATIC_STRING(SkinE2);
+        DEFINE_STATIC_STRING(SkinE3);
+        DEFINE_STATIC_STRING(SkinI);
+        DEFINE_STATIC_STRING(SkinL);
+      };
+
       namespace TissuePath {
         DEFINE_STATIC_STRING(BoneVToBoneE1);
         DEFINE_STATIC_STRING(BoneE1ToBoneE2);
@@ -823,6 +878,107 @@ namespace tatrc {
         DEFINE_STATIC_STRING(SpleenL1ToSpleenL2);
         DEFINE_STATIC_STRING(SpleenToLymphValve);
       };
+
+      namespace TissueLitePath {
+        DEFINE_STATIC_STRING(BoneVToBoneE1);
+        DEFINE_STATIC_STRING(BoneE1ToBoneE2);
+        DEFINE_STATIC_STRING(BoneE2ToBoneE3);
+        DEFINE_STATIC_STRING(BoneE3ToBoneI);
+        DEFINE_STATIC_STRING(BoneE3ToGround);
+        DEFINE_STATIC_STRING(BoneIToGround);
+        DEFINE_STATIC_STRING(BoneE3ToBoneL);
+        DEFINE_STATIC_STRING(BoneLToLymph);
+
+        DEFINE_STATIC_STRING(BrainVToBrainE1);
+        DEFINE_STATIC_STRING(BrainE1ToBrainE2);
+        DEFINE_STATIC_STRING(BrainE2ToBrainE3);
+        DEFINE_STATIC_STRING(BrainE3ToBrainI);
+        DEFINE_STATIC_STRING(BrainE3ToGround);
+        DEFINE_STATIC_STRING(BrainIToGround);
+        DEFINE_STATIC_STRING(BrainE3ToBrainL);
+        DEFINE_STATIC_STRING(BrainLToLymph);
+
+        DEFINE_STATIC_STRING(FatVToFatE1);
+        DEFINE_STATIC_STRING(FatE1ToFatE2);
+        DEFINE_STATIC_STRING(FatE2ToFatE3);
+        DEFINE_STATIC_STRING(FatE3ToFatI);
+        DEFINE_STATIC_STRING(FatE3ToGround);
+        DEFINE_STATIC_STRING(FatIToGround);
+        DEFINE_STATIC_STRING(FatE3ToFatL);
+        DEFINE_STATIC_STRING(FatLToLymph);
+
+        DEFINE_STATIC_STRING(RightKidneyVToKidneyE1);
+        DEFINE_STATIC_STRING(LeftKidneyVToKidneyE1);
+        DEFINE_STATIC_STRING(KidneyE1ToKidneyE2);
+        DEFINE_STATIC_STRING(KidneyE2ToKidneyE3);
+        DEFINE_STATIC_STRING(KidneyE3ToKidneyI);
+        DEFINE_STATIC_STRING(KidneyE3ToGround);
+        DEFINE_STATIC_STRING(KidneyIToGround);
+        DEFINE_STATIC_STRING(KidneyE3ToKidneyL);
+        DEFINE_STATIC_STRING(KidneyLToLymph);
+
+        DEFINE_STATIC_STRING(LiverVToLiverE1);
+        DEFINE_STATIC_STRING(LiverE1ToLiverE2);
+        DEFINE_STATIC_STRING(LiverE2ToLiverE3);
+        DEFINE_STATIC_STRING(LiverE3ToLiverI);
+        DEFINE_STATIC_STRING(LiverE3ToGround);
+        DEFINE_STATIC_STRING(LiverIToGround);
+        DEFINE_STATIC_STRING(LiverE3ToLiverL);
+        DEFINE_STATIC_STRING(LiverLToLymph);
+
+        DEFINE_STATIC_STRING(LeftLungVToLungE1);
+        DEFINE_STATIC_STRING(RightLungVToLungE1);
+        DEFINE_STATIC_STRING(LungE1ToLungE2);
+        DEFINE_STATIC_STRING(LungE2ToLungE3);
+        DEFINE_STATIC_STRING(LungE3ToLungI);
+        DEFINE_STATIC_STRING(LungE3ToGround);
+        DEFINE_STATIC_STRING(LungIToGround);
+        DEFINE_STATIC_STRING(LungE3ToLungL);
+        DEFINE_STATIC_STRING(LungLToLymph);
+
+        DEFINE_STATIC_STRING(LymphToVenaCava);
+        DEFINE_STATIC_STRING(LymphToGround);
+
+        DEFINE_STATIC_STRING(MuscleVToMuscleE1);
+        DEFINE_STATIC_STRING(MuscleE1ToMuscleE2);
+        DEFINE_STATIC_STRING(MuscleE2ToMuscleE3);
+        DEFINE_STATIC_STRING(MuscleE3ToMuscleI);
+        DEFINE_STATIC_STRING(MuscleE3ToGround);
+        DEFINE_STATIC_STRING(MuscleIToGround);
+        DEFINE_STATIC_STRING(MuscleE3ToMuscleL);
+        DEFINE_STATIC_STRING(MuscleLToLymph);
+
+        DEFINE_STATIC_STRING(MyocardiumVToMyocardiumE1);
+        DEFINE_STATIC_STRING(MyocardiumE1ToMyocardiumE2);
+        DEFINE_STATIC_STRING(MyocardiumE2ToMyocardiumE3);
+        DEFINE_STATIC_STRING(MyocardiumE3ToMyocardiumI);
+        DEFINE_STATIC_STRING(MyocardiumE3ToGround);
+        DEFINE_STATIC_STRING(MyocardiumIToGround);
+        DEFINE_STATIC_STRING(MyocardiumE3ToMyocardiumL);
+        DEFINE_STATIC_STRING(MyocardiumLToLymph)
+
+        DEFINE_STATIC_STRING(SkinVToSkinE1);
+        DEFINE_STATIC_STRING(SkinE1ToSkinE2);
+        DEFINE_STATIC_STRING(SkinE2ToSkinE3);
+        DEFINE_STATIC_STRING(SkinE3ToSkinI);
+        DEFINE_STATIC_STRING(SkinE3ToGround);
+        DEFINE_STATIC_STRING(SkinIToGround);
+        DEFINE_STATIC_STRING(SkinE3ToSkinL);
+        DEFINE_STATIC_STRING(SkinLToLymph);
+        DEFINE_STATIC_STRING(SkinSweating);
+
+        DEFINE_STATIC_STRING(SmallIntestineVToSplanchnicE1);
+        DEFINE_STATIC_STRING(LargeIntestineVToSplanchnicE1);
+        DEFINE_STATIC_STRING(SpleenVToSplanchnicE1);
+        DEFINE_STATIC_STRING(PancreasVToSplanchnicE1);
+        DEFINE_STATIC_STRING(SplanchnicE1ToSplanchnicE2);
+        DEFINE_STATIC_STRING(SplanchnicE2ToSplanchnicE3);
+        DEFINE_STATIC_STRING(SplanchnicE3ToSplanchnicI);
+        DEFINE_STATIC_STRING(SplanchnicE3ToGround);
+        DEFINE_STATIC_STRING(SplanchnicIToGround);
+        DEFINE_STATIC_STRING(SplanchnicE3ToSplanchnicL);
+        DEFINE_STATIC_STRING(SplanchnicLToLymph)
+      }
 
       namespace RenalNode {
 

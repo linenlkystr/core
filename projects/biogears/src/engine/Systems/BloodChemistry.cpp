@@ -329,6 +329,10 @@ void BloodChemistry::Process()
     sub->GetMassInBlood().SetValue(bloodMass_ug, MassUnit::ug);
     sub->GetMassInTissue().SetValue(tissueMass_ug, MassUnit::ug);
   }
+  //m_data.GetSubstances().ProbeBloodGases(*m_aorta, "");
+  //m_data.GetSubstances().ProbeBloodGases(*m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Gut), "");
+  //m_data.GetSubstances().ProbeBloodGases(*m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Kidneys), "");
+  //m_data.GetSubstances().ProbeBloodGases(*m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Lungs), "");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -346,7 +350,7 @@ void BloodChemistry::PostProcess()
       ProcessOverride();
     }
   }
-  }
+}
 
 //--------------------------------------------------------------------------------------------------
 /// \brief
@@ -391,10 +395,10 @@ void BloodChemistry::CheckBloodSubstanceLevels()
           if (!m_PatientActions->HasOverride()) {
             patient.SetEvent(CDM::enumPatientEvent::IrreversibleState, true, m_data.GetSimulationTime());
           } else {
-            if (m_PatientActions->GetOverride()->GetOverrideConformance()==CDM::enumOnOff::On) {
+            if (m_PatientActions->GetOverride()->GetOverrideConformance() == CDM::enumOnOff::On) {
               patient.SetEvent(CDM::enumPatientEvent::IrreversibleState, true, m_data.GetSimulationTime());
             }
-          }          
+          }
         }
       } else if (patient.IsEventActive(CDM::enumPatientEvent::Hypercapnia) && arterialCarbonDioxide_mmHg < (hypercapniaFlag - 3)) {
         /// \event Patient: End Hypercapnia. The carbon dioxide partial pressure has fallen below 57 mmHg. The patient is no longer considered to be hypercapnic.
@@ -824,7 +828,7 @@ void BloodChemistry::AcuteInflammatoryResponse()
   //Adjust parameters depending on inflammation source
   if (burnTotalBodySurfaceArea != 0) {
     //Rate at which burn causes damage varies on the severity of the burn.  A larger burn causes a bigger initial hit to tissue damage
-    kDTR = 5.0*burnTotalBodySurfaceArea;
+    kDTR = 5.0 * burnTotalBodySurfaceArea;
   }
 
   double dPathogen = kPG * pathogen * (1.0 - pathogen / maxPathogen) - pathogen * kPN * neutrophilActive - sB * kPB * pathogen / (uB + kBP * pathogen); //This is assumed to be the driving force for infection / sepsis.
@@ -847,7 +851,6 @@ void BloodChemistry::AcuteInflammatoryResponse()
   double dIL12 = k12M * macrophageActive * GeneralMath::HillInhibition(IL10, x1210, 2.0) - k12 * IL12;
   double dCa = kCATR * autonomic - kCA * catecholamines;
   double dTissueIntegrity = kD * (1.0 - tissueIntegrity) - tissueIntegrity * (kDB * fB + kD6 * GeneralMath::HillActivation(IL6, xD6, 2.0) + kDTR * trauma + kDP * pathogen) * (1.0 / (std::pow(xDNO, 2.0) + std::pow(nitricOxide, 2.0)));
- 
 
   //Increment state values--make sure to scale nitrate, tnf, il6, and il10 back up
   GetAcuteInflammatoryResponse().GetPathogen().IncrementValue(dPathogen * dt_hr * scaleFactor);
@@ -886,7 +889,7 @@ void BloodChemistry::ProcessOverride()
 #ifdef BIOGEARS_USE_OVERRIDE_CONTROL
   OverrideControlLoop();
 #endif
-  
+
   if (override->HasArterialPHOverride()) {
     GetArterialBloodPH().SetValue(override->GetArterialPHOverride().GetValue());
   }
@@ -903,7 +906,7 @@ void BloodChemistry::ProcessOverride()
     GetOxygenSaturation().SetValue(override->GetO2SaturationOverride().GetValue());
   }
   if (override->HasPhosphateOverride()) {
-    GetPhosphate().SetValue(override->GetPhosphateOverride(AmountPerVolumeUnit::mmol_Per_mL),AmountPerVolumeUnit::mmol_Per_mL);
+    GetPhosphate().SetValue(override->GetPhosphateOverride(AmountPerVolumeUnit::mmol_Per_mL), AmountPerVolumeUnit::mmol_Per_mL);
   }
   if (override->HasWBCCountOverride()) {
     GetWhiteBloodCellCount().SetValue(override->GetWBCCountOverride(AmountPerVolumeUnit::ct_Per_uL), AmountPerVolumeUnit::ct_Per_uL);
@@ -977,8 +980,8 @@ void BloodChemistry::OverrideControlLoop()
     currentArtPHOverride = override->GetArterialPHOverride().GetValue();
   }
   if (override->HasVenousPHOverride()) {
-      currentVenPHOverride = override->GetVenousPHOverride().GetValue();
-    }
+    currentVenPHOverride = override->GetVenousPHOverride().GetValue();
+  }
   if (override->HasCO2SaturationOverride()) {
     currentCO2SaturationOverride = override->GetCO2SaturationOverride().GetValue();
   }

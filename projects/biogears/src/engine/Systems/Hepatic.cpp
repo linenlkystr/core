@@ -148,6 +148,7 @@ void Hepatic::SetUp()
   //Glycogen can make up 5-8% of liver's weight, and average liver is 1.5 kg, so max glycogen should be around 97.5 g (guyton)
   m_maxLiverGlycogen_g = .065 * m_data.GetCompartments().GetTissueCompartment(BGE::TissueCompartment::Liver)->GetTotalMass(MassUnit::g);
 
+
   //Glycogen in muscles can make up 1-3% of their weight, but this glycogen can't diffuse out of the muscle (guyton);
   m_maxMuscleGlycogen_g = .02 * m_Patient->GetMuscleMass(MassUnit::g);
 
@@ -385,9 +386,11 @@ void Hepatic::Gluconeogenesis()
   double O2ConsumedToMakeKetones = 5;
 
   double TAGBrokenDown_mol = TAGBreakdownRate_g_Per_s * m_dt_s / m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+  double liverExtracellularVolume_mL = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetVolume(VolumeUnit::mL);
+
 
   //If we have enough TAG in the liver
-  if (m_liverExtracellularTAG->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_mL) * m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetVolume(VolumeUnit::mL) > TAGBrokenDown_mol) {
+  if (m_liverExtracellularTAG->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_mL) * liverExtracellularVolume_mL > TAGBrokenDown_mol) {
     //If we have enough O2 as well
     if (m_liverExtracellularO2->GetMass(MassUnit::g) > TAGBrokenDown_mol * O2ConsumedToMakeKetones * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
       m_liverExtracellularTAG->GetMass().IncrementValue(-TAGBrokenDown_mol * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -414,7 +417,7 @@ void Hepatic::Gluconeogenesis()
   }
   //If we don't have enough TAG in the liver, break down what's there
   else {
-    double TAGActuallyBrokenDown_mol = m_liverExtracellularTAG->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_mL) * m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetVolume(VolumeUnit::mL);
+    double TAGActuallyBrokenDown_mol = m_liverExtracellularTAG->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_mL) * liverExtracellularVolume_mL;
 
     //If we have enough O2
     if (m_liverExtracellularO2->GetMass(MassUnit::g) > TAGActuallyBrokenDown_mol * O2ConsumedToMakeKetones * m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mol)) {
@@ -454,7 +457,7 @@ void Hepatic::Gluconeogenesis()
     double AAConverted_mol = AAConversionRate_g_Per_s * m_dt_s / m_AminoAcids->GetMolarMass(MassPerAmountUnit::g_Per_mol);
 
     //If we have enough AA in the liver
-    if (m_liverExtracellularAA->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_mL) * m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetVolume(VolumeUnit::mL) > AAConverted_mol) {
+    if (m_liverExtracellularAA->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_mL) * liverExtracellularVolume_mL > AAConverted_mol) {
       if (true) //we have enough O2 (if required)
       {
         m_liverExtracellularAA->GetMass().IncrementValue(-AAConverted_mol * m_AminoAcids->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -472,7 +475,7 @@ void Hepatic::Gluconeogenesis()
     else {
       if (true) //we have enough O2 (if required)
       {
-        double AAActuallyConverted_mol = m_liverExtracellularAA->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_mL) * m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetVolume(VolumeUnit::mL);
+        double AAActuallyConverted_mol = m_liverExtracellularAA->GetMolarity().GetValue(AmountPerVolumeUnit::mol_Per_mL) * liverExtracellularVolume_mL;
         m_liverExtracellularAA->GetMass().SetValue(0, MassUnit::g);
         m_liverExtracellularGlucose->GetMass().IncrementValue(AAActuallyConverted_mol * glucosePerAA_mol * m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
         m_liverExtracellularUrea->GetMass().IncrementValue(AAActuallyConverted_mol * ureaPerAA_mol * m_Urea->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
@@ -485,7 +488,9 @@ void Hepatic::Gluconeogenesis()
       }
     }
   }
+  
   m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->Balance(BalanceLiquidBy::Mass);
+
   if (ketoneProductionRate_mol_Per_s < .0001138) //don't record values greater than 1000 g/day to eliminate initial spikes in ketogenesis and gluconeogenesis
     GetKetoneProductionRate().SetValue(ketoneProductionRate_mol_Per_s, AmountPerTimeUnit::mol_Per_s);
   if (totalGlucoseFromGluconeogenesis_mol * m_Glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol) * (1 / m_dt_s) * 3600 * 24 < 1000)
@@ -589,6 +594,8 @@ void Hepatic::Lipogenesis()
     m_liverExtracellularTAG->GetMass().IncrementValue((AAToBeConverted_mol / 24) * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
     m_liverExtracellularCO2->GetMass().IncrementValue((AAToBeConverted_mol / 24) * 21 * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
     m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->Balance(BalanceLiquidBy::Mass);
+
+    
     TAGGenerated_g += (AAToBeConverted_mol / 24) * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol);
     CO2Generated_mol += (AAToBeConverted_mol / 24) * 21;
   }
@@ -601,6 +608,7 @@ void Hepatic::Lipogenesis()
     m_liverExtracellularTAG->GetMass().IncrementValue((AAActuallyConsumed_mol / 24) * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
     m_liverExtracellularCO2->GetMass().IncrementValue((AAActuallyConsumed_mol / 24) * 21 * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
     m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->Balance(BalanceLiquidBy::Mass);
+ 
     TAGGenerated_g += (AAActuallyConsumed_mol / 24) * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol);
     CO2Generated_mol += (AAActuallyConsumed_mol / 24) * 21;
   }
@@ -613,6 +621,7 @@ void Hepatic::Lipogenesis()
     m_liverExtracellularTAG->GetMass().IncrementValue((glucoseToBeConverted_mol / 13) * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
     m_liverExtracellularCO2->GetMass().IncrementValue((glucoseToBeConverted_mol / 13) * 21 * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
     m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->Balance(BalanceLiquidBy::Mass);
+
     TAGGenerated_g += (glucoseToBeConverted_mol / 13) * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol);
     CO2Generated_mol += (glucoseToBeConverted_mol / 13) * 21;
   }
@@ -624,6 +633,7 @@ void Hepatic::Lipogenesis()
     m_liverExtracellularTAG->GetMass().IncrementValue((glucoseActuallyConsumed_mol / 13) * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
     m_liverExtracellularCO2->GetMass().IncrementValue((glucoseActuallyConsumed_mol / 13) * 21 * m_CO2->GetMolarMass(MassPerAmountUnit::g_Per_mol), MassUnit::g);
     m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->Balance(BalanceLiquidBy::Mass);
+
     TAGGenerated_g += (glucoseActuallyConsumed_mol / 13) * m_Triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol);
     CO2Generated_mol += (glucoseToBeConverted_mol / 13) * 21;
   }

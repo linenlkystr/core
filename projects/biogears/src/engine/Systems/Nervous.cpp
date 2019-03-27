@@ -69,7 +69,7 @@ void Nervous::Initialize()
   BioGearsSystem::Initialize();
   m_FeedbackActive = false;
   m_blockActive = false;
-  m_ChemoreceptorFiringRate_Hz = 3.45;
+  m_ChemoreceptorFiringRate_Hz = 3.42;
   m_ChemoreceptorFiringRateSetPoint_Hz = m_ChemoreceptorFiringRate_Hz;
   m_PeripheralBloodGasInteractionBaseline_Hz = 0.0;
   m_CentralFrequencyDelta_Per_min = 0.0;

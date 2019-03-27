@@ -138,15 +138,13 @@ void BioGearsSubstances::InitializeGasCompartments()
   Bronchi->Balance(BalanceGasBy::VolumeFraction);
   SEGasCompartment* Alveoli = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Alveoli);
   Alveoli->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().SetValue(0.04); //0.04
-  Alveoli->GetSubstanceQuantity(*m_O2)->GetVolumeFraction().SetValue(0.15);  //0.15
+  Alveoli->GetSubstanceQuantity(*m_O2)->GetVolumeFraction().SetValue(0.15); //0.15
   Alveoli->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().SetValue(1 - 0.04 - 0.15);
   Alveoli->Balance(BalanceGasBy::VolumeFraction);
   SEGasCompartment* PleuralCavity = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Pleural);
   PleuralCavity->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().SetValue(AmbientCO2VF);
   PleuralCavity->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().SetValue(AmbientN2VF);
   PleuralCavity->GetSubstanceQuantity(*m_O2)->GetVolumeFraction().SetValue(AmbientO2VF);
- 
-  
 
   //Initialize the compartments to Ambient values
   for (SEGasCompartment* cmpt : m_data.GetCompartments().GetAnesthesiaMachineLeafCompartments()) {
@@ -198,7 +196,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentGases()
   double Hb_total_mM = Hb_total_g_Per_dL / m_Hb->GetMolarMass(MassPerAmountUnit::g_Per_mmol) * 10.0;
 
   // Bootstrapped values from many runs (using standard patient)
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Aorta), Hb_total_mM, 0.974905, 0.129608, 0.02817, 1.3012, 25.9389, 7.39961);   //0.129608
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Aorta), Hb_total_mM, 0.974905, 0.129608, 0.02817, 1.3012, 25.9389, 7.39961);
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Bone), Hb_total_mM, 0.830363, 0.0616873, 0.13056, 1.3881, 26.0892, 7.37404);
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Brain), Hb_total_mM, 0.827281, 0.0612181, 0.133288, 1.38958, 26.0916, 7.37362);
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Fat), Hb_total_mM, 0.830303, 0.0616616, 0.128914, 1.38717, 26.0876, 7.3743);
@@ -248,20 +246,33 @@ void BioGearsSubstances::InitializeLiquidCompartmentGases()
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Splanchnic), Hb_total_mM, 0.817051, 0.0597293, 0.141898, 1.39428, 26.0995, 7.37228);
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Spleen), Hb_total_mM, 0.830039, 0.0616463, 0.131757, 1.38878, 26.0903, 7.37385);
   InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::VenaCava), Hb_total_mM, 0.813122, 0.0591948, 0.146203, 1.39669, 26.1035, 7.3716);
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Bone), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Bone));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Brain), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Brain));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Fat), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Fat));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Gut), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Gut));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::LeftKidney), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftKidney));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::LeftLung), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftLung));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Liver), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Liver));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Muscle), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Muscle));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Myocardium), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Myocardium));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::RightKidney), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightKidney));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::RightLung), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightLung));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Skin), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Skin));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Spleen), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Spleen));
+  } else {
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Bone), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Bone));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Brain), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Brain));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Fat), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Fat));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Splanchnic), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Gut));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Kidney), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Kidneys));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Liver), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Liver));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Lung), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Lungs));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Muscle), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Muscle));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Myocardium), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Myocardium));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Skin), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Skin));
+  }
 
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Bone), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Bone));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Brain), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Brain));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Fat), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Fat));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Gut), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Gut));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::LeftKidney), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftKidney));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::LeftLung), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftLung));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Liver), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Liver));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Muscle), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Muscle));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Myocardium), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Myocardium));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::RightKidney), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightKidney));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::RightLung), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightLung));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Skin), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Skin));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueCompartment::Spleen), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Spleen));
 
   SEScalarMassPerVolume concentration;
   concentration.SetValue(0.146448, MassPerVolumeUnit::g_Per_dL);
@@ -473,7 +484,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   molarity1.SetValue(concentration.GetValue(MassPerVolumeUnit::g_Per_L) / m_aminoAcids->GetMolarMass(MassPerAmountUnit::g_Per_mol), AmountPerVolumeUnit::mol_Per_L);
   SetSubstanceMolarity(*m_aminoAcids, tissue, molarity1, molarity1);
   //Lymph
-   lymph->GetSubstanceQuantity(*m_aminoAcids)->GetMolarity().Set(molarity1);
+  lymph->GetSubstanceQuantity(*m_aminoAcids)->GetMolarity().Set(molarity1);
   lymph->GetSubstanceQuantity(*m_aminoAcids)->Balance(BalanceLiquidBy::Molarity);
 
   // BICARBONATE IS SET IN GASES SECTION //
@@ -486,8 +497,8 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   molarity2.SetValue(0.0001, AmountPerVolumeUnit::mmol_Per_L);
   SetSubstanceMolarity(*m_calcium, tissue, molarity1, molarity2);
   //Lymph
-   lymph->GetSubstanceQuantity(*m_calcium)->GetMolarity().Set(molarity1);
-   lymph->GetSubstanceQuantity(*m_calcium)->Balance(BalanceLiquidBy::Molarity);
+  lymph->GetSubstanceQuantity(*m_calcium)->GetMolarity().Set(molarity1);
+  lymph->GetSubstanceQuantity(*m_calcium)->Balance(BalanceLiquidBy::Molarity);
   // Set Urine
   concentration.SetValue(98.1, MassPerVolumeUnit::mg_Per_L);
   subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_calcium);
@@ -555,7 +566,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   molarity1.SetValue(0.106, AmountPerVolumeUnit::mmol_Per_L);
   SetSubstanceMolarity(*m_creatinine, tissue, molarity1);
   //Lymph
-   lymph->GetSubstanceQuantity(*m_creatinine)->GetMolarity().Set(molarity1);
+  lymph->GetSubstanceQuantity(*m_creatinine)->GetMolarity().Set(molarity1);
   lymph->GetSubstanceQuantity(*m_creatinine)->Balance(BalanceLiquidBy::Molarity);
 
   // EPINEPHRINE //
@@ -568,7 +579,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   //molarity1.SetValue(0, AmountPerVolumeUnit::mmol_Per_L); //epinephrine: 183.2044 g/mol
   SetSubstanceMolarity(*m_epi, tissue, molarity1);
   //Lymph
-   lymph->GetSubstanceQuantity(*m_epi)->GetMolarity().Set(molarity1);
+  lymph->GetSubstanceQuantity(*m_epi)->GetMolarity().Set(molarity1);
   lymph->GetSubstanceQuantity(*m_epi)->Balance(BalanceLiquidBy::Molarity);
 
   // GLUCAGON //
@@ -599,7 +610,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   // Tissue
   molarity1.SetValue(concentration.GetValue(MassPerVolumeUnit::g_Per_L) / m_glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), AmountPerVolumeUnit::mol_Per_L);
   SetSubstanceMolarity(*m_glucose, tissue, molarity1, molarity1);
-   lymph->GetSubstanceQuantity(*m_glucose)->GetMolarity().Set(molarity1);
+  lymph->GetSubstanceQuantity(*m_glucose)->GetMolarity().Set(molarity1);
   lymph->GetSubstanceQuantity(*m_glucose)->Balance(BalanceLiquidBy::Molarity);
 
   // INSULIN //
@@ -643,7 +654,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   molarity1.SetValue(0.09, AmountPerVolumeUnit::mmol_Per_L);
   SetSubstanceMolarity(*m_ketones, tissue, molarity1);
   //Lymph
-   lymph->GetSubstanceQuantity(*m_ketones)->GetMolarity().Set(molarity1);
+  lymph->GetSubstanceQuantity(*m_ketones)->GetMolarity().Set(molarity1);
   lymph->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Molarity);
 
   // LACTATE //
@@ -665,7 +676,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   // Tissue
   SetSubstanceMolarity(*m_lactate, tissue, molarity1, molarity1);
   //Lymph
-   lymph->GetSubstanceQuantity(*m_lactate)->GetMolarity().Set(molarity1);
+  lymph->GetSubstanceQuantity(*m_lactate)->GetMolarity().Set(molarity1);
   lymph->GetSubstanceQuantity(*m_lactate)->Balance(BalanceLiquidBy::Molarity);
 
   // POTASSIUM //
@@ -1055,7 +1066,7 @@ void BioGearsSubstances::CalculateGenericClearance(double volumeCleared_mL, SELi
 {
   SELiquidSubstanceQuantity* subQ = cmpt.GetSubstanceQuantity(sub);
   if (subQ == nullptr)
-    throw CommonDataModelException(std::string{ "No Substance Quantity found for substance " } +sub.GetName());
+    throw CommonDataModelException(std::string{ "No Substance Quantity found for substance " } + sub.GetName());
   //GetMass and Concentration from the compartment
   double mass_ug = subQ->GetMass(MassUnit::ug);
   double concentration_ug_Per_mL = subQ->GetConcentration(MassPerVolumeUnit::ug_Per_mL);
@@ -1094,7 +1105,7 @@ void BioGearsSubstances::CalculateGenericClearance(double VolumeCleared_mL, SETi
 {
   SELiquidSubstanceQuantity* subQ = m_data.GetCompartments().GetIntracellularFluid(tissue).GetSubstanceQuantity(sub);
   if (subQ == nullptr)
-    throw CommonDataModelException(std::string{"No Substance Quantity found for substance"} + sub.GetName());
+    throw CommonDataModelException(std::string{ "No Substance Quantity found for substance" } + sub.GetName());
   //GetMass and Concentration from the compartment
   double mass_ug = subQ->GetMass(MassUnit::ug);
   double concentration_ug_Per_mL;
@@ -1134,7 +1145,7 @@ void BioGearsSubstances::CalculateGenericExcretion(double VascularFlow_mL_Per_s,
 {
   SELiquidSubstanceQuantity* subQ = m_data.GetCompartments().GetIntracellularFluid(tissue).GetSubstanceQuantity(sub);
   if (subQ == nullptr)
-    throw CommonDataModelException(std::string{"No Substance Quantity found for substance"} + sub.GetName());
+    throw CommonDataModelException(std::string{ "No Substance Quantity found for substance" } + sub.GetName());
   double concentration_ug_Per_mL;
   SEScalarMassPerVolume concentration;
   if (sub.HasPK()) {
@@ -1287,13 +1298,13 @@ void BioGearsSubstances::SetSubstanceMolarity(SESubstance& sub, const std::vecto
   SELiquidCompartment* extracellular = nullptr;
 
   for (SETissueCompartment* cmpt : cmpts) {
-    intracellular = m_data.GetCompartments().GetLiquidCompartment(std::string{ cmpt->GetName() }+"Intracellular");
+    intracellular = m_data.GetCompartments().GetLiquidCompartment(std::string{ cmpt->GetName() } + "Intracellular");
     if (intracellular != nullptr) {
       intracellular->GetSubstanceQuantity(sub)->GetMolarity().Set(intracellularMolarity);
       intracellular->GetSubstanceQuantity(sub)->Balance(BalanceLiquidBy::Molarity);
     }
 
-    extracellular = m_data.GetCompartments().GetLiquidCompartment(std::string{ cmpt->GetName() } +"Extracellular");
+    extracellular = m_data.GetCompartments().GetLiquidCompartment(std::string{ cmpt->GetName() } + "Extracellular");
     if (extracellular != nullptr) {
       extracellular->GetSubstanceQuantity(sub)->GetMolarity().Set(extracellularMolarity);
       extracellular->GetSubstanceQuantity(sub)->Balance(BalanceLiquidBy::Molarity);

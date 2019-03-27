@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
+#include <biogears/chrono/stop_watch.tci.h>
 #include <biogears/cdm/circuit/fluid/SEFluidCircuitPath.h>
 #include <biogears/cdm/system/physiology/SETissueSystem.h>
 #include <biogears/cdm/utils/RunningAverage.h>
@@ -44,7 +45,8 @@ class BIOGEARS_API Tissue : public SETissueSystem, public BioGearsSystem {
 protected:
   Tissue(BioGears& bg);
   BioGears& m_data;
-
+  biogears::StopWatch<std::chrono::nanoseconds> tissueWatch;
+  double calcDiffusionTime;
 
 public:
   virtual ~Tissue() override;
@@ -201,6 +203,7 @@ protected:
   std::map<SETissueCompartment*, SEFluidCircuitPath*> m_EndothelialResistancePaths;
   std::map<SELiquidCompartment*, SEFluidCircuitPath*> m_LymphPaths;
   std::vector<SETissueCompartment*> m_ConsumptionProdutionTissues;
+  std::map<std::string, double> permeabilityCoefficients;
   std::string m_AnaerobicTissues;
 };
 }

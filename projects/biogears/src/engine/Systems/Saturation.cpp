@@ -62,20 +62,21 @@ protected:
 
 public:
   error_functor(SaturationCalculator& SatCalc)
-    : Functor<double>(4, 4)
+    : Functor<double>(3, 3)
     , m_SatCalc(SatCalc)
   {
   }
   int operator()(const Eigen::VectorXd& x, Eigen::VectorXd& fvec) const
   {
-    double pH = x(0);
-    double bicarb_mM = x(1);
-    double co2_mM = x(2);
-    double o2_mM = x(3);
+    //double pH = x(0);
+    double bicarb_mM = x(0);
+    double co2_mM = x(1);
+    double o2_mM = x(2);
 
     double OxygenSaturation = 0.0;
     double CarbonDioxideSaturation = 0.0;
     double logTerm = 0.0;
+    double pH = 0.0;
 
     if (co2_mM > 0.0 && o2_mM > 0.0 && bicarb_mM > 0.0) {
       concentration.SetValue(m_SatCalc.m_O2->GetMolarMass(MassPerAmountUnit::g_Per_mmol) * o2_mM, MassPerVolumeUnit::g_Per_L);
@@ -95,8 +96,10 @@ public:
       else if (CO2_scaling_factor < 0.1)
         CO2_scaling_factor = 0.1;
 
+      logTerm = std::log10(bicarb_mM / co2_mM);
+      pH = 6.1 + logTerm;
       m_SatCalc.CalculateHemoglobinSaturations(O2PartialPressureGuess_mmHg, CO2PartialPressureGuess_mmHg, pH, m_SatCalc.m_temperature_C, m_SatCalc.m_hematocrit, OxygenSaturation, CarbonDioxideSaturation, CO2_scaling_factor);
-      logTerm = log10(bicarb_mM / co2_mM);
+      
     }
 
     double CO2_mM = m_SatCalc.m_subCO2Q->GetMolarity(AmountPerVolumeUnit::mmol_Per_L);
@@ -114,7 +117,7 @@ public:
     double f0 = m_SatCalc.m_StrongIonDifference_mmol_Per_L - bicarb_mM - m_SatCalc.m_albumin_g_per_L * (0.123 * pH - 0.631) - m_SatCalc.m_Phosphate_mmol_Per_L * (0.309 * pH - 0.469);
     double f1 = totalCO2_mM - co2_mM - bicarb_mM - 4.0 * CarbonDioxideSaturation * totalHemoglobin_mM;
     double f2 = totalO2_mM - o2_mM - 4.0 * OxygenSaturation * totalHemoglobin_mM;
-    double f3 = pH - 6.1 - logTerm;
+    //double f3 = pH - 6.1 - logTerm;
 
     // Huge penalty for negative numbers
     double negativePenaltyO2 = std::min(0.0, o2_mM);
@@ -124,7 +127,7 @@ public:
     fvec(0) = f0;
     fvec(1) = f1 - negativePenaltyCO2 * 100.0;
     fvec(2) = f2 - negativePenaltyO2 * 100.0;
-    fvec(3) = f3;
+    //fvec(3) = f3;
 
     m_SatCalc.m_subO2Q->GetSaturation().SetValue(OxygenSaturation);
     m_SatCalc.m_subCO2Q->GetSaturation().SetValue(CarbonDioxideSaturation);
@@ -137,6 +140,14 @@ SaturationCalculator::SaturationCalculator(BioGears& bg)
   , m_data(bg)
 {
   Initialize(bg.GetSubstances());
+  numLoops = 0.0;
+  satWatch.reset();
+  solverWatch.reset();
+  totalWatch.reset();
+  solverTime = 0.0;
+  satTime = 0.0;
+  hbTime = 0.0;
+  totalTime = 0.0;
 }
 
 void SaturationCalculator::Initialize(SESubstanceManager& substances)
@@ -347,6 +358,7 @@ void SaturationCalculator::CalculateCarbonMonoxideSpeciesDistribution(SELiquidCo
 //--------------------------------------------------------------------------------------------------
 void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cmpt)
 {
+  totalWatch.lap();
   m_cmpt = &cmpt;
   m_subO2Q = nullptr;
   m_subCO2Q = nullptr;
@@ -357,44 +369,55 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
   m_subHCO3Q = nullptr;
   m_subCOQ = nullptr;
   m_subHbCOQ = nullptr;
-  for (SELiquidSubstanceQuantity* subQ : cmpt.GetSubstanceQuantities()) {
-    if (&subQ->GetSubstance() == m_O2) {
-      m_subO2Q = subQ;
-      continue;
-    }
-    if (&subQ->GetSubstance() == m_CO2) {
-      m_subCO2Q = subQ;
-      continue;
-    }
-    if (&subQ->GetSubstance() == m_Hb) {
-      m_subHbQ = subQ;
-      continue;
-    }
-    if (&subQ->GetSubstance() == m_HbO2) {
-      m_subHbO2Q = subQ;
-      continue;
-    }
-    if (&subQ->GetSubstance() == m_HbCO2) {
-      m_subHbCO2Q = subQ;
-      continue;
-    }
-    if (&subQ->GetSubstance() == m_HbO2CO2) {
-      m_subHbO2CO2Q = subQ;
-      continue;
-    }
-    if (&subQ->GetSubstance() == m_HCO3) {
-      m_subHCO3Q = subQ;
-      continue;
-    }
-    if (&subQ->GetSubstance() == m_CO) {
-      m_subCOQ = subQ;
-      continue;
-    }
-    if (&subQ->GetSubstance() == m_HbCO) {
-      m_subHbCOQ = subQ;
-      continue;
-    }
-  }
+
+ //for (SELiquidSubstanceQuantity* subQ : cmpt.GetSubstanceQuantities()) {
+ //   if (&subQ->GetSubstance() == m_O2) {
+ //     m_subO2Q = subQ;
+ //     continue;
+ //   }
+ //   if (&subQ->GetSubstance() == m_CO2) {
+ //     m_subCO2Q = subQ;
+ //     continue;
+ //   }
+ //   if (&subQ->GetSubstance() == m_Hb) {
+ //     m_subHbQ = subQ;
+ //     continue;
+ //   }
+ //   if (&subQ->GetSubstance() == m_HbO2) {
+ //     m_subHbO2Q = subQ;
+ //     continue;
+ //   }
+ //   if (&subQ->GetSubstance() == m_HbCO2) {
+ //     m_subHbCO2Q = subQ;
+ //     continue;
+ //   }
+ //   if (&subQ->GetSubstance() == m_HbO2CO2) {
+ //     m_subHbO2CO2Q = subQ;
+ //     continue;
+ //   }
+ //   if (&subQ->GetSubstance() == m_HCO3) {
+ //     m_subHCO3Q = subQ;
+ //     continue;
+ //   }
+ //   if (&subQ->GetSubstance() == m_CO) {
+ //     m_subCOQ = subQ;
+ //     continue;
+ //   }
+ //   if (&subQ->GetSubstance() == m_HbCO) {
+ //     m_subHbCOQ = subQ;
+ //     continue;
+ //   }
+ // }
+  
+  m_subO2Q = cmpt.GetSubstanceQuantity(*m_O2);
+  m_subCO2Q = cmpt.GetSubstanceQuantity(*m_CO2);
+  m_subHbQ = cmpt.GetSubstanceQuantity(*m_Hb);
+  m_subHbO2Q = cmpt.GetSubstanceQuantity(*m_HbO2);
+  m_subHbCO2Q = cmpt.GetSubstanceQuantity(*m_HbCO2);
+  m_subHbO2CO2Q = cmpt.GetSubstanceQuantity(*m_HbO2CO2);
+  m_subHCO3Q = cmpt.GetSubstanceQuantity(*m_HCO3);
+
+
 
   double HbO2_mM = m_subHbO2Q->GetMolarity(AmountPerVolumeUnit::mmol_Per_L); // Hemoglobin with Oxygen bound to 4 sites
   double HbCO2_mM = m_subHbCO2Q->GetMolarity(AmountPerVolumeUnit::mmol_Per_L); // Hemoglobin with Carbon Dioxide bound to 4 sites
@@ -478,13 +501,13 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
   double approxZero = 1.0e-6;
   double fnormCheck = 1.0e-4;
 
-  Eigen::VectorXd x(4);
+  Eigen::VectorXd x(3);
 
   //// Initial Guess - just use the last values
-  x(0) = m_cmpt->GetPH().GetValue();
-  x(1) = m_subHCO3Q->GetMolarity().GetValue(AmountPerVolumeUnit::mmol_Per_L);
-  x(2) = m_subCO2Q->GetMolarity().GetValue(AmountPerVolumeUnit::mmol_Per_L);
-  x(3) = m_subO2Q->GetMolarity().GetValue(AmountPerVolumeUnit::mmol_Per_L);
+  //x(0) = m_cmpt->GetPH().GetValue();
+  x(0) = m_subHCO3Q->GetMolarity().GetValue(AmountPerVolumeUnit::mmol_Per_L);
+  x(1) = m_subCO2Q->GetMolarity().GetValue(AmountPerVolumeUnit::mmol_Per_L);
+  x(2) = m_subO2Q->GetMolarity().GetValue(AmountPerVolumeUnit::mmol_Per_L);
 
   error_functor functor(*this);
   Eigen::NumericalDiff<error_functor> numDiff(functor);
@@ -498,10 +521,13 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
   errMsg << "GeneralMath::CalculateBloodGasDistribution: ";
 
   // Solve the acid base equations
+  solverWatch.lap();
   int ret = solver.solveNumericalDiffInit(x);
   while (ret == Eigen::HybridNonLinearSolverSpace::Running) {
     ret = solver.solveNumericalDiffOneStep(x);
   }
+  solverTime += solverWatch.lap();
+
 
   switch (ret) {
   case Eigen::HybridNonLinearSolverSpace::RelativeErrorTooSmall:
@@ -525,7 +551,7 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
     errMsg << ". f0 = " << solver.fvec(0);
     errMsg << ". f1 = " << solver.fvec(1);
     errMsg << ". f2 = " << solver.fvec(2);
-    errMsg << ". f3 = " << solver.fvec(3);
+    //errMsg << ". f3 = " << solver.fvec(3);
     errMsg << ". compartment = " << m_cmpt->GetName();
     Fatal(errMsg);
     break;
@@ -546,7 +572,7 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
   }
 
   // Handle negative returns
-  if (x(0) < 0.0 || x(1) < 0.0 || x(2) < 0.0 || x(3) < 0.0) { // Convert near-zero to zero
+  if (x(0) < 0.0 || x(1) < 0.0 || x(2) < 0.0) { // Convert near-zero to zero
     if (std::abs(x(0)) < approxZero) {
       x(0) = 0.0;
     }
@@ -556,11 +582,8 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
     if (std::abs(x(2)) < approxZero) {
       x(2) = 0.0;
     }
-    if (std::abs(x(3)) < approxZero) {
-      x(3) = 0.0;
-    }
     // If the conversion didn't work then the negative is really negative, that's a problem
-    if (x(0) < 0.0 || x(1) < 0.0 || x(2) < 0.0 || x(3) < 0.0) {
+    if (x(0) < 0.0 || x(1) < 0.0 || x(2) < 0.0) {
       solverSolution = false;
     }
   }
@@ -572,10 +595,11 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
     solverSolution = false;
 
   if (solverSolution) {
-    m_cmpt->GetPH().SetValue(x(0));
-    resultantHCO3_mM = x(1);
-    resultantDissolvedCO2_mM = x(2);
-    resultantDissolvedO2_mM = x(3);
+    //m_cmpt->GetPH().SetValue(x(0));
+    resultantHCO3_mM = x(0);
+    resultantDissolvedCO2_mM = x(1);
+    resultantDissolvedO2_mM = x(2);
+    m_cmpt->GetPH().SetValue(6.1 + std::log10(resultantHCO3_mM/resultantDissolvedCO2_mM));
   } else {
 #ifdef VERBOSE
     Info("Secondary binding solution");
@@ -702,10 +726,12 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
     m_subHbO2CO2Q->Balance(BalanceLiquidBy::Molarity);
   } // End alternate solution
 
+  solverWatch.lap();
   if (!DistributeHemoglobinBySaturation()) {
     errMsg << " Failed to update hemoglobin saturation.";
     Fatal(errMsg);
   }
+  hbTime += solverWatch.lap();
 
   resultantHb_mM = m_subHbQ->GetMolarity(AmountPerVolumeUnit::mmol_Per_L);
   resultantHbO2_mM = m_subHbO2Q->GetMolarity(AmountPerVolumeUnit::mmol_Per_L);
@@ -877,6 +903,12 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
 
   m_subO2Q->GetSaturation().SetValue((resultantHbO2_mM + resultantHbO2CO2_mM) / (totalHb_mM));
   m_subCO2Q->GetSaturation().SetValue((resultantHbCO2_mM + resultantHbO2CO2_mM) / (totalHb_mM));
+  totalTime += totalWatch.lap();
+  m_data.GetDataTrack().Probe("SolverTime_ms", solverTime / 1e6);
+  m_data.GetDataTrack().Probe("SatCalcTime_ms", satTime / 1e6);
+  m_data.GetDataTrack().Probe("TotalSatTime_ms", totalTime / 1e6);
+  m_data.GetDataTrack().Probe("HbDistributeTime_ms", hbTime / 1e6);
+  m_data.GetDataTrack().Probe("TotalSolverIterations", numLoops);
 
   return;
 }
@@ -891,6 +923,8 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
 //--------------------------------------------------------------------------------------------------
 void SaturationCalculator::CalculateHemoglobinSaturations(double O2PartialPressureGuess_mmHg, double CO2PartialPressureGuess_mmHg, double pH, double temperature_C, double hematocrit, double& OxygenSaturation, double& CarbonDioxideSaturation, double CO2_scaling_factor)
 {
+  numLoops += 1;
+  satWatch.lap();
   double CO_sat = 0;
 
   if (m_subCOQ != nullptr)
@@ -1006,6 +1040,7 @@ void SaturationCalculator::CalculateHemoglobinSaturations(double O2PartialPressu
   // Now set the saturations
   OxygenSaturation = KHbO2 * O2 / (1 + KHbO2 * O2);
   CarbonDioxideSaturation = KHbCO2 * CO2 * CO2_scaling_factor / (1 + KHbCO2 * CO2 * CO2_scaling_factor);
+  satTime += satWatch.lap();
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -195,10 +195,18 @@ void BioGearsCompartments::StateChange()
   SORT_CMPTS_LITE(Temperature, Thermal)
 
   if (m_data.GetConfiguration().IsTissueEnabled()) {
-    SORT_CMPTS(Tissue, Tissue);
-    for (const std::string& name : BGE::ExtravascularCompartment::GetValues()) {
-      if (GetLiquidCompartment(name) == nullptr)
-        Warning("Could not find expected Extravascular compartment, " + name + " in compartment manager");
+    if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+      SORT_CMPTS(Tissue, Tissue);
+      for (const std::string& name : BGE::ExtravascularCompartment::GetValues()) {
+        if (GetLiquidCompartment(name) == nullptr)
+          Warning("Could not find expected Extravascular compartment, " + name + " in compartment manager");
+      }
+    } else {
+      SORT_CMPTS_LITE(Tissue, Tissue);
+      for (const std::string& name : BGE::ExtravascularLiteCompartment::GetValues()) {
+        if (GetLiquidCompartment(name) == nullptr)
+          Warning("Could not find expected Extravascular compartment, " + name + " in compartment manager");
+      }
     }
 
     SELiquidCompartment* cmpt;

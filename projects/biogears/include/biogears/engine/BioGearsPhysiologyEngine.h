@@ -200,6 +200,27 @@ namespace tatrc {
         }
       };
 
+      namespace TissueLiteCompartment {
+        DEFINE_STATIC_STRING_EX(Bone, BoneTissue);
+        DEFINE_STATIC_STRING_EX(Brain, BrainTissue);
+        DEFINE_STATIC_STRING_EX(Fat, FatTissue);
+        DEFINE_STATIC_STRING_EX(Splanchnic, SplanchnicTissue);
+        DEFINE_STATIC_STRING_EX(Kidney, KidneyTissue);
+        DEFINE_STATIC_STRING_EX(Liver, LiverTissue);
+        DEFINE_STATIC_STRING_EX(Lung, LungTissue);
+        DEFINE_STATIC_STRING_EX(Muscle, MuscleTissue);
+        DEFINE_STATIC_STRING_EX(Myocardium, MyocardiumTissue);
+        DEFINE_STATIC_STRING_EX(Skin, SkinTissue);
+
+        static const std::vector<std::string>& GetValues()
+        {
+          static std::vector<std::string> _values = {
+            Bone, Brain, Fat, Kidney, Liver, Lung, Muscle, Myocardium, Skin, Splanchnic
+          };
+          return _values;
+        }
+      };
+
       namespace ExtravascularCompartment {
 
         DEFINE_STATIC_STRING_EX(BoneExtracellular, BoneTissueExtracellular);
@@ -238,6 +259,41 @@ namespace tatrc {
           return _values;
         }
       };
+
+      namespace ExtravascularLiteCompartment {
+
+        DEFINE_STATIC_STRING_EX(BoneExtracellular, BoneTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(BrainExtracellular, BrainTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(FatExtracellular, FatTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(SplanchnicExtracellular, SplanchnicTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(KidneyExtracellular, KidneyTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(LiverExtracellular, LiverTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(LungExtracellular, LungTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(MuscleExtracellular, MuscleTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(MyocardiumExtracellular, MyocardiumTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(SkinExtracellular, SkinTissueExtracellular);
+
+        DEFINE_STATIC_STRING_EX(BoneIntracellular, BoneTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(BrainIntracellular, BrainTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(FatIntracellular, FatTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(SplanchnicIntracellular, SplanchnicTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(KidneyIntracellular, KidneyTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(LiverIntracellular, LiverTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(LungIntracellular, LungTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(MuscleIntracellular, MuscleTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(MyocardiumIntracellular, MyocardiumTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(SkinIntracellular, SkinTissueIntracellular);
+
+        static const std::vector<std::string>& GetValues()
+        {
+          static std::vector<std::string> _values = {
+            BoneExtracellular, BrainExtracellular, FatExtracellular, SplanchnicExtracellular, KidneyExtracellular, LiverExtracellular, LungExtracellular, MuscleExtracellular, MyocardiumExtracellular, SkinExtracellular, BoneIntracellular, BrainIntracellular, FatIntracellular, SplanchnicIntracellular, KidneyIntracellular, LiverIntracellular, LungIntracellular, MuscleIntracellular, MyocardiumIntracellular, SkinIntracellular
+          };
+          return _values;
+        }
+      };
+
+
 
       namespace VascularCompartment {
 
