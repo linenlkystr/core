@@ -1358,13 +1358,14 @@ void Tissue::CalculateMetabolicConsumptionAndProduction(double time_s)
   if (m_PatientActions->HasExercise()) {
     m_energy->GetTotalWorkRateLevel().SetValue(achievedWorkRate_W / maxWorkRate_W);
     double intensity = m_PatientActions->GetExercise()->GetIntensity().GetValue();
-    if (intensity > 1e-6) //approx. zero
+    if (intensity > 1e-6) { //approx. zero
       m_energy->GetAchievedExerciseLevel().SetValue(achievedWorkRate_W / maxWorkRate_W / intensity);
-    else
-      m_energy->GetAchievedExerciseLevel().Clear();
+    } else {
+      m_energy->GetAchievedExerciseLevel().SetValue(0.0);
+    }
   } else {
-    m_energy->GetAchievedExerciseLevel().Clear();
-    m_energy->GetTotalWorkRateLevel().Clear();
+    m_energy->GetAchievedExerciseLevel().SetValue(0.0);
+    m_energy->GetTotalWorkRateLevel().SetValue(0.0);
   }
 
   double fatigue = ((brainEnergyDeficit_kcal + nonbrainEnergyDeficit_kcal) / (baseEnergyRequested_kcal + exerciseEnergyRequested_kcal));
