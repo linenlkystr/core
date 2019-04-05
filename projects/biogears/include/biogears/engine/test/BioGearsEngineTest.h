@@ -171,6 +171,7 @@ public:
   void SimpleDiffusionHierarchyTest(const std::string& rptDirectory);
   void FacilitatedDiffusionTest(const std::string& rptDirectory);
   void TissueCombinedTransportTest(const std::string& rptDirectory);
+  void DiffusionMatrixMathTest(const std::string& rptDirectory);
 
 protected:
   void DistributeMass(SETestSuite& testSuite);

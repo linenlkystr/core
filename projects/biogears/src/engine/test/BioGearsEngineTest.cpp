@@ -187,6 +187,8 @@ void BioGearsEngineTest::FillFunctionMap()
   bgeMap.insert(
     std::make_pair("TissueCombinedTransportTest",
       &BioGearsEngineTest::TissueCombinedTransportTest));
+  bgeMap.insert(std::make_pair("DiffusionMatrixMathTest",
+	  &BioGearsEngineTest::DiffusionMatrixMathTest));
 
   bgeMap.insert(
     std::make_pair("BrainInjuryTest", &BioGearsEngineTest::BrainInjuryTest));

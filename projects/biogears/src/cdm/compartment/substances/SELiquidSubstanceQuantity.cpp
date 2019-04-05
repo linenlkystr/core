@@ -247,9 +247,10 @@ void SELiquidSubstanceQuantity::Balance(BalanceLiquidBy by)
     break;
   }
   }
+  
   // Note we do not set saturation, that is done by the acid/base binding after transport
 }
-//-----------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------
 bool SELiquidSubstanceQuantity::HasConcentration() const
 {
   if (!m_Children.empty()) {

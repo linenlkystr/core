@@ -158,5 +158,6 @@ protected:
   std::map<SESubstance*, SizeIndependentDepositionEfficencyCoefficient*> m_SIDECoefficients;
 
   BioGears& m_data;
+
 };
 }

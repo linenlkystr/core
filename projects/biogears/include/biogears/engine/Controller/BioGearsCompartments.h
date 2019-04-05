@@ -13,6 +13,7 @@ specific language governing permissions and limitations under the License.
 #pragma once
 
 #include <biogears/cdm/compartment/SECompartmentManager.h>
+#include <biogears/cdm/substance/SESubstanceTransport.h>
 #include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 
 namespace biogears {
@@ -145,5 +146,6 @@ protected:
 
   std::map<SETissueCompartment*, SELiquidCompartment*> m_ExtracellularFluid;
   std::map<SETissueCompartment*, SELiquidCompartment*> m_IntracellularFluid;
+
 };
 }

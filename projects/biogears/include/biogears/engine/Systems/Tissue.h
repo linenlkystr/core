@@ -20,6 +20,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/RunningAverage.h>
 #include <biogears/engine/Controller/BioGearsSystem.h>
 #include <biogears/schema/biogears/BioGearsPhysiology.hxx>
+#include <Eigen/core>
 
 namespace biogears {
 class SESubstance;
@@ -46,7 +47,12 @@ protected:
   Tissue(BioGears& bg);
   BioGears& m_data;
   biogears::StopWatch<std::chrono::nanoseconds> tissueWatch;
+  biogears::StopWatch<std::chrono::nanoseconds> loopWatch;
   double calcDiffusionTime;
+  double loopTime;
+  double simpleTime;
+  double instantTime;
+  double otherTime;
 
 public:
   virtual ~Tissue() override;
@@ -122,6 +128,11 @@ protected:
 
   double SodiumPotassiumPump(double intraNa_mM, double extraNa_mM, double extraK_mM, double potential_V);
   double CalciumPump(double intraCa_M);
+
+  //Test diffusion methods
+  void SimpleDiffusion();
+  void InstantDiffusion();
+  void OtherDiffusion();
 
   //Override
   void ProcessOverride();
@@ -203,7 +214,19 @@ protected:
   std::map<SETissueCompartment*, SEFluidCircuitPath*> m_EndothelialResistancePaths;
   std::map<SELiquidCompartment*, SEFluidCircuitPath*> m_LymphPaths;
   std::vector<SETissueCompartment*> m_ConsumptionProdutionTissues;
-  std::map<std::string, double> permeabilityCoefficients;
   std::string m_AnaerobicTissues;
+
+  Eigen::MatrixXd m_SimpleDiffusionSubsVascular;
+  Eigen::MatrixXd m_SimpleDiffusionSubsTissueExtra;
+  Eigen::MatrixXd m_SimpleDiffusionSubsTissueIntra;
+  Eigen::MatrixXd m_SimpleDiffusionPermeabilityCoeff;  
+  Eigen::MatrixXd m_InstantDiffusionSubsVascular;
+  Eigen::MatrixXd m_InstantDiffusionSubsTissueExtra;
+  Eigen::MatrixXd m_InstantDiffusionSubsTissueIntra;
+  Eigen::MatrixXd m_DeltaMassInstantVE;
+  Eigen::MatrixXd m_DeltaMassInstantEI;
+  Eigen::MatrixXd m_DeltaMassSimpleVE;
+  Eigen::MatrixXd m_DeltaMassSimpleEI;
+
 };
 }

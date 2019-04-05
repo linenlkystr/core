@@ -204,7 +204,7 @@ namespace tatrc {
         DEFINE_STATIC_STRING_EX(Bone, BoneTissue);
         DEFINE_STATIC_STRING_EX(Brain, BrainTissue);
         DEFINE_STATIC_STRING_EX(Fat, FatTissue);
-        DEFINE_STATIC_STRING_EX(Splanchnic, SplanchnicTissue);
+        DEFINE_STATIC_STRING_EX(Gut, GutTissue);
         DEFINE_STATIC_STRING_EX(Kidney, KidneyTissue);
         DEFINE_STATIC_STRING_EX(Liver, LiverTissue);
         DEFINE_STATIC_STRING_EX(Lung, LungTissue);
@@ -215,7 +215,7 @@ namespace tatrc {
         static const std::vector<std::string>& GetValues()
         {
           static std::vector<std::string> _values = {
-            Bone, Brain, Fat, Kidney, Liver, Lung, Muscle, Myocardium, Skin, Splanchnic
+            Bone, Brain, Fat, Gut, Kidney, Liver, Lung, Muscle, Myocardium, Skin
           };
           return _values;
         }
@@ -265,7 +265,7 @@ namespace tatrc {
         DEFINE_STATIC_STRING_EX(BoneExtracellular, BoneTissueExtracellular);
         DEFINE_STATIC_STRING_EX(BrainExtracellular, BrainTissueExtracellular);
         DEFINE_STATIC_STRING_EX(FatExtracellular, FatTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(SplanchnicExtracellular, SplanchnicTissueExtracellular);
+        DEFINE_STATIC_STRING_EX(GutExtracellular, GutTissueExtracellular);
         DEFINE_STATIC_STRING_EX(KidneyExtracellular, KidneyTissueExtracellular);
         DEFINE_STATIC_STRING_EX(LiverExtracellular, LiverTissueExtracellular);
         DEFINE_STATIC_STRING_EX(LungExtracellular, LungTissueExtracellular);
@@ -276,7 +276,7 @@ namespace tatrc {
         DEFINE_STATIC_STRING_EX(BoneIntracellular, BoneTissueIntracellular);
         DEFINE_STATIC_STRING_EX(BrainIntracellular, BrainTissueIntracellular);
         DEFINE_STATIC_STRING_EX(FatIntracellular, FatTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(SplanchnicIntracellular, SplanchnicTissueIntracellular);
+        DEFINE_STATIC_STRING_EX(GutIntracellular, GutTissueIntracellular);
         DEFINE_STATIC_STRING_EX(KidneyIntracellular, KidneyTissueIntracellular);
         DEFINE_STATIC_STRING_EX(LiverIntracellular, LiverTissueIntracellular);
         DEFINE_STATIC_STRING_EX(LungIntracellular, LungTissueIntracellular);
@@ -287,7 +287,7 @@ namespace tatrc {
         static const std::vector<std::string>& GetValues()
         {
           static std::vector<std::string> _values = {
-            BoneExtracellular, BrainExtracellular, FatExtracellular, SplanchnicExtracellular, KidneyExtracellular, LiverExtracellular, LungExtracellular, MuscleExtracellular, MyocardiumExtracellular, SkinExtracellular, BoneIntracellular, BrainIntracellular, FatIntracellular, SplanchnicIntracellular, KidneyIntracellular, LiverIntracellular, LungIntracellular, MuscleIntracellular, MyocardiumIntracellular, SkinIntracellular
+            BoneExtracellular, BrainExtracellular, FatExtracellular, GutExtracellular, KidneyExtracellular, LiverExtracellular, LungExtracellular, MuscleExtracellular, MyocardiumExtracellular, SkinExtracellular, BoneIntracellular, BrainIntracellular, FatIntracellular, GutIntracellular, KidneyIntracellular, LiverIntracellular, LungIntracellular, MuscleIntracellular, MyocardiumIntracellular, SkinIntracellular
           };
           return _values;
         }
@@ -309,7 +309,7 @@ namespace tatrc {
         DEFINE_STATIC_STRING(PulmonaryArteries);
         DEFINE_STATIC_STRING(PulmonaryCapillaries);
         DEFINE_STATIC_STRING(PulmonaryVeins);
-        DEFINE_STATIC_STRING_EX(Lungs, LungsVasculature);
+        DEFINE_STATIC_STRING_EX(Lungs, LungVasculature);
         DEFINE_STATIC_STRING_EX(LeftLung, LeftLungVasculature);
         DEFINE_STATIC_STRING(LeftPulmonaryArteries);
         DEFINE_STATIC_STRING(LeftPulmonaryCapillaries);

@@ -18,29 +18,23 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BoneTissueExtracellular"        Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BrainTissueExtracellular"       Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueExtracellular"         Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular"  Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Name="Volume" Unit="mL" Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular"  Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueExtracellular"       Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular"    Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular"   Name="Volume" Unit="mL" Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular"    Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MuscleTissueExtracellular"      Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueExtracellular"  Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueExtracellular"        Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular"      Name="Volume" Unit="mL" Precision="0"/>
  
   <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="FatTissueIntracellular"         Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BoneTissueIntracellular"        Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BrainTissueIntracellular"       Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueIntracellular"         Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"  Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Name="Volume" Unit="mL" Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"  Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular"       Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular"    Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular"   Name="Volume" Unit="mL" Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular"    Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MuscleTissueIntracellular"      Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular"  Name="Volume" Unit="mL" Precision="0"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueIntracellular"        Name="Volume" Unit="mL" Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular"      Name="Volume" Unit="mL" Precision="0"/>
 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BrainTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BrainTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
@@ -78,23 +72,14 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>
 
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="7"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="7"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="7"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>
 
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
@@ -105,23 +90,14 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>
 
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="7"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="7"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="7"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>
 
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
@@ -141,14 +117,6 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>	
 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="7"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Chloride" Name="Molarity" Unit="mmol/L" Precision="3"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Calcium" Name="Molarity" Unit="mmol/L" Precision="3"/>	
 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MuscleTissueIntracellular" Substance="Sodium" Name="Molarity" Unit="mmol/L" Precision="3"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MuscleTissueIntracellular" Substance="Potassium" Name="Molarity" Unit="mmol/L" Precision="3"/>

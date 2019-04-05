@@ -204,7 +204,7 @@ void Nervous::PreProcess()
 //--------------------------------------------------------------------------------------------------
 void Nervous::Process()
 {
-  //CheckNervousStatus();
+  CheckNervousStatus();
   SetPupilEffects();
 }
 
@@ -570,7 +570,7 @@ void Nervous::ChemoreceptorFeedback()
 
     //This tuning of CNS modifier was done so that standard Fentanyl and Morphine runs approximately match main engine baselines.  
     if (drugCNSModifier > ZERO_APPROX) {
-      for (auto drug : m_data.GetSubstances().GetActiveSubstances()) {
+      for (auto drug : m_data.GetSubstances().GetActiveDrugs()) {
         if (drug->GetClassification() == CDM::enumSubstanceClass::Opioid) {
           nextRespirationRate_Per_min *= (1.0 - drugCNSModifier / 5.0);
           nextDrivePressure_cmH2O *= (1.0 - drugCNSModifier / 2.0);

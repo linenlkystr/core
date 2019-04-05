@@ -430,7 +430,7 @@ if(m_data.GetConfiguration().IsTissueEnabled()){
         m_tissueResistancePaths.push_back(m_CirculatoryCircuit->GetPath(BGE::TissuePath::SkinE1ToSkinE2));
         m_tissueResistancePaths.push_back(m_CirculatoryCircuit->GetPath(BGE::TissuePath::SpleenE1ToSpleenE2));
       } else {
-        m_tissueResistancePaths.push_back(m_CirculatoryCircuit->GetPath(BGE::TissueLitePath::SplanchnicE1ToSplanchnicE2));
+        m_tissueResistancePaths.push_back(m_CirculatoryCircuit->GetPath(BGE::TissueLitePath::GutE1ToGutE2));
         m_tissueResistancePaths.push_back(m_CirculatoryCircuit->GetPath(BGE::TissueLitePath::BoneE1ToBoneE2));
         m_tissueResistancePaths.push_back(m_CirculatoryCircuit->GetPath(BGE::TissueLitePath::BrainE1ToBrainE2));
         m_tissueResistancePaths.push_back(m_CirculatoryCircuit->GetPath(BGE::TissueLitePath::FatE1ToFatE2));

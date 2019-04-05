@@ -457,7 +457,7 @@ void Drugs::CalculatePartitionCoefficients()
     SELiquidCompartment& IntracellularFluid = m_data.GetCompartments().GetIntracellularFluid(*tissue);
 
     //Loop over substances
-    for (SESubstance* sub : m_data.GetCompartments().GetLiquidCompartmentSubstances()) {
+    for (SESubstance* sub : m_data.GetSubstances().GetActiveDrugs()) {
       if (!sub->HasPK())
         continue;
       if (!sub->GetPK().HasPhysicochemicals())
@@ -560,7 +560,7 @@ void Drugs::CalculateDrugEffects()
   double inhibitorConstant_ug_Per_mL = 1.0; //Can't initialize to 0 lest we divide by 0.  Won't matter what it is when there is no inhibitor because this will get mulitplied by 0 anyway
 
   //Loop over substances
-  for (SESubstance* sub : m_data.GetCompartments().GetLiquidCompartmentSubstances()) {
+  for (SESubstance* sub : m_data.GetSubstances().GetActiveDrugs()) {
     if (!sub->HasPD())
       continue;
 

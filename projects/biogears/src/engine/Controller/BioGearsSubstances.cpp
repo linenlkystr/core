@@ -113,6 +113,7 @@ void BioGearsSubstances::InitializeSubstances()
   InitializeGasCompartments();
   InitializeLiquidCompartmentGases();
   InitializeLiquidCompartmentNonGases();
+
 }
 
 void BioGearsSubstances::InitializeGasCompartments()
@@ -121,7 +122,7 @@ void BioGearsSubstances::InitializeGasCompartments()
   double AmbientO2VF = Ambient->GetSubstanceQuantity(*m_O2)->GetVolumeFraction().GetValue();
   double AmbientCO2VF = Ambient->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().GetValue();
   double AmbientN2VF = Ambient->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().GetValue();
-
+  
   SEGasCompartment* Mouth = m_data.GetCompartments().GetGasCompartment(BGE::PulmonaryLiteCompartment::Mouth);
   Mouth->GetSubstanceQuantity(*m_CO2)->GetVolumeFraction().SetValue(AmbientCO2VF);
   Mouth->GetSubstanceQuantity(*m_N2)->GetVolumeFraction().SetValue(AmbientN2VF);
@@ -264,7 +265,7 @@ void BioGearsSubstances::InitializeLiquidCompartmentGases()
     InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Bone), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Bone));
     InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Brain), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Brain));
     InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Fat), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Fat));
-    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Splanchnic), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Gut));
+    InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Gut), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Gut));
     InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Kidney), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Kidneys));
     InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Liver), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Liver));
     InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Lung), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Lungs));
@@ -272,7 +273,6 @@ void BioGearsSubstances::InitializeLiquidCompartmentGases()
     InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Myocardium), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Myocardium));
     InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Skin), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Skin));
   }
-
 
   SEScalarMassPerVolume concentration;
   concentration.SetValue(0.146448, MassPerVolumeUnit::g_Per_dL);

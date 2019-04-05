@@ -43,6 +43,7 @@ public:
 
   virtual const std::vector<SESubstance*>& GetActiveGases() const;
   virtual const std::vector<SESubstance*>& GetActiveLiquids() const;
+  virtual const std::vector<SESubstance*>& GetActiveDrugs() const;
 
   virtual const std::vector<SESubstanceCompound*>& GetCompounds() const;
   virtual SESubstanceCompound* GetCompound(const char* name) const;
@@ -76,6 +77,7 @@ protected:
   std::vector<SESubstance*> m_ActiveSubstances;
   std::vector<SESubstance*> m_ActiveGases;
   std::vector<SESubstance*> m_ActiveLiquids;
+  std::vector<SESubstance*> m_ActiveDrugs;
 
   std::vector<SESubstanceCompound*> m_Compounds;
   std::vector<SESubstanceCompound*> m_ActiveCompounds;

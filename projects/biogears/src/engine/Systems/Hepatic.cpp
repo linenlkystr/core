@@ -135,15 +135,28 @@ void Hepatic::SetUp()
   m_muscleGlucagon = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Muscle)->GetSubstanceQuantity(*m_Glucagon);
   m_liverVascularGlucose = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Liver)->GetSubstanceQuantity(*m_Glucose);
   m_muscleVascularGlucose = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Muscle)->GetSubstanceQuantity(*m_Glucose);
-  m_liverExtracellularGlucose = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Glucose);
-  m_liverExtracellularAA = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_AminoAcids);
-  m_liverExtracellularTAG = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Triacylglycerol);
-  m_liverExtracellularUrea = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Urea);
-  m_liverExtracellularLactate = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Lactate);
-  m_liverExtracellularO2 = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_O2);
-  m_liverExtracellularCO2 = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_CO2);
-  m_liverExtracellularKetones = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Ketones);
-  m_LiverTissueAlbumin = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Albumin);
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    m_liverExtracellularGlucose = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Glucose);
+    m_liverExtracellularAA = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_AminoAcids);
+    m_liverExtracellularTAG = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Triacylglycerol);
+    m_liverExtracellularUrea = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Urea);
+    m_liverExtracellularLactate = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Lactate);
+    m_liverExtracellularO2 = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_O2);
+    m_liverExtracellularCO2 = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_CO2);
+    m_liverExtracellularKetones = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Ketones);
+    m_LiverTissueAlbumin = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Albumin);
+  } else {
+    m_liverExtracellularGlucose = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Glucose);
+    m_liverExtracellularAA = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_AminoAcids);
+    m_liverExtracellularTAG = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Triacylglycerol);
+    m_liverExtracellularUrea = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Urea);
+    m_liverExtracellularLactate = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Lactate);
+    m_liverExtracellularO2 = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_O2);
+    m_liverExtracellularCO2 = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_CO2);
+    m_liverExtracellularKetones = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Ketones);
+    m_LiverTissueAlbumin = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular)->GetSubstanceQuantity(*m_Albumin);
+  }
+  
 
   //Glycogen can make up 5-8% of liver's weight, and average liver is 1.5 kg, so max glycogen should be around 97.5 g (guyton)
   m_maxLiverGlycogen_g = .065 * m_data.GetCompartments().GetTissueCompartment(BGE::TissueCompartment::Liver)->GetTotalMass(MassUnit::g);

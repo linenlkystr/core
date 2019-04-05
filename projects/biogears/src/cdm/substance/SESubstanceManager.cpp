@@ -39,6 +39,7 @@ void SESubstanceManager::Clear()
   m_ActiveCompounds.clear();
   m_ActiveGases.clear();
   m_ActiveLiquids.clear();
+
   DELETE_MAP_SECOND(m_OriginalCompoundData);
   DELETE_MAP_SECOND(m_OriginalSubstanceData);
 }
@@ -114,6 +115,10 @@ void SESubstanceManager::AddActiveSubstance(SESubstance& substance)
     m_ActiveGases.push_back(&substance);
   if (substance.GetState() == CDM::enumSubstanceState::Liquid)
     m_ActiveLiquids.push_back(&substance);
+  if (substance.HasPK()) {
+    m_ActiveDrugs.push_back(&substance);
+  }
+
   m_ActiveSubstances.push_back(&substance);
 }
 //-----------------------------------------------------------------------------
@@ -141,6 +146,13 @@ void SESubstanceManager::RemoveActiveSubstance(const SESubstance& substance)
       break;
     }
   }
+  for (unsigned int iSubstance = 0; iSubstance < m_ActiveDrugs.size(); iSubstance++) {
+    sub = m_ActiveDrugs.at(iSubstance);
+    if (sub == &substance) {
+      m_ActiveDrugs.erase(m_ActiveDrugs.begin() + iSubstance);
+      break;
+    }
+  }
 }
 //-----------------------------------------------------------------------------
 void SESubstanceManager::RemoveActiveSubstances(const std::vector<SESubstance*>& substances)
@@ -164,6 +176,11 @@ const std::vector<SESubstance*>& SESubstanceManager::GetActiveGases() const
 const std::vector<SESubstance*>& SESubstanceManager::GetActiveLiquids() const
 {
   return m_ActiveLiquids;
+}
+//-----------------------------------------------------------------------------
+const std::vector<SESubstance*>& SESubstanceManager::GetActiveDrugs() const
+{
+  return m_ActiveDrugs;
 }
 //-----------------------------------------------------------------------------
 void SESubstanceManager::AddCompound(SESubstanceCompound& compound)

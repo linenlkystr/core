@@ -30,7 +30,7 @@ class BIOGEARS_API SELiquidSubstanceQuantity : public SESubstanceQuantity, publi
 
 protected:
   SELiquidSubstanceQuantity(SESubstance& sub, SELiquidCompartment& compartment);
-
+  
 public:
   virtual ~SELiquidSubstanceQuantity();
 

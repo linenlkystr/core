@@ -727,12 +727,12 @@ namespace tatrc {
         DEFINE_STATIC_STRING(MyocardiumE3);
         DEFINE_STATIC_STRING(MyocardiumI);
         DEFINE_STATIC_STRING(MyocardiumL);
-        //Using Splanchnic for Tissue to refer to intestines, spleen, and "vascular splanchnic", which is basically the pancreas.
-        DEFINE_STATIC_STRING(SplanchnicE1);
-        DEFINE_STATIC_STRING(SplanchnicE2);
-        DEFINE_STATIC_STRING(SplanchnicE3);
-        DEFINE_STATIC_STRING(SplanchnicI);
-        DEFINE_STATIC_STRING(SplanchnicL);
+        //Using Gut to refer to intestines, spleen, and "vascular splanchnic", which is basically the pancreas.
+        DEFINE_STATIC_STRING(GutE1);
+        DEFINE_STATIC_STRING(GutE2);
+        DEFINE_STATIC_STRING(GutE3);
+        DEFINE_STATIC_STRING(GutI);
+        DEFINE_STATIC_STRING(GutL);
         DEFINE_STATIC_STRING(SkinE1);
         DEFINE_STATIC_STRING(SkinE2);
         DEFINE_STATIC_STRING(SkinE3);
@@ -967,17 +967,17 @@ namespace tatrc {
         DEFINE_STATIC_STRING(SkinLToLymph);
         DEFINE_STATIC_STRING(SkinSweating);
 
-        DEFINE_STATIC_STRING(SmallIntestineVToSplanchnicE1);
-        DEFINE_STATIC_STRING(LargeIntestineVToSplanchnicE1);
-        DEFINE_STATIC_STRING(SpleenVToSplanchnicE1);
-        DEFINE_STATIC_STRING(PancreasVToSplanchnicE1);
-        DEFINE_STATIC_STRING(SplanchnicE1ToSplanchnicE2);
-        DEFINE_STATIC_STRING(SplanchnicE2ToSplanchnicE3);
-        DEFINE_STATIC_STRING(SplanchnicE3ToSplanchnicI);
-        DEFINE_STATIC_STRING(SplanchnicE3ToGround);
-        DEFINE_STATIC_STRING(SplanchnicIToGround);
-        DEFINE_STATIC_STRING(SplanchnicE3ToSplanchnicL);
-        DEFINE_STATIC_STRING(SplanchnicLToLymph)
+        DEFINE_STATIC_STRING(SmallIntestineVToGutE1);
+        DEFINE_STATIC_STRING(LargeIntestineVToGutE1);
+        DEFINE_STATIC_STRING(SpleenVToGutE1);
+        DEFINE_STATIC_STRING(SplanchnicVToGutE1);
+        DEFINE_STATIC_STRING(GutE1ToGutE2);
+        DEFINE_STATIC_STRING(GutE2ToGutE3);
+        DEFINE_STATIC_STRING(GutE3ToGutI);
+        DEFINE_STATIC_STRING(GutE3ToGround);
+        DEFINE_STATIC_STRING(GutIToGround);
+        DEFINE_STATIC_STRING(GutE3ToGutL);
+        DEFINE_STATIC_STRING(GutLToLymph)
       }
 
       namespace RenalNode {

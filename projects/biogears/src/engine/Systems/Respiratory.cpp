@@ -1452,14 +1452,6 @@ void Respiratory::TuneCircuit()
   //This is precharge everything to help stabilization
   //Hold it steady for 5s to make sure the compliances are fully charged
   double time_s = 0.0;
-  double timeInCycle_s = 0.0;
-  double cycleTime_s = 5.0; //12 /min
-  double nextDriverPressure_cmH2O;
-  double driveAmplitude_cmH2O = -5.0;
-  double ieRatio = 0.6;
-  double expTime_s = cycleTime_s / (1.0 + ieRatio);
-  double inTime_s = expTime_s * ieRatio;
-  double tau_s = expTime_s / 5.0;
   for (unsigned int loops = 0; loops < static_cast<unsigned int>(30.0 / m_dt_s); loops++) {
     //Set the starting/default driver pressure
     m_DriverPressurePath->GetNextPressureSource().SetValue(m_DefaultDrivePressure_cmH2O, PressureUnit::cmH2O);
@@ -1472,10 +1464,6 @@ void Respiratory::TuneCircuit()
       circuitTrk.StreamTrackToFile(circuitFile);
     }
     time_s += m_dt_s;
-    timeInCycle_s += m_dt_s;
-    if (timeInCycle_s >= cycleTime_s) {
-      timeInCycle_s = 0.0;
-    }
   }
 
 

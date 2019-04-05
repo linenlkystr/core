@@ -15,12 +15,12 @@ specific language governing permissions and limitations under the License.
 #pragma warning(disable : 4503)
 #endif
 
-#include <biogears/cdm/CommonDataModel.h>
-#include "biogears/cdm/properties/SEScalarVolumePerTime.h"
+#include "biogears/cdm/properties/SEScalarFraction.h"
 #include "biogears/cdm/properties/SEScalarMass.h"
 #include "biogears/cdm/properties/SEScalarMassPerVolume.h"
 #include "biogears/cdm/properties/SEScalarVolume.h"
-#include "biogears/cdm/properties/SEScalarFraction.h"
+#include "biogears/cdm/properties/SEScalarVolumePerTime.h"
+#include <biogears/cdm/CommonDataModel.h>
 
 namespace biogears {
 #define SUBSTANCE_TRANSPORTER_TEMPLATE typename GraphType, typename FluxUnit, typename QuantityUnit, typename ExtensiveUnit, typename IntensiveUnit
@@ -122,7 +122,6 @@ protected:
 
 using SEGasTransporter = SESubstanceTransporter<SEGasTransportGraph, VolumePerTimeUnit, VolumeUnit, VolumeUnit, NoUnit>;
 using SELiquidTransporter = SESubstanceTransporter<SELiquidTransportGraph, VolumePerTimeUnit, VolumeUnit, MassUnit, MassPerVolumeUnit>;
-
 }
 
 #include <biogears/cdm/substance/SESubstanceTransport.inl>

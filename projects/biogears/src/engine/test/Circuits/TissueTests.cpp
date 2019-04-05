@@ -30,7 +30,9 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/testing/SETestReport.h>
 #include <biogears/cdm/utils/testing/SETestSuite.h>
 
+#include <Eigen/Core>
 #include <biogears/cdm/utils/DataTrack.h>
+#include <biogears/chrono/stop_watch.tci.h>
 
 namespace biogears {
 void BioGearsEngineTest::DistributeMass(SETestSuite& testSuite)
@@ -522,6 +524,7 @@ void BioGearsEngineTest::SimpleDiffusionTwoCompartmentTest(const std::string& rp
   Tissue& tsu = (Tissue&)bg.GetTissue();
   double timestep_s = 1.0 / 90;
   SESubstance* o2 = bg.GetSubstances().GetSubstance("Oxygen");
+
   bg.GetSubstances().AddActiveSubstance(*o2);
   SETissueCompartment& tissue = bg.GetCompartments().CreateTissueCompartment("Tissue");
   SELiquidCompartment& cmpt1_IC = bg.GetCompartments().CreateLiquidCompartment("cmpt1_IC");
@@ -942,8 +945,8 @@ void BioGearsEngineTest::DiffusionClearanceExcretionTests(const std::string& rpt
 void BioGearsEngineTest::TissueCombinedTransportTest(const std::string& rptDirectory)
 {
   enum testCases { ExtraIntra = 0,
-    VascExtra = 1,
-    Combined = 2 };
+                   VascExtra = 1,
+                   Combined = 2 };
   int testRun = VascExtra;
   m_Logger->ResetLogFile(rptDirectory + "/TissueCombinedTransportTest.log");
   std::string circuitFile = rptDirectory + "/TissueTransportCircuit.csv";
@@ -984,7 +987,7 @@ void BioGearsEngineTest::TissueCombinedTransportTest(const std::string& rptDirec
   double stabilizationTime = 30; //min
   double simTime = 360; //Total sim length
   double startInfuse = 30.0;
-  double endInfuse = -1.0;  //Means we won't do infusion
+  double endInfuse = -1.0; //Means we won't do infusion
   bool testSaline = true;
   //Substance concentrations
   double Na_Extra = 145.0;
@@ -1040,9 +1043,9 @@ void BioGearsEngineTest::TissueCombinedTransportTest(const std::string& rptDirec
   double targetGradient_mmHg = 3.0;
   double hydrostaticGradient_mmHg = targetGradient_mmHg + albReflection * (capillaryCOP_mmHg - interstitialCOP_mmHg);
   double e1NodePressure = muscleVascularPressure_mmHg - capillaryCOP_mmHg; //We're assuming the pressure drop across the resistor between Ex1 and Ex2 is very small
-  double e3NodePressure = muscleVascularPressure_mmHg - hydrostaticGradient_mmHg; 
+  double e3NodePressure = muscleVascularPressure_mmHg - hydrostaticGradient_mmHg;
   double e2NodePressure = e3NodePressure - interstitialCOP_mmHg;
-  double targetFlow_mL_Per_min = targetGradient_mmHg / vascularToExtraResistance_mmHg_min_Per_mL; 
+  double targetFlow_mL_Per_min = targetGradient_mmHg / vascularToExtraResistance_mmHg_min_Per_mL;
   double ivRate_mL_Per_s = (0.05 + 0.247 + 0.14) * 1000.0 / 3600.0; //1 L per hour to mL/s, scaled down to available volume in this circuit
   double salineNa_mg_Per_mL = 3.54;
   double salineCl_mg_Per_mL = 5.46;
@@ -1053,10 +1056,8 @@ void BioGearsEngineTest::TissueCombinedTransportTest(const std::string& rptDirec
   double albuminDiffusive_ug_Per_min;
   double albuminConvective_ug_Per_min;
   double lymphSensitivity = 0.4 * targetFlow_mL_Per_min;
-  double lymphFlow_mL_Per_s=0.0;
+  double lymphFlow_mL_Per_s = 0.0;
   double interstitialPressureBaseline_mmHg;
-
-
 
   //Extra<->Intra Test Circuit
   SEFluidCircuit* IEcircuit = &circuits.CreateFluidCircuit("CircuitDeSoleil");
@@ -1394,10 +1395,10 @@ void BioGearsEngineTest::TissueCombinedTransportTest(const std::string& rptDirec
       //Calculate next osmotic pressure gradient
       Alb_Vasc_g_Per_dL = cMuscle.GetSubstanceQuantity(Alb)->GetConcentration(MassPerVolumeUnit::g_Per_dL);
       Alb_Extra_g_Per_dL = cExtraCell.GetSubstanceQuantity(Alb)->GetConcentration(MassPerVolumeUnit::g_Per_dL);
-      capillaryCOP_mmHg =  2.1 * Alb_Vasc_g_Per_dL + 0.16 * std::pow(Alb_Vasc_g_Per_dL, 2) + 0.009 * std::pow(Alb_Vasc_g_Per_dL, 3);
-      interstitialCOP_mmHg =  2.1 * Alb_Extra_g_Per_dL + 0.16 * std::pow(Alb_Extra_g_Per_dL, 2) + 0.009 * std::pow(Alb_Extra_g_Per_dL, 3);
-      pPlasmaCOP.GetNextPressureSource().SetValue(albReflection*capillaryCOP_mmHg, PressureUnit::mmHg);
-      pInterstitialCOP.GetNextPressureSource().SetValue(albReflection*interstitialCOP_mmHg, PressureUnit::mmHg);
+      capillaryCOP_mmHg = 2.1 * Alb_Vasc_g_Per_dL + 0.16 * std::pow(Alb_Vasc_g_Per_dL, 2) + 0.009 * std::pow(Alb_Vasc_g_Per_dL, 3);
+      interstitialCOP_mmHg = 2.1 * Alb_Extra_g_Per_dL + 0.16 * std::pow(Alb_Extra_g_Per_dL, 2) + 0.009 * std::pow(Alb_Extra_g_Per_dL, 3);
+      pPlasmaCOP.GetNextPressureSource().SetValue(albReflection * capillaryCOP_mmHg, PressureUnit::mmHg);
+      pInterstitialCOP.GetNextPressureSource().SetValue(albReflection * interstitialCOP_mmHg, PressureUnit::mmHg);
 
       //Adjust lymph flow
       //pEx3ToLymph.GetNextPressureSource().SetValue(nVeins.GetPressure(PressureUnit::mmHg) - veinsPressure_mmHg, PressureUnit::mmHg);
@@ -1502,7 +1503,7 @@ void BioGearsEngineTest::TissueCombinedTransportTest(const std::string& rptDirec
 
       //Need to move the albumin manually--by definition a positive value is from capillary to interstitial
       //Don't worry about "DistributeMass" functions because we don't have any child compartments to worry about here
-     
+
       cMuscle.GetSubstanceQuantity(Alb)->GetMass().IncrementValue(-massVascularToInterstitial_ug, MassUnit::ug);
       cExtraCell.GetSubstanceQuantity(Alb)->GetMass().IncrementValue(massVascularToInterstitial_ug, MassUnit::ug);
       cMuscle.GetSubstanceQuantity(Alb)->Balance(BalanceLiquidBy::Mass);
@@ -1575,5 +1576,243 @@ void BioGearsEngineTest::TissueCombinedTransportTest(const std::string& rptDirec
     testTrk.WriteTrackToFile(testFile.c_str());
     break;
   }
+}
+
+//Set up three substances and three pairs of vascular -> extracellular compartments
+//Determine whether looping over cmpt pairs and substances is more efficient than
+//transporting by setting up substance/cmpt matrices and using Eigen solvers
+void BioGearsEngineTest::DiffusionMatrixMathTest(const std::string& rptDirectory)
+{
+  m_Logger->ResetLogFile(rptDirectory + "/DiffusionMatrixMathTest.log");
+  BioGears bg(m_Logger);
+  Tissue& tsu = (Tissue&)bg.GetTissue();
+  bg.GetPatient().Load("./patients/StandardMale.xml");
+  bg.SetupPatient();
+  bg.m_Config->EnableRenal(CDM::enumOnOff::Off);
+  bg.m_Config->EnableTissue(CDM::enumOnOff::On);
+  bg.m_Config->EnableBioGearsLite(CDM::enumOnOff::On);
+  bg.CreateCircuitsAndCompartments();
+
+  std::string standardFile = rptDirectory + "/StandardDiffusion.csv";
+  std::string matrixFile = rptDirectory + "/MatrixDiffusion.csv";
+  DataTrack standardTrk;
+  DataTrack matrixTrk;
+
+  //Use sodium, potassium, and chloride as model substances
+  SESubstance* Na = &bg.GetSubstances().GetSodium();
+  SESubstance* K = &bg.GetSubstances().GetPotassium();
+  SESubstance* Cl = &bg.GetSubstances().GetChloride();
+
+  bg.GetSubstances().AddActiveSubstance(*Na);
+  bg.GetSubstances().AddActiveSubstance(*K);
+  bg.GetSubstances().AddActiveSubstance(*Cl);
+
+  std::vector<SESubstance*> subs = { Na, K, Cl };
+
+  //Grab some existing compartments--notice that this test was done using BioGears Lite
+  SELiquidCompartment* liverVas = bg.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Liver);
+  SELiquidCompartment* liverTis = bg.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::LiverExtracellular);
+  SELiquidCompartment* skinVas = bg.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Skin);
+  SELiquidCompartment* skinTis = bg.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::SkinExtracellular);
+  SELiquidCompartment* muscleVas = bg.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Muscle);
+  SELiquidCompartment* muscleTis = bg.GetCompartments().GetLiquidCompartment(BGE::ExtravascularLiteCompartment::MuscleExtracellular);
+
+  //Set concentrations.  Liver uses vascular and intra values in engine and other cmpts mix the values so that we can see
+  //different progressions towards equilibrium
+  liverVas->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(145.0, MassPerVolumeUnit::mg_Per_L);
+  liverVas->GetSubstanceQuantity(*K)->GetConcentration().SetValue(4.5, MassPerVolumeUnit::mg_Per_L);
+  liverVas->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(105.0, MassPerVolumeUnit::mg_Per_L);
+  liverTis->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(20.0, MassPerVolumeUnit::mg_Per_L);
+  liverTis->GetSubstanceQuantity(*K)->GetConcentration().SetValue(120.0, MassPerVolumeUnit::mg_Per_L);
+  liverTis->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(15.0, MassPerVolumeUnit::mg_Per_L);
+
+  skinVas->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(50.0, MassPerVolumeUnit::mg_Per_L);
+  skinVas->GetSubstanceQuantity(*K)->GetConcentration().SetValue(40.0, MassPerVolumeUnit::mg_Per_L);
+  skinVas->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(10.0, MassPerVolumeUnit::mg_Per_L);
+  skinTis->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(100.0, MassPerVolumeUnit::mg_Per_L);
+  skinTis->GetSubstanceQuantity(*K)->GetConcentration().SetValue(20.0, MassPerVolumeUnit::mg_Per_L);
+  skinTis->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(200.0, MassPerVolumeUnit::mg_Per_L);
+
+  muscleVas->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(5.0, MassPerVolumeUnit::mg_Per_L);
+  muscleVas->GetSubstanceQuantity(*K)->GetConcentration().SetValue(80.0, MassPerVolumeUnit::mg_Per_L);
+  muscleVas->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(500.0, MassPerVolumeUnit::mg_Per_L);
+  muscleTis->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(75.0, MassPerVolumeUnit::mg_Per_L);
+  muscleTis->GetSubstanceQuantity(*K)->GetConcentration().SetValue(70.0, MassPerVolumeUnit::mg_Per_L);
+  muscleTis->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(1.0, MassPerVolumeUnit::mg_Per_L);
+
+  liverVas->Balance(BalanceLiquidBy::Concentration);
+  liverTis->Balance(BalanceLiquidBy::Concentration);
+  skinVas->Balance(BalanceLiquidBy::Concentration);
+  skinTis->Balance(BalanceLiquidBy::Concentration);
+  muscleVas->Balance(BalanceLiquidBy::Concentration);
+  muscleTis->Balance(BalanceLiquidBy::Concentration);
+
+  //Let's simulate 3- minutes
+  double simTime_s = 60.0 * 60.0;
+  double timestep_s = 1.0 / 50.0;
+  double timeStandard_s = 0.0;
+  double timeMatrix_s = 0.0;
+  double watchStandard = 0.0;
+  double watchMatrix = 0.0;
+  biogears::StopWatch<std::chrono::nanoseconds> timerStandard;
+  biogears::StopWatch<std::chrono::nanoseconds> timerMatrix;
+
+  //Make a vascular-tissue map just like "CalcDiffusion" does
+  std::map<SELiquidCompartment*, SELiquidCompartment*> cmptMap;
+  cmptMap[liverVas] = liverTis;
+  cmptMap[skinVas] = skinTis;
+  cmptMap[muscleVas] = muscleTis;
+
+  //This loop is how we calculate diffusion now
+  timerStandard.reset();
+  while (timeStandard_s <= simTime_s) {
+    timerStandard.lap();
+    for (auto vtPair : cmptMap) {
+      SELiquidCompartment* vascular = vtPair.first;
+      SELiquidCompartment* tissue = vtPair.second;
+      for (auto sub : subs) {
+        double molarMass_g_Per_mol = sub->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+        double molecularRadius_nm = 0.0348 * std::pow(molarMass_g_Per_mol, 0.4175);
+        double vToECpermeabilityCoefficient_mL_Per_s_g = 0.0287 * std::pow(molecularRadius_nm, -2.920) / 100.0; // This is only valid if the molecular radius is > 1.0 nm.
+        if (molecularRadius_nm < 1.0)
+          vToECpermeabilityCoefficient_mL_Per_s_g = 0.0184 * std::pow(molecularRadius_nm, -1.223) / 100.0;
+
+        // Multiply by tissue mass to get the tissue-dependent coefficient.
+        double tissueMass = 100.0;   //Just assume this is the same for all of them--this is 1000x greater than in matrix test below because MoveMassBySimpleDiffusion function
+                                      //increments by ug automatically and I'd rather be working with mg.  So this is acting like our conversion factor.
+        double vToECpermeabilityCoefficient_mL_Per_s = vToECpermeabilityCoefficient_mL_Per_s_g * tissueMass;
+
+        //Vascular to Extracellular
+        double moved_ug = tsu.MoveMassBySimpleDiffusion(*vascular, *tissue, *sub, vToECpermeabilityCoefficient_mL_Per_s, timestep_s);
+      }
+      vascular->Balance(BalanceLiquidBy::Mass);
+      tissue->Balance(BalanceLiquidBy::Mass);
+    }
+    watchStandard += timerStandard.lap();
+
+    standardTrk.Track("CumulativeTime_ms", timeStandard_s, watchStandard / 1e6);
+    standardTrk.Track("LiverVascular_Na", timeStandard_s, liverVas->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("LiverVascular_K", timeStandard_s, liverVas->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("LiverVascular_Cl", timeStandard_s, liverVas->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("LiverTissue_Na", timeStandard_s, liverTis->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("LiverTissue_K", timeStandard_s, liverTis->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("LiverTissue_Cl", timeStandard_s, liverTis->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("MuscleVascular_Na", timeStandard_s, muscleVas->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("MuscleVascular_K", timeStandard_s, muscleVas->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("MuscleVascular_Cl", timeStandard_s, muscleVas->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("MuscleTissue_Na", timeStandard_s, muscleTis->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("MuscleTissue_K", timeStandard_s, muscleTis->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("MuscleTissue_Cl", timeStandard_s, muscleTis->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("SkinVascular_Na", timeStandard_s, skinVas->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("SkinVascular_K", timeStandard_s, skinVas->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("SkinVascular_Cl", timeStandard_s, skinVas->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("SkinTissue_Na", timeStandard_s, skinTis->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("SkinTissue_K", timeStandard_s, skinTis->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    standardTrk.Track("SkinTissue_Cl", timeStandard_s, skinTis->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+
+    timeStandard_s += timestep_s;
+
+  }
+
+  //Now reset the compartment concentrations for matrix test
+  liverVas->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(145.0, MassPerVolumeUnit::mg_Per_L);
+  liverVas->GetSubstanceQuantity(*K)->GetConcentration().SetValue(4.5, MassPerVolumeUnit::mg_Per_L);
+  liverVas->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(105.0, MassPerVolumeUnit::mg_Per_L);
+  liverTis->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(20.0, MassPerVolumeUnit::mg_Per_L);
+  liverTis->GetSubstanceQuantity(*K)->GetConcentration().SetValue(120.0, MassPerVolumeUnit::mg_Per_L);
+  liverTis->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(15.0, MassPerVolumeUnit::mg_Per_L);
+
+  skinVas->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(50.0, MassPerVolumeUnit::mg_Per_L);
+  skinVas->GetSubstanceQuantity(*K)->GetConcentration().SetValue(40.0, MassPerVolumeUnit::mg_Per_L);
+  skinVas->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(10.0, MassPerVolumeUnit::mg_Per_L);
+  skinTis->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(100.0, MassPerVolumeUnit::mg_Per_L);
+  skinTis->GetSubstanceQuantity(*K)->GetConcentration().SetValue(20.0, MassPerVolumeUnit::mg_Per_L);
+  skinTis->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(200.0, MassPerVolumeUnit::mg_Per_L);
+
+  muscleVas->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(5.0, MassPerVolumeUnit::mg_Per_L);
+  muscleVas->GetSubstanceQuantity(*K)->GetConcentration().SetValue(80.0, MassPerVolumeUnit::mg_Per_L);
+  muscleVas->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(500.0, MassPerVolumeUnit::mg_Per_L);
+  muscleTis->GetSubstanceQuantity(*Na)->GetConcentration().SetValue(75.0, MassPerVolumeUnit::mg_Per_L);
+  muscleTis->GetSubstanceQuantity(*K)->GetConcentration().SetValue(70.0, MassPerVolumeUnit::mg_Per_L);
+  muscleTis->GetSubstanceQuantity(*Cl)->GetConcentration().SetValue(1.0, MassPerVolumeUnit::mg_Per_L);
+
+  liverVas->Balance(BalanceLiquidBy::Concentration);
+  liverTis->Balance(BalanceLiquidBy::Concentration);
+  skinVas->Balance(BalanceLiquidBy::Concentration);
+  skinTis->Balance(BalanceLiquidBy::Concentration);
+  muscleVas->Balance(BalanceLiquidBy::Concentration);
+  muscleTis->Balance(BalanceLiquidBy::Concentration);
+
+  //Make matrices to hold concentrations--3x3 structered [Na, K, Cl] x [Liver, Skin, Muscle]
+  //This probably is not the most efficient way to initialize these matrices but we'll worry about that later
+  Eigen::Matrix3d vascular_mM;
+  Eigen::Matrix3d tissue_mM;
+
+  vascular_mM << 145.0, 50.0, 5.0, 4.5, 40.0, 80.0, 105.0, 10.0, 500.0;
+  tissue_mM << 20.0, 100.0, 75.0, 120.0, 20.0, 70.0, 15.0, 200.0, 1.0;
+
+  //Make a matrix to cache permeability coefficients and populate it so that pCoeff for Na, K, Cl are on diagonal in that order
+  Eigen::Matrix3d pCoeff = Eigen::Matrix3d::Zero();
+  for (int i = 0; i < subs.size(); i++) {
+    double molarMass_g_Per_mol = subs[i]->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+    double molecularRadius_nm = 0.0348 * std::pow(molarMass_g_Per_mol, 0.4175);
+    double vToECpermeabilityCoefficient_mL_Per_s_g = 0.0287 * std::pow(molecularRadius_nm, -2.920) / 100.0; // This is only valid if the molecular radius is > 1.0 nm.
+    if (molecularRadius_nm < 1.0)
+      vToECpermeabilityCoefficient_mL_Per_s_g = 0.0184 * std::pow(molecularRadius_nm, -1.223) / 100.0;
+
+    // Multiply by tissue mass to get the tissue-dependent coefficient.
+    double tissueMass = 0.1; //Just assume this is the same for all of them--1000x less than assumed in standard loop above to account for mg to ug conversion
+    double vToECpermeabilityCoefficient_mL_Per_s = vToECpermeabilityCoefficient_mL_Per_s_g * tissueMass;
+
+    pCoeff(i, i) = vToECpermeabilityCoefficient_mL_Per_s;
+  }
+
+  std::vector<std::pair<SELiquidCompartment*, SELiquidCompartment*>> vascularTissuePair; //Need to store like this to preserve order
+  vascularTissuePair.emplace_back(std::make_pair(liverVas, liverTis));
+  vascularTissuePair.emplace_back(std::make_pair(skinVas, skinTis));
+  vascularTissuePair.emplace_back(std::make_pair(muscleVas, muscleTis));
+
+  timerMatrix.reset();
+  Eigen::Matrix3d deltaM;
+  while (timeMatrix_s < simTime_s) {
+    timerMatrix.lap();
+    deltaM = timestep_s * pCoeff * (vascular_mM - tissue_mM);
+    for (int i = 0; i < vascularTissuePair.size(); i++) {
+      for (int j = 0; j < subs.size(); j++) {
+        vascularTissuePair[i].first->GetSubstanceQuantity(*subs[j])->GetMass().IncrementValue(-deltaM(j, i), MassUnit::mg);
+        vascularTissuePair[i].first->GetSubstanceQuantity(*subs[j])->Balance(BalanceLiquidBy::Mass);
+        vascular_mM(j, i) = vascularTissuePair[i].first->GetSubstanceQuantity(*subs[j])->GetConcentration(MassPerVolumeUnit::mg_Per_L);
+        vascularTissuePair[i].second->GetSubstanceQuantity(*subs[j])->GetMass().IncrementValue(deltaM(j, i), MassUnit::mg);
+        vascularTissuePair[i].second->GetSubstanceQuantity(*subs[j])->Balance(BalanceLiquidBy::Mass);
+        tissue_mM(j, i) = vascularTissuePair[i].second->GetSubstanceQuantity(*subs[j])->GetConcentration(MassPerVolumeUnit::mg_Per_L);
+      }
+    }
+    watchMatrix += timerMatrix.lap();
+
+    matrixTrk.Track("CumulativeTime_ms", timeMatrix_s, watchMatrix / 1e6);
+    matrixTrk.Track("LiverVascular_Na", timeMatrix_s, liverVas->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("LiverVascular_K", timeMatrix_s, liverVas->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("LiverVascular_Cl", timeMatrix_s, liverVas->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("LiverTissue_Na", timeMatrix_s, liverTis->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("LiverTissue_K", timeMatrix_s, liverTis->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("LiverTissue_Cl", timeMatrix_s, liverTis->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("MuscleVascular_Na", timeMatrix_s, muscleVas->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("MuscleVascular_K", timeMatrix_s, muscleVas->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("MuscleVascular_Cl", timeMatrix_s, muscleVas->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("MuscleTissue_Na", timeMatrix_s, muscleTis->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("MuscleTissue_K", timeMatrix_s, muscleTis->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("MuscleTissue_Cl", timeMatrix_s, muscleTis->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("SkinVascular_Na", timeMatrix_s, skinVas->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("SkinVascular_K", timeMatrix_s, skinVas->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("SkinVascular_Cl", timeMatrix_s, skinVas->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("SkinTissue_Na", timeMatrix_s, skinTis->GetSubstanceQuantity(*Na)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("SkinTissue_K", timeMatrix_s, skinTis->GetSubstanceQuantity(*K)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+    matrixTrk.Track("SkinTissue_Cl", timeMatrix_s, skinTis->GetSubstanceQuantity(*Cl)->GetConcentration(MassPerVolumeUnit::mg_Per_L));
+
+    timeMatrix_s += timestep_s;
+  }
+
+  standardTrk.WriteTrackToFile(standardFile.c_str());
+  matrixTrk.WriteTrackToFile(matrixFile.c_str());
 }
 }
