@@ -71,13 +71,7 @@ public:
   void StateChange() override;
 
 protected:
-  void ProcessActions();
   void CalculateSupplementalValues();
-  // double AntoineEquation(double dTemperature_C);
-  void CalculateRadiation();
-  void CalculateConvection();
-  void CalculateEvaporation();
-  void CalculateRespiration();
   void CalculateLiteExternal();
 
   // Serializable member variables (Set in Initialize and in schema)

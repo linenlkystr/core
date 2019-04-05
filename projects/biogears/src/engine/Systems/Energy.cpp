@@ -163,28 +163,15 @@ void Energy::SetUp()
   m_SkinPotassium = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::SkinExtracellular)->GetSubstanceQuantity(m_data.GetSubstances().GetPotassium());
   
   //Circuit elements
-  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-    //Circuits
-    m_TemperatureCircuit = &m_data.GetCircuits().GetTemperatureCircuit();
-    m_InternalTemperatureCircuit = &m_data.GetCircuits().GetInternalTemperatureCircuit();
-    //Nodes
-    m_coreNode = m_InternalTemperatureCircuit->GetNode(BGE::InternalTemperatureNode::InternalCore);
-    m_skinNode = m_InternalTemperatureCircuit->GetNode(BGE::InternalTemperatureNode::InternalSkin);
-    //Paths
-    m_temperatureGroundToCorePath = m_InternalTemperatureCircuit->GetPath(BGE::InternalTemperaturePath::GroundToInternalCore);
-    m_coreToSkinPath = m_InternalTemperatureCircuit->GetPath(BGE::InternalTemperaturePath::InternalCoreToInternalSkin);
-    m_skinExtravascularToSweatingGroundPath = m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::TissuePath::SkinSweating);
-  } else {
-    //Circuits
-    m_TemperatureCircuit = &m_data.GetCircuits().GetTemperatureCircuit();
-    //Nodes
-    m_coreNode = m_TemperatureCircuit->GetNode(BGE::ThermalLiteNode::Core);
-    m_skinNode = m_TemperatureCircuit->GetNode(BGE::ThermalLiteNode::Skin);
-    //Paths
-    m_temperatureGroundToCorePath = m_TemperatureCircuit->GetPath(BGE::ThermalLitePath::GroundToCore);
-    m_coreToSkinPath = m_TemperatureCircuit->GetPath(BGE::ThermalLitePath::CoreToSkin);
-    m_skinExtravascularToSweatingGroundPath = m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::TissuePath::SkinSweating);
-  }
+  //Circuits
+  m_TemperatureCircuit = &m_data.GetCircuits().GetTemperatureCircuit();
+  //Nodes
+  m_coreNode = m_TemperatureCircuit->GetNode(BGE::ThermalLiteNode::Core);
+  m_skinNode = m_TemperatureCircuit->GetNode(BGE::ThermalLiteNode::Skin);
+  //Paths
+  m_temperatureGroundToCorePath = m_TemperatureCircuit->GetPath(BGE::ThermalLitePath::GroundToCore);
+  m_coreToSkinPath = m_TemperatureCircuit->GetPath(BGE::ThermalLitePath::CoreToSkin);
+  m_skinExtravascularToSweatingGroundPath = m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::TissuePath::SkinSweating);
 }
 
 void Energy::AtSteadyState()

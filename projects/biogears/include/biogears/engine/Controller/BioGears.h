@@ -173,8 +173,6 @@ protected:
   void SetupAnesthesiaMachine();
   void SetupInhaler();
   void SetupMechanicalVentilator();
-  void SetupExternalTemperature();
-  void SetupInternalTemperature();
   void SetupLiteTemperature();
 
   bool Initialize(const PhysiologyEngineConfiguration* config);
