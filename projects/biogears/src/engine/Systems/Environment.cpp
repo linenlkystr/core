@@ -76,6 +76,7 @@ void Environment::Clear()
   m_ClothingToEnclosurePath = nullptr;
   m_GroundToEnclosurePath = nullptr;
   m_ClothingToEnvironmentPath = nullptr;
+  m_SkinToGroundPath = nullptr;
   m_GroundToEnvironmentPath = nullptr;
   m_EnvironmentSkinToGroundPath = nullptr;
   m_EnvironmentCoreToGroundPath = nullptr;
@@ -105,6 +106,7 @@ void Environment::Initialize()
   double patientHeight_m = m_Patient->GetHeight(LengthUnit::m);
   double pi = 3.14159;
   m_PatientEquivalentDiameter_m = std::pow(Convert(patientMass_g / patientDensity_g_Per_mL, VolumeUnit::mL, VolumeUnit::m3) / (pi * patientHeight_m), 0.5);
+
 }
 
 bool Environment::Load(const CDM::BioGearsEnvironmentData& in)
@@ -135,42 +137,20 @@ void Environment::SetUp()
   m_PatientActions = &m_data.GetActions().GetPatientActions();
   m_EnvironmentActions = &m_data.GetActions().GetEnvironmentActions();
   //Circuits
-  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-    m_EnvironmentCircuit = &m_data.GetCircuits().GetExternalTemperatureCircuit();
-    //Compartments
-    m_AmbientGases = m_data.GetCompartments().GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
-    m_AmbientAerosols = m_data.GetCompartments().GetLiquidCompartment(BGE::EnvironmentCompartment::Ambient);
-    //Nodes
-    m_ThermalEnvironment = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Ambient);
-    m_SkinNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::ExternalSkin);
-    m_ClothingNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Clothing);
-    m_EnclosureNode = m_EnvironmentCircuit->GetNode(BGE::ExternalTemperatureNode::Enclosure);
-    //Paths
-    m_SkinToClothing = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalSkinToClothing);
-    m_ActiveHeatTransferRatePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToClothing);
-    m_ActiveTemperaturePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToActive);
-    m_ActiveSwitchPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ActiveToClothing);
-    m_ClothingToEnclosurePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ClothingToEnclosure);
-    m_GroundToEnclosurePath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToEnclosure);
-    m_ClothingToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ClothingToEnvironment);
-    m_GroundToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::GroundToEnvironment);
-    m_EnvironmentSkinToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalSkinToGround);
-    m_EnvironmentCoreToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ExternalTemperaturePath::ExternalCoreToGround);
-  } else {
-    m_EnvironmentCircuit = &m_data.GetCircuits().GetTemperatureCircuit();
-    //Compartments
-    m_AmbientGases = m_data.GetCompartments().GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
-    m_AmbientAerosols = m_data.GetCompartments().GetLiquidCompartment(BGE::EnvironmentCompartment::Ambient);
-    //Nodes
-    m_ThermalEnvironment = m_EnvironmentCircuit->GetNode(BGE::ThermalLiteNode::Environment);
-    m_SkinNode = m_EnvironmentCircuit->GetNode(BGE::ThermalLiteNode::Skin);
-    m_ClothingNode = m_SkinNode;
-    m_EnclosureNode = m_ThermalEnvironment;
-    //Paths
-    m_EnvironmentCoreToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ThermalLitePath::CoreToRef);
-    m_GroundToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ThermalLitePath::RefToEnvironment);
-    m_ClothingToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ThermalLitePath::EnvironmentToSkin); //RENAME ONCE ESTABLISHED...NO MORE CLOTHING DEFINED
-  }
+  m_EnvironmentCircuit = &m_data.GetCircuits().GetTemperatureCircuit();
+  //Compartments
+  m_AmbientGases = m_data.GetCompartments().GetGasCompartment(BGE::EnvironmentCompartment::Ambient);
+  m_AmbientAerosols = m_data.GetCompartments().GetLiquidCompartment(BGE::EnvironmentCompartment::Ambient);
+  //Nodes
+  m_ThermalEnvironment = m_EnvironmentCircuit->GetNode(BGE::ThermalLiteNode::Environment);
+  m_SkinNode = m_EnvironmentCircuit->GetNode(BGE::ThermalLiteNode::Skin);
+  m_ClothingNode = m_SkinNode;
+  m_EnclosureNode = m_ThermalEnvironment;
+  //Paths
+  m_EnvironmentCoreToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ThermalLitePath::CoreToRef);
+  m_GroundToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ThermalLitePath::RefToEnvironment);
+  m_ClothingToEnvironmentPath = m_EnvironmentCircuit->GetPath(BGE::ThermalLitePath::EnvironmentToSkin); //RENAME ONCE ESTABLISHED...NO MORE CLOTHING DEFINED
+  m_SkinToGroundPath = m_EnvironmentCircuit->GetPath(BGE::ThermalLitePath::SkinToGround);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -252,7 +232,25 @@ void Environment::PreProcess()
     m_EnvironmentActions->RemoveChange();
   }
 
-  CalculateLiteExternal();
+  //Calculate Clothing Effects
+  //Set clothing resistor
+  GetConditions().GetClothingResistance().SetValue(0.08, HeatResistanceAreaUnit::rsi);
+  double dClothingResistance_rsi = GetConditions().GetClothingResistance(HeatResistanceAreaUnit::rsi); //1 rsi = 1 m^2-K/W, preset for LITE
+  double dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
+  double clothingResistAdd = (dClothingResistance_rsi / dSurfaceArea_m2);
+  m_ClothingToEnvironmentPath->GetNextResistance().SetValue(clothingResistAdd, HeatResistanceUnit::K_Per_W);
+
+  //Set the skin heat loss
+  double dSkinHeatLoss_W = 0.0;
+  if (m_ClothingToEnvironmentPath->HasHeatTransferRate()) {
+    dSkinHeatLoss_W = m_ClothingToEnvironmentPath->GetHeatTransferRate().GetValue(PowerUnit::W);
+  }
+  GetSkinHeatLoss().SetValue(dSkinHeatLoss_W, PowerUnit::W);
+
+  CalculateSupplementalValues();
+  CalculateConvectionLite();
+  CalculateEvaporationLite();
+  CalculateRespirationLite();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -335,137 +333,97 @@ void Environment::CalculateSupplementalValues()
   }
 }
 
-
-void Environment::CalculateLiteExternal()
+//--------------------------------------------------------------------------------------------------
+/// \brief
+/// Calculate convection effects
+///
+/// \details
+/// These computed values will be used in the other feedback methods.
+//--------------------------------------------------------------------------------------------------
+void Environment::CalculateConvectionLite()
 {
-  //Calculate Clothing
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  //Set clothing resistor
-  GetConditions().GetClothingResistance().SetValue(0.0775, HeatResistanceAreaUnit::rsi);
-  double dClothingResistance_rsi = GetConditions().GetClothingResistance(HeatResistanceAreaUnit::rsi); //1 rsi = 1 m^2-K/W, preset for LITE
-  double dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
-  double clothingResistAdd = (dClothingResistance_rsi / dSurfaceArea_m2);
-  m_ClothingToEnvironmentPath->GetNextResistance().SetValue(clothingResistAdd, HeatResistanceUnit::K_Per_W);
-
-  //Set the skin heat loss
-  double dSkinHeatLoss_W = 0.0;
-  if (m_ClothingToEnvironmentPath->HasHeatTransferRate()) {
-    dSkinHeatLoss_W = m_ClothingToEnvironmentPath->GetHeatTransferRate().GetValue(PowerUnit::W);
-  }
-  GetSkinHeatLoss().SetValue(dSkinHeatLoss_W, PowerUnit::W);
-
-  //Calculate Supplemental
-  ///////////////////////////////////////////////////////////////////////////////////////////////////
-  CalculateSupplementalValues();
-
-  //Calculate Convection
-  //////////////////////////////////////////////////////////////////////////////////////////////////
   double dConvectiveHeatTransferCoefficient_WPerM2_K = 0.0;
   double dTotalHeatLoss_W = 0.0;
-  if (GetConditions().GetSurroundingType() == CDM::enumSurroundingType::Water) {
-    //Submerged - therefore, convection is most important
-    double dClothingTemperature_K = m_SkinNode->GetTemperature().GetValue(TemperatureUnit::K); //Assume temperature of clothing compares to skin
-    double dWaterTemperature_K = GetConditions().GetAmbientTemperature(TemperatureUnit::K);
-    SEScalarMassPerVolume dWaterDensity;
-    GeneralMath::CalculateWaterDensity(GetConditions().GetAmbientTemperature(), dWaterDensity);
-    double dGravity_m_Per_s2 = 9.81;
+  //Calculate the coefficient
+  //Velocity should take into account wind and patient movement combined
+  double dAirVelocity_MPerS = GetConditions().GetAirVelocity(LengthPerTimeUnit::m_Per_s);
 
-    //Calculate the coefficient
-    //Heat transfer coefficient for submerged water convection. C. Boutelier et al. Experimental study of convective heat transfer coefficient for the human body in water. Journal of Applied Physiology. 1977. Vol. 42. p.93-100
-    double dGrashofNumber = dGravity_m_Per_s2 * m_ThermalExpansion_Per_K * (std::abs(dClothingTemperature_K - dWaterTemperature_K)) * std::pow(m_PatientEquivalentDiameter_m, 3.0) / (m_WaterViscosity_N_s_Per_m2 / dWaterDensity.GetValue(MassPerVolumeUnit::kg_Per_m3));
-    double dPrandtlNumber = m_WaterSpecificHeat_J_Per_kg_K * m_WaterViscosity_N_s_Per_m2 / m_WaterThermalConductivity_W_Per_m_K;
-    dConvectiveHeatTransferCoefficient_WPerM2_K = 0.09 * (dGrashofNumber - dPrandtlNumber) * 0.275;
+  // Natural Convection
+  double dClothingTemperature_K = m_ClothingNode->GetTemperature().GetValue(TemperatureUnit::K);
+  double dMeanRadiantTemperature_K = m_EnclosureNode->GetTemperature().GetValue(TemperatureUnit::K);
+  dConvectiveHeatTransferCoefficient_WPerM2_K = 1.2 * std::pow(dClothingTemperature_K - dMeanRadiantTemperature_K, 0.347);
+
+  //Set the coefficient
+  GetConvectiveHeatTranferCoefficient().SetValue(dConvectiveHeatTransferCoefficient_WPerM2_K, HeatConductancePerAreaUnit::W_Per_m2_K);
+
+  //Calculate the resistance
+  double dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
+  double dResistance_K_Per_W = 0.0;
+  if (dConvectiveHeatTransferCoefficient_WPerM2_K == 0) {
+    //Infinite resistance
+    dResistance_K_Per_W = 0;
+    //m_data.GetConfiguration().GetDefaultOpenHeatResistance(HeatResistanceUnit::K_Per_W);
+  } else {
+    dResistance_K_Per_W = dSurfaceArea_m2 / dConvectiveHeatTransferCoefficient_WPerM2_K;
+  }
+  std::max(dResistance_K_Per_W, m_data.GetConfiguration().GetDefaultClosedHeatResistance(HeatResistanceUnit::K_Per_W));
+  m_ClothingToEnvironmentPath->GetNextResistance().SetValue(dResistance_K_Per_W + (0.18 * m_ClothingToEnvironmentPath->GetNextResistance().GetValue(HeatResistanceUnit::K_Per_W)), HeatResistanceUnit::K_Per_W);
+
+  //Set the source
+  double dAmbientTemperature_K = GetConditions().GetAmbientTemperature(TemperatureUnit::K);
+  m_GroundToEnvironmentPath->GetNextTemperatureSource().SetValue(dAmbientTemperature_K, TemperatureUnit::K);
+
+  if (dAirVelocity_MPerS > ZERO_APPROX) {
+    dConvectiveHeatTransferCoefficient_WPerM2_K = 10.3 * std::pow(dAirVelocity_MPerS, 0.6);
+
+    //Set the coefficient
     GetConvectiveHeatTranferCoefficient().SetValue(dConvectiveHeatTransferCoefficient_WPerM2_K, HeatConductancePerAreaUnit::W_Per_m2_K);
-  } else { //Air
-    //Calculate the coefficient
-    //Velocity should take into account wind and patient movement combined
-    double dAirVelocity_MPerS = GetConditions().GetAirVelocity(LengthPerTimeUnit::m_Per_s);
 
-
-
-
-
-
-    if (dAirVelocity_MPerS == 0) { 
-      double dClothingTemperature_K = m_ClothingNode->GetTemperature().GetValue(TemperatureUnit::K);
-      double dMeanRadiantTemperature_K = m_EnclosureNode->GetTemperature().GetValue(TemperatureUnit::K);
-      dConvectiveHeatTransferCoefficient_WPerM2_K = 1.2 * std::pow(dClothingTemperature_K-dMeanRadiantTemperature_K, 0.347);
-
-      //Set the coefficient
-      GetConvectiveHeatTranferCoefficient().SetValue(dConvectiveHeatTransferCoefficient_WPerM2_K, HeatConductancePerAreaUnit::W_Per_m2_K);
-
-      //Calculate the resistance
-      dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
-      double dResistance_K_Per_W = 0.0;
-      if (dConvectiveHeatTransferCoefficient_WPerM2_K == 0) {
-        //Infinite resistance
-        dResistance_K_Per_W = 0;
-        //m_data.GetConfiguration().GetDefaultOpenHeatResistance(HeatResistanceUnit::K_Per_W);
-      } else {
-        dResistance_K_Per_W = dSurfaceArea_m2 / dConvectiveHeatTransferCoefficient_WPerM2_K;
-      }
-      std::max(dResistance_K_Per_W, m_data.GetConfiguration().GetDefaultClosedHeatResistance(HeatResistanceUnit::K_Per_W));
-      double test = dResistance_K_Per_W + m_ClothingToEnvironmentPath->GetNextResistance().GetValue(HeatResistanceUnit::C_Per_W);
-      m_ClothingToEnvironmentPath->GetNextResistance().SetValue((0.18*dResistance_K_Per_W + m_ClothingToEnvironmentPath->GetNextResistance().GetValue(HeatResistanceUnit::C_Per_W)), HeatResistanceUnit::K_Per_W);
-
-      //Set the source
-      double dAmbientTemperature_K = GetConditions().GetAmbientTemperature(TemperatureUnit::K);
-      m_GroundToEnvironmentPath->GetNextTemperatureSource().SetValue(dAmbientTemperature_K, TemperatureUnit::K);
-
-      //Set the total heat lost
-      if (m_ClothingToEnvironmentPath->HasHeatTransferRate()) {
-        dTotalHeatLoss_W = m_ClothingToEnvironmentPath->GetHeatTransferRate().GetValue(PowerUnit::W);
-      }
-      GetConvectiveHeatLoss().SetValue(dTotalHeatLoss_W, PowerUnit::W);
-      GetRadiativeHeatLoss().SetValue(0, PowerUnit::W);
+    //Calculate the resistance
+    dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
+    double dResistance_K_Per_W = 0.0;
+    if (dConvectiveHeatTransferCoefficient_WPerM2_K == 0) {
+      //Infinite resistance
+      dResistance_K_Per_W = 0;
+      //m_data.GetConfiguration().GetDefaultOpenHeatResistance(HeatResistanceUnit::K_Per_W);
+    } else {
+      dResistance_K_Per_W = dSurfaceArea_m2 / dConvectiveHeatTransferCoefficient_WPerM2_K;
     }
+    std::max(dResistance_K_Per_W, m_data.GetConfiguration().GetDefaultClosedHeatResistance(HeatResistanceUnit::K_Per_W));
+    double ndResistance_K_Per_W = (0.82 * dResistance_K_Per_W) + m_ClothingToEnvironmentPath->GetNextResistance().GetValue(HeatResistanceUnit::K_Per_W);
+    m_ClothingToEnvironmentPath->GetNextResistance().SetValue(ndResistance_K_Per_W, HeatResistanceUnit::K_Per_W);
 
+    //Set the source
+    double dAmbientTemperature_K = GetConditions().GetAmbientTemperature(TemperatureUnit::K);
+    m_GroundToEnvironmentPath->GetNextTemperatureSource().SetValue(dAmbientTemperature_K, TemperatureUnit::K);
 
-
-
-
-
-      dConvectiveHeatTransferCoefficient_WPerM2_K = 10.3 * std::pow(dAirVelocity_MPerS, 0.6);
-    
-      //Set the coefficient
-      GetConvectiveHeatTranferCoefficient().SetValue(dConvectiveHeatTransferCoefficient_WPerM2_K, HeatConductancePerAreaUnit::W_Per_m2_K);
-
-      //Calculate the resistance
-      dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
-      double dResistance_K_Per_W = 0.0;
-      if (dConvectiveHeatTransferCoefficient_WPerM2_K == 0) {
-        //Infinite resistance
-        dResistance_K_Per_W = 0;
-         //m_data.GetConfiguration().GetDefaultOpenHeatResistance(HeatResistanceUnit::K_Per_W);
-      } else {
-        dResistance_K_Per_W = dSurfaceArea_m2 / dConvectiveHeatTransferCoefficient_WPerM2_K;
-      }
-      std::max(dResistance_K_Per_W, m_data.GetConfiguration().GetDefaultClosedHeatResistance(HeatResistanceUnit::K_Per_W));
-      double ndResistance_K_Per_W = (0.82*dResistance_K_Per_W) + m_ClothingToEnvironmentPath->GetNextResistance().GetValue(HeatResistanceUnit::C_Per_W);
-      m_ClothingToEnvironmentPath->GetNextResistance().SetValue(ndResistance_K_Per_W, HeatResistanceUnit::K_Per_W);
-
-      //Set the source
-      double dAmbientTemperature_K = GetConditions().GetAmbientTemperature(TemperatureUnit::K);
-      m_GroundToEnvironmentPath->GetNextTemperatureSource().SetValue(dAmbientTemperature_K, TemperatureUnit::K);
-
-      //Set the total heat lost
-      if (m_ClothingToEnvironmentPath->HasHeatTransferRate()) {
-        dTotalHeatLoss_W = m_ClothingToEnvironmentPath->GetHeatTransferRate().GetValue(PowerUnit::W);
-      }
-      GetConvectiveHeatLoss().SetValue(dTotalHeatLoss_W, PowerUnit::W);
-      GetRadiativeHeatLoss().SetValue(0, PowerUnit::W);
-      
+    //Set the total heat lost
+    if (m_ClothingToEnvironmentPath->HasHeatTransferRate()) {
+      dTotalHeatLoss_W = m_ClothingToEnvironmentPath->GetHeatTransferRate().GetValue(PowerUnit::W);
     }
+    GetConvectiveHeatLoss().SetValue(dTotalHeatLoss_W, PowerUnit::W);
+    GetRadiativeHeatLoss().SetValue(dTotalHeatLoss_W, PowerUnit::W);
+  }
+}
 
+//--------------------------------------------------------------------------------------------------
+/// \brief
+/// Calculate evaporation effects on capacitance.
+///
+/// \details
+/// These computed values will be used in the other feedback methods.
+//--------------------------------------------------------------------------------------------------
+void Environment::CalculateEvaporationLite()
+{
   //Adjust for Evaporation
-  //////////////////////////////////////////////////////////////////////////////////////////////////
   //Calculate the coefficient
   double dConvectiveTransferCoefficient_WPerM2_K = GetConvectiveHeatTranferCoefficient(HeatConductancePerAreaUnit::W_Per_m2_K);
   double dEvaporativeHeatTransferCoefficient_WPerM2_K = m_dLewisRelation * dConvectiveTransferCoefficient_WPerM2_K;
   GetEvaporativeHeatTranferCoefficient().SetValue(dEvaporativeHeatTransferCoefficient_WPerM2_K, HeatConductancePerAreaUnit::W_Per_m2_K);
+  double dTotalHeatLoss_W = m_ClothingToEnvironmentPath->GetHeatTransferRate().GetValue(PowerUnit::W);
 
   //Calculate the source
-  dClothingResistance_rsi = GetConditions().GetClothingResistance(HeatResistanceAreaUnit::rsi); //1 rsi = 1 m^2-K/W
+  double dClothingResistance_rsi = GetConditions().GetClothingResistance(HeatResistanceAreaUnit::rsi); //1 rsi = 1 m^2-K/W
   double dFactorOfReduction = 1.0 / (1.0 + 2.22 * dConvectiveTransferCoefficient_WPerM2_K * dClothingResistance_rsi);
   double dMaxEvaporativePotential;
   if (m_dWaterVaporPressureAtSkin_Pa != m_dWaterVaporPressureInAmbientAir_Pa) {
@@ -473,12 +431,12 @@ void Environment::CalculateLiteExternal()
   } else {
     dMaxEvaporativePotential = dEvaporativeHeatTransferCoefficient_WPerM2_K * dFactorOfReduction * (0.01);
   }
-  dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
+  double dSurfaceArea_m2 = m_Patient->GetSkinSurfaceArea(AreaUnit::m2);
   double dSweatRate_kgPers = 0.0;
   if (m_data.GetEnergy().HasSweatRate()) {
     dSweatRate_kgPers = m_data.GetEnergy().GetSweatRate(MassPerTimeUnit::kg_Per_s) / dSurfaceArea_m2;
   }
-  /**/
+
   double dSweatingControlMechanisms = dSweatRate_kgPers * m_dHeatOfVaporizationOfWater_J_Per_kg;
   double dWettedPortion = 0.0;
   if (dMaxEvaporativePotential != 0) {
@@ -492,32 +450,16 @@ void Environment::CalculateLiteExternal()
   double skinTemp_C = m_data.GetEnergy().GetSkinTemperature(TemperatureUnit::C);
   double coreTemp_C = m_data.GetEnergy().GetCoreTemperature(TemperatureUnit::C);
   double ambTemp_C = GetConditions().GetAmbientTemperature(TemperatureUnit::C);
-  m_data.GetDataTrack().Probe("Ambient Temperature degC", ambTemp_C);
-  double sweatCoefficient = 1.0; 
-  double sweatHeatResistance = (sweatCoefficient * (skinTemp_C) / (EvaporativeHeatLossFromSkin_W));
 
+  double currentSkinCapacitor = m_SkinToGroundPath->GetNextCapacitance().GetValue(HeatCapacitanceUnit::J_Per_K);
+  double newCap = 0;
   if (coreTemp_C >= 37) {
-    double currentResistancePath = m_ClothingToEnvironmentPath->GetNextResistance().GetValue(HeatResistanceUnit::C_Per_W);
-    double newResistance = (1+(m_data.GetEnergy().GetSweatRate(MassPerTimeUnit::kg_Per_s) / (0.00042))) * (currentResistancePath);
-    if (newResistance < 0) {
-      newResistance = m_data.GetConfiguration().GetDefaultClosedHeatResistance(HeatResistanceUnit::C_Per_W);
-    }
-    m_ClothingToEnvironmentPath->GetNextResistance().SetValue(newResistance, HeatResistanceUnit::C_Per_W);
+    newCap = (1 + (0.75 * m_data.GetEnergy().GetSweatRate(MassPerTimeUnit::kg_Per_s) / (0.00042))) * (currentSkinCapacitor);
   } else {
-    double currentResistancePath = m_ClothingToEnvironmentPath->GetNextResistance().GetValue(HeatResistanceUnit::C_Per_W);
-    double newResistance = (1 - (m_data.GetEnergy().GetSweatRate(MassPerTimeUnit::kg_Per_s) / (0.00042))) * (currentResistancePath);
-    if (newResistance < 0) {
-      newResistance = m_data.GetConfiguration().GetDefaultClosedHeatResistance(HeatResistanceUnit::C_Per_W);
-    }
-    m_ClothingToEnvironmentPath->GetNextResistance().SetValue(newResistance, HeatResistanceUnit::C_Per_W);
-    /*double currentResistancePath = m_ClothingToEnvironmentPath->GetNextResistance().GetValue(HeatResistanceUnit::C_Per_W);
-    double newResistance = (currentResistancePath * sweatHeatResistance) / (currentResistancePath + sweatHeatResistance);
-    if (newResistance < 0) {
-      newResistance = m_data.GetConfiguration().GetDefaultClosedHeatResistance(HeatResistanceUnit::C_Per_W);
-    }
-    m_ClothingToEnvironmentPath->GetNextResistance().SetValue(newResistance, HeatResistanceUnit::C_Per_W);*/
+    newCap = (m_SkinToGroundPath->GetCapacitanceBaseline(HeatCapacitanceUnit::J_Per_K) + currentSkinCapacitor) / 2;
   }
-  //m_EnvironmentSkinToGroundPath->GetNextHeatSource().SetValue(dSurfaceArea_m2 * EvaporativeHeatLossFromSkin_W, PowerUnit::W);
+
+  m_SkinToGroundPath->GetNextCapacitance().SetValue(newCap, HeatCapacitanceUnit::J_Per_K);
 
   //Set the total heat lost
   double dTotalHeatLossE_W = 0.0;
@@ -528,12 +470,18 @@ void Environment::CalculateLiteExternal()
   if (dTotalHeatLossE_W < 0) {
     dTotalHeatLossE_W = 0;
   }
-  GetEvaporativeHeatLoss().SetValue(dTotalHeatLossE_W - dTotalHeatLoss_W, PowerUnit::W);
+  GetEvaporativeHeatLoss().SetValue(dTotalHeatLossE_W, PowerUnit::W);
+}
 
-  // m_data.GetDataTrack().Probe("EvapHeatLoss", GetEvaporativeHeatLoss().GetValue(PowerUnit::W));
-
-  //Calculate Respiration
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------
+/// \brief
+/// Calculate effects of respiration.
+///
+/// \details
+/// These computed values will be used in the other feedback methods.
+//--------------------------------------------------------------------------------------------------
+void Environment::CalculateRespirationLite()
+{
   double dTempOfRespAir_K = GetConditions().GetRespirationAmbientTemperature(TemperatureUnit::K);
   double dTempOfRespTract_K = 310.15; // = 37C = 98.6F
   if (m_data.GetEnergy().HasCoreTemperature()) {
