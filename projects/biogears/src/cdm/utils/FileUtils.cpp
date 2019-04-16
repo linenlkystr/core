@@ -12,9 +12,11 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/utils/FileUtils.h>
 
-#include <regex>
-#include <dirent.h>
 #include <cstdio>
+#include <dirent.h>
+#include <regex>
+
+#include <biogears/filesystem/path.h>
 
 #if defined(_MSC_VER) || defined(__MINGW64_VERSION_MAJOR)
 
@@ -24,7 +26,6 @@ specific language governing permissions and limitations under the License.
 #define RMDIR(x) _rmdir(x)
 #else
 
-
 #define MAXPATH PATH_MAX
 #define GETCWD getcwd
 #define MKDIR(x) mkdir(x, 0755)
@@ -33,6 +34,9 @@ specific language governing permissions and limitations under the License.
 #endif
 
 namespace biogears {
+
+std::string g_working_dir = "";
+
 std::string Replace(const std::string& original, const std::string& replace, const std::string& withThis)
 {
   size_t idx = 0;
@@ -84,6 +88,11 @@ bool CreateFilePath(const std::string& path)
   return true;
 }
 
+bool CreateFilePath(const char* path)
+{
+  std::string path_str{ path };
+  return CreateFilePath(path_str);
+}
 void ListFiles(const std::string& dir, std::vector<std::string>& files, const std::string& regex, bool recurse)
 {
   DIR* d;
@@ -101,14 +110,46 @@ void ListFiles(const std::string& dir, std::vector<std::string>& files, const st
       filename += ent->d_name;
 
       if (!IsDirectory(ent)) {
-        if ( std::regex_search(filename,mask) )
+        if (std::regex_search(filename, mask))
           files.push_back(filename);
       } else {
-        if(recurse)
-        {  ListFiles(filename, files, regex , recurse);  }
+        if (recurse) {
+          ListFiles(filename, files, regex, recurse);
+        }
       }
     }
   }
+}
+
+bool IsAbsolutePath(const std::string& path)
+{
+  return filesystem::path{ path }.is_absolute();
+}
+
+bool IsAbsolutePath(const char* path)
+{
+  return filesystem::path{ path }.is_absolute();
+}
+
+std::string ResolveAbsolutePath(const std::string& path)
+{
+  filesystem::path given_path{ path };
+  filesystem::path cwd{ GetCurrentWorkingDirectory() };
+
+  return ((given_path.is_absolute()) ? given_path
+                                     : (filesystem::path{ cwd }.is_absolute()) ? (cwd / given_path).make_normal()
+                                                                               :(given_path).make_normal())
+    .string();
+}
+//!
+//!  \param const char* path Path to be resolved
+//!  \brief This call is very unsafe when using threading. The lifetime of the char* returned is until the next call of ResolveAbsolutePath.
+//!         Copy this return value immediatly after the call to avoid most issues
+const char* ResolveAbsolutePath_cStr(const char* path)
+{
+  static std::string storage = std::string{ path };
+  storage = ResolveAbsolutePath(storage);
+  return storage.c_str();
 }
 
 std::vector<std::string> ListFiles(const std::string& dir, const std::string& regex, bool recurse)
@@ -148,12 +189,57 @@ void DeleteDirectory(const std::string& dir, bool bDeleteSubdirectories)
   RMDIR(dir.c_str());
 }
 
+void SetCurrentWorkingDirectory(std::string working_dir)
+{
+  g_working_dir = std::move(working_dir);
+}
+
+void SetCurrentWorkingDirectory(const char* working_dir)
+{
+  g_working_dir = working_dir;
+}
+
+bool TestLastDirName(std::string path, std::string dirname)
+{
+  filesystem::path p{ std::move(path) };
+  if (!filesystem::is_directory(p)) {
+    p = p.parent_path();
+  }
+  return p.filename().string() == dirname;
+}
+bool TestFirstDirName(std::string path, std::string dirname)
+{
+  filesystem::path p{ std::move(path) };
+  p = p.make_normal();
+  if (!p.is_absolute()) {
+    if (p.begin() != p.end()) {
+      auto itr = p.begin();
+        return *itr == dirname;
+    } else {
+
+    }
+  }
+  return false;
+}
+
+bool TestLastDirName(const char* path, const char* dirname)
+{
+  return TestLastDirName(std::string{ path }, std::string{ dirname });
+}
+
+bool TestFirstDirName(const char* path, const char* dirname)
+{
+  return TestFirstDirName(std::string{ path }, std::string{ dirname });
+}
+
 std::string GetCurrentWorkingDirectory()
 {
-  char path[MAXPATH];
-  GETCWD(path, MAXPATH);
+  return g_working_dir;
+}
 
-  return std::string(path) + "/";
+const char* GetCurrentWorkingDirectory_cStr()
+{
+  return g_working_dir.c_str();
 }
 
 BIOGEARS_API std::recursive_mutex g_fileSystemMutex;

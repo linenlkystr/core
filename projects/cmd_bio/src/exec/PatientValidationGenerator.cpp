@@ -10,50 +10,41 @@
 //specific language governing permissions and limitations under the License.
 //**************************************************************************************
 #include <biogears/cdm/utils/DataTrack.h>
-#include <biogears/cdm/utils/FileUtils.h>
 #include <biogears/engine/BioGearsPhysiologyEngine.h>
 #include <biogears/engine/Controller/BioGearsEngine.h>
 #include <biogears/engine/Controller/Scenario/BioGearsScenario.h>
 #include <biogears/engine/Controller/Scenario/BioGearsScenarioExec.h>
 
-#include "ScenarioDriver.h"
-#include "utils/string-helpers.h"
+#include "PatientValidationGenerator.h"
+#include "../utils/string-helpers.h"
 #include <iostream>
 #include <string>
-
 //
 namespace biogears {
-int runScenario(const std::string& patient, std::string XMLString);
+int runPatientScenario(const std::string patient, std::string&& XMLString);
 
 //-------------------------------------------------------------------------------
-ScenarioDriver::ScenarioDriver(size_t thread_count)
+PatientValidationGenerator::PatientValidationGenerator(size_t thread_count)
   : _pool(thread_count)
 {
 }
 //-------------------------------------------------------------------------------
-ScenarioDriver::~ScenarioDriver()
+PatientValidationGenerator::~PatientValidationGenerator()
 {
 }
 //-------------------------------------------------------------------------------
 //!
 //! \brief Iterates through patientFiles, creates a lambda function for each item, and passes those functions to a thread pool
-//!
-void ScenarioDriver::LoadPatients(std::vector<std::string> files, std::string xml)
+//! 
+void PatientValidationGenerator::GenPatientValidation()
 {
-  for (auto& patient : files) {
-    std::function<void()> work = [=]() { biogears::runScenario(patient,  xml); };
+
+  auto patients = ListFiles("patients", R"(\.xml)");
+  for (auto& patient : patients) {
+    std::function<void()> work = [=](){ biogears::runPatientScenario(patient, std::string("Scenarios/Validation/Patient-Validation.xml")); };
     _pool.queue_work(work);
   }
 }
-
-void ScenarioDriver::LoadScenarios(std::vector<std::string> files)
-{
-  for (auto& patient : files) {
-    std::function<void()> work = [=]() { biogears::runScenario("StandardMale.xml", patient); };
-    _pool.queue_work(work);
-  }
-}
-
 //-------------------------------------------------------------------------------
 
 //!
@@ -62,9 +53,9 @@ void ScenarioDriver::LoadScenarios(std::vector<std::string> files)
 //! \param XMLString : a path to the xml scenario being used
 //! \return int 0 if no exceptions were encountered, otherwise 1
 //!
-int runScenario(const std::string& patient, std::string XMLString)
+int runPatientScenario(const std::string patient, std::string&& XMLString)
 {
-  std::string patientXML(trim(patient));
+  std::string patientXML(patient);
 
   std::string patientLog = "-" + patientXML;
   patientLog = findAndReplace(patientLog, ".xml", ".log");
@@ -72,8 +63,8 @@ int runScenario(const std::string& patient, std::string XMLString)
   std::string patientResults = "-" + patientXML;
   patientResults = findAndReplace(patientResults, ".xml", "Results.csv");
 
-  std::string logFile(trim(patient));
-  std::string outputFile(trim(patient));
+  std::string logFile(patient);
+  std::string outputFile(patient);
   logFile = findAndReplace(logFile, ".xml", "Results.log");
   outputFile = findAndReplace(outputFile, ".xml", "Results.csv");
 
@@ -86,8 +77,8 @@ int runScenario(const std::string& patient, std::string XMLString)
   }
   DataTrack* trk = &eng->GetEngineTrack()->GetDataTrack();
   BioGearsScenario sce(eng->GetSubstanceManager());
-  sce.Load(trim(XMLString));
-  sce.GetInitialParameters().SetPatientFile(trim(patientXML));
+  sce.Load(XMLString);
+  sce.GetInitialParameters().SetPatientFile(patientXML);
 
   BioGearsScenarioExec* exec = new BioGearsScenarioExec(*eng);
   exec->Execute(sce, outputFile, nullptr);
@@ -98,16 +89,16 @@ int runScenario(const std::string& patient, std::string XMLString)
 //-------------------------------------------------------------------------------
 //!
 //! \brief thread pool begins execution of tasks in queue
-//!
-void ScenarioDriver::run()
+//! 
+void PatientValidationGenerator::run()
 {
   _pool.start();
 }
 //-------------------------------------------------------------------------------
 //!
 //! \brief stops execution of tasks in queue
-//!
-void ScenarioDriver::stop()
+//! 
+void PatientValidationGenerator::stop()
 {
   _pool.stop();
 }
@@ -115,16 +106,16 @@ void ScenarioDriver::stop()
 //!
 //! \brief stops the thread pool if the work queue is empty
 //! \return true if the work queue is empty, false otherwise
-//!
-bool ScenarioDriver::stop_if_empty()
-{
+//! 
+bool PatientValidationGenerator::stop_if_empty()
+{  
   return _pool.stop_if_empty();
 }
 //-------------------------------------------------------------------------------
 //!
 //! \brief joins threads in thread pool
-//!
-void ScenarioDriver::join()
+//! 
+void PatientValidationGenerator::join()
 {
   _pool.join();
 }

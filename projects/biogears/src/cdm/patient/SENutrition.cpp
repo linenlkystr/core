@@ -106,7 +106,11 @@ bool SENutrition::Load(const CDM::NutritionData& in)
 {
   Clear();
 
-  m_Name = in.Name();
+  if (in.Name().present()) {
+    m_Name = in.Name().get();
+  } else {
+    m_Name = "defaultNutrition";
+  }
   if (in.Carbohydrate().present())
     GetCarbohydrate().Load(in.Carbohydrate().get());
   if (in.CarbohydrateDigestionRate().present())

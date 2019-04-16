@@ -9,11 +9,10 @@ KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 **************************************************************************************/
 
-
 #include <biogears/cdm/utils/FileUtils.h>
 #include <biogears/cdm/utils/Logger.h>
 
-#pragma warning(push,0)
+#pragma warning(push, 0)
 #include <log4cpp/Appender.hh>
 #include <log4cpp/FileAppender.hh>
 #include <log4cpp/OstreamAppender.hh>
@@ -25,39 +24,60 @@ governing permissions and limitations under the License.
 
 namespace biogears {
 const std::string Loggable::empty("");
-
+const char* Loggable::empty_cStr("");
 // logger constructor
-Logger::Logger(const std::string& logFilename)
+Logger::Logger(const std::string& logFilename, const std::string& working_dir)
+  : m_Forward(nullptr)
+  , m_time(nullptr)
+  , m_FormatMessages(true)
 {
-  m_Forward = nullptr;
-  m_time = nullptr;
-  ResetLogFile(logFilename);
+  ResetLogFile(logFilename, working_dir);
 }
 
-void Logger::LogToConsole(bool b)
+Logger::Logger(const char* logFilename, const char* working_dir)
+  : m_Forward(nullptr)
+  , m_time(nullptr)
+  , m_FormatMessages(true)
 {
-  (b) ? m_Log->addAppender(m_ConsoleAppender)
-      : m_Log->removeAppender(m_ConsoleAppender);
+  ResetLogFile(logFilename, working_dir);
 }
 
-void Logger::ResetLogFile(const std::string& logFilename)
+void Logger::LogToConsole(bool log_to_console)
 {
-  log4cpp::Category& category = log4cpp::Category::getInstance(logFilename);
+  if (log_to_console) {
+    m_Log->addAppender(*m_ConsoleAppender);
+  } else {
+    m_Log->removeAppender(m_ConsoleAppender);
+  }
+}
+
+void Logger::FormatMessages(bool format_messages)
+{
+  m_FormatMessages = format_messages;
+}
+void Logger::ResetLogFile(const std::string& logFilename, const std::string& working_dir)
+{
+  std::string key = logFilename;
+  if (logFilename.empty()) {
+    key = "biogears_logger";
+  }
+  log4cpp::Category& category = log4cpp::Category::getInstance(key);
   m_Log = &category;
   m_Log->removeAllAppenders();
   m_Log->setPriority(log4cpp::Priority::INFO);
 
-  if (!logFilename.empty()) {
-    CreateFilePath(logFilename);
+  std::string qulaified_path = ResolveAbsolutePath(working_dir + logFilename);
+  if (!qulaified_path.empty()) {
+    CreateFilePath(qulaified_path);
 
     // delete previous log contents if it exists
-    FILE* FilePointer = fopen(logFilename.c_str(), "wt+");
+    FILE* FilePointer = fopen(qulaified_path.c_str(), "wt+");
     if (FilePointer)
       fclose(FilePointer);
 
     m_FileAppender = log4cpp::Appender::getAppender(logFilename);
-    if (m_FileAppender == nullptr) {
-      m_FileAppender = new log4cpp::FileAppender(logFilename, logFilename);
+    if (m_FileAppender == nullptr && !logFilename.empty()) {
+      m_FileAppender = new log4cpp::FileAppender(logFilename, qulaified_path);
       log4cpp::PatternLayout* myLayout = new log4cpp::PatternLayout();
       myLayout->setConversionPattern("%d [%p] %m%n");
       m_FileAppender->setLayout(myLayout);
@@ -67,14 +87,21 @@ void Logger::ResetLogFile(const std::string& logFilename)
 
   m_ConsoleAppender = log4cpp::Appender::getAppender(logFilename + "_console");
   if (m_ConsoleAppender == nullptr) {
-    m_ConsoleAppender = new log4cpp::OstreamAppender("console", &std::cout);
+    m_ConsoleAppender = new log4cpp::OstreamAppender(logFilename + "_console", &std::cout);
     log4cpp::PatternLayout* cLayout = new log4cpp::PatternLayout();
     cLayout->setConversionPattern("%d [%p] %m%n");
     m_ConsoleAppender->setLayout(cLayout);
+    m_ConsoleAppender->setThreshold(log4cpp::Priority::INFO);
   }
   LogToConsole(true);
 }
 
+void Logger::ResetLogFile(const char* logFilename, const char* working_dir)
+{
+  const std::string logFileName_str{ logFilename };
+  const std::string working_dir_str{ working_dir };
+  ResetLogFile(logFileName_str, working_dir_str);
+}
 Logger::~Logger() {}
 
 void Logger::SetLogTime(const SEScalarTime* time) { m_time = time; }
@@ -85,10 +112,30 @@ void Logger::SetLogTime(const SEScalarTime* time) { m_time = time; }
 // This function will change the priority of the logger
 void Logger::SetLogLevel(log4cpp::Priority::Value priority)
 {
-  if (m_Log)
+  if (m_Log) {
     m_Log->setPriority(priority);
+  }
 }
 
+// This function will change the priority of the m_ConsoleAppender
+void Logger::SetConsoleLogLevel(log4cpp::Priority::Value priority)
+{
+  if (m_ConsoleAppender) {
+    m_ConsoleAppender->setThreshold(priority);
+  }
+}
+void Logger::SetsetConversionPattern(const std::string& layout)
+{
+  log4cpp::PatternLayout* cLayout = new log4cpp::PatternLayout();
+  cLayout->setConversionPattern(layout);
+  m_FileAppender->setLayout(cLayout);
+}
+void Logger::SetConsolesetConversionPattern(const std::string& layout)
+{
+  log4cpp::PatternLayout* cLayout = new log4cpp::PatternLayout();
+  cLayout->setConversionPattern(layout);
+  m_ConsoleAppender->setLayout(cLayout);
+}
 // This function will return the priority of the logger
 log4cpp::Priority::Value Logger::GetLogLevel()
 {
@@ -100,17 +147,21 @@ void Logger::SetForward(LoggerForward* forward) { m_Forward = forward; }
 bool Logger::HasForward() { return m_Forward == nullptr ? false : true; }
 
 std::string Logger::FormatLogMessage(const std::string& msg,
-  const std::string& origin)
+                                     const std::string& origin)
 {
-  m_ss.str("");
-  m_ss.clear();
-  if (m_time != nullptr && m_time->IsValid())
-    m_ss << "[" << *m_time << "] " << msg;
-  else
-    m_ss << msg;
-  if (msg.empty())
-    return origin;
-  return origin + " : " + m_ss.str();
+  if (m_FormatMessages) {
+    m_ss.str("");
+    m_ss.clear();
+    if (m_time != nullptr && m_time->IsValid())
+      m_ss << "[" << *m_time << "] " << msg;
+    else
+      m_ss << msg;
+    if (msg.empty())
+      return origin;
+    return origin + " : " + m_ss.str();
+  } else {
+    return msg;
+  }
 }
 
 void Logger::Debug(const std::string& msg, const std::string& origin)
@@ -271,7 +322,7 @@ void Loggable::Info(std::stringstream& msg, const std::string& origin) const
 }
 
 void Loggable::Info(const std::stringstream& msg,
-  const std::string& origin) const
+                    const std::string& origin) const
 {
   Info(msg.str(), origin);
 }
@@ -284,7 +335,7 @@ void Loggable::Info(std::ostream& msg, const std::string& origin) const
 }
 
 void Loggable::Warning(const std::string& msg,
-  const std::string& origin) const
+                       const std::string& origin) const
 {
   if (m_Logger)
     m_Logger->Warning(msg, origin);
@@ -292,7 +343,7 @@ void Loggable::Warning(const std::string& msg,
     std::cout << "WARN:" << msg << " : " << origin << std::endl;
 }
 void Loggable::Warning(std::stringstream& msg,
-  const std::string& origin) const
+                       const std::string& origin) const
 {
   Warning(msg.str(), origin);
   msg.str("");

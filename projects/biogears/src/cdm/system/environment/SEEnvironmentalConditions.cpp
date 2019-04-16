@@ -99,7 +99,11 @@ const SEScalar* SEEnvironmentalConditions::GetScalar(const std::string& name)
 bool SEEnvironmentalConditions::Load(const CDM::EnvironmentalConditionsData& in)
 {
   Clear();
-  m_Name = in.Name();
+  if (in.Name().present()) {
+    m_Name = in.Name().get();
+  } else {
+    m_Name = "defaultEnvironment";
+  }
   if (in.SurroundingType().present())
     m_SurroundingType = in.SurroundingType().get();
   if (in.AirDensity().present())

@@ -27,6 +27,7 @@ class SEScalarTime;
 class BIOGEARS_API Loggable {
 public:
   static const std::string empty;
+  static const char* empty_cStr;
 
   Loggable();
   Loggable(Logger* log);
@@ -77,17 +78,24 @@ class BIOGEARS_API Logger {
   friend Loggable;
 
 public:
-  Logger(const std::string& logFilename = Loggable::empty);
+  Logger(const std::string& logFilename = Loggable::empty, const std::string& working_dir = Loggable::empty);
+  Logger(const char* logFilename, const char* working_dir = Loggable::empty_cStr);
   virtual ~Logger();
 
-  void LogToConsole(bool b);
+  void LogToConsole(bool log_to_console);
+  void FormatMessages(bool format_messages);
 
-  void ResetLogFile(const std::string& logFilename = Loggable::empty);
+  void ResetLogFile(const std::string& logFilename = Loggable::empty, const std::string& working_dir = Loggable::empty);
+  void ResetLogFile(const char* logFilename , const char* working_dir = Loggable::empty_cStr);
 
   void SetLogLevel(log4cpp::Priority::Value priority);
+  void SetConsoleLogLevel(log4cpp::Priority::Value priority);
   log4cpp::Priority::Value GetLogLevel();
 
   virtual void SetLogTime(const SEScalarTime* time);
+
+  void SetsetConversionPattern(const std::string&);
+  void SetConsolesetConversionPattern(const std::string&);
 
   virtual void SetForward(LoggerForward* forward);
   virtual bool HasForward();
@@ -122,5 +130,6 @@ protected:
   log4cpp::Appender* m_ConsoleAppender;
   const SEScalarTime* m_time;
   std::stringstream m_ss;
+  bool m_FormatMessages;
 };
 }
