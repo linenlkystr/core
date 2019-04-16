@@ -162,18 +162,6 @@ TEST_F(TEST_FIXTURE_NAME, InspiratoryFlow)
   auto dvalue = ces.GetInspiratoryFlow(VolumePerTimeUnit::L_Per_min);
   EXPECT_NE(dvalue, dvalue);
 }
-TEST_F(TEST_FIXTURE_NAME, TargetPulmonaryVentilation)
-{
-  EXPECT_FALSE( es->HasTargetPulmonaryVentilation());
-  es->GetTargetPulmonaryVentilation().SetValue(1.0,VolumePerTimeUnit::L_Per_min);
-  EXPECT_TRUE( es->HasTargetPulmonaryVentilation());
-  EXPECT_EQ(1.0, es->GetTargetPulmonaryVentilation(VolumePerTimeUnit::L_Per_min));
-
-  const biogears::SERespiratorySystem ces(logger);
-  EXPECT_FALSE( ces.HasTargetPulmonaryVentilation());
-  auto dvalue = ces.GetTargetPulmonaryVentilation(VolumePerTimeUnit::L_Per_min);
-  EXPECT_NE(dvalue, dvalue);
-}
 TEST_F(TEST_FIXTURE_NAME, TotalAlveolarVentilation)
 {
   EXPECT_FALSE( es->HasTotalAlveolarVentilation());
