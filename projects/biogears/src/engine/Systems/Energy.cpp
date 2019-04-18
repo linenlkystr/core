@@ -491,7 +491,7 @@ void Energy::CalculateSweatRate()
   GeneralMath::CalculateWaterDensity(m_skinNode->GetTemperature(), sweatDensity);
   double dehydrationFraction = m_data.GetTissue().GetDehydrationFraction().GetValue();
 
-  m_data.GetDataTrack().Probe("DehydrationPercent", dehydrationFraction * 100);
+  //m_data.GetDataTrack().Probe("DehydrationPercent", dehydrationFraction * 100);
 
   //Calculate sweat rate (in kg/s) from core temperature feedback.
   //The sweat rate heat transfer is determined from a control equation that attempts to keep the core temperature in line

@@ -420,7 +420,10 @@ void Environment::CalculateEvaporationLite()
   double dConvectiveTransferCoefficient_WPerM2_K = GetConvectiveHeatTranferCoefficient(HeatConductancePerAreaUnit::W_Per_m2_K);
   double dEvaporativeHeatTransferCoefficient_WPerM2_K = m_dLewisRelation * dConvectiveTransferCoefficient_WPerM2_K;
   GetEvaporativeHeatTranferCoefficient().SetValue(dEvaporativeHeatTransferCoefficient_WPerM2_K, HeatConductancePerAreaUnit::W_Per_m2_K);
-  double dTotalHeatLoss_W = m_ClothingToEnvironmentPath->GetHeatTransferRate().GetValue(PowerUnit::W);
+  double dTotalHeatLoss_W = 0.0;
+  if (m_ClothingToEnvironmentPath->HasHeatTransferRate()) {
+    double dTotalHeatLoss_W = m_ClothingToEnvironmentPath->GetHeatTransferRate().GetValue(PowerUnit::W);
+  }
 
   //Calculate the source
   double dClothingResistance_rsi = GetConditions().GetClothingResistance(HeatResistanceAreaUnit::rsi); //1 rsi = 1 m^2-K/W

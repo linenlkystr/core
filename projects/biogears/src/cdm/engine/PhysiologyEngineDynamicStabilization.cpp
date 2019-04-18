@@ -115,7 +115,7 @@ bool PhysiologyEngineDynamicStabilization::Stabilize(PhysiologyEngine& engine, c
     if (stabilizer.HasExceededTime())
       break;
 
-    engine.AdvanceModelTime();
+     engine.AdvanceModelTime();
     if (m_currentTime_s == 0)
       tracker->SetupRequests();
     stablizationTime_s += dT_s;
