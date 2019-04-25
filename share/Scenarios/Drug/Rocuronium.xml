@@ -90,51 +90,41 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BrainTissueExtracellular"       Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="FatTissueExtracellular"         Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueExtracellular"         Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular"  Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular"    Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular"  Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular"    Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueExtracellular"       Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MuscleTissueExtracellular"      Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueExtracellular"  Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular"   Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueExtracellular"  Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueExtracellular"        Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular"      Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 
                                                                                                                                            
   <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BoneTissueIntracellular"        Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BrainTissueIntracellular"       Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="FatTissueIntracellular"         Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueIntracellular"         Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"  Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular"    Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"  Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular"    Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular"       Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MuscleTissueIntracellular"      Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular"  Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular"   Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular"  Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 		
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueIntracellular"        Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular"      Substance="Rocuronium" Name="Concentration" Unit="ug/L" Precision="4"/>   
 	
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Name="PlasmaConcentration" Unit="ug/L" Precision="6"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium"	Name="EffectSiteConcentration" Unit="ug/mL" Precision="6"/>	
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Name="SystemicMassCleared" Unit="ug" Precision="2"/>	
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Name="MassInBody" Unit="ug" Precision="2"/>	
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="LeftKidneyTissue" Name="PartitionCoefficient" Precision="4"/>
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="RightKidneyTissue" Name="PartitionCoefficient" Precision="4"/>
+	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="KidneyTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="BrainTissue" Name="PartitionCoefficient" Precision="4"/>
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="RightLungTissue" Name="PartitionCoefficient" Precision="4"/>
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="LeftLungTissue" Name="PartitionCoefficient" Precision="4"/>
+	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="LungTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="LiverTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="BoneTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="FatTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="SkinTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="MuscleTissue" Name="PartitionCoefficient" Precision="4"/>
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="SpleenTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="GutTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Rocuronium" Compartment="MyocardiumTissue" Name="PartitionCoefficient" Precision="4"/>
 		
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular"       Substance="Rocuronium" Name="MassCleared" Unit="ug" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"  Substance="Rocuronium" Name="MassCleared" Unit="ug" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Rocuronium" Name="MassCleared" Unit="ug" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"  Substance="Rocuronium" Name="MassCleared" Unit="ug" Precision="2"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular"       Substance="Rocuronium" Name="MassExcreted" Unit="ug" Precision="2"/>
   </DataRequests>  	
 	

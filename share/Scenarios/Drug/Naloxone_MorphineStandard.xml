@@ -90,29 +90,23 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BrainTissueExtracellular"       Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="FatTissueExtracellular"         Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 		
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueExtracellular"         Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular"  Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular"    Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular"  Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular"    Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueExtracellular"       Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MuscleTissueExtracellular"      Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueExtracellular"  Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular"   Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 		
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueExtracellular"  Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 			
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueExtracellular"        Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular"      Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 
                                                                                                                                            
   <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BoneTissueIntracellular"        Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="BrainTissueIntracellular"       Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="FatTissueIntracellular"         Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 		
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueIntracellular"         Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"  Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular"    Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"  Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular"    Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular"       Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MuscleTissueIntracellular"      Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular"  Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular"   Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 		
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueIntracellular"        Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular"      Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/>   
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular"  Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	 		
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueIntracellular"        Substance="Naloxone" Name="Concentration" Unit="ug/L" Precision="4"/> 	  
 	
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Morphine"                          Name="PlasmaConcentration"           Unit="ug/mL" Precision="9"/>	
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Morphine"                          Name="SystemicMassCleared"  Unit="ug"    Precision="2"/>	
@@ -123,23 +117,19 @@
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone"	Name="EffectSiteConcentration" Unit="ug/mL" Precision="6"/>	
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Name="SystemicMassCleared" Unit="ug" Precision="3"/>	
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Name="MassInBody" Unit="ug" Precision="3"/>	
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="LeftKidneyTissue" Name="PartitionCoefficient" Precision="4"/>
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="RightKidneyTissue" Name="PartitionCoefficient" Precision="4"/>
+	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="KidneyTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="BrainTissue" Name="PartitionCoefficient" Precision="4"/>
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="RightLungTissue" Name="PartitionCoefficient" Precision="4"/>
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="LeftLungTissue" Name="PartitionCoefficient" Precision="4"/>
+	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="LungTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="LiverTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="BoneTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="FatTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="SkinTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="MuscleTissue" Name="PartitionCoefficient" Precision="4"/>
-	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="SpleenTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="GutTissue" Name="PartitionCoefficient" Precision="4"/>
 	<DataRequest xsi:type="SubstanceDataRequestData" Substance="Naloxone" Compartment="MyocardiumTissue" Name="PartitionCoefficient" Precision="4"/>
 	
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular"       Substance="Naloxone" Name="MassCleared" Unit="ug" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"  Substance="Naloxone" Name="MassCleared" Unit="ug" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Naloxone" Name="MassCleared" Unit="ug" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"  Substance="Naloxone" Name="MassCleared" Unit="ug" Precision="2"/>
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LiverTissueIntracellular"       Substance="Naloxone" Name="MassExcreted" Unit="ug" Precision="2"/>
   </DataRequests>
 	

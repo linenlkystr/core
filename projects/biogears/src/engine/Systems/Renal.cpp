@@ -322,13 +322,6 @@ void Renal::SetUp()
   m_aorta = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Aorta);
   m_venaCava = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::VenaCava);
 
-  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-    m_leftKidneyTissue = m_data.GetCompartments().GetTissueCompartment(BGE::TissueCompartment::LeftKidney);
-    m_rightKidneyTissue = m_data.GetCompartments().GetTissueCompartment(BGE::TissueCompartment::RightKidney);
-    m_leftKidneyIntracellularLactate = m_data.GetCompartments().GetIntracellularFluid(*m_leftKidneyTissue).GetSubstanceQuantity(*m_lactate);
-    m_rightKidneyIntracellularLactate = m_data.GetCompartments().GetIntracellularFluid(*m_rightKidneyTissue).GetSubstanceQuantity(*m_lactate);
-  }
-
   m_leftGlomerular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftGlomerularCapillaries);
   m_leftPeritubular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftPeritubularCapillaries);
   m_leftBowmans = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftBowmansCapsules);
@@ -610,7 +603,6 @@ void Renal::CalculateReabsorptionFeedback()
   SEFluidCircuitPath* tubulesOsmoticSourcePath = nullptr;
   SEFluidCircuitPath* filterResistancePath = nullptr;
   SELiquidCompartment* peritubularCapillaries = nullptr;
-  SELiquidCompartment* renalInterstitial = nullptr;
   double filterResistance_mmHg_s_Per_mL = 0.0;
   double permeability_mL_Per_s_Per_mmHg_Per_m2 = 0.0;
   double surfaceArea_m2 = 0.0;
@@ -626,7 +618,6 @@ void Renal::CalculateReabsorptionFeedback()
       peritubularOsmoticSourcePath = m_leftPeritubularOsmoticSourcePath;
       tubulesOsmoticSourcePath = m_leftTubulesOsmoticSourcePath;
       peritubularCapillaries = m_leftPeritubular;
-      renalInterstitial = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::LeftKidneyExtracellular);
     } else {
       //RIGHT
       filterResistancePath = m_rightReabsorptionResistancePath;
@@ -636,7 +627,6 @@ void Renal::CalculateReabsorptionFeedback()
       peritubularOsmoticSourcePath = m_rightPeritubularOsmoticSourcePath;
       tubulesOsmoticSourcePath = m_rightTubulesOsmoticSourcePath;
       peritubularCapillaries = m_rightPeritubular;
-      renalInterstitial = m_data.GetCompartments().GetLiquidCompartment(BGE::ExtravascularCompartment::RightKidneyExtracellular);
     }
 
     //Set the filter resistance based on its physical properties
@@ -741,18 +731,11 @@ void Renal::CalculateGluconeogenesis()
   double patientWeight_kg = m_patient->GetWeight(MassUnit::kg);
   m_lactate->GetClearance().GetRenalClearance().SetValue(totalLactateExcretionRate_mg_Per_s / plasmaConcentration_mg_Per_mL / patientWeight_kg, VolumePerTimeMassUnit::mL_Per_s_kg);
 
-  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-    double singleExcreted_mg = totalLactateExcretionRate_mg_Per_s * m_dt * 0.5; // We are assuming the kidneys are each doing the same amount of work
-    m_leftKidneyIntracellularLactate->GetMassExcreted().IncrementValue(singleExcreted_mg, MassUnit::mg);
-    m_leftKidneyIntracellularLactate->GetMassCleared().IncrementValue(singleExcreted_mg, MassUnit::mg);
-    m_rightKidneyIntracellularLactate->GetMassExcreted().IncrementValue(singleExcreted_mg, MassUnit::mg);
-    m_rightKidneyIntracellularLactate->GetMassCleared().IncrementValue(singleExcreted_mg, MassUnit::mg);
-  } else {
-    double totalLactateExcreted_mg = totalLactateExcretionRate_mg_Per_s * m_dt;
-    SELiquidSubstanceQuantity* kidneyIntracellularLactate = m_data.GetCompartments().GetIntracellularFluid(*m_data.GetCompartments().GetTissueCompartment(BGE::TissueLiteCompartment::Kidney)).GetSubstanceQuantity(*m_lactate);
-    kidneyIntracellularLactate->GetMassExcreted().IncrementValue(totalLactateExcreted_mg, MassUnit::mg);
-    kidneyIntracellularLactate->GetMassCleared().IncrementValue(totalLactateExcreted_mg, MassUnit::mg);
-  }
+  double totalLactateExcreted_mg = totalLactateExcretionRate_mg_Per_s * m_dt;
+  SELiquidSubstanceQuantity* kidneyIntracellularLactate = m_data.GetCompartments().GetIntracellularFluid(*m_data.GetCompartments().GetTissueCompartment(BGE::TissueLiteCompartment::Kidney)).GetSubstanceQuantity(*m_lactate);
+  kidneyIntracellularLactate->GetMassExcreted().IncrementValue(totalLactateExcreted_mg, MassUnit::mg);
+  kidneyIntracellularLactate->GetMassCleared().IncrementValue(totalLactateExcreted_mg, MassUnit::mg);
+  
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1173,22 +1156,10 @@ void Renal::CalculateExcretion(SESubstance& sub)
   //Set substance compartment effects
   //Gluconeogenesis calculates it for Lactate later
   if (&sub != m_lactate) {
-    if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
-      SELiquidSubstanceQuantity* leftKidneySubQ = m_data.GetCompartments().GetIntracellularFluid(*m_leftKidneyTissue).GetSubstanceQuantity(sub);
-      SELiquidSubstanceQuantity* rightKidneySubQ = m_data.GetCompartments().GetIntracellularFluid(*m_rightKidneyTissue).GetSubstanceQuantity(sub);
-
-      double singleExcreted_mg = totalExcretionRate_mg_Per_s * m_dt * 0.5; // We are assuming the kindneys are doing the same amount of work
-      leftKidneySubQ->GetMassExcreted().IncrementValue(singleExcreted_mg, MassUnit::mg);
-      leftKidneySubQ->GetMassCleared().IncrementValue(singleExcreted_mg, MassUnit::mg);
-      rightKidneySubQ->GetMassExcreted().IncrementValue(singleExcreted_mg, MassUnit::mg);
-      rightKidneySubQ->GetMassCleared().IncrementValue(singleExcreted_mg, MassUnit::mg);
-    } else{
-      SELiquidSubstanceQuantity* kidneySubQ = m_data.GetCompartments().GetIntracellularFluid(*m_data.GetCompartments().GetTissueCompartment(BGE::TissueLiteCompartment::Kidney)).GetSubstanceQuantity(sub);
-      double totalExcreted_mg = totalExcretionRate_mg_Per_s * m_dt;
-      kidneySubQ->GetMassExcreted().IncrementValue(totalExcreted_mg, MassUnit::mg);
-      kidneySubQ->GetMassCleared().IncrementValue(totalExcreted_mg, MassUnit::mg);
-    }
-    
+    SELiquidSubstanceQuantity* kidneySubQ = m_data.GetCompartments().GetIntracellularFluid(*m_data.GetCompartments().GetTissueCompartment(BGE::TissueLiteCompartment::Kidney)).GetSubstanceQuantity(sub);
+    double totalExcreted_mg = totalExcretionRate_mg_Per_s * m_dt;
+    kidneySubQ->GetMassExcreted().IncrementValue(totalExcreted_mg, MassUnit::mg);
+    kidneySubQ->GetMassCleared().IncrementValue(totalExcreted_mg, MassUnit::mg);
   }
 }
 

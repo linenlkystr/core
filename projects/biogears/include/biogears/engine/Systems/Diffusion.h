@@ -14,7 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <Eigen/core>
+#include <Eigen/Core>
 
 namespace biogears {
 class MassUnit;

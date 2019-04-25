@@ -269,137 +269,137 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
   <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="GutTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
   
-	<!-- LeftKidneyTissue -->	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftKidneyTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftKidneyTissue"                           Name="MatrixVolume"                                       Unit="mL"     Precision="0"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftKidneyTissue"                           Name="NeutralLipidsVolumeFraction"                                      Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftKidneyTissue"                           Name="NeutralPhospholipidsVolumeFraction"                               Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftKidneyTissue"                           Name="TissueToPlasmaAlbuminRatio"                                       Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftKidneyTissue"                           Name="TissueToPlasmaAlphaAcidGlycoproteinRatio"                         Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftKidneyTissue"                           Name="TissueToPlasmaLipoproteinRatio"                                   Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftKidneyTissue"                           Name="TotalMass"                                          Unit="g"      Precision="0"/>	
+	<!-- KidneyTissue -->	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="KidneyTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="KidneyTissue"                           Name="MatrixVolume"                                       Unit="mL"     Precision="0"/>	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="KidneyTissue"                           Name="NeutralLipidsVolumeFraction"                                      Precision="1"/>	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="KidneyTissue"                           Name="NeutralPhospholipidsVolumeFraction"                               Precision="1"/>	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="KidneyTissue"                           Name="TissueToPlasmaAlbuminRatio"                                       Precision="2"/>	
+  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="KidneyTissue"                           Name="TissueToPlasmaAlphaAcidGlycoproteinRatio"                         Precision="2"/>	
+  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="KidneyTissue"                           Name="TissueToPlasmaLipoproteinRatio"                                   Precision="2"/>	
+  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="KidneyTissue"                           Name="TotalMass"                                          Unit="g"      Precision="0"/>	
   <!-- Extracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueExtracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueExtracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
   <!-- Intracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftKidneyTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="KidneyTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
   
-	<!-- LeftLungTissue -->	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftLungTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftLungTissue"                           Name="MatrixVolume"                                       Unit="mL"     Precision="0"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftLungTissue"                           Name="NeutralLipidsVolumeFraction"                                      Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftLungTissue"                           Name="NeutralPhospholipidsVolumeFraction"                               Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftLungTissue"                           Name="TissueToPlasmaAlbuminRatio"                                       Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftLungTissue"                           Name="TissueToPlasmaAlphaAcidGlycoproteinRatio"                         Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftLungTissue"                           Name="TissueToPlasmaLipoproteinRatio"                                   Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LeftLungTissue"                           Name="TotalMass"                                          Unit="g"      Precision="0"/>	
+	<!-- LungTissue -->	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LungTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LungTissue"                           Name="MatrixVolume"                                       Unit="mL"     Precision="0"/>	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LungTissue"                           Name="NeutralLipidsVolumeFraction"                                      Precision="1"/>	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LungTissue"                           Name="NeutralPhospholipidsVolumeFraction"                               Precision="1"/>	
+	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LungTissue"                           Name="TissueToPlasmaAlbuminRatio"                                       Precision="2"/>	
+  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LungTissue"                           Name="TissueToPlasmaAlphaAcidGlycoproteinRatio"                         Precision="2"/>	
+  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LungTissue"                           Name="TissueToPlasmaLipoproteinRatio"                                   Precision="2"/>	
+  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LungTissue"                           Name="TotalMass"                                          Unit="g"      Precision="0"/>	
   <!-- Extracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueExtracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueExtracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
   <!-- Intracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LeftLungTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
+	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
+  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="LungTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
   
 	<!-- LiverTissue -->	
 	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="LiverTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
@@ -599,138 +599,7 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
   <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="MyocardiumTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
   
-	<!-- RightKidneyTissue -->	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightKidneyTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightKidneyTissue"                           Name="MatrixVolume"                                       Unit="mL"     Precision="0"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightKidneyTissue"                           Name="NeutralLipidsVolumeFraction"                                      Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightKidneyTissue"                           Name="NeutralPhospholipidsVolumeFraction"                               Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightKidneyTissue"                           Name="TissueToPlasmaAlbuminRatio"                                       Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightKidneyTissue"                           Name="TissueToPlasmaAlphaAcidGlycoproteinRatio"                         Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightKidneyTissue"                           Name="TissueToPlasmaLipoproteinRatio"                                   Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightKidneyTissue"                           Name="TotalMass"                                          Unit="g"      Precision="0"/>	
-  <!-- Extracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueExtracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <!-- Intracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightKidneyTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  
-	<!-- RightLungTissue -->	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightLungTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightLungTissue"                           Name="MatrixVolume"                                       Unit="mL"     Precision="0"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightLungTissue"                           Name="NeutralLipidsVolumeFraction"                                      Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightLungTissue"                           Name="NeutralPhospholipidsVolumeFraction"                               Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightLungTissue"                           Name="TissueToPlasmaAlbuminRatio"                                       Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightLungTissue"                           Name="TissueToPlasmaAlphaAcidGlycoproteinRatio"                         Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightLungTissue"                           Name="TissueToPlasmaLipoproteinRatio"                                   Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="RightLungTissue"                           Name="TotalMass"                                          Unit="g"      Precision="0"/>	
-  <!-- Extracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueExtracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <!-- Intracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="RightLungTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  
+	
 	<!-- SkinTissue -->	
 	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SkinTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
 	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SkinTissue"                           Name="MatrixVolume"                                       Unit="mL"     Precision="0"/>	
@@ -797,72 +666,7 @@
 	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
   <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SkinTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
   
-	<!-- SpleenTissue -->	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SpleenTissue"                           Name="AcidicPhospohlipidConcentration"                    Unit="mg/g"   Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SpleenTissue"                           Name="MatrixVolume"                                       Unit="mL"     Precision="0"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SpleenTissue"                           Name="NeutralLipidsVolumeFraction"                                      Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SpleenTissue"                           Name="NeutralPhospholipidsVolumeFraction"                               Precision="1"/>	
-	<DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SpleenTissue"                           Name="TissueToPlasmaAlbuminRatio"                                       Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SpleenTissue"                           Name="TissueToPlasmaAlphaAcidGlycoproteinRatio"                         Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SpleenTissue"                           Name="TissueToPlasmaLipoproteinRatio"                                   Precision="2"/>	
-  <DataRequest xsi:type="TissueCompartmentDataRequestData" Compartment="SpleenTissue"                           Name="TotalMass"                                          Unit="g"      Precision="0"/>	
-  <!-- Extracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueExtracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <!-- Intracellular -->
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular"                                    Name="InFlow"          Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular"                                    Name="OutFlow"         Unit="mL/s"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular"                                    Name="Pressure"        Unit="mmHg"   Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular"                                    Name="Volume"          Unit="mL"     Precision="0"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Oxygen"                 Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Oxygen"                 Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Oxygen"                 Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Oxygen"                 Name="PartialPressure" Unit="mmHg"   Precision="0"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="CarbonDioxide"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="CarbonDioxide"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="CarbonDioxide"          Name="Molarity"        Unit="mmol/L" Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="CarbonDioxide"          Name="PartialPressure" Unit="mmHg"   Precision="0"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Hemoglobin"             Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Hemoglobin"             Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Hemoglobin"             Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Oxyhemoglobin"          Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Oxyhemoglobin"          Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Oxyhemoglobin"          Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="OxyCarbaminohemoglobin" Name="Molarity"        Unit="mmol/L" Precision="2"/>  
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Carbaminohemoglobin"    Name="Molarity"        Unit="mmol/L" Precision="2"/> 
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Succinylcholine"        Name="Concentration"   Unit="ug/mL"  Precision="2"/>
-	<DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Succinylcholine"        Name="Mass"            Unit="ug"     Precision="1"/>
-  <DataRequest xsi:type="LiquidCompartmentDataRequestData" Compartment="SpleenTissueIntracellular" Substance="Succinylcholine"        Name="Molarity"        Unit="mmol/L" Precision="2"/>
-  </DataRequests>
+	
   
 	<Action xsi:type="AdvanceTimeData">
         <Time value="5" unit="s"/>       

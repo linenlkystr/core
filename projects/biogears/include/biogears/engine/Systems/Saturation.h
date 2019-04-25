@@ -13,7 +13,6 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
-#include <biogears/chrono/stop_watch.tci.h>
 #include <biogears/cdm/system/physiology/SETissueSystem.h>
 #include <biogears/engine/Controller/BioGearsSystem.h>
 
@@ -38,9 +37,6 @@ protected:
 
   SaturationCalculator(BioGears& bg);
   BioGears& m_data;
-  biogears::StopWatch<std::chrono::nanoseconds> satWatch;
-  biogears::StopWatch<std::chrono::nanoseconds> solverWatch;
-  biogears::StopWatch<std::chrono::nanoseconds> totalWatch;
 
 public:
   virtual ~SaturationCalculator();
@@ -50,11 +46,6 @@ public:
   void SetBodyState(const SEScalarMassPerVolume& AlbuminConcentration, const SEScalarFraction& Hematocrit, const SEScalarTemperature& Temperature, const SEScalarAmountPerVolume& StrongIonDifference, const SEScalarAmountPerVolume& Phosphate);
   void CalculateBloodGasDistribution(SELiquidCompartment& cmpt);
   void CalculateCarbonMonoxideSpeciesDistribution(SELiquidCompartment& cmpt);
-  double solverTime;
-  double satTime;
-  double hbTime;
-  double totalTime;
-  double numLoops;
 
 protected: // Stewart Model + Dash-Bassingthwaighte Model + Henderson-Hasselbach Model
   void CalculateHemoglobinSaturations(double O2PartialPressureGuess_mmHg, double CO2PartialPressureGuess_mmHg, double pH, double temperature_C, double hematocrit, double& OxygenSaturation, double& CarbonDioxideSaturation, double CO2_scaling_factor);

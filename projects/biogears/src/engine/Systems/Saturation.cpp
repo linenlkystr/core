@@ -140,14 +140,6 @@ SaturationCalculator::SaturationCalculator(BioGears& bg)
   , m_data(bg)
 {
   Initialize(bg.GetSubstances());
-  numLoops = 0.0;
-  satWatch.reset();
-  solverWatch.reset();
-  totalWatch.reset();
-  solverTime = 0.0;
-  satTime = 0.0;
-  hbTime = 0.0;
-  totalTime = 0.0;
 }
 
 void SaturationCalculator::Initialize(SESubstanceManager& substances)
@@ -358,7 +350,6 @@ void SaturationCalculator::CalculateCarbonMonoxideSpeciesDistribution(SELiquidCo
 //--------------------------------------------------------------------------------------------------
 void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cmpt)
 {
-  totalWatch.lap();
   m_cmpt = &cmpt;
   m_subO2Q = nullptr;
   m_subCO2Q = nullptr;
@@ -370,35 +361,7 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
   m_subCOQ = nullptr;
   m_subHbCOQ = nullptr;
 
- //for (SELiquidSubstanceQuantity* subQ : cmpt.GetSubstanceQuantities()) {
- //   if (&subQ->GetSubstance() == m_O2) {
- //     m_subO2Q = subQ;
- //     continue;
- //   }
- //   if (&subQ->GetSubstance() == m_CO2) {
- //     m_subCO2Q = subQ;
- //     continue;
- //   }
- //   if (&subQ->GetSubstance() == m_Hb) {
- //     m_subHbQ = subQ;
- //     continue;
- //   }
- //   if (&subQ->GetSubstance() == m_HbO2) {
- //     m_subHbO2Q = subQ;
- //     continue;
- //   }
- //   if (&subQ->GetSubstance() == m_HbCO2) {
- //     m_subHbCO2Q = subQ;
- //     continue;
- //   }
- //   if (&subQ->GetSubstance() == m_HbO2CO2) {
- //     m_subHbO2CO2Q = subQ;
- //     continue;
- //   }
- //   if (&subQ->GetSubstance() == m_HCO3) {
- //     m_subHCO3Q = subQ;
- //     continue;
- //   }
+
  //   if (&subQ->GetSubstance() == m_CO) {
  //     m_subCOQ = subQ;
  //     continue;
@@ -521,13 +484,10 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
   errMsg << "GeneralMath::CalculateBloodGasDistribution: ";
 
   // Solve the acid base equations
-  solverWatch.lap();
   int ret = solver.solveNumericalDiffInit(x);
   while (ret == Eigen::HybridNonLinearSolverSpace::Running) {
     ret = solver.solveNumericalDiffOneStep(x);
   }
-  solverTime += solverWatch.lap();
-
 
   switch (ret) {
   case Eigen::HybridNonLinearSolverSpace::RelativeErrorTooSmall:
@@ -726,12 +686,10 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
     m_subHbO2CO2Q->Balance(BalanceLiquidBy::Molarity);
   } // End alternate solution
 
-  solverWatch.lap();
   if (!DistributeHemoglobinBySaturation()) {
     errMsg << " Failed to update hemoglobin saturation.";
     Fatal(errMsg);
   }
-  hbTime += solverWatch.lap();
 
   resultantHb_mM = m_subHbQ->GetMolarity(AmountPerVolumeUnit::mmol_Per_L);
   resultantHbO2_mM = m_subHbO2Q->GetMolarity(AmountPerVolumeUnit::mmol_Per_L);
@@ -903,12 +861,6 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
 
   m_subO2Q->GetSaturation().SetValue((resultantHbO2_mM + resultantHbO2CO2_mM) / (totalHb_mM));
   m_subCO2Q->GetSaturation().SetValue((resultantHbCO2_mM + resultantHbO2CO2_mM) / (totalHb_mM));
-  totalTime += totalWatch.lap();
-  m_data.GetDataTrack().Probe("SolverTime_ms", solverTime / 1e6);
-  m_data.GetDataTrack().Probe("SatCalcTime_ms", satTime / 1e6);
-  m_data.GetDataTrack().Probe("TotalSatTime_ms", totalTime / 1e6);
-  m_data.GetDataTrack().Probe("HbDistributeTime_ms", hbTime / 1e6);
-  m_data.GetDataTrack().Probe("TotalSolverIterations", numLoops);
 
   return;
 }
@@ -923,8 +875,6 @@ void SaturationCalculator::CalculateBloodGasDistribution(SELiquidCompartment& cm
 //--------------------------------------------------------------------------------------------------
 void SaturationCalculator::CalculateHemoglobinSaturations(double O2PartialPressureGuess_mmHg, double CO2PartialPressureGuess_mmHg, double pH, double temperature_C, double hematocrit, double& OxygenSaturation, double& CarbonDioxideSaturation, double CO2_scaling_factor)
 {
-  numLoops += 1;
-  satWatch.lap();
   double CO_sat = 0;
 
   if (m_subCOQ != nullptr)
@@ -1040,7 +990,6 @@ void SaturationCalculator::CalculateHemoglobinSaturations(double O2PartialPressu
   // Now set the saturations
   OxygenSaturation = KHbO2 * O2 / (1 + KHbO2 * O2);
   CarbonDioxideSaturation = KHbCO2 * CO2 * CO2_scaling_factor / (1 + KHbCO2 * CO2 * CO2_scaling_factor);
-  satTime += satWatch.lap();
 }
 
 //--------------------------------------------------------------------------------------------------

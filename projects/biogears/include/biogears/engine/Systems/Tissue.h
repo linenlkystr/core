@@ -14,13 +14,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <biogears/chrono/stop_watch.tci.h>
 #include <biogears/cdm/circuit/fluid/SEFluidCircuitPath.h>
 #include <biogears/cdm/system/physiology/SETissueSystem.h>
 #include <biogears/cdm/utils/RunningAverage.h>
 #include <biogears/engine/Controller/BioGearsSystem.h>
 #include <biogears/schema/biogears/BioGearsPhysiology.hxx>
-#include <Eigen/core>
 
 namespace biogears {
 class SESubstance;
@@ -46,13 +44,6 @@ class BIOGEARS_API Tissue : public SETissueSystem, public BioGearsSystem {
 protected:
   Tissue(BioGears& bg);
   BioGears& m_data;
-  biogears::StopWatch<std::chrono::nanoseconds> tissueWatch;
-  biogears::StopWatch<std::chrono::nanoseconds> loopWatch;
-  double calcDiffusionTime;
-  double loopTime;
-  double simpleTime;
-  double instantTime;
-  double otherTime;
 
 public:
   virtual ~Tissue() override;
@@ -92,7 +83,6 @@ protected:
   void FatStorageAndRelease();
 
   // Process Methods
-  void CalculateDiffusion();
   void CalculatePulmonaryCapillarySubstanceTransfer();
   void CalculateVitals();
   void CheckGlycogenLevels();
@@ -115,10 +105,8 @@ protected:
   double PerfusionLimitedDiffusion(SETissueCompartment& tissue, SELiquidCompartment& vascular, const SESubstance& sub, double partitionCoeff, double timestep_s);
   void AlveolarPartialPressureGradientDiffusion(SEGasCompartment& pulmonary, SELiquidCompartment& vascular, SESubstance& sub, double DiffusingCapacityO2_mL_Per_s_mmHg, double timestep_s);
 
-  double MoveMassByInstantDiffusion(SELiquidCompartment& source, SELiquidCompartment& target, const SESubstance& sub, double timestep_s);
   double MoveMassBySimpleDiffusion(SELiquidCompartment& source, SELiquidCompartment& target, const SESubstance& sub, double permeabilityCofficient_mL_Per_s, double timestep_s);
   double MoveMassByFacilitatedDiffusion(SELiquidCompartment& source, SELiquidCompartment& target, const SESubstance& sub, double combinedCoefficient_g_Per_s, double timestep_s);
-  double MoveMassByActiveTransport(SELiquidCompartment& source, SELiquidCompartment& target, const SESubstance& sub, double pumpRate_g_Per_s, double timestep_s);
   double MoveMassByConvection(SELiquidCompartment& source, SELiquidCompartment& target, const SESubstance& sub, double timestep_s);
   void CoupledIonTransport(SETissueCompartment& tissue, SELiquidCompartment& extra, SELiquidCompartment& intra, SELiquidCompartment& vascular);
   double AlbuminTransport(SELiquidCompartment& vascular, SELiquidCompartment& extra, SETissueCompartment& tissue, double timestep_s);
@@ -130,8 +118,6 @@ protected:
   double CalciumPump(double intraCa_M);
 
   //Test diffusion methods
-  void SimpleDiffusion();
-  void InstantDiffusion();
   void OtherDiffusion();
 
   //Override
@@ -181,8 +167,7 @@ protected:
   SELiquidSubstanceQuantity* m_FatInsulin;
   SELiquidSubstanceQuantity* m_FatGlucagon;
   SELiquidSubstanceQuantity* m_FatTAG;
-  SETissueCompartment* m_LeftLungTissue;
-  SETissueCompartment* m_RightLungTissue;
+  SETissueCompartment* m_LungTissue;
   SETissueCompartment* m_MuscleTissue;
   SELiquidCompartment* m_MuscleIntracellular;
   SETissueCompartment* m_LiverTissue;
@@ -198,8 +183,6 @@ protected:
   SELiquidCompartment* m_MuscleVascular;
   SELiquidSubstanceQuantity* m_MuscleVascularGlucose;
 
-  SEGasCompartment* m_LeftAlveoli;
-  SEGasCompartment* m_RightAlveoli;
   SELiquidCompartment* m_LeftPulmonaryCapillaries;
   SELiquidCompartment* m_RightPulmonaryCapillaries;
 
@@ -215,18 +198,6 @@ protected:
   std::map<SELiquidCompartment*, SEFluidCircuitPath*> m_LymphPaths;
   std::vector<SETissueCompartment*> m_ConsumptionProdutionTissues;
   std::string m_AnaerobicTissues;
-
-  Eigen::MatrixXd m_SimpleDiffusionSubsVascular;
-  Eigen::MatrixXd m_SimpleDiffusionSubsTissueExtra;
-  Eigen::MatrixXd m_SimpleDiffusionSubsTissueIntra;
-  Eigen::MatrixXd m_SimpleDiffusionPermeabilityCoeff;  
-  Eigen::MatrixXd m_InstantDiffusionSubsVascular;
-  Eigen::MatrixXd m_InstantDiffusionSubsTissueExtra;
-  Eigen::MatrixXd m_InstantDiffusionSubsTissueIntra;
-  Eigen::MatrixXd m_DeltaMassInstantVE;
-  Eigen::MatrixXd m_DeltaMassInstantEI;
-  Eigen::MatrixXd m_DeltaMassSimpleVE;
-  Eigen::MatrixXd m_DeltaMassSimpleEI;
 
 };
 }

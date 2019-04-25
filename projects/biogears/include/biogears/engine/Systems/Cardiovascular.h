@@ -14,7 +14,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <biogears/chrono/stop_watch.tci.h>
 #include <biogears/cdm/circuit/fluid/SEFluidCircuitCalculator.h>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
 #include <biogears/cdm/system/physiology/SECardiovascularSystem.h>
@@ -51,8 +50,6 @@ class BIOGEARS_API Cardiovascular : public SECardiovascularSystem, public BioGea
 protected:
   Cardiovascular(BioGears& bg);
   BioGears& m_data;
-  biogears::StopWatch<std::chrono::nanoseconds> cvWatch;
-  double cvCircuitTime;
 
 public:
   virtual ~Cardiovascular() override;;

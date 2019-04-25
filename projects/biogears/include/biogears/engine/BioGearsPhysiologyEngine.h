@@ -176,30 +176,6 @@ namespace tatrc {
         }
       };
 
-      namespace TissueCompartment {
-        DEFINE_STATIC_STRING_EX(Bone, BoneTissue);
-        DEFINE_STATIC_STRING_EX(Brain, BrainTissue);
-        DEFINE_STATIC_STRING_EX(Fat, FatTissue);
-        DEFINE_STATIC_STRING_EX(Gut, GutTissue);
-        DEFINE_STATIC_STRING_EX(LeftKidney, LeftKidneyTissue);
-        DEFINE_STATIC_STRING_EX(LeftLung, LeftLungTissue);
-        DEFINE_STATIC_STRING_EX(Liver, LiverTissue);
-        DEFINE_STATIC_STRING_EX(Muscle, MuscleTissue);
-        DEFINE_STATIC_STRING_EX(Myocardium, MyocardiumTissue);
-        DEFINE_STATIC_STRING_EX(RightKidney, RightKidneyTissue);
-        DEFINE_STATIC_STRING_EX(RightLung, RightLungTissue);
-        DEFINE_STATIC_STRING_EX(Skin, SkinTissue);
-        DEFINE_STATIC_STRING_EX(Spleen, SpleenTissue);
-
-        static const std::vector<std::string>& GetValues()
-        {
-          static std::vector<std::string> _values = {
-            Bone, Brain, Fat, Gut, LeftKidney, LeftLung, Liver, Muscle, Myocardium, RightKidney, RightLung, Skin, Spleen
-          };
-          return _values;
-        }
-      };
-
       namespace TissueLiteCompartment {
         DEFINE_STATIC_STRING_EX(Bone, BoneTissue);
         DEFINE_STATIC_STRING_EX(Brain, BrainTissue);
@@ -216,45 +192,6 @@ namespace tatrc {
         {
           static std::vector<std::string> _values = {
             Bone, Brain, Fat, Gut, Kidney, Liver, Lung, Muscle, Myocardium, Skin
-          };
-          return _values;
-        }
-      };
-
-      namespace ExtravascularCompartment {
-
-        DEFINE_STATIC_STRING_EX(BoneExtracellular, BoneTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(BrainExtracellular, BrainTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(FatExtracellular, FatTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(GutExtracellular, GutTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(LeftKidneyExtracellular, LeftKidneyTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(LeftLungExtracellular, LeftLungTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(LiverExtracellular, LiverTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(MuscleExtracellular, MuscleTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(MyocardiumExtracellular, MyocardiumTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(RightKidneyExtracellular, RightKidneyTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(RightLungExtracellular, RightLungTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(SkinExtracellular, SkinTissueExtracellular);
-        DEFINE_STATIC_STRING_EX(SpleenExtracellular, SpleenTissueExtracellular);
-
-        DEFINE_STATIC_STRING_EX(BoneIntracellular, BoneTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(BrainIntracellular, BrainTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(FatIntracellular, FatTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(GutIntracellular, GutTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(LeftKidneyIntracellular, LeftKidneyTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(LeftLungIntracellular, LeftLungTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(LiverIntracellular, LiverTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(MuscleIntracellular, MuscleTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(MyocardiumIntracellular, MyocardiumTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(RightKidneyIntracellular, RightKidneyTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(RightLungIntracellular, RightLungTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(SkinIntracellular, SkinTissueIntracellular);
-        DEFINE_STATIC_STRING_EX(SpleenIntracellular, SpleenTissueIntracellular);
-
-        static const std::vector<std::string>& GetValues()
-        {
-          static std::vector<std::string> _values = {
-            BoneExtracellular, BrainExtracellular, FatExtracellular, GutExtracellular, LeftKidneyExtracellular, LeftLungExtracellular, LiverExtracellular, MuscleExtracellular, MyocardiumExtracellular, RightKidneyExtracellular, RightLungExtracellular, SkinExtracellular, SpleenExtracellular, BoneIntracellular, BrainIntracellular, FatIntracellular, GutIntracellular, LeftKidneyIntracellular, LeftLungIntracellular, LiverIntracellular, MuscleIntracellular, MyocardiumIntracellular, RightKidneyIntracellular, RightLungIntracellular, SkinIntracellular, SpleenIntracellular
           };
           return _values;
         }
