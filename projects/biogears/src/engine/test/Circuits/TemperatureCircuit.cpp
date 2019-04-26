@@ -698,6 +698,8 @@ void BioGearsEngineTest::EnvironmentISO7730ComparisonTest(const std::string& sTe
   trk.WriteTrackToFile(sOutputFile.c_str());
 }
 
+
+//This test uses less elements for the temperature circuit than in engine to test "Lite" capabilities 
 void BioGearsEngineTest::LiteThermalCircuitTest(const std::string& sTestDirectory)
 {
   //Elements needed for test

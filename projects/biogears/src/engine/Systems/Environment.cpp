@@ -338,7 +338,7 @@ void Environment::CalculateSupplementalValues()
 /// Calculate convection effects
 ///
 /// \details
-/// These computed values will be used in the other feedback methods.
+/// Uses forced and natural convection to determine heat effects on resistor from external to skin
 //--------------------------------------------------------------------------------------------------
 void Environment::CalculateConvectionLite()
 {
@@ -362,7 +362,6 @@ void Environment::CalculateConvectionLite()
   if (dConvectiveHeatTransferCoefficient_WPerM2_K == 0) {
     //Infinite resistance
     dResistance_K_Per_W = 0;
-    //m_data.GetConfiguration().GetDefaultOpenHeatResistance(HeatResistanceUnit::K_Per_W);
   } else {
     dResistance_K_Per_W = dSurfaceArea_m2 / dConvectiveHeatTransferCoefficient_WPerM2_K;
   }
@@ -385,7 +384,6 @@ void Environment::CalculateConvectionLite()
     if (dConvectiveHeatTransferCoefficient_WPerM2_K == 0) {
       //Infinite resistance
       dResistance_K_Per_W = 0;
-      //m_data.GetConfiguration().GetDefaultOpenHeatResistance(HeatResistanceUnit::K_Per_W);
     } else {
       dResistance_K_Per_W = dSurfaceArea_m2 / dConvectiveHeatTransferCoefficient_WPerM2_K;
     }
@@ -411,7 +409,7 @@ void Environment::CalculateConvectionLite()
 /// Calculate evaporation effects on capacitance.
 ///
 /// \details
-/// These computed values will be used in the other feedback methods.
+/// Uses sweat rate to alter skin capacitor and thermal effects on skin node
 //--------------------------------------------------------------------------------------------------
 void Environment::CalculateEvaporationLite()
 {
@@ -450,14 +448,27 @@ void Environment::CalculateEvaporationLite()
 
   //Set the source
   double sweatHeatTransfer = dSurfaceArea_m2 * EvaporativeHeatLossFromSkin_W; //W
-  double skinTemp_C = m_data.GetEnergy().GetSkinTemperature(TemperatureUnit::C);
+  double skinTemp_K = m_data.GetEnergy().GetSkinTemperature(TemperatureUnit::K);
   double coreTemp_C = m_data.GetEnergy().GetCoreTemperature(TemperatureUnit::C);
   double ambTemp_C = GetConditions().GetAmbientTemperature(TemperatureUnit::C);
 
   double currentSkinCapacitor = m_SkinToGroundPath->GetNextCapacitance().GetValue(HeatCapacitanceUnit::J_Per_K);
-  double newCap = 0;
+  double newCap = m_SkinToGroundPath->GetNextCapacitance().GetValue(HeatCapacitanceUnit::J_Per_K);
+  double sweatCapacitorModifier = 0.0;
+  double heatLeft = 0;
   if (coreTemp_C >= 37) {
-    newCap = (1 + (0.75 * m_data.GetEnergy().GetSweatRate(MassPerTimeUnit::kg_Per_s) / (0.00042))) * (currentSkinCapacitor);
+    // Modification of capacitor based on percentage of sweat vs normal maximal sweating rate approximated based on hot/cold and gender variations \cite @Ergol1995Maximal
+    sweatCapacitorModifier = (1 + (0.75 * m_data.GetEnergy().GetSweatRate(MassPerTimeUnit::kg_Per_s) / (0.00042)));
+    if (sweatCapacitorModifier >= 1.025) {
+      //If capacitor change gets too large, remove fraction of excess heat manually from node. Tuned to validate
+      heatLeft = ((sweatCapacitorModifier - 1.025) / 1.025); // percent heat capacitance unaccounted for
+      sweatCapacitorModifier = 1.025;
+      double skinSweatHeatLost_K = 0.0000000572 * heatLeft * EvaporativeHeatLossFromSkin_W / (dSurfaceArea_m2 * dEvaporativeHeatTransferCoefficient_WPerM2_K); //Greatly scaled down (through tuning) to reduce effect directly on node
+      m_data.GetCircuits().GetTemperatureCircuit().GetNode(BGE::ThermalLiteNode::Skin)->GetTemperature().SetReadOnly(false);
+      m_data.GetCircuits().GetTemperatureCircuit().GetNode(BGE::ThermalLiteNode::Skin)->GetTemperature().SetValue(skinTemp_K - skinSweatHeatLost_K, TemperatureUnit::K);
+      m_data.GetCircuits().GetTemperatureCircuit().GetNode(BGE::ThermalLiteNode::Skin)->GetTemperature().SetReadOnly(true);
+    }
+    newCap = sweatCapacitorModifier * (currentSkinCapacitor);
   } else {
     newCap = (m_SkinToGroundPath->GetCapacitanceBaseline(HeatCapacitanceUnit::J_Per_K) + currentSkinCapacitor) / 2;
   }
@@ -481,7 +492,8 @@ void Environment::CalculateEvaporationLite()
 /// Calculate effects of respiration.
 ///
 /// \details
-/// These computed values will be used in the other feedback methods.
+/// This determines the circuit element values and system data outputs associated with respiration
+/// heat transfer based on feedback.
 //--------------------------------------------------------------------------------------------------
 void Environment::CalculateRespirationLite()
 {
@@ -491,7 +503,7 @@ void Environment::CalculateRespirationLite()
     dTempOfRespTract_K = m_data.GetEnergy().GetCoreTemperature(TemperatureUnit::K);
   }
   double dPulmonaryVentilationRate_M3PerS = m_data.GetRespiratory().GetTotalPulmonaryVentilation(VolumePerTimeUnit::m3_Per_s);
-  double dAirDensity_kgPerM3 = GetConditions().GetAirDensity(MassPerVolumeUnit::kg_Per_m3); //1.225
+  double dAirDensity_kgPerM3 = GetConditions().GetAirDensity(MassPerVolumeUnit::kg_Per_m3);
   double dAirSpecificHeat_JPerK_kg = m_data.GetConfiguration().GetAirSpecificHeat(HeatCapacitancePerMassUnit::J_Per_K_kg);
   double dSensibleHeatLoss_W = dPulmonaryVentilationRate_M3PerS * dAirDensity_kgPerM3 * dAirSpecificHeat_JPerK_kg * (dTempOfRespTract_K - dTempOfRespAir_K);
 
@@ -502,14 +514,13 @@ void Environment::CalculateRespirationLite()
   double dSpecificHumidity = (dRelativeHumidity * 100.0) / (0.263 * dPressure_Pa) * (std::exp(17.67 * (dTempOfRespAir_K - 273.16) / (dTempOfRespAir_K - 29.65)));
   double dHumidityDiff = 0.02645 + 0.0000361 * dTempOfRespAir_F - 0.798 * dSpecificHumidity;
 
-  double dLatentHeatLoss_W = m_dHeatOfVaporizationOfWater_J_Per_kg * dPulmonaryVentilationRate_M3PerS * dAirDensity_kgPerM3 * dHumidityDiff; //HeatofVap = 2260000
-  //double test = m_dHeatOfVaporizationOfWater_J_Per_kg;
+  double dLatentHeatLoss_W = m_dHeatOfVaporizationOfWater_J_Per_kg * dPulmonaryVentilationRate_M3PerS * dAirDensity_kgPerM3 * dHumidityDiff;
 
   //Total
   double dTotalHeatLossResp_W = (dSensibleHeatLoss_W + dLatentHeatLoss_W);
 
   //Set the source
-  m_EnvironmentCoreToGroundPath->GetNextHeatSource().SetValue(-dTotalHeatLossResp_W, PowerUnit::W);
+  m_EnvironmentCoreToGroundPath->GetNextHeatSource().SetValue(dTotalHeatLossResp_W, PowerUnit::W);
 
   //Set the total heat lost
   GetRespirationHeatLoss().SetValue(dTotalHeatLossResp_W, PowerUnit::W);

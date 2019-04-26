@@ -94,16 +94,6 @@ bool BioGearsCircuits::Load(const CDM::CircuitManagerData& in)
     Error("BioGearsCircuits::Load could not find circuit : " + std::string(BGE::Circuits::Temperature));
     return false;
   }
-  /*m_InternalTemperatureCircuit = GetThermalCircuit(BGE::Circuits::InternalTemperature);
-  if (m_InternalTemperatureCircuit == nullptr) {
-    Error("BioGearsCircuits::Load could not find circuit : " + std::string(BGE::Circuits::InternalTemperature));
-    return false;
-  }
-  m_ExternalTemperatureCircuit = GetThermalCircuit(BGE::Circuits::ExternalTemperature);
-  if (m_ExternalTemperatureCircuit == nullptr) {
-    Error("BioGearsCircuits::Load could not find circuit : " + std::string(BGE::Circuits::ExternalTemperature));
-    return false;
-  }*/
   return true;
 }
 

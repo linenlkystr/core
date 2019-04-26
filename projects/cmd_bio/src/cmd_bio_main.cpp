@@ -31,12 +31,15 @@
 #include "biogears/cdm/utils/ConfigParser.h"
 #include <biogears/cdm/utils/FileUtils.h>
 
-//!
-//! \brief Reads command line argument and executes corresponding operation
-//! \param argc : Number of command line arguments
-//! \param argv : Pointers to command line arguments
-//! \return int 0 on success, other numbers on failure
-//!
+//--------------------------------------------------------------------------------------------------
+/// \brief
+/// Reads command line argument and executes corresponding operation
+
+/// \details
+/// \param argc : Number of command line arguments
+/// \param argv : Pointers to command line arguments
+/// \return int 0 on success, other numbers on failure
+//--------------------------------------------------------------------------------------------------
 int main(int argc, char** argv)
 {
   biogears::Arguments args(

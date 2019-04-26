@@ -4781,6 +4781,9 @@ void BioGears::SetupLiteTemperature()
   double bloodSpecificHeat_JPerkgK = 3617;
   double alphaScale = 0.95; //tuning parameter for scaling resistance
   double coreToSkinR_K_Per_W;
+  //The heat transfer resistance from the core to the skin is inversely proportional to the skin blood flow.
+  //When skin blood flow increases, then heat transfer resistance decreases leading to more heat transfer from core to skin.
+  //The opposite occurs for skin blood flow decrease.
   coreToSkinR_K_Per_W = 1.0 / (alphaScale * bloodDensity_kgPerm3 * bloodSpecificHeat_JPerkgK * skinBloodFlow_m3Persec);
   //double skinToExternalR_K_Per_W = 5.0;
   double skinToExternalR_K_Per_W = std::pow(20, 5) * std::abs(2.27 / (10.3 + (1.67 * (10 ^ -7) * std::pow((297 + 307) / 2, 3)))); //check this first num
@@ -4794,17 +4797,17 @@ void BioGears::SetupLiteTemperature()
   double ExternalTemp_K = 295.4; //~72F or ~22.25 degC
 
   //Circuit Nodes
-  SEThermalCircuitNode& Ground = cThermal.CreateNode(BGE::ThermalLiteNode::Ground);
+  SEThermalCircuitNode& Ground = cThermal.CreateNode(BGE::ThermalLiteNode::Ground); //Reference Node for Internal thermal connection
   Ground.GetTemperature().SetValue(0.0, TemperatureUnit::K);
   Ground.GetNextTemperature().SetValue(0.0, TemperatureUnit::K);
   cThermal.AddReferenceNode(Ground);
   SEThermalCircuitNode& Core = cThermal.CreateNode(BGE::ThermalLiteNode::Core);
-  Core.GetTemperature().SetValue(37.0, TemperatureUnit::C);
+  Core.GetTemperature().SetValue(37.0, TemperatureUnit::C); //cite Herman2007Physics
   SEThermalCircuitNode& Skin = cThermal.CreateNode(BGE::ThermalLiteNode::Skin);
-  Skin.GetTemperature().SetValue(33.0, TemperatureUnit::C);
+  Skin.GetTemperature().SetValue(33.0, TemperatureUnit::C); //cite Herman2007Physics
   SEThermalCircuitNode& Environment = cThermal.CreateNode(BGE::ThermalLiteNode::Environment);
   Environment.GetTemperature().SetValue(22, TemperatureUnit::C);
-  SEThermalCircuitNode& Ref = cThermal.CreateNode(BGE::ThermalLiteNode::Ref);
+  SEThermalCircuitNode& Ref = cThermal.CreateNode(BGE::ThermalLiteNode::Ref); //Reference Node for External thermal connection
   Ref.GetTemperature().SetValue(0.0, TemperatureUnit::K);
   Ref.GetNextTemperature().SetValue(0.0, TemperatureUnit::K);
   cThermal.AddReferenceNode(Ref);

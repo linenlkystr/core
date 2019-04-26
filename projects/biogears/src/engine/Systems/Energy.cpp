@@ -194,8 +194,6 @@ void Energy::PreProcess()
   CalculateSweatRate();
   UpdateHeatResistance();
   Exercise();
-
-  //m_data.GetDataTrack().Probe("TMR", GetTotalMetabolicRate().GetValue(PowerUnit::kcal_Per_day));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -491,16 +489,13 @@ void Energy::CalculateSweatRate()
   GeneralMath::CalculateWaterDensity(m_skinNode->GetTemperature(), sweatDensity);
   double dehydrationFraction = m_data.GetTissue().GetDehydrationFraction().GetValue();
 
-  //m_data.GetDataTrack().Probe("DehydrationPercent", dehydrationFraction * 100);
-
   //Calculate sweat rate (in kg/s) from core temperature feedback.
   //The sweat rate heat transfer is determined from a control equation that attempts to keep the core temperature in line
   /// \cite herman2008physics
   //Sweat rate decreases as dehydration becomes more severe, with max reduction seen at 10% dehydration
   double dehydrationScalingFactor = GeneralMath::LinearInterpolator(0, .1, 1, 0, dehydrationFraction);
-  double liteSweatTune = 1.0;
   BLIM(dehydrationScalingFactor, 0, 1);
-  double sweatRate_kg_Per_s = (liteSweatTune * dehydrationScalingFactor) * (0.25 * sweatHeatTranferCoefficient_W_Per_K / vaporizationEnergy_J_Per_kg) * (coreTemperature_degC - coreTemperatureHigh_degC);
+  double sweatRate_kg_Per_s = (dehydrationScalingFactor) * (0.4 * sweatHeatTranferCoefficient_W_Per_K / vaporizationEnergy_J_Per_kg) * (coreTemperature_degC - coreTemperatureHigh_degC);
 
   //The Sweat Scaling Factor is caused by changes in the Hyperhidrosis patient parameter to invoke either hyperhidrosis or hypohidrosis
   /// \cite shih1983autonomic
@@ -556,7 +551,7 @@ void Energy::UpdateHeatResistance()
   double bloodDensity_kg_Per_m3 = m_data.GetBloodChemistry().GetBloodDensity().GetValue(MassPerVolumeUnit::kg_Per_m3);
   double bloodSpecificHeat_J_Per_K_kg = m_data.GetBloodChemistry().GetBloodSpecificHeat().GetValue(HeatCapacitancePerMassUnit::J_Per_K_kg);
 
-  double alphaScale = 0.95; //Scaling factor for convective heat transfer from core to skin (35 seems to be near the upper limit before non-stabilization) 0.5
+  double alphaScale = 0.95; //Scaling factor for convective heat transfer from core to skin (35 seems to be near the upper limit before non-stabilization)
 
   //The heat transfer resistance from the core to the skin is inversely proportional to the skin blood flow.
   //When skin blood flow increases, then heat transfer resistance decreases leading to more heat transfer from core to skin.
