@@ -158,16 +158,16 @@ namespace filesystem {
     path make_normal() const
     {
       path working_path;
+      working_path.m_absolute = m_absolute;
+      working_path.m_type = m_type;
       for (auto& segment : m_path) {
         if (segment.empty()) {
 
         } else if (segment == ".") {
-          
-        } else if (segment == "..")
-        {
+
+        } else if (segment == "..") {
           working_path = working_path.parent_path();
-        } else
-        {
+        } else {
           working_path /= segment;
         }
       }
@@ -266,11 +266,16 @@ namespace filesystem {
     }
     path operator/(const path& other) const
     {
-      if (other.m_absolute)
-        throw std::runtime_error("path::operator/(): expected a relative path!");
-      if (m_type != other.m_type)
+      if (other.m_absolute) {
+        if (m_path.empty()) {
+          return other;
+        } else {
+          throw std::runtime_error("path::operator/(): expected a relative path!");
+        }
+      }
+      if (m_type != other.m_type) {
         throw std::runtime_error("path::operator/(): expected a path of the same type!");
-
+      }
       path result(*this);
 
       for (size_t i = 0; i < other.m_path.size(); ++i)
@@ -320,7 +325,10 @@ namespace filesystem {
     void set(const std::string& str, path_type type = native_path)
     {
       m_type = type;
-      if (type == windows_path) {
+      if (str.empty() || std::all_of(str.begin(), str.end(), [](unsigned char c) { return std::isspace(c); })) {
+        m_type = native_path;
+        m_absolute = false;
+      } else if (type == windows_path) {
         std::string tmp = str;
 
         // Long windows paths (sometimes) begin with the prefix \\?\. It should only
@@ -509,6 +517,11 @@ namespace filesystem {
     return p.make_absolute();
   }
 
+  inline path normalize(const path p)
+  {
+    return p.make_normal();
+  }
+
   inline bool is_directory(const path& p)
   {
     return p.is_directory();
@@ -517,3 +530,4 @@ namespace filesystem {
 } //namespace biogears
 
 #endif //BIOGEARS_COMMON_FILESYSTEM_PATH_H
+

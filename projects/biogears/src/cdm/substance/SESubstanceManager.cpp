@@ -290,14 +290,9 @@ bool SESubstanceManager::LoadSubstanceDirectory()
   struct dirent* ent;
 
   ScopedFileSystemLock lock;
-
+  
   std::string workingDirectory = GetCurrentWorkingDirectory();
-
-#if defined(_WIN32)
-  dir = opendir("./substances/");
-#else
-  dir = opendir(std::string(workingDirectory + std::string("/substances/")).c_str());
-#endif
+  dir = opendir(std::string(ResolvePath(std::string("substances/"))).c_str());
 
   if (dir != nullptr) {
     CDM::ObjectData* obj;
@@ -311,15 +306,16 @@ bool SESubstanceManager::LoadSubstanceDirectory()
     std::unique_ptr<CDM::ObjectData> data;
 
     while ((ent = readdir(dir)) != nullptr) {
+      std::cout << ent->d_name << std::endl;
       obj = nullptr;
       sub = nullptr;
       subData = nullptr;
       ss.str("");
-      ss << workingDirectory << "/substances/" << ent->d_name;
+      ss << workingDirectory << "substances/" << ent->d_name;
       if (!IsDirectory(ent) && strlen(ent->d_name) > 2) {
         data = Serializer::ReadFile(ss.str(), GetLogger());
         ss.str("");
-        ss << "Reading substance file : ./substances/" << ent->d_name;
+        ss << "Reading substance file : substances/" << ent->d_name;
         Debug(ss);
         obj = data.release();
         subData = dynamic_cast<CDM::SubstanceData*>(obj);
