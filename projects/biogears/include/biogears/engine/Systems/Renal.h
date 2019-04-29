@@ -17,6 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarMass.h>
 #include <biogears/cdm/system/physiology/SERenalSystem.h>
 #include <biogears/cdm/utils/RunningAverage.h>
+#include <biogears/chrono/stop_watch.tci.h>
 #include <biogears/engine/Controller/BioGearsSystem.h>
 #include <biogears/schema/biogears/BioGearsPhysiology.hxx>
 
@@ -42,13 +43,26 @@ protected:
   Renal(BioGears& bg);
   BioGears& m_data;
 
+  biogears::StopWatch<std::chrono::nanoseconds> renalWatch;
+  double calcRenalTime;
+  biogears::StopWatch<std::chrono::nanoseconds> activeTransportWatch;
+  double calcATTime;
+  biogears::StopWatch<std::chrono::nanoseconds> glucoWatch;
+  double calcGNTime;
+  biogears::StopWatch<std::chrono::nanoseconds> glomWatch;
+  double calcGTTime;
+  biogears::StopWatch<std::chrono::nanoseconds> reabsWatch;
+  double calcRTTime;
+  biogears::StopWatch<std::chrono::nanoseconds> excretionWatch;
+  double calcExcTime;
+
   double m_dt;
 
 public:
   virtual ~Renal() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
-  static constexpr char const * const  TypeTag() { return "Renal"; }
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); } //! Hopefully this returns a unique ID for every type
+  static constexpr char const* const TypeTag() { return "Renal"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
 
@@ -87,7 +101,6 @@ protected:
 
   // Initialization
   void CalculateFilterability(SESubstance& sub);
-  
 
   //Preprocess
   void CalculateUltrafiltrationFeedback();
@@ -113,7 +126,6 @@ protected:
   //Override
   void ProcessOverride();
   void OverrideControlLoop();
-
 
   // Serializable member variables (Set in Initialize and in schema)
   bool m_Urinating;
@@ -249,6 +261,5 @@ protected:
   // Utility/ScratchPads
   SEScalarMass m_spCleared;
   ActiveTransport m_SubstanceTransport;
-
 };
 }

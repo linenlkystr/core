@@ -50,6 +50,18 @@ Renal::Renal(BioGears& bg)
   , m_data(bg)
 {
   Clear();
+  renalWatch.reset();
+  reabsWatch.reset();
+  activeTransportWatch.reset();
+  glucoWatch.reset();
+  glomWatch.reset();
+  excretionWatch.reset();
+  calcRenalTime = 0.0;
+  calcRTTime = 0.0;
+  calcATTime = 0.0;
+  calcGNTime = 0.0;
+  calcGTTime = 0.0;
+  calcExcTime = 0.0;
 }
 
 Renal::~Renal()
@@ -452,6 +464,12 @@ void Renal::AtSteadyState()
     combinedCardiovascularGraph->RemoveLink(BGE::UrineLink::BladderToGroundSource);
     combinedCardiovascularGraph->StateChange();
   }
+  renalWatch.lap();
+  reabsWatch.lap();
+  activeTransportWatch.lap();
+  glomWatch.lap();
+  glucoWatch.lap();
+  excretionWatch.lap();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -467,11 +485,13 @@ void Renal::AtSteadyState()
 //--------------------------------------------------------------------------------------------------
 void Renal::PreProcess()
 {
+  renalWatch.lap();
   CalculateUltrafiltrationFeedback();
   CalculateReabsorptionFeedback();
   CalculateTubuloglomerularFeedback();
   UpdateBladderVolume();
   ProcessActions();
+  calcRenalTime += renalWatch.lap();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -485,9 +505,11 @@ void Renal::PreProcess()
 //--------------------------------------------------------------------------------------------------
 void Renal::Process()
 {
+  renalWatch.lap();
   //Circuit Processing is done on the entire circulatory circuit elsewhere
   CalculateActiveTransport();
   CalculateVitalSigns();
+  calcRenalTime += renalWatch.lap();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -500,6 +522,7 @@ void Renal::Process()
 //--------------------------------------------------------------------------------------------------
 void Renal::PostProcess()
 {
+  renalWatch.lap();
   //Circuit PostProcessing is done on the entire circulatory circuit elsewhere
   if (m_data.GetActions().GetPatientActions().HasOverride()
       && m_data.GetState() == EngineState::Active) {
@@ -507,6 +530,8 @@ void Renal::PostProcess()
       ProcessOverride();
     }
   }
+  calcRenalTime += renalWatch.lap();
+  m_data.GetDataTrack().Probe("RenalTimeInitial(ms)", calcRenalTime / 1e6);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -764,6 +789,7 @@ void Renal::ProcessActions()
 //--------------------------------------------------------------------------------------------------
 void Renal::CalculateActiveTransport()
 {
+  activeTransportWatch.lap();
   m_SubstanceTransport.leftLactateExcretedMass_mg = 0;
   m_SubstanceTransport.rightLactateExcretedMass_mg = 0;
   m_SubstanceTransport.leftGlucoseReabsorptionMass_mg = 0.0;
@@ -777,13 +803,26 @@ void Renal::CalculateActiveTransport()
       continue;
     if (sub->GetClearance().GetRenalDynamic() == RenalDynamic::Regulation) {
       //This is the generic methodology
+
+      glomWatch.lap();
       CalculateGlomerularTransport(*sub);
+      calcGTTime += glomWatch.lap();
+      m_data.GetDataTrack().Probe("GlomerularTransportTimeInitial(ms)", calcGTTime / 1e6);
+
+      reabsWatch.lap();
       CalculateReabsorptionTransport(*sub);
+      calcRTTime += reabsWatch.lap();
+      m_data.GetDataTrack().Probe("ReabsorptionTimeInitial(ms)", calcRTTime / 1e6);
+
       if (sub == m_potassium) {
         CalculateSecretion();
       }
 
+      excretionWatch.lap();
       CalculateExcretion(*sub);
+      calcExcTime += excretionWatch.lap();
+      m_data.GetDataTrack().Probe("ExcretionTimeInitial(ms)", calcExcTime / 1e6);
+
     } else if (sub->GetClearance().GetRenalDynamic() == RenalDynamic::Clearance) {
       //This bypasses the generic methodology and just automatically clears
       CalculateAutomaticClearance(*sub);
@@ -794,7 +833,13 @@ void Renal::CalculateActiveTransport()
   }
 
   //Convert excreted Lactate to Glucose
+  glucoWatch.lap();
   CalculateGluconeogenesis();
+  calcGNTime += glucoWatch.lap();
+  m_data.GetDataTrack().Probe("GluconeogenesisTimeInitial(ms)", calcGNTime / 1e6);
+
+  calcATTime += activeTransportWatch.lap();
+  m_data.GetDataTrack().Probe("ActiveTransportTimeInitial(ms)", calcATTime / 1e6);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1638,7 +1683,6 @@ bool Renal::CalculateUrinalysis(SEUrinalysis& u)
   //u.SetLeukocyteEsterase();
 
   // We do not support Microscopic analysis at this time
-
   return true;
 }
 
