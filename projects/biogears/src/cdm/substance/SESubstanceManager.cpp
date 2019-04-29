@@ -323,7 +323,6 @@ bool SESubstanceManager::LoadSubstanceDirectory()
     std::unique_ptr<CDM::ObjectData> data;
 
     while ((ent = readdir(dir)) != nullptr) {
-      std::cout << ent->d_name << std::endl;
       obj = nullptr;
       sub = nullptr;
       subData = nullptr;

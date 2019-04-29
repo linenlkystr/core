@@ -79,7 +79,6 @@ void Energy::Clear()
   m_temperatureGroundToCorePath = nullptr;
   m_coreToSkinPath = nullptr;
   m_skinExtravascularToSweatingGroundPath = nullptr;
-  m_InternalTemperatureCircuit = nullptr;
   m_TemperatureCircuit = nullptr;
 
   m_BloodpH.Reset();
@@ -169,8 +168,8 @@ void Energy::SetUp()
   m_coreNode = m_TemperatureCircuit->GetNode(BGE::ThermalLiteNode::Core);
   m_skinNode = m_TemperatureCircuit->GetNode(BGE::ThermalLiteNode::Skin);
   //Paths
-  m_temperatureGroundToCorePath = m_InternalTemperatureCircuit->GetPath(BGE::InternalTemperaturePath::GroundToInternalCore);
-  m_coreToSkinPath = m_InternalTemperatureCircuit->GetPath(BGE::InternalTemperaturePath::InternalCoreToInternalSkin);
+  m_temperatureGroundToCorePath = m_TemperatureCircuit->GetPath(BGE::ThermalLitePath::GroundToCore);
+  m_coreToSkinPath = m_TemperatureCircuit->GetPath(BGE::ThermalLitePath::CoreToSkin);
   m_skinExtravascularToSweatingGroundPath = m_data.GetCircuits().GetActiveCardiovascularCircuit().GetPath(BGE::TissueLitePath::SkinSweating);
 }
 

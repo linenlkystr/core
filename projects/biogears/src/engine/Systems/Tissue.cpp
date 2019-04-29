@@ -213,6 +213,10 @@ void Tissue::SetUp()
 {
   m_Dt_s = m_data.GetTimeStep().GetValue(TimeUnit::s);
   m_Patient = &m_data.GetPatient();
+  //Initialize the Diffusion calculator here because it depends on all tissues being fully defined.  Placement here ensures that Diffusion gets set up
+  //correctly whether you are initializing a new engine or loading a state.
+  m_data.GetDiffusionCalculator().Initialize(m_data.GetSubstances());
+
   //"Reusable" protein stores are usually about 1% of total body protein, ~110 g (https://www.nap.edu/read/10490/chapter/12#595)
   m_maxProteinStorage_g = 110;
 

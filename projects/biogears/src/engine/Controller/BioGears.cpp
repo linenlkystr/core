@@ -175,7 +175,8 @@ bool BioGears::Initialize(const PhysiologyEngineConfiguration* config)
 
   Info("Initializing Substances");
   m_Substances->InitializeSubstances(); // Sets all concentrations and such of all substances for all compartments, need to do this after we figure out what's in the environment
-  m_DiffusionCalculator->Initialize(*m_Substances);
+
+  //Note:  Diffusion Calculator is initialized in Tissue::SetUp because it depends on so many Tissue parameters
 
   Info("Initializing Systems");
   m_CardiovascularSystem->Initialize();
@@ -702,12 +703,20 @@ bool BioGears::SetupPatient()
   double tidalVolume_L = 37.0 * weight_kg / 1000.0 - functionalResidualCapacity_L;
   double targetVent_L_Per_min = tidalVolume_L * respirationRate_bpm;
   m_Patient->GetTotalVentilationBaseline().SetValue(targetVent_L_Per_min, VolumePerTimeUnit::L_Per_min);
+  //\ToDo:  Could probably optimze further by having taking gender into account
   //Stabilization goes faster if we start the driver with a good amplitude that pushes blood gas levels to setpoint.
-  //Based off testing, this relationship holds up well between RR = 12 and RR = 16.  Can stabilize up to RR = 20, but not as quickly (slope decreases from 0.25 to 0.125).
-  double baselineDriverPressure_cmH2O = -5.75 + 0.25 * (respirationRate_bpm - 12.0);
-  
+  //Based off testing, this relationship holds up well between RR = 12 and RR = 16 for Standard Male.  
+  double baselineDriverPressure_cmH2O = -5.8 + 0.25 * (respirationRate_bpm - 12.0);
+  //Adjust driver pressure relationship for respiration rates > 16 (slope of driver - RR line decreases)
+  if (respirationRate_bpm > 16.0) {
+    //-4.3 = driver pressure at 18 bpm. 
+    baselineDriverPressure_cmH2O = -4.8 + 0.125 * (respirationRate_bpm - 16);
+  }
+  //Scale target pressure as ratio of calculated FRC to Standard Male FRC
+  double standardFRC_L = 2.31332;
+  baselineDriverPressure_cmH2O *= functionalResidualCapacity_L / standardFRC_L;
 
-  BLIM(baselineDriverPressure_cmH2O, -5.75, -3.5);
+  BLIM(baselineDriverPressure_cmH2O, -5.8, -3.5);
   m_Patient->GetRespiratoryDriverAmplitudeBaseline().SetValue(baselineDriverPressure_cmH2O, PressureUnit::cmH2O);
 
   double vitalCapacity = totalLungCapacity_L - residualVolume_L;
@@ -1038,10 +1047,9 @@ bool BioGears::CreateCircuitsAndCompartments()
   ///////////////////////////////////////////////////////////////////
   SEThermalCircuit& cThermal = m_Circuits->GetTemperatureCircuit();
 
-    SetupLiteTemperature();
-    cThermal.SetNextAndCurrentFromBaselines();
-    cThermal.StateChange();
-  
+  SetupLiteTemperature();
+  cThermal.SetNextAndCurrentFromBaselines();
+  cThermal.StateChange();
 
   // This node is shared between the respiratory, anesthesia, and inhaler circuits
   SEFluidCircuitNode& Ambient = m_Circuits->CreateFluidNode(BGE::EnvironmentNode::Ambient);
@@ -3896,7 +3904,6 @@ void BioGears::SetupTissue()
   gCombinedCardiovascular.AddCompartment(SkinExtracellular);
 
   gCombinedCardiovascular.StateChange();
-  
 }
 
 void BioGears::SetupRespiratory()
@@ -4514,7 +4521,7 @@ void BioGears::SetupLiteTemperature()
   //Capacitances
   double skinMassFraction = 0.09; //0.09 is fraction of mass that the skin takes up in a typical human /cite herman2006physics
   double capCore_J_Per_K = (1.0 - skinMassFraction) * m_Patient->GetWeight(MassUnit::kg) * GetConfiguration().GetBodySpecificHeat(HeatCapacitancePerMassUnit::J_Per_K_kg);
-  double capSkin_J_per_K = skinMassFraction * m_Patient->GetWeight(MassUnit::kg) * GetConfiguration().GetBodySpecificHeat(HeatCapacitancePerMassUnit::J_Per_K_kg); 
+  double capSkin_J_per_K = skinMassFraction * m_Patient->GetWeight(MassUnit::kg) * GetConfiguration().GetBodySpecificHeat(HeatCapacitancePerMassUnit::J_Per_K_kg);
   //Resistances
   double skinBloodFlow_m3Persec = 4.97E-06;
   double bloodDensity_kgPerm3 = 1050;
@@ -4565,7 +4572,7 @@ void BioGears::SetupLiteTemperature()
   //skinToGround.GetCapacitanceBaseline().SetValue(capSkin_J_per_K, HeatCapacitanceUnit::J_Per_K);
   skinToGround.GetCapacitanceBaseline().SetValue(capSkin_J_per_K, HeatCapacitanceUnit::J_Per_K);
   Skin.GetHeatBaseline().SetValue(skinToGround.GetCapacitanceBaseline().GetValue(HeatCapacitanceUnit::J_Per_K) * Skin.GetTemperature().GetValue(TemperatureUnit::K), EnergyUnit::J);
-  
+
   SEThermalCircuitPath& refToExternal = cThermal.CreatePath(Ref, Environment, BGE::ThermalLitePath::RefToEnvironment);
   refToExternal.GetTemperatureSourceBaseline().SetValue(0.0, TemperatureUnit::K);
   SEThermalCircuitPath& externalToSkin = cThermal.CreatePath(Environment, Skin, BGE::ThermalLitePath::EnvironmentToSkin);

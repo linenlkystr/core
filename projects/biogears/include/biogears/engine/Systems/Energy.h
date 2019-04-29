@@ -114,7 +114,6 @@ private:
   SEThermalCircuitPath* m_coreToSkinPath;
   SEFluidCircuitPath* m_skinExtravascularToSweatingGroundPath;
   //Circuits
-  SEThermalCircuit* m_InternalTemperatureCircuit;
   SEThermalCircuit* m_TemperatureCircuit;
   SEThermalCircuitCalculator m_circuitCalculator;
 
