@@ -217,7 +217,13 @@ void BioGearsCompartments::StateChange()
   }
   if (m_data.GetConfiguration().IsRenalEnabled())
     SORT_CMPTS(Urine, Liquid);
-  SORT_CMPTS(Vascular, Liquid);
+
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    SORT_CMPTS(Vascular, Liquid);
+  } else {
+    SORT_CMPTS_LITE(Vascular, Liquid);
+  }
+  
   // Equipment
   SORT_CMPTS(AnesthesiaMachine, Gas);
   SORT_CMPTS(Inhaler, Gas);

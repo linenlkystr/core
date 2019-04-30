@@ -230,8 +230,6 @@ namespace tatrc {
         }
       };
 
-
-
       namespace VascularCompartment {
 
         // Cardio
@@ -300,6 +298,77 @@ namespace tatrc {
         {
           static std::vector<std::string> _values = {
             Aorta, Heart, Myocardium, LeftHeart, RightHeart, Pericardium, VenaCava, PulmonaryArteries, PulmonaryCapillaries, PulmonaryVeins, Lungs, LeftLung, LeftPulmonaryArteries, LeftPulmonaryCapillaries, LeftPulmonaryVeins, RightLung, RightPulmonaryArteries, RightPulmonaryCapillaries, RightPulmonaryVeins, Kidneys, LeftKidney, LeftRenalArtery, LeftNephron, LeftAfferentArteriole, LeftGlomerularCapillaries, LeftEfferentArteriole, LeftPeritubularCapillaries, LeftBowmansCapsules, LeftTubules, LeftRenalVein, RightKidney, RightRenalArtery, RightNephron, RightAfferentArteriole, RightGlomerularCapillaries, RightEfferentArteriole, RightPeritubularCapillaries, RightBowmansCapsules, RightTubules, RightRenalVein, Bone, Brain, Fat, Gut, Splanchnic, SmallIntestine, LargeIntestine, Liver, Spleen, Skin, Muscle, LeftArm, LeftLeg, RightArm, RightLeg
+            //,Ground
+          };
+          return _values;
+        }
+      };
+
+      namespace VascularLiteCompartment {
+        // Cardio
+        DEFINE_STATIC_STRING(Aorta);
+        DEFINE_STATIC_STRING(Heart);
+        DEFINE_STATIC_STRING_EX(Myocardium, MyocardiumVasculature);
+        DEFINE_STATIC_STRING(LeftHeart);
+        DEFINE_STATIC_STRING(RightHeart);
+        DEFINE_STATIC_STRING(Pericardium);
+        DEFINE_STATIC_STRING(VenaCava);
+        // Pulmonary
+        DEFINE_STATIC_STRING(PulmonaryArteries);
+        DEFINE_STATIC_STRING(PulmonaryCapillaries);
+        DEFINE_STATIC_STRING(PulmonaryVeins);
+        DEFINE_STATIC_STRING_EX(Lungs, LungVasculature);
+        DEFINE_STATIC_STRING_EX(LeftLung, LeftLungVasculature);
+        DEFINE_STATIC_STRING(LeftPulmonaryArteries);
+        DEFINE_STATIC_STRING(LeftPulmonaryCapillaries);
+        DEFINE_STATIC_STRING(LeftPulmonaryVeins);
+        DEFINE_STATIC_STRING_EX(RightLung, RightLungVasculature);
+        DEFINE_STATIC_STRING(RightPulmonaryArteries);
+        DEFINE_STATIC_STRING(RightPulmonaryCapillaries);
+        DEFINE_STATIC_STRING(RightPulmonaryVeins);
+        // Renal
+        DEFINE_STATIC_STRING_EX(Kidneys, KidneyVasculature);
+        DEFINE_STATIC_STRING_EX(LeftKidney, LeftKidneyVasculature);
+        DEFINE_STATIC_STRING(LeftRenalArtery);
+        DEFINE_STATIC_STRING(LeftNephron);
+        DEFINE_STATIC_STRING(LeftAfferentArteriole);
+        DEFINE_STATIC_STRING(LeftGlomerularCapillaries);
+        DEFINE_STATIC_STRING(LeftEfferentArteriole);
+        DEFINE_STATIC_STRING(LeftPeritubularCapillaries);
+        DEFINE_STATIC_STRING(LeftBowmansCapsules);
+        DEFINE_STATIC_STRING(LeftTubules);
+        DEFINE_STATIC_STRING(LeftRenalVein);
+        DEFINE_STATIC_STRING_EX(RightKidney, RightKidneyVasculature);
+        DEFINE_STATIC_STRING(RightRenalArtery);
+        DEFINE_STATIC_STRING(RightNephron);
+        DEFINE_STATIC_STRING(RightAfferentArteriole);
+        DEFINE_STATIC_STRING(RightGlomerularCapillaries);
+        DEFINE_STATIC_STRING(RightEfferentArteriole);
+        DEFINE_STATIC_STRING(RightPeritubularCapillaries);
+        DEFINE_STATIC_STRING(RightBowmansCapsules);
+        DEFINE_STATIC_STRING(RightTubules);
+        DEFINE_STATIC_STRING(RightRenalVein);
+        // General Organs and Periphery
+        DEFINE_STATIC_STRING_EX(Bone, BoneVasculature);
+        DEFINE_STATIC_STRING_EX(Brain, BrainVasculature);
+        DEFINE_STATIC_STRING_EX(Fat, FatVasculature);
+        DEFINE_STATIC_STRING_EX(Gut, GutVasculature);
+        DEFINE_STATIC_STRING_EX(Splanchnic, SplanchnicVasculature);
+        DEFINE_STATIC_STRING_EX(SmallIntestine, SmallIntestineVasculature);
+        DEFINE_STATIC_STRING_EX(LargeIntestine, LargeIntestineVasculature);
+        DEFINE_STATIC_STRING_EX(Liver, LiverVasculature);
+        DEFINE_STATIC_STRING_EX(Spleen, SpleenVasculature);
+        DEFINE_STATIC_STRING_EX(Skin, SkinVasculature);
+        DEFINE_STATIC_STRING_EX(Muscle, MuscleVasculature);
+        DEFINE_STATIC_STRING_EX(Arms, ArmsVasculature);
+        DEFINE_STATIC_STRING_EX(Legs, LegsVasculature);
+
+        DEFINE_STATIC_STRING(Ground);
+
+        static const std::vector<std::string>& GetValues()
+        {
+          static std::vector<std::string> _values = {
+            Aorta, Heart, Myocardium, LeftHeart, RightHeart, Pericardium, VenaCava, PulmonaryArteries, PulmonaryCapillaries, PulmonaryVeins, Lungs, LeftLung, LeftPulmonaryArteries, LeftPulmonaryCapillaries, LeftPulmonaryVeins, RightLung, RightPulmonaryArteries, RightPulmonaryCapillaries, RightPulmonaryVeins, Kidneys, LeftKidney, LeftRenalArtery, LeftNephron, LeftAfferentArteriole, LeftGlomerularCapillaries, LeftEfferentArteriole, LeftPeritubularCapillaries, LeftBowmansCapsules, LeftTubules, LeftRenalVein, RightKidney, RightRenalArtery, RightNephron, RightAfferentArteriole, RightGlomerularCapillaries, RightEfferentArteriole, RightPeritubularCapillaries, RightBowmansCapsules, RightTubules, RightRenalVein, Bone, Brain, Fat, Gut, Splanchnic, SmallIntestine, LargeIntestine, Liver, Spleen, Skin, Muscle, Arms, Legs
             //,Ground
           };
           return _values;
@@ -448,6 +517,111 @@ namespace tatrc {
         }
       };
 
+    namespace VascularLiteLink {
+        // Heart and Lungs
+        DEFINE_STATIC_STRING(VenaCavaToRightHeart);
+        DEFINE_STATIC_STRING(RightHeartToLeftPulmonaryArteries);
+        DEFINE_STATIC_STRING(LeftPulmonaryArteriesToCapillaries);
+        DEFINE_STATIC_STRING(LeftPulmonaryArteriesToVeins);
+        DEFINE_STATIC_STRING(LeftPulmonaryCapillariesToVeins);
+        DEFINE_STATIC_STRING(LeftPulmonaryVeinsToLeftHeart);
+        DEFINE_STATIC_STRING(RightHeartToRightPulmonaryArteries);
+        DEFINE_STATIC_STRING(RightPulmonaryArteriesToCapillaries);
+        DEFINE_STATIC_STRING(RightPulmonaryArteriesToVeins);
+        DEFINE_STATIC_STRING(RightPulmonaryCapillariesToVeins);
+        DEFINE_STATIC_STRING(RightPulmonaryVeinsToLeftHeart);
+        DEFINE_STATIC_STRING(LeftHeartToAorta);
+        // Arm
+        DEFINE_STATIC_STRING(AortaToArms);
+        DEFINE_STATIC_STRING(ArmsToVenaCava);
+        // Bone
+        DEFINE_STATIC_STRING(AortaToBone);
+        DEFINE_STATIC_STRING(BoneToVenaCava);
+        // Brain
+        DEFINE_STATIC_STRING(AortaToBrain);
+        DEFINE_STATIC_STRING(BrainToVenaCava);
+        // Fat
+        DEFINE_STATIC_STRING(AortaToFat);
+        DEFINE_STATIC_STRING(FatToVenaCava);
+        // Large Intestine
+        DEFINE_STATIC_STRING(AortaToLargeIntestine);
+        DEFINE_STATIC_STRING(LargeIntestineToLiver);
+        // Left Kidney
+        DEFINE_STATIC_STRING(AortaToLeftKidney);
+        DEFINE_STATIC_STRING(LeftKidneyToVenaCava);
+        // Leg
+        DEFINE_STATIC_STRING(AortaToLegs);
+        DEFINE_STATIC_STRING(LegsToVenaCava);
+        // Liver
+        DEFINE_STATIC_STRING(AortaToLiver);
+        DEFINE_STATIC_STRING(LiverToVenaCava);
+        // Muscle
+        DEFINE_STATIC_STRING(AortaToMuscle);
+        DEFINE_STATIC_STRING(MuscleToVenaCava);
+        // Myocardium
+        DEFINE_STATIC_STRING(AortaToMyocardium);
+        DEFINE_STATIC_STRING(MyocardiumToVenaCava);
+        // Right Kidney
+        DEFINE_STATIC_STRING(AortaToRightKidney);
+        DEFINE_STATIC_STRING(RightKidneyToVenaCava);
+        // Skin
+        DEFINE_STATIC_STRING(AortaToSkin);
+        DEFINE_STATIC_STRING(SkinToVenaCava);
+        // Small Intestine
+        DEFINE_STATIC_STRING(AortaToSmallIntestine);
+        DEFINE_STATIC_STRING(SmallIntestineToLiver);
+        // Splanchnic
+        DEFINE_STATIC_STRING(AortaToSplanchnic);
+        DEFINE_STATIC_STRING(SplanchnicToLiver);
+        // Spleen
+        DEFINE_STATIC_STRING(AortaToSpleen);
+        DEFINE_STATIC_STRING(SpleenToLiver);
+
+        // Hemorrhage and IV
+        DEFINE_STATIC_STRING(VenaCavaIV);
+        DEFINE_STATIC_STRING(VenaCavaHemorrhage);
+        DEFINE_STATIC_STRING(AortaHemorrhage);
+        DEFINE_STATIC_STRING(ArmsHemorrhage);
+        DEFINE_STATIC_STRING(GutHemorrhage);
+        DEFINE_STATIC_STRING(LegsHemorrhage);
+
+
+        // Renal Links
+        // Reusing 'AortaToLeftKidney' to connect the Aorta To Left Renal Artery
+        DEFINE_STATIC_STRING(LeftRenalArteryToAfferentArteriole);
+        DEFINE_STATIC_STRING(LeftAfferentArterioleToGlomerularCapillaries);
+        DEFINE_STATIC_STRING(LeftGlomerularCapillariesToEfferentArteriole);
+        DEFINE_STATIC_STRING(LeftGlomerularCapillariesToBowmansCapsules);
+        DEFINE_STATIC_STRING(LeftBowmansCapsulesToTubules);
+        DEFINE_STATIC_STRING(LeftTubulesToPeritubularCapillaries);
+        DEFINE_STATIC_STRING(LeftEfferentArterioleToPeritubularCapillaries);
+        DEFINE_STATIC_STRING(LeftPeritubularCapillariesToRenalVein);
+        // Reusing 'LeftKidneyToVenaCava' to connect the Left Renal Vein To Vena Cava
+
+        // Reusing 'AortaToRightKidney' to connect the Aorta To Right Renal Artery
+        DEFINE_STATIC_STRING(RightRenalArteryToAfferentArteriole);
+        DEFINE_STATIC_STRING(RightAfferentArterioleToGlomerularCapillaries);
+        DEFINE_STATIC_STRING(RightGlomerularCapillariesToEfferentArteriole);
+        DEFINE_STATIC_STRING(RightGlomerularCapillariesToBowmansCapsules);
+        DEFINE_STATIC_STRING(RightBowmansCapsulesToTubules);
+        DEFINE_STATIC_STRING(RightTubulesToPeritubularCapillaries);
+        DEFINE_STATIC_STRING(RightEfferentArterioleToPeritubularCapillaries);
+        DEFINE_STATIC_STRING(RightPeritubularCapillariesToRenalVein);
+        // Reusing 'RightKidneyToVenaCava' to connect the Right Renal Vein To Vena Cava);
+
+        static const std::vector<std::string>& GetValues()
+        {
+          static std::vector<std::string> _values = {
+            VenaCavaToRightHeart, RightHeartToLeftPulmonaryArteries, LeftPulmonaryArteriesToCapillaries, LeftPulmonaryArteriesToVeins, LeftPulmonaryCapillariesToVeins, LeftPulmonaryVeinsToLeftHeart, RightHeartToRightPulmonaryArteries, RightPulmonaryArteriesToCapillaries, RightPulmonaryArteriesToVeins, RightPulmonaryCapillariesToVeins, RightPulmonaryVeinsToLeftHeart, LeftHeartToAorta, AortaToBone, BoneToVenaCava, AortaToBrain, BrainToVenaCava, AortaToFat, FatToVenaCava, AortaToLargeIntestine, LargeIntestineToLiver, AortaToArms, ArmsToVenaCava, AortaToLeftKidney, LeftKidneyToVenaCava, AortaToLegs, LegsToVenaCava, AortaToLiver, LiverToVenaCava, AortaToMuscle, MuscleToVenaCava, AortaToMyocardium, MyocardiumToVenaCava, AortaToRightKidney, RightKidneyToVenaCava, AortaToSkin, SkinToVenaCava, AortaToSmallIntestine, SmallIntestineToLiver, AortaToSplanchnic, SplanchnicToLiver, AortaToSpleen, SpleenToLiver
+            ,
+            LeftRenalArteryToAfferentArteriole, LeftAfferentArterioleToGlomerularCapillaries, LeftGlomerularCapillariesToEfferentArteriole, LeftGlomerularCapillariesToBowmansCapsules, LeftBowmansCapsulesToTubules, LeftTubulesToPeritubularCapillaries, LeftEfferentArterioleToPeritubularCapillaries, LeftPeritubularCapillariesToRenalVein, RightRenalArteryToAfferentArteriole, RightAfferentArterioleToGlomerularCapillaries, RightGlomerularCapillariesToEfferentArteriole, RightGlomerularCapillariesToBowmansCapsules, RightBowmansCapsulesToTubules, RightTubulesToPeritubularCapillaries, RightEfferentArterioleToPeritubularCapillaries, RightPeritubularCapillariesToRenalVein
+            ,
+            VenaCavaHemorrhage, ArmsHemorrhage, LegsHemorrhage, GutHemorrhage, AortaHemorrhage
+          };
+          return _values;
+        }
+      };
+
       namespace UrineCompartment {
 
         DEFINE_STATIC_STRING(Ureters);
@@ -546,7 +720,6 @@ namespace tatrc {
         }
       };
 
-
       namespace TemperatureLink {
 
         DEFINE_STATIC_STRING(ActiveToClothing);
@@ -588,41 +761,41 @@ namespace tatrc {
         }
       };
 
-namespace TemperatureLiteCompartment {
+      namespace TemperatureLiteCompartment {
 
-  DEFINE_STATIC_STRING(Core);
-  DEFINE_STATIC_STRING(Environment);
-  DEFINE_STATIC_STRING(Skin);
-  DEFINE_STATIC_STRING(Ground);
-  DEFINE_STATIC_STRING(Ref);
+        DEFINE_STATIC_STRING(Core);
+        DEFINE_STATIC_STRING(Environment);
+        DEFINE_STATIC_STRING(Skin);
+        DEFINE_STATIC_STRING(Ground);
+        DEFINE_STATIC_STRING(Ref);
 
-  static const std::vector<std::string>& GetValues()
-  {
-    static std::vector<std::string> _values = {
-      Core, Environment, Skin, Ground, Ref
-    };
-    return _values;
-  }
-};
+        static const std::vector<std::string>& GetValues()
+        {
+          static std::vector<std::string> _values = {
+            Core, Environment, Skin, Ground, Ref
+          };
+          return _values;
+        }
+      };
 
-namespace TemperatureLiteLink {
+      namespace TemperatureLiteLink {
 
-  DEFINE_STATIC_STRING(CoreToRef); //Respiration
-  DEFINE_STATIC_STRING(RefToEnvironment); //TempSource
-  DEFINE_STATIC_STRING(EnvironmentToSkin); //Resistor
-  DEFINE_STATIC_STRING(GroundToCore); //Metabolism
-  DEFINE_STATIC_STRING(CoreToSkin); //Resistor
-  DEFINE_STATIC_STRING(CoreToGround); //Capacitor
-  DEFINE_STATIC_STRING(SkinToGround); //Capacitor
+        DEFINE_STATIC_STRING(CoreToRef); //Respiration
+        DEFINE_STATIC_STRING(RefToEnvironment); //TempSource
+        DEFINE_STATIC_STRING(EnvironmentToSkin); //Resistor
+        DEFINE_STATIC_STRING(GroundToCore); //Metabolism
+        DEFINE_STATIC_STRING(CoreToSkin); //Resistor
+        DEFINE_STATIC_STRING(CoreToGround); //Capacitor
+        DEFINE_STATIC_STRING(SkinToGround); //Capacitor
 
-  static const std::vector<std::string>& GetValues()
-  {
-    static std::vector<std::string> _values = {
-      CoreToRef, RefToEnvironment, EnvironmentToSkin, GroundToCore, CoreToSkin, CoreToGround, SkinToGround
-    };
-    return _values;
-  }
-};
+        static const std::vector<std::string>& GetValues()
+        {
+          static std::vector<std::string> _values = {
+            CoreToRef, RefToEnvironment, EnvironmentToSkin, GroundToCore, CoreToSkin, CoreToGround, SkinToGround
+          };
+          return _values;
+        }
+      };
 
       namespace AnesthesiaMachineCompartment {
 
