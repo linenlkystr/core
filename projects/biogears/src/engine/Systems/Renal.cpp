@@ -331,6 +331,20 @@ void Renal::SetUp()
   m_rightBowmans = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightBowmansCapsules);
   m_rightTubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightTubules);
 
+  if (m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    m_aorta = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::Aorta);
+    m_venaCava = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::VenaCava);
+
+    m_leftGlomerular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::LeftGlomerularCapillaries);
+    m_leftPeritubular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::LeftPeritubularCapillaries);
+    m_leftBowmans = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::LeftBowmansCapsules);
+    m_leftTubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::LeftTubules);
+    m_rightGlomerular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::RightGlomerularCapillaries);
+    m_rightPeritubular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::RightPeritubularCapillaries);
+    m_rightBowmans = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::RightBowmansCapsules);
+    m_rightTubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::RightTubules);
+  }
+
   m_bladder = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::Bladder);
   m_leftUreter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::LeftUreter);
   m_rightUreter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::RightUreter);

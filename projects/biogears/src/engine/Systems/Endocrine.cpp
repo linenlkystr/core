@@ -86,6 +86,11 @@ void Endocrine::SetUp()
   SELiquidCompartment* aorta = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Aorta);
   SELiquidCompartment* rkidney = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightEfferentArteriole);
   SELiquidCompartment* lkidney = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftEfferentArteriole);
+  if (m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    aorta = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::Aorta);
+    rkidney = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::RightEfferentArteriole);
+    lkidney = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::LeftEfferentArteriole);
+  }
   m_aortaEpinephrine = aorta->GetSubstanceQuantity(m_data.GetSubstances().GetEpi());
   m_rKidneyEpinephrine = rkidney->GetSubstanceQuantity(m_data.GetSubstances().GetEpi());
   m_lKidneyEpinephrine = lkidney->GetSubstanceQuantity(m_data.GetSubstances().GetEpi());
@@ -94,8 +99,15 @@ void Endocrine::SetUp()
   m_insulinMolarMass_g_Per_mol = insulin->GetMolarMass(MassPerAmountUnit::g_Per_mol);
   SESubstance* glucagon = &m_data.GetSubstances().GetGlucagon();
   m_glucagonMolarMass_g_Per_mol = glucagon->GetMolarMass(MassPerAmountUnit::g_Per_mol);
-  m_splanchnicInsulin = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Splanchnic)->GetSubstanceQuantity(*insulin);
-  m_splanchnicGlucagon = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Splanchnic)->GetSubstanceQuantity(*glucagon);
+
+  if (!m_data.GetConfiguration().IsBioGearsLiteEnabled()) {
+    m_splanchnicInsulin = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Splanchnic)->GetSubstanceQuantity(*insulin);
+    m_splanchnicGlucagon = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Splanchnic)->GetSubstanceQuantity(*glucagon);
+  } else {
+    m_splanchnicInsulin = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::Gut)->GetSubstanceQuantity(*insulin);
+    m_splanchnicGlucagon = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::Gut)->GetSubstanceQuantity(*glucagon);
+  }
+ 
 }
 
 void Endocrine::AtSteadyState()
