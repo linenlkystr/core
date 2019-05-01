@@ -104,6 +104,7 @@ protected:
 
   double PerfusionLimitedDiffusion(SETissueCompartment& tissue, SELiquidCompartment& vascular, const SESubstance& sub, double partitionCoeff, double timestep_s);
   void AlveolarPartialPressureGradientDiffusion(SEGasCompartment& pulmonary, SELiquidCompartment& vascular, SESubstance& sub, double DiffusingCapacityO2_mL_Per_s_mmHg, double timestep_s);
+  void OtherDiffusion();
 
   double MoveMassBySimpleDiffusion(SELiquidCompartment& source, SELiquidCompartment& target, const SESubstance& sub, double permeabilityCofficient_mL_Per_s, double timestep_s);
   double MoveMassByFacilitatedDiffusion(SELiquidCompartment& source, SELiquidCompartment& target, const SESubstance& sub, double combinedCoefficient_g_Per_s, double timestep_s);
@@ -117,8 +118,6 @@ protected:
   double SodiumPotassiumPump(double intraNa_mM, double extraNa_mM, double extraK_mM, double potential_V);
   double CalciumPump(double intraCa_M);
 
-  //Test diffusion methods
-  void OtherDiffusion();
 
   //Override
   void ProcessOverride();

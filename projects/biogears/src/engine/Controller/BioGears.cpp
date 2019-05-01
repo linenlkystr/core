@@ -703,13 +703,13 @@ bool BioGears::SetupPatient()
   double tidalVolume_L = 37.0 * weight_kg / 1000.0 - functionalResidualCapacity_L;
   double targetVent_L_Per_min = tidalVolume_L * respirationRate_bpm;
   m_Patient->GetTotalVentilationBaseline().SetValue(targetVent_L_Per_min, VolumePerTimeUnit::L_Per_min);
-  //\ToDo:  Could probably optimze further by having taking gender into account
+  //\ToDo:  Could probably optimze further by taking gender into account
   //Stabilization goes faster if we start the driver with a good amplitude that pushes blood gas levels to setpoint.
   //Based off testing, this relationship holds up well between RR = 12 and RR = 16 for Standard Male.  
   double baselineDriverPressure_cmH2O = -5.8 + 0.25 * (respirationRate_bpm - 12.0);
   //Adjust driver pressure relationship for respiration rates > 16 (slope of driver - RR line decreases)
   if (respirationRate_bpm > 16.0) {
-    //-4.3 = driver pressure at 18 bpm. 
+    //-4.8 = driver pressure at 16 bpm. 
     baselineDriverPressure_cmH2O = -4.8 + 0.125 * (respirationRate_bpm - 16);
   }
   //Scale target pressure as ratio of calculated FRC to Standard Male FRC
