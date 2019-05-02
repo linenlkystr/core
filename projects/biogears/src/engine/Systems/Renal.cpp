@@ -471,15 +471,6 @@ void Renal::AtSteadyState()
     combinedCardiovascularGraph->RemoveLink(BGE::UrineLink::BladderToGroundSource);
     combinedCardiovascularGraph->StateChange();
   }
-  renalWatch.lap();
-  //preRenWatch.lap();
-  //processRenWatch.lap();
-  //postRenWatch.lap();
-  reabsWatch.lap();
-  activeTransportWatch.lap();
-  glomWatch.lap();
-  glucoWatch.lap();
-  excretionWatch.lap();
 }
 
 //--------------------------------------------------------------------------------------------------
