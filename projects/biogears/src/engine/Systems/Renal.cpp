@@ -51,12 +51,19 @@ Renal::Renal(BioGears& bg)
 {
   Clear();
   renalWatch.reset();
+  preRenWatch.reset();
+  processRenWatch.reset();
+  postRenWatch.reset();
   reabsWatch.reset();
   activeTransportWatch.reset();
   glucoWatch.reset();
   glomWatch.reset();
   excretionWatch.reset();
+
   calcRenalTime = 0.0;
+  calcPreRenTime = 0.0;
+  calcProcessRenTime = 0.0;
+  calcPostRenTime = 0.0;
   calcRTTime = 0.0;
   calcATTime = 0.0;
   calcGNTime = 0.0;
@@ -465,6 +472,9 @@ void Renal::AtSteadyState()
     combinedCardiovascularGraph->StateChange();
   }
   renalWatch.lap();
+  //preRenWatch.lap();
+  //processRenWatch.lap();
+  //postRenWatch.lap();
   reabsWatch.lap();
   activeTransportWatch.lap();
   glomWatch.lap();
@@ -486,11 +496,14 @@ void Renal::AtSteadyState()
 void Renal::PreProcess()
 {
   renalWatch.lap();
+  preRenWatch.lap();
   CalculateUltrafiltrationFeedback();
   CalculateReabsorptionFeedback();
   CalculateTubuloglomerularFeedback();
   UpdateBladderVolume();
   ProcessActions();
+  calcPreRenTime += preRenWatch.lap();
+  m_data.GetDataTrack().Probe("RenalPreProcessTimeInitial(ms)", calcPreRenTime / 1e6);
   calcRenalTime += renalWatch.lap();
 }
 
@@ -506,9 +519,12 @@ void Renal::PreProcess()
 void Renal::Process()
 {
   renalWatch.lap();
+  processRenWatch.lap();
   //Circuit Processing is done on the entire circulatory circuit elsewhere
   CalculateActiveTransport();
   CalculateVitalSigns();
+  calcProcessRenTime += processRenWatch.lap();
+  m_data.GetDataTrack().Probe("RenalProcessTimeInitial(ms)", calcProcessRenTime / 1e6);
   calcRenalTime += renalWatch.lap();
 }
 
@@ -523,6 +539,7 @@ void Renal::Process()
 void Renal::PostProcess()
 {
   renalWatch.lap();
+  postRenWatch.lap();
   //Circuit PostProcessing is done on the entire circulatory circuit elsewhere
   if (m_data.GetActions().GetPatientActions().HasOverride()
       && m_data.GetState() == EngineState::Active) {
@@ -530,8 +547,10 @@ void Renal::PostProcess()
       ProcessOverride();
     }
   }
+  calcPostRenTime += postRenWatch.lap();
+  m_data.GetDataTrack().Probe("RenalPostProcessTimeInitial(ms)", calcPostRenTime / 1e6);
   calcRenalTime += renalWatch.lap();
-  m_data.GetDataTrack().Probe("RenalTimeInitial(ms)", calcRenalTime / 1e6);
+  //m_data.GetDataTrack().Probe("RenalTimeInitial(ms)", calcRenalTime / 1e6);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -807,12 +826,12 @@ void Renal::CalculateActiveTransport()
       glomWatch.lap();
       CalculateGlomerularTransport(*sub);
       calcGTTime += glomWatch.lap();
-      m_data.GetDataTrack().Probe("GlomerularTransportTimeInitial(ms)", calcGTTime / 1e6);
+      //m_data.GetDataTrack().Probe("GlomerularTransportTimeInitial(ms)", calcGTTime / 1e6);
 
       reabsWatch.lap();
       CalculateReabsorptionTransport(*sub);
       calcRTTime += reabsWatch.lap();
-      m_data.GetDataTrack().Probe("ReabsorptionTimeInitial(ms)", calcRTTime / 1e6);
+      //m_data.GetDataTrack().Probe("ReabsorptionTimeInitial(ms)", calcRTTime / 1e6);
 
       if (sub == m_potassium) {
         CalculateSecretion();
@@ -821,7 +840,7 @@ void Renal::CalculateActiveTransport()
       excretionWatch.lap();
       CalculateExcretion(*sub);
       calcExcTime += excretionWatch.lap();
-      m_data.GetDataTrack().Probe("ExcretionTimeInitial(ms)", calcExcTime / 1e6);
+      //m_data.GetDataTrack().Probe("ExcretionTimeInitial(ms)", calcExcTime / 1e6);
 
     } else if (sub->GetClearance().GetRenalDynamic() == RenalDynamic::Clearance) {
       //This bypasses the generic methodology and just automatically clears
@@ -836,10 +855,10 @@ void Renal::CalculateActiveTransport()
   glucoWatch.lap();
   CalculateGluconeogenesis();
   calcGNTime += glucoWatch.lap();
-  m_data.GetDataTrack().Probe("GluconeogenesisTimeInitial(ms)", calcGNTime / 1e6);
+  //m_data.GetDataTrack().Probe("GluconeogenesisTimeInitial(ms)", calcGNTime / 1e6);
 
   calcATTime += activeTransportWatch.lap();
-  m_data.GetDataTrack().Probe("ActiveTransportTimeInitial(ms)", calcATTime / 1e6);
+  //m_data.GetDataTrack().Probe("ActiveTransportTimeInitial(ms)", calcATTime / 1e6);
 }
 
 //--------------------------------------------------------------------------------------------------

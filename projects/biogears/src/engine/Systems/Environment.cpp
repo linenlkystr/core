@@ -456,7 +456,7 @@ void Environment::CalculateEvaporationLite()
   double newCap = m_SkinToGroundPath->GetNextCapacitance().GetValue(HeatCapacitanceUnit::J_Per_K);
   double sweatCapacitorModifier = 0.0;
   double heatLeft = 0;
-  if (coreTemp_C >= 37) {
+  if (coreTemp_C >= 37 && dSweatRate_kgPers > 0) {
     // Modification of capacitor based on percentage of sweat vs normal maximal sweating rate approximated based on hot/cold and gender variations \cite @Ergol1995Maximal
     sweatCapacitorModifier = (1 + (0.75 * m_data.GetEnergy().GetSweatRate(MassPerTimeUnit::kg_Per_s) / (0.00042)));
     if (sweatCapacitorModifier >= 1.025) {

@@ -45,6 +45,14 @@ protected:
 
   biogears::StopWatch<std::chrono::nanoseconds> renalWatch;
   double calcRenalTime;
+
+  biogears::StopWatch<std::chrono::nanoseconds> preRenWatch;
+  double calcPreRenTime;
+  biogears::StopWatch<std::chrono::nanoseconds> processRenWatch;
+  double calcProcessRenTime;
+  biogears::StopWatch<std::chrono::nanoseconds> postRenWatch;
+  double calcPostRenTime;
+
   biogears::StopWatch<std::chrono::nanoseconds> activeTransportWatch;
   double calcATTime;
   biogears::StopWatch<std::chrono::nanoseconds> glucoWatch;
