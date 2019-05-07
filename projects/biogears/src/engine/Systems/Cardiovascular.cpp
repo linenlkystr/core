@@ -742,6 +742,8 @@ void Cardiovascular::Process()
 
   m_data.GetDataTrack().Probe("CV_CircuitProcess(ms)", circuitTime / 1e6);
   m_data.GetDataTrack().Probe("CV_GraphProcess(ms)", graphTime / 1e6);
+
+  m_data.GetSubstances().ProbeBloodGases(*m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::Gut), "GutLite_");
 }
 
 //--------------------------------------------------------------------------------------------------
