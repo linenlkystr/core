@@ -59,6 +59,9 @@ Cardiovascular::Cardiovascular(BioGears& bg)
   , m_transporter(VolumePerTimeUnit::mL_Per_s, VolumeUnit::mL, MassUnit::ug, MassPerVolumeUnit::ug_Per_mL, bg.GetLogger())
 {
   Clear();
+  cardioWatch.reset();
+
+  calcCardioTime = 0.0;
   m_TuningFile = "";
 }
 
@@ -663,10 +666,13 @@ void Cardiovascular::PreProcess()
 //--------------------------------------------------------------------------------------------------
 void Cardiovascular::Process()
 {
+  cardioWatch.lap();
   m_circuitCalculator.Process(*m_CirculatoryCircuit, m_dT_s);
   m_transporter.Transport(*m_CirculatoryGraph, m_dT_s);
+  calcCardioTime += cardioWatch.lap();
+  m_data.GetDataTrack().Probe("CardioPreProcessTimeInitial(ms)", calcCardioTime / 1e6);
   CalculateVitalSigns();
-}
+} 
 
 //--------------------------------------------------------------------------------------------------
 /// \brief
@@ -1571,6 +1577,7 @@ void Cardiovascular::TuneCircuit()
   double blood_mL = 0, tgt_blood_mL = 0;
 
   double time_s = 0;
+  double iter = 0;
   double timeStep_s = m_data.GetTimeStep().GetValue(TimeUnit::s);
   double stableTime_s;
   double maxTime_s = 2000;
@@ -1579,6 +1586,7 @@ void Cardiovascular::TuneCircuit()
     stable = false;
     stableTime_s = 0;
     while (!stable) {
+
       HeartDriver();
       m_circuitCalculator.Process(*m_CirculatoryCircuit, m_dT_s);
       CalculateVitalSigns();
