@@ -494,7 +494,7 @@ void Renal::PreProcess()
   UpdateBladderVolume();
   ProcessActions();
   calcPreRenTime += preRenWatch.lap();
-  m_data.GetDataTrack().Probe("RenalPreProcessTimeInitial(ms)", calcPreRenTime / 1e6);
+  //m_data.GetDataTrack().Probe("RenalPreProcessTimeInitial(ms)", calcPreRenTime / 1e6);
   calcRenalTime += renalWatch.lap();
 }
 
@@ -515,7 +515,7 @@ void Renal::Process()
   CalculateActiveTransport();
   CalculateVitalSigns();
   calcProcessRenTime += processRenWatch.lap();
-  m_data.GetDataTrack().Probe("RenalProcessTimeInitial(ms)", calcProcessRenTime / 1e6);
+  //m_data.GetDataTrack().Probe("RenalProcessTimeInitial(ms)", calcProcessRenTime / 1e6);
   calcRenalTime += renalWatch.lap();
 }
 
@@ -539,7 +539,7 @@ void Renal::PostProcess()
     }
   }
   calcPostRenTime += postRenWatch.lap();
-  m_data.GetDataTrack().Probe("RenalPostProcessTimeInitial(ms)", calcPostRenTime / 1e6);
+  //m_data.GetDataTrack().Probe("RenalPostProcessTimeInitial(ms)", calcPostRenTime / 1e6);
   calcRenalTime += renalWatch.lap();
   //m_data.GetDataTrack().Probe("RenalTimeInitial(ms)", calcRenalTime / 1e6);
 }

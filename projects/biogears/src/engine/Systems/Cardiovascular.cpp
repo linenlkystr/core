@@ -670,7 +670,7 @@ void Cardiovascular::Process()
   m_circuitCalculator.Process(*m_CirculatoryCircuit, m_dT_s);
   m_transporter.Transport(*m_CirculatoryGraph, m_dT_s);
   calcCardioTime += cardioWatch.lap();
-  m_data.GetDataTrack().Probe("CardioPreProcessTimeInitial(ms)", calcCardioTime / 1e6);
+  m_data.GetDataTrack().Probe("CardioProcessTimeBaseline(ms)", calcCardioTime / 1e6);
   CalculateVitalSigns();
 } 
 

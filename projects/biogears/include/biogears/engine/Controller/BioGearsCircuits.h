@@ -848,6 +848,59 @@ namespace tatrc {
         DEFINE_STATIC_STRING(BladderToGroundUrinate);
       };
 
+      namespace RenalLiteNode {
+
+        // Blood
+        DEFINE_STATIC_STRING(AortaConnection);
+        DEFINE_STATIC_STRING(RenalArtery);
+        DEFINE_STATIC_STRING(AfferentArteriole);
+        DEFINE_STATIC_STRING(GlomerularCapillaries);
+        DEFINE_STATIC_STRING(NetGlomerularCapillaries);
+        DEFINE_STATIC_STRING(EfferentArteriole);
+        DEFINE_STATIC_STRING(PeritubularCapillaries);
+        DEFINE_STATIC_STRING(NetPeritubularCapillaries);
+        DEFINE_STATIC_STRING(RenalVein);
+        DEFINE_STATIC_STRING(VenaCavaConnection);
+        // Urine
+        DEFINE_STATIC_STRING(BowmansCapsules);
+        DEFINE_STATIC_STRING(NetBowmansCapsules);
+        DEFINE_STATIC_STRING(Tubules);
+        DEFINE_STATIC_STRING(NetTubules);
+        DEFINE_STATIC_STRING(Ureter);
+
+    
+        DEFINE_STATIC_STRING(Bladder);
+
+        DEFINE_STATIC_STRING(Ground);
+      };
+
+      namespace RenalLitePath {
+
+        DEFINE_STATIC_STRING(AortaConnectionToRenalArtery);
+        DEFINE_STATIC_STRING(RenalArteryToAfferentArteriole);
+        DEFINE_STATIC_STRING(RenalArteryCompliance);
+        DEFINE_STATIC_STRING(AfferentArterioleToGlomerularCapillaries);
+        DEFINE_STATIC_STRING(GlomerularCapillariesToEfferentArteriole);
+        DEFINE_STATIC_STRING(GlomerularCapillariesCompliance);
+        DEFINE_STATIC_STRING(EfferentArterioleToPeritubularCapillaries);
+        DEFINE_STATIC_STRING(PeritubularCapillariesToRenalVein);
+        DEFINE_STATIC_STRING(RenalVeinToVenaCavaConnection);
+        DEFINE_STATIC_STRING(RenalVeinCompliance);
+
+        DEFINE_STATIC_STRING(GlomerularCapillariesToNetGlomerularCapillaries);
+        DEFINE_STATIC_STRING(NetGlomerularCapillariesToNetBowmansCapsules);
+        DEFINE_STATIC_STRING(BowmansCapsulesToNetBowmansCapsules);
+        DEFINE_STATIC_STRING(BowmansCapsulesToTubules);
+        DEFINE_STATIC_STRING(TubulesToUreter);
+        DEFINE_STATIC_STRING(TubulesToNetTubules);
+        DEFINE_STATIC_STRING(NetTubulesToNetPeritubularCapillaries);
+        DEFINE_STATIC_STRING(PeritubularCapillariesToNetPeritubularCapillaries);
+        DEFINE_STATIC_STRING(UreterToBladder);
+
+        DEFINE_STATIC_STRING(BladderToGroundPressure);
+        DEFINE_STATIC_STRING(BladderToGroundUrinate);
+      };
+
       namespace DigestionNode {
         DEFINE_STATIC_STRING(GutChyme);
       };
