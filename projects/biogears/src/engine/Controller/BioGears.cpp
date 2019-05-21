@@ -2173,7 +2173,7 @@ void BioGears::SetupRenalLite()
 
   ////////////
   // Ground //
-  SEFluidCircuitNode& Ground = cRenal.CreateNode(BGE::RenalNode::Ground);
+  SEFluidCircuitNode& Ground = cRenal.CreateNode(BGE::RenalLiteNode::Ground);
   Ground.GetPressure().SetValue(0.0, PressureUnit::mmHg);
   cRenal.AddReferenceNode(Ground);
 
@@ -2186,70 +2186,70 @@ void BioGears::SetupRenalLite()
   /////////////////
   //////////////////////////
   // AortaConnection //
-  SEFluidCircuitNode& AortaConnection = cRenal.CreateNode(BGE::RenalNode::AortaConnection);
+  SEFluidCircuitNode& AortaConnection = cRenal.CreateNode(BGE::RenalLiteNode::AortaConnection);
   //////////////////////
   // RenalArtery //
-  SEFluidCircuitNode& RenalArtery = cRenal.CreateNode(BGE::RenalNode::RenalArtery);
+  SEFluidCircuitNode& RenalArtery = cRenal.CreateNode(BGE::RenalLiteNode::RenalArtery);
   RenalArtery.GetVolumeBaseline().SetValue(renalArteryVolume_mL, VolumeUnit::mL);
   RenalArtery.GetPressure().SetValue(renalArteryPressure_mmHg, PressureUnit::mmHg);
   RenalArtery.GetNextPressure().SetValue(renalArteryPressure_mmHg, PressureUnit::mmHg);
   ////////////////////////////
   // AfferentArteriole //
-  SEFluidCircuitNode& AfferentArteriole = cRenal.CreateNode(BGE::RenalNode::AfferentArteriole);
+  SEFluidCircuitNode& AfferentArteriole = cRenal.CreateNode(BGE::RenalLiteNode::AfferentArteriole);
   AfferentArteriole.GetVolumeBaseline().SetValue(afferentVolume_mL, VolumeUnit::mL);
   ////////////////////////////////
   // GlomerularCapillaries //
-  SEFluidCircuitNode& GlomerularCapillaries = cRenal.CreateNode(BGE::RenalNode::GlomerularCapillaries);
+  SEFluidCircuitNode& GlomerularCapillaries = cRenal.CreateNode(BGE::RenalLiteNode::GlomerularCapillaries);
   GlomerularCapillaries.GetVolumeBaseline().SetValue(glomerularVolume_mL, VolumeUnit::mL);
   GlomerularCapillaries.GetPressure().SetValue(glomerularPressure_mmHg, PressureUnit::mmHg);
   ////////////////////////////
   // EfferentArteriole //
-  SEFluidCircuitNode& EfferentArteriole = cRenal.CreateNode(BGE::RenalNode::EfferentArteriole);
+  SEFluidCircuitNode& EfferentArteriole = cRenal.CreateNode(BGE::RenalLiteNode::EfferentArteriole);
   EfferentArteriole.GetVolumeBaseline().SetValue(efferentVolume_mL, VolumeUnit::mL);
   /////////////////////////////////
   // PeritubularCapillaries //
-  SEFluidCircuitNode& PeritubularCapillaries = cRenal.CreateNode(BGE::RenalNode::PeritubularCapillaries);
+  SEFluidCircuitNode& PeritubularCapillaries = cRenal.CreateNode(BGE::RenalLiteNode::PeritubularCapillaries);
   PeritubularCapillaries.GetVolumeBaseline().SetValue(peritubularVolume_mL, VolumeUnit::mL);
   ////////////////////
   // RenalVein //
-  SEFluidCircuitNode& RenalVein = cRenal.CreateNode(BGE::RenalNode::RenalVein);
+  SEFluidCircuitNode& RenalVein = cRenal.CreateNode(BGE::RenalLiteNode::RenalVein);
   RenalVein.GetVolumeBaseline().SetValue(renalVeinVolume_mL, VolumeUnit::mL);
   RenalVein.GetPressure().SetValue(renalVeinPressure_mmHg, PressureUnit::mmHg);
   /////////////////////////////
   // VenaCavaConnection //
-  SEFluidCircuitNode& VenaCavaConnection = cRenal.CreateNode(BGE::RenalNode::VenaCavaConnection);
+  SEFluidCircuitNode& VenaCavaConnection = cRenal.CreateNode(BGE::RenalLiteNode::VenaCavaConnection);
   //////////////////////////
   // BowmansCapsules //
-  SEFluidCircuitNode& BowmansCapsules = cRenal.CreateNode(BGE::RenalNode::BowmansCapsules);
+  SEFluidCircuitNode& BowmansCapsules = cRenal.CreateNode(BGE::RenalLiteNode::BowmansCapsules);
   BowmansCapsules.GetVolumeBaseline().SetValue(bowmansVolume_mL, VolumeUnit::mL);
   /////////////////////////////
   // NetBowmansCapsules //
-  SEFluidCircuitNode& NetBowmansCapsules = cRenal.CreateNode(BGE::RenalNode::NetBowmansCapsules);
+  SEFluidCircuitNode& NetBowmansCapsules = cRenal.CreateNode(BGE::RenalLiteNode::NetBowmansCapsules);
   ///////////////////////////////////
   // NetGlomerularCapillaries //
-  SEFluidCircuitNode& NetGlomerularCapillaries = cRenal.CreateNode(BGE::RenalNode::NetGlomerularCapillaries);
+  SEFluidCircuitNode& NetGlomerularCapillaries = cRenal.CreateNode(BGE::RenalLiteNode::NetGlomerularCapillaries);
   ////////////////////////////////////
   // NetPeritubularCapillaries //
-  SEFluidCircuitNode& NetPeritubularCapillaries = cRenal.CreateNode(BGE::RenalNode::NetPeritubularCapillaries);
+  SEFluidCircuitNode& NetPeritubularCapillaries = cRenal.CreateNode(BGE::RenalLiteNode::NetPeritubularCapillaries);
 
   /////////////////
   //  Urine //
   /////////////////
   //////////////////
   // Tubules //
-  SEFluidCircuitNode& Tubules = cRenal.CreateNode(BGE::RenalNode::Tubules);
+  SEFluidCircuitNode& Tubules = cRenal.CreateNode(BGE::RenalLiteNode::Tubules);
   Tubules.GetVolumeBaseline().SetValue(tubulesVolume_mL, VolumeUnit::mL);
   /////////////////////
   // NetTubules //
-  SEFluidCircuitNode& NetTubules = cRenal.CreateNode(BGE::RenalNode::NetTubules);
+  SEFluidCircuitNode& NetTubules = cRenal.CreateNode(BGE::RenalLiteNode::NetTubules);
   /////////////////
   // Ureter //
-  SEFluidCircuitNode& Ureter = cRenal.CreateNode(BGE::RenalNode::Ureter);
+  SEFluidCircuitNode& Ureter = cRenal.CreateNode(BGE::RenalLiteNode::Ureter);
   Ureter.GetVolumeBaseline().SetValue(ureterVolume_mL, VolumeUnit::mL);
 
    /////////////
   // Bladder //
-  SEFluidCircuitNode& Bladder = cRenal.CreateNode(BGE::RenalNode::Bladder);
+  SEFluidCircuitNode& Bladder = cRenal.CreateNode(BGE::RenalLiteNode::Bladder);
   Bladder.GetVolumeBaseline().SetValue(bladderVolume_mL, VolumeUnit::mL);
   //Bladder.GetPressure().SetValue(0.0, PressureUnit::mmHg);
 
@@ -2263,58 +2263,58 @@ void BioGears::SetupRenalLite()
   /////////////////
   ///////////////////////////////////////
   // AortaConnectionToRenalArtery //
-  SEFluidCircuitPath& AortaConnectionToRenalArtery = cRenal.CreatePath(AortaConnection, RenalArtery, BGE::RenalPath::AortaConnectionToRenalArtery);
+  SEFluidCircuitPath& AortaConnectionToRenalArtery = cRenal.CreatePath(AortaConnection, RenalArtery, BGE::RenalLitePath::AortaConnectionToRenalArtery);
   //////////////////////
   // RenalArteryToAfferentArteriole //
-  SEFluidCircuitPath& RenalArteryToAfferentArteriole = cRenal.CreatePath(RenalArtery, AfferentArteriole, BGE::RenalPath::RenalArteryToAfferentArteriole);
+  SEFluidCircuitPath& RenalArteryToAfferentArteriole = cRenal.CreatePath(RenalArtery, AfferentArteriole, BGE::RenalLitePath::RenalArteryToAfferentArteriole);
   RenalArteryToAfferentArteriole.GetResistanceBaseline().SetValue(renalArteryResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   ////////////////////////////////
   // RenalArteryCompliance //
-  SEFluidCircuitPath& RenalArteryCompliance = cRenal.CreatePath(RenalArtery, Ground, BGE::RenalPath::RenalArteryCompliance);
+  SEFluidCircuitPath& RenalArteryCompliance = cRenal.CreatePath(RenalArtery, Ground, BGE::RenalLitePath::RenalArteryCompliance);
   RenalArteryCompliance.GetComplianceBaseline().SetValue(renalArteryCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
   ///////////////////////////////////////////////////
   // AfferentArterioleToGlomerularCapillaries //
-  SEFluidCircuitPath& AfferentArterioleToGlomerularCapillaries = cRenal.CreatePath(AfferentArteriole, GlomerularCapillaries, BGE::RenalPath::AfferentArterioleToGlomerularCapillaries);
+  SEFluidCircuitPath& AfferentArterioleToGlomerularCapillaries = cRenal.CreatePath(AfferentArteriole, GlomerularCapillaries, BGE::RenalLitePath::AfferentArterioleToGlomerularCapillaries);
   AfferentArterioleToGlomerularCapillaries.GetResistanceBaseline().SetValue(afferentResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   ///////////////////////////////////////////////////
   // GlomerularCapillariesToEfferentArteriole //
-  SEFluidCircuitPath& GlomerularCapillariesToEfferentArteriole = cRenal.CreatePath(GlomerularCapillaries, EfferentArteriole, BGE::RenalPath::GlomerularCapillariesToEfferentArteriole);
+  SEFluidCircuitPath& GlomerularCapillariesToEfferentArteriole = cRenal.CreatePath(GlomerularCapillaries, EfferentArteriole, BGE::RenalLitePath::GlomerularCapillariesToEfferentArteriole);
   GlomerularCapillariesToEfferentArteriole.GetResistanceBaseline().SetValue(glomerularResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   //////////////////////////////////////////
   // GlomerularCapillariesCompliance //
-  SEFluidCircuitPath& GlomerularCapillariesCompliance = cRenal.CreatePath(GlomerularCapillaries, Ground, BGE::RenalPath::GlomerularCapillariesCompliance);
+  SEFluidCircuitPath& GlomerularCapillariesCompliance = cRenal.CreatePath(GlomerularCapillaries, Ground, BGE::RenalLitePath::GlomerularCapillariesCompliance);
   GlomerularCapillariesCompliance.GetComplianceBaseline().SetValue(glomerularCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
   ////////////////////////////////////////////////////
   // EfferentArterioleToPeritubularCapillaries //
-  SEFluidCircuitPath& EfferentArterioleToPeritubularCapillaries = cRenal.CreatePath(EfferentArteriole, PeritubularCapillaries, BGE::RenalPath::EfferentArterioleToPeritubularCapillaries);
+  SEFluidCircuitPath& EfferentArterioleToPeritubularCapillaries = cRenal.CreatePath(EfferentArteriole, PeritubularCapillaries, BGE::RenalLitePath::EfferentArterioleToPeritubularCapillaries);
   EfferentArterioleToPeritubularCapillaries.GetResistanceBaseline().SetValue(efferentResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   ////////////////////////////////////////////
   // PeritubularCapillariesToRenalVein //
-  SEFluidCircuitPath& PeritubularCapillariesToRenalVein = cRenal.CreatePath(PeritubularCapillaries, RenalVein, BGE::RenalPath::PeritubularCapillariesToRenalVein);
+  SEFluidCircuitPath& PeritubularCapillariesToRenalVein = cRenal.CreatePath(PeritubularCapillaries, RenalVein, BGE::RenalLitePath::PeritubularCapillariesToRenalVein);
   PeritubularCapillariesToRenalVein.GetResistanceBaseline().SetValue(peritubularResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   ////////////////////////////////////////
   // RenalVeinToVenaCavaConnection //
-  SEFluidCircuitPath& RenalVeinToVenaCavaConnection = cRenal.CreatePath(RenalVein, VenaCavaConnection, BGE::RenalPath::RenalVeinToVenaCavaConnection);
+  SEFluidCircuitPath& RenalVeinToVenaCavaConnection = cRenal.CreatePath(RenalVein, VenaCavaConnection, BGE::RenalLitePath::RenalVeinToVenaCavaConnection);
   RenalVeinToVenaCavaConnection.GetResistanceBaseline().SetValue(renalVeinResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   //////////////////////////////
   // RenalVeinCompliance //
-  SEFluidCircuitPath& RenalVeinCompliance = cRenal.CreatePath(RenalVein, Ground, BGE::RenalPath::RenalVeinCompliance);
+  SEFluidCircuitPath& RenalVeinCompliance = cRenal.CreatePath(RenalVein, Ground, BGE::RenalLitePath::RenalVeinCompliance);
   RenalVeinCompliance.GetComplianceBaseline().SetValue(renalVeinCompliance_mL_Per_mmHg, FlowComplianceUnit::mL_Per_mmHg);
   //////////////////////////////////////////////////////////
   // GlomerularCapillariesToNetGlomerularCapillaries //
-  SEFluidCircuitPath& GlomerularCapillariesToNetGlomerularCapillaries = cRenal.CreatePath(GlomerularCapillaries, NetGlomerularCapillaries, BGE::RenalPath::GlomerularCapillariesToNetGlomerularCapillaries);
+  SEFluidCircuitPath& GlomerularCapillariesToNetGlomerularCapillaries = cRenal.CreatePath(GlomerularCapillaries, NetGlomerularCapillaries, BGE::RenalLitePath::GlomerularCapillariesToNetGlomerularCapillaries);
   GlomerularCapillariesToNetGlomerularCapillaries.GetPressureSourceBaseline().SetValue(glomerularOsmoticPressure_mmHg, PressureUnit::mmHg);
   ///////////////////////////////////////////////////////
   // NetGlomerularCapillariesToNetBowmansCapsules //
-  SEFluidCircuitPath& NetGlomerularCapillariesToNetBowmansCapsules = cRenal.CreatePath(NetGlomerularCapillaries, NetBowmansCapsules, BGE::RenalPath::NetGlomerularCapillariesToNetBowmansCapsules);
+  SEFluidCircuitPath& NetGlomerularCapillariesToNetBowmansCapsules = cRenal.CreatePath(NetGlomerularCapillaries, NetBowmansCapsules, BGE::RenalLitePath::NetGlomerularCapillariesToNetBowmansCapsules);
   NetGlomerularCapillariesToNetBowmansCapsules.GetResistanceBaseline().SetValue(glomerularFilterResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   //////////////////////////////////////////////
   // BowmansCapsulesToNetBowmansCapsules //
-  SEFluidCircuitPath& BowmansCapsulesToNetBowmansCapsules = cRenal.CreatePath(BowmansCapsules, NetBowmansCapsules, BGE::RenalPath::BowmansCapsulesToNetBowmansCapsules);
+  SEFluidCircuitPath& BowmansCapsulesToNetBowmansCapsules = cRenal.CreatePath(BowmansCapsules, NetBowmansCapsules, BGE::RenalLitePath::BowmansCapsulesToNetBowmansCapsules);
   BowmansCapsulesToNetBowmansCapsules.GetPressureSourceBaseline().SetValue(bowmansOsmoticPressure_mmHg, PressureUnit::mmHg);
   /////////////////
   // Hemorrhage from  kidney//
-  SEFluidCircuitPath& KidneyBleed = cRenal.CreatePath(RenalVein, Ground, BGE::CardiovascularPath::KidneyBleed);
+  SEFluidCircuitPath& KidneyBleed = cRenal.CreatePath(RenalVein, Ground, BGE::CardiovascularLitePath::KidneyBleed);
   KidneyBleed.GetResistanceBaseline().SetValue(m_Config->GetDefaultOpenFlowResistance(FlowResistanceUnit::mmHg_s_Per_mL), FlowResistanceUnit::mmHg_s_Per_mL);
   ///////////////////////////////////
   /////////////////
@@ -2325,27 +2325,27 @@ void BioGears::SetupRenalLite()
   /////////////////
   ///////////////////////////////////
   // BowmansCapsulesToTubules //
-  SEFluidCircuitPath& BowmansCapsulesToTubules = cRenal.CreatePath(BowmansCapsules, Tubules, BGE::RenalPath::BowmansCapsulesToTubules);
+  SEFluidCircuitPath& BowmansCapsulesToTubules = cRenal.CreatePath(BowmansCapsules, Tubules, BGE::RenalLitePath::BowmansCapsulesToTubules);
   BowmansCapsulesToTubules.GetResistanceBaseline().SetValue(tubulesResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   //////////////////////////
   // TubulesToUreter //
-  SEFluidCircuitPath& TubulesToUreter = cRenal.CreatePath(Tubules, Ureter, BGE::RenalPath::TubulesToUreter);
+  SEFluidCircuitPath& TubulesToUreter = cRenal.CreatePath(Tubules, Ureter, BGE::RenalLitePath::TubulesToUreter);
   TubulesToUreter.GetResistanceBaseline().SetValue(ureterResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   /////////////////////////////
   // ubulesToNetTubules //
-  SEFluidCircuitPath& TubulesToNetTubules = cRenal.CreatePath(Tubules, NetTubules, BGE::RenalPath::TubulesToNetTubules);
+  SEFluidCircuitPath& TubulesToNetTubules = cRenal.CreatePath(Tubules, NetTubules, BGE::RenalLitePath::TubulesToNetTubules);
   TubulesToNetTubules.GetPressureSourceBaseline().SetValue(tubulesOsmoticPressure_mmHg, PressureUnit::mmHg);
   ////////////////////////////////////////////////
   // NetTubulesToNetPeritubularCapillaries //
-  SEFluidCircuitPath& NetTubulesToNetPeritubularCapillaries = cRenal.CreatePath(NetTubules, NetPeritubularCapillaries, BGE::RenalPath::NetTubulesToNetPeritubularCapillaries);
+  SEFluidCircuitPath& NetTubulesToNetPeritubularCapillaries = cRenal.CreatePath(NetTubules, NetPeritubularCapillaries, BGE::RenalLitePath::NetTubulesToNetPeritubularCapillaries);
   NetTubulesToNetPeritubularCapillaries.GetResistanceBaseline().SetValue(reabsoprtionResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
   ////////////////////////////////////////////////////////////
   // PeritubularCapillariesToNetPeritubularCapillaries //
-  SEFluidCircuitPath& PeritubularCapillariesToNetPeritubularCapillaries = cRenal.CreatePath(PeritubularCapillaries, NetPeritubularCapillaries, BGE::RenalPath::PeritubularCapillariesToNetPeritubularCapillaries);
+  SEFluidCircuitPath& PeritubularCapillariesToNetPeritubularCapillaries = cRenal.CreatePath(PeritubularCapillaries, NetPeritubularCapillaries, BGE::RenalLitePath::PeritubularCapillariesToNetPeritubularCapillaries);
   PeritubularCapillariesToNetPeritubularCapillaries.GetPressureSourceBaseline().SetValue(peritubularOsmoticPressure_mmHg, PressureUnit::mmHg);
   //////////////////////////
   // UreterToBladder //
-  SEFluidCircuitPath& UreterToBladder = cRenal.CreatePath(Ureter, Bladder, BGE::RenalPath::UreterToBladder);
+  SEFluidCircuitPath& UreterToBladder = cRenal.CreatePath(Ureter, Bladder, BGE::RenalLitePath::UreterToBladder);
   UreterToBladder.SetNextValve(CDM::enumOpenClosed::Closed);
 
   ///////////////////////
@@ -2381,14 +2381,14 @@ void BioGears::SetupRenalLite()
   SEFluidCircuitNode* Aorta1 = cCardiovascular.GetNode(BGE::CardiovascularNode::Aorta1);
   SEFluidCircuitNode* VenaCava = cCardiovascular.GetNode(BGE::CardiovascularNode::VenaCava);
   // Add the new connection paths
-  SEFluidCircuitPath& NewAorta1ToKidney = cCombinedCardiovascular.CreatePath(*Aorta1, RightAortaConnection, BGE::CardiovascularPath::Aorta1ToRightKidney1);
-  SEFluidCircuitPath& NewKidneyToVenaCava = cCombinedCardiovascular.CreatePath(RightVenaCavaConnection, *VenaCava, BGE::CardiovascularPath::RightKidney2ToVenaCava);
+  SEFluidCircuitPath& NewAorta1ToKidney = cCombinedCardiovascular.CreatePath(*Aorta1, AortaConnection, BGE::CardiovascularPath::Aorta1ToRightKidney1);
+  SEFluidCircuitPath& NewKidneyToVenaCava = cCombinedCardiovascular.CreatePath(VenaCavaConnection, *VenaCava, BGE::CardiovascularPath::RightKidney2ToVenaCava);
   
   // We need to move the resistances
-  NewAorta1ToKidney.GetResistanceBaseline().Set(RightAortaConnectionToRenalArtery.GetResistanceBaseline());
-  RightAortaConnectionToRenalArtery.GetResistanceBaseline().Invalidate();
-  NewKidneyToVenaCava.GetResistanceBaseline().Set(RightRenalVeinToVenaCavaConnection.GetResistanceBaseline());
-  RightRenalVeinToVenaCavaConnection.GetResistanceBaseline().Invalidate();
+  NewAorta1ToKidney.GetResistanceBaseline().Set(AortaConnectionToRenalArtery.GetResistanceBaseline());
+  AortaConnectionToRenalArtery.GetResistanceBaseline().Invalidate();
+  NewKidneyToVenaCava.GetResistanceBaseline().Set(RenalVeinToVenaCavaConnection.GetResistanceBaseline());
+  RenalVeinToVenaCavaConnection.GetResistanceBaseline().Invalidate();
  
   // Update the circuit
   cCombinedCardiovascular.SetNextAndCurrentFromBaselines();
@@ -2404,73 +2404,70 @@ void BioGears::SetupRenalLite()
 
   ///////////////////////
   // RightRenalArtery //
-  SELiquidCompartment& vRightRenalArtery = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightRenalArtery);
-  vRightRenalArtery.MapNode(RightRenalArtery);
+  SELiquidCompartment& vRenalArtery = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightRenalArtery);
+  vRenalArtery.MapNode(RenalArtery);
   //////////////////////////////
-  // RightAfferentArteriole //
-  SELiquidCompartment& vRightAfferentArteriole = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightAfferentArteriole);
-  vRightAfferentArteriole.MapNode(RightAfferentArteriole);
+  // AfferentArteriole //
+  SELiquidCompartment& vAfferentArteriole = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::AfferentArteriole);
+  vAfferentArteriole.MapNode(AfferentArteriole);
   ////////////////////////////////
-  // RightGlomerularCapillaries //
-  SELiquidCompartment& vRightGlomerularCapillaries = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightGlomerularCapillaries);
-  vRightGlomerularCapillaries.MapNode(RightGlomerularCapillaries);
-  vRightGlomerularCapillaries.MapNode(RightNetGlomerularCapillaries);
+  // GlomerularCapillaries //
+  SELiquidCompartment& vGlomerularCapillaries = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::GlomerularCapillaries);
+  vGlomerularCapillaries.MapNode(GlomerularCapillaries);
+  vGlomerularCapillaries.MapNode(NetGlomerularCapillaries);
   ////////////////////////////
-  // RightEfferentArteriole //
-  SELiquidCompartment& vRightEfferentArteriole = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightEfferentArteriole);
-  vRightEfferentArteriole.MapNode(RightEfferentArteriole);
+  // EfferentArteriole //
+  SELiquidCompartment& vEfferentArteriole = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::EfferentArteriole);
+  vEfferentArteriole.MapNode(EfferentArteriole);
   /////////////////////////////////
-  // RightPeritubularCapillaries //
-  SELiquidCompartment& vRightPeritubularCapillaries = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightPeritubularCapillaries);
-  vRightPeritubularCapillaries.MapNode(RightPeritubularCapillaries);
-  vRightPeritubularCapillaries.MapNode(RightNetPeritubularCapillaries);
+  // PeritubularCapillaries //
+  SELiquidCompartment& vPeritubularCapillaries = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::PeritubularCapillaries);
+  vPeritubularCapillaries.MapNode(PeritubularCapillaries);
+  vPeritubularCapillaries.MapNode(NetPeritubularCapillaries);
   ///////////////////
-  // RightRenalVein //
-  SELiquidCompartment& vRightRenalVein = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightRenalVein);
-  vRightRenalVein.MapNode(RightRenalVein);
+  // RenalVein //
+  SELiquidCompartment& vRenalVein = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::RenalVein);
+  vRenalVein.MapNode(RenalVein);
   //////////////////////////
-  // RightBowmansCapsules //
-  SELiquidCompartment& vRightBowmansCapsules = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightBowmansCapsules);
-  vRightBowmansCapsules.MapNode(RightBowmansCapsules);
-  vRightBowmansCapsules.MapNode(RightNetBowmansCapsules);
+  // BowmansCapsules //
+  SELiquidCompartment& vBowmansCapsules = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::BowmansCapsules);
+  vBowmansCapsules.MapNode(BowmansCapsules);
+  vBowmansCapsules.MapNode(NetBowmansCapsules);
   //////////////////
-  // RightTubules //
-  SELiquidCompartment& vRightTubules = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightTubules);
-  vRightTubules.MapNode(RightTubules);
-  vRightTubules.MapNode(RightNetTubules);
+  // Tubules //
+  SELiquidCompartment& vTubules = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::Tubules);
+  vTubules.MapNode(Tubules);
+  vTubules.MapNode(NetTubules);
 
   
   // Let's build out the hierarchy
   // Grab these, as cardiovascular already made them
-  SELiquidCompartment* vRightKidney = m_Compartments->GetLiquidCompartment(BGE::VascularCompartment::RightKidney);
-  SELiquidCompartment& vRightNephron = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightNephron);
-  vRightKidney->GetNodeMapping().Clear(); // Remove the nodes the cardiovascular was using to model the kidney
-  vRightKidney->AddChild(vRightRenalArtery);
-  vRightKidney->AddChild(vRightNephron);
-  vRightNephron.AddChild(vRightAfferentArteriole);
-  vRightNephron.AddChild(vRightGlomerularCapillaries);
-  vRightNephron.AddChild(vRightEfferentArteriole);
-  vRightNephron.AddChild(vRightPeritubularCapillaries);
-  vRightNephron.AddChild(vRightBowmansCapsules);
-  vRightNephron.AddChild(vRightTubules);
-  vRightKidney->AddChild(vRightRenalVein);
+  SELiquidCompartment* vKidney = m_Compartments->GetLiquidCompartment(BGE::VascularLiteCompartment::Kidney);
+  SELiquidCompartment& vNephron = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::Nephron);
+  vKidney->GetNodeMapping().Clear(); // Remove the nodes the cardiovascular was using to model the kidney
+  vKidney->AddChild(vRenalArtery);
+  vKidney->AddChild(vNephron);
+  vNephron.AddChild(vAfferentArteriole);
+  vNephron.AddChild(vGlomerularCapillaries);
+  vNephron.AddChild(vEfferentArteriole);
+  vNephron.AddChild(vPeritubularCapillaries);
+  vNephron.AddChild(vBowmansCapsules);
+  vNephron.AddChild(vTubules);
+  vKidney->AddChild(vRenalVein);
 
   ///////////
   // Urine //
   ///////////
 
   /////////////////
-  // RightUreter //
-  SELiquidCompartment& uRightUreter = m_Compartments->CreateLiquidCompartment(BGE::UrineCompartment::RightUreter);
-  uRightUreter.MapNode(RightUreter);
+  // Ureter //
+  SELiquidCompartment& uUreter = m_Compartments->CreateLiquidCompartment(BGE::UrineLiteCompartment::Ureter);
+  uUreter.MapNode(Ureter);
   ////////////////
   
-  // Ureters //
-  SELiquidCompartment& uUreters = m_Compartments->CreateLiquidCompartment(BGE::UrineCompartment::Ureters);
-  uUreters.AddChild(uRightUreter);
   /////////////
   // Bladder //
-  SELiquidCompartment& uBladder = m_Compartments->CreateLiquidCompartment(BGE::UrineCompartment::Bladder);
+  SELiquidCompartment& uBladder = m_Compartments->CreateLiquidCompartment(BGE::UrineLiteCompartment::Bladder);
   uBladder.MapNode(Bladder);
 
   /////////////////////////////
@@ -2487,51 +2484,51 @@ void BioGears::SetupRenalLite()
   ///////////
 
   ////////////////////////////
-  // AortaToRightRenalArtery //
-  m_Compartments->DeleteLiquidLink(BGE::VascularLink::AortaToRightKidney); // Replace this link
-  SELiquidCompartmentLink& vAortaToRightRenalArtery = m_Compartments->CreateLiquidLink(vAorta, vRightRenalArtery, BGE::VascularLink::AortaToRightKidney);
-  vAortaToRightRenalArtery.MapPath(RightAortaConnectionToRenalArtery);
+  // AortaToRenalArtery //
+  m_Compartments->DeleteLiquidLink(BGE::VascularLink::AortaToKidney); // Replace this link
+  SELiquidCompartmentLink& vAortaToRenalArtery = m_Compartments->CreateLiquidLink(vAorta, vRenalArtery, BGE::VascularLink::AortaToKidney);
+  vAortaToRenalArtery.MapPath(AortaConnectionToRenalArtery);
   ////////////////////////////////////////
-  // RightRenalArteryToAfferentArteriole //
-  SELiquidCompartmentLink& vRightRenalArteryToAfferentArteriole = m_Compartments->CreateLiquidLink(vRightRenalArtery, vRightAfferentArteriole, BGE::VascularLink::RightRenalArteryToAfferentArteriole);
-  vRightRenalArteryToAfferentArteriole.MapPath(RightRenalArteryToAfferentArteriole);
+  // RenalArteryToAfferentArteriole //
+  SELiquidCompartmentLink& vRenalArteryToAfferentArteriole = m_Compartments->CreateLiquidLink(vRenalArtery, vAfferentArteriole, BGE::VascularLink::RenalArteryToAfferentArteriole);
+  vRenalArteryToAfferentArteriole.MapPath(RenalArteryToAfferentArteriole);
   //////////////////////////////////////////////////
-  // RightAfferentArterioleToGlomerularCapillaries //
-  SELiquidCompartmentLink& vRightAfferentArterioleToGlomerularCapillaries = m_Compartments->CreateLiquidLink(vRightAfferentArteriole, vRightGlomerularCapillaries, BGE::VascularLink::RightAfferentArterioleToGlomerularCapillaries);
-  vRightAfferentArterioleToGlomerularCapillaries.MapPath(RightAfferentArterioleToGlomerularCapillaries);
+  // AfferentArterioleToGlomerularCapillaries //
+  SELiquidCompartmentLink& vAfferentArterioleToGlomerularCapillaries = m_Compartments->CreateLiquidLink(vAfferentArteriole, vGlomerularCapillaries, BGE::VascularLink::AfferentArterioleToGlomerularCapillaries);
+  vAfferentArterioleToGlomerularCapillaries.MapPath(AfferentArterioleToGlomerularCapillaries);
   //////////////////////////////////////////////////
-  // RightGlomerularCapillariesToEfferentArteriole //
-  SELiquidCompartmentLink& vRightGlomerularCapillariesToEfferentArteriole = m_Compartments->CreateLiquidLink(vRightGlomerularCapillaries, vRightEfferentArteriole, BGE::VascularLink::RightGlomerularCapillariesToEfferentArteriole);
-  vRightGlomerularCapillariesToEfferentArteriole.MapPath(RightGlomerularCapillariesToEfferentArteriole);
+  // GlomerularCapillariesToEfferentArteriole //
+  SELiquidCompartmentLink& vGlomerularCapillariesToEfferentArteriole = m_Compartments->CreateLiquidLink(vGlomerularCapillaries, vEfferentArteriole, BGE::VascularLink::GlomerularCapillariesToEfferentArteriole);
+  vGlomerularCapillariesToEfferentArteriole.MapPath(GlomerularCapillariesToEfferentArteriole);
   /////////////////////////////////////////////////
-  // RightGlomerularCapillariesToBowmansCapsules //
-  SELiquidCompartmentLink& vRightGlomerularCapillariesToBowmansCapsules = m_Compartments->CreateLiquidLink(vRightGlomerularCapillaries, vRightBowmansCapsules, BGE::VascularLink::RightGlomerularCapillariesToBowmansCapsules);
-  vRightGlomerularCapillariesToBowmansCapsules.MapPath(RightNetGlomerularCapillariesToNetBowmansCapsules);
+  // GlomerularCapillariesToBowmansCapsules //
+  SELiquidCompartmentLink& vGlomerularCapillariesToBowmansCapsules = m_Compartments->CreateLiquidLink(vGlomerularCapillaries, vBowmansCapsules, BGE::VascularLink::GlomerularCapillariesToBowmansCapsules);
+  vGlomerularCapillariesToBowmansCapsules.MapPath(NetGlomerularCapillariesToNetBowmansCapsules);
   ///////////////////////////////////
-  // RightBowmansCapsulesToTubules //
-  SELiquidCompartmentLink& vRightBowmansCapsulesToTubules = m_Compartments->CreateLiquidLink(vRightBowmansCapsules, vRightTubules, BGE::VascularLink::RightBowmansCapsulesToTubules);
-  vRightBowmansCapsulesToTubules.MapPath(RightBowmansCapsulesToTubules);
+  // BowmansCapsulesToTubules //
+  SELiquidCompartmentLink& vBowmansCapsulesToTubules = m_Compartments->CreateLiquidLink(vBowmansCapsules, vTubules, BGE::VascularLink::BowmansCapsulesToTubules);
+  vBowmansCapsulesToTubules.MapPath(BowmansCapsulesToTubules);
   //////////////////////////////////////////
-  // RightTubulesToPeritubularCapillaries //
-  SELiquidCompartmentLink& vRightTubulesToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vRightTubules, vRightPeritubularCapillaries, BGE::VascularLink::RightTubulesToPeritubularCapillaries);
-  vRightTubulesToPeritubularCapillaries.MapPath(RightNetTubulesToNetPeritubularCapillaries);
+  // TubulesToPeritubularCapillaries //
+  SELiquidCompartmentLink& vTubulesToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vTubules, vPeritubularCapillaries, BGE::VascularLink::TubulesToPeritubularCapillaries);
+  vTubulesToPeritubularCapillaries.MapPath(NetTubulesToNetPeritubularCapillaries);
   ///////////////////////////////////////////////////
-  // RightEfferentArterioleToPeritubularCapillaries //
-  SELiquidCompartmentLink& vRightEfferentArterioleToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vRightEfferentArteriole, vRightPeritubularCapillaries, BGE::VascularLink::RightEfferentArterioleToPeritubularCapillaries);
-  vRightEfferentArterioleToPeritubularCapillaries.MapPath(RightEfferentArterioleToPeritubularCapillaries);
+  // EfferentArterioleToPeritubularCapillaries //
+  SELiquidCompartmentLink& vEfferentArterioleToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vEfferentArteriole, vPeritubularCapillaries, BGE::VascularLink::EfferentArterioleToPeritubularCapillaries);
+  vEfferentArterioleToPeritubularCapillaries.MapPath(EfferentArterioleToPeritubularCapillaries);
   ////////////////////////////////////////////
-  // RightPeritubularCapillariesToRenalVein //
-  SELiquidCompartmentLink& vRightPeritubularCapillariesToRenalVein = m_Compartments->CreateLiquidLink(vRightPeritubularCapillaries, vRightRenalVein, BGE::VascularLink::RightPeritubularCapillariesToRenalVein);
-  vRightPeritubularCapillariesToRenalVein.MapPath(RightPeritubularCapillariesToRenalVein);
+  // PeritubularCapillariesToRenalVein //
+  SELiquidCompartmentLink& vPeritubularCapillariesToRenalVein = m_Compartments->CreateLiquidLink(vPeritubularCapillaries, vRenalVein, BGE::VascularLink::PeritubularCapillariesToRenalVein);
+  vPeritubularCapillariesToRenalVein.MapPath(PeritubularCapillariesToRenalVein);
   /////////////////////////////
-  // RightRenalVeinToVenaCava //
-  m_Compartments->DeleteLiquidLink(BGE::VascularLink::RightKidneyToVenaCava); // Replace this vink
-  SELiquidCompartmentLink& vRightRenalVeinToVenaCava = m_Compartments->CreateLiquidLink(vRightRenalVein, vVenaCava, BGE::VascularLink::RightKidneyToVenaCava);
-  vRightRenalVeinToVenaCava.MapPath(RightRenalVeinToVenaCavaConnection);
+  // RenalVeinToVenaCava //
+  m_Compartments->DeleteLiquidLink(BGE::VascularLink::KidneyToVenaCava); // Replace this vink
+  SELiquidCompartmentLink& vRenalVeinToVenaCava = m_Compartments->CreateLiquidLink(vRenalVein, vVenaCava, BGE::VascularLink::KidneyToVenaCava);
+  vRenalVeinToVenaCava.MapPath(RenalVeinToVenaCavaConnection);
   /////////////////////////////
   // Hemorrhage //
-  SELiquidCompartmentLink& vRightKidneyHemorrhage = m_Compartments->CreateLiquidLink(vRightRenalVein, vGround, BGE::VascularLink::RightKidneyHemorrhage);
-  vRightKidneyHemorrhage.MapPath(RightKidneyBleed);
+  SELiquidCompartmentLink& vKidneyHemorrhage = m_Compartments->CreateLiquidLink(vRenalVein, vGround, BGE::VascularLink::KidneyHemorrhage);
+  vKidneyHemorrhage.MapPath(KidneyBleed);
 
   
 
@@ -2540,20 +2537,20 @@ void BioGears::SetupRenalLite()
   ///////////
 
   //////////////////////////
-  // RightTubulesToUreter //
-  SELiquidCompartmentLink& uRightTubulesToUreter = m_Compartments->CreateLiquidLink(vRightTubules, uRightUreter, BGE::UrineLink::RightTubulesToUreter);
-  uRightTubulesToUreter.MapPath(RightTubulesToUreter);
+  // TubulesToUreter //
+  SELiquidCompartmentLink& uTubulesToUreter = m_Compartments->CreateLiquidLink(vTubules, uUreter, BGE::UrineLiteLink::TubulesToUreter);
+  uTubulesToUreter.MapPath(TubulesToUreter);
   //////////////////////////
-  // RightUreterToBladder //
-  SELiquidCompartmentLink& uRightUreterToBladder = m_Compartments->CreateLiquidLink(uRightUreter, uBladder, BGE::UrineLink::RightUreterToBladder);
-  uRightUreterToBladder.MapPath(RightUreterToBladder);
+  // UreterToBladder //
+  SELiquidCompartmentLink& uUreterToBladder = m_Compartments->CreateLiquidLink(uUreter, uBladder, BGE::UrineLiteLink::UreterToBladder);
+  uUreterToBladder.MapPath(UreterToBladder);
 
  
   /////////////////////
   // BladderToGround //
-  SELiquidCompartmentLink& uBladderToGround = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderToGround);
+  SELiquidCompartmentLink& uBladderToGround = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLiteLink::BladderToGround);
   uBladderToGround.MapPath(BladderToGroundUrinate);
-  SELiquidCompartmentLink& uBladderToGroundSource = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLink::BladderToGroundSource);
+  SELiquidCompartmentLink& uBladderToGroundSource = m_Compartments->CreateLiquidLink(uBladder, vGround, BGE::UrineLiteLink::BladderToGroundSource);
   uBladderToGroundSource.MapPath(BladderToGroundPressure);
 
   SELiquidCompartmentGraph& gRenal = m_Compartments->GetRenalGraph();
@@ -2561,29 +2558,29 @@ void BioGears::SetupRenalLite()
   gRenal.AddCompartment(vVenaCava);
  
   // Right Blood
-  gRenal.AddCompartment(vRightRenalArtery);
-  gRenal.AddCompartment(vRightAfferentArteriole);
-  gRenal.AddCompartment(vRightGlomerularCapillaries);
-  gRenal.AddCompartment(vRightEfferentArteriole);
-  gRenal.AddCompartment(vRightPeritubularCapillaries);
-  gRenal.AddCompartment(vRightBowmansCapsules);
-  gRenal.AddCompartment(vRightTubules);
-  gRenal.AddCompartment(vRightRenalVein);
-  gRenal.AddLink(vAortaToRightRenalArtery);
-  gRenal.AddLink(vRightRenalArteryToAfferentArteriole);
-  gRenal.AddLink(vRightAfferentArterioleToGlomerularCapillaries);
-  gRenal.AddLink(vRightGlomerularCapillariesToEfferentArteriole);
-  gRenal.AddLink(vRightKidneyHemorrhage);
-  //gRenal.AddLink(vRightGlomerularCapillariesToBowmansCapsules); //Active transport only
-  gRenal.AddLink(vRightBowmansCapsulesToTubules);
-  //gRenal.AddLink(vRightTubulesToPeritubularCapillaries); //Active transport only
-  gRenal.AddLink(vRightEfferentArterioleToPeritubularCapillaries);
-  gRenal.AddLink(vRightPeritubularCapillariesToRenalVein);
-  gRenal.AddLink(vRightRenalVeinToVenaCava); 
-  // Right Urine
-  gRenal.AddCompartment(uRightUreter);
-  gRenal.AddLink(uRightTubulesToUreter);
-  gRenal.AddLink(uRightUreterToBladder);
+  gRenal.AddCompartment(vRenalArtery);
+  gRenal.AddCompartment(vAfferentArteriole);
+  gRenal.AddCompartment(vGlomerularCapillaries);
+  gRenal.AddCompartment(vEfferentArteriole);
+  gRenal.AddCompartment(vPeritubularCapillaries);
+  gRenal.AddCompartment(vBowmansCapsules);
+  gRenal.AddCompartment(vTubules);
+  gRenal.AddCompartment(vRenalVein);
+  gRenal.AddLink(vAortaToRenalArtery);
+  gRenal.AddLink(vRenalArteryToAfferentArteriole);
+  gRenal.AddLink(vAfferentArterioleToGlomerularCapillaries);
+  gRenal.AddLink(vGlomerularCapillariesToEfferentArteriole);
+  gRenal.AddLink(vKidneyHemorrhage);
+  //gRenal.AddLink(vGlomerularCapillariesToBowmansCapsules); //Active transport only
+  gRenal.AddLink(vBowmansCapsulesToTubules);
+  //gRenal.AddLink(vTubulesToPeritubularCapillaries); //Active transport only
+  gRenal.AddLink(vEfferentArterioleToPeritubularCapillaries);
+  gRenal.AddLink(vPeritubularCapillariesToRenalVein);
+  gRenal.AddLink(vRenalVeinToVenaCava); 
+  //  Urine
+  gRenal.AddCompartment(uUreter);
+  gRenal.AddLink(uTubulesToUreter);
+  gRenal.AddLink(uUreterToBladder);
   // Shared
   gRenal.AddCompartment(uBladder);
   gRenal.AddCompartment(vGround);
@@ -2593,7 +2590,7 @@ void BioGears::SetupRenalLite()
 
   // We have discretized these compartments, so remove them
   SELiquidCompartmentGraph& gCombinedCardiovascular = m_Compartments->GetActiveCardiovascularGraph();
-  gCombinedCardiovascular.RemoveCompartment(*vRightKidney);
+  gCombinedCardiovascular.RemoveCompartment(*vKidney);
   gCombinedCardiovascular.AddGraph(gRenal);
   gCombinedCardiovascular.StateChange();
 }

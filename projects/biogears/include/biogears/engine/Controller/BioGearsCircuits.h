@@ -601,6 +601,11 @@ namespace tatrc {
         DEFINE_STATIC_STRING(VenaCavaBleed);
       };
 
+      namespace CardiovascularLitePath {
+
+        DEFINE_STATIC_STRING(KidneyBleed)
+      };
+
       namespace TissueLiteNode {
         DEFINE_STATIC_STRING(BoneE1);
         DEFINE_STATIC_STRING(BoneE2);
@@ -868,7 +873,6 @@ namespace tatrc {
         DEFINE_STATIC_STRING(NetTubules);
         DEFINE_STATIC_STRING(Ureter);
 
-    
         DEFINE_STATIC_STRING(Bladder);
 
         DEFINE_STATIC_STRING(Ground);
