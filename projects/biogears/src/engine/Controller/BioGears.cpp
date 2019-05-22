@@ -2485,49 +2485,49 @@ void BioGears::SetupRenalLite()
 
   ////////////////////////////
   // AortaToRenalArtery //
-  m_Compartments->DeleteLiquidLink(BGE::VascularLink::AortaToKidney); // Replace this link
-  SELiquidCompartmentLink& vAortaToRenalArtery = m_Compartments->CreateLiquidLink(vAorta, vRenalArtery, BGE::VascularLink::AortaToKidney);
+  m_Compartments->DeleteLiquidLink(BGE::VascularLiteLink::AortaToKidney); // Replace this link
+  SELiquidCompartmentLink& vAortaToRenalArtery = m_Compartments->CreateLiquidLink(vAorta, vRenalArtery, BGE::VascularLiteLink::AortaToKidney);
   vAortaToRenalArtery.MapPath(AortaConnectionToRenalArtery);
   ////////////////////////////////////////
   // RenalArteryToAfferentArteriole //
-  SELiquidCompartmentLink& vRenalArteryToAfferentArteriole = m_Compartments->CreateLiquidLink(vRenalArtery, vAfferentArteriole, BGE::VascularLink::RenalArteryToAfferentArteriole);
+  SELiquidCompartmentLink& vRenalArteryToAfferentArteriole = m_Compartments->CreateLiquidLink(vRenalArtery, vAfferentArteriole, BGE::VascularLiteLink::RenalArteryToAfferentArteriole);
   vRenalArteryToAfferentArteriole.MapPath(RenalArteryToAfferentArteriole);
   //////////////////////////////////////////////////
   // AfferentArterioleToGlomerularCapillaries //
-  SELiquidCompartmentLink& vAfferentArterioleToGlomerularCapillaries = m_Compartments->CreateLiquidLink(vAfferentArteriole, vGlomerularCapillaries, BGE::VascularLink::AfferentArterioleToGlomerularCapillaries);
+  SELiquidCompartmentLink& vAfferentArterioleToGlomerularCapillaries = m_Compartments->CreateLiquidLink(vAfferentArteriole, vGlomerularCapillaries, BGE::VascularLiteLink::AfferentArterioleToGlomerularCapillaries);
   vAfferentArterioleToGlomerularCapillaries.MapPath(AfferentArterioleToGlomerularCapillaries);
   //////////////////////////////////////////////////
   // GlomerularCapillariesToEfferentArteriole //
-  SELiquidCompartmentLink& vGlomerularCapillariesToEfferentArteriole = m_Compartments->CreateLiquidLink(vGlomerularCapillaries, vEfferentArteriole, BGE::VascularLink::GlomerularCapillariesToEfferentArteriole);
+  SELiquidCompartmentLink& vGlomerularCapillariesToEfferentArteriole = m_Compartments->CreateLiquidLink(vGlomerularCapillaries, vEfferentArteriole, BGE::VascularLiteLink::GlomerularCapillariesToEfferentArteriole);
   vGlomerularCapillariesToEfferentArteriole.MapPath(GlomerularCapillariesToEfferentArteriole);
   /////////////////////////////////////////////////
   // GlomerularCapillariesToBowmansCapsules //
-  SELiquidCompartmentLink& vGlomerularCapillariesToBowmansCapsules = m_Compartments->CreateLiquidLink(vGlomerularCapillaries, vBowmansCapsules, BGE::VascularLink::GlomerularCapillariesToBowmansCapsules);
+  SELiquidCompartmentLink& vGlomerularCapillariesToBowmansCapsules = m_Compartments->CreateLiquidLink(vGlomerularCapillaries, vBowmansCapsules, BGE::VascularLiteLink::GlomerularCapillariesToBowmansCapsules);
   vGlomerularCapillariesToBowmansCapsules.MapPath(NetGlomerularCapillariesToNetBowmansCapsules);
   ///////////////////////////////////
   // BowmansCapsulesToTubules //
-  SELiquidCompartmentLink& vBowmansCapsulesToTubules = m_Compartments->CreateLiquidLink(vBowmansCapsules, vTubules, BGE::VascularLink::BowmansCapsulesToTubules);
+  SELiquidCompartmentLink& vBowmansCapsulesToTubules = m_Compartments->CreateLiquidLink(vBowmansCapsules, vTubules, BGE::VascularLiteLink::BowmansCapsulesToTubules);
   vBowmansCapsulesToTubules.MapPath(BowmansCapsulesToTubules);
   //////////////////////////////////////////
   // TubulesToPeritubularCapillaries //
-  SELiquidCompartmentLink& vTubulesToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vTubules, vPeritubularCapillaries, BGE::VascularLink::TubulesToPeritubularCapillaries);
+  SELiquidCompartmentLink& vTubulesToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vTubules, vPeritubularCapillaries, BGE::VascularLiteLink::TubulesToPeritubularCapillaries);
   vTubulesToPeritubularCapillaries.MapPath(NetTubulesToNetPeritubularCapillaries);
   ///////////////////////////////////////////////////
   // EfferentArterioleToPeritubularCapillaries //
-  SELiquidCompartmentLink& vEfferentArterioleToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vEfferentArteriole, vPeritubularCapillaries, BGE::VascularLink::EfferentArterioleToPeritubularCapillaries);
+  SELiquidCompartmentLink& vEfferentArterioleToPeritubularCapillaries = m_Compartments->CreateLiquidLink(vEfferentArteriole, vPeritubularCapillaries, BGE::VascularLiteLink::EfferentArterioleToPeritubularCapillaries);
   vEfferentArterioleToPeritubularCapillaries.MapPath(EfferentArterioleToPeritubularCapillaries);
   ////////////////////////////////////////////
   // PeritubularCapillariesToRenalVein //
-  SELiquidCompartmentLink& vPeritubularCapillariesToRenalVein = m_Compartments->CreateLiquidLink(vPeritubularCapillaries, vRenalVein, BGE::VascularLink::PeritubularCapillariesToRenalVein);
+  SELiquidCompartmentLink& vPeritubularCapillariesToRenalVein = m_Compartments->CreateLiquidLink(vPeritubularCapillaries, vRenalVein, BGE::VascularLiteLink::PeritubularCapillariesToRenalVein);
   vPeritubularCapillariesToRenalVein.MapPath(PeritubularCapillariesToRenalVein);
   /////////////////////////////
   // RenalVeinToVenaCava //
-  m_Compartments->DeleteLiquidLink(BGE::VascularLink::KidneyToVenaCava); // Replace this vink
-  SELiquidCompartmentLink& vRenalVeinToVenaCava = m_Compartments->CreateLiquidLink(vRenalVein, vVenaCava, BGE::VascularLink::KidneyToVenaCava);
+  m_Compartments->DeleteLiquidLink(BGE::VascularLiteLink::KidneyToVenaCava); // Replace this vink
+  SELiquidCompartmentLink& vRenalVeinToVenaCava = m_Compartments->CreateLiquidLink(vRenalVein, vVenaCava, BGE::VascularLiteLink::KidneyToVenaCava);
   vRenalVeinToVenaCava.MapPath(RenalVeinToVenaCavaConnection);
   /////////////////////////////
   // Hemorrhage //
-  SELiquidCompartmentLink& vKidneyHemorrhage = m_Compartments->CreateLiquidLink(vRenalVein, vGround, BGE::VascularLink::KidneyHemorrhage);
+  SELiquidCompartmentLink& vKidneyHemorrhage = m_Compartments->CreateLiquidLink(vRenalVein, vGround, BGE::VascularLiteLink::KidneyHemorrhage);
   vKidneyHemorrhage.MapPath(KidneyBleed);
 
   
