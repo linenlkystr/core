@@ -2099,7 +2099,7 @@ void BioGears::SetupCardiovascular()
 
 void BioGears::SetupRenalLite()
 {
-  Info("Setting Up Renal");
+  Info("Setting Up Renal Lite");
   //////////////////////////
   // Circuit Interdependence
   SEFluidCircuit& cCardiovascular = m_Circuits->GetCardiovascularCircuit();
@@ -2107,8 +2107,9 @@ void BioGears::SetupRenalLite()
   //assuming there is a left and right kidney node in cardiovascular AND that a baseline volume is set (as a function of patient mass):
   double leftKidneyFluidVolume_mL = cCardiovascular.GetNode(BGE::CardiovascularNode::LeftKidney1)->GetVolumeBaseline(VolumeUnit::mL);
   double rightKidneyFluidVolume_mL = cCardiovascular.GetNode(BGE::CardiovascularNode::RightKidney1)->GetVolumeBaseline(VolumeUnit::mL);
-  double singleKidneyLargeVasculatureFluidVolume_mL = leftKidneyFluidVolume_mL / 2; //Total large vasculature fluid volume
-  double singleKidneySmallVasculatureFluidVolume_mL = leftKidneyFluidVolume_mL / 2; //Total small vasculature fluid volume
+  double totalKidneyFluidVolume_mL = leftKidneyFluidVolume_mL + rightKidneyFluidVolume_mL;
+  double singleKidneyLargeVasculatureFluidVolume_mL = totalKidneyFluidVolume_mL / 2; //Total large vasculature fluid volume
+  double singleKidneySmallVasculatureFluidVolume_mL = totalKidneyFluidVolume_mL / 2; //Total small vasculature fluid volume
 
   //////////////////////////
   ///// Circuit Parameters//////
