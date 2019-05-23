@@ -85,9 +85,9 @@ namespace tatrc {
         DEFINE_STATIC_STRING(Stomach);
         DEFINE_STATIC_STRING(Carina);
         DEFINE_STATIC_STRING_EX(Lungs, PulmonaryLungs);
-        DEFINE_STATIC_STRING_EX(Lung, LungPulmonary);
-        DEFINE_STATIC_STRING(DeadSpace);
-        DEFINE_STATIC_STRING(Alveoli);
+        DEFINE_STATIC_STRING_EX(LeftLung, LeftLungPulmonary);
+        DEFINE_STATIC_STRING(LeftDeadSpace);
+        DEFINE_STATIC_STRING(LeftAlveoli);
         DEFINE_STATIC_STRING_EX(RightLung, RightLungPulmonary);
         DEFINE_STATIC_STRING(RightDeadSpace);
         DEFINE_STATIC_STRING(RightAlveoli);
@@ -95,8 +95,8 @@ namespace tatrc {
         DEFINE_STATIC_STRING(LeftPleuralCavity);
         DEFINE_STATIC_STRING(RightPleuralCavity);
 
-        DEFINE_STATIC_STRING(AlveoliLeak);
-        DEFINE_STATIC_STRING(ChestLeak);
+        DEFINE_STATIC_STRING(LeftAlveoliLeak);
+        DEFINE_STATIC_STRING(LeftChestLeak);
         DEFINE_STATIC_STRING(RightAlveoliLeak);
         DEFINE_STATIC_STRING(RightChestLeak);
 
@@ -104,7 +104,7 @@ namespace tatrc {
         {
 
           static std::vector<std::string> _values = {
-            Mouth, Stomach, Carina, Lungs, Lung, DeadSpace, Alveoli, RightLung, RightDeadSpace, RightAlveoli, PleuralCavity, LeftPleuralCavity, RightPleuralCavity, AlveoliLeak, ChestLeak, RightAlveoliLeak, RightChestLeak
+            Mouth, Stomach, Carina, Lungs, LeftLung, LeftDeadSpace, LeftAlveoli, RightLung, RightDeadSpace, RightAlveoli, PleuralCavity, LeftPleuralCavity, RightPleuralCavity, LeftAlveoliLeak, LeftChestLeak, RightAlveoliLeak, RightChestLeak
           };
           return _values;
         }
@@ -689,22 +689,6 @@ namespace tatrc {
            return _values;
          }
        }
-
-      namespace UrineLiteLink {
-
-        DEFINE_STATIC_STRING(TubulesToUreter);
-        DEFINE_STATIC_STRING(UreterToBladder);
-        DEFINE_STATIC_STRING(BladderToGround);
-        DEFINE_STATIC_STRING(BladderToGroundSource);
-
-        static const std::vector<std::string>& GetValues()
-        {
-          static std::vector<std::string> _values = {
-            TubulesToUreter, UreterToBladder, BladderToGround, BladderToGroundSource
-          };
-          return _values;
-        }
-      };
 
       namespace UrineLiteCompartment {
 
