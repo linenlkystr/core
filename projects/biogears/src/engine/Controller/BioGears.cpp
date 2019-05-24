@@ -2154,8 +2154,8 @@ void BioGears::SetupRenalLite()
   double bowmansVolume_mL = singleKidneySmallVasculatureFluidVolume_mL / 5.0;
   double glomerularVolume_mL = singleKidneySmallVasculatureFluidVolume_mL / 5.0;
 
-  //Using width = 1.8 mm and length = 11 inches => 710.6 mm^3
-  double ureterVolume_mL = 0.71;
+  //Using width = 1.8 mm and length = 11 inches => 710.6 mm^3, double for lumped lite model
+  double ureterVolume_mL = 2.0*(0.71);
 
   //Tuned constants
   double bladderVolume_mL = 1.0;

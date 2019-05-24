@@ -70,89 +70,83 @@ public:
   SEScalarFraction& GetFiltrationFraction();
   double GetFiltrationFraction() const;
 
-  bool HasLeftAfferentArterioleResistance() const;
-  SEScalarFlowResistance& GetLeftAfferentArterioleResistance();
-  double GetLeftAfferentArterioleResistance(const FlowResistanceUnit& unit) const;
+  bool HasAfferentArterioleResistance() const;
+  SEScalarFlowResistance& GetAfferentArterioleResistance();
+  double GetAfferentArterioleResistance(const FlowResistanceUnit& unit) const;
 
-  bool HasLeftBowmansCapsulesHydrostaticPressure() const;
-  SEScalarPressure& GetLeftBowmansCapsulesHydrostaticPressure();
-  double GetLeftBowmansCapsulesHydrostaticPressure(const PressureUnit& unit) const;
+  bool HasBowmansCapsulesHydrostaticPressure() const;
+  SEScalarPressure& GetBowmansCapsulesHydrostaticPressure();
+  double GetBowmansCapsulesHydrostaticPressure(const PressureUnit& unit) const;
 
-  bool HasLeftBowmansCapsulesOsmoticPressure() const;
-  SEScalarPressure& GetLeftBowmansCapsulesOsmoticPressure();
-  double GetLeftBowmansCapsulesOsmoticPressure(const PressureUnit& unit) const;
+  bool HasBowmansCapsulesOsmoticPressure() const;
+  SEScalarPressure& GetBowmansCapsulesOsmoticPressure();
+  double GetBowmansCapsulesOsmoticPressure(const PressureUnit& unit) const;
 
-  bool HasLeftEfferentArterioleResistance() const;
-  SEScalarFlowResistance& GetLeftEfferentArterioleResistance();
-  double GetLeftEfferentArterioleResistance(const FlowResistanceUnit& unit) const;
+  bool HasEfferentArterioleResistance() const;
+  SEScalarFlowResistance& GetEfferentArterioleResistance();
+  double GetEfferentArterioleResistance(const FlowResistanceUnit& unit) const;
 
-  bool HasLeftGlomerularCapillariesHydrostaticPressure() const;
-  SEScalarPressure& GetLeftGlomerularCapillariesHydrostaticPressure();
-  double GetLeftGlomerularCapillariesHydrostaticPressure(const PressureUnit& unit) const;
+  bool HasGlomerularCapillariesHydrostaticPressure() const;
+  SEScalarPressure& GetGlomerularCapillariesHydrostaticPressure();
+  double GetGlomerularCapillariesHydrostaticPressure(const PressureUnit& unit) const;
 
-  bool HasLeftGlomerularCapillariesOsmoticPressure() const;
-  SEScalarPressure& GetLeftGlomerularCapillariesOsmoticPressure();
-  double GetLeftGlomerularCapillariesOsmoticPressure(const PressureUnit& unit) const;
+  bool HasGlomerularCapillariesOsmoticPressure() const;
+  SEScalarPressure& GetGlomerularCapillariesOsmoticPressure();
+  double GetGlomerularCapillariesOsmoticPressure(const PressureUnit& unit) const;
 
-  bool HasLeftGlomerularFiltrationCoefficient() const;
-  SEScalarVolumePerTimePressure& GetLeftGlomerularFiltrationCoefficient();
-  double GetLeftGlomerularFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const;
+  bool HasGlomerularFiltrationCoefficient() const;
+  SEScalarVolumePerTimePressure& GetGlomerularFiltrationCoefficient();
+  double GetGlomerularFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const;
 
-  bool HasLeftGlomerularFiltrationRate() const;
-  SEScalarVolumePerTime& GetLeftGlomerularFiltrationRate();
-  double GetLeftGlomerularFiltrationRate(const VolumePerTimeUnit& unit) const;
 
-  bool HasLeftGlomerularFiltrationSurfaceArea() const;
-  SEScalarArea& GetLeftGlomerularFiltrationSurfaceArea();
-  double GetLeftGlomerularFiltrationSurfaceArea(const AreaUnit& unit) const;
+  bool HasGlomerularFiltrationSurfaceArea() const;
+  SEScalarArea& GetGlomerularFiltrationSurfaceArea();
+  double GetGlomerularFiltrationSurfaceArea(const AreaUnit& unit) const;
 
-  bool HasLeftGlomerularFluidPermeability() const;
-  SEScalarVolumePerTimePressureArea& GetLeftGlomerularFluidPermeability();
-  double GetLeftGlomerularFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const;
+  bool HasGlomerularFluidPermeability() const;
+  SEScalarVolumePerTimePressureArea& GetGlomerularFluidPermeability();
+  double GetGlomerularFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const;
 
-  bool HasLeftFiltrationFraction() const;
-  SEScalarFraction& GetLeftFiltrationFraction();
-  double GetLeftFiltrationFraction() const;
 
-  bool HasLeftNetFiltrationPressure() const;
-  SEScalarPressure& GetLeftNetFiltrationPressure();
-  double GetLeftNetFiltrationPressure(const PressureUnit& unit) const;
+  bool HasNetFiltrationPressure() const;
+  SEScalarPressure& GetNetFiltrationPressure();
+  double GetNetFiltrationPressure(const PressureUnit& unit) const;
 
-  bool HasLeftNetReabsorptionPressure() const;
-  SEScalarPressure& GetLeftNetReabsorptionPressure();
-  double GetLeftNetReabsorptionPressure(const PressureUnit& unit) const;
+  bool HasNetReabsorptionPressure() const;
+  SEScalarPressure& GetNetReabsorptionPressure();
+  double GetNetReabsorptionPressure(const PressureUnit& unit) const;
 
-  bool HasLeftPeritubularCapillariesHydrostaticPressure() const;
-  SEScalarPressure& GetLeftPeritubularCapillariesHydrostaticPressure();
-  double GetLeftPeritubularCapillariesHydrostaticPressure(const PressureUnit& unit) const;
+  bool HasPeritubularCapillariesHydrostaticPressure() const;
+  SEScalarPressure& GetPeritubularCapillariesHydrostaticPressure();
+  double GetPeritubularCapillariesHydrostaticPressure(const PressureUnit& unit) const;
 
-  bool HasLeftPeritubularCapillariesOsmoticPressure() const;
-  SEScalarPressure& GetLeftPeritubularCapillariesOsmoticPressure();
-  double GetLeftPeritubularCapillariesOsmoticPressure(const PressureUnit& unit) const;
+  bool HasPeritubularCapillariesOsmoticPressure() const;
+  SEScalarPressure& GetPeritubularCapillariesOsmoticPressure();
+  double GetPeritubularCapillariesOsmoticPressure(const PressureUnit& unit) const;
 
-  bool HasLeftReabsorptionFiltrationCoefficient() const;
-  SEScalarVolumePerTimePressure& GetLeftReabsorptionFiltrationCoefficient();
-  double GetLeftReabsorptionFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const;
+  bool HasReabsorptionFiltrationCoefficient() const;
+  SEScalarVolumePerTimePressure& GetReabsorptionFiltrationCoefficient();
+  double GetReabsorptionFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const;
 
-  bool HasLeftReabsorptionRate() const;
-  SEScalarVolumePerTime& GetLeftReabsorptionRate();
-  double GetLeftReabsorptionRate(const VolumePerTimeUnit& unit) const;
+  bool HasReabsorptionRate() const;
+  SEScalarVolumePerTime& GetReabsorptionRate();
+  double GetReabsorptionRate(const VolumePerTimeUnit& unit) const;
 
-  bool HasLeftTubularReabsorptionFiltrationSurfaceArea() const;
-  SEScalarArea& GetLeftTubularReabsorptionFiltrationSurfaceArea();
-  double GetLeftTubularReabsorptionFiltrationSurfaceArea(const AreaUnit& unit) const;
+  bool HasTubularReabsorptionFiltrationSurfaceArea() const;
+  SEScalarArea& GetTubularReabsorptionFiltrationSurfaceArea();
+  double GetTubularReabsorptionFiltrationSurfaceArea(const AreaUnit& unit) const;
 
-  bool HasLeftTubularReabsorptionFluidPermeability() const;
-  SEScalarVolumePerTimePressureArea& GetLeftTubularReabsorptionFluidPermeability();
-  double GetLeftTubularReabsorptionFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const;
+  bool HasTubularReabsorptionFluidPermeability() const;
+  SEScalarVolumePerTimePressureArea& GetTubularReabsorptionFluidPermeability();
+  double GetTubularReabsorptionFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const;
 
-  bool HasLeftTubularHydrostaticPressure() const;
-  SEScalarPressure& GetLeftTubularHydrostaticPressure();
-  double GetLeftTubularHydrostaticPressure(const PressureUnit& unit) const;
+  bool HasTubularHydrostaticPressure() const;
+  SEScalarPressure& GetTubularHydrostaticPressure();
+  double GetTubularHydrostaticPressure(const PressureUnit& unit) const;
 
-  bool HasLeftTubularOsmoticPressure() const;
-  SEScalarPressure& GetLeftTubularOsmoticPressure();
-  double GetLeftTubularOsmoticPressure(const PressureUnit& unit) const;
+  bool HasTubularOsmoticPressure() const;
+  SEScalarPressure& GetTubularOsmoticPressure();
+  double GetTubularOsmoticPressure(const PressureUnit& unit) const;
 
   bool HasRenalBloodFlow() const;
   SEScalarVolumePerTime& GetRenalBloodFlow();
@@ -165,90 +159,6 @@ public:
   bool HasRenalVascularResistance() const;
   SEScalarFlowResistance& GetRenalVascularResistance();
   double GetRenalVascularResistance(const FlowResistanceUnit& unit) const;
-
-  bool HasRightAfferentArterioleResistance() const;
-  SEScalarFlowResistance& GetRightAfferentArterioleResistance();
-  double GetRightAfferentArterioleResistance(const FlowResistanceUnit& unit) const;
-
-  bool HasRightBowmansCapsulesHydrostaticPressure() const;
-  SEScalarPressure& GetRightBowmansCapsulesHydrostaticPressure();
-  double GetRightBowmansCapsulesHydrostaticPressure(const PressureUnit& unit) const;
-
-  bool HasRightBowmansCapsulesOsmoticPressure() const;
-  SEScalarPressure& GetRightBowmansCapsulesOsmoticPressure();
-  double GetRightBowmansCapsulesOsmoticPressure(const PressureUnit& unit) const;
-
-  bool HasRightEfferentArterioleResistance() const;
-  SEScalarFlowResistance& GetRightEfferentArterioleResistance();
-  double GetRightEfferentArterioleResistance(const FlowResistanceUnit& unit) const;
-
-  bool HasRightGlomerularCapillariesHydrostaticPressure() const;
-  SEScalarPressure& GetRightGlomerularCapillariesHydrostaticPressure();
-  double GetRightGlomerularCapillariesHydrostaticPressure(const PressureUnit& unit) const;
-
-  bool HasRightGlomerularCapillariesOsmoticPressure() const;
-  SEScalarPressure& GetRightGlomerularCapillariesOsmoticPressure();
-  double GetRightGlomerularCapillariesOsmoticPressure(const PressureUnit& unit) const;
-
-  bool HasRightGlomerularFiltrationCoefficient() const;
-  SEScalarVolumePerTimePressure& GetRightGlomerularFiltrationCoefficient();
-  double GetRightGlomerularFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const;
-
-  bool HasRightGlomerularFiltrationRate() const;
-  SEScalarVolumePerTime& GetRightGlomerularFiltrationRate();
-  double GetRightGlomerularFiltrationRate(const VolumePerTimeUnit& unit) const;
-
-  bool HasRightGlomerularFiltrationSurfaceArea() const;
-  SEScalarArea& GetRightGlomerularFiltrationSurfaceArea();
-  double GetRightGlomerularFiltrationSurfaceArea(const AreaUnit& unit) const;
-
-  bool HasRightGlomerularFluidPermeability() const;
-  SEScalarVolumePerTimePressureArea& GetRightGlomerularFluidPermeability();
-  double GetRightGlomerularFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const;
-
-  bool HasRightFiltrationFraction() const;
-  SEScalarFraction& GetRightFiltrationFraction();
-  double GetRightFiltrationFraction() const;
-
-  bool HasRightNetFiltrationPressure() const;
-  SEScalarPressure& GetRightNetFiltrationPressure();
-  double GetRightNetFiltrationPressure(const PressureUnit& unit) const;
-
-  bool HasRightNetReabsorptionPressure() const;
-  SEScalarPressure& GetRightNetReabsorptionPressure();
-  double GetRightNetReabsorptionPressure(const PressureUnit& unit) const;
-
-  bool HasRightPeritubularCapillariesHydrostaticPressure() const;
-  SEScalarPressure& GetRightPeritubularCapillariesHydrostaticPressure();
-  double GetRightPeritubularCapillariesHydrostaticPressure(const PressureUnit& unit) const;
-
-  bool HasRightPeritubularCapillariesOsmoticPressure() const;
-  SEScalarPressure& GetRightPeritubularCapillariesOsmoticPressure();
-  double GetRightPeritubularCapillariesOsmoticPressure(const PressureUnit& unit) const;
-
-  bool HasRightReabsorptionFiltrationCoefficient() const;
-  SEScalarVolumePerTimePressure& GetRightReabsorptionFiltrationCoefficient();
-  double GetRightReabsorptionFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const;
-
-  bool HasRightReabsorptionRate() const;
-  SEScalarVolumePerTime& GetRightReabsorptionRate();
-  double GetRightReabsorptionRate(const VolumePerTimeUnit& unit) const;
-
-  bool HasRightTubularReabsorptionFiltrationSurfaceArea() const;
-  SEScalarArea& GetRightTubularReabsorptionFiltrationSurfaceArea();
-  double GetRightTubularReabsorptionFiltrationSurfaceArea(const AreaUnit& unit) const;
-
-  bool HasRightTubularReabsorptionFluidPermeability() const;
-  SEScalarVolumePerTimePressureArea& GetRightTubularReabsorptionFluidPermeability();
-  double GetRightTubularReabsorptionFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const;
-
-  bool HasRightTubularHydrostaticPressure() const;
-  SEScalarPressure& GetRightTubularHydrostaticPressure();
-  double GetRightTubularHydrostaticPressure(const PressureUnit& unit) const;
-
-  bool HasRightTubularOsmoticPressure() const;
-  SEScalarPressure& GetRightTubularOsmoticPressure();
-  double GetRightTubularOsmoticPressure(const PressureUnit& unit) const;
 
   bool HasUrinationRate() const;
   SEScalarVolumePerTime& GetUrinationRate();
@@ -282,53 +192,29 @@ protected:
   SEScalarVolumePerTime* m_GlomerularFiltrationRate;
   SEScalarFraction* m_FiltrationFraction;
 
-  SEScalarFlowResistance* m_LeftAfferentArterioleResistance;
-  SEScalarPressure* m_LeftBowmansCapsulesHydrostaticPressure;
-  SEScalarPressure* m_LeftBowmansCapsulesOsmoticPressure;
-  SEScalarFlowResistance* m_LeftEfferentArterioleResistance;
-  SEScalarPressure* m_LeftGlomerularCapillariesHydrostaticPressure;
-  SEScalarPressure* m_LeftGlomerularCapillariesOsmoticPressure;
-  SEScalarVolumePerTimePressure* m_LeftGlomerularFiltrationCoefficient;
-  SEScalarVolumePerTime* m_LeftGlomerularFiltrationRate;
-  SEScalarArea* m_LeftGlomerularFiltrationSurfaceArea;
-  SEScalarVolumePerTimePressureArea* m_LeftGlomerularFluidPermeability;
-  SEScalarFraction* m_LeftFiltrationFraction;
-  SEScalarPressure* m_LeftNetFiltrationPressure;
-  SEScalarPressure* m_LeftNetReabsorptionPressure;
-  SEScalarPressure* m_LeftPeritubularCapillariesHydrostaticPressure;
-  SEScalarPressure* m_LeftPeritubularCapillariesOsmoticPressure;
-  SEScalarVolumePerTimePressure* m_LeftReabsorptionFiltrationCoefficient;
-  SEScalarVolumePerTime* m_LeftReabsorptionRate;
-  SEScalarArea* m_LeftTubularReabsorptionFiltrationSurfaceArea;
-  SEScalarVolumePerTimePressureArea* m_LeftTubularReabsorptionFluidPermeability;
-  SEScalarPressure* m_LeftTubularHydrostaticPressure;
-  SEScalarPressure* m_LeftTubularOsmoticPressure;
+  SEScalarFlowResistance* m_AfferentArterioleResistance;
+  SEScalarPressure* m_BowmansCapsulesHydrostaticPressure;
+  SEScalarPressure* m_BowmansCapsulesOsmoticPressure;
+  SEScalarFlowResistance* m_EfferentArterioleResistance;
+  SEScalarPressure* m_GlomerularCapillariesHydrostaticPressure;
+  SEScalarPressure* m_GlomerularCapillariesOsmoticPressure;
+  SEScalarVolumePerTimePressure* m_GlomerularFiltrationCoefficient;
+  SEScalarArea* m_GlomerularFiltrationSurfaceArea;
+  SEScalarVolumePerTimePressureArea* m_GlomerularFluidPermeability;
+  SEScalarPressure* m_NetFiltrationPressure;
+  SEScalarPressure* m_NetReabsorptionPressure;
+  SEScalarPressure* m_PeritubularCapillariesHydrostaticPressure;
+  SEScalarPressure* m_PeritubularCapillariesOsmoticPressure;
+  SEScalarVolumePerTimePressure* m_ReabsorptionFiltrationCoefficient;
+  SEScalarVolumePerTime* m_ReabsorptionRate;
+  SEScalarArea* m_TubularReabsorptionFiltrationSurfaceArea;
+  SEScalarVolumePerTimePressureArea* m_TubularReabsorptionFluidPermeability;
+  SEScalarPressure* m_TubularHydrostaticPressure;
+  SEScalarPressure* m_TubularOsmoticPressure;
 
   SEScalarVolumePerTime* m_RenalBloodFlow;
   SEScalarVolumePerTime* m_RenalPlasmaFlow;
   SEScalarFlowResistance* m_RenalVascularResistance;
-
-  SEScalarFlowResistance* m_RightAfferentArterioleResistance;
-  SEScalarPressure* m_RightBowmansCapsulesHydrostaticPressure;
-  SEScalarPressure* m_RightBowmansCapsulesOsmoticPressure;
-  SEScalarFlowResistance* m_RightEfferentArterioleResistance;
-  SEScalarPressure* m_RightGlomerularCapillariesHydrostaticPressure;
-  SEScalarPressure* m_RightGlomerularCapillariesOsmoticPressure;
-  SEScalarVolumePerTimePressure* m_RightGlomerularFiltrationCoefficient;
-  SEScalarVolumePerTime* m_RightGlomerularFiltrationRate;
-  SEScalarArea* m_RightGlomerularFiltrationSurfaceArea;
-  SEScalarVolumePerTimePressureArea* m_RightGlomerularFluidPermeability;
-  SEScalarFraction* m_RightFiltrationFraction;
-  SEScalarPressure* m_RightNetFiltrationPressure;
-  SEScalarPressure* m_RightNetReabsorptionPressure;
-  SEScalarPressure* m_RightPeritubularCapillariesHydrostaticPressure;
-  SEScalarPressure* m_RightPeritubularCapillariesOsmoticPressure;
-  SEScalarVolumePerTimePressure* m_RightReabsorptionFiltrationCoefficient;
-  SEScalarVolumePerTime* m_RightReabsorptionRate;
-  SEScalarArea* m_RightTubularReabsorptionFiltrationSurfaceArea;
-  SEScalarVolumePerTimePressureArea* m_RightTubularReabsorptionFluidPermeability;
-  SEScalarPressure* m_RightTubularHydrostaticPressure;
-  SEScalarPressure* m_RightTubularOsmoticPressure;
 
   SEScalarVolumePerTime* m_UrinationRate;
   SEScalarOsmolality* m_UrineOsmolality;

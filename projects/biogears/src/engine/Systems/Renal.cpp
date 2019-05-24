@@ -177,6 +177,107 @@ void Renal::Clear()
   m_sodiumConcentration_mg_Per_mL_runningAvg.Reset();
 }
 
+void Renal::Clear()
+{
+  SERenalSystem::Clear();
+
+  m_patient = nullptr;
+  m_RenalCircuit = nullptr;
+  m_leftGlomerularNode = nullptr;
+  m_leftBowmansNode = nullptr;
+  m_leftPeritubularNode = nullptr;
+  m_leftTubulesNode = nullptr;
+  m_leftRenalArteryNode = nullptr;
+  m_rightGlomerularNode = nullptr;
+  m_rightBowmansNode = nullptr;
+  m_rightPeritubularNode = nullptr;
+  m_rightTubulesNode = nullptr;
+  m_rightRenalArteryNode = nullptr;
+  m_bladderNode = nullptr;
+  m_leftNetGlomerularCapillariesNode = nullptr;
+  m_leftNetBowmansCapsulesNode = nullptr;
+  m_leftNetPeritubularCapillariesNode = nullptr;
+  m_leftNetTubulesNode = nullptr;
+  m_rightNetGlomerularCapillariesNode = nullptr;
+  m_rightNetBowmansCapsulesNode = nullptr;
+  m_rightNetPeritubularCapillariesNode = nullptr;
+  m_rightNetTubulesNode = nullptr;
+  m_leftGlomerularOsmoticSourcePath = nullptr;
+  m_leftBowmansOsmoticSourcePath = nullptr;
+  m_leftReabsorptionResistancePath = nullptr;
+  m_leftTubulesOsmoticSourcePath = nullptr;
+  m_leftPeritubularOsmoticSourcePath = nullptr;
+  m_leftUreterPath = nullptr;
+  m_leftGlomerularFilterResistancePath = nullptr;
+  m_leftAfferentArteriolePath = nullptr;
+  m_rightReabsorptionResistancePath = nullptr;
+  m_rightGlomerularOsmoticSourcePath = nullptr;
+  m_rightBowmansOsmoticSourcePath = nullptr;
+  m_rightTubulesOsmoticSourcePath = nullptr;
+  m_rightPeritubularOsmoticSourcePath = nullptr;
+  m_rightUreterPath = nullptr;
+  m_rightGlomerularFilterResistancePath = nullptr;
+  m_rightAfferentArteriolePath = nullptr;
+  m_bladderToGroundPressurePath = nullptr;
+  m_urethraPath = nullptr;
+  m_leftTubulesPath = nullptr;
+  m_rightTubulesPath = nullptr;
+  m_leftEfferentArteriolePath = nullptr;
+  m_rightEfferentArteriolePath = nullptr;
+
+  m_sodium = nullptr;
+  m_urea = nullptr;
+  m_glucose = nullptr;
+  m_lactate = nullptr;
+  m_potassium = nullptr;
+  m_aorta = nullptr;
+  m_venaCava = nullptr;
+  m_bladder = nullptr;
+  m_rightKidneyTissue = nullptr;
+  m_leftKidneyTissue = nullptr;
+  m_leftUreter = nullptr;
+  m_leftPeritubular = nullptr;
+  m_rightUreter = nullptr;
+  m_rightPeritubular = nullptr;
+  m_leftGlomerular = nullptr;
+  m_leftBowmans = nullptr;
+  m_rightGlomerular = nullptr;
+  m_rightBowmans = nullptr;
+  m_leftTubules = nullptr;
+  m_rightTubules = nullptr;
+
+  m_aortaLactate = nullptr;
+
+  m_leftPeritubularGlucose = nullptr;
+  m_leftPeritubularPotassium = nullptr;
+  m_leftUreterLactate = nullptr;
+  m_leftUreterPotassium = nullptr;
+
+  m_rightPeritubularGlucose = nullptr;
+  m_rightPeritubularPotassium = nullptr;
+  m_rightUreterLactate = nullptr;
+  m_rightUreterPotassium = nullptr;
+
+  m_bladderGlucose = nullptr;
+  m_bladderPotassium = nullptr;
+  m_bladderSodium = nullptr;
+  m_bladderUrea = nullptr;
+  m_leftTubulesSodium = nullptr;
+  m_rightTubulesSodium = nullptr;
+
+  m_leftKidneyIntracellularLactate = nullptr;
+  m_rightKidneyIntracellularLactate = nullptr;
+
+  m_urineProductionRate_mL_Per_min_runningAvg.Reset();
+  m_urineOsmolarity_mOsm_Per_L_runningAvg.Reset();
+  m_sodiumExcretionRate_mg_Per_min_runningAvg.Reset();
+  m_rightSodiumFlow_mg_Per_s_runningAvg.Reset();
+  m_leftSodiumFlow_mg_Per_s_runningAvg.Reset();
+  m_leftRenalArterialPressure_mmHg_runningAvg.Reset();
+  m_rightRenalArterialPressure_mmHg_runningAvg.Reset();
+  m_sodiumConcentration_mg_Per_mL_runningAvg.Reset();
+}
+
 //--------------------------------------------------------------------------------------------------
 /// \brief
 /// Initializes system properties to valid homeostatic values.

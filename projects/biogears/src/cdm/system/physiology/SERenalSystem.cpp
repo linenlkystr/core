@@ -31,51 +31,28 @@ specific language governing permissions and limitations under the License.
 namespace biogears {
   constexpr char idGlomerularFiltrationRate[] = "GlomerularFiltrationRate";
   constexpr char idFiltrationFraction[] = "FiltrationFraction";
-  constexpr char idLeftAfferentArterioleResistance[] = "LeftAfferentArterioleResistance";
-  constexpr char idLeftBowmansCapsulesHydrostaticPressure[] = "LeftBowmansCapsulesHydrostaticPressure";
-  constexpr char idLeftBowmansCapsulesOsmoticPressure[] = "LeftBowmansCapsulesOsmoticPressure";
-  constexpr char idLeftEfferentArterioleResistance[] = "LeftEfferentArterioleResistance";
-  constexpr char idLeftGlomerularCapillariesHydrostaticPressure[] = "LeftGlomerularCapillariesHydrostaticPressure";
-  constexpr char idLeftGlomerularCapillariesOsmoticPressure[] = "LeftGlomerularCapillariesOsmoticPressure";
-  constexpr char idLeftGlomerularFiltrationCoefficient[] = "LeftGlomerularFiltrationCoefficient";
-  constexpr char idLeftGlomerularFiltrationRate[] = "LeftGlomerularFiltrationRate";
-  constexpr char idLeftGlomerularFiltrationSurfaceArea[] = "LeftGlomerularFiltrationSurfaceArea";
-  constexpr char idLeftGlomerularFluidPermeability[] = "LeftGlomerularFluidPermeability";
-  constexpr char idLeftFiltrationFraction[] = "LeftFiltrationFraction";
-  constexpr char idLeftNetFiltrationPressure[] = "LeftNetFiltrationPressure";
-  constexpr char idLeftNetReabsorptionPressure[] = "LeftNetReabsorptionPressure";
-  constexpr char idLeftPeritubularCapillariesHydrostaticPressure[] = "LeftPeritubularCapillariesHydrostaticPressure";
-  constexpr char idLeftPeritubularCapillariesOsmoticPressure[] = "LeftPeritubularCapillariesOsmoticPressure";
-  constexpr char idLeftReabsorptionFiltrationCoefficient[] = "LeftReabsorptionFiltrationCoefficient";
-  constexpr char idLeftReabsorptionRate[] = "LeftReabsorptionRate";
-  constexpr char idLeftTubularReabsorptionFiltrationSurfaceArea[] = "LeftTubularReabsorptionFiltrationSurfaceArea";
-  constexpr char idLeftTubularReabsorptionFluidPermeability[] = "LeftTubularReabsorptionFluidPermeability";
-  constexpr char idLeftTubularHydrostaticPressure[] = "LeftTubularHydrostaticPressure";
-  constexpr char idLeftTubularOsmoticPressure[] = "LeftTubularOsmoticPressure";
+  constexpr char idAfferentArterioleResistance[] = "AfferentArterioleResistance";
+  constexpr char idBowmansCapsulesHydrostaticPressure[] = "BowmansCapsulesHydrostaticPressure";
+  constexpr char idBowmansCapsulesOsmoticPressure[] = "BowmansCapsulesOsmoticPressure";
+  constexpr char idEfferentArterioleResistance[] = "EfferentArterioleResistance";
+  constexpr char idGlomerularCapillariesHydrostaticPressure[] = "GlomerularCapillariesHydrostaticPressure";
+  constexpr char idGlomerularCapillariesOsmoticPressure[] = "GlomerularCapillariesOsmoticPressure";
+  constexpr char idGlomerularFiltrationCoefficient[] = "GlomerularFiltrationCoefficient";
+  constexpr char idGlomerularFiltrationSurfaceArea[] = "GlomerularFiltrationSurfaceArea";
+  constexpr char idGlomerularFluidPermeability[] = "GlomerularFluidPermeability";
+  constexpr char idNetFiltrationPressure[] = "NetFiltrationPressure";
+  constexpr char idNetReabsorptionPressure[] = "NetReabsorptionPressure";
+  constexpr char idPeritubularCapillariesHydrostaticPressure[] = "PeritubularCapillariesHydrostaticPressure";
+  constexpr char idPeritubularCapillariesOsmoticPressure[] = "PeritubularCapillariesOsmoticPressure";
+  constexpr char idReabsorptionFiltrationCoefficient[] = "ReabsorptionFiltrationCoefficient";
+  constexpr char idReabsorptionRate[] = "ReabsorptionRate";
+  constexpr char idTubularReabsorptionFiltrationSurfaceArea[] = "TubularReabsorptionFiltrationSurfaceArea";
+  constexpr char idTubularReabsorptionFluidPermeability[] = "TubularReabsorptionFluidPermeability";
+  constexpr char idTubularHydrostaticPressure[] = "TubularHydrostaticPressure";
+  constexpr char idTubularOsmoticPressure[] = "TubularOsmoticPressure";
   constexpr char idRenalBloodFlow[] = "RenalBloodFlow";
   constexpr char idRenalPlasmaFlow[] = "RenalPlasmaFlow";
   constexpr char idRenalVascularResistance[] = "RenalVascularResistance";
-  constexpr char idRightAfferentArterioleResistance[] = "RightAfferentArterioleResistance";
-  constexpr char idRightBowmansCapsulesHydrostaticPressure[] = "RightBowmansCapsulesHydrostaticPressure";
-  constexpr char idRightBowmansCapsulesOsmoticPressure[] = "RightBowmansCapsulesOsmoticPressure";
-  constexpr char idRightEfferentArterioleResistance[] = "RightEfferentArterioleResistance";
-  constexpr char idRightGlomerularCapillariesHydrostaticPressure[] = "RightGlomerularCapillariesHydrostaticPressure";
-  constexpr char idRightGlomerularCapillariesOsmoticPressure[] = "RightGlomerularCapillariesOsmoticPressure";
-  constexpr char idRightGlomerularFiltrationCoefficient[] = "RightGlomerularFiltrationCoefficient";
-  constexpr char idRightGlomerularFiltrationRate[] = "RightGlomerularFiltrationRate";
-  constexpr char idRightGlomerularFiltrationSurfaceArea[] = "RightGlomerularFiltrationSurfaceArea";
-  constexpr char idRightGlomerularFluidPermeability[] = "RightGlomerularFluidPermeability";
-  constexpr char idRightFiltrationFraction[] = "RightFiltrationFraction";
-  constexpr char idRightNetFiltrationPressure[] = "RightNetFiltrationPressure";
-  constexpr char idRightNetReabsorptionPressure[] = "RightNetReabsorptionPressure";
-  constexpr char idRightPeritubularCapillariesHydrostaticPressure[] = "RightPeritubularCapillariesHydrostaticPressure";
-  constexpr char idRightPeritubularCapillariesOsmoticPressure[] = "RightPeritubularCapillariesOsmoticPressure";
-  constexpr char idRightReabsorptionFiltrationCoefficient[] = "RightReabsorptionFiltrationCoefficient";
-  constexpr char idRightReabsorptionRate[] = "RightReabsorptionRate";
-  constexpr char idRightTubularReabsorptionFiltrationSurfaceArea[] = "RightTubularReabsorptionFiltrationSurfaceArea";
-  constexpr char idRightTubularReabsorptionFluidPermeability[] = "RightTubularReabsorptionFluidPermeability";
-  constexpr char idRightTubularHydrostaticPressure[] = "RightTubularHydrostaticPressure";
-  constexpr char idRightTubularOsmoticPressure[] = "RightTubularOsmoticPressure";
   constexpr char idUrinationRate[] = "UrinationRate";
   constexpr char idUrineOsmolality[] = "UrineOsmolality";
   constexpr char idUrineOsmolarity[] = "UrineOsmolarity";
@@ -90,53 +67,29 @@ SERenalSystem::SERenalSystem(Logger* logger)
   m_GlomerularFiltrationRate = nullptr;
   m_FiltrationFraction = nullptr;
 
-  m_LeftAfferentArterioleResistance = nullptr;
-  m_LeftBowmansCapsulesHydrostaticPressure = nullptr;
-  m_LeftBowmansCapsulesOsmoticPressure = nullptr;
-  m_LeftEfferentArterioleResistance = nullptr;
-  m_LeftGlomerularCapillariesHydrostaticPressure = nullptr;
-  m_LeftGlomerularCapillariesOsmoticPressure = nullptr;
-  m_LeftGlomerularFiltrationCoefficient = nullptr;
-  m_LeftGlomerularFiltrationRate = nullptr;
-  m_LeftGlomerularFiltrationSurfaceArea = nullptr;
-  m_LeftGlomerularFluidPermeability = nullptr;
-  m_LeftFiltrationFraction = nullptr;
-  m_LeftNetFiltrationPressure = nullptr;
-  m_LeftNetReabsorptionPressure = nullptr;
-  m_LeftPeritubularCapillariesHydrostaticPressure = nullptr;
-  m_LeftPeritubularCapillariesOsmoticPressure = nullptr;
-  m_LeftReabsorptionFiltrationCoefficient = nullptr;
-  m_LeftReabsorptionRate = nullptr;
-  m_LeftTubularReabsorptionFiltrationSurfaceArea = nullptr;
-  m_LeftTubularReabsorptionFluidPermeability = nullptr;
-  m_LeftTubularHydrostaticPressure = nullptr;
-  m_LeftTubularOsmoticPressure = nullptr;
+  m_AfferentArterioleResistance = nullptr;
+  m_BowmansCapsulesHydrostaticPressure = nullptr;
+  m_BowmansCapsulesOsmoticPressure = nullptr;
+  m_EfferentArterioleResistance = nullptr;
+  m_GlomerularCapillariesHydrostaticPressure = nullptr;
+  m_GlomerularCapillariesOsmoticPressure = nullptr;
+  m_GlomerularFiltrationCoefficient = nullptr;
+  m_GlomerularFiltrationSurfaceArea = nullptr;
+  m_GlomerularFluidPermeability = nullptr;
+  m_NetFiltrationPressure = nullptr;
+  m_NetReabsorptionPressure = nullptr;
+  m_PeritubularCapillariesHydrostaticPressure = nullptr;
+  m_PeritubularCapillariesOsmoticPressure = nullptr;
+  m_ReabsorptionFiltrationCoefficient = nullptr;
+  m_ReabsorptionRate = nullptr;
+  m_TubularReabsorptionFiltrationSurfaceArea = nullptr;
+  m_TubularReabsorptionFluidPermeability = nullptr;
+  m_TubularHydrostaticPressure = nullptr;
+  m_TubularOsmoticPressure = nullptr;
 
   m_RenalBloodFlow = nullptr;
   m_RenalPlasmaFlow = nullptr;
   m_RenalVascularResistance = nullptr;
-
-  m_RightAfferentArterioleResistance = nullptr;
-  m_RightBowmansCapsulesHydrostaticPressure = nullptr;
-  m_RightBowmansCapsulesOsmoticPressure = nullptr;
-  m_RightEfferentArterioleResistance = nullptr;
-  m_RightGlomerularCapillariesHydrostaticPressure = nullptr;
-  m_RightGlomerularCapillariesOsmoticPressure = nullptr;
-  m_RightGlomerularFiltrationCoefficient = nullptr;
-  m_RightGlomerularFiltrationRate = nullptr;
-  m_RightGlomerularFiltrationSurfaceArea = nullptr;
-  m_RightGlomerularFluidPermeability = nullptr;
-  m_RightFiltrationFraction = nullptr;
-  m_RightNetFiltrationPressure = nullptr;
-  m_RightNetReabsorptionPressure = nullptr;
-  m_RightPeritubularCapillariesHydrostaticPressure = nullptr;
-  m_RightPeritubularCapillariesOsmoticPressure = nullptr;
-  m_RightReabsorptionFiltrationCoefficient = nullptr;
-  m_RightReabsorptionRate = nullptr;
-  m_RightTubularReabsorptionFiltrationSurfaceArea = nullptr;
-  m_RightTubularReabsorptionFluidPermeability = nullptr;
-  m_RightTubularHydrostaticPressure = nullptr;
-  m_RightTubularOsmoticPressure = nullptr;
 
   m_UrinationRate = nullptr;
   m_UrineOsmolality = nullptr;
@@ -161,53 +114,29 @@ void SERenalSystem::Clear()
   SAFE_DELETE(m_GlomerularFiltrationRate);
   SAFE_DELETE(m_FiltrationFraction);
 
-  SAFE_DELETE(m_LeftAfferentArterioleResistance);
-  SAFE_DELETE(m_LeftBowmansCapsulesHydrostaticPressure);
-  SAFE_DELETE(m_LeftBowmansCapsulesOsmoticPressure);
-  SAFE_DELETE(m_LeftEfferentArterioleResistance);
-  SAFE_DELETE(m_LeftGlomerularCapillariesHydrostaticPressure);
-  SAFE_DELETE(m_LeftGlomerularCapillariesOsmoticPressure);
-  SAFE_DELETE(m_LeftGlomerularFiltrationCoefficient);
-  SAFE_DELETE(m_LeftGlomerularFiltrationRate);
-  SAFE_DELETE(m_LeftGlomerularFiltrationSurfaceArea);
-  SAFE_DELETE(m_LeftGlomerularFluidPermeability);
-  SAFE_DELETE(m_LeftFiltrationFraction);
-  SAFE_DELETE(m_LeftNetFiltrationPressure);
-  SAFE_DELETE(m_LeftNetReabsorptionPressure);
-  SAFE_DELETE(m_LeftPeritubularCapillariesHydrostaticPressure);
-  SAFE_DELETE(m_LeftPeritubularCapillariesOsmoticPressure);
-  SAFE_DELETE(m_LeftReabsorptionFiltrationCoefficient);
-  SAFE_DELETE(m_LeftReabsorptionRate);
-  SAFE_DELETE(m_LeftTubularReabsorptionFiltrationSurfaceArea);
-  SAFE_DELETE(m_LeftTubularReabsorptionFluidPermeability);
-  SAFE_DELETE(m_LeftTubularHydrostaticPressure);
-  SAFE_DELETE(m_LeftTubularOsmoticPressure);
+  SAFE_DELETE(m_AfferentArterioleResistance);
+  SAFE_DELETE(m_BowmansCapsulesHydrostaticPressure);
+  SAFE_DELETE(m_BowmansCapsulesOsmoticPressure);
+  SAFE_DELETE(m_EfferentArterioleResistance);
+  SAFE_DELETE(m_GlomerularCapillariesHydrostaticPressure);
+  SAFE_DELETE(m_GlomerularCapillariesOsmoticPressure);
+  SAFE_DELETE(m_GlomerularFiltrationCoefficient);
+  SAFE_DELETE(m_GlomerularFiltrationSurfaceArea);
+  SAFE_DELETE(m_GlomerularFluidPermeability);
+  SAFE_DELETE(m_NetFiltrationPressure);
+  SAFE_DELETE(m_NetReabsorptionPressure);
+  SAFE_DELETE(m_PeritubularCapillariesHydrostaticPressure);
+  SAFE_DELETE(m_PeritubularCapillariesOsmoticPressure);
+  SAFE_DELETE(m_ReabsorptionFiltrationCoefficient);
+  SAFE_DELETE(m_ReabsorptionRate);
+  SAFE_DELETE(m_TubularReabsorptionFiltrationSurfaceArea);
+  SAFE_DELETE(m_TubularReabsorptionFluidPermeability);
+  SAFE_DELETE(m_TubularHydrostaticPressure);
+  SAFE_DELETE(m_TubularOsmoticPressure);
 
   SAFE_DELETE(m_RenalBloodFlow);
   SAFE_DELETE(m_RenalPlasmaFlow);
   SAFE_DELETE(m_RenalVascularResistance);
-
-  SAFE_DELETE(m_RightAfferentArterioleResistance);
-  SAFE_DELETE(m_RightBowmansCapsulesHydrostaticPressure);
-  SAFE_DELETE(m_RightBowmansCapsulesOsmoticPressure);
-  SAFE_DELETE(m_RightEfferentArterioleResistance);
-  SAFE_DELETE(m_RightGlomerularCapillariesHydrostaticPressure);
-  SAFE_DELETE(m_RightGlomerularCapillariesOsmoticPressure);
-  SAFE_DELETE(m_RightGlomerularFiltrationCoefficient);
-  SAFE_DELETE(m_RightGlomerularFiltrationRate);
-  SAFE_DELETE(m_RightGlomerularFiltrationSurfaceArea);
-  SAFE_DELETE(m_RightGlomerularFluidPermeability);
-  SAFE_DELETE(m_RightFiltrationFraction);
-  SAFE_DELETE(m_RightNetFiltrationPressure);
-  SAFE_DELETE(m_RightNetReabsorptionPressure);
-  SAFE_DELETE(m_RightPeritubularCapillariesHydrostaticPressure);
-  SAFE_DELETE(m_RightPeritubularCapillariesOsmoticPressure);
-  SAFE_DELETE(m_RightReabsorptionFiltrationCoefficient);
-  SAFE_DELETE(m_RightReabsorptionRate);
-  SAFE_DELETE(m_RightTubularReabsorptionFiltrationSurfaceArea);
-  SAFE_DELETE(m_RightTubularReabsorptionFluidPermeability);
-  SAFE_DELETE(m_RightTubularHydrostaticPressure);
-  SAFE_DELETE(m_RightTubularOsmoticPressure);
 
   SAFE_DELETE(m_UrinationRate);
   SAFE_DELETE(m_UrineOsmolality);
@@ -230,48 +159,48 @@ const SEScalar* SERenalSystem::GetScalar(const std::string& name)
   if (name == idFiltrationFraction)
     return &GetFiltrationFraction();
 
-  if (name == idLeftAfferentArterioleResistance)
-    return &GetLeftAfferentArterioleResistance();
-  if (name == idLeftBowmansCapsulesHydrostaticPressure)
-    return &GetLeftBowmansCapsulesHydrostaticPressure();
-  if (name == idLeftBowmansCapsulesOsmoticPressure)
-    return &GetLeftBowmansCapsulesOsmoticPressure();
-  if (name == idLeftEfferentArterioleResistance)
-    return &GetLeftEfferentArterioleResistance();
-  if (name == idLeftGlomerularCapillariesHydrostaticPressure)
-    return &GetLeftGlomerularCapillariesHydrostaticPressure();
-  if (name == idLeftGlomerularCapillariesOsmoticPressure)
-    return &GetLeftGlomerularCapillariesOsmoticPressure();
-  if (name == idLeftGlomerularFiltrationCoefficient)
-    return &GetLeftGlomerularFiltrationCoefficient();
-  if (name == idLeftGlomerularFiltrationRate)
-    return &GetLeftGlomerularFiltrationRate();
-  if (name == idLeftGlomerularFiltrationSurfaceArea)
-    return &GetLeftGlomerularFiltrationSurfaceArea();
-  if (name == idLeftGlomerularFluidPermeability)
-    return &GetLeftGlomerularFluidPermeability();
-  if (name == idLeftFiltrationFraction)
-    return &GetLeftFiltrationFraction();
-  if (name == idLeftNetFiltrationPressure)
-    return &GetLeftNetFiltrationPressure();
-  if (name == idLeftNetReabsorptionPressure)
-    return &GetLeftNetReabsorptionPressure();
-  if (name == idLeftPeritubularCapillariesHydrostaticPressure)
-    return &GetLeftPeritubularCapillariesHydrostaticPressure();
-  if (name == idLeftPeritubularCapillariesOsmoticPressure)
-    return &GetLeftPeritubularCapillariesOsmoticPressure();
-  if (name == idLeftReabsorptionFiltrationCoefficient)
-    return &GetLeftReabsorptionFiltrationCoefficient();
-  if (name == idLeftReabsorptionRate)
-    return &GetLeftReabsorptionRate();
-  if (name == idLeftTubularReabsorptionFiltrationSurfaceArea)
-    return &GetLeftTubularReabsorptionFiltrationSurfaceArea();
-  if (name == idLeftTubularReabsorptionFluidPermeability)
-    return &GetLeftTubularReabsorptionFluidPermeability();
-  if (name == idLeftTubularHydrostaticPressure)
-    return &GetLeftTubularHydrostaticPressure();
-  if (name == idLeftTubularOsmoticPressure)
-    return &GetLeftTubularOsmoticPressure();
+  if (name == idAfferentArterioleResistance)
+    return &GetAfferentArterioleResistance();
+  if (name == idBowmansCapsulesHydrostaticPressure)
+    return &GetBowmansCapsulesHydrostaticPressure();
+  if (name == idBowmansCapsulesOsmoticPressure)
+    return &GetBowmansCapsulesOsmoticPressure();
+  if (name == idEfferentArterioleResistance)
+    return &GetEfferentArterioleResistance();
+  if (name == idGlomerularCapillariesHydrostaticPressure)
+    return &GetGlomerularCapillariesHydrostaticPressure();
+  if (name == idGlomerularCapillariesOsmoticPressure)
+    return &GetGlomerularCapillariesOsmoticPressure();
+  if (name == idGlomerularFiltrationCoefficient)
+    return &GetGlomerularFiltrationCoefficient();
+  if (name == idGlomerularFiltrationRate)
+    return &GetGlomerularFiltrationRate();
+  if (name == idGlomerularFiltrationSurfaceArea)
+    return &GetGlomerularFiltrationSurfaceArea();
+  if (name == idGlomerularFluidPermeability)
+    return &GetGlomerularFluidPermeability();
+  if (name == idFiltrationFraction)
+    return &GetFiltrationFraction();
+  if (name == idNetFiltrationPressure)
+    return &GetNetFiltrationPressure();
+  if (name == idNetReabsorptionPressure)
+    return &GetNetReabsorptionPressure();
+  if (name == idPeritubularCapillariesHydrostaticPressure)
+    return &GetPeritubularCapillariesHydrostaticPressure();
+  if (name == idPeritubularCapillariesOsmoticPressure)
+    return &GetPeritubularCapillariesOsmoticPressure();
+  if (name == idReabsorptionFiltrationCoefficient)
+    return &GetReabsorptionFiltrationCoefficient();
+  if (name == idReabsorptionRate)
+    return &GetReabsorptionRate();
+  if (name == idTubularReabsorptionFiltrationSurfaceArea)
+    return &GetTubularReabsorptionFiltrationSurfaceArea();
+  if (name == idTubularReabsorptionFluidPermeability)
+    return &GetTubularReabsorptionFluidPermeability();
+  if (name == idTubularHydrostaticPressure)
+    return &GetTubularHydrostaticPressure();
+  if (name == idTubularOsmoticPressure)
+    return &GetTubularOsmoticPressure();
 
   if (name == idRenalBloodFlow)
     return &GetRenalBloodFlow();
@@ -279,49 +208,6 @@ const SEScalar* SERenalSystem::GetScalar(const std::string& name)
     return &GetRenalPlasmaFlow();
   if (name == idRenalVascularResistance)
     return &GetRenalVascularResistance();
-
-  if (name == idRightAfferentArterioleResistance)
-    return &GetRightAfferentArterioleResistance();
-  if (name == idRightBowmansCapsulesHydrostaticPressure)
-    return &GetRightBowmansCapsulesHydrostaticPressure();
-  if (name == idRightBowmansCapsulesOsmoticPressure)
-    return &GetRightBowmansCapsulesOsmoticPressure();
-  if (name == idRightEfferentArterioleResistance)
-    return &GetRightEfferentArterioleResistance();
-  if (name == idRightGlomerularCapillariesHydrostaticPressure)
-    return &GetRightGlomerularCapillariesHydrostaticPressure();
-  if (name == idRightGlomerularCapillariesOsmoticPressure)
-    return &GetRightGlomerularCapillariesOsmoticPressure();
-  if (name == idRightGlomerularFiltrationCoefficient)
-    return &GetRightGlomerularFiltrationCoefficient();
-  if (name == idRightGlomerularFiltrationRate)
-    return &GetRightGlomerularFiltrationRate();
-  if (name == idRightGlomerularFiltrationSurfaceArea)
-    return &GetRightGlomerularFiltrationSurfaceArea();
-  if (name == idRightGlomerularFluidPermeability)
-    return &GetRightGlomerularFluidPermeability();
-  if (name == idRightFiltrationFraction)
-    return &GetRightFiltrationFraction();
-  if (name == idRightNetFiltrationPressure)
-    return &GetRightNetFiltrationPressure();
-  if (name == idRightNetReabsorptionPressure)
-    return &GetRightNetReabsorptionPressure();
-  if (name == idRightPeritubularCapillariesHydrostaticPressure)
-    return &GetRightPeritubularCapillariesHydrostaticPressure();
-  if (name == idRightPeritubularCapillariesOsmoticPressure)
-    return &GetRightPeritubularCapillariesOsmoticPressure();
-  if (name == idRightReabsorptionFiltrationCoefficient)
-    return &GetRightReabsorptionFiltrationCoefficient();
-  if (name == idRightReabsorptionRate)
-    return &GetRightReabsorptionRate();
-  if (name == idRightTubularReabsorptionFiltrationSurfaceArea)
-    return &GetRightTubularReabsorptionFiltrationSurfaceArea();
-  if (name == idRightTubularReabsorptionFluidPermeability)
-    return &GetRightTubularReabsorptionFluidPermeability();
-  if (name == idRightTubularHydrostaticPressure)
-    return &GetRightTubularHydrostaticPressure();
-  if (name == idRightTubularOsmoticPressure)
-    return &GetRightTubularOsmoticPressure();
 
   if (name == idUrinationRate)
     return &GetUrinationRate();
@@ -351,48 +237,44 @@ bool SERenalSystem::Load(const CDM::RenalSystemData& in)
   if (in.FiltrationFraction().present())
     GetFiltrationFraction().Load(in.FiltrationFraction().get());
 
-  if (in.LeftAfferentArterioleResistance().present())
-    GetLeftAfferentArterioleResistance().Load(in.LeftAfferentArterioleResistance().get());
-  if (in.LeftBowmansCapsulesHydrostaticPressure().present())
-    GetLeftBowmansCapsulesHydrostaticPressure().Load(in.LeftBowmansCapsulesHydrostaticPressure().get());
-  if (in.LeftBowmansCapsulesOsmoticPressure().present())
-    GetLeftBowmansCapsulesOsmoticPressure().Load(in.LeftBowmansCapsulesOsmoticPressure().get());
-  if (in.LeftEfferentArterioleResistance().present())
-    GetLeftEfferentArterioleResistance().Load(in.LeftEfferentArterioleResistance().get());
-  if (in.LeftGlomerularCapillariesHydrostaticPressure().present())
-    GetLeftGlomerularCapillariesHydrostaticPressure().Load(in.LeftGlomerularCapillariesHydrostaticPressure().get());
-  if (in.LeftGlomerularCapillariesOsmoticPressure().present())
-    GetLeftGlomerularCapillariesOsmoticPressure().Load(in.LeftGlomerularCapillariesOsmoticPressure().get());
-  if (in.LeftGlomerularFiltrationCoefficient().present())
-    GetLeftGlomerularFiltrationCoefficient().Load(in.LeftGlomerularFiltrationCoefficient().get());
-  if (in.LeftGlomerularFiltrationRate().present())
-    GetLeftGlomerularFiltrationRate().Load(in.LeftGlomerularFiltrationRate().get());
-  if (in.LeftGlomerularFiltrationSurfaceArea().present())
-    GetLeftGlomerularFiltrationSurfaceArea().Load(in.LeftGlomerularFiltrationSurfaceArea().get());
-  if (in.LeftGlomerularFluidPermeability().present())
-    GetLeftGlomerularFluidPermeability().Load(in.LeftGlomerularFluidPermeability().get());
-  if (in.LeftFiltrationFraction().present())
-    GetLeftFiltrationFraction().Load(in.LeftFiltrationFraction().get());
-  if (in.LeftNetFiltrationPressure().present())
-    GetLeftNetFiltrationPressure().Load(in.LeftNetFiltrationPressure().get());
-  if (in.LeftNetReabsorptionPressure().present())
-    GetLeftNetReabsorptionPressure().Load(in.LeftNetReabsorptionPressure().get());
-  if (in.LeftPeritubularCapillariesHydrostaticPressure().present())
-    GetLeftPeritubularCapillariesHydrostaticPressure().Load(in.LeftPeritubularCapillariesHydrostaticPressure().get());
-  if (in.LeftPeritubularCapillariesOsmoticPressure().present())
-    GetLeftPeritubularCapillariesOsmoticPressure().Load(in.LeftPeritubularCapillariesOsmoticPressure().get());
-  if (in.LeftReabsorptionFiltrationCoefficient().present())
-    GetLeftReabsorptionFiltrationCoefficient().Load(in.LeftReabsorptionFiltrationCoefficient().get());
-  if (in.LeftReabsorptionRate().present())
-    GetLeftReabsorptionRate().Load(in.LeftReabsorptionRate().get());
-  if (in.LeftTubularReabsorptionFiltrationSurfaceArea().present())
-    GetLeftTubularReabsorptionFiltrationSurfaceArea().Load(in.LeftTubularReabsorptionFiltrationSurfaceArea().get());
-  if (in.LeftTubularReabsorptionFluidPermeability().present())
-    GetLeftTubularReabsorptionFluidPermeability().Load(in.LeftTubularReabsorptionFluidPermeability().get());
-  if (in.LeftTubularHydrostaticPressure().present())
-    GetLeftTubularHydrostaticPressure().Load(in.LeftTubularHydrostaticPressure().get());
-  if (in.LeftTubularOsmoticPressure().present())
-    GetLeftTubularOsmoticPressure().Load(in.LeftTubularOsmoticPressure().get());
+  if (in.AfferentArterioleResistance().present())
+    GetAfferentArterioleResistance().Load(in.AfferentArterioleResistance().get());
+  if (in.BowmansCapsulesHydrostaticPressure().present())
+    GetBowmansCapsulesHydrostaticPressure().Load(in.BowmansCapsulesHydrostaticPressure().get());
+  if (in.BowmansCapsulesOsmoticPressure().present())
+    GetBowmansCapsulesOsmoticPressure().Load(in.BowmansCapsulesOsmoticPressure().get());
+  if (in.EfferentArterioleResistance().present())
+    GetEfferentArterioleResistance().Load(in.EfferentArterioleResistance().get());
+  if (in.GlomerularCapillariesHydrostaticPressure().present())
+    GetGlomerularCapillariesHydrostaticPressure().Load(in.GlomerularCapillariesHydrostaticPressure().get());
+  if (in.GlomerularCapillariesOsmoticPressure().present())
+    GetGlomerularCapillariesOsmoticPressure().Load(in.GlomerularCapillariesOsmoticPressure().get());
+  if (in.GlomerularFiltrationCoefficient().present())
+    GetGlomerularFiltrationCoefficient().Load(in.GlomerularFiltrationCoefficient().get());
+  if (in.GlomerularFiltrationSurfaceArea().present())
+    GetGlomerularFiltrationSurfaceArea().Load(in.GlomerularFiltrationSurfaceArea().get());
+  if (in.GlomerularFluidPermeability().present())
+    GetGlomerularFluidPermeability().Load(in.GlomerularFluidPermeability().get());
+  if (in.NetFiltrationPressure().present())
+    GetNetFiltrationPressure().Load(in.NetFiltrationPressure().get());
+  if (in.NetReabsorptionPressure().present())
+    GetNetReabsorptionPressure().Load(in.NetReabsorptionPressure().get());
+  if (in.PeritubularCapillariesHydrostaticPressure().present())
+    GetPeritubularCapillariesHydrostaticPressure().Load(in.PeritubularCapillariesHydrostaticPressure().get());
+  if (in.PeritubularCapillariesOsmoticPressure().present())
+    GetPeritubularCapillariesOsmoticPressure().Load(in.PeritubularCapillariesOsmoticPressure().get());
+  if (in.ReabsorptionFiltrationCoefficient().present())
+    GetReabsorptionFiltrationCoefficient().Load(in.ReabsorptionFiltrationCoefficient().get());
+  if (in.ReabsorptionRate().present())
+    GetReabsorptionRate().Load(in.ReabsorptionRate().get());
+  if (in.TubularReabsorptionFiltrationSurfaceArea().present())
+    GetTubularReabsorptionFiltrationSurfaceArea().Load(in.TubularReabsorptionFiltrationSurfaceArea().get());
+  if (in.TubularReabsorptionFluidPermeability().present())
+    GetTubularReabsorptionFluidPermeability().Load(in.TubularReabsorptionFluidPermeability().get());
+  if (in.TubularHydrostaticPressure().present())
+    GetTubularHydrostaticPressure().Load(in.TubularHydrostaticPressure().get());
+  if (in.TubularOsmoticPressure().present())
+    GetTubularOsmoticPressure().Load(in.TubularOsmoticPressure().get());
 
   if (in.RenalBloodFlow().present())
     GetRenalBloodFlow().Load(in.RenalBloodFlow().get());
@@ -400,49 +282,6 @@ bool SERenalSystem::Load(const CDM::RenalSystemData& in)
     GetRenalPlasmaFlow().Load(in.RenalPlasmaFlow().get());
   if (in.RenalVascularResistance().present())
     GetRenalVascularResistance().Load(in.RenalVascularResistance().get());
-
-  if (in.RightAfferentArterioleResistance().present())
-    GetRightAfferentArterioleResistance().Load(in.RightAfferentArterioleResistance().get());
-  if (in.RightBowmansCapsulesHydrostaticPressure().present())
-    GetRightBowmansCapsulesHydrostaticPressure().Load(in.RightBowmansCapsulesHydrostaticPressure().get());
-  if (in.RightBowmansCapsulesOsmoticPressure().present())
-    GetRightBowmansCapsulesOsmoticPressure().Load(in.RightBowmansCapsulesOsmoticPressure().get());
-  if (in.RightEfferentArterioleResistance().present())
-    GetRightEfferentArterioleResistance().Load(in.RightEfferentArterioleResistance().get());
-  if (in.RightGlomerularCapillariesHydrostaticPressure().present())
-    GetRightGlomerularCapillariesHydrostaticPressure().Load(in.RightGlomerularCapillariesHydrostaticPressure().get());
-  if (in.RightGlomerularCapillariesOsmoticPressure().present())
-    GetRightGlomerularCapillariesOsmoticPressure().Load(in.RightGlomerularCapillariesOsmoticPressure().get());
-  if (in.RightGlomerularFiltrationCoefficient().present())
-    GetRightGlomerularFiltrationCoefficient().Load(in.RightGlomerularFiltrationCoefficient().get());
-  if (in.RightGlomerularFiltrationRate().present())
-    GetRightGlomerularFiltrationRate().Load(in.RightGlomerularFiltrationRate().get());
-  if (in.RightGlomerularFiltrationSurfaceArea().present())
-    GetRightGlomerularFiltrationSurfaceArea().Load(in.RightGlomerularFiltrationSurfaceArea().get());
-  if (in.RightGlomerularFluidPermeability().present())
-    GetRightGlomerularFluidPermeability().Load(in.RightGlomerularFluidPermeability().get());
-  if (in.RightFiltrationFraction().present())
-    GetRightFiltrationFraction().Load(in.RightFiltrationFraction().get());
-  if (in.RightNetFiltrationPressure().present())
-    GetRightNetFiltrationPressure().Load(in.RightNetFiltrationPressure().get());
-  if (in.RightNetReabsorptionPressure().present())
-    GetRightNetReabsorptionPressure().Load(in.RightNetReabsorptionPressure().get());
-  if (in.RightPeritubularCapillariesHydrostaticPressure().present())
-    GetRightPeritubularCapillariesHydrostaticPressure().Load(in.RightPeritubularCapillariesHydrostaticPressure().get());
-  if (in.RightPeritubularCapillariesOsmoticPressure().present())
-    GetRightPeritubularCapillariesOsmoticPressure().Load(in.RightPeritubularCapillariesOsmoticPressure().get());
-  if (in.RightReabsorptionFiltrationCoefficient().present())
-    GetRightReabsorptionFiltrationCoefficient().Load(in.RightReabsorptionFiltrationCoefficient().get());
-  if (in.RightReabsorptionRate().present())
-    GetRightReabsorptionRate().Load(in.RightReabsorptionRate().get());
-  if (in.RightTubularReabsorptionFiltrationSurfaceArea().present())
-    GetRightTubularReabsorptionFiltrationSurfaceArea().Load(in.RightTubularReabsorptionFiltrationSurfaceArea().get());
-  if (in.RightTubularReabsorptionFluidPermeability().present())
-    GetRightTubularReabsorptionFluidPermeability().Load(in.RightTubularReabsorptionFluidPermeability().get());
-  if (in.RightTubularHydrostaticPressure().present())
-    GetRightTubularHydrostaticPressure().Load(in.RightTubularHydrostaticPressure().get());
-  if (in.RightTubularOsmoticPressure().present())
-    GetRightTubularOsmoticPressure().Load(in.RightTubularOsmoticPressure().get());
 
   if (in.UrinationRate().present())
     GetUrinationRate().Load(in.UrinationRate().get());
@@ -479,48 +318,44 @@ void SERenalSystem::Unload(CDM::RenalSystemData& data) const
   if (m_FiltrationFraction != nullptr)
     data.FiltrationFraction(std::unique_ptr<CDM::ScalarFractionData>(m_FiltrationFraction->Unload()));
 
-  if (m_LeftAfferentArterioleResistance != nullptr)
-    data.LeftAfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_LeftAfferentArterioleResistance->Unload()));
-  if (m_LeftBowmansCapsulesHydrostaticPressure != nullptr)
-    data.LeftBowmansCapsulesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftBowmansCapsulesHydrostaticPressure->Unload()));
-  if (m_LeftBowmansCapsulesOsmoticPressure != nullptr)
-    data.LeftBowmansCapsulesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftBowmansCapsulesOsmoticPressure->Unload()));
-  if (m_LeftEfferentArterioleResistance != nullptr)
-    data.LeftEfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_LeftEfferentArterioleResistance->Unload()));
-  if (m_LeftGlomerularCapillariesHydrostaticPressure != nullptr)
-    data.LeftGlomerularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftGlomerularCapillariesHydrostaticPressure->Unload()));
-  if (m_LeftGlomerularCapillariesOsmoticPressure != nullptr)
-    data.LeftGlomerularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftGlomerularCapillariesOsmoticPressure->Unload()));
-  if (m_LeftGlomerularFiltrationCoefficient != nullptr)
-    data.LeftGlomerularFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_LeftGlomerularFiltrationCoefficient->Unload()));
-  if (m_LeftGlomerularFiltrationRate != nullptr)
-    data.LeftGlomerularFiltrationRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_LeftGlomerularFiltrationRate->Unload()));
-  if (m_LeftGlomerularFiltrationSurfaceArea != nullptr)
-    data.LeftGlomerularFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_LeftGlomerularFiltrationSurfaceArea->Unload()));
-  if (m_LeftGlomerularFluidPermeability != nullptr)
-    data.LeftGlomerularFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_LeftGlomerularFluidPermeability->Unload()));
-  if (m_LeftFiltrationFraction != nullptr)
-    data.LeftFiltrationFraction(std::unique_ptr<CDM::ScalarFractionData>(m_LeftFiltrationFraction->Unload()));
-  if (m_LeftNetFiltrationPressure != nullptr)
-    data.LeftNetFiltrationPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftNetFiltrationPressure->Unload()));
-  if (m_LeftNetReabsorptionPressure != nullptr)
-    data.LeftNetReabsorptionPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftNetReabsorptionPressure->Unload()));
-  if (m_LeftPeritubularCapillariesHydrostaticPressure != nullptr)
-    data.LeftPeritubularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftPeritubularCapillariesHydrostaticPressure->Unload()));
-  if (m_LeftPeritubularCapillariesOsmoticPressure != nullptr)
-    data.LeftPeritubularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftPeritubularCapillariesOsmoticPressure->Unload()));
-  if (m_LeftReabsorptionFiltrationCoefficient != nullptr)
-    data.LeftReabsorptionFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_LeftReabsorptionFiltrationCoefficient->Unload()));
-  if (m_LeftReabsorptionRate != nullptr)
-    data.LeftReabsorptionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_LeftReabsorptionRate->Unload()));
-  if (m_LeftTubularReabsorptionFiltrationSurfaceArea != nullptr)
-    data.LeftTubularReabsorptionFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_LeftTubularReabsorptionFiltrationSurfaceArea->Unload()));
-  if (m_LeftTubularReabsorptionFluidPermeability != nullptr)
-    data.LeftTubularReabsorptionFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_LeftTubularReabsorptionFluidPermeability->Unload()));
-  if (m_LeftTubularHydrostaticPressure != nullptr)
-    data.LeftTubularHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftTubularHydrostaticPressure->Unload()));
-  if (m_LeftTubularOsmoticPressure != nullptr)
-    data.LeftTubularOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftTubularOsmoticPressure->Unload()));
+  if (m_AfferentArterioleResistance != nullptr)
+    data.AfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_AfferentArterioleResistance->Unload()));
+  if (m_BowmansCapsulesHydrostaticPressure != nullptr)
+    data.BowmansCapsulesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_BowmansCapsulesHydrostaticPressure->Unload()));
+  if (m_BowmansCapsulesOsmoticPressure != nullptr)
+    data.BowmansCapsulesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_BowmansCapsulesOsmoticPressure->Unload()));
+  if (m_EfferentArterioleResistance != nullptr)
+    data.EfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_EfferentArterioleResistance->Unload()));
+  if (m_GlomerularCapillariesHydrostaticPressure != nullptr)
+    data.GlomerularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_GlomerularCapillariesHydrostaticPressure->Unload()));
+  if (m_GlomerularCapillariesOsmoticPressure != nullptr)
+    data.GlomerularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_GlomerularCapillariesOsmoticPressure->Unload()));
+  if (m_GlomerularFiltrationCoefficient != nullptr)
+    data.GlomerularFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_GlomerularFiltrationCoefficient->Unload()));
+  if (m_GlomerularFiltrationSurfaceArea != nullptr)
+    data.GlomerularFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_GlomerularFiltrationSurfaceArea->Unload()));
+  if (m_GlomerularFluidPermeability != nullptr)
+    data.GlomerularFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_GlomerularFluidPermeability->Unload()));
+  if (m_NetFiltrationPressure != nullptr)
+    data.NetFiltrationPressure(std::unique_ptr<CDM::ScalarPressureData>(m_NetFiltrationPressure->Unload()));
+  if (m_NetReabsorptionPressure != nullptr)
+    data.NetReabsorptionPressure(std::unique_ptr<CDM::ScalarPressureData>(m_NetReabsorptionPressure->Unload()));
+  if (m_PeritubularCapillariesHydrostaticPressure != nullptr)
+    data.PeritubularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_PeritubularCapillariesHydrostaticPressure->Unload()));
+  if (m_PeritubularCapillariesOsmoticPressure != nullptr)
+    data.PeritubularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_PeritubularCapillariesOsmoticPressure->Unload()));
+  if (m_ReabsorptionFiltrationCoefficient != nullptr)
+    data.ReabsorptionFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_ReabsorptionFiltrationCoefficient->Unload()));
+  if (m_ReabsorptionRate != nullptr)
+    data.ReabsorptionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_ReabsorptionRate->Unload()));
+  if (m_TubularReabsorptionFiltrationSurfaceArea != nullptr)
+    data.TubularReabsorptionFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_TubularReabsorptionFiltrationSurfaceArea->Unload()));
+  if (m_TubularReabsorptionFluidPermeability != nullptr)
+    data.TubularReabsorptionFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_TubularReabsorptionFluidPermeability->Unload()));
+  if (m_TubularHydrostaticPressure != nullptr)
+    data.TubularHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_TubularHydrostaticPressure->Unload()));
+  if (m_TubularOsmoticPressure != nullptr)
+    data.TubularOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_TubularOsmoticPressure->Unload()));
 
   if (m_RenalBloodFlow != nullptr)
     data.RenalBloodFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RenalBloodFlow->Unload()));
@@ -528,49 +363,6 @@ void SERenalSystem::Unload(CDM::RenalSystemData& data) const
     data.RenalPlasmaFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RenalPlasmaFlow->Unload()));
   if (m_RenalVascularResistance != nullptr)
     data.RenalVascularResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RenalVascularResistance->Unload()));
-
-  if (m_RightAfferentArterioleResistance != nullptr)
-    data.RightAfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RightAfferentArterioleResistance->Unload()));
-  if (m_RightBowmansCapsulesHydrostaticPressure != nullptr)
-    data.RightBowmansCapsulesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightBowmansCapsulesHydrostaticPressure->Unload()));
-  if (m_RightBowmansCapsulesOsmoticPressure != nullptr)
-    data.RightBowmansCapsulesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightBowmansCapsulesOsmoticPressure->Unload()));
-  if (m_RightEfferentArterioleResistance != nullptr)
-    data.RightEfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RightEfferentArterioleResistance->Unload()));
-  if (m_RightGlomerularCapillariesHydrostaticPressure != nullptr)
-    data.RightGlomerularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightGlomerularCapillariesHydrostaticPressure->Unload()));
-  if (m_RightGlomerularCapillariesOsmoticPressure != nullptr)
-    data.RightGlomerularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightGlomerularCapillariesOsmoticPressure->Unload()));
-  if (m_RightGlomerularFiltrationCoefficient != nullptr)
-    data.RightGlomerularFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_RightGlomerularFiltrationCoefficient->Unload()));
-  if (m_RightGlomerularFiltrationRate != nullptr)
-    data.RightGlomerularFiltrationRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RightGlomerularFiltrationRate->Unload()));
-  if (m_RightGlomerularFiltrationSurfaceArea != nullptr)
-    data.RightGlomerularFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_RightGlomerularFiltrationSurfaceArea->Unload()));
-  if (m_RightGlomerularFluidPermeability != nullptr)
-    data.RightGlomerularFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_RightGlomerularFluidPermeability->Unload()));
-  if (m_RightFiltrationFraction != nullptr)
-    data.RightFiltrationFraction(std::unique_ptr<CDM::ScalarFractionData>(m_RightFiltrationFraction->Unload()));
-  if (m_RightNetFiltrationPressure != nullptr)
-    data.RightNetFiltrationPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightNetFiltrationPressure->Unload()));
-  if (m_RightNetReabsorptionPressure != nullptr)
-    data.RightNetReabsorptionPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightNetReabsorptionPressure->Unload()));
-  if (m_RightPeritubularCapillariesHydrostaticPressure != nullptr)
-    data.RightPeritubularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightPeritubularCapillariesHydrostaticPressure->Unload()));
-  if (m_RightPeritubularCapillariesOsmoticPressure != nullptr)
-    data.RightPeritubularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightPeritubularCapillariesOsmoticPressure->Unload()));
-  if (m_RightReabsorptionFiltrationCoefficient != nullptr)
-    data.RightReabsorptionFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_RightReabsorptionFiltrationCoefficient->Unload()));
-  if (m_RightReabsorptionRate != nullptr)
-    data.RightReabsorptionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RightReabsorptionRate->Unload()));
-  if (m_RightTubularReabsorptionFiltrationSurfaceArea != nullptr)
-    data.RightTubularReabsorptionFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_RightTubularReabsorptionFiltrationSurfaceArea->Unload()));
-  if (m_RightTubularReabsorptionFluidPermeability != nullptr)
-    data.RightTubularReabsorptionFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_RightTubularReabsorptionFluidPermeability->Unload()));
-  if (m_RightTubularHydrostaticPressure != nullptr)
-    data.RightTubularHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightTubularHydrostaticPressure->Unload()));
-  if (m_RightTubularOsmoticPressure != nullptr)
-    data.RightTubularOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightTubularOsmoticPressure->Unload()));
 
   if (m_UrinationRate != nullptr)
     data.UrinationRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_UrinationRate->Unload()));
@@ -629,423 +421,382 @@ double SERenalSystem::GetFiltrationFraction() const
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftAfferentArterioleResistance() const
+bool SERenalSystem::HasAfferentArterioleResistance() const
 {
-  return m_LeftAfferentArterioleResistance == nullptr ? false : m_LeftAfferentArterioleResistance->IsValid();
+  return m_AfferentArterioleResistance == nullptr ? false : m_AfferentArterioleResistance->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarFlowResistance& SERenalSystem::GetLeftAfferentArterioleResistance()
+SEScalarFlowResistance& SERenalSystem::GetAfferentArterioleResistance()
 {
-  if (m_LeftAfferentArterioleResistance == nullptr)
-    m_LeftAfferentArterioleResistance = new SEScalarFlowResistance();
-  return *m_LeftAfferentArterioleResistance;
+  if (m_AfferentArterioleResistance == nullptr)
+    m_AfferentArterioleResistance = new SEScalarFlowResistance();
+  return *m_AfferentArterioleResistance;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftAfferentArterioleResistance(const FlowResistanceUnit& unit) const
+double SERenalSystem::GetAfferentArterioleResistance(const FlowResistanceUnit& unit) const
 {
-  if (m_LeftAfferentArterioleResistance == nullptr)
+  if (m_AfferentArterioleResistance == nullptr)
     return SEScalar::dNaN();
-  return m_LeftAfferentArterioleResistance->GetValue(unit);
+  return m_AfferentArterioleResistance->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftBowmansCapsulesHydrostaticPressure() const
+bool SERenalSystem::HasBowmansCapsulesHydrostaticPressure() const
 {
-  return m_LeftBowmansCapsulesHydrostaticPressure == nullptr ? false : m_LeftBowmansCapsulesHydrostaticPressure->IsValid();
+  return m_BowmansCapsulesHydrostaticPressure == nullptr ? false : m_BowmansCapsulesHydrostaticPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftBowmansCapsulesHydrostaticPressure()
+SEScalarPressure& SERenalSystem::GetBowmansCapsulesHydrostaticPressure()
 {
-  if (m_LeftBowmansCapsulesHydrostaticPressure == nullptr)
-    m_LeftBowmansCapsulesHydrostaticPressure = new SEScalarPressure();
-  return *m_LeftBowmansCapsulesHydrostaticPressure;
+  if (m_BowmansCapsulesHydrostaticPressure == nullptr)
+    m_BowmansCapsulesHydrostaticPressure = new SEScalarPressure();
+  return *m_BowmansCapsulesHydrostaticPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftBowmansCapsulesHydrostaticPressure(const PressureUnit& unit) const
+double SERenalSystem::GetBowmansCapsulesHydrostaticPressure(const PressureUnit& unit) const
 {
-  if (m_LeftBowmansCapsulesHydrostaticPressure == nullptr)
+  if (m_BowmansCapsulesHydrostaticPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftBowmansCapsulesHydrostaticPressure->GetValue(unit);
+  return m_BowmansCapsulesHydrostaticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftBowmansCapsulesOsmoticPressure() const
+bool SERenalSystem::HasBowmansCapsulesOsmoticPressure() const
 {
-  return m_LeftBowmansCapsulesOsmoticPressure == nullptr ? false : m_LeftBowmansCapsulesOsmoticPressure->IsValid();
+  return m_BowmansCapsulesOsmoticPressure == nullptr ? false : m_BowmansCapsulesOsmoticPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftBowmansCapsulesOsmoticPressure()
+SEScalarPressure& SERenalSystem::GetBowmansCapsulesOsmoticPressure()
 {
-  if (m_LeftBowmansCapsulesOsmoticPressure == nullptr)
-    m_LeftBowmansCapsulesOsmoticPressure = new SEScalarPressure();
-  return *m_LeftBowmansCapsulesOsmoticPressure;
+  if (m_BowmansCapsulesOsmoticPressure == nullptr)
+    m_BowmansCapsulesOsmoticPressure = new SEScalarPressure();
+  return *m_BowmansCapsulesOsmoticPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftBowmansCapsulesOsmoticPressure(const PressureUnit& unit) const
+double SERenalSystem::GetBowmansCapsulesOsmoticPressure(const PressureUnit& unit) const
 {
-  if (m_LeftBowmansCapsulesOsmoticPressure == nullptr)
+  if (m_BowmansCapsulesOsmoticPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftBowmansCapsulesOsmoticPressure->GetValue(unit);
+  return m_BowmansCapsulesOsmoticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftEfferentArterioleResistance() const
+bool SERenalSystem::HasEfferentArterioleResistance() const
 {
-  return m_LeftEfferentArterioleResistance == nullptr ? false : m_LeftEfferentArterioleResistance->IsValid();
+  return m_EfferentArterioleResistance == nullptr ? false : m_EfferentArterioleResistance->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarFlowResistance& SERenalSystem::GetLeftEfferentArterioleResistance()
+SEScalarFlowResistance& SERenalSystem::GetEfferentArterioleResistance()
 {
-  if (m_LeftEfferentArterioleResistance == nullptr)
-    m_LeftEfferentArterioleResistance = new SEScalarFlowResistance();
-  return *m_LeftEfferentArterioleResistance;
+  if (m_EfferentArterioleResistance == nullptr)
+    m_EfferentArterioleResistance = new SEScalarFlowResistance();
+  return *m_EfferentArterioleResistance;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftEfferentArterioleResistance(const FlowResistanceUnit& unit) const
+double SERenalSystem::GetEfferentArterioleResistance(const FlowResistanceUnit& unit) const
 {
-  if (m_LeftEfferentArterioleResistance == nullptr)
+  if (m_EfferentArterioleResistance == nullptr)
     return SEScalar::dNaN();
-  return m_LeftEfferentArterioleResistance->GetValue(unit);
+  return m_EfferentArterioleResistance->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftGlomerularCapillariesHydrostaticPressure() const
+bool SERenalSystem::HasGlomerularCapillariesHydrostaticPressure() const
 {
-  return m_LeftGlomerularCapillariesHydrostaticPressure == nullptr ? false : m_LeftGlomerularCapillariesHydrostaticPressure->IsValid();
+  return m_GlomerularCapillariesHydrostaticPressure == nullptr ? false : m_GlomerularCapillariesHydrostaticPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftGlomerularCapillariesHydrostaticPressure()
+SEScalarPressure& SERenalSystem::GetGlomerularCapillariesHydrostaticPressure()
 {
-  if (m_LeftGlomerularCapillariesHydrostaticPressure == nullptr)
-    m_LeftGlomerularCapillariesHydrostaticPressure = new SEScalarPressure();
-  return *m_LeftGlomerularCapillariesHydrostaticPressure;
+  if (m_GlomerularCapillariesHydrostaticPressure == nullptr)
+    m_GlomerularCapillariesHydrostaticPressure = new SEScalarPressure();
+  return *m_GlomerularCapillariesHydrostaticPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftGlomerularCapillariesHydrostaticPressure(const PressureUnit& unit) const
+double SERenalSystem::GetGlomerularCapillariesHydrostaticPressure(const PressureUnit& unit) const
 {
-  if (m_LeftGlomerularCapillariesHydrostaticPressure == nullptr)
+  if (m_GlomerularCapillariesHydrostaticPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftGlomerularCapillariesHydrostaticPressure->GetValue(unit);
+  return m_GlomerularCapillariesHydrostaticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftGlomerularCapillariesOsmoticPressure() const
+bool SERenalSystem::HasGlomerularCapillariesOsmoticPressure() const
 {
-  return m_LeftGlomerularCapillariesOsmoticPressure == nullptr ? false : m_LeftGlomerularCapillariesOsmoticPressure->IsValid();
+  return m_GlomerularCapillariesOsmoticPressure == nullptr ? false : m_GlomerularCapillariesOsmoticPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftGlomerularCapillariesOsmoticPressure()
+SEScalarPressure& SERenalSystem::GetGlomerularCapillariesOsmoticPressure()
 {
-  if (m_LeftGlomerularCapillariesOsmoticPressure == nullptr)
-    m_LeftGlomerularCapillariesOsmoticPressure = new SEScalarPressure();
-  return *m_LeftGlomerularCapillariesOsmoticPressure;
+  if (m_GlomerularCapillariesOsmoticPressure == nullptr)
+    m_GlomerularCapillariesOsmoticPressure = new SEScalarPressure();
+  return *m_GlomerularCapillariesOsmoticPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftGlomerularCapillariesOsmoticPressure(const PressureUnit& unit) const
+double SERenalSystem::GetGlomerularCapillariesOsmoticPressure(const PressureUnit& unit) const
 {
-  if (m_LeftGlomerularCapillariesOsmoticPressure == nullptr)
+  if (m_GlomerularCapillariesOsmoticPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftGlomerularCapillariesOsmoticPressure->GetValue(unit);
+  return m_GlomerularCapillariesOsmoticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftGlomerularFiltrationCoefficient() const
+bool SERenalSystem::HasGlomerularFiltrationCoefficient() const
 {
-  return m_LeftGlomerularFiltrationCoefficient == nullptr ? false : m_LeftGlomerularFiltrationCoefficient->IsValid();
+  return m_GlomerularFiltrationCoefficient == nullptr ? false : m_GlomerularFiltrationCoefficient->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarVolumePerTimePressure& SERenalSystem::GetLeftGlomerularFiltrationCoefficient()
+SEScalarVolumePerTimePressure& SERenalSystem::GetGlomerularFiltrationCoefficient()
 {
-  if (m_LeftGlomerularFiltrationCoefficient == nullptr)
-    m_LeftGlomerularFiltrationCoefficient = new SEScalarVolumePerTimePressure();
-  return *m_LeftGlomerularFiltrationCoefficient;
+  if (m_GlomerularFiltrationCoefficient == nullptr)
+    m_GlomerularFiltrationCoefficient = new SEScalarVolumePerTimePressure();
+  return *m_GlomerularFiltrationCoefficient;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftGlomerularFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const
+double SERenalSystem::GetGlomerularFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const
 {
-  if (m_LeftGlomerularFiltrationCoefficient == nullptr)
+  if (m_GlomerularFiltrationCoefficient == nullptr)
     return SEScalar::dNaN();
-  return m_LeftGlomerularFiltrationCoefficient->GetValue(unit);
+  return m_GlomerularFiltrationCoefficient->GetValue(unit);
+}
+//-------------------------------------------------------------------------------
+bool SERenalSystem::HasGlomerularFiltrationSurfaceArea() const
+{
+  return m_GlomerularFiltrationSurfaceArea == nullptr ? false : m_GlomerularFiltrationSurfaceArea->IsValid();
+}
+//-------------------------------------------------------------------------------
+SEScalarArea& SERenalSystem::GetGlomerularFiltrationSurfaceArea()
+{
+  if (m_GlomerularFiltrationSurfaceArea == nullptr)
+    m_GlomerularFiltrationSurfaceArea = new SEScalarArea();
+  return *m_GlomerularFiltrationSurfaceArea;
+}
+//-------------------------------------------------------------------------------
+double SERenalSystem::GetGlomerularFiltrationSurfaceArea(const AreaUnit& unit) const
+{
+  if (m_GlomerularFiltrationSurfaceArea == nullptr)
+    return SEScalar::dNaN();
+  return m_GlomerularFiltrationSurfaceArea->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftGlomerularFiltrationRate() const
+bool SERenalSystem::HasGlomerularFluidPermeability() const
 {
-  return m_LeftGlomerularFiltrationRate == nullptr ? false : m_LeftGlomerularFiltrationRate->IsValid();
+  return m_GlomerularFluidPermeability == nullptr ? false : m_GlomerularFluidPermeability->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarVolumePerTime& SERenalSystem::GetLeftGlomerularFiltrationRate()
+SEScalarVolumePerTimePressureArea& SERenalSystem::GetGlomerularFluidPermeability()
 {
-  if (m_LeftGlomerularFiltrationRate == nullptr)
-    m_LeftGlomerularFiltrationRate = new SEScalarVolumePerTime();
-  return *m_LeftGlomerularFiltrationRate;
+  if (m_GlomerularFluidPermeability == nullptr)
+    m_GlomerularFluidPermeability = new SEScalarVolumePerTimePressureArea();
+  return *m_GlomerularFluidPermeability;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftGlomerularFiltrationRate(const VolumePerTimeUnit& unit) const
+double SERenalSystem::GetGlomerularFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const
 {
-  if (m_LeftGlomerularFiltrationRate == nullptr)
+  if (m_GlomerularFluidPermeability == nullptr)
     return SEScalar::dNaN();
-  return m_LeftGlomerularFiltrationRate->GetValue(unit);
+  return m_GlomerularFluidPermeability->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftGlomerularFiltrationSurfaceArea() const
+bool SERenalSystem::HasNetFiltrationPressure() const
 {
-  return m_LeftGlomerularFiltrationSurfaceArea == nullptr ? false : m_LeftGlomerularFiltrationSurfaceArea->IsValid();
+  return m_NetFiltrationPressure == nullptr ? false : m_NetFiltrationPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarArea& SERenalSystem::GetLeftGlomerularFiltrationSurfaceArea()
+SEScalarPressure& SERenalSystem::GetNetFiltrationPressure()
 {
-  if (m_LeftGlomerularFiltrationSurfaceArea == nullptr)
-    m_LeftGlomerularFiltrationSurfaceArea = new SEScalarArea();
-  return *m_LeftGlomerularFiltrationSurfaceArea;
+  if (m_NetFiltrationPressure == nullptr)
+    m_NetFiltrationPressure = new SEScalarPressure();
+  return *m_NetFiltrationPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftGlomerularFiltrationSurfaceArea(const AreaUnit& unit) const
+double SERenalSystem::GetNetFiltrationPressure(const PressureUnit& unit) const
 {
-  if (m_LeftGlomerularFiltrationSurfaceArea == nullptr)
+  if (m_NetFiltrationPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftGlomerularFiltrationSurfaceArea->GetValue(unit);
+  return m_NetFiltrationPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftGlomerularFluidPermeability() const
+bool SERenalSystem::HasNetReabsorptionPressure() const
 {
-  return m_LeftGlomerularFluidPermeability == nullptr ? false : m_LeftGlomerularFluidPermeability->IsValid();
+  return m_NetReabsorptionPressure == nullptr ? false : m_NetReabsorptionPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarVolumePerTimePressureArea& SERenalSystem::GetLeftGlomerularFluidPermeability()
+SEScalarPressure& SERenalSystem::GetNetReabsorptionPressure()
 {
-  if (m_LeftGlomerularFluidPermeability == nullptr)
-    m_LeftGlomerularFluidPermeability = new SEScalarVolumePerTimePressureArea();
-  return *m_LeftGlomerularFluidPermeability;
+  if (m_NetReabsorptionPressure == nullptr)
+    m_NetReabsorptionPressure = new SEScalarPressure();
+  return *m_NetReabsorptionPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftGlomerularFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const
+double SERenalSystem::GetNetReabsorptionPressure(const PressureUnit& unit) const
 {
-  if (m_LeftGlomerularFluidPermeability == nullptr)
+  if (m_NetReabsorptionPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftGlomerularFluidPermeability->GetValue(unit);
+  return m_NetReabsorptionPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftFiltrationFraction() const
+bool SERenalSystem::HasPeritubularCapillariesHydrostaticPressure() const
 {
-  return m_LeftFiltrationFraction == nullptr ? false : m_LeftFiltrationFraction->IsValid();
+  return m_PeritubularCapillariesHydrostaticPressure == nullptr ? false : m_PeritubularCapillariesHydrostaticPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarFraction& SERenalSystem::GetLeftFiltrationFraction()
+SEScalarPressure& SERenalSystem::GetPeritubularCapillariesHydrostaticPressure()
 {
-  if (m_LeftFiltrationFraction == nullptr)
-    m_LeftFiltrationFraction = new SEScalarFraction();
-  return *m_LeftFiltrationFraction;
+  if (m_PeritubularCapillariesHydrostaticPressure == nullptr)
+    m_PeritubularCapillariesHydrostaticPressure = new SEScalarPressure();
+  return *m_PeritubularCapillariesHydrostaticPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftFiltrationFraction() const
+double SERenalSystem::GetPeritubularCapillariesHydrostaticPressure(const PressureUnit& unit) const
 {
-  if (m_LeftFiltrationFraction == nullptr)
+  if (m_PeritubularCapillariesHydrostaticPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftFiltrationFraction->GetValue();
+  return m_PeritubularCapillariesHydrostaticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftNetFiltrationPressure() const
+bool SERenalSystem::HasPeritubularCapillariesOsmoticPressure() const
 {
-  return m_LeftNetFiltrationPressure == nullptr ? false : m_LeftNetFiltrationPressure->IsValid();
+  return m_PeritubularCapillariesOsmoticPressure == nullptr ? false : m_PeritubularCapillariesOsmoticPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftNetFiltrationPressure()
+SEScalarPressure& SERenalSystem::GetPeritubularCapillariesOsmoticPressure()
 {
-  if (m_LeftNetFiltrationPressure == nullptr)
-    m_LeftNetFiltrationPressure = new SEScalarPressure();
-  return *m_LeftNetFiltrationPressure;
+  if (m_PeritubularCapillariesOsmoticPressure == nullptr)
+    m_PeritubularCapillariesOsmoticPressure = new SEScalarPressure();
+  return *m_PeritubularCapillariesOsmoticPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftNetFiltrationPressure(const PressureUnit& unit) const
+double SERenalSystem::GetPeritubularCapillariesOsmoticPressure(const PressureUnit& unit) const
 {
-  if (m_LeftNetFiltrationPressure == nullptr)
+  if (m_PeritubularCapillariesOsmoticPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftNetFiltrationPressure->GetValue(unit);
+  return m_PeritubularCapillariesOsmoticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftNetReabsorptionPressure() const
+bool SERenalSystem::HasReabsorptionFiltrationCoefficient() const
 {
-  return m_LeftNetReabsorptionPressure == nullptr ? false : m_LeftNetReabsorptionPressure->IsValid();
+  return m_ReabsorptionFiltrationCoefficient == nullptr ? false : m_ReabsorptionFiltrationCoefficient->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftNetReabsorptionPressure()
+SEScalarVolumePerTimePressure& SERenalSystem::GetReabsorptionFiltrationCoefficient()
 {
-  if (m_LeftNetReabsorptionPressure == nullptr)
-    m_LeftNetReabsorptionPressure = new SEScalarPressure();
-  return *m_LeftNetReabsorptionPressure;
+  if (m_ReabsorptionFiltrationCoefficient == nullptr)
+    m_ReabsorptionFiltrationCoefficient = new SEScalarVolumePerTimePressure();
+  return *m_ReabsorptionFiltrationCoefficient;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftNetReabsorptionPressure(const PressureUnit& unit) const
+double SERenalSystem::GetReabsorptionFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const
 {
-  if (m_LeftNetReabsorptionPressure == nullptr)
+  if (m_ReabsorptionFiltrationCoefficient == nullptr)
     return SEScalar::dNaN();
-  return m_LeftNetReabsorptionPressure->GetValue(unit);
+  return m_ReabsorptionFiltrationCoefficient->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftPeritubularCapillariesHydrostaticPressure() const
+bool SERenalSystem::HasReabsorptionRate() const
 {
-  return m_LeftPeritubularCapillariesHydrostaticPressure == nullptr ? false : m_LeftPeritubularCapillariesHydrostaticPressure->IsValid();
+  return m_ReabsorptionRate == nullptr ? false : m_ReabsorptionRate->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftPeritubularCapillariesHydrostaticPressure()
+SEScalarVolumePerTime& SERenalSystem::GetReabsorptionRate()
 {
-  if (m_LeftPeritubularCapillariesHydrostaticPressure == nullptr)
-    m_LeftPeritubularCapillariesHydrostaticPressure = new SEScalarPressure();
-  return *m_LeftPeritubularCapillariesHydrostaticPressure;
+  if (m_ReabsorptionRate == nullptr)
+    m_ReabsorptionRate = new SEScalarVolumePerTime();
+  return *m_ReabsorptionRate;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftPeritubularCapillariesHydrostaticPressure(const PressureUnit& unit) const
+double SERenalSystem::GetReabsorptionRate(const VolumePerTimeUnit& unit) const
 {
-  if (m_LeftPeritubularCapillariesHydrostaticPressure == nullptr)
+  if (m_ReabsorptionRate == nullptr)
     return SEScalar::dNaN();
-  return m_LeftPeritubularCapillariesHydrostaticPressure->GetValue(unit);
+  return m_ReabsorptionRate->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftPeritubularCapillariesOsmoticPressure() const
+bool SERenalSystem::HasTubularReabsorptionFiltrationSurfaceArea() const
 {
-  return m_LeftPeritubularCapillariesOsmoticPressure == nullptr ? false : m_LeftPeritubularCapillariesOsmoticPressure->IsValid();
+  return m_TubularReabsorptionFiltrationSurfaceArea == nullptr ? false : m_TubularReabsorptionFiltrationSurfaceArea->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftPeritubularCapillariesOsmoticPressure()
+SEScalarArea& SERenalSystem::GetTubularReabsorptionFiltrationSurfaceArea()
 {
-  if (m_LeftPeritubularCapillariesOsmoticPressure == nullptr)
-    m_LeftPeritubularCapillariesOsmoticPressure = new SEScalarPressure();
-  return *m_LeftPeritubularCapillariesOsmoticPressure;
+  if (m_TubularReabsorptionFiltrationSurfaceArea == nullptr)
+    m_TubularReabsorptionFiltrationSurfaceArea = new SEScalarArea();
+  return *m_TubularReabsorptionFiltrationSurfaceArea;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftPeritubularCapillariesOsmoticPressure(const PressureUnit& unit) const
+double SERenalSystem::GetTubularReabsorptionFiltrationSurfaceArea(const AreaUnit& unit) const
 {
-  if (m_LeftPeritubularCapillariesOsmoticPressure == nullptr)
+  if (m_TubularReabsorptionFiltrationSurfaceArea == nullptr)
     return SEScalar::dNaN();
-  return m_LeftPeritubularCapillariesOsmoticPressure->GetValue(unit);
+  return m_TubularReabsorptionFiltrationSurfaceArea->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftReabsorptionFiltrationCoefficient() const
+bool SERenalSystem::HasTubularReabsorptionFluidPermeability() const
 {
-  return m_LeftReabsorptionFiltrationCoefficient == nullptr ? false : m_LeftReabsorptionFiltrationCoefficient->IsValid();
+  return m_TubularReabsorptionFluidPermeability == nullptr ? false : m_TubularReabsorptionFluidPermeability->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarVolumePerTimePressure& SERenalSystem::GetLeftReabsorptionFiltrationCoefficient()
+SEScalarVolumePerTimePressureArea& SERenalSystem::GetTubularReabsorptionFluidPermeability()
 {
-  if (m_LeftReabsorptionFiltrationCoefficient == nullptr)
-    m_LeftReabsorptionFiltrationCoefficient = new SEScalarVolumePerTimePressure();
-  return *m_LeftReabsorptionFiltrationCoefficient;
+  if (m_TubularReabsorptionFluidPermeability == nullptr)
+    m_TubularReabsorptionFluidPermeability = new SEScalarVolumePerTimePressureArea();
+  return *m_TubularReabsorptionFluidPermeability;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftReabsorptionFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const
+double SERenalSystem::GetTubularReabsorptionFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const
 {
-  if (m_LeftReabsorptionFiltrationCoefficient == nullptr)
+  if (m_TubularReabsorptionFluidPermeability == nullptr)
     return SEScalar::dNaN();
-  return m_LeftReabsorptionFiltrationCoefficient->GetValue(unit);
+  return m_TubularReabsorptionFluidPermeability->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftReabsorptionRate() const
+bool SERenalSystem::HasTubularHydrostaticPressure() const
 {
-  return m_LeftReabsorptionRate == nullptr ? false : m_LeftReabsorptionRate->IsValid();
+  return m_TubularHydrostaticPressure == nullptr ? false : m_TubularHydrostaticPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarVolumePerTime& SERenalSystem::GetLeftReabsorptionRate()
+SEScalarPressure& SERenalSystem::GetTubularHydrostaticPressure()
 {
-  if (m_LeftReabsorptionRate == nullptr)
-    m_LeftReabsorptionRate = new SEScalarVolumePerTime();
-  return *m_LeftReabsorptionRate;
+  if (m_TubularHydrostaticPressure == nullptr)
+    m_TubularHydrostaticPressure = new SEScalarPressure();
+  return *m_TubularHydrostaticPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftReabsorptionRate(const VolumePerTimeUnit& unit) const
+double SERenalSystem::GetTubularHydrostaticPressure(const PressureUnit& unit) const
 {
-  if (m_LeftReabsorptionRate == nullptr)
+  if (m_TubularHydrostaticPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftReabsorptionRate->GetValue(unit);
+  return m_TubularHydrostaticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
-bool SERenalSystem::HasLeftTubularReabsorptionFiltrationSurfaceArea() const
+bool SERenalSystem::HasTubularOsmoticPressure() const
 {
-  return m_LeftTubularReabsorptionFiltrationSurfaceArea == nullptr ? false : m_LeftTubularReabsorptionFiltrationSurfaceArea->IsValid();
+  return m_TubularOsmoticPressure == nullptr ? false : m_TubularOsmoticPressure->IsValid();
 }
 //-------------------------------------------------------------------------------
-SEScalarArea& SERenalSystem::GetLeftTubularReabsorptionFiltrationSurfaceArea()
+SEScalarPressure& SERenalSystem::GetTubularOsmoticPressure()
 {
-  if (m_LeftTubularReabsorptionFiltrationSurfaceArea == nullptr)
-    m_LeftTubularReabsorptionFiltrationSurfaceArea = new SEScalarArea();
-  return *m_LeftTubularReabsorptionFiltrationSurfaceArea;
+  if (m_TubularOsmoticPressure == nullptr)
+    m_TubularOsmoticPressure = new SEScalarPressure();
+  return *m_TubularOsmoticPressure;
 }
 //-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftTubularReabsorptionFiltrationSurfaceArea(const AreaUnit& unit) const
+double SERenalSystem::GetTubularOsmoticPressure(const PressureUnit& unit) const
 {
-  if (m_LeftTubularReabsorptionFiltrationSurfaceArea == nullptr)
+  if (m_TubularOsmoticPressure == nullptr)
     return SEScalar::dNaN();
-  return m_LeftTubularReabsorptionFiltrationSurfaceArea->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasLeftTubularReabsorptionFluidPermeability() const
-{
-  return m_LeftTubularReabsorptionFluidPermeability == nullptr ? false : m_LeftTubularReabsorptionFluidPermeability->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarVolumePerTimePressureArea& SERenalSystem::GetLeftTubularReabsorptionFluidPermeability()
-{
-  if (m_LeftTubularReabsorptionFluidPermeability == nullptr)
-    m_LeftTubularReabsorptionFluidPermeability = new SEScalarVolumePerTimePressureArea();
-  return *m_LeftTubularReabsorptionFluidPermeability;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftTubularReabsorptionFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const
-{
-  if (m_LeftTubularReabsorptionFluidPermeability == nullptr)
-    return SEScalar::dNaN();
-  return m_LeftTubularReabsorptionFluidPermeability->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasLeftTubularHydrostaticPressure() const
-{
-  return m_LeftTubularHydrostaticPressure == nullptr ? false : m_LeftTubularHydrostaticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftTubularHydrostaticPressure()
-{
-  if (m_LeftTubularHydrostaticPressure == nullptr)
-    m_LeftTubularHydrostaticPressure = new SEScalarPressure();
-  return *m_LeftTubularHydrostaticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftTubularHydrostaticPressure(const PressureUnit& unit) const
-{
-  if (m_LeftTubularHydrostaticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_LeftTubularHydrostaticPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasLeftTubularOsmoticPressure() const
-{
-  return m_LeftTubularOsmoticPressure == nullptr ? false : m_LeftTubularOsmoticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetLeftTubularOsmoticPressure()
-{
-  if (m_LeftTubularOsmoticPressure == nullptr)
-    m_LeftTubularOsmoticPressure = new SEScalarPressure();
-  return *m_LeftTubularOsmoticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetLeftTubularOsmoticPressure(const PressureUnit& unit) const
-{
-  if (m_LeftTubularOsmoticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_LeftTubularOsmoticPressure->GetValue(unit);
+  return m_TubularOsmoticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
@@ -1106,425 +857,6 @@ double SERenalSystem::GetRenalVascularResistance(const FlowResistanceUnit& unit)
   if (m_RenalVascularResistance == nullptr)
     return SEScalar::dNaN();
   return m_RenalVascularResistance->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightAfferentArterioleResistance() const
-{
-  return m_RightAfferentArterioleResistance == nullptr ? false : m_RightAfferentArterioleResistance->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarFlowResistance& SERenalSystem::GetRightAfferentArterioleResistance()
-{
-  if (m_RightAfferentArterioleResistance == nullptr)
-    m_RightAfferentArterioleResistance = new SEScalarFlowResistance();
-  return *m_RightAfferentArterioleResistance;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightAfferentArterioleResistance(const FlowResistanceUnit& unit) const
-{
-  if (m_RightAfferentArterioleResistance == nullptr)
-    return SEScalar::dNaN();
-  return m_RightAfferentArterioleResistance->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightBowmansCapsulesHydrostaticPressure() const
-{
-  return m_RightBowmansCapsulesHydrostaticPressure == nullptr ? false : m_RightBowmansCapsulesHydrostaticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightBowmansCapsulesHydrostaticPressure()
-{
-  if (m_RightBowmansCapsulesHydrostaticPressure == nullptr)
-    m_RightBowmansCapsulesHydrostaticPressure = new SEScalarPressure();
-  return *m_RightBowmansCapsulesHydrostaticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightBowmansCapsulesHydrostaticPressure(const PressureUnit& unit) const
-{
-  if (m_RightBowmansCapsulesHydrostaticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightBowmansCapsulesHydrostaticPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightBowmansCapsulesOsmoticPressure() const
-{
-  return m_RightBowmansCapsulesOsmoticPressure == nullptr ? false : m_RightBowmansCapsulesOsmoticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightBowmansCapsulesOsmoticPressure()
-{
-  if (m_RightBowmansCapsulesOsmoticPressure == nullptr)
-    m_RightBowmansCapsulesOsmoticPressure = new SEScalarPressure();
-  return *m_RightBowmansCapsulesOsmoticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightBowmansCapsulesOsmoticPressure(const PressureUnit& unit) const
-{
-  if (m_RightBowmansCapsulesOsmoticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightBowmansCapsulesOsmoticPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightEfferentArterioleResistance() const
-{
-  return m_RightEfferentArterioleResistance == nullptr ? false : m_RightEfferentArterioleResistance->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarFlowResistance& SERenalSystem::GetRightEfferentArterioleResistance()
-{
-  if (m_RightEfferentArterioleResistance == nullptr)
-    m_RightEfferentArterioleResistance = new SEScalarFlowResistance();
-  return *m_RightEfferentArterioleResistance;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightEfferentArterioleResistance(const FlowResistanceUnit& unit) const
-{
-  if (m_RightEfferentArterioleResistance == nullptr)
-    return SEScalar::dNaN();
-  return m_RightEfferentArterioleResistance->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightGlomerularCapillariesHydrostaticPressure() const
-{
-  return m_RightGlomerularCapillariesHydrostaticPressure == nullptr ? false : m_RightGlomerularCapillariesHydrostaticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightGlomerularCapillariesHydrostaticPressure()
-{
-  if (m_RightGlomerularCapillariesHydrostaticPressure == nullptr)
-    m_RightGlomerularCapillariesHydrostaticPressure = new SEScalarPressure();
-  return *m_RightGlomerularCapillariesHydrostaticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightGlomerularCapillariesHydrostaticPressure(const PressureUnit& unit) const
-{
-  if (m_RightGlomerularCapillariesHydrostaticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightGlomerularCapillariesHydrostaticPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightGlomerularCapillariesOsmoticPressure() const
-{
-  return m_RightGlomerularCapillariesOsmoticPressure == nullptr ? false : m_RightGlomerularCapillariesOsmoticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightGlomerularCapillariesOsmoticPressure()
-{
-  if (m_RightGlomerularCapillariesOsmoticPressure == nullptr)
-    m_RightGlomerularCapillariesOsmoticPressure = new SEScalarPressure();
-  return *m_RightGlomerularCapillariesOsmoticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightGlomerularCapillariesOsmoticPressure(const PressureUnit& unit) const
-{
-  if (m_RightGlomerularCapillariesOsmoticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightGlomerularCapillariesOsmoticPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightGlomerularFiltrationCoefficient() const
-{
-  return m_RightGlomerularFiltrationCoefficient == nullptr ? false : m_RightGlomerularFiltrationCoefficient->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarVolumePerTimePressure& SERenalSystem::GetRightGlomerularFiltrationCoefficient()
-{
-  if (m_RightGlomerularFiltrationCoefficient == nullptr)
-    m_RightGlomerularFiltrationCoefficient = new SEScalarVolumePerTimePressure();
-  return *m_RightGlomerularFiltrationCoefficient;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightGlomerularFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const
-{
-  if (m_RightGlomerularFiltrationCoefficient == nullptr)
-    return SEScalar::dNaN();
-  return m_RightGlomerularFiltrationCoefficient->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightGlomerularFiltrationRate() const
-{
-  return m_RightGlomerularFiltrationRate == nullptr ? false : m_RightGlomerularFiltrationRate->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarVolumePerTime& SERenalSystem::GetRightGlomerularFiltrationRate()
-{
-  if (m_RightGlomerularFiltrationRate == nullptr)
-    m_RightGlomerularFiltrationRate = new SEScalarVolumePerTime();
-  return *m_RightGlomerularFiltrationRate;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightGlomerularFiltrationRate(const VolumePerTimeUnit& unit) const
-{
-  if (m_RightGlomerularFiltrationRate == nullptr)
-    return SEScalar::dNaN();
-  return m_RightGlomerularFiltrationRate->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightGlomerularFiltrationSurfaceArea() const
-{
-  return m_RightGlomerularFiltrationSurfaceArea == nullptr ? false : m_RightGlomerularFiltrationSurfaceArea->IsValid();
-}//-------------------------------------------------------------------------------
-SEScalarArea& SERenalSystem::GetRightGlomerularFiltrationSurfaceArea()
-{
-  if (m_RightGlomerularFiltrationSurfaceArea == nullptr)
-    m_RightGlomerularFiltrationSurfaceArea = new SEScalarArea();
-  return *m_RightGlomerularFiltrationSurfaceArea;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightGlomerularFiltrationSurfaceArea(const AreaUnit& unit) const
-{
-  if (m_RightGlomerularFiltrationSurfaceArea == nullptr)
-    return SEScalar::dNaN();
-  return m_RightGlomerularFiltrationSurfaceArea->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightGlomerularFluidPermeability() const
-{
-  return m_RightGlomerularFluidPermeability == nullptr ? false : m_RightGlomerularFluidPermeability->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarVolumePerTimePressureArea& SERenalSystem::GetRightGlomerularFluidPermeability()
-{
-  if (m_RightGlomerularFluidPermeability == nullptr)
-    m_RightGlomerularFluidPermeability = new SEScalarVolumePerTimePressureArea();
-  return *m_RightGlomerularFluidPermeability;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightGlomerularFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const
-{
-  if (m_RightGlomerularFluidPermeability == nullptr)
-    return SEScalar::dNaN();
-  return m_RightGlomerularFluidPermeability->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightFiltrationFraction() const
-{
-  return m_RightFiltrationFraction == nullptr ? false : m_RightFiltrationFraction->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarFraction& SERenalSystem::GetRightFiltrationFraction()
-{
-  if (m_RightFiltrationFraction == nullptr)
-    m_RightFiltrationFraction = new SEScalarFraction();
-  return *m_RightFiltrationFraction;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightFiltrationFraction() const
-{
-  if (m_RightFiltrationFraction == nullptr)
-    return SEScalar::dNaN();
-  return m_RightFiltrationFraction->GetValue();
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightNetFiltrationPressure() const
-{
-  return m_RightNetFiltrationPressure == nullptr ? false : m_RightNetFiltrationPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightNetFiltrationPressure()
-{
-  if (m_RightNetFiltrationPressure == nullptr)
-    m_RightNetFiltrationPressure = new SEScalarPressure();
-  return *m_RightNetFiltrationPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightNetFiltrationPressure(const PressureUnit& unit) const
-{
-  if (m_RightNetFiltrationPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightNetFiltrationPressure->GetValue(unit);
-}
-
-
-bool SERenalSystem::HasRightNetReabsorptionPressure() const
-{
-  return m_RightNetReabsorptionPressure == nullptr ? false : m_RightNetReabsorptionPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightNetReabsorptionPressure()
-{
-  if (m_RightNetReabsorptionPressure == nullptr)
-    m_RightNetReabsorptionPressure = new SEScalarPressure();
-  return *m_RightNetReabsorptionPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightNetReabsorptionPressure(const PressureUnit& unit) const
-{
-  if (m_RightNetReabsorptionPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightNetReabsorptionPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightPeritubularCapillariesHydrostaticPressure() const
-{
-  return m_RightPeritubularCapillariesHydrostaticPressure == nullptr ? false : m_RightPeritubularCapillariesHydrostaticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightPeritubularCapillariesHydrostaticPressure()
-{
-  if (m_RightPeritubularCapillariesHydrostaticPressure == nullptr)
-    m_RightPeritubularCapillariesHydrostaticPressure = new SEScalarPressure();
-  return *m_RightPeritubularCapillariesHydrostaticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightPeritubularCapillariesHydrostaticPressure(const PressureUnit& unit) const
-{
-  if (m_RightPeritubularCapillariesHydrostaticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightPeritubularCapillariesHydrostaticPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightPeritubularCapillariesOsmoticPressure() const
-{
-  return m_RightPeritubularCapillariesOsmoticPressure == nullptr ? false : m_RightPeritubularCapillariesOsmoticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightPeritubularCapillariesOsmoticPressure()
-{
-  if (m_RightPeritubularCapillariesOsmoticPressure == nullptr)
-    m_RightPeritubularCapillariesOsmoticPressure = new SEScalarPressure();
-  return *m_RightPeritubularCapillariesOsmoticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightPeritubularCapillariesOsmoticPressure(const PressureUnit& unit) const
-{
-  if (m_RightPeritubularCapillariesOsmoticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightPeritubularCapillariesOsmoticPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightReabsorptionFiltrationCoefficient() const
-{
-  return m_RightReabsorptionFiltrationCoefficient == nullptr ? false : m_RightReabsorptionFiltrationCoefficient->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarVolumePerTimePressure& SERenalSystem::GetRightReabsorptionFiltrationCoefficient()
-{
-  if (m_RightReabsorptionFiltrationCoefficient == nullptr)
-    m_RightReabsorptionFiltrationCoefficient = new SEScalarVolumePerTimePressure();
-  return *m_RightReabsorptionFiltrationCoefficient;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightReabsorptionFiltrationCoefficient(const VolumePerTimePressureUnit& unit) const
-{
-  if (m_RightReabsorptionFiltrationCoefficient == nullptr)
-    return SEScalar::dNaN();
-  return m_RightReabsorptionFiltrationCoefficient->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightReabsorptionRate() const
-{
-  return m_RightReabsorptionRate == nullptr ? false : m_RightReabsorptionRate->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarVolumePerTime& SERenalSystem::GetRightReabsorptionRate()
-{
-  if (m_RightReabsorptionRate == nullptr)
-    m_RightReabsorptionRate = new SEScalarVolumePerTime();
-  return *m_RightReabsorptionRate;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightReabsorptionRate(const VolumePerTimeUnit& unit) const
-{
-  if (m_RightReabsorptionRate == nullptr)
-    return SEScalar::dNaN();
-  return m_RightReabsorptionRate->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightTubularReabsorptionFiltrationSurfaceArea() const
-{
-  return m_RightTubularReabsorptionFiltrationSurfaceArea == nullptr ? false : m_RightTubularReabsorptionFiltrationSurfaceArea->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarArea& SERenalSystem::GetRightTubularReabsorptionFiltrationSurfaceArea()
-{
-  if (m_RightTubularReabsorptionFiltrationSurfaceArea == nullptr)
-    m_RightTubularReabsorptionFiltrationSurfaceArea = new SEScalarArea();
-  return *m_RightTubularReabsorptionFiltrationSurfaceArea;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightTubularReabsorptionFiltrationSurfaceArea(const AreaUnit& unit) const
-{
-  if (m_RightTubularReabsorptionFiltrationSurfaceArea == nullptr)
-    return SEScalar::dNaN();
-  return m_RightTubularReabsorptionFiltrationSurfaceArea->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightTubularReabsorptionFluidPermeability() const
-{
-  return m_RightTubularReabsorptionFluidPermeability == nullptr ? false : m_RightTubularReabsorptionFluidPermeability->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarVolumePerTimePressureArea& SERenalSystem::GetRightTubularReabsorptionFluidPermeability()
-{
-  if (m_RightTubularReabsorptionFluidPermeability == nullptr)
-    m_RightTubularReabsorptionFluidPermeability = new SEScalarVolumePerTimePressureArea();
-  return *m_RightTubularReabsorptionFluidPermeability;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightTubularReabsorptionFluidPermeability(const VolumePerTimePressureAreaUnit& unit) const
-{
-  if (m_RightTubularReabsorptionFluidPermeability == nullptr)
-    return SEScalar::dNaN();
-  return m_RightTubularReabsorptionFluidPermeability->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightTubularHydrostaticPressure() const
-{
-  return m_RightTubularHydrostaticPressure == nullptr ? false : m_RightTubularHydrostaticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightTubularHydrostaticPressure()
-{
-  if (m_RightTubularHydrostaticPressure == nullptr)
-    m_RightTubularHydrostaticPressure = new SEScalarPressure();
-  return *m_RightTubularHydrostaticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightTubularHydrostaticPressure(const PressureUnit& unit) const
-{
-  if (m_RightTubularHydrostaticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightTubularHydrostaticPressure->GetValue(unit);
-}
-//-------------------------------------------------------------------------------
-
-bool SERenalSystem::HasRightTubularOsmoticPressure() const
-{
-  return m_RightTubularOsmoticPressure == nullptr ? false : m_RightTubularOsmoticPressure->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalarPressure& SERenalSystem::GetRightTubularOsmoticPressure()
-{
-  if (m_RightTubularOsmoticPressure == nullptr)
-    m_RightTubularOsmoticPressure = new SEScalarPressure();
-  return *m_RightTubularOsmoticPressure;
-}
-//-------------------------------------------------------------------------------
-double SERenalSystem::GetRightTubularOsmoticPressure(const PressureUnit& unit) const
-{
-  if (m_RightTubularOsmoticPressure == nullptr)
-    return SEScalar::dNaN();
-  return m_RightTubularOsmoticPressure->GetValue(unit);
 }
 //-------------------------------------------------------------------------------
 
@@ -1673,51 +1005,28 @@ Tree<const char*> SERenalSystem::GetPhysiologyRequestGraph() const
   return Tree<const char*>{classname()}
     .emplace_back(idGlomerularFiltrationRate)
     .emplace_back(idFiltrationFraction)
-    .emplace_back(idLeftAfferentArterioleResistance)
-    .emplace_back(idLeftBowmansCapsulesHydrostaticPressure)
-    .emplace_back(idLeftBowmansCapsulesOsmoticPressure)
-    .emplace_back(idLeftEfferentArterioleResistance)
-    .emplace_back(idLeftGlomerularCapillariesHydrostaticPressure)
-    .emplace_back(idLeftGlomerularCapillariesOsmoticPressure)
-    .emplace_back(idLeftGlomerularFiltrationCoefficient)
-    .emplace_back(idLeftGlomerularFiltrationRate)
-    .emplace_back(idLeftGlomerularFiltrationSurfaceArea)
-    .emplace_back(idLeftGlomerularFluidPermeability)
-    .emplace_back(idLeftFiltrationFraction)
-    .emplace_back(idLeftNetFiltrationPressure)
-    .emplace_back(idLeftNetReabsorptionPressure)
-    .emplace_back(idLeftPeritubularCapillariesHydrostaticPressure)
-    .emplace_back(idLeftPeritubularCapillariesOsmoticPressure)
-    .emplace_back(idLeftReabsorptionFiltrationCoefficient)
-    .emplace_back(idLeftReabsorptionRate)
-    .emplace_back(idLeftTubularReabsorptionFiltrationSurfaceArea)
-    .emplace_back(idLeftTubularReabsorptionFluidPermeability)
-    .emplace_back(idLeftTubularHydrostaticPressure)
-    .emplace_back(idLeftTubularOsmoticPressure)
+    .emplace_back(idAfferentArterioleResistance)
+    .emplace_back(idBowmansCapsulesHydrostaticPressure)
+    .emplace_back(idBowmansCapsulesOsmoticPressure)
+    .emplace_back(idEfferentArterioleResistance)
+    .emplace_back(idGlomerularCapillariesHydrostaticPressure)
+    .emplace_back(idGlomerularCapillariesOsmoticPressure)
+    .emplace_back(idGlomerularFiltrationCoefficient)
+    .emplace_back(idGlomerularFiltrationSurfaceArea)
+    .emplace_back(idGlomerularFluidPermeability)
+    .emplace_back(idNetFiltrationPressure)
+    .emplace_back(idNetReabsorptionPressure)
+    .emplace_back(idPeritubularCapillariesHydrostaticPressure)
+    .emplace_back(idPeritubularCapillariesOsmoticPressure)
+    .emplace_back(idReabsorptionFiltrationCoefficient)
+    .emplace_back(idReabsorptionRate)
+    .emplace_back(idTubularReabsorptionFiltrationSurfaceArea)
+    .emplace_back(idTubularReabsorptionFluidPermeability)
+    .emplace_back(idTubularHydrostaticPressure)
+    .emplace_back(idTubularOsmoticPressure)
     .emplace_back(idRenalBloodFlow)
     .emplace_back(idRenalPlasmaFlow)
     .emplace_back(idRenalVascularResistance)
-    .emplace_back(idRightAfferentArterioleResistance)
-    .emplace_back(idRightBowmansCapsulesHydrostaticPressure)
-    .emplace_back(idRightBowmansCapsulesOsmoticPressure)
-    .emplace_back(idRightEfferentArterioleResistance)
-    .emplace_back(idRightGlomerularCapillariesHydrostaticPressure)
-    .emplace_back(idRightGlomerularCapillariesOsmoticPressure)
-    .emplace_back(idRightGlomerularFiltrationCoefficient)
-    .emplace_back(idRightGlomerularFiltrationRate)
-    .emplace_back(idRightGlomerularFiltrationSurfaceArea)
-    .emplace_back(idRightGlomerularFluidPermeability)
-    .emplace_back(idRightFiltrationFraction)
-    .emplace_back(idRightNetFiltrationPressure)
-    .emplace_back(idRightNetReabsorptionPressure)
-    .emplace_back(idRightPeritubularCapillariesHydrostaticPressure)
-    .emplace_back(idRightPeritubularCapillariesOsmoticPressure)
-    .emplace_back(idRightReabsorptionFiltrationCoefficient)
-    .emplace_back(idRightReabsorptionRate)
-    .emplace_back(idRightTubularReabsorptionFiltrationSurfaceArea)
-    .emplace_back(idRightTubularReabsorptionFluidPermeability)
-    .emplace_back(idRightTubularHydrostaticPressure)
-    .emplace_back(idRightTubularOsmoticPressure)
     .emplace_back(idUrinationRate)
     .emplace_back(idUrineOsmolality)
     .emplace_back(idUrineOsmolarity)
