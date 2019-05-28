@@ -491,21 +491,21 @@ public:
   virtual SEScalarMassPerVolume& GetPeritubularPotassiumConcentrationSetPoint();
   virtual double GetPeritubularPotassiumConcentrationSetPoint(const MassPerVolumeUnit& unit) const;
 
-  virtual bool HasLeftGlomerularFilteringSurfaceAreaBaseline() const;
-  virtual SEScalarArea& GetLeftGlomerularFilteringSurfaceAreaBaseline();
-  virtual double GetLeftGlomerularFilteringSurfaceAreaBaseline(const AreaUnit& unit) const;
+  virtual bool HasGlomerularFilteringSurfaceAreaBaseline() const;
+  virtual SEScalarArea& GetGlomerularFilteringSurfaceAreaBaseline();
+  virtual double GetGlomerularFilteringSurfaceAreaBaseline(const AreaUnit& unit) const;
 
-  virtual bool HasLeftGlomerularFluidPermeabilityBaseline() const;
-  virtual SEScalarVolumePerTimePressureArea& GetLeftGlomerularFluidPermeabilityBaseline();
-  virtual double GetLeftGlomerularFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const;
+  virtual bool HasGlomerularFluidPermeabilityBaseline() const;
+  virtual SEScalarVolumePerTimePressureArea& GetGlomerularFluidPermeabilityBaseline();
+  virtual double GetGlomerularFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const;
 
-  virtual bool HasLeftTubularReabsorptionFilteringSurfaceAreaBaseline() const;
-  virtual SEScalarArea& GetLeftTubularReabsorptionFilteringSurfaceAreaBaseline();
-  virtual double GetLeftTubularReabsorptionFilteringSurfaceAreaBaseline(const AreaUnit& unit) const;
+  virtual bool HasTubularReabsorptionFilteringSurfaceAreaBaseline() const;
+  virtual SEScalarArea& GetTubularReabsorptionFilteringSurfaceAreaBaseline();
+  virtual double GetTubularReabsorptionFilteringSurfaceAreaBaseline(const AreaUnit& unit) const;
 
-  virtual bool HasLeftTubularReabsorptionFluidPermeabilityBaseline() const;
-  virtual SEScalarVolumePerTimePressureArea& GetLeftTubularReabsorptionFluidPermeabilityBaseline();
-  virtual double GetLeftTubularReabsorptionFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const;
+  virtual bool HasTubularReabsorptionFluidPermeabilityBaseline() const;
+  virtual SEScalarVolumePerTimePressureArea& GetTubularReabsorptionFluidPermeabilityBaseline();
+  virtual double GetTubularReabsorptionFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const;
 
   virtual bool HasMaximumAfferentResistance() const;
   virtual SEScalarFlowResistance& GetMaximumAfferentResistance();
@@ -514,22 +514,6 @@ public:
   virtual bool HasMinimumAfferentResistance() const;
   virtual SEScalarFlowResistance& GetMinimumAfferentResistance();
   virtual double GetMinimumAfferentResistance(const FlowResistanceUnit& unit) const;
-
-  virtual bool HasRightGlomerularFilteringSurfaceAreaBaseline() const;
-  virtual SEScalarArea& GetRightGlomerularFilteringSurfaceAreaBaseline();
-  virtual double GetRightGlomerularFilteringSurfaceAreaBaseline(const AreaUnit& unit) const;
-
-  virtual bool HasRightGlomerularFluidPermeabilityBaseline() const;
-  virtual SEScalarVolumePerTimePressureArea& GetRightGlomerularFluidPermeabilityBaseline();
-  virtual double GetRightGlomerularFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const;
-
-  virtual bool HasRightTubularReabsorptionFilteringSurfaceAreaBaseline() const;
-  virtual SEScalarArea& GetRightTubularReabsorptionFilteringSurfaceAreaBaseline();
-  virtual double GetRightTubularReabsorptionFilteringSurfaceAreaBaseline(const AreaUnit& unit) const;
-
-  virtual bool HasRightTubularReabsorptionFluidPermeabilityBaseline() const;
-  virtual SEScalarVolumePerTimePressureArea& GetRightTubularReabsorptionFluidPermeabilityBaseline();
-  virtual double GetRightTubularReabsorptionFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const;
 
   virtual bool HasTargetSodiumDelivery();
   virtual SEScalarMassPerTime& GetTargetSodiumDelivery();
@@ -540,15 +524,10 @@ protected:
   SEScalarMassPerVolume* m_PlasmaSodiumConcentrationSetPoint;
   SEScalarMassPerVolume* m_PeritubularPotassiumConcentrationSetPoint;
 
-  SEScalarArea* m_LeftGlomerularFilteringSurfaceAreaBaseline;
-  SEScalarVolumePerTimePressureArea* m_LeftGlomerularFluidPermeabilityBaseline;
-  SEScalarArea* m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline;
-  SEScalarVolumePerTimePressureArea* m_LeftTubularReabsorptionFluidPermeabilityBaseline;
-
-  SEScalarArea* m_RightGlomerularFilteringSurfaceAreaBaseline;
-  SEScalarVolumePerTimePressureArea* m_RightGlomerularFluidPermeabilityBaseline;
-  SEScalarArea* m_RightTubularReabsorptionFilteringSurfaceAreaBaseline;
-  SEScalarVolumePerTimePressureArea* m_RightTubularReabsorptionFluidPermeabilityBaseline;
+  SEScalarArea* m_GlomerularFilteringSurfaceAreaBaseline;
+  SEScalarVolumePerTimePressureArea* m_GlomerularFluidPermeabilityBaseline;
+  SEScalarArea* m_TubularReabsorptionFilteringSurfaceAreaBaseline;
+  SEScalarVolumePerTimePressureArea* m_TubularReabsorptionFluidPermeabilityBaseline;
 
   SEScalarFlowResistance* m_MaximumAfferentResistance;
   SEScalarFlowResistance* m_MinimumAfferentResistance;

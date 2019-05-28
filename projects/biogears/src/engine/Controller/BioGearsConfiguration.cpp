@@ -140,16 +140,12 @@ BioGearsConfiguration::BioGearsConfiguration(SESubstanceManager& substances)
   m_RenalEnabled = CDM::enumOnOff::value(-1);
   m_PlasmaSodiumConcentrationSetPoint = nullptr;
   m_PeritubularPotassiumConcentrationSetPoint = nullptr;
-  m_LeftGlomerularFluidPermeabilityBaseline = nullptr;
-  m_LeftGlomerularFilteringSurfaceAreaBaseline = nullptr;
-  m_LeftTubularReabsorptionFluidPermeabilityBaseline = nullptr;
-  m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline = nullptr;
+  m_GlomerularFluidPermeabilityBaseline = nullptr;
+  m_GlomerularFilteringSurfaceAreaBaseline = nullptr;
+  m_TubularReabsorptionFluidPermeabilityBaseline = nullptr;
+  m_TubularReabsorptionFilteringSurfaceAreaBaseline = nullptr;
   m_MaximumAfferentResistance = nullptr;
   m_MinimumAfferentResistance = nullptr;
-  m_RightGlomerularFluidPermeabilityBaseline = nullptr;
-  m_RightGlomerularFilteringSurfaceAreaBaseline = nullptr;
-  m_RightTubularReabsorptionFluidPermeabilityBaseline = nullptr;
-  m_RightTubularReabsorptionFilteringSurfaceAreaBaseline = nullptr;
   m_TargetSodiumDelivery = nullptr;
 
   // Respiratory
@@ -265,16 +261,12 @@ void BioGearsConfiguration::Clear()
   m_RenalEnabled = CDM::enumOnOff::value(-1);
   SAFE_DELETE(m_PlasmaSodiumConcentrationSetPoint);
   SAFE_DELETE(m_PeritubularPotassiumConcentrationSetPoint);
-  SAFE_DELETE(m_LeftGlomerularFluidPermeabilityBaseline);
-  SAFE_DELETE(m_LeftGlomerularFilteringSurfaceAreaBaseline);
-  SAFE_DELETE(m_LeftTubularReabsorptionFluidPermeabilityBaseline);
-  SAFE_DELETE(m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline);
+  SAFE_DELETE(m_GlomerularFluidPermeabilityBaseline);
+  SAFE_DELETE(m_GlomerularFilteringSurfaceAreaBaseline);
+  SAFE_DELETE(m_TubularReabsorptionFluidPermeabilityBaseline);
+  SAFE_DELETE(m_TubularReabsorptionFilteringSurfaceAreaBaseline);
   SAFE_DELETE(m_MaximumAfferentResistance);
   SAFE_DELETE(m_MinimumAfferentResistance);
-  SAFE_DELETE(m_RightGlomerularFluidPermeabilityBaseline);
-  SAFE_DELETE(m_RightGlomerularFilteringSurfaceAreaBaseline);
-  SAFE_DELETE(m_RightTubularReabsorptionFluidPermeabilityBaseline);
-  SAFE_DELETE(m_RightTubularReabsorptionFilteringSurfaceAreaBaseline);
   SAFE_DELETE(m_TargetSodiumDelivery);
 
   // Respiratory
@@ -394,17 +386,12 @@ void BioGearsConfiguration::Initialize()
   m_RenalEnabled = CDM::enumOnOff::On;
   GetPlasmaSodiumConcentrationSetPoint().SetValue(3.23, MassPerVolumeUnit::mg_Per_mL);
   GetPeritubularPotassiumConcentrationSetPoint().SetValue(0.0185, MassPerVolumeUnit::g_Per_dL);
-  GetLeftGlomerularFluidPermeabilityBaseline().SetValue(3.67647, VolumePerTimePressureAreaUnit::mL_Per_min_mmHg_m2);
-  GetLeftGlomerularFilteringSurfaceAreaBaseline().SetValue(2.0, AreaUnit::m2);
-  GetLeftTubularReabsorptionFluidPermeabilityBaseline().SetValue(2.91747, VolumePerTimePressureAreaUnit::mL_Per_min_mmHg_m2);
-  GetLeftTubularReabsorptionFilteringSurfaceAreaBaseline().SetValue(2.5, AreaUnit::m2);
+  GetGlomerularFluidPermeabilityBaseline().SetValue(3.67647, VolumePerTimePressureAreaUnit::mL_Per_min_mmHg_m2);
+  GetGlomerularFilteringSurfaceAreaBaseline().SetValue(4.0, AreaUnit::m2);
+  GetTubularReabsorptionFluidPermeabilityBaseline().SetValue(2.91747, VolumePerTimePressureAreaUnit::mL_Per_min_mmHg_m2);
+  GetTubularReabsorptionFilteringSurfaceAreaBaseline().SetValue(5.0, AreaUnit::m2);
   GetMaximumAfferentResistance().SetValue(11.2, FlowResistanceUnit::mmHg_s_Per_mL); //11.2
   GetMinimumAfferentResistance().SetValue(2.2, FlowResistanceUnit::mmHg_s_Per_mL); //2.1
-  GetRightGlomerularFluidPermeabilityBaseline().SetValue(3.67647, VolumePerTimePressureAreaUnit::mL_Per_min_mmHg_m2);
-  GetRightGlomerularFilteringSurfaceAreaBaseline().SetValue(2.0, AreaUnit::m2);
-  GetRightTubularReabsorptionFluidPermeabilityBaseline().SetValue(2.91747, VolumePerTimePressureAreaUnit::mL_Per_min_mmHg_m2);
-  //GetRightTubularReabsorptionFluidPermeabilityBaseline().SetValue(1.0, VolumePerTimePressureAreaUnit::mL_Per_min_Per_mmHg_Per_m2);
-  GetRightTubularReabsorptionFilteringSurfaceAreaBaseline().SetValue(2.5, AreaUnit::m2);
   GetTargetSodiumDelivery().SetValue(0.201, MassPerTimeUnit::g_Per_min);
 
   // Respiratory
@@ -679,28 +666,20 @@ bool BioGearsConfiguration::Load(const CDM::BioGearsConfigurationData& in)
     if (config.PlasmaSodiumConcentrationSetPoint().present())
       GetPlasmaSodiumConcentrationSetPoint().Load(config.PlasmaSodiumConcentrationSetPoint().get());
 
-    if (config.LeftGlomerularFluidPermeabilityBaseline().present())
-      GetLeftGlomerularFluidPermeabilityBaseline().Load(config.LeftGlomerularFluidPermeabilityBaseline().get());
-    if (config.LeftGlomerularFilteringSurfaceAreaBaseline().present())
-      GetLeftGlomerularFilteringSurfaceAreaBaseline().Load(config.LeftGlomerularFilteringSurfaceAreaBaseline().get());
-    if (config.LeftTubularReabsorptionFluidPermeabilityBaseline().present())
-      GetLeftTubularReabsorptionFluidPermeabilityBaseline().Load(config.LeftTubularReabsorptionFluidPermeabilityBaseline().get());
-    if (config.LeftTubularReabsorptionFilteringSurfaceAreaBaseline().present())
-      GetLeftTubularReabsorptionFilteringSurfaceAreaBaseline().Load(config.LeftTubularReabsorptionFilteringSurfaceAreaBaseline().get());
+    if (config.GlomerularFluidPermeabilityBaseline().present())
+      GetGlomerularFluidPermeabilityBaseline().Load(config.GlomerularFluidPermeabilityBaseline().get());
+    if (config.GlomerularFilteringSurfaceAreaBaseline().present())
+      GetGlomerularFilteringSurfaceAreaBaseline().Load(config.GlomerularFilteringSurfaceAreaBaseline().get());
+    if (config.TubularReabsorptionFluidPermeabilityBaseline().present())
+      GetTubularReabsorptionFluidPermeabilityBaseline().Load(config.TubularReabsorptionFluidPermeabilityBaseline().get());
+    if (config.TubularReabsorptionFilteringSurfaceAreaBaseline().present())
+      GetTubularReabsorptionFilteringSurfaceAreaBaseline().Load(config.TubularReabsorptionFilteringSurfaceAreaBaseline().get());
 
     if (config.MaximumAfferentResistance().present())
       GetMaximumAfferentResistance().Load(config.MaximumAfferentResistance().get());
     if (config.MinimumAfferentResistance().present())
       GetMinimumAfferentResistance().Load(config.MinimumAfferentResistance().get());
 
-    if (config.RightGlomerularFluidPermeabilityBaseline().present())
-      GetRightGlomerularFluidPermeabilityBaseline().Load(config.RightGlomerularFluidPermeabilityBaseline().get());
-    if (config.RightGlomerularFilteringSurfaceAreaBaseline().present())
-      GetRightGlomerularFilteringSurfaceAreaBaseline().Load(config.RightGlomerularFilteringSurfaceAreaBaseline().get());
-    if (config.RightTubularReabsorptionFluidPermeabilityBaseline().present())
-      GetRightTubularReabsorptionFluidPermeabilityBaseline().Load(config.RightTubularReabsorptionFluidPermeabilityBaseline().get());
-    if (config.RightTubularReabsorptionFilteringSurfaceAreaBaseline().present())
-      GetRightTubularReabsorptionFilteringSurfaceAreaBaseline().Load(config.RightTubularReabsorptionFilteringSurfaceAreaBaseline().get());
     if (config.TargetSodiumDelivery().present())
       GetTargetSodiumDelivery().Load(config.TargetSodiumDelivery().get());
   }
@@ -924,29 +903,19 @@ void BioGearsConfiguration::Unload(CDM::BioGearsConfigurationData& data) const
     renal->EnableRenal(m_RenalEnabled);
   if (HasPlasmaSodiumConcentrationSetPoint())
     renal->PlasmaSodiumConcentrationSetPoint(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_PlasmaSodiumConcentrationSetPoint->Unload()));
-  if (HasLeftGlomerularFilteringSurfaceAreaBaseline())
-    renal->LeftGlomerularFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_LeftGlomerularFilteringSurfaceAreaBaseline->Unload()));
-  if (HasLeftGlomerularFluidPermeabilityBaseline())
-    renal->LeftGlomerularFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_LeftGlomerularFluidPermeabilityBaseline->Unload()));
-  if (HasLeftTubularReabsorptionFilteringSurfaceAreaBaseline())
-    renal->LeftTubularReabsorptionFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline->Unload()));
-  if (HasLeftTubularReabsorptionFluidPermeabilityBaseline())
-    renal->LeftTubularReabsorptionFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_LeftTubularReabsorptionFluidPermeabilityBaseline->Unload()));
+  if (HasGlomerularFilteringSurfaceAreaBaseline())
+    renal->GlomerularFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_GlomerularFilteringSurfaceAreaBaseline->Unload()));
+  if (HasGlomerularFluidPermeabilityBaseline())
+    renal->GlomerularFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_GlomerularFluidPermeabilityBaseline->Unload()));
+  if (HasTubularReabsorptionFilteringSurfaceAreaBaseline())
+    renal->TubularReabsorptionFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_TubularReabsorptionFilteringSurfaceAreaBaseline->Unload()));
+  if (HasTubularReabsorptionFluidPermeabilityBaseline())
+    renal->TubularReabsorptionFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_TubularReabsorptionFluidPermeabilityBaseline->Unload()));
 
   if (HasMaximumAfferentResistance())
     renal->MaximumAfferentResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_MaximumAfferentResistance->Unload()));
   if (HasMinimumAfferentResistance())
     renal->MinimumAfferentResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_MinimumAfferentResistance->Unload()));
-
-  if (HasRightGlomerularFilteringSurfaceAreaBaseline())
-    renal->RightGlomerularFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_RightGlomerularFilteringSurfaceAreaBaseline->Unload()));
-  if (HasRightGlomerularFluidPermeabilityBaseline())
-    renal->RightGlomerularFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_RightGlomerularFluidPermeabilityBaseline->Unload()));
-  if (HasRightTubularReabsorptionFilteringSurfaceAreaBaseline())
-    renal->RightTubularReabsorptionFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_RightTubularReabsorptionFilteringSurfaceAreaBaseline->Unload()));
-  if (HasRightTubularReabsorptionFluidPermeabilityBaseline())
-    renal->RightTubularReabsorptionFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_RightTubularReabsorptionFluidPermeabilityBaseline->Unload()));
-  data.RenalConfiguration(std::unique_ptr<CDM::RenalConfigurationData>(renal));
 
   // Respiratory
   CDM::RespiratoryConfigurationData* resp(new CDM::RespiratoryConfigurationData());
@@ -2128,72 +2097,72 @@ double BioGearsConfiguration::GetPeritubularPotassiumConcentrationSetPoint(const
   return m_PeritubularPotassiumConcentrationSetPoint->GetValue(unit);
 }
 
-bool BioGearsConfiguration::HasLeftGlomerularFluidPermeabilityBaseline() const
+bool BioGearsConfiguration::HasGlomerularFluidPermeabilityBaseline() const
 {
-  return m_LeftGlomerularFluidPermeabilityBaseline == nullptr ? false : m_LeftGlomerularFluidPermeabilityBaseline->IsValid();
+  return m_GlomerularFluidPermeabilityBaseline == nullptr ? false : m_GlomerularFluidPermeabilityBaseline->IsValid();
 }
-SEScalarVolumePerTimePressureArea& BioGearsConfiguration::GetLeftGlomerularFluidPermeabilityBaseline()
+SEScalarVolumePerTimePressureArea& BioGearsConfiguration::GetGlomerularFluidPermeabilityBaseline()
 {
-  if (m_LeftGlomerularFluidPermeabilityBaseline == nullptr)
-    m_LeftGlomerularFluidPermeabilityBaseline = new SEScalarVolumePerTimePressureArea();
-  return *m_LeftGlomerularFluidPermeabilityBaseline;
+  if (m_GlomerularFluidPermeabilityBaseline == nullptr)
+    m_GlomerularFluidPermeabilityBaseline = new SEScalarVolumePerTimePressureArea();
+  return *m_GlomerularFluidPermeabilityBaseline;
 }
-double BioGearsConfiguration::GetLeftGlomerularFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const
+double BioGearsConfiguration::GetGlomerularFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const
 {
-  if (m_LeftGlomerularFluidPermeabilityBaseline == nullptr)
+  if (m_GlomerularFluidPermeabilityBaseline == nullptr)
     return SEScalar::dNaN();
-  return m_LeftGlomerularFluidPermeabilityBaseline->GetValue(unit);
+  return m_GlomerularFluidPermeabilityBaseline->GetValue(unit);
 }
 
-bool BioGearsConfiguration::HasLeftGlomerularFilteringSurfaceAreaBaseline() const
+bool BioGearsConfiguration::HasGlomerularFilteringSurfaceAreaBaseline() const
 {
-  return m_LeftGlomerularFilteringSurfaceAreaBaseline == nullptr ? false : m_LeftGlomerularFilteringSurfaceAreaBaseline->IsValid();
+  return m_GlomerularFilteringSurfaceAreaBaseline == nullptr ? false : m_GlomerularFilteringSurfaceAreaBaseline->IsValid();
 }
-SEScalarArea& BioGearsConfiguration::GetLeftGlomerularFilteringSurfaceAreaBaseline()
+SEScalarArea& BioGearsConfiguration::GetGlomerularFilteringSurfaceAreaBaseline()
 {
-  if (m_LeftGlomerularFilteringSurfaceAreaBaseline == nullptr)
-    m_LeftGlomerularFilteringSurfaceAreaBaseline = new SEScalarArea();
-  return *m_LeftGlomerularFilteringSurfaceAreaBaseline;
+  if (m_GlomerularFilteringSurfaceAreaBaseline == nullptr)
+    m_GlomerularFilteringSurfaceAreaBaseline = new SEScalarArea();
+  return *m_GlomerularFilteringSurfaceAreaBaseline;
 }
-double BioGearsConfiguration::GetLeftGlomerularFilteringSurfaceAreaBaseline(const AreaUnit& unit) const
+double BioGearsConfiguration::GetGlomerularFilteringSurfaceAreaBaseline(const AreaUnit& unit) const
 {
-  if (m_LeftGlomerularFilteringSurfaceAreaBaseline == nullptr)
+  if (m_GlomerularFilteringSurfaceAreaBaseline == nullptr)
     return SEScalar::dNaN();
-  return m_LeftGlomerularFilteringSurfaceAreaBaseline->GetValue(unit);
+  return m_GlomerularFilteringSurfaceAreaBaseline->GetValue(unit);
 }
 
-bool BioGearsConfiguration::HasLeftTubularReabsorptionFluidPermeabilityBaseline() const
+bool BioGearsConfiguration::HasTubularReabsorptionFluidPermeabilityBaseline() const
 {
-  return m_LeftTubularReabsorptionFluidPermeabilityBaseline == nullptr ? false : m_LeftTubularReabsorptionFluidPermeabilityBaseline->IsValid();
+  return m_TubularReabsorptionFluidPermeabilityBaseline == nullptr ? false : m_TubularReabsorptionFluidPermeabilityBaseline->IsValid();
 }
-SEScalarVolumePerTimePressureArea& BioGearsConfiguration::GetLeftTubularReabsorptionFluidPermeabilityBaseline()
+SEScalarVolumePerTimePressureArea& BioGearsConfiguration::GetTubularReabsorptionFluidPermeabilityBaseline()
 {
-  if (m_LeftTubularReabsorptionFluidPermeabilityBaseline == nullptr)
-    m_LeftTubularReabsorptionFluidPermeabilityBaseline = new SEScalarVolumePerTimePressureArea();
-  return *m_LeftTubularReabsorptionFluidPermeabilityBaseline;
+  if (m_TubularReabsorptionFluidPermeabilityBaseline == nullptr)
+    m_TubularReabsorptionFluidPermeabilityBaseline = new SEScalarVolumePerTimePressureArea();
+  return *m_TubularReabsorptionFluidPermeabilityBaseline;
 }
-double BioGearsConfiguration::GetLeftTubularReabsorptionFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const
+double BioGearsConfiguration::GetTubularReabsorptionFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const
 {
-  if (m_LeftTubularReabsorptionFluidPermeabilityBaseline == nullptr)
+  if (m_TubularReabsorptionFluidPermeabilityBaseline == nullptr)
     return SEScalar::dNaN();
-  return m_LeftTubularReabsorptionFluidPermeabilityBaseline->GetValue(unit);
+  return m_TubularReabsorptionFluidPermeabilityBaseline->GetValue(unit);
 }
 
-bool BioGearsConfiguration::HasLeftTubularReabsorptionFilteringSurfaceAreaBaseline() const
+bool BioGearsConfiguration::HasTubularReabsorptionFilteringSurfaceAreaBaseline() const
 {
-  return m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline == nullptr ? false : m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline->IsValid();
+  return m_TubularReabsorptionFilteringSurfaceAreaBaseline == nullptr ? false : m_TubularReabsorptionFilteringSurfaceAreaBaseline->IsValid();
 }
-SEScalarArea& BioGearsConfiguration::GetLeftTubularReabsorptionFilteringSurfaceAreaBaseline()
+SEScalarArea& BioGearsConfiguration::GetTubularReabsorptionFilteringSurfaceAreaBaseline()
 {
-  if (m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline == nullptr)
-    m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline = new SEScalarArea();
-  return *m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline;
+  if (m_TubularReabsorptionFilteringSurfaceAreaBaseline == nullptr)
+    m_TubularReabsorptionFilteringSurfaceAreaBaseline = new SEScalarArea();
+  return *m_TubularReabsorptionFilteringSurfaceAreaBaseline;
 }
-double BioGearsConfiguration::GetLeftTubularReabsorptionFilteringSurfaceAreaBaseline(const AreaUnit& unit) const
+double BioGearsConfiguration::GetTubularReabsorptionFilteringSurfaceAreaBaseline(const AreaUnit& unit) const
 {
-  if (m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline == nullptr)
+  if (m_TubularReabsorptionFilteringSurfaceAreaBaseline == nullptr)
     return SEScalar::dNaN();
-  return m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline->GetValue(unit);
+  return m_TubularReabsorptionFilteringSurfaceAreaBaseline->GetValue(unit);
 }
 
 bool BioGearsConfiguration::HasMaximumAfferentResistance() const
@@ -2228,74 +2197,6 @@ double BioGearsConfiguration::GetMinimumAfferentResistance(const FlowResistanceU
   if (m_MinimumAfferentResistance == nullptr)
     return SEScalar::dNaN();
   return m_MinimumAfferentResistance->GetValue(unit);
-}
-
-bool BioGearsConfiguration::HasRightGlomerularFluidPermeabilityBaseline() const
-{
-  return m_RightGlomerularFluidPermeabilityBaseline == nullptr ? false : m_RightGlomerularFluidPermeabilityBaseline->IsValid();
-}
-SEScalarVolumePerTimePressureArea& BioGearsConfiguration::GetRightGlomerularFluidPermeabilityBaseline()
-{
-  if (m_RightGlomerularFluidPermeabilityBaseline == nullptr)
-    m_RightGlomerularFluidPermeabilityBaseline = new SEScalarVolumePerTimePressureArea();
-  return *m_RightGlomerularFluidPermeabilityBaseline;
-}
-double BioGearsConfiguration::GetRightGlomerularFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const
-{
-  if (m_RightGlomerularFluidPermeabilityBaseline == nullptr)
-    return SEScalar::dNaN();
-  return m_RightGlomerularFluidPermeabilityBaseline->GetValue(unit);
-}
-
-bool BioGearsConfiguration::HasRightGlomerularFilteringSurfaceAreaBaseline() const
-{
-  return m_RightGlomerularFilteringSurfaceAreaBaseline == nullptr ? false : m_RightGlomerularFilteringSurfaceAreaBaseline->IsValid();
-}
-SEScalarArea& BioGearsConfiguration::GetRightGlomerularFilteringSurfaceAreaBaseline()
-{
-  if (m_RightGlomerularFilteringSurfaceAreaBaseline == nullptr)
-    m_RightGlomerularFilteringSurfaceAreaBaseline = new SEScalarArea();
-  return *m_RightGlomerularFilteringSurfaceAreaBaseline;
-}
-double BioGearsConfiguration::GetRightGlomerularFilteringSurfaceAreaBaseline(const AreaUnit& unit) const
-{
-  if (m_RightGlomerularFilteringSurfaceAreaBaseline == nullptr)
-    return SEScalar::dNaN();
-  return m_RightGlomerularFilteringSurfaceAreaBaseline->GetValue(unit);
-}
-
-bool BioGearsConfiguration::HasRightTubularReabsorptionFluidPermeabilityBaseline() const
-{
-  return m_RightTubularReabsorptionFluidPermeabilityBaseline == nullptr ? false : m_RightTubularReabsorptionFluidPermeabilityBaseline->IsValid();
-}
-SEScalarVolumePerTimePressureArea& BioGearsConfiguration::GetRightTubularReabsorptionFluidPermeabilityBaseline()
-{
-  if (m_RightTubularReabsorptionFluidPermeabilityBaseline == nullptr)
-    m_RightTubularReabsorptionFluidPermeabilityBaseline = new SEScalarVolumePerTimePressureArea();
-  return *m_RightTubularReabsorptionFluidPermeabilityBaseline;
-}
-double BioGearsConfiguration::GetRightTubularReabsorptionFluidPermeabilityBaseline(const VolumePerTimePressureAreaUnit& unit) const
-{
-  if (m_RightTubularReabsorptionFluidPermeabilityBaseline == nullptr)
-    return SEScalar::dNaN();
-  return m_RightTubularReabsorptionFluidPermeabilityBaseline->GetValue(unit);
-}
-
-bool BioGearsConfiguration::HasRightTubularReabsorptionFilteringSurfaceAreaBaseline() const
-{
-  return m_RightTubularReabsorptionFilteringSurfaceAreaBaseline == nullptr ? false : m_RightTubularReabsorptionFilteringSurfaceAreaBaseline->IsValid();
-}
-SEScalarArea& BioGearsConfiguration::GetRightTubularReabsorptionFilteringSurfaceAreaBaseline()
-{
-  if (m_RightTubularReabsorptionFilteringSurfaceAreaBaseline == nullptr)
-    m_RightTubularReabsorptionFilteringSurfaceAreaBaseline = new SEScalarArea();
-  return *m_RightTubularReabsorptionFilteringSurfaceAreaBaseline;
-}
-double BioGearsConfiguration::GetRightTubularReabsorptionFilteringSurfaceAreaBaseline(const AreaUnit& unit) const
-{
-  if (m_RightTubularReabsorptionFilteringSurfaceAreaBaseline == nullptr)
-    return SEScalar::dNaN();
-  return m_RightTubularReabsorptionFilteringSurfaceAreaBaseline->GetValue(unit);
 }
 
 bool BioGearsConfiguration::HasTargetSodiumDelivery()

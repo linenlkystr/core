@@ -147,19 +147,15 @@ specific language governing permissions and limitations under the License.
       <xs:extension base="RenalSystemData">
         <xs:sequence>
           <xs:element name="Urinating" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
-          <xs:element name="LeftAfferentResistance_mmHg_s_Per_mL" type="xs:double" minOccurs="1" maxOccurs="1"/>
-          <xs:element name="RightAfferentResistance_mmHg_s_Per_mL" type="xs:double" minOccurs="1" maxOccurs="1"/>
-          <xs:element name="LeftSodiumFlowSetPoint_mg_Per_s" type="xs:double" minOccurs="1" maxOccurs="1"/>
-          <xs:element name="RightSodiumFlowSetPoint_mg_Per_s" type="xs:double" minOccurs="1" maxOccurs="1"/>
+          <xs:element name="AfferentResistance_mmHg_s_Per_mL" type="xs:double" minOccurs="1" maxOccurs="1"/>
+          <xs:element name="SodiumFlowSetPoint_mg_Per_s" type="xs:double" minOccurs="1" maxOccurs="1"/>
 
           <xs:element name="UrineProductionRate_mL_Per_min" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
           <xs:element name="UrineOsmolarity_mOsm_Per_L" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
           <xs:element name="SodiumConcentration_mg_Per_mL" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
           <xs:element name="SodiumExcretionRate_mg_Per_min" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
-          <xs:element name="LeftSodiumFlow_mg_Per_s" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
-          <xs:element name="RightSodiumFlow_mg_Per_s" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
-          <xs:element name="LeftRenalArterialPressure_mmHg" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
-          <xs:element name="RightRenalArterialPressure_mmHg" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
+          <xs:element name="SodiumFlow_mg_Per_s" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
+          <xs:element name="RenalArterialPressure_mmHg" type="RunningAverageData" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
