@@ -62,14 +62,11 @@ SEOverride::SEOverride()
   m_SodiumLostToSweatOR = nullptr;
   m_PotassiumLostToSweatOR = nullptr;
   m_ChlorideLostToSweatOR = nullptr;
-  m_LAfferentArterioleResistOR = nullptr;
-  m__LeftGlomerularFiltrationOR = nullptr;
-  m_LReabsorptionRateOR = nullptr;
+  m_AfferentArterioleResistOR = nullptr;
+  m_GlomerularFiltrationOR = nullptr;
+  m_ReabsorptionRateOR = nullptr;
   m_RenalBloodFlowOR = nullptr;
   m_RenalPlasmaOR = nullptr;
-  m_RAfferentArterioleResistOR = nullptr;
-  m__RightGlomerularFiltrationOR = nullptr;
-  m_RReabsorptionRateOR = nullptr;
   m_UrinationRateOR = nullptr;
   m_UrineProductionRateOR = nullptr;
   m_UrineOsmolalityOR = nullptr;
@@ -138,14 +135,11 @@ void SEOverride::Clear()
   SAFE_DELETE(m_SodiumLostToSweatOR);
   SAFE_DELETE(m_PotassiumLostToSweatOR);
   SAFE_DELETE(m_ChlorideLostToSweatOR);
-  SAFE_DELETE(m_LAfferentArterioleResistOR);
-  SAFE_DELETE(m__LeftGlomerularFiltrationOR);
-  SAFE_DELETE(m_LReabsorptionRateOR);
+  SAFE_DELETE(m_AfferentArterioleResistOR);
+  SAFE_DELETE(m_GlomerularFiltrationOR);
+  SAFE_DELETE(m_ReabsorptionRateOR);
   SAFE_DELETE(m_RenalBloodFlowOR);
   SAFE_DELETE(m_RenalPlasmaOR);
-  SAFE_DELETE(m_RAfferentArterioleResistOR);
-  SAFE_DELETE(m__RightGlomerularFiltrationOR);
-  SAFE_DELETE(m_RReabsorptionRateOR);
   SAFE_DELETE(m_UrinationRateOR);
   SAFE_DELETE(m_UrineProductionRateOR);
   SAFE_DELETE(m_UrineOsmolalityOR);
@@ -376,20 +370,20 @@ bool SEOverride::Load(const CDM::OverrideData& in)
   } else {
     GetChlorideLostToSweatOverride().Invalidate();
   }
-  if (in.LeftAfferentArterioleResistanceOverride().present()) {
-    GetLeftAfferentArterioleResistanceOverride().Load(in.LeftAfferentArterioleResistanceOverride().get());
+  if (in.AfferentArterioleResistanceOverride().present()) {
+    GetAfferentArterioleResistanceOverride().Load(in.AfferentArterioleResistanceOverride().get());
   } else {
-    GetLeftAfferentArterioleResistanceOverride().Invalidate();
+    GetAfferentArterioleResistanceOverride().Invalidate();
   }
-  if (in.LeftGlomerularFiltrationRateOverride().present()) {
-    GetLeftGlomerularFiltrationRateOverride().Load(in.LeftGlomerularFiltrationRateOverride().get());
+  if (in.GlomerularFiltrationRateOverride().present()) {
+    GetGlomerularFiltrationRateOverride().Load(in.GlomerularFiltrationRateOverride().get());
   } else {
-    GetLeftGlomerularFiltrationRateOverride().Invalidate();
+    GetGlomerularFiltrationRateOverride().Invalidate();
   }
-  if (in.LeftReabsorptionRateOverride().present()) {
-    GetLeftReaborptionRateOverride().Load(in.LeftReabsorptionRateOverride().get());
+  if (in.ReabsorptionRateOverride().present()) {
+    GetReaborptionRateOverride().Load(in.ReabsorptionRateOverride().get());
   } else {
-    GetLeftReaborptionRateOverride().Invalidate();
+    GetReaborptionRateOverride().Invalidate();
   }
   if (in.RenalBloodFlowOverride().present()) {
     GetRenalBloodFlowOverride().Load(in.RenalBloodFlowOverride().get());
@@ -400,21 +394,6 @@ bool SEOverride::Load(const CDM::OverrideData& in)
     GetRenalPlasmaFlowOverride().Load(in.RenalPlasmaFlowOverride().get());
   } else {
     GetRenalPlasmaFlowOverride().Invalidate();
-  }
-  if (in.RightAfferentArterioleResistanceOverride().present()) {
-    GetRightAfferentArterioleResistanceOverride().Load(in.RightAfferentArterioleResistanceOverride().get());
-  } else {
-    GetRightAfferentArterioleResistanceOverride().Invalidate();
-  }
-  if (in.RightGlomerularFiltrationRateOverride().present()) {
-    GetRightGlomerularFiltrationRateOverride().Load(in.RightGlomerularFiltrationRateOverride().get());
-  } else {
-    GetRightGlomerularFiltrationRateOverride().Invalidate();
-  }
-  if (in.RightReabsorptionRateOverride().present()) {
-    GetRightReaborptionRateOverride().Load(in.RightReabsorptionRateOverride().get());
-  } else {
-    GetRightReaborptionRateOverride().Invalidate();
   }
   if (in.UrinationRateOverride().present()) {
     GetUrinationRateOverride().Load(in.UrinationRateOverride().get());
@@ -648,29 +627,20 @@ void SEOverride::Unload(CDM::OverrideData& data) const
   if (HasChlorideLostToSweatOverride()) {
     data.ChlorideLostToSweatOverride(std::unique_ptr<CDM::ScalarMassData>(m_ChlorideLostToSweatOR->Unload()));
   }
-  if (HasLeftAfferentArterioleResistanceOverride()) {
-    data.LeftAfferentArterioleResistanceOverride(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_LAfferentArterioleResistOR->Unload()));
+  if (HasAfferentArterioleResistanceOverride()) {
+    data.AfferentArterioleResistanceOverride(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_AfferentArterioleResistOR->Unload()));
   }
-  if (HasLeftGlomerularFiltrationRateOverride()) {
-    data.LeftGlomerularFiltrationRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m__LeftGlomerularFiltrationOR->Unload()));
+  if (HasGlomerularFiltrationRateOverride()) {
+    data.GlomerularFiltrationRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_GlomerularFiltrationOR->Unload()));
   }
-  if (HasLeftReaborptionRateOverride()) {
-    data.LeftReabsorptionRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_LReabsorptionRateOR->Unload()));
+  if (HasReaborptionRateOverride()) {
+    data.ReabsorptionRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_ReabsorptionRateOR->Unload()));
   }
   if (HasRenalBloodFlowOverride()) {
     data.RenalBloodFlowOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RenalBloodFlowOR->Unload()));
   }
   if (HasRenalPlasmaFlowOverride()) {
     data.RenalPlasmaFlowOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RenalPlasmaOR->Unload()));
-  }
-  if (HasRightAfferentArterioleResistanceOverride()) {
-    data.RightAfferentArterioleResistanceOverride(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RAfferentArterioleResistOR->Unload()));
-  }
-  if (HasRightGlomerularFiltrationRateOverride()) {
-    data.RightGlomerularFiltrationRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m__RightGlomerularFiltrationOR->Unload()));
-  }
-  if (HasRightReaborptionRateOverride()) {
-    data.RightReabsorptionRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RReabsorptionRateOR->Unload()));
   }
   if (HasUrineProductionRateOverride()) {
     data.UrineProductionRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_UrineProductionRateOR->Unload()));
@@ -1458,59 +1428,59 @@ bool SEOverride::HasEnergyOverride() const
 }
 
 // Renal Overrides //
-bool SEOverride::HasLeftAfferentArterioleResistanceOverride() const
+bool SEOverride::HasAfferentArterioleResistanceOverride() const
 {
-  return m_LAfferentArterioleResistOR == nullptr ? false : m_LAfferentArterioleResistOR->IsValid();
+  return m_AfferentArterioleResistOR == nullptr ? false : m_AfferentArterioleResistOR->IsValid();
 }
-SEScalarFlowResistance& SEOverride::GetLeftAfferentArterioleResistanceOverride()
+SEScalarFlowResistance& SEOverride::GetAfferentArterioleResistanceOverride()
 {
-  if (m_LAfferentArterioleResistOR == nullptr) {
-    m_LAfferentArterioleResistOR = new SEScalarFlowResistance();
+  if (m_AfferentArterioleResistOR == nullptr) {
+    m_AfferentArterioleResistOR = new SEScalarFlowResistance();
   }
-  return *m_LAfferentArterioleResistOR;
+  return *m_AfferentArterioleResistOR;
 }
-double SEOverride::GetLeftAfferentArterioleResistanceOverride(const FlowResistanceUnit& unit) const
+double SEOverride::GetAfferentArterioleResistanceOverride(const FlowResistanceUnit& unit) const
 {
-  if (m_LAfferentArterioleResistOR == nullptr) {
+  if (m_AfferentArterioleResistOR == nullptr) {
     return SEScalar::dNaN();
   }
-  return m_LAfferentArterioleResistOR->GetValue(unit);
+  return m_AfferentArterioleResistOR->GetValue(unit);
 }
-bool SEOverride::HasLeftGlomerularFiltrationRateOverride() const
+bool SEOverride::HasGlomerularFiltrationRateOverride() const
 {
-  return m__LeftGlomerularFiltrationOR == nullptr ? false : m__LeftGlomerularFiltrationOR->IsValid();
+  return m_GlomerularFiltrationOR == nullptr ? false : m_GlomerularFiltrationOR->IsValid();
 }
-SEScalarVolumePerTime& SEOverride::GetLeftGlomerularFiltrationRateOverride()
+SEScalarVolumePerTime& SEOverride::GetGlomerularFiltrationRateOverride()
 {
-  if (m__LeftGlomerularFiltrationOR == nullptr) {
-    m__LeftGlomerularFiltrationOR = new SEScalarVolumePerTime();
+  if (m_GlomerularFiltrationOR == nullptr) {
+    m_GlomerularFiltrationOR = new SEScalarVolumePerTime();
   }
-  return *m__LeftGlomerularFiltrationOR;
+  return *m_GlomerularFiltrationOR;
 }
-double SEOverride::GetLeftGlomerularFiltrationRateOverride(const VolumePerTimeUnit& unit) const
+double SEOverride::GetGlomerularFiltrationRateOverride(const VolumePerTimeUnit& unit) const
 {
-  if (m__LeftGlomerularFiltrationOR == nullptr) {
+  if (m_GlomerularFiltrationOR == nullptr) {
     return SEScalar::dNaN();
   }
-  return m__LeftGlomerularFiltrationOR->GetValue(unit);
+  return m_GlomerularFiltrationOR->GetValue(unit);
 }
-bool SEOverride::HasLeftReaborptionRateOverride() const
+bool SEOverride::HasReaborptionRateOverride() const
 {
-  return m_LReabsorptionRateOR == nullptr ? false : m_LReabsorptionRateOR->IsValid();
+  return m_ReabsorptionRateOR == nullptr ? false : m_ReabsorptionRateOR->IsValid();
 }
-SEScalarVolumePerTime& SEOverride::GetLeftReaborptionRateOverride()
+SEScalarVolumePerTime& SEOverride::GetReaborptionRateOverride()
 {
-  if (m_LReabsorptionRateOR == nullptr) {
-    m_LReabsorptionRateOR = new SEScalarVolumePerTime();
+  if (m_ReabsorptionRateOR == nullptr) {
+    m_ReabsorptionRateOR = new SEScalarVolumePerTime();
   }
-  return *m_LReabsorptionRateOR;
+  return *m_ReabsorptionRateOR;
 }
-double SEOverride::GetLeftReaborptionRateOverride(const VolumePerTimeUnit& unit) const
+double SEOverride::GetReaborptionRateOverride(const VolumePerTimeUnit& unit) const
 {
-  if (m_LReabsorptionRateOR == nullptr) {
+  if (m_ReabsorptionRateOR == nullptr) {
     return SEScalar::dNaN();
   }
-  return m_LReabsorptionRateOR->GetValue(unit);
+  return m_ReabsorptionRateOR->GetValue(unit);
 }
 bool SEOverride::HasRenalBloodFlowOverride() const
 {
@@ -1547,61 +1517,6 @@ double SEOverride::GetRenalPlasmaFlowOverride(const VolumePerTimeUnit& unit) con
     return SEScalar::dNaN();
   }
   return m_RenalPlasmaOR->GetValue(unit);
-}
-bool SEOverride::HasRightAfferentArterioleResistanceOverride() const
-{
-  return m_RAfferentArterioleResistOR == nullptr ? false : m_RAfferentArterioleResistOR->IsValid();
-}
-SEScalarFlowResistance& SEOverride::GetRightAfferentArterioleResistanceOverride()
-{
-  if (m_RAfferentArterioleResistOR == nullptr) {
-    m_RAfferentArterioleResistOR = new SEScalarFlowResistance();
-  }
-  return *m_RAfferentArterioleResistOR;
-}
-double SEOverride::GetRightAfferentArterioleResistanceOverride(const FlowResistanceUnit& unit) const
-{
-  if (m_RAfferentArterioleResistOR == nullptr) {
-    return SEScalar::dNaN();
-  }
-  return m_RAfferentArterioleResistOR->GetValue(unit);
-}
-bool SEOverride::HasRightGlomerularFiltrationRateOverride() const
-{
-  return m__RightGlomerularFiltrationOR == nullptr ? false : m__RightGlomerularFiltrationOR->IsValid();
-}
-SEScalarVolumePerTime& SEOverride::GetRightGlomerularFiltrationRateOverride()
-{
-  if (m__RightGlomerularFiltrationOR == nullptr) {
-    m__RightGlomerularFiltrationOR = new SEScalarVolumePerTime();
-  }
-  return *m__RightGlomerularFiltrationOR;
-}
-double SEOverride::GetRightGlomerularFiltrationRateOverride(const VolumePerTimeUnit& unit) const
-{
-  if (m__RightGlomerularFiltrationOR == nullptr) {
-    return SEScalar::dNaN();
-  }
-  return m__RightGlomerularFiltrationOR->GetValue(unit);
-}
-
-bool SEOverride::HasRightReaborptionRateOverride() const
-{
-  return m_RReabsorptionRateOR == nullptr ? false : m_RReabsorptionRateOR->IsValid();
-}
-SEScalarVolumePerTime& SEOverride::GetRightReaborptionRateOverride()
-{
-  if (m_RReabsorptionRateOR == nullptr) {
-    m_RReabsorptionRateOR = new SEScalarVolumePerTime();
-  }
-  return *m_RReabsorptionRateOR;
-}
-double SEOverride::GetRightReaborptionRateOverride(const VolumePerTimeUnit& unit) const
-{
-  if (m_RReabsorptionRateOR == nullptr) {
-    return SEScalar::dNaN();
-  }
-  return m_RReabsorptionRateOR->GetValue(unit);
 }
 bool SEOverride::HasUrinationRateOverride() const
 {
@@ -1696,14 +1611,11 @@ double SEOverride::GetUrineUreaNitrogenConcentrationOverride(const MassPerVolume
 
 bool SEOverride::HasRenalOverride() const
 {
-  return HasLeftAfferentArterioleResistanceOverride()
-    || HasLeftGlomerularFiltrationRateOverride()
-    || HasLeftReaborptionRateOverride()
+  return HasAfferentArterioleResistanceOverride()
+    || HasGlomerularFiltrationRateOverride()
+    || HasReaborptionRateOverride()
     || HasRenalBloodFlowOverride()
     || HasRenalPlasmaFlowOverride()
-    || HasRightAfferentArterioleResistanceOverride()
-    || HasRightGlomerularFiltrationRateOverride()
-    || HasRightReaborptionRateOverride()
     || HasUrinationRateOverride()
     || HasUrineProductionRateOverride()
     || HasUrineOsmolalityOverride()
@@ -2327,27 +2239,27 @@ void SEOverride::ToString(std::ostream& str) const
     }
     str << std::flush;
   }
-  if (HasLeftAfferentArterioleResistanceOverride()) {
-    str << "\n\tLeft Afferent Arteriole Resistance: ";
-    HasLeftAfferentArterioleResistanceOverride() ? str << *m_LAfferentArterioleResistOR : str << "Not Set";
+  if (HasAfferentArterioleResistanceOverride()) {
+    str << "\n\t Afferent Arteriole Resistance: ";
+    HasAfferentArterioleResistanceOverride() ? str << *m_AfferentArterioleResistOR : str << "Not Set";
     if (m_OverrideConformance == CDM::enumOnOff::On) {
-      str << "\n\tLeft Afferent Arteriole Resistance has a lower bound of 0 mmHg min/mL and an upper bound of 1 mmHg min/mL.";
+      str << "\n\t Afferent Arteriole Resistance has a lower bound of 0 mmHg min/mL and an upper bound of 1 mmHg min/mL.";
     }
     str << std::flush;
   }
-  if (HasLeftGlomerularFiltrationRateOverride()) {
-    str << "\n\tLeft Glomerular Filtration Rate: ";
-    HasLeftGlomerularFiltrationRateOverride() ? str << *m__LeftGlomerularFiltrationOR : str << "Not Set";
+  if (HasGlomerularFiltrationRateOverride()) {
+    str << "\n\t Glomerular Filtration Rate: ";
+    HasGlomerularFiltrationRateOverride() ? str << *m_GlomerularFiltrationOR : str << "Not Set";
     if (m_OverrideConformance == CDM::enumOnOff::On) {
-      str << "\n\tLeft Glomerular Filtration Rate has a lower bound of 0 mL/min and an upper bound of 1000 mL/min.";
+      str << "\n\t Glomerular Filtration Rate has a lower bound of 0 mL/min and an upper bound of 1000 mL/min.";
     }
     str << std::flush;
   }
-  if (HasLeftReaborptionRateOverride()) {
-    str << "\n\tLeft Reabsorption Rate: ";
-    HasLeftReaborptionRateOverride() ? str << *m_LReabsorptionRateOR : str << "Not Set";
+  if (HasReaborptionRateOverride()) {
+    str << "\n\t Reabsorption Rate: ";
+    HasReaborptionRateOverride() ? str << *m_ReabsorptionRateOR : str << "Not Set";
     if (m_OverrideConformance == CDM::enumOnOff::On) {
-      str << "\n\tLeft Reabsorption Rate has a lower bound of 0 mL/min and an upper bound of 1000 mL/min.";
+      str << "\n\t Reabsorption Rate has a lower bound of 0 mL/min and an upper bound of 1000 mL/min.";
     }
     str << std::flush;
   }
@@ -2364,30 +2276,6 @@ void SEOverride::ToString(std::ostream& str) const
     HasRenalPlasmaFlowOverride() ? str << *m_RenalPlasmaOR : str << "Not Set";
     if (m_OverrideConformance == CDM::enumOnOff::On) {
       str << "\n\tRenal Plasma Flow has a lower bound of 0 mL/min and an upper bound of 3000 mL/min.";
-    }
-    str << std::flush;
-  }
-  if (HasRightAfferentArterioleResistanceOverride()) {
-    str << "\n\tRight Afferent Arteriole Resistance: ";
-    HasRightAfferentArterioleResistanceOverride() ? str << *m_RAfferentArterioleResistOR : str << "Not Set";
-    if (m_OverrideConformance == CDM::enumOnOff::On) {
-      str << "\n\tRight Afferent Arteriole Resistance has a lower bound of 0 mmHg min/mL and an upper bound of 1 mmHg min/mL.";
-    }
-    str << std::flush;
-  }
-  if (HasRightGlomerularFiltrationRateOverride()) {
-    str << "\n\tRight Glomerular Filtration Rate: ";
-    HasRightGlomerularFiltrationRateOverride() ? str << *m__RightGlomerularFiltrationOR : str << "Not Set";
-    if (m_OverrideConformance == CDM::enumOnOff::On) {
-      str << "\n\tRight Glomerular Filtration Rate has a lower bound of 0 mL/min and an upper bound of 1000 mL/min.";
-    }
-    str << std::flush;
-  }
-  if (HasRightReaborptionRateOverride()) {
-    str << "\n\tRight Reabsorption Rate: ";
-    HasRightReaborptionRateOverride() ? str << *m_RReabsorptionRateOR : str << "Not Set";
-    if (m_OverrideConformance == CDM::enumOnOff::On) {
-      str << "\n\tRight Reabsorption Rate has a lower bound of 0 mL/min and an upper bound of 1000 mL/min.";
     }
     str << std::flush;
   }

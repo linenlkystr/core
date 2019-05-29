@@ -493,14 +493,11 @@ specific language governing permissions and limitations under the License.
                     <xs:element name="TotalMetabolicRateOverride" type="ScalarPowerData" minOccurs="0" maxOccurs="1"/> <!--<< @brief The basal metabolic rate plus additional energy expenditure rates due to activity.-->
                     <xs:element name="TotalWorkRateLevelOverride" type="ScalarFractionData" minOccurs="0" maxOccurs="1"/> <!--<< @brief The current patient work rate above basal over the maximum work rate capable by the patient -->         
 					<!-- Renal Overrides. -->
-					<xs:element name="LeftAfferentArterioleResistanceOverride" type="ScalarFlowResistanceData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief resistance to flow going into the glomerular capillaries in the left Kidney-->
-					<xs:element name="LeftGlomerularFiltrationRateOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Flow rate of filtrate into the tubules in left Kidney -->
-					<xs:element name="LeftReabsorptionRateOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Rate at which fluid or a substance is transported into the peritubular capillaries in the left Kidney -->
+					<xs:element name="AfferentArterioleResistanceOverride" type="ScalarFlowResistanceData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief resistance to flow going into the glomerular capillaries in the  Kidney-->
+					<xs:element name="GlomerularFiltrationRateOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Flow rate of filtrate into the tubules in  Kidney -->
+					<xs:element name="ReabsorptionRateOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Rate at which fluid or a substance is transported into the peritubular capillaries in the  Kidney -->
 					<xs:element name="RenalBloodFlowOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Blood flow into the kidney that is not filtered into the tubules -->
 					<xs:element name="RenalPlasmaFlowOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Plasma flow into the kidney that is not filtered into the tubules -->    
-					<xs:element name="RightAfferentArterioleResistanceOverride" type="ScalarFlowResistanceData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief resistance to flow going into the glomerular capillaries in the left Kidney-->
-					<xs:element name="RightGlomerularFiltrationRateOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Flow rate of filtrate into the tubules in left Kidney -->
-					<xs:element name="RightReabsorptionRateOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Rate at which fluid or a substance is transported into the peritubular capillaries in the left Kidney -->
 					<xs:element name="UrinationRateOverride" type="ScalarVolumePerTimeData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief Rate that fluid exits the bladder  -->
 					<xs:element name="UrineProductionRateOverride" type="ScalarVolumePerTimeData" minOccurs="0" maxOccurs="1"/><!--<< @brief The urine production rate. -->
 					<xs:element name="UrineOsmolalityOverride" type="ScalarOsmolalityData" minOccurs="0"  maxOccurs="1"/> <!--<< @brief The osmolar pressure contributions of the sodium, urea and glucose divided by the mass of the fluid -->
