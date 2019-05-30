@@ -355,8 +355,8 @@ void BioGearsEngineTest::RenalFeedbackTest(RenalFeedback feedback, const std::st
       rightReabsorptionFlow_mL_Per_min = RightNetTubulesToNetPeritubularCapillaries->GetNextFlow(VolumePerTimeUnit::mL_Per_min);
       rightAffResistance_mmHg_s_Per_mL = RightAfferentArterioleToGlomerularCapillaries->GetNextResistance(FlowResistanceUnit::mmHg_s_Per_mL);
       rightReabsorptionResistance_mmHg_s_Per_mL = RightNetTubulesToNetPeritubularCapillaries->GetNextResistance(FlowResistanceUnit::mmHg_s_Per_mL);
-      permeabilityCurrentLeft_mL_Per_s_Per_mmHg_Per_m2 = bgRenal.GetLeftTubularReabsorptionFluidPermeability().GetValue(VolumePerTimePressureAreaUnit::mL_Per_s_mmHg_m2);
-      permeabilityCurrentRight_mL_Per_s_Per_mmHg_Per_m2 = bgRenal.GetRightTubularReabsorptionFluidPermeability().GetValue(VolumePerTimePressureAreaUnit::mL_Per_s_mmHg_m2);
+      permeabilityCurrentLeft_mL_Per_s_Per_mmHg_Per_m2 = bgRenal.GetTubularReabsorptionFluidPermeability().GetValue(VolumePerTimePressureAreaUnit::mL_Per_s_mmHg_m2);
+      permeabilityCurrentRight_mL_Per_s_Per_mmHg_Per_m2 = bgRenal.GetTubularReabsorptionFluidPermeability().GetValue(VolumePerTimePressureAreaUnit::mL_Per_s_mmHg_m2);
 
       //These is normally calculated in the cardiovascular system as part of the combined circulatory circuit
       calc.PostProcess(rCircuit);
