@@ -289,8 +289,8 @@ namespace tatrc {
         DEFINE_STATIC_STRING_EX(Spleen, SpleenVasculature);
         DEFINE_STATIC_STRING_EX(Skin, SkinVasculature);
         DEFINE_STATIC_STRING_EX(Muscle, MuscleVasculature);
-        DEFINE_STATIC_STRING_EX(LeftArm, ArmVasculature);
-        DEFINE_STATIC_STRING_EX(LeftLeg, LegVasculature);
+        DEFINE_STATIC_STRING_EX(LeftArm, LeftArmVasculature);
+        DEFINE_STATIC_STRING_EX(LeftLeg, LeftLegVasculature);
         DEFINE_STATIC_STRING_EX(RightArm, RightArmVasculature);
         DEFINE_STATIC_STRING_EX(RightLeg, RightLegVasculature);
 
@@ -354,8 +354,8 @@ namespace tatrc {
         DEFINE_STATIC_STRING_EX(Spleen, SpleenVasculature);
         DEFINE_STATIC_STRING_EX(Skin, SkinVasculature);
         DEFINE_STATIC_STRING_EX(Muscle, MuscleVasculature);
-        DEFINE_STATIC_STRING_EX(Arm, ArmVasculature);
-        DEFINE_STATIC_STRING_EX(Leg, LegVasculature);
+        DEFINE_STATIC_STRING_EX(LeftArm, LeftArmVasculature);
+        DEFINE_STATIC_STRING_EX(LeftLeg, LeftLegVasculature);
         DEFINE_STATIC_STRING_EX(RightArm, RightArmVasculature);
         DEFINE_STATIC_STRING_EX(RightLeg, RightLegVasculature);
 
@@ -368,7 +368,7 @@ namespace tatrc {
             PulmonaryVeins, Lungs, Lung, PulmonaryArteries, PulmonaryCapillaries, PulmonaryVeins, RightLung, 
             RightPulmonaryArteries, RightPulmonaryCapillaries, RightPulmonaryVeins, Kidney, RenalArtery, Nephron, 
             AfferentArteriole, GlomerularCapillaries, EfferentArteriole, PeritubularCapillaries, BowmansCapsules, Tubules, RenalVein, 
-            Bone, Brain, Fat, Gut, Splanchnic, SmallIntestine, LargeIntestine, Liver, Spleen, Skin, Muscle, Arm, Leg, RightArm, RightLeg
+            Bone, Brain, Fat, Gut, Splanchnic, SmallIntestine, LargeIntestine, Liver, Spleen, Skin, Muscle, LeftArm, LeftLeg, RightArm, RightLeg
             //,Ground
           };
           return _values;

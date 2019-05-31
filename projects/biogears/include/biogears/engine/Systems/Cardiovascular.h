@@ -216,8 +216,7 @@ private:
   SEFluidCircuitPath* m_pBrainResistanceUpstream;
   SEFluidCircuitPath* m_pBrainResistanceDownstream;
 
-  SEFluidCircuitPath* m_leftRenalArteryPath;
-  SEFluidCircuitPath* m_rightRenalArteryPath;
+  SEFluidCircuitPath* m_RenalArteryPath;
 
   SELiquidCompartment* m_Aorta;
   SELiquidSubstanceQuantity* m_AortaCO2;

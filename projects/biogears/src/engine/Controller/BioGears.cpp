@@ -1036,7 +1036,7 @@ bool BioGears::CreateCircuitsAndCompartments()
 
   SetupCardiovascular();
   if (m_Config->IsRenalEnabled()) {
-    SetupRenal();
+    SetupRenalLite();
   }
   if (m_Config->IsTissueEnabled()) {
     SetupTissue();
@@ -2318,8 +2318,7 @@ void BioGears::SetupRenalLite()
   SEFluidCircuitPath& KidneyBleed = cRenal.CreatePath(RenalVein, Ground, BGE::CardiovascularLitePath::KidneyBleed);
   KidneyBleed.GetResistanceBaseline().SetValue(m_Config->GetDefaultOpenFlowResistance(FlowResistanceUnit::mmHg_s_Per_mL), FlowResistanceUnit::mmHg_s_Per_mL);
   ///////////////////////////////////
-  /////////////////
-  // Hemorrhage from left kidney//
+
   
   ///////////////////////////////////
   //  Urine //
@@ -2405,7 +2404,7 @@ void BioGears::SetupRenalLite()
 
   ///////////////////////
   // RightRenalArtery //
-  SELiquidCompartment& vRenalArtery = m_Compartments->CreateLiquidCompartment(BGE::VascularCompartment::RightRenalArtery);
+  SELiquidCompartment& vRenalArtery = m_Compartments->CreateLiquidCompartment(BGE::VascularLiteCompartment::RenalArtery);
   vRenalArtery.MapNode(RenalArtery);
   //////////////////////////////
   // AfferentArteriole //
@@ -3830,17 +3829,11 @@ void BioGears::SetupTissue()
 
   /////////////////
   //Kidney--Left/Right combined //
-  SEFluidCircuitNode* LeftKidneyV;
+  SEFluidCircuitNode* KidneyV;
   if (!m_Config->IsRenalEnabled()) {
-    LeftKidneyV = cCombinedCardiovascular.GetNode(BGE::CardiovascularNode::LeftKidney1);
+    KidneyV = cCombinedCardiovascular.GetNode(BGE::CardiovascularNode::LeftKidney1);
   } else {
-    LeftKidneyV = cCombinedCardiovascular.GetNode(BGE::RenalNode::LeftGlomerularCapillaries);
-  }
-  SEFluidCircuitNode* RightKidneyV;
-  if (!m_Config->IsRenalEnabled()) {
-    RightKidneyV = cCombinedCardiovascular.GetNode(BGE::CardiovascularNode::RightKidney1);
-  } else {
-    RightKidneyV = cCombinedCardiovascular.GetNode(BGE::RenalNode::RightGlomerularCapillaries);
+    KidneyV = cCombinedCardiovascular.GetNode(BGE::RenalLiteNode::GlomerularCapillaries);
   }
 
   SEFluidCircuitNode& KidneyE1 = cCombinedCardiovascular.CreateNode(BGE::TissueLiteNode::KidneyE1);
@@ -3874,10 +3867,8 @@ void BioGears::SetupTissue()
   KidneyI.GetVolumeBaseline().SetValue(KidneyIWFraction * KidneyTissueVolume * 1000.0, VolumeUnit::mL); //intracellular node
   KidneyL.GetPressure().SetValue(l1NodePressure, PressureUnit::mmHg);
 
-  SEFluidCircuitPath& LeftKidneyVToKidneyE1 = cCombinedCardiovascular.CreatePath(*LeftKidneyV, KidneyE1, BGE::TissueLitePath::LeftKidneyVToKidneyE1);
+  SEFluidCircuitPath& LeftKidneyVToKidneyE1 = cCombinedCardiovascular.CreatePath(*KidneyV, KidneyE1, BGE::TissueLitePath::LeftKidneyVToKidneyE1);
   LeftKidneyVToKidneyE1.GetPressureSourceBaseline().SetValue(-copVascular_mmHg, PressureUnit::mmHg);
-  SEFluidCircuitPath& RightKidneyVToKidneyE1 = cCombinedCardiovascular.CreatePath(*RightKidneyV, KidneyE1, BGE::TissueLitePath::RightKidneyVToKidneyE1);
-  RightKidneyVToKidneyE1.GetPressureSourceBaseline().SetValue(-copVascular_mmHg, PressureUnit::mmHg);
   SEFluidCircuitPath& KidneyE1ToKidneyE2 = cCombinedCardiovascular.CreatePath(KidneyE1, KidneyE2, BGE::TissueLitePath::KidneyE1ToKidneyE2);
   KidneyE1ToKidneyE2.GetResistanceBaseline().SetValue(capillaryResistance_mmHg_min_Per_mL, FlowResistanceUnit::mmHg_min_Per_mL);
   SEFluidCircuitPath& KidneyE2ToKidneyE3 = cCombinedCardiovascular.CreatePath(KidneyE2, KidneyE3, BGE::TissueLitePath::KidneyE2ToKidneyE3);

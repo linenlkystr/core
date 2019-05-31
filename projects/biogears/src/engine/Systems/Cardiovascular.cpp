@@ -116,8 +116,7 @@ void Cardiovascular::Clear()
   m_pLeftHeart = nullptr;
   m_LeftHeartToAorta = nullptr;
 
-  m_leftRenalArteryPath = nullptr;
-  m_rightRenalArteryPath = nullptr;
+  m_RenalArteryPath = nullptr;
 
   m_Aorta = nullptr;
   m_AortaCO2 = nullptr;
@@ -377,8 +376,7 @@ void Cardiovascular::SetUp()
   m_LeftHeartToAorta = m_CirculatoryCircuit->GetPath(BGE::CardiovascularPath::LeftHeart1ToAorta2);
 
   /// \todo We are assuming that the complex renal system is connected. Make it agnostic.
-  m_leftRenalArteryPath = m_CirculatoryCircuit->GetPath(BGE::RenalPath::LeftRenalArteryToAfferentArteriole);
-  m_rightRenalArteryPath = m_CirculatoryCircuit->GetPath(BGE::RenalPath::RightRenalArteryToAfferentArteriole);
+  m_RenalArteryPath = m_CirculatoryCircuit->GetPath(BGE::RenalLitePath::RenalArteryToAfferentArteriole);
 
   m_systemicResistancePaths.clear();
   m_systemicCompliancePaths.clear();
@@ -619,19 +617,16 @@ void Cardiovascular::ChronicRenalStenosis()
   }
 
   //Aorta1ToAfferentArteriole paths are equivalent to the renal artery in BioGears. Resistance increases on these paths to represent renal arterial stenosis
-  double currentLeftResistance_mmHg_s_Per_mL = m_leftRenalArteryPath->GetResistanceBaseline(FlowResistanceUnit::mmHg_s_Per_mL);
-  double currentRightResistance_mmHg_s_Per_mL = m_rightRenalArteryPath->GetResistanceBaseline(FlowResistanceUnit::mmHg_s_Per_mL);
+  double currentResistance_mmHg_s_Per_mL = m_RenalArteryPath->GetResistanceBaseline(FlowResistanceUnit::mmHg_s_Per_mL);
 
   //The base resistance is a tuned parameter that allows for adequate flow reduction to the kidneys with the logarithmic functional form chosen
   double baseResistance_mmHg_s_Per_mL = 10.0;
   //Open resistance indicates a completely occluded artery. This value is 100 mmHg/mL/s for the cardiovascular circuit.
   double openResistance_mmHg_s_Per_mL = m_data.GetConfiguration().GetCardiovascularOpenResistance(FlowResistanceUnit::mmHg_s_Per_mL);
 
-  double newLeftResistance_mmHg_s_Per_mL = GeneralMath::ResistanceFunction(baseResistance_mmHg_s_Per_mL, openResistance_mmHg_s_Per_mL, currentLeftResistance_mmHg_s_Per_mL, LeftOcclusionFraction);
-  double newRightResistance_mmHg_s_Per_mL = GeneralMath::ResistanceFunction(baseResistance_mmHg_s_Per_mL, openResistance_mmHg_s_Per_mL, currentRightResistance_mmHg_s_Per_mL, RightOcclusionFraction);
+  double newLeftResistance_mmHg_s_Per_mL = GeneralMath::ResistanceFunction(baseResistance_mmHg_s_Per_mL, openResistance_mmHg_s_Per_mL, currentResistance_mmHg_s_Per_mL, LeftOcclusionFraction);
 
-  m_leftRenalArteryPath->GetResistanceBaseline().SetValue(newLeftResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
-  m_rightRenalArteryPath->GetResistanceBaseline().SetValue(newRightResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
+  m_RenalArteryPath->GetResistanceBaseline().SetValue(newLeftResistance_mmHg_s_Per_mL, FlowResistanceUnit::mmHg_s_Per_mL);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1562,7 +1557,7 @@ void Cardiovascular::TuneCircuit()
   // Tuning variables
   double pressuretolerance = 0.01;
   double stabPercentTolerance = 0.25;
-  double stabCheckTime_s = 15.0;
+  double stabCheckTime_s = 0.8;
   double srGain = 0.01; //Systemic is sensitive
   double acGain1 = 0.06; //Gains are empirical
   double acGain2 = 0.02; //Gains are empirical

@@ -197,8 +197,9 @@ void BioGearsCompartments::StateChange()
   if (m_data.GetConfiguration().IsTissueEnabled()) {
     SORT_CMPTS_LITE(Tissue, Tissue);
     for (const std::string& name : BGE::ExtravascularLiteCompartment::GetValues()) {
-      if (GetLiquidCompartment(name) == nullptr)
+      if (GetLiquidCompartment(name) == nullptr) {
         Warning("Could not find expected Extravascular compartment, " + name + " in compartment manager");
+      }
     }
     
     SELiquidCompartment* cmpt;
@@ -206,18 +207,34 @@ void BioGearsCompartments::StateChange()
     m_IntracellularFluid.clear();
     for (SETissueCompartment* t : m_TissueLeafCompartments) {
       cmpt = GetLiquidCompartment(std::string{ t->GetName() } + "Extracellular");
-      if (cmpt == nullptr)
-        Fatal(std::string{ "Could not find the tissue " } + t->GetName() + " Extracellular compartment");
+
+      if (cmpt == nullptr) {
+        Fatal(std::string{ "Could not find the tissue " } +t->GetName() + " Extracellular compartment");
+      }
+
       m_ExtracellularFluid[t] = cmpt;
       cmpt = GetLiquidCompartment(std::string{ t->GetName() } + "Intracellular");
-      if (cmpt == nullptr)
-        Fatal(std::string{ "Could not find the tissue " } + t->GetName() + " Intracellular compartment");
+
+      if (cmpt == nullptr) {
+        Fatal(std::string{ "Could not find the tissue " } +t->GetName() + " Intracellular compartment");
+      }
+
       m_IntracellularFluid[t] = cmpt;
     }
   }
-  if (m_data.GetConfiguration().IsRenalEnabled())
-    SORT_CMPTS(Urine, Liquid);
-  SORT_CMPTS(Vascular, Liquid);
+  if (m_data.GetConfiguration().IsRenalEnabled()) {
+    SORT_CMPTS_LITE(Urine, Liquid);
+  }
+
+  SORT_CMPTS_LITE(Vascular, Liquid);
+  for (const std::string& name : BGE::VascularLiteCompartment::GetValues()) {
+    SELiquidCompartment* cmpt = GetLiquidCompartment(name);
+    if (cmpt == nullptr) {
+      Warning("Could not find expected Vascular compartment, " + name + " in compartment manager");
+      continue;
+    }
+  }
+
   // Equipment
   SORT_CMPTS(AnesthesiaMachine, Gas);
   SORT_CMPTS(Inhaler, Gas);

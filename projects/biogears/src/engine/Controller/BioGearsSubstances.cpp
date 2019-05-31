@@ -197,67 +197,56 @@ void BioGearsSubstances::InitializeLiquidCompartmentGases()
   double Hb_total_mM = Hb_total_g_Per_dL / m_Hb->GetMolarMass(MassPerAmountUnit::g_Per_mmol) * 10.0;
 
   // Bootstrapped values from many runs (using standard patient)
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Aorta), Hb_total_mM, 0.974905, 0.129608, 0.02817, 1.3012, 25.9389, 7.39961);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Bone), Hb_total_mM, 0.830363, 0.0616873, 0.13056, 1.3881, 26.0892, 7.37404);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Brain), Hb_total_mM, 0.827281, 0.0612181, 0.133288, 1.38958, 26.0916, 7.37362);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Fat), Hb_total_mM, 0.830303, 0.0616616, 0.128914, 1.38717, 26.0876, 7.3743);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LargeIntestine), Hb_total_mM, 0.807872, 0.0584747, 0.149044, 1.39821, 26.106, 7.37117);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftAfferentArteriole), Hb_total_mM, 0.927186, 0.0870192, 0.0595885, 1.35232, 26.0285, 7.38437);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftArm), Hb_total_mM, 0.974914, 0.129637, 0.0281665, 1.30153, 25.9395, 7.39951);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftEfferentArteriole), Hb_total_mM, 0.907413, 0.0791142, 0.072315, 1.35842, 26.0389, 7.38259);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftGlomerularCapillaries), Hb_total_mM, 0.9209, 0.0773075, 0.031322, 1.07857, 25.5034, 7.47375);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Aorta), Hb_total_mM, 0.974905, 0.129608, 0.02817, 1.3012, 25.9389, 7.39961);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Bone), Hb_total_mM, 0.830363, 0.0616873, 0.13056, 1.3881, 26.0892, 7.37404);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Brain), Hb_total_mM, 0.827281, 0.0612181, 0.133288, 1.38958, 26.0916, 7.37362);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Fat), Hb_total_mM, 0.830303, 0.0616616, 0.128914, 1.38717, 26.0876, 7.3743);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LargeIntestine), Hb_total_mM, 0.807872, 0.0584747, 0.149044, 1.39821, 26.106, 7.37117);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::AfferentArteriole), Hb_total_mM, 0.927186, 0.0870192, 0.0595885, 1.35232, 26.0285, 7.38437);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LeftArm), Hb_total_mM, 0.974914, 0.129637, 0.0281665, 1.30153, 25.9395, 7.39951);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::EfferentArteriole), Hb_total_mM, 0.907413, 0.0791142, 0.072315, 1.35842, 26.0389, 7.38259);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::GlomerularCapillaries), Hb_total_mM, 0.9209, 0.0773075, 0.031322, 1.07857, 25.5034, 7.47375);
   //No Hb through glomerular ultrafiltration
-  //InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftBowmansCapsules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 25.5034, 7.47375);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftBowmansCapsules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 0.0, 7.47375);
-  //InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftTubules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 25.5034, 7.47375);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftTubules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 0.0, 7.47375);
+  //InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LeftBowmansCapsules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 25.5034, 7.47375);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::BowmansCapsules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 0.0, 7.47375);
+  //InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LeftTubules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 25.5034, 7.47375);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Tubules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 0.0, 7.47375);
   //----------------------------------------
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftHeart), Hb_total_mM, 0.974919, 0.129622, 0.0281731, 1.30089, 25.9384, 7.3997);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftLeg), Hb_total_mM, 0.974914, 0.129637, 0.0281665, 1.30153, 25.9395, 7.39951);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftPeritubularCapillaries), Hb_total_mM, 0.89667, 0.0757891, 0.0873866, 1.36599, 26.0518, 7.38039);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftPulmonaryArteries), Hb_total_mM, 0.813117, 0.0591941, 0.146207, 1.39669, 26.1035, 7.3716);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftPulmonaryCapillaries), Hb_total_mM, 0.983029, 0.149863, 0.0281766, 1.29193, 25.9223, 7.40244);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftPulmonaryVeins), Hb_total_mM, 0.974924, 0.129359, 0.0282471, 1.29371, 25.9255, 7.40189);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftRenalArtery), Hb_total_mM, 0.941145, 0.0945363, 0.0484668, 1.34704, 26.0194, 7.38592);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::LeftRenalVein), Hb_total_mM, 0.859657, 0.0668517, 0.112249, 1.37857, 26.0731, 7.37676);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Liver), Hb_total_mM, 0.729017, 0.0500882, 0.21436, 1.43708, 26.1698, 7.36032);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Muscle), Hb_total_mM, 0.830253, 0.0616652, 0.130118, 1.38785, 26.0887, 7.37411);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Myocardium), Hb_total_mM, 0.829366, 0.0615371, 0.13173, 1.38874, 26.0902, 7.37386);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Pericardium), Hb_total_mM, 0.725881, 0.0491881, 0.142507, 1.39215, 26.0959, 7.37289);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightAfferentArteriole), Hb_total_mM, 0.927186, 0.0870192, 0.0595885, 1.35232, 26.0285, 7.38437);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightArm), Hb_total_mM, 0.974914, 0.129637, 0.0281665, 1.30153, 25.9395, 7.39951);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightEfferentArteriole), Hb_total_mM, 0.907413, 0.0791142, 0.072315, 1.35842, 26.0389, 7.38259);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightGlomerularCapillaries), Hb_total_mM, 0.9209, 0.0773075, 0.031322, 1.07857, 25.5034, 7.47375);
-  //No Hb through glomerular ultrafiltration
-  //InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightBowmansCapsules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 25.5034, 7.47375);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightBowmansCapsules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 0.0, 7.47375);
-  //InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightTubules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 25.5034, 7.47375);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightTubules), 0.0, 0.0, 0.0773075, 0.0, 1.07857, 0.0, 7.47375);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LeftHeart), Hb_total_mM, 0.974919, 0.129622, 0.0281731, 1.30089, 25.9384, 7.3997);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LeftLeg), Hb_total_mM, 0.974914, 0.129637, 0.0281665, 1.30153, 25.9395, 7.39951);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::PeritubularCapillaries), Hb_total_mM, 0.89667, 0.0757891, 0.0873866, 1.36599, 26.0518, 7.38039);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LeftPulmonaryArteries), Hb_total_mM, 0.813117, 0.0591941, 0.146207, 1.39669, 26.1035, 7.3716);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LeftPulmonaryCapillaries), Hb_total_mM, 0.983029, 0.149863, 0.0281766, 1.29193, 25.9223, 7.40244);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::LeftPulmonaryVeins), Hb_total_mM, 0.974924, 0.129359, 0.0282471, 1.29371, 25.9255, 7.40189);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::RenalArtery), Hb_total_mM, 0.941145, 0.0945363, 0.0484668, 1.34704, 26.0194, 7.38592);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::RenalVein), Hb_total_mM, 0.859657, 0.0668517, 0.112249, 1.37857, 26.0731, 7.37676);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Liver), Hb_total_mM, 0.729017, 0.0500882, 0.21436, 1.43708, 26.1698, 7.36032);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Muscle), Hb_total_mM, 0.830253, 0.0616652, 0.130118, 1.38785, 26.0887, 7.37411);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Myocardium), Hb_total_mM, 0.829366, 0.0615371, 0.13173, 1.38874, 26.0902, 7.37386);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Pericardium), Hb_total_mM, 0.725881, 0.0491881, 0.142507, 1.39215, 26.0959, 7.37289);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::RightArm), Hb_total_mM, 0.974914, 0.129637, 0.0281665, 1.30153, 25.9395, 7.39951);
   //----------------------------------------
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightHeart), Hb_total_mM, 0.813115, 0.0591938, 0.14621, 1.39669, 26.1035, 7.3716);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightLeg), Hb_total_mM, 0.974914, 0.129637, 0.0281665, 1.30153, 25.9395, 7.39951);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightPeritubularCapillaries), Hb_total_mM, 0.89667, 0.0757891, 0.0873866, 1.36599, 26.0518, 7.38039);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightPulmonaryArteries), Hb_total_mM, 0.813117, 0.0591941, 0.146207, 1.39669, 26.1035, 7.3716);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightPulmonaryCapillaries), Hb_total_mM, 0.982298, 0.148493, 0.0279498, 1.31484, 25.9632, 7.39548);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightPulmonaryVeins), Hb_total_mM, 0.974936, 0.130199, 0.0280263, 1.31523, 25.9638, 7.39537);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightRenalArtery), Hb_total_mM, 0.941145, 0.0945363, 0.0484668, 1.34704, 26.0194, 7.38592);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::RightRenalVein), Hb_total_mM, 0.859657, 0.0668517, 0.112249, 1.37857, 26.0731, 7.37676);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Skin), Hb_total_mM, 0.82836, 0.061373, 0.131491, 1.38858, 26.09, 7.3739);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::SmallIntestine), Hb_total_mM, 0.842176, 0.0636112, 0.122046, 1.3836, 26.0816, 7.37532);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Splanchnic), Hb_total_mM, 0.817051, 0.0597293, 0.141898, 1.39428, 26.0995, 7.37228);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::Spleen), Hb_total_mM, 0.830039, 0.0616463, 0.131757, 1.38878, 26.0903, 7.37385);
-  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularCompartment::VenaCava), Hb_total_mM, 0.813122, 0.0591948, 0.146203, 1.39669, 26.1035, 7.3716);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::RightHeart), Hb_total_mM, 0.813115, 0.0591938, 0.14621, 1.39669, 26.1035, 7.3716);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::RightLeg), Hb_total_mM, 0.974914, 0.129637, 0.0281665, 1.30153, 25.9395, 7.39951);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::RightPulmonaryArteries), Hb_total_mM, 0.813117, 0.0591941, 0.146207, 1.39669, 26.1035, 7.3716);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::RightPulmonaryCapillaries), Hb_total_mM, 0.982298, 0.148493, 0.0279498, 1.31484, 25.9632, 7.39548);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::RightPulmonaryVeins), Hb_total_mM, 0.974936, 0.130199, 0.0280263, 1.31523, 25.9638, 7.39537);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Skin), Hb_total_mM, 0.82836, 0.061373, 0.131491, 1.38858, 26.09, 7.3739);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::SmallIntestine), Hb_total_mM, 0.842176, 0.0636112, 0.122046, 1.3836, 26.0816, 7.37532);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Splanchnic), Hb_total_mM, 0.817051, 0.0597293, 0.141898, 1.39428, 26.0995, 7.37228);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Spleen), Hb_total_mM, 0.830039, 0.0616463, 0.131757, 1.38878, 26.0903, 7.37385);
+  InitializeBloodGases(*cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::VenaCava), Hb_total_mM, 0.813122, 0.0591948, 0.146203, 1.39669, 26.1035, 7.3716);
 
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Bone), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Bone));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Brain), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Brain));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Fat), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Fat));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Gut), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Gut));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Kidney), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Kidneys));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Liver), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Liver));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Lung), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Lungs));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Muscle), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Muscle));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Myocardium), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Myocardium));
-  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Skin), *cmpts.GetLiquidCompartment(BGE::VascularCompartment::Skin));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Bone), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Bone));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Brain), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Brain));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Fat), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Fat));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Gut), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Gut));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Kidney), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Kidney));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Liver), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Liver));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Lung), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Lungs));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Muscle), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Muscle));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Myocardium), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Myocardium));
+  InitializeBloodGases(*cmpts.GetTissueCompartment(BGE::TissueLiteCompartment::Skin), *cmpts.GetLiquidCompartment(BGE::VascularLiteCompartment::Skin));
   
 
   SEScalarMassPerVolume concentration;
@@ -424,16 +413,13 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
 
   // Urine cmpts have to be explicitly set to values
   // Upper Tract
-  SELiquidCompartment* leftBowmansCapsules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftBowmansCapsules);
-  SELiquidCompartment* rightBowmansCapsules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightBowmansCapsules);
-  SELiquidCompartment* leftTubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftTubules);
-  SELiquidCompartment* rightTubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightTubules);
-  SELiquidCompartment* leftUreter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::LeftUreter);
-  SELiquidCompartment* rightUreter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::RightUreter);
+  SELiquidCompartment* BowmansCapsules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::BowmansCapsules);
+  SELiquidCompartment* Tubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::Tubules);
+  SELiquidCompartment* Ureter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineLiteCompartment::Ureter);
   // Lower Tract
   // Note I don't modify the urethra, it's just a flow pipe, with no volume, hence, no substance quantities (NaN)
   //SELiquidCompartment* urethra = m_data.GetCompartments().GetUrineCompartment("Urethra");
-  SELiquidCompartment* bladder = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::Bladder);
+  SELiquidCompartment* bladder = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineLiteCompartment::Bladder);
   SELiquidCompartment* lymph = m_data.GetCompartments().GetLiquidCompartment(BGE::LymphCompartment::Lymph);
   //Right now the lymph is not used, but code is in place and commented out in case we revisit
   SETissueCompartment* brain = m_data.GetCompartments().GetTissueCompartment(BGE::TissueLiteCompartment::Brain);
@@ -443,16 +429,11 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   SetSubstanceConcentration(*m_albumin, vascular, concentration);
   // Set Urine
   concentration.SetValue(0.155, MassPerVolumeUnit::mg_Per_dL);
-  subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_albumin);
+  subQ = BowmansCapsules->GetSubstanceQuantity(*m_albumin);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightBowmansCapsules->GetSubstanceQuantity(*m_albumin);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  leftTubules->GetSubstanceQuantity(*m_albumin)->SetToZero();
-  rightTubules->GetSubstanceQuantity(*m_albumin)->SetToZero();
-  leftUreter->GetSubstanceQuantity(*m_albumin)->SetToZero();
-  rightUreter->GetSubstanceQuantity(*m_albumin)->SetToZero();
+  Tubules->GetSubstanceQuantity(*m_albumin)->SetToZero();
+  Ureter->GetSubstanceQuantity(*m_albumin)->SetToZero();
   bladder->GetSubstanceQuantity(*m_albumin)->SetToZero();
   // Tissue
   molarity1.SetValue(20.0 / (m_albumin->GetMolarMass(MassPerAmountUnit::g_Per_mmol)), AmountPerVolumeUnit::mmol_Per_L);
@@ -487,22 +468,13 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   lymph->GetSubstanceQuantity(*m_calcium)->Balance(BalanceLiquidBy::Molarity);
   // Set Urine
   concentration.SetValue(98.1, MassPerVolumeUnit::mg_Per_L);
-  subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_calcium);
+  subQ = BowmansCapsules->GetSubstanceQuantity(*m_calcium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightBowmansCapsules->GetSubstanceQuantity(*m_calcium);
+  subQ = Tubules->GetSubstanceQuantity(*m_calcium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftTubules->GetSubstanceQuantity(*m_calcium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightTubules->GetSubstanceQuantity(*m_calcium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftUreter->GetSubstanceQuantity(*m_calcium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightUreter->GetSubstanceQuantity(*m_calcium);
+  subQ = Ureter->GetSubstanceQuantity(*m_calcium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = bladder->GetSubstanceQuantity(*m_calcium);
@@ -525,23 +497,14 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   SetSubstanceConcentration(*m_creatinine, vascular, concentration);
   // Set Urine
   concentration.SetValue(0.006, MassPerVolumeUnit::mg_Per_dL);
-  subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_creatinine);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightBowmansCapsules->GetSubstanceQuantity(*m_creatinine);
+  subQ = BowmansCapsules->GetSubstanceQuantity(*m_creatinine);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   concentration.SetValue(1.25, MassPerVolumeUnit::g_Per_L);
-  subQ = leftTubules->GetSubstanceQuantity(*m_creatinine);
+  subQ = Tubules->GetSubstanceQuantity(*m_creatinine);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightTubules->GetSubstanceQuantity(*m_creatinine);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftUreter->GetSubstanceQuantity(*m_creatinine);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightUreter->GetSubstanceQuantity(*m_creatinine);
+  subQ = Ureter->GetSubstanceQuantity(*m_creatinine);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = bladder->GetSubstanceQuantity(*m_creatinine);
@@ -582,16 +545,11 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   concentration.SetValue(90, MassPerVolumeUnit::mg_Per_dL);
   SetSubstanceConcentration(*m_glucose, vascular, concentration);
   // Only Bowmans has it
-  subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_glucose);
+  subQ = BowmansCapsules->GetSubstanceQuantity(*m_glucose);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightBowmansCapsules->GetSubstanceQuantity(*m_glucose);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  leftTubules->GetSubstanceQuantity(*m_glucose)->SetToZero();
-  rightTubules->GetSubstanceQuantity(*m_glucose)->SetToZero();
-  leftUreter->GetSubstanceQuantity(*m_glucose)->SetToZero();
-  rightUreter->GetSubstanceQuantity(*m_glucose)->SetToZero();
+  Tubules->GetSubstanceQuantity(*m_glucose)->SetToZero();
+  Ureter->GetSubstanceQuantity(*m_glucose)->SetToZero();
   bladder->GetSubstanceQuantity(*m_glucose)->SetToZero();
   // Tissue
   molarity1.SetValue(concentration.GetValue(MassPerVolumeUnit::g_Per_L) / m_glucose->GetMolarMass(MassPerAmountUnit::g_Per_mol), AmountPerVolumeUnit::mol_Per_L);
@@ -603,12 +561,9 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   concentration.SetValue(0.85, MassPerVolumeUnit::ug_Per_L); //118.1 pmol/L is desired (.6859 ug/L), was .85 because of stabilization dip, but it seems okay now
   SetSubstanceConcentration(*m_insulin, vascular, concentration);
   // None in Urine
-  leftBowmansCapsules->GetSubstanceQuantity(*m_insulin)->SetToZero();
-  rightBowmansCapsules->GetSubstanceQuantity(*m_insulin)->SetToZero();
-  leftTubules->GetSubstanceQuantity(*m_insulin)->SetToZero();
-  rightTubules->GetSubstanceQuantity(*m_insulin)->SetToZero();
-  leftUreter->GetSubstanceQuantity(*m_insulin)->SetToZero();
-  rightUreter->GetSubstanceQuantity(*m_insulin)->SetToZero();
+  BowmansCapsules->GetSubstanceQuantity(*m_insulin)->SetToZero();
+  Tubules->GetSubstanceQuantity(*m_insulin)->SetToZero();
+  Ureter->GetSubstanceQuantity(*m_insulin)->SetToZero();
   bladder->GetSubstanceQuantity(*m_insulin)->SetToZero();
   // Tissue
   molarity1.SetValue(0.0, AmountPerVolumeUnit::mmol_Per_L);
@@ -620,20 +575,13 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   concentration.SetValue(9.19, MassPerVolumeUnit::mg_Per_L);
   SetSubstanceConcentration(*m_ketones, vascular, concentration);
   // Set Urine
-  subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_ketones);
+  subQ = BowmansCapsules->GetSubstanceQuantity(*m_ketones);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightBowmansCapsules->GetSubstanceQuantity(*m_ketones);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  leftTubules->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
-  leftTubules->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
-  rightTubules->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
-  rightTubules->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
-  leftUreter->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
-  leftUreter->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
-  rightUreter->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
-  rightUreter->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
+  Tubules->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
+  Tubules->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
+  Ureter->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
+  Ureter->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
   bladder->GetSubstanceQuantity(*m_ketones)->GetConcentration().SetValue(0.0, MassPerVolumeUnit::mg_Per_dL);
   bladder->GetSubstanceQuantity(*m_ketones)->Balance(BalanceLiquidBy::Concentration);
   // Tissue
@@ -649,16 +597,12 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   SetSubstanceConcentration(*m_lactate, vascular, concentration);
   //set in tubules zero in urine
   concentration.SetValue(1.5, MassPerVolumeUnit::g_Per_L);
-  subQ = leftTubules->GetSubstanceQuantity(*m_lactate);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightTubules->GetSubstanceQuantity(*m_lactate);
+  subQ = Tubules->GetSubstanceQuantity(*m_lactate);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   bladder->GetSubstanceQuantity(*m_lactate)->SetToZero();
   //Clear Lactate out of the Ureter to initialize for Gluconeogenesis
-  leftUreter->GetSubstanceQuantity(*m_lactate)->SetToZero();
-  rightUreter->GetSubstanceQuantity(*m_lactate)->SetToZero();
+  Ureter->GetSubstanceQuantity(*m_lactate)->SetToZero();
   // Tissue
   SetSubstanceMolarity(*m_lactate, tissue, molarity1, molarity1);
   //Lymph
@@ -670,22 +614,13 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   SetSubstanceConcentration(*m_potassium, vascular, concentration);
   // Set Urine
   concentration.SetValue(175.5, MassPerVolumeUnit::mg_Per_L);
-  subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_potassium);
+  subQ = BowmansCapsules->GetSubstanceQuantity(*m_potassium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightBowmansCapsules->GetSubstanceQuantity(*m_potassium);
+  subQ = Tubules->GetSubstanceQuantity(*m_potassium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftTubules->GetSubstanceQuantity(*m_potassium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightTubules->GetSubstanceQuantity(*m_potassium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftUreter->GetSubstanceQuantity(*m_potassium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightUreter->GetSubstanceQuantity(*m_potassium);
+  subQ = Ureter->GetSubstanceQuantity(*m_potassium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = bladder->GetSubstanceQuantity(*m_potassium);
@@ -702,23 +637,14 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   concentration.SetValue(0.335, MassPerVolumeUnit::g_Per_dL);
   SetSubstanceConcentration(*m_sodium, vascular, concentration);
   // Set Urine
-  subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_sodium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightBowmansCapsules->GetSubstanceQuantity(*m_sodium);
+  subQ = BowmansCapsules->GetSubstanceQuantity(*m_sodium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   concentration.SetValue(0.375, MassPerVolumeUnit::g_Per_dL);
-  subQ = leftTubules->GetSubstanceQuantity(*m_sodium);
+  subQ = Tubules->GetSubstanceQuantity(*m_sodium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightTubules->GetSubstanceQuantity(*m_sodium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftUreter->GetSubstanceQuantity(*m_sodium);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightUreter->GetSubstanceQuantity(*m_sodium);
+  subQ = Ureter->GetSubstanceQuantity(*m_sodium);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = bladder->GetSubstanceQuantity(*m_sodium);
@@ -735,12 +661,9 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   concentration.SetValue(75.0, MassPerVolumeUnit::mg_Per_dL);
   SetSubstanceConcentration(*m_triacylglycerol, vascular, concentration);
   // None in Urine
-  leftBowmansCapsules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
-  rightBowmansCapsules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
-  leftTubules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
-  rightTubules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
-  leftUreter->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
-  rightUreter->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
+  BowmansCapsules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
+  Tubules->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
+  Ureter->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
   bladder->GetSubstanceQuantity(*m_triacylglycerol)->SetToZero();
   // Tissue
   molarity1.SetValue(concentration.GetValue(MassPerVolumeUnit::g_Per_L) / m_triacylglycerol->GetMolarMass(MassPerAmountUnit::g_Per_mol), AmountPerVolumeUnit::mol_Per_L);
@@ -760,23 +683,14 @@ void BioGearsSubstances::InitializeLiquidCompartmentNonGases()
   SetSubstanceConcentration(*m_urea, vascular, concentration);
   // Set Urine
   concentration.SetValue(0.2, MassPerVolumeUnit::mg_Per_dL);
-  subQ = leftBowmansCapsules->GetSubstanceQuantity(*m_urea);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightBowmansCapsules->GetSubstanceQuantity(*m_urea);
+  subQ = BowmansCapsules->GetSubstanceQuantity(*m_urea);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   concentration.SetValue(20.0, MassPerVolumeUnit::g_Per_L);
-  subQ = leftTubules->GetSubstanceQuantity(*m_urea);
+  subQ = Tubules->GetSubstanceQuantity(*m_urea);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightTubules->GetSubstanceQuantity(*m_urea);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = leftUreter->GetSubstanceQuantity(*m_urea);
-  subQ->GetConcentration().Set(concentration);
-  subQ->Balance(BalanceLiquidBy::Concentration);
-  subQ = rightUreter->GetSubstanceQuantity(*m_urea);
+  subQ = Ureter->GetSubstanceQuantity(*m_urea);
   subQ->GetConcentration().Set(concentration);
   subQ->Balance(BalanceLiquidBy::Concentration);
   subQ = bladder->GetSubstanceQuantity(*m_urea);
