@@ -128,7 +128,7 @@ void ReportWriter::gen_tables()
     logger->Info("Successfully ran validation");
     PopulateTables();
     logger->Info("Successfully populated tables vector");
-    set_html();
+    set_md();
     to_table();
     logger->Info("Successfully generated table: " + split(validation_files[i],'.')[0]);
     clear();
