@@ -62,7 +62,7 @@ Cardiovascular::Cardiovascular(BioGears& bg)
   cardioWatch.reset();
 
   calcCardioTime = 0.0;
-  m_TuningFile = "";
+  m_TuningFile = "tune.csv";
 }
 
 Cardiovascular::~Cardiovascular()
