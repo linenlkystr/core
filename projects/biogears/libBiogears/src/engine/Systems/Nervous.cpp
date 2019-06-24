@@ -597,8 +597,8 @@ void Nervous::ChemoreceptorFeedback()
   double b50 = 1.7;
   double beta = 18;
   double cmax = 1.;
-  double c50 = 0.65;
-  double ceta = -20;
+  double c50 = 0.5;//0.65;
+  double ceta = -14.5;//-20;
   double dmax = -0.1;
   double d50 = b50;
   double deta = -aeta;

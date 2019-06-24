@@ -83,7 +83,7 @@
     <Action xsi:type="AdvanceTimeData">
         <Time value="30" unit="s"/>       
     </Action>
-    <Action xsi:type="AnesthesiaMachineConfigurationData">
+   <!--  <Action xsi:type="AnesthesiaMachineConfigurationData">
       <Configuration>
         <Connection>Mask</Connection>
         <InletFlow value="5.0" unit="L/min"/>
@@ -104,7 +104,7 @@
     </Action>  
     <Action xsi:type="AdvanceTimeData">
         <Time value="60" unit="s"/>       
-    </Action>
+    </Action> -->
     <Action xsi:type="SubstanceBolusData" AdminRoute="Intravenous">
         <Substance>Succinylcholine</Substance>
         <Concentration value="5000" unit="ug/mL"/>
@@ -113,7 +113,7 @@
     <Action xsi:type="AdvanceTimeData">
         <Time value="60" unit="s"/>       
     </Action>
-    <Action xsi:type="IntubationData" Type="Esophageal"/>
+   <!--  <Action xsi:type="IntubationData" Type="Esophageal"/>
     <Action xsi:type="AnesthesiaMachineConfigurationData">
       <Configuration>
         <Connection>Tube</Connection>
@@ -132,7 +132,7 @@
           <Volume value="660" unit="L"/>
         </OxygenBottleTwo>
       </Configuration>
-    </Action>  
+    </Action>   -->
     <Action xsi:type="AdvanceTimeData">
         <Time value="120" unit="s"/>       
     </Action>
