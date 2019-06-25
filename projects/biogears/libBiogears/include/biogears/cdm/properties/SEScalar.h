@@ -31,6 +31,7 @@ public:
 };
 
 class BIOGEARS_API SEScalar : public SEProperty {
+friend io::PropertyIoDelegate;
 protected:
   double m_value;
   bool m_readOnly;

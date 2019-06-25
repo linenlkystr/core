@@ -36,6 +36,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarLengthPerTime : public SEScalarQuantity<LengthPerTimeUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarLengthPerTime() = default;
   virtual ~SEScalarLengthPerTime() = default;

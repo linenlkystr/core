@@ -34,6 +34,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarPressureTimePerVolumeArea : public SEScalarQuantity<PressureTimePerVolumeAreaUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarPressureTimePerVolumeArea() = default;
   virtual ~SEScalarPressureTimePerVolumeArea() = default;

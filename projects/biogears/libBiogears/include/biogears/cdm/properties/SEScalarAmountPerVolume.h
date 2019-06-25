@@ -35,6 +35,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarAmountPerVolume : public SEScalarQuantity<AmountPerVolumeUnit> {
+friend io::PropertyIoDelegate;
 
 public:
   SEScalarAmountPerVolume() = default;

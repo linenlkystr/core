@@ -33,6 +33,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarFrequency : public SEScalarQuantity<FrequencyUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarFrequency() = default;
   virtual ~SEScalarFrequency() = default;

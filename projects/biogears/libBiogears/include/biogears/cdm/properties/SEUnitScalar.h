@@ -14,8 +14,11 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalar.h>
 
+IO_DECL(IODelegate)
+
 namespace biogears {
 class BIOGEARS_API SEUnitScalar : public SEScalar {
+friend io::PropertyIoDelegate;
 public:
   SEUnitScalar();
   SEUnitScalar(const SEUnitScalar&);

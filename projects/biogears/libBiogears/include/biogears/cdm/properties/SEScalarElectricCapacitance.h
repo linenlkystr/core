@@ -31,6 +31,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarElectricCapacitance : public SEScalarQuantity<ElectricCapacitanceUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarElectricCapacitance() = default;
   virtual ~SEScalarElectricCapacitance() = default;

@@ -17,6 +17,7 @@ specific language governing permissions and limitations under the License.
 namespace biogears {
 class BIOGEARS_API SEScalarFraction : public SEScalar {
 
+friend io::PropertyIoDelegate;
 public:
   SEScalarFraction();
   virtual ~SEScalarFraction() = default;

@@ -32,6 +32,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarElectricPotential : public SEScalarQuantity<ElectricPotentialUnit> {
+  friend io::PropertyIoDelegate;
 public:
   SEScalarElectricPotential() = default;
   virtual ~SEScalarElectricPotential() = default;

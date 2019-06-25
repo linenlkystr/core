@@ -32,6 +32,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarOsmolarity : public SEScalarQuantity<OsmolarityUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarOsmolarity() = default;
   virtual ~SEScalarOsmolarity() = default;

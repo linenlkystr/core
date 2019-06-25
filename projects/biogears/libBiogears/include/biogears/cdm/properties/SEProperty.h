@@ -14,14 +14,14 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/CommonDataModel.h>
 CDM_BIND_DECL(PropertyData)
+IO_DECL(PropertyIoDelegate)
 
 namespace biogears {
 class BIOGEARS_API SEProperty {
-protected:
 public:
+friend io::PropertyIoDelegate;
   SEProperty();
   virtual ~SEProperty();
-
   virtual void Clear(); //clear memory
 
   virtual void Invalidate() = 0;

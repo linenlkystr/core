@@ -23,6 +23,7 @@ namespace biogears {
  * If you use this class without setting the scalar it will produce nullptr errors and other CDM Exceptions, use with caution and smarts.
  */
 class BIOGEARS_API SEGenericScalar : public Loggable {
+friend io::PropertyIoDelegate;
 public:
   SEGenericScalar(Logger* logger);
   virtual ~SEGenericScalar(){};

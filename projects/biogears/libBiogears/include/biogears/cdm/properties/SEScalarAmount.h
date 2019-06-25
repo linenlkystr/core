@@ -33,6 +33,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarAmount : public SEScalarQuantity<AmountUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarAmount() = default;
   virtual ~SEScalarAmount() = default;

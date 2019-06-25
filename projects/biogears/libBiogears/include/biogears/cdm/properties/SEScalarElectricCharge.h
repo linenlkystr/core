@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarQuantity.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+IO_DECL(IODelegate)
+
 namespace biogears {
 class BIOGEARS_API ElectricChargeUnit : public CCompoundUnit {
 public:
@@ -31,6 +33,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarElectricCharge : public SEScalarQuantity<ElectricChargeUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarElectricCharge() = default;
   virtual ~SEScalarElectricCharge() = default;

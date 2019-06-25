@@ -32,6 +32,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarEnergyPerAmount : public SEScalarQuantity<EnergyPerAmountUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarEnergyPerAmount() = default;
   virtual ~SEScalarEnergyPerAmount() = default;

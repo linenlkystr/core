@@ -19,6 +19,7 @@ class TimeUnit;
 class ElectricPotentialUnit;
 
 class BIOGEARS_API SEFunctionElectricPotentialVsTime : public SEFunction {
+friend io::PropertyIoDelegate;
 public:
   SEFunctionElectricPotentialVsTime();
   virtual ~SEFunctionElectricPotentialVsTime();

@@ -33,6 +33,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarForce : public SEScalarQuantity<ForceUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarForce() = default;
   virtual ~SEScalarForce() = default;

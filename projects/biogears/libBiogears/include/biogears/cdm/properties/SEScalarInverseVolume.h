@@ -32,6 +32,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarInverseVolume : public SEScalarQuantity<InverseVolumeUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarInverseVolume() = default;
   virtual ~SEScalarInverseVolume() = default;

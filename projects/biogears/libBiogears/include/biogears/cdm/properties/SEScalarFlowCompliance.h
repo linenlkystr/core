@@ -34,6 +34,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarFlowCompliance : public SEScalarQuantity<FlowComplianceUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarFlowCompliance() = default;
   virtual ~SEScalarFlowCompliance() = default;

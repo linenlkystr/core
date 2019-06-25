@@ -18,6 +18,7 @@ namespace biogears {
 class LengthUnit;
 
 class BIOGEARS_API SEHistogramFractionVsLength : public SEHistogram {
+friend io::PropertyIoDelegate;
 public:
   SEHistogramFractionVsLength();
   virtual ~SEHistogramFractionVsLength();

@@ -18,6 +18,7 @@ CDM_BIND_DECL(HistogramData)
 
 namespace biogears {
 class BIOGEARS_API SEHistogram : public SEProperty {
+friend io::PropertyIoDelegate;
 public:
   SEHistogram();
   virtual ~SEHistogram();

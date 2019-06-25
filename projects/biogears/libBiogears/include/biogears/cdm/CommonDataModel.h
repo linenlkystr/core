@@ -12,8 +12,6 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 
-
-
 #if (0)
 #define DEBUGOUT(x) x
 #else
@@ -27,6 +25,12 @@ namespace tatrc {
   }
 }
 }
+
+namespace biogears {
+namespace io {
+}
+}
+
 //using namespace mil::tatrc::phsyiology::datamodel;
 #define CDM_BIND_DECL(type)   \
   namespace mil {             \
@@ -38,6 +42,14 @@ namespace tatrc {
       }                       \
     }                         \
   }
+
+#define IO_DECL(type) \
+  namespace biogears {    \
+    namespace io {        \
+      class type;         \
+}                         \
+}
+
 namespace CDM = mil::tatrc::physiology::datamodel;
 
 #include <stdexcept>

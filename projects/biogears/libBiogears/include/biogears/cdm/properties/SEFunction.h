@@ -21,6 +21,7 @@ CDM_BIND_DECL(FunctionData)
 
 namespace biogears {
 class BIOGEARS_API SEFunction : public SEProperty {
+friend io::PropertyIoDelegate;
 public:
   SEFunction();
   virtual ~SEFunction();

@@ -35,6 +35,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarVolumePerTimeMass : public SEScalarQuantity<VolumePerTimeMassUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarVolumePerTimeMass() = default;
   virtual ~SEScalarVolumePerTimeMass() = default;

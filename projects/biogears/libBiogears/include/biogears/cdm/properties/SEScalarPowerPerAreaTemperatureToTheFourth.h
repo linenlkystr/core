@@ -31,6 +31,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarPowerPerAreaTemperatureToTheFourth : public SEScalarQuantity<PowerPerAreaTemperatureToTheFourthUnit> {
+friend io::PropertyIoDelegate;
 public:
   SEScalarPowerPerAreaTemperatureToTheFourth() = default;
   virtual ~SEScalarPowerPerAreaTemperatureToTheFourth() = default;
