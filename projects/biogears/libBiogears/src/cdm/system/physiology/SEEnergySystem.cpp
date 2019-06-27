@@ -128,34 +128,20 @@ bool SEEnergySystem::Load(const CDM::EnergySystemData& in)
 {
   SESystem::Load(in);
 
-  if (in.AchievedExerciseLevel().present())
-    io::PropertyIoDelegate::Marshall(in.AchievedExerciseLevel(), GetAchievedExerciseLevel());
-  if (in.ChlorideLostToSweat().present())
-      io::PropertyIoDelegate::Marshall(in.ChlorideLostToSweat(), GetChlorideLostToSweat());
-  if (in.CoreTemperature().present())
-      io::PropertyIoDelegate::Marshall(in.CoreTemperature(), GetCoreTemperature());
-  if (in.CreatinineProductionRate().present())
-      io::PropertyIoDelegate::Marshall(in.CreatinineProductionRate(), GetCreatinineProductionRate());
-  if (in.EnergyDeficit().present())
-      io::PropertyIoDelegate::Marshall(in.EnergyDeficit(), GetEnergyDeficit());
-  if (in.ExerciseMeanArterialPressureDelta().present())
-      io::PropertyIoDelegate::Marshall(in.ExerciseMeanArterialPressureDelta(), GetExerciseMeanArterialPressureDelta());
-  if (in.FatigueLevel().present())
-      io::PropertyIoDelegate::Marshall(in.FatigueLevel(), GetFatigueLevel());
-  if (in.LactateProductionRate().present())
-      io::PropertyIoDelegate::Marshall(in.LactateProductionRate(), GetLactateProductionRate());
-  if (in.PotassiumLostToSweat().present())
-      io::PropertyIoDelegate::Marshall(in.PotassiumLostToSweat(), GetPotassiumLostToSweat());
-  if (in.SkinTemperature().present())
-      io::PropertyIoDelegate::Marshall(in.SkinTemperature(), GetSkinTemperature());
-  if (in.SodiumLostToSweat().present())
-      io::PropertyIoDelegate::Marshall(in.SodiumLostToSweat(), GetSodiumLostToSweat());
-  if (in.SweatRate().present())
-      io::PropertyIoDelegate::Marshall(in.SweatRate(), GetSweatRate());
-  if (in.TotalMetabolicRate().present())
-      io::PropertyIoDelegate::Marshall(in.TotalMetabolicRate(), GetTotalMetabolicRate());
-  if (in.TotalWorkRateLevel().present())
-      io::PropertyIoDelegate::Marshall(in.TotalWorkRateLevel(), GetTotalWorkRateLevel());
+  io::PropertyIoDelegate::Marshall(in.AchievedExerciseLevel(), GetAchievedExerciseLevel());
+  io::PropertyIoDelegate::Marshall(in.ChlorideLostToSweat(), GetChlorideLostToSweat());
+  io::PropertyIoDelegate::Marshall(in.CoreTemperature(), GetCoreTemperature());
+  io::PropertyIoDelegate::Marshall(in.CreatinineProductionRate(), GetCreatinineProductionRate());
+  io::PropertyIoDelegate::Marshall(in.EnergyDeficit(), GetEnergyDeficit());
+  io::PropertyIoDelegate::Marshall(in.ExerciseMeanArterialPressureDelta(), GetExerciseMeanArterialPressureDelta());
+  io::PropertyIoDelegate::Marshall(in.FatigueLevel(), GetFatigueLevel());
+  io::PropertyIoDelegate::Marshall(in.LactateProductionRate(), GetLactateProductionRate());
+  io::PropertyIoDelegate::Marshall(in.PotassiumLostToSweat(), GetPotassiumLostToSweat());
+  io::PropertyIoDelegate::Marshall(in.SkinTemperature(), GetSkinTemperature());
+  io::PropertyIoDelegate::Marshall(in.SodiumLostToSweat(), GetSodiumLostToSweat());
+  io::PropertyIoDelegate::Marshall(in.SweatRate(), GetSweatRate());
+  io::PropertyIoDelegate::Marshall(in.TotalMetabolicRate(), GetTotalMetabolicRate());
+  io::PropertyIoDelegate::Marshall(in.TotalWorkRateLevel(), GetTotalWorkRateLevel());
 
   return true;
 }
@@ -176,31 +162,31 @@ void SEEnergySystem::Unload(CDM::EnergySystemData& data) const
   if (m_AchievedExerciseLevel != nullptr)
     io::PropertyIoDelegate::UnMarshall(*m_AchievedExerciseLevel, data.AchievedExerciseLevel());
   if (m_ChlorideLostToSweat != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_ChlorideLostToSweat, data.ChlorideLostToSweat());
+    io::PropertyIoDelegate::UnMarshall(*m_ChlorideLostToSweat, data.ChlorideLostToSweat());
   if (m_CoreTemperature != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_CoreTemperature, data.CoreTemperature());
+    io::PropertyIoDelegate::UnMarshall(*m_CoreTemperature, data.CoreTemperature());
   if (m_CreatinineProductionRate != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_CreatinineProductionRate, data.CreatinineProductionRate());
+    io::PropertyIoDelegate::UnMarshall(*m_CreatinineProductionRate, data.CreatinineProductionRate());
   if (m_EnergyDeficit != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_EnergyDeficit, data.EnergyDeficit());
+    io::PropertyIoDelegate::UnMarshall(*m_EnergyDeficit, data.EnergyDeficit());
   if (m_ExerciseMeanArterialPressureDelta != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_ExerciseMeanArterialPressureDelta, data.ExerciseMeanArterialPressureDelta());
+    io::PropertyIoDelegate::UnMarshall(*m_ExerciseMeanArterialPressureDelta, data.ExerciseMeanArterialPressureDelta());
   if (m_FatigueLevel != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_FatigueLevel, data.FatigueLevel());
+    io::PropertyIoDelegate::UnMarshall(*m_FatigueLevel, data.FatigueLevel());
   if (m_LactateProductionRate != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_LactateProductionRate, data.LactateProductionRate());
+    io::PropertyIoDelegate::UnMarshall(*m_LactateProductionRate, data.LactateProductionRate());
   if (m_PotassiumLostToSweat != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_PotassiumLostToSweat, data.PotassiumLostToSweat());
+    io::PropertyIoDelegate::UnMarshall(*m_PotassiumLostToSweat, data.PotassiumLostToSweat());
   if (m_SkinTemperature != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_SkinTemperature, data.SkinTemperature());
+    io::PropertyIoDelegate::UnMarshall(*m_SkinTemperature, data.SkinTemperature());
   if (m_SodiumLostToSweat != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_SodiumLostToSweat, data.SodiumLostToSweat());
+    io::PropertyIoDelegate::UnMarshall(*m_SodiumLostToSweat, data.SodiumLostToSweat());
   if (m_SweatRate != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_SweatRate, data.SweatRate());
+    io::PropertyIoDelegate::UnMarshall(*m_SweatRate, data.SweatRate());
   if (m_TotalMetabolicRate != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TotalMetabolicRate, data.TotalMetabolicRate());
+    io::PropertyIoDelegate::UnMarshall(*m_TotalMetabolicRate, data.TotalMetabolicRate());
   if (m_TotalWorkRateLevel != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TotalWorkRateLevel, data.TotalWorkRateLevel());
+    io::PropertyIoDelegate::UnMarshall(*m_TotalWorkRateLevel, data.TotalWorkRateLevel());
 }
 //-------------------------------------------------------------------------------
 
@@ -299,7 +285,6 @@ double SEEnergySystem::GetEnergyDeficit(const PowerUnit& unit) const
   if (m_EnergyDeficit == nullptr)
     return SEScalar::dNaN();
   return m_EnergyDeficit->GetValue(unit);
-
 }
 
 bool SEEnergySystem::HasExerciseMeanArterialPressureDelta() const

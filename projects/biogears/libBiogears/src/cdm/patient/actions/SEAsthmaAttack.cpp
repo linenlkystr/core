@@ -60,8 +60,10 @@ CDM::AsthmaAttackData* SEAsthmaAttack::Unload() const
 void SEAsthmaAttack::Unload(CDM::AsthmaAttackData& data) const
 {
   SEPatientAction::Unload(data);
-  if (m_Severity != nullptr)
+  if (m_Severity != nullptr) {
+    data.Severity(std::make_unique<CDM::Scalar0To1Data>());
     io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
+  }
 }
 
 bool SEAsthmaAttack::HasSeverity() const
