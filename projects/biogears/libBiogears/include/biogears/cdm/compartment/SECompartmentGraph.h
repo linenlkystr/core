@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <string>
 #include <vector>
 
+#include <biogears/cdm/utils/Logger.h>
+
 namespace biogears {
 
 class Logger;
