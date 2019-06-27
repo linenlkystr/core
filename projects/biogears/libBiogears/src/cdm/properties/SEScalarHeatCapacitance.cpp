@@ -28,15 +28,6 @@ HeatCapacitanceUnit::HeatCapacitanceUnit(const std::string& u)
 {
 }
 //---------------------`---------------------------------------------------------
-CDM::ScalarHeatCapacitanceData* SEScalarHeatCapacitance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarHeatCapacitanceData* data(new CDM::ScalarHeatCapacitanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//---------------------`---------------------------------------------------------
 bool HeatCapacitanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(J_Per_K.GetString(),unit) == 0)

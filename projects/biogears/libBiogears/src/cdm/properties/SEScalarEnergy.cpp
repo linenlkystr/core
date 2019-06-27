@@ -28,15 +28,6 @@ EnergyUnit::EnergyUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarEnergyData* SEScalarEnergy::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarEnergyData* data(new CDM::ScalarEnergyData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool EnergyUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(J.GetString(),unit) == 0)

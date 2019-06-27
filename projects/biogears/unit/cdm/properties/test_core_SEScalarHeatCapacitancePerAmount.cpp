@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarHeatCapacitancePerAmount HeatCapacitancePerAmount = biogears::SEScalarHeatCapacitancePerAmount();
-  auto ptr = HeatCapacitancePerAmount.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::HeatCapacitancePerAmountUnit::IsValidUnit("J/K mol");

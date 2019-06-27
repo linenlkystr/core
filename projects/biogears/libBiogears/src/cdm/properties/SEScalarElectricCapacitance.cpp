@@ -25,15 +25,6 @@ ElectricCapacitanceUnit::ElectricCapacitanceUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarElectricCapacitanceData* SEScalarElectricCapacitance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarElectricCapacitanceData* data(new CDM::ScalarElectricCapacitanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool ElectricCapacitanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(F.GetString(), unit) == 0)

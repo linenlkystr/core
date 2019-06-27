@@ -13,6 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarVolume.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEChronicPericardialEffusion::SEChronicPericardialEffusion()
   : SEPatientCondition()
@@ -39,7 +40,7 @@ bool SEChronicPericardialEffusion::IsValid() const
 bool SEChronicPericardialEffusion::Load(const CDM::ChronicPericardialEffusionData& in)
 {
   SEPatientCondition::Load(in);
-  GetAccumulatedVolume().Load(in.AccumulatedVolume());
+  io::PropertyIoDelegate::Marshall(in.AccumulatedVolume(), GetAccumulatedVolume());
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -53,8 +54,9 @@ CDM::ChronicPericardialEffusionData* SEChronicPericardialEffusion::Unload() cons
 void SEChronicPericardialEffusion::Unload(CDM::ChronicPericardialEffusionData& data) const
 {
   SEPatientCondition::Unload(data);
-  if (m_AccumulatedVolume != nullptr)
-    data.AccumulatedVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_AccumulatedVolume->Unload()));
+  if (m_AccumulatedVolume != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_AccumulatedVolume, data.AccumulatedVolume());
+  }
 }
 //-----------------------------------------------------------------------------
 bool SEChronicPericardialEffusion::HasAccumulatedVolume() const

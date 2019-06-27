@@ -35,15 +35,6 @@ MassPerAmountUnit::MassPerAmountUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarMassPerAmountData* SEScalarMassPerAmount::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarMassPerAmountData* data(new CDM::ScalarMassPerAmountData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool MassPerAmountUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(g_Per_ct.GetString(),unit) == 0)

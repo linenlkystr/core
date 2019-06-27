@@ -30,15 +30,6 @@ AmountPerTimeUnit::AmountPerTimeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarAmountPerTimeData* SEScalarAmountPerTime::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarAmountPerTimeData* data(new CDM::ScalarAmountPerTimeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool AmountPerTimeUnit::IsValidUnit(const char* unit)
 {
   if ( strcmp(mol_Per_day.GetString(),unit) == 0)

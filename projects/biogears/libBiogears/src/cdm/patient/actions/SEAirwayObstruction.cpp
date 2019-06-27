@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEAirwayObstruction::SEAirwayObstruction()
   : SEPatientAction()
@@ -46,7 +47,7 @@ bool SEAirwayObstruction::IsActive() const
 bool SEAirwayObstruction::Load(const CDM::AirwayObstructionData& in)
 {
   SEPatientAction::Load(in);
-  GetSeverity().Load(in.Severity());
+  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
   return true;
 }
 
@@ -60,8 +61,9 @@ CDM::AirwayObstructionData* SEAirwayObstruction::Unload() const
 void SEAirwayObstruction::Unload(CDM::AirwayObstructionData& data) const
 {
   SEPatientAction::Unload(data);
-  if (m_Severity != nullptr)
-    data.Severity(std::unique_ptr<CDM::Scalar0To1Data>(m_Severity->Unload()));
+  if (m_Severity != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
+  }
 }
 
 bool SEAirwayObstruction::HasSeverity() const

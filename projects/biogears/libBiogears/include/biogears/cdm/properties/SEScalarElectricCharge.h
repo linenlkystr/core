@@ -37,7 +37,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarElectricCharge() = default;
   virtual ~SEScalarElectricCharge() = default;
-
-  CDM::ScalarElectricChargeData* Unload() const override;
 };
 }

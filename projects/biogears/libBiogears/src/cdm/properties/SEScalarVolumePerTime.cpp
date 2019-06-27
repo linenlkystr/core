@@ -32,15 +32,6 @@ VolumePerTimeUnit::VolumePerTimeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarVolumePerTimeData* SEScalarVolumePerTime::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarVolumePerTimeData* data(new CDM::ScalarVolumePerTimeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool VolumePerTimeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(L_Per_s.GetString(),unit) == 0)

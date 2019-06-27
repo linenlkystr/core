@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarFlowResistance FlowResistance = biogears::SEScalarFlowResistance();
-  auto ptr = FlowResistance.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::FlowResistanceUnit::IsValidUnit("cmH2O s/L");

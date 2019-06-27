@@ -30,15 +30,6 @@ LengthPerTimeUnit::LengthPerTimeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarLengthPerTimeData* SEScalarLengthPerTime::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarLengthPerTimeData* data(new CDM::ScalarLengthPerTimeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool LengthPerTimeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(m_Per_s.GetString(),unit) == 0)

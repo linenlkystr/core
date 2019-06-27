@@ -26,15 +26,6 @@ OsmolarityUnit::OsmolarityUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarOsmolarityData* SEScalarOsmolarity::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarOsmolarityData* data(new CDM::ScalarOsmolarityData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool OsmolarityUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(Osm_Per_L.GetString(),unit) == 0)

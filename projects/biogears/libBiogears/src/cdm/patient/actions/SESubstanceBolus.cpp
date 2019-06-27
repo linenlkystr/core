@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstanceBolus::SESubstanceBolus(const SESubstance& substance)
   : SESubstanceAdministration()
@@ -52,8 +53,8 @@ bool SESubstanceBolus::IsActive() const
 bool SESubstanceBolus::Load(const CDM::SubstanceBolusData& in)
 {
   SESubstanceAdministration::Load(in);
-  GetDose().Load(in.Dose());
-  GetConcentration().Load(in.Concentration());
+  io::PropertyIoDelegate::Marshall(in.Dose(), GetDose());
+  io::PropertyIoDelegate::Marshall(in.Concentration(), GetConcentration());
   m_AdminRoute = in.AdminRoute();
   return true;
 }
@@ -68,10 +69,12 @@ CDM::SubstanceBolusData* SESubstanceBolus::Unload() const
 void SESubstanceBolus::Unload(CDM::SubstanceBolusData& data) const
 {
   SESubstanceAdministration::Unload(data);
-  if (m_Dose != nullptr)
-    data.Dose(std::unique_ptr<CDM::ScalarVolumeData>(m_Dose->Unload()));
-  if (m_Concentration != nullptr)
-    data.Concentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_Concentration->Unload()));
+  if (m_Dose != nullptr) {
+  io::PropertyIoDelegate::UnMarshall(*m_Dose, data.Dose());
+  }
+  if (m_Concentration != nullptr) {
+  io::PropertyIoDelegate::UnMarshall(*m_Concentration, data.Concentration());
+  }    
   if (HasAdminRoute())
     data.AdminRoute(m_AdminRoute);
   data.Substance(m_Substance.GetName());
@@ -147,8 +150,8 @@ SESubstanceBolusState::~SESubstanceBolusState()
 }
 bool SESubstanceBolusState::Load(const CDM::SubstanceBolusStateData& in)
 {
-  m_elapsedTime.Load(in.ElapsedTime());
-  m_administeredDose.Load(in.AdministeredDose());
+  io::PropertyIoDelegate::Marshall(in.ElapsedTime(), m_elapsedTime);
+  io::PropertyIoDelegate::Marshall(in.AdministeredDose(), m_administeredDose);
   return true;
 }
 CDM::SubstanceBolusStateData* SESubstanceBolusState::Unload() const
@@ -160,7 +163,8 @@ CDM::SubstanceBolusStateData* SESubstanceBolusState::Unload() const
 void SESubstanceBolusState::Unload(CDM::SubstanceBolusStateData& data) const
 {
   data.Substance(m_substance.GetName());
-  data.ElapsedTime(std::unique_ptr<CDM::ScalarTimeData>(m_elapsedTime.Unload()));
-  data.AdministeredDose(std::unique_ptr<CDM::ScalarVolumeData>(m_administeredDose.Unload()));
+  io::PropertyIoDelegate::UnMarshall(m_elapsedTime, data.ElapsedTime());
+  io::PropertyIoDelegate::UnMarshall(m_administeredDose, data.AdministeredDose());
+  
 }
 }

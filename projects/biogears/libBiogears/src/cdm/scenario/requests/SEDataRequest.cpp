@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEDataRequest::SEDataRequest(const SEDecimalFormat* dfault)
   : SEDecimalFormat(dfault)
@@ -43,7 +44,7 @@ size_t SEDataRequest::HashCode() const
 //-----------------------------------------------------------------------------
 bool SEDataRequest::Load(const CDM::DataRequestData& in)
 {
-  SEDecimalFormat::Load(in);
+  io::PropertyIoDelegate::Marshall(static_cast<CDM::DecimalFormatData const&>(in), *static_cast<SEDecimalFormat*>(this));
   m_Name = in.Name();
   if (in.Unit().present())
     m_RequestedUnit = in.Unit().get();
@@ -59,7 +60,7 @@ CDM::DataRequestData* SEDataRequest::Unload() const
 //-----------------------------------------------------------------------------
 void SEDataRequest::Unload(CDM::DataRequestData& data) const
 {
-  SEDecimalFormat::Unload(data);
+  io::PropertyIoDelegate::UnMarshall( *static_cast<SEDecimalFormat const*>(this), static_cast<CDM::DecimalFormatData &>(data));
   data.Name(m_Name);
   if (HasUnit())
     data.Unit(m_Unit->GetString());

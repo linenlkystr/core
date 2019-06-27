@@ -30,15 +30,6 @@ LengthUnit::LengthUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarLengthData* SEScalarLength::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarLengthData* data(new CDM::ScalarLengthData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool LengthUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(m.GetString(),unit) == 0)

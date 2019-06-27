@@ -21,6 +21,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarPressure.h>
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEOverride::SEOverride()
   : SEPatientAction()
@@ -202,322 +203,322 @@ bool SEOverride::Load(const CDM::OverrideData& in)
   SetOverrideState(in.State());
   SetOverrideConformance(in.Conformant());
   if (in.ArterialBloodPHOverride().present()) {
-    GetArterialPHOverride().Load(in.ArterialBloodPHOverride().get());
+    io::PropertyIoDelegate::Marshall(in.ArterialBloodPHOverride(), GetArterialPHOverride());
   } else {
     GetArterialPHOverride().Invalidate();
   }
   if (in.VenousBloodPHOverride().present()) {
-    GetVenousPHOverride().Load(in.VenousBloodPHOverride().get());
+    io::PropertyIoDelegate::Marshall(in.VenousBloodPHOverride(), GetVenousPHOverride());
   } else {
     GetVenousPHOverride().Invalidate();
   }
   if (in.CarbonDioxideSaturationOverride().present()) {
-    GetCO2SaturationOverride().Load(in.CarbonDioxideSaturationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.CarbonDioxideSaturationOverride(), GetCO2SaturationOverride());
   } else {
     GetCO2SaturationOverride().Invalidate();
   }
   if (in.CarbonMonoxideSaturationOverride().present()) {
-    GetCOSaturationOverride().Load(in.CarbonMonoxideSaturationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.CarbonMonoxideSaturationOverride(), GetCOSaturationOverride());
   } else {
     GetCOSaturationOverride().Invalidate();
   }
   if (in.OxygenSaturationOverride().present()) {
-    GetO2SaturationOverride().Load(in.OxygenSaturationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.OxygenSaturationOverride(), GetO2SaturationOverride());
   } else {
     GetO2SaturationOverride().Invalidate();
   }
   if (in.PhosphateOverride().present()) {
-    GetPhosphateOverride().Load(in.PhosphateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.PhosphateOverride(), GetPhosphateOverride());
   } else {
     GetPhosphateOverride().Invalidate();
   }
   if (in.WhiteBloodCellCountOverride().present()) {
-    GetWBCCountOverride().Load(in.WhiteBloodCellCountOverride().get());
+    io::PropertyIoDelegate::Marshall(in.WhiteBloodCellCountOverride(), GetWBCCountOverride());
   } else {
     GetWBCCountOverride().Invalidate();
   }
   if (in.TotalBilirubinOverride().present()) {
-    GetTotalBilirubinOverride().Load(in.TotalBilirubinOverride().get());
+    io::PropertyIoDelegate::Marshall(in.TotalBilirubinOverride(), GetTotalBilirubinOverride());
   } else {
     GetTotalBilirubinOverride().Invalidate();
   }
   if (in.CalciumConcentrationOverride().present()) {
-    GetCalciumConcentrationOverride().Load(in.CalciumConcentrationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.CalciumConcentrationOverride(), GetCalciumConcentrationOverride());
   } else {
     GetCalciumConcentrationOverride().Invalidate();
   }
   if (in.GlucoseConcentrationOverride().present()) {
-    GetGlucoseConcentrationOverride().Load(in.GlucoseConcentrationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.GlucoseConcentrationOverride(), GetGlucoseConcentrationOverride());
   } else {
     GetGlucoseConcentrationOverride().Invalidate();
   }
   if (in.LactateConcentrationOverride().present()) {
-    GetLactateConcentrationOverride().Load(in.LactateConcentrationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.LactateConcentrationOverride(), GetLactateConcentrationOverride());
   } else {
     GetLactateConcentrationOverride().Invalidate();
   }
   if (in.PotassiumConcentrationOverride().present()) {
-    GetPotassiumConcentrationOverride().Load(in.PotassiumConcentrationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.PotassiumConcentrationOverride(), GetPotassiumConcentrationOverride());
   } else {
     GetPotassiumConcentrationOverride().Invalidate();
   }
   if (in.SodiumConcentrationOverride().present()) {
-    GetSodiumConcentrationOverride().Load(in.SodiumConcentrationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.SodiumConcentrationOverride(), GetSodiumConcentrationOverride());
   } else {
     GetSodiumConcentrationOverride().Invalidate();
   }
   if (in.BloodVolumeOverride().present()) {
-    GetBloodVolumeOverride().Load(in.BloodVolumeOverride().get());
+    io::PropertyIoDelegate::Marshall(in.BloodVolumeOverride(), GetBloodVolumeOverride());
   } else {
     GetBloodVolumeOverride().Invalidate();
   }
   if (in.CardiacOutputOverride().present()) {
-    GetCardiacOutputOverride().Load(in.CardiacOutputOverride().get());
+    io::PropertyIoDelegate::Marshall(in.CardiacOutputOverride(), GetCardiacOutputOverride());
   } else {
     GetCardiacOutputOverride().Invalidate();
   }
   if (in.DiastolicArterialPressureOverride().present()) {
-    GetDiastolicArterialPressureOverride().Load(in.DiastolicArterialPressureOverride().get());
+    io::PropertyIoDelegate::Marshall(in.DiastolicArterialPressureOverride(), GetDiastolicArterialPressureOverride());
   } else {
     GetDiastolicArterialPressureOverride().Invalidate();
   }
   if (in.MeanArterialPressureOverride().present()) {
-    GetMAPOverride().Load(in.MeanArterialPressureOverride().get());
+    io::PropertyIoDelegate::Marshall(in.MeanArterialPressureOverride(), GetMAPOverride());
   } else {
     GetMAPOverride().Invalidate();
   }
   if (in.HeartRateOverride().present()) {
-    GetHeartRateOverride().Load(in.HeartRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.HeartRateOverride(), GetHeartRateOverride());
   } else {
     GetHeartRateOverride().Invalidate();
   }
   if (in.HeartStrokeVolumeOverride().present()) {
-    GetHeartStrokeVolumeOverride().Load(in.HeartStrokeVolumeOverride().get());
+    io::PropertyIoDelegate::Marshall(in.HeartStrokeVolumeOverride(), GetHeartStrokeVolumeOverride());
   } else {
     GetHeartStrokeVolumeOverride().Invalidate();
   }
   if (in.SystolicArterialPressureOverride().present()) {
-    GetSystolicArterialPressureOverride().Load(in.SystolicArterialPressureOverride().get());
+    io::PropertyIoDelegate::Marshall(in.SystolicArterialPressureOverride(), GetSystolicArterialPressureOverride());
   } else {
     GetSystolicArterialPressureOverride().Invalidate();
   }
   if (in.InsulinSynthesisRateOverride().present()) {
-    GetInsulinSynthesisRateOverride().Load(in.InsulinSynthesisRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.InsulinSynthesisRateOverride(), GetInsulinSynthesisRateOverride());
   } else {
     GetInsulinSynthesisRateOverride().Invalidate();
   }
   if (in.GlucagonSynthesisRateOverride().present()) {
-    GetGlucagonSynthesisRateOverride().Load(in.GlucagonSynthesisRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.GlucagonSynthesisRateOverride(), GetGlucagonSynthesisRateOverride());
   } else {
     GetGlucagonSynthesisRateOverride().Invalidate();
   }
   if (in.AchievedExerciseLevelOverride().present()) {
-    GetAchievedExerciseLevelOverride().Load(in.AchievedExerciseLevelOverride().get());
+    io::PropertyIoDelegate::Marshall(in.AchievedExerciseLevelOverride(), GetAchievedExerciseLevelOverride());
   } else {
     GetAchievedExerciseLevelOverride().Invalidate();
   }
   if (in.CoreTemperatureOverride().present()) {
-    GetCoreTemperatureOverride().Load(in.CoreTemperatureOverride().get());
+    io::PropertyIoDelegate::Marshall(in.CoreTemperatureOverride(), GetCoreTemperatureOverride());
   } else {
     GetCoreTemperatureOverride().Invalidate();
   }
   if (in.CreatinineProductionRateOverride().present()) {
-    GetCreatinineProductionRateOverride().Load(in.CreatinineProductionRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.CreatinineProductionRateOverride(), GetCreatinineProductionRateOverride());
   } else {
     GetCreatinineProductionRateOverride().Invalidate();
   }
   if (in.ExerciseMeanArterialPressureDeltaOverride().present()) {
-    GetExerciseMeanArterialPressureDeltaOverride().Load(in.ExerciseMeanArterialPressureDeltaOverride().get());
+    io::PropertyIoDelegate::Marshall(in.ExerciseMeanArterialPressureDeltaOverride(), GetExerciseMeanArterialPressureDeltaOverride());
   } else {
     GetExerciseMeanArterialPressureDeltaOverride().Invalidate();
   }
   if (in.FatigueLevelOverride().present()) {
-    GetFatigueLevelOverride().Load(in.FatigueLevelOverride().get());
+    io::PropertyIoDelegate::Marshall(in.FatigueLevelOverride(), GetFatigueLevelOverride());
   } else {
     GetFatigueLevelOverride().Invalidate();
   }
   if (in.LactateProductionRateOverride().present()) {
-    GetLactateProductionRateOverride().Load(in.LactateProductionRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.LactateProductionRateOverride(), GetLactateProductionRateOverride());
   } else {
     GetLactateProductionRateOverride().Invalidate();
   }
   if (in.SkinTemperatureOverride().present()) {
-    GetSkinTemperatureOverride().Load(in.SkinTemperatureOverride().get());
+    io::PropertyIoDelegate::Marshall(in.SkinTemperatureOverride(), GetSkinTemperatureOverride());
   } else {
     GetSkinTemperatureOverride().Invalidate();
   }
   if (in.SweatRateOverride().present()) {
-    GetSweatRateOverride().Load(in.SweatRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.SweatRateOverride(), GetSweatRateOverride());
   } else {
     GetSweatRateOverride().Invalidate();
   }
   if (in.TotalMetabolicRateOverride().present()) {
-    GetTotalMetabolicOverride().Load(in.TotalMetabolicRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.TotalMetabolicRateOverride(), GetTotalMetabolicOverride());
   } else {
     GetTotalMetabolicOverride().Invalidate();
   }
   if (in.TotalWorkRateLevelOverride().present()) {
-    GetTotalWorkRateLevelOverride().Load(in.TotalWorkRateLevelOverride().get());
+    io::PropertyIoDelegate::Marshall(in.TotalWorkRateLevelOverride(), GetTotalWorkRateLevelOverride());
   } else {
     GetTotalWorkRateLevelOverride().Invalidate();
   }
   if (in.SodiumLostToSweatOverride().present()) {
-    GetSodiumLostToSweatOverride().Load(in.SodiumLostToSweatOverride().get());
+    io::PropertyIoDelegate::Marshall(in.SodiumLostToSweatOverride(), GetSodiumLostToSweatOverride());
   } else {
     GetSodiumLostToSweatOverride().Invalidate();
   }
   if (in.PotassiumLostToSweatOverride().present()) {
-    GetPotassiumLostToSweatOverride().Load(in.PotassiumLostToSweatOverride().get());
+    io::PropertyIoDelegate::Marshall(in.PotassiumLostToSweatOverride(), GetPotassiumLostToSweatOverride());
   } else {
     GetPotassiumLostToSweatOverride().Invalidate();
   }
   if (in.ChlorideLostToSweatOverride().present()) {
-    GetChlorideLostToSweatOverride().Load(in.ChlorideLostToSweatOverride().get());
+    io::PropertyIoDelegate::Marshall(in.ChlorideLostToSweatOverride(), GetChlorideLostToSweatOverride());
   } else {
     GetChlorideLostToSweatOverride().Invalidate();
   }
   if (in.LeftAfferentArterioleResistanceOverride().present()) {
-    GetLeftAfferentArterioleResistanceOverride().Load(in.LeftAfferentArterioleResistanceOverride().get());
+    io::PropertyIoDelegate::Marshall(in.LeftAfferentArterioleResistanceOverride(), GetLeftAfferentArterioleResistanceOverride());
   } else {
     GetLeftAfferentArterioleResistanceOverride().Invalidate();
   }
   if (in.LeftGlomerularFiltrationRateOverride().present()) {
-    GetLeftGlomerularFiltrationRateOverride().Load(in.LeftGlomerularFiltrationRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.LeftGlomerularFiltrationRateOverride(), GetLeftGlomerularFiltrationRateOverride());
   } else {
     GetLeftGlomerularFiltrationRateOverride().Invalidate();
   }
   if (in.LeftReabsorptionRateOverride().present()) {
-    GetLeftReaborptionRateOverride().Load(in.LeftReabsorptionRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.LeftReabsorptionRateOverride(), GetLeftReaborptionRateOverride());
   } else {
     GetLeftReaborptionRateOverride().Invalidate();
   }
   if (in.RenalBloodFlowOverride().present()) {
-    GetRenalBloodFlowOverride().Load(in.RenalBloodFlowOverride().get());
+    io::PropertyIoDelegate::Marshall(in.RenalBloodFlowOverride(), GetRenalBloodFlowOverride());
   } else {
     GetRenalBloodFlowOverride().Invalidate();
   }
   if (in.RenalPlasmaFlowOverride().present()) {
-    GetRenalPlasmaFlowOverride().Load(in.RenalPlasmaFlowOverride().get());
+    io::PropertyIoDelegate::Marshall(in.RenalPlasmaFlowOverride(), GetRenalPlasmaFlowOverride());
   } else {
     GetRenalPlasmaFlowOverride().Invalidate();
   }
   if (in.RightAfferentArterioleResistanceOverride().present()) {
-    GetRightAfferentArterioleResistanceOverride().Load(in.RightAfferentArterioleResistanceOverride().get());
+    io::PropertyIoDelegate::Marshall(in.RightAfferentArterioleResistanceOverride(), GetRightAfferentArterioleResistanceOverride());
   } else {
     GetRightAfferentArterioleResistanceOverride().Invalidate();
   }
   if (in.RightGlomerularFiltrationRateOverride().present()) {
-    GetRightGlomerularFiltrationRateOverride().Load(in.RightGlomerularFiltrationRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.RightGlomerularFiltrationRateOverride(), GetRightGlomerularFiltrationRateOverride());
   } else {
     GetRightGlomerularFiltrationRateOverride().Invalidate();
   }
   if (in.RightReabsorptionRateOverride().present()) {
-    GetRightReaborptionRateOverride().Load(in.RightReabsorptionRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.RightReabsorptionRateOverride(), GetRightReaborptionRateOverride());
   } else {
     GetRightReaborptionRateOverride().Invalidate();
   }
   if (in.UrinationRateOverride().present()) {
-    GetUrinationRateOverride().Load(in.UrinationRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.UrinationRateOverride(), GetUrinationRateOverride());
   } else {
     GetUrinationRateOverride().Invalidate();
   }
   if (in.UrineProductionRateOverride().present()) {
-    GetUrineProductionRateOverride().Load(in.UrineProductionRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.UrineProductionRateOverride(), GetUrineProductionRateOverride());
   } else {
     GetUrineProductionRateOverride().Invalidate();
   }
   if (in.UrineOsmolalityOverride().present()) {
-    GetUrineOsmolalityOverride().Load(in.UrineOsmolalityOverride().get());
+    io::PropertyIoDelegate::Marshall(in.UrineOsmolalityOverride(), GetUrineOsmolalityOverride());
   } else {
     GetUrineOsmolalityOverride().Invalidate();
   }
   if (in.UrineVolumeOverride().present()) {
-    GetUrineVolumeOverride().Load(in.UrineVolumeOverride().get());
+    io::PropertyIoDelegate::Marshall(in.UrineVolumeOverride(), GetUrineVolumeOverride());
   } else {
     GetUrineVolumeOverride().Invalidate();
   }
   if (in.UrineUreaNitrogenConcentrationOverride().present()) {
-    GetUrineUreaNitrogenConcentrationOverride().Load(in.UrineUreaNitrogenConcentrationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.UrineUreaNitrogenConcentrationOverride(), GetUrineUreaNitrogenConcentrationOverride());
   } else {
     GetUrineUreaNitrogenConcentrationOverride().Invalidate();
   }
   if (in.ExpiratoryFlowOverride().present()) {
-    GetExpiratoryFlowOverride().Load(in.ExpiratoryFlowOverride().get());
+    io::PropertyIoDelegate::Marshall(in.ExpiratoryFlowOverride(), GetExpiratoryFlowOverride());
   } else {
     GetExpiratoryFlowOverride().Invalidate();
   }
   if (in.InspiratoryFlowOverride().present()) {
-    GetInspiratoryFlowOverride().Load(in.InspiratoryFlowOverride().get());
+    io::PropertyIoDelegate::Marshall(in.InspiratoryFlowOverride(), GetInspiratoryFlowOverride());
   } else {
     GetInspiratoryFlowOverride().Invalidate();
   }
   if (in.PulmonaryComplianceOverride().present()) {
-    GetPulmonaryComplianceOverride().Load(in.PulmonaryComplianceOverride().get());
+    io::PropertyIoDelegate::Marshall(in.PulmonaryComplianceOverride(), GetPulmonaryComplianceOverride());
   } else {
     GetPulmonaryComplianceOverride().Invalidate();
   }
   if (in.PulmonaryResistanceOverride().present()) {
-    GetPulmonaryResistanceOverride().Load(in.PulmonaryResistanceOverride().get());
+    io::PropertyIoDelegate::Marshall(in.PulmonaryResistanceOverride(), GetPulmonaryResistanceOverride());
   } else {
     GetPulmonaryResistanceOverride().Invalidate();
   }
   if (in.RespirationRateOverride().present()) {
-    GetRespirationRateOverride().Load(in.RespirationRateOverride().get());
+    io::PropertyIoDelegate::Marshall(in.RespirationRateOverride(), GetRespirationRateOverride());
   } else {
     GetRespirationRateOverride().Invalidate();
   }
   if (in.TidalVolumeOverride().present()) {
-    GetTidalVolumeOverride().Load(in.TidalVolumeOverride().get());
+    io::PropertyIoDelegate::Marshall(in.TidalVolumeOverride(), GetTidalVolumeOverride());
   } else {
     GetTidalVolumeOverride().Invalidate();
   }
   if (in.TargetPulmonaryVentilationOverride().present()) {
-    GetTargetPulmonaryVentilationOverride().Load(in.TargetPulmonaryVentilationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.TargetPulmonaryVentilationOverride(), GetTargetPulmonaryVentilationOverride());
   } else {
     GetTargetPulmonaryVentilationOverride().Invalidate();
   }
   if (in.TotalAlveolarVentilationOverride().present()) {
-    GetTotalAlveolarVentilationOverride().Load(in.TotalAlveolarVentilationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.TotalAlveolarVentilationOverride(), GetTotalAlveolarVentilationOverride());
   } else {
     GetTotalAlveolarVentilationOverride().Invalidate();
   }
   if (in.TotalLungVolumeOverride().present()) {
-    GetTotalLungVolumeOverride().Load(in.TotalLungVolumeOverride().get());
+    io::PropertyIoDelegate::Marshall(in.TotalLungVolumeOverride(), GetTotalLungVolumeOverride());
   } else {
     GetTotalLungVolumeOverride().Invalidate();
   }
   if (in.TotalPulmonaryVentilationOverride().present()) {
-    GetTotalPulmonaryVentilationOverride().Load(in.TotalPulmonaryVentilationOverride().get());
+    io::PropertyIoDelegate::Marshall(in.TotalPulmonaryVentilationOverride(), GetTotalPulmonaryVentilationOverride());
   } else {
     GetTotalPulmonaryVentilationOverride().Invalidate();
   }
   if (in.ExtravascularFluidVolumeOverride().present()) {
-    GetExtravascularFluidVolumeOverride().Load(in.ExtravascularFluidVolumeOverride().get());
+    io::PropertyIoDelegate::Marshall(in.ExtravascularFluidVolumeOverride(), GetExtravascularFluidVolumeOverride());
   } else {
     GetExtravascularFluidVolumeOverride().Invalidate();
   }
   if (in.IntracellularFluidVolumeOverride().present()) {
-    GetIntracellularFluidVolumeOverride().Load(in.IntracellularFluidVolumeOverride().get());
+    io::PropertyIoDelegate::Marshall(in.IntracellularFluidVolumeOverride(), GetIntracellularFluidVolumeOverride());
   } else {
     GetIntracellularFluidVolumeOverride().Invalidate();
   }
   if (in.LiverGlycogenOverride().present()) {
-    GetLiverGlycogenOverride().Load(in.LiverGlycogenOverride().get());
+    io::PropertyIoDelegate::Marshall(in.LiverGlycogenOverride(), GetLiverGlycogenOverride());
   } else {
     GetLiverGlycogenOverride().Invalidate();
   }
   if (in.MuscleGlycogenOverride().present()) {
-    GetMuscleGlycogenOverride().Load(in.MuscleGlycogenOverride().get());
+    io::PropertyIoDelegate::Marshall(in.MuscleGlycogenOverride(), GetMuscleGlycogenOverride());
   } else {
     GetMuscleGlycogenOverride().Invalidate();
   }
   if (in.StoredProteinOverride().present()) {
-    GetStoredProteinOverride().Load(in.StoredProteinOverride().get());
+    io::PropertyIoDelegate::Marshall(in.StoredProteinOverride(), GetStoredProteinOverride());
   } else {
     GetStoredProteinOverride().Invalidate();
   }
   if (in.StoredFatOverride().present()) {
-    GetStoredFatOverride().Load(in.StoredFatOverride().get());
+    io::PropertyIoDelegate::Marshall(in.StoredFatOverride(), GetStoredFatOverride());
   } else {
     GetStoredFatOverride().Invalidate();
   }
@@ -543,194 +544,192 @@ void SEOverride::Unload(CDM::OverrideData& data) const
     data.Conformant(m_OverrideConformance);
   }
   if (HasArterialPHOverride()) {
-    data.ArterialBloodPHOverride(std::unique_ptr<CDM::ScalarData>(m_ArterialPHOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ArterialPHOR, data.ArterialBloodPHOverride());
   }
   if (HasVenousPHOverride()) {
-    data.VenousBloodPHOverride(std::unique_ptr<CDM::ScalarData>(m_VenousPHOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_VenousPHOR, data.VenousBloodPHOverride());
   }
   if (HasCO2SaturationOverride()) {
-    data.CarbonDioxideSaturationOverride(std::unique_ptr<CDM::ScalarFractionData>(m_CO2SaturationOR->Unload()));
-  }
+    io::PropertyIoDelegate::UnMarshall(*m_CO2SaturationOR, data.CarbonDioxideSaturationOverride()); }
   if (HasCOSaturationOverride()) {
-    data.CarbonMonoxideSaturationOverride(std::unique_ptr<CDM::ScalarFractionData>(m_COSaturationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_COSaturationOR, data.CarbonMonoxideSaturationOverride());
   }
   if (HasO2SaturationOverride()) {
-    data.OxygenSaturationOverride(std::unique_ptr<CDM::ScalarFractionData>(m_O2SaturationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_O2SaturationOR, data.OxygenSaturationOverride());
   }
   if (HasPhosphateOverride()) {
-    data.PhosphateOverride(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_PhosphateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PhosphateOR, data.PhosphateOverride());
   }
   if (HasWBCCountOverride()) {
-    data.WhiteBloodCellCountOverride(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_WBCCountOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_WBCCountOR, data.WhiteBloodCellCountOverride());
   }
   if (HasTotalBilirubinOverride()) {
-    data.TotalBilirubinOverride(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_TotalBilirubinOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TotalBilirubinOR, data.TotalBilirubinOverride());
   }
   if (HasCalciumConcentrationOverride()) {
-    data.CalciumConcentrationOverride(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_CalciumConcentrationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CalciumConcentrationOR, data.CalciumConcentrationOverride());
   }
   if (HasGlucoseConcentrationOverride()) {
-    data.GlucoseConcentrationOverride(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_GlucoseConcentrationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_GlucoseConcentrationOR, data.GlucoseConcentrationOverride());
   }
   if (HasLactateConcentrationOverride()) {
-    data.LactateConcentrationOverride(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_LactateConcentrationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LactateConcentrationOR, data.LactateConcentrationOverride());
   }
   if (HasPotassiumConcentrationOverride()) {
-    data.PotassiumConcentrationOverride(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_PotassiumConcentrationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PotassiumConcentrationOR, data.PotassiumConcentrationOverride());
   }
   if (HasSodiumConcentrationOverride()) {
-    data.SodiumConcentrationOverride(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_SodiumConcentrationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SodiumConcentrationOR, data.SodiumConcentrationOverride());
   }
   if (HasBloodVolumeOverride()) {
-    data.BloodVolumeOverride(std::unique_ptr<CDM::ScalarVolumeData>(m_BloodVolumeOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BloodVolumeOR, data.BloodVolumeOverride());
   }
   if (HasCardiacOutputOverride()) {
-    data.CardiacOutputOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_CardiacOutputOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CardiacOutputOR, data.CardiacOutputOverride());
   }
   if (HasDiastolicArterialPressureOverride()) {
-    data.DiastolicArterialPressureOverride(std::unique_ptr<CDM::ScalarPressureData>(m_DiastolicArtPressureOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DiastolicArtPressureOR, data.DiastolicArterialPressureOverride());
   }
   if (HasMAPOverride()) {
-    data.MeanArterialPressureOverride(std::unique_ptr<CDM::ScalarPressureData>(m_MeanArtPressureOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MeanArtPressureOR, data.MeanArterialPressureOverride());
   }
   if (HasHeartRateOverride()) {
-    data.HeartRateOverride(std::unique_ptr<CDM::ScalarFrequencyData>(m_HeartRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_HeartRateOR, data.HeartRateOverride());
   }
   if (HasHeartStrokeVolumeOverride()) {
-    data.HeartStrokeVolumeOverride(std::unique_ptr<CDM::ScalarVolumeData>(m_HeartStrokeVolumeOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_HeartStrokeVolumeOR, data.HeartStrokeVolumeOverride());
   }
   if (HasSystolicArterialPressureOverride()) {
-    data.SystolicArterialPressureOverride(std::unique_ptr<CDM::ScalarPressureData>(m_SystolicArtPressureOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SystolicArtPressureOR, data.SystolicArterialPressureOverride());
   }
-  if (HasInsulinSynthesisRateOverride())
-  {
-    data.InsulinSynthesisRateOverride(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_InsulinSynthesisRateOR->Unload()));
+  if (HasInsulinSynthesisRateOverride()){
+    io::PropertyIoDelegate::UnMarshall(*m_InsulinSynthesisRateOR, data.InsulinSynthesisRateOverride());
   }
   if (HasGlucagonSynthesisRateOverride()) {
-    data.GlucagonSynthesisRateOverride(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_GlucagonSynthesisRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_GlucagonSynthesisRateOR, data.GlucagonSynthesisRateOverride());
   }
   if (HasAchievedExerciseLevelOverride()) {
-    data.AchievedExerciseLevelOverride(std::unique_ptr<CDM::ScalarFractionData>(m_AcheivedExerciseLevelOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_AcheivedExerciseLevelOR, data.AchievedExerciseLevelOverride());
   }
   if (HasCoreTemperatureOverride()) {
-    data.CoreTemperatureOverride(std::unique_ptr<CDM::ScalarTemperatureData>(m_CoreTemperatureOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CoreTemperatureOR, data.CoreTemperatureOverride());
   }
   if (HasCreatinineProductionRateOverride()) {
-    data.CreatinineProductionRateOverride(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_CreatinineProductionRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CreatinineProductionRateOR, data.CreatinineProductionRateOverride());
   }
   if (HasExerciseMeanArterialPressureDeltaOverride()) {
-    data.ExerciseMeanArterialPressureDeltaOverride(std::unique_ptr<CDM::ScalarPressureData>(m_ExerciseMeanArterialPressureDeltaOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ExerciseMeanArterialPressureDeltaOR, data.ExerciseMeanArterialPressureDeltaOverride());
   }
   if (HasFatigueLevelOverride()) {
-    data.FatigueLevelOverride(std::unique_ptr<CDM::ScalarFractionData>(m_FatigueLevelOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_FatigueLevelOR, data.FatigueLevelOverride());
   }
   if (HasLactateProductionRateOverride()) {
-    data.LactateProductionRateOverride(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_LactateProductionRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LactateProductionRateOR, data.LactateProductionRateOverride());
   }
   if (HasSkinTemperatureOverride()) {
-    data.SkinTemperatureOverride(std::unique_ptr<CDM::ScalarTemperatureData>(m_SkinTemperatureOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SkinTemperatureOR, data.SkinTemperatureOverride());
   }
   if (HasSweatRateOverride()) {
-    data.SweatRateOverride(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_SweatRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SweatRateOR, data.SweatRateOverride());
   }
   if (HasTotalMetabolicOverride()) {
-    data.TotalMetabolicRateOverride(std::unique_ptr<CDM::ScalarPowerData>(m_TotalMetabolicOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TotalMetabolicOR, data.TotalMetabolicRateOverride());
   }
   if (HasTotalWorkRateLevelOverride()) {
-    data.TotalWorkRateLevelOverride(std::unique_ptr<CDM::ScalarFractionData>(m_TotalWorkRateLevelOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TotalWorkRateLevelOR, data.TotalWorkRateLevelOverride());
   }
   if (HasSodiumLostToSweatOverride()) {
-    data.SodiumLostToSweatOverride(std::unique_ptr<CDM::ScalarMassData>(m_SodiumLostToSweatOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SodiumLostToSweatOR, data.SodiumLostToSweatOverride());
   }
   if (HasPotassiumLostToSweatOverride()) {
-    data.PotassiumLostToSweatOverride(std::unique_ptr<CDM::ScalarMassData>(m_PotassiumLostToSweatOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PotassiumLostToSweatOR, data.PotassiumLostToSweatOverride());
   }
   if (HasChlorideLostToSweatOverride()) {
-    data.ChlorideLostToSweatOverride(std::unique_ptr<CDM::ScalarMassData>(m_ChlorideLostToSweatOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ChlorideLostToSweatOR, data.ChlorideLostToSweatOverride());
   }
   if (HasLeftAfferentArterioleResistanceOverride()) {
-    data.LeftAfferentArterioleResistanceOverride(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_LAfferentArterioleResistOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LAfferentArterioleResistOR, data.LeftAfferentArterioleResistanceOverride());
   }
   if (HasLeftGlomerularFiltrationRateOverride()) {
-    data.LeftGlomerularFiltrationRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m__LeftGlomerularFiltrationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m__LeftGlomerularFiltrationOR, data.LeftGlomerularFiltrationRateOverride());;
   }
   if (HasLeftReaborptionRateOverride()) {
-    data.LeftReabsorptionRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_LReabsorptionRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LReabsorptionRateOR, data.LeftReabsorptionRateOverride());
   }
   if (HasRenalBloodFlowOverride()) {
-    data.RenalBloodFlowOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RenalBloodFlowOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RenalBloodFlowOR, data.RenalBloodFlowOverride());
   }
   if (HasRenalPlasmaFlowOverride()) {
-    data.RenalPlasmaFlowOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RenalPlasmaOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RenalPlasmaOR, data.RenalPlasmaFlowOverride());
   }
   if (HasRightAfferentArterioleResistanceOverride()) {
-    data.RightAfferentArterioleResistanceOverride(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RAfferentArterioleResistOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RAfferentArterioleResistOR, data.RightAfferentArterioleResistanceOverride());
   }
   if (HasRightGlomerularFiltrationRateOverride()) {
-    data.RightGlomerularFiltrationRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m__RightGlomerularFiltrationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m__RightGlomerularFiltrationOR, data.RightGlomerularFiltrationRateOverride());
   }
   if (HasRightReaborptionRateOverride()) {
-    data.RightReabsorptionRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RReabsorptionRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RReabsorptionRateOR, data.RightReabsorptionRateOverride());
   }
   if (HasUrineProductionRateOverride()) {
-    data.UrineProductionRateOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_UrineProductionRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UrineProductionRateOR, data.UrineProductionRateOverride());
   }
   if (HasUrineOsmolalityOverride()) {
-    data.UrineOsmolalityOverride(std::unique_ptr<CDM::ScalarOsmolalityData>(m_UrineOsmolalityOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UrineOsmolalityOR, data.UrineOsmolalityOverride());
   }
   if (HasUrineVolumeOverride()) {
-    data.UrineVolumeOverride(std::unique_ptr<CDM::ScalarVolumeData>(m_UrineVolumeOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UrineVolumeOR, data.UrineVolumeOverride());
   }
   if (HasUrineUreaNitrogenConcentrationOverride()) {
-    data.UrineUreaNitrogenConcentrationOverride(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_UrineUreaNitrogenConcentrationOverrideOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UrineUreaNitrogenConcentrationOverrideOR, data.UrineUreaNitrogenConcentrationOverride());
   }
   if (HasExpiratoryFlowOverride()) {
-    data.ExpiratoryFlowOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_ExpiratoryFlowOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ExpiratoryFlowOR, data.ExpiratoryFlowOverride());
   }
   if (HasInspiratoryFlowOverride()) {
-    data.InspiratoryFlowOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_InspiratoryFlowOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_InspiratoryFlowOR, data.InspiratoryFlowOverride());
   }
   if (HasPulmonaryComplianceOverride()) {
-    data.PulmonaryComplianceOverride(std::unique_ptr<CDM::ScalarFlowComplianceData>(m_PulmonaryComplianceOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PulmonaryComplianceOR, data.PulmonaryComplianceOverride());
   }
   if (HasPulmonaryResistanceOverride()) {
-    data.PulmonaryResistanceOverride(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_PulmonaryResistanceOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PulmonaryResistanceOR, data.PulmonaryResistanceOverride());
   }
   if (HasRespirationRateOverride()) {
-    data.RespirationRateOverride(std::unique_ptr<CDM::ScalarFrequencyData>(m_RespirationRateOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RespirationRateOR, data.RespirationRateOverride());
   }
   if (HasTidalVolumeOverride()) {
-    data.TidalVolumeOverride(std::unique_ptr<CDM::ScalarVolumeData>(m_TidalVolumeOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TidalVolumeOR, data.TidalVolumeOverride());
   }
   if (HasTargetPulmonaryVentilationOverride()) {
-    data.TargetPulmonaryVentilationOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_TargetPulmonaryVentilationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TargetPulmonaryVentilationOR, data.TargetPulmonaryVentilationOverride());
   }
   if (HasTotalAlveolarVentilationOverride()) {
-    data.TotalAlveolarVentilationOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_TotalAlveolarVentilationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TotalAlveolarVentilationOR, data.TotalAlveolarVentilationOverride());
   }
   if (HasTotalLungVolumeOverride()) {
-    data.TotalLungVolumeOverride(std::unique_ptr<CDM::ScalarVolumeData>(m_TotalLungVolumeOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TotalLungVolumeOR, data.TotalLungVolumeOverride());
   }
   if (HasTotalPulmonaryVentilationOverride()) {
-    data.TotalPulmonaryVentilationOverride(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_TotalPulmonaryVentilationOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TotalPulmonaryVentilationOR, data.TotalPulmonaryVentilationOverride());
   }
   if (HasExtravascularFluidVolumeOverride()) {
-    data.ExtravascularFluidVolumeOverride(std::unique_ptr<CDM::ScalarVolumeData>(m_ExtravascularFluidVolumeOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ExtravascularFluidVolumeOR, data.ExtravascularFluidVolumeOverride());
   }
   if (HasIntracellularFluidVolumeOverride()) {
-    data.IntracellularFluidVolumeOverride(std::unique_ptr<CDM::ScalarVolumeData>(m_IntracellularFluidVolumeOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_IntracellularFluidVolumeOR, data.IntracellularFluidVolumeOverride());
   }
   if (HasLiverGlycogenOverride()) {
-    data.LiverGlycogenOverride(std::unique_ptr<CDM::ScalarMassData>(m_LiverGlycogenOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LiverGlycogenOR, data.LiverGlycogenOverride());
   }
   if (HasMuscleGlycogenOverride()) {
-    data.MuscleGlycogenOverride(std::unique_ptr<CDM::ScalarMassData>(m_MuscleGlycogenOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MuscleGlycogenOR, data.MuscleGlycogenOverride());
   }
   if (HasStoredProteinOverride()) {
-    data.StoredProteinOverride(std::unique_ptr<CDM::ScalarMassData>(m_StoredProteinOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_StoredProteinOR, data.StoredProteinOverride());
   }
   if (HasStoredFatOverride()) {
-    data.StoredFatOverride(std::unique_ptr<CDM::ScalarMassData>(m_StoredFatOR->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_StoredFatOR, data.StoredFatOverride());
   }
 }
 

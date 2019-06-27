@@ -47,6 +47,22 @@
 namespace biogears {
 namespace io {
   //class SEDecimalFormat
+  //template <typename SE, typename XSD>  option
+  void PropertyIoDelegate::Marshall(xsd::cxx::tree::optional<CDM::DecimalFormatData> const& option_in, SEDecimalFormat& out)
+  {
+    if (!option_in.present()) {
+      out.Reset();
+    } else {
+      Marshall(option_in.get(), out);
+    }
+  }
+  void PropertyIoDelegate::UnMarshall(SEDecimalFormat const& in, xsd::cxx::tree::optional<CDM::DecimalFormatData>& option_out)
+  {
+    auto item = std::make_unique<CDM::DecimalFormatData>();
+    UnMarshall(in, *item);
+    option_out.set(*item);
+  }
+
   void PropertyIoDelegate::Marshall(const CDM::DecimalFormatData& in, SEDecimalFormat& out)
   {
     out.Reset();
@@ -77,9 +93,7 @@ namespace io {
   //class SEFunctionElectricPotentialVsTime-------------------------------------------------
   void PropertyIoDelegate::Marshall(const CDM::FunctionElectricPotentialVsTimeData& in, SEFunctionElectricPotentialVsTime& out)
   {
-    PropertyIoDelegate::Marshall(static_cast<CDM::FunctionData const&>(in), static_cast<SEFunction&>(out));
-    if (out.SEFunction::Load(in))
-      throw CommonDataModelException("Unable to Marshall SEFunctionElectricPotentialVsTime with Given");
+    PropertyIoDelegate::Marshall(static_cast<CDM::FunctionData const&>(in), static_cast<SEFunction&>(out));     
     out.m_TimeUnit = &TimeUnit::GetCompoundUnit(in.IndependentUnit().get());
     out.m_ElectricPotentialUnit = &ElectricPotentialUnit::GetCompoundUnit(in.DependentUnit().get());
   }
@@ -117,8 +131,6 @@ namespace io {
   void PropertyIoDelegate::Marshall(const CDM::FunctionVolumeVsTimeData& in, SEFunctionVolumeVsTime& out)
   {
     PropertyIoDelegate::Marshall(static_cast<CDM::FunctionData const&>(in), static_cast<SEFunction&>(out));
-    if (out.SEFunction::Load(in))
-      throw CommonDataModelException("Unable to Marshall SEFunctionElectricPotentialVsTime with Given");
     out.m_TimeUnit = &TimeUnit::GetCompoundUnit(in.IndependentUnit().get());
     out.m_VolumeUnit = &VolumeUnit::GetCompoundUnit(in.DependentUnit().get());
   }
@@ -132,8 +144,6 @@ namespace io {
   void PropertyIoDelegate::Marshall(const CDM::HistogramFractionVsLengthData& in, SEHistogramFractionVsLength& out)
   {
     PropertyIoDelegate::Marshall(static_cast<CDM::HistogramData const&>(in), static_cast<SEHistogram&>(out));
-    if (out.SEHistogram::Load(in))
-      throw CommonDataModelException("Unable to Marshall SEFunctionElectricPotentialVsTime with Given");
     out.m_LengthUnit = &LengthUnit::GetCompoundUnit(in.IndependentUnit().get());
    
   }
@@ -373,8 +383,7 @@ namespace io {
   void PropertyIoDelegate::Marshall(const CDM::ScalarData& in, SEScalar& out)
   {
     READ_ONLY_CHECK()
-    out.Clear();
-    out.SEProperty::Load(in);
+    out.Clear();;
     out.m_value = in.value();
     if (in.unit().present()) {
       std::string u = in.unit().get();

@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarVolumePerTimePressure VolumePerTimePressure = biogears::SEScalarVolumePerTimePressure();
-  auto ptr = VolumePerTimePressure.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::VolumePerTimePressureUnit::IsValidUnit("L/s mmHg");

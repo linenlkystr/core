@@ -38,6 +38,5 @@ public:
   SEScalarAmount() = default;
   virtual ~SEScalarAmount() = default;
 
-  virtual CDM::ScalarAmountData* Unload() const override;
 };
 }

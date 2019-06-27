@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstanceConcentration::SESubstanceConcentration(SESubstance& substance)
   : Loggable(substance.GetLogger())
@@ -36,7 +37,7 @@ void SESubstanceConcentration::Clear()
 bool SESubstanceConcentration::Load(const CDM::SubstanceConcentrationData& in)
 {
   Clear();
-  GetConcentration().Load(in.Concentration());
+  io::PropertyIoDelegate::Marshall(in.Concentration(), GetConcentration());
   return true;
 }
 
@@ -51,7 +52,7 @@ void SESubstanceConcentration::Unload(CDM::SubstanceConcentrationData& data) con
 {
   data.Name(m_Substance.GetName());
   if (m_Concentration != nullptr)
-    data.Concentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_Concentration->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Concentration, data.Concentration());
 }
 
 bool SESubstanceConcentration::HasConcentration() const

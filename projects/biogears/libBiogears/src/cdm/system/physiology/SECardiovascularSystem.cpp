@@ -24,6 +24,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 
   constexpr char idArterialPressure[] = "ArterialPressure";
@@ -208,65 +209,65 @@ bool SECardiovascularSystem::Load(const CDM::CardiovascularSystemData& in)
   SESystem::Load(in);
 
   if (in.ArterialPressure().present())
-    GetArterialPressure().Load(in.ArterialPressure().get());
+    io::PropertyIoDelegate::Marshall(in.ArterialPressure(), GetArterialPressure());
   if (in.BloodVolume().present())
-    GetBloodVolume().Load(in.BloodVolume().get());
+      io::PropertyIoDelegate::Marshall(in.BloodVolume(), GetBloodVolume());
   if (in.CardiacIndex().present())
-    GetCardiacIndex().Load(in.CardiacIndex().get());
+      io::PropertyIoDelegate::Marshall(in.CardiacIndex(), GetCardiacIndex());
   if (in.CardiacOutput().present())
-    GetCardiacOutput().Load(in.CardiacOutput().get());
+      io::PropertyIoDelegate::Marshall(in.CardiacOutput(), GetCardiacOutput());
   if (in.CentralVenousPressure().present())
-    GetCentralVenousPressure().Load(in.CentralVenousPressure().get());
+      io::PropertyIoDelegate::Marshall(in.CentralVenousPressure(), GetCentralVenousPressure());
   if (in.CerebralBloodFlow().present())
-    GetCerebralBloodFlow().Load(in.CerebralBloodFlow().get());
+      io::PropertyIoDelegate::Marshall(in.CerebralBloodFlow(), GetCerebralBloodFlow());
   if (in.CerebralPerfusionPressure().present())
-    GetCerebralPerfusionPressure().Load(in.CerebralPerfusionPressure().get());
+      io::PropertyIoDelegate::Marshall(in.CerebralPerfusionPressure(), GetCerebralPerfusionPressure());
   if (in.DiastolicArterialPressure().present())
-    GetDiastolicArterialPressure().Load(in.DiastolicArterialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.DiastolicArterialPressure(), GetDiastolicArterialPressure());
   if (in.HeartEjectionFraction().present())
-    GetHeartEjectionFraction().Load(in.HeartEjectionFraction().get());
+      io::PropertyIoDelegate::Marshall(in.HeartEjectionFraction(), GetHeartEjectionFraction());
   if (in.HeartRate().present())
-    GetHeartRate().Load(in.HeartRate().get());
+      io::PropertyIoDelegate::Marshall(in.HeartRate(), GetHeartRate());
   if (in.HeartRhythm().present())
     SetHeartRhythm(in.HeartRhythm().get());
   if (in.HeartStrokeVolume().present())
-    GetHeartStrokeVolume().Load(in.HeartStrokeVolume().get());
+      io::PropertyIoDelegate::Marshall(in.HeartStrokeVolume(), GetHeartStrokeVolume());
   if (in.IntracranialPressure().present())
-    GetIntracranialPressure().Load(in.IntracranialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.IntracranialPressure(), GetIntracranialPressure());
   if (in.MeanArterialPressure().present())
-    GetMeanArterialPressure().Load(in.MeanArterialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.MeanArterialPressure(), GetMeanArterialPressure());
   if (in.MeanArterialCarbonDioxidePartialPressure().present())
-    GetMeanArterialCarbonDioxidePartialPressure().Load(in.MeanArterialCarbonDioxidePartialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.MeanArterialCarbonDioxidePartialPressure(), GetMeanArterialCarbonDioxidePartialPressure());
   if (in.MeanArterialCarbonDioxidePartialPressureDelta().present())
-    GetMeanArterialCarbonDioxidePartialPressureDelta().Load(in.MeanArterialCarbonDioxidePartialPressureDelta().get());
+      io::PropertyIoDelegate::Marshall(in.MeanArterialCarbonDioxidePartialPressureDelta(), GetMeanArterialCarbonDioxidePartialPressureDelta());
   if (in.MeanCentralVenousPressure().present())
-    GetMeanCentralVenousPressure().Load(in.MeanCentralVenousPressure().get());
+      io::PropertyIoDelegate::Marshall(in.MeanCentralVenousPressure(), GetMeanCentralVenousPressure());
   if (in.MeanSkinFlow().present())
-    GetMeanSkinFlow().Load(in.MeanSkinFlow().get());
+      io::PropertyIoDelegate::Marshall(in.MeanSkinFlow(), GetMeanSkinFlow());
   if (in.PulmonaryArterialPressure().present())
-    GetPulmonaryArterialPressure().Load(in.PulmonaryArterialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonaryArterialPressure(), GetPulmonaryArterialPressure());
   if (in.PulmonaryCapillariesWedgePressure().present())
-    GetPulmonaryCapillariesWedgePressure().Load(in.PulmonaryCapillariesWedgePressure().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonaryCapillariesWedgePressure(), GetPulmonaryCapillariesWedgePressure());
   if (in.PulmonaryDiastolicArterialPressure().present())
-    GetPulmonaryDiastolicArterialPressure().Load(in.PulmonaryDiastolicArterialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonaryDiastolicArterialPressure(), GetPulmonaryDiastolicArterialPressure());
   if (in.PulmonaryMeanArterialPressure().present())
-    GetPulmonaryMeanArterialPressure().Load(in.PulmonaryMeanArterialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonaryMeanArterialPressure(), GetPulmonaryMeanArterialPressure());
   if (in.PulmonaryMeanCapillaryFlow().present())
-    GetPulmonaryMeanCapillaryFlow().Load(in.PulmonaryMeanCapillaryFlow().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonaryMeanCapillaryFlow(), GetPulmonaryMeanCapillaryFlow());
   if (in.PulmonaryMeanShuntFlow().present())
-    GetPulmonaryMeanShuntFlow().Load(in.PulmonaryMeanShuntFlow().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonaryMeanShuntFlow(), GetPulmonaryMeanShuntFlow());
   if (in.PulmonarySystolicArterialPressure().present())
-    GetPulmonarySystolicArterialPressure().Load(in.PulmonarySystolicArterialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonarySystolicArterialPressure(), GetPulmonarySystolicArterialPressure());
   if (in.PulmonaryVascularResistance().present())
-    GetPulmonaryVascularResistance().Load(in.PulmonaryVascularResistance().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonaryVascularResistance(), GetPulmonaryVascularResistance());
   if (in.PulmonaryVascularResistanceIndex().present())
-    GetPulmonaryVascularResistanceIndex().Load(in.PulmonaryVascularResistanceIndex().get());
+      io::PropertyIoDelegate::Marshall(in.PulmonaryVascularResistanceIndex(), GetPulmonaryVascularResistanceIndex());
   if (in.PulsePressure().present())
-    GetPulsePressure().Load(in.PulsePressure().get());
+      io::PropertyIoDelegate::Marshall(in.PulsePressure(), GetPulsePressure());
   if (in.SystemicVascularResistance().present())
-    GetSystemicVascularResistance().Load(in.SystemicVascularResistance().get());
+      io::PropertyIoDelegate::Marshall(in.SystemicVascularResistance(), GetSystemicVascularResistance());
   if (in.SystolicArterialPressure().present())
-    GetSystolicArterialPressure().Load(in.SystolicArterialPressure().get());
+      io::PropertyIoDelegate::Marshall(in.SystolicArterialPressure(), GetSystolicArterialPressure());
 
   return true;
 }
@@ -285,65 +286,65 @@ void SECardiovascularSystem::Unload(CDM::CardiovascularSystemData& data) const
   SESystem::Unload(data);
 
   if (m_ArterialPressure != nullptr)
-    data.ArterialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_ArterialPressure->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ArterialPressure, data.ArterialPressure());
   if (m_BloodVolume != nullptr)
-    data.BloodVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_BloodVolume->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_BloodVolume, data.BloodVolume());
   if (m_CardiacIndex != nullptr)
-    data.CardiacIndex(std::unique_ptr<CDM::ScalarVolumePerTimeAreaData>(m_CardiacIndex->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CardiacIndex, data.CardiacIndex());
   if (m_CardiacOutput != nullptr)
-    data.CardiacOutput(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_CardiacOutput->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CardiacOutput, data.CardiacOutput());
   if (m_CentralVenousPressure != nullptr)
-    data.CentralVenousPressure(std::unique_ptr<CDM::ScalarPressureData>(m_CentralVenousPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CentralVenousPressure, data.CentralVenousPressure());
   if (m_CerebralBloodFlow != nullptr)
-    data.CerebralBloodFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_CerebralBloodFlow->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CerebralBloodFlow, data.CerebralBloodFlow());
   if (m_CerebralPerfusionPressure != nullptr)
-    data.CerebralPerfusionPressure(std::unique_ptr<CDM::ScalarPressureData>(m_CerebralPerfusionPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CerebralPerfusionPressure, data.CerebralPerfusionPressure());
   if (m_DiastolicArterialPressure != nullptr)
-    data.DiastolicArterialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_DiastolicArterialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_DiastolicArterialPressure, data.DiastolicArterialPressure());
   if (m_HeartEjectionFraction != nullptr)
-    data.HeartEjectionFraction(std::unique_ptr<CDM::ScalarFractionData>(m_HeartEjectionFraction->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_HeartEjectionFraction, data.HeartEjectionFraction());
   if (m_HeartRate != nullptr)
-    data.HeartRate(std::unique_ptr<CDM::ScalarFrequencyData>(m_HeartRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_HeartRate, data.HeartRate());
   if (HasHeartRhythm())
     data.HeartRhythm(m_HeartRhythm);
   if (m_HeartStrokeVolume != nullptr)
-    data.HeartStrokeVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_HeartStrokeVolume->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_HeartStrokeVolume, data.HeartStrokeVolume());
   if (m_IntracranialPressure != nullptr)
-    data.IntracranialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_IntracranialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_IntracranialPressure, data.IntracranialPressure());
   if (m_MeanArterialPressure != nullptr)
-    data.MeanArterialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_MeanArterialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MeanArterialPressure, data.MeanArterialPressure());
   if (m_MeanArterialCarbonDioxidePartialPressure != nullptr)
-    data.MeanArterialCarbonDioxidePartialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_MeanArterialCarbonDioxidePartialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MeanArterialCarbonDioxidePartialPressure, data.MeanArterialCarbonDioxidePartialPressure());
   if (m_MeanArterialCarbonDioxidePartialPressureDelta != nullptr)
-    data.MeanArterialCarbonDioxidePartialPressureDelta(std::unique_ptr<CDM::ScalarPressureData>(m_MeanArterialCarbonDioxidePartialPressureDelta->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MeanArterialCarbonDioxidePartialPressureDelta, data.MeanArterialCarbonDioxidePartialPressureDelta());
   if (m_MeanCentralVenousPressure != nullptr)
-    data.MeanCentralVenousPressure(std::unique_ptr<CDM::ScalarPressureData>(m_MeanCentralVenousPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MeanCentralVenousPressure, data.MeanCentralVenousPressure());
   if (m_MeanSkinFlow != nullptr)
-    data.MeanSkinFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_MeanSkinFlow->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MeanSkinFlow, data.MeanSkinFlow());
   if (m_PulmonaryArterialPressure != nullptr)
-    data.PulmonaryArterialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonaryArterialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryArterialPressure, data.PulmonaryArterialPressure());
   if (m_PulmonaryCapillariesWedgePressure != nullptr)
-    data.PulmonaryCapillariesWedgePressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonaryCapillariesWedgePressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryCapillariesWedgePressure, data.PulmonaryCapillariesWedgePressure());
   if (m_PulmonaryDiastolicArterialPressure != nullptr)
-    data.PulmonaryDiastolicArterialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonaryDiastolicArterialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryDiastolicArterialPressure, data.PulmonaryDiastolicArterialPressure());
   if (m_PulmonaryMeanArterialPressure != nullptr)
-    data.PulmonaryMeanArterialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonaryMeanArterialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryMeanArterialPressure, data.PulmonaryMeanArterialPressure());
   if (m_PulmonaryMeanCapillaryFlow != nullptr)
-    data.PulmonaryMeanCapillaryFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_PulmonaryMeanCapillaryFlow->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryMeanCapillaryFlow, data.PulmonaryMeanCapillaryFlow());
   if (m_PulmonaryMeanShuntFlow != nullptr)
-    data.PulmonaryMeanShuntFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_PulmonaryMeanShuntFlow->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryMeanShuntFlow, data.PulmonaryMeanShuntFlow());
   if (m_PulmonarySystolicArterialPressure != nullptr)
-    data.PulmonarySystolicArterialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonarySystolicArterialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonarySystolicArterialPressure, data.PulmonarySystolicArterialPressure());
   if (m_PulmonaryVascularResistance != nullptr)
-    data.PulmonaryVascularResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_PulmonaryVascularResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryVascularResistance, data.PulmonaryVascularResistance());
   if (m_PulmonaryVascularResistanceIndex != nullptr)
-    data.PulmonaryVascularResistanceIndex(std::unique_ptr<CDM::ScalarPressureTimePerVolumeAreaData>(m_PulmonaryVascularResistanceIndex->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryVascularResistanceIndex, data.PulmonaryVascularResistanceIndex());
   if (m_PulsePressure != nullptr)
-    data.PulsePressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulsePressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulsePressure, data.PulsePressure());
   if (m_SystemicVascularResistance != nullptr)
-    data.SystemicVascularResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_SystemicVascularResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_SystemicVascularResistance, data.SystemicVascularResistance());
   if (m_SystolicArterialPressure != nullptr)
-    data.SystolicArterialPressure(std::unique_ptr<CDM::ScalarPressureData>(m_SystolicArterialPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_SystolicArterialPressure, data.SystolicArterialPressure());
 }
 //-------------------------------------------------------------------------------
 

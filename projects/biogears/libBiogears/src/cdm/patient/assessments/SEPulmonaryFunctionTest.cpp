@@ -18,6 +18,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEPulmonaryFunctionTest::SEPulmonaryFunctionTest(Logger* logger)
   : SEPatientAssessment(logger)
@@ -88,7 +89,33 @@ void SEPulmonaryFunctionTest::Reset()
 bool SEPulmonaryFunctionTest::Load(const CDM::PulmonaryFunctionTestData& in)
 {
   SEPatientAssessment::Load(in);
-  // TODO
+  if (in.ExpiratoryReserveVolume().present())
+    io::PropertyIoDelegate::Marshall(in.ExpiratoryReserveVolume(), GetExpiratoryReserveVolume());
+  if (in.ForcedVitalCapacity().present())
+    io::PropertyIoDelegate::Marshall(in.ForcedVitalCapacity(), GetForcedVitalCapacity());
+  if (in.ForcedExpiratoryVolume().present())
+    io::PropertyIoDelegate::Marshall(in.ForcedExpiratoryVolume(), GetForcedExpiratoryVolume());
+  if (in.ForcedExpiratoryFlow().present())
+    io::PropertyIoDelegate::Marshall(in.ForcedExpiratoryFlow(), GetForcedExpiratoryFlow());
+  if (in.FunctionalResidualCapacity().present())
+    io::PropertyIoDelegate::Marshall(in.FunctionalResidualCapacity(), GetFunctionalResidualCapacity());
+  if (in.InspiratoryReserveVolume().present())
+    io::PropertyIoDelegate::Marshall(in.InspiratoryReserveVolume(), GetInspiratoryReserveVolume());
+  if (in.MaximumVoluntaryVentilation().present())
+    io::PropertyIoDelegate::Marshall(in.MaximumVoluntaryVentilation(), GetMaximumVoluntaryVentilation());
+  if (in.PeakExpiratoryFlow().present())
+    io::PropertyIoDelegate::Marshall(in.PeakExpiratoryFlow(), GetPeakExpiratoryFlow());
+  if (in.ResidualVolume().present())
+    io::PropertyIoDelegate::Marshall(in.ResidualVolume(), GetResidualVolume());
+  if (in.SlowVitalCapacity().present())
+    io::PropertyIoDelegate::Marshall(in.SlowVitalCapacity(), GetSlowVitalCapacity());
+  if (in.TotalLungCapacity().present())
+    io::PropertyIoDelegate::Marshall(in.TotalLungCapacity(), GetTotalLungCapacity());
+  if (in.VitalCapacity().present())
+    io::PropertyIoDelegate::Marshall(in.VitalCapacity(), GetVitalCapacity());
+  if (in.LungVolumePlot().present())
+    io::PropertyIoDelegate::Marshall(in.LungVolumePlot(), GetLungVolumePlot());
+
   return true;
 }
 
@@ -103,33 +130,33 @@ void SEPulmonaryFunctionTest::Unload(CDM::PulmonaryFunctionTestData& data)
 {
   SEPatientAssessment::Unload(data);
   if (m_ExpiratoryReserveVolume != nullptr)
-    data.ExpiratoryReserveVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_ExpiratoryReserveVolume->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ExpiratoryReserveVolume, data.ExpiratoryReserveVolume());
   if (m_ForcedVitalCapacity != nullptr)
-    data.ForcedVitalCapacity(std::unique_ptr<CDM::ScalarVolumeData>(m_ForcedVitalCapacity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ForcedVitalCapacity, data.ForcedVitalCapacity());
   if (m_ForcedExpiratoryVolume != nullptr)
-    data.ForcedExpiratoryVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_ForcedExpiratoryVolume->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ForcedExpiratoryVolume, data.ForcedExpiratoryVolume());
   if (m_ForcedExpiratoryFlow != nullptr)
-    data.ForcedExpiratoryFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_ForcedExpiratoryFlow->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ForcedExpiratoryFlow, data.ForcedExpiratoryFlow());
   if (m_FunctionalResidualCapacity != nullptr)
-    data.FunctionalResidualCapacity(std::unique_ptr<CDM::ScalarVolumeData>(m_FunctionalResidualCapacity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_FunctionalResidualCapacity, data.FunctionalResidualCapacity());
   if (m_InspiratoryCapacity != nullptr)
-    data.InspiratoryCapacity(std::unique_ptr<CDM::ScalarVolumeData>(m_InspiratoryCapacity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_InspiratoryCapacity, data.InspiratoryCapacity());
   if (m_InspiratoryReserveVolume != nullptr)
-    data.InspiratoryReserveVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_InspiratoryReserveVolume->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_InspiratoryReserveVolume, data.InspiratoryReserveVolume());
   if (m_MaximumVoluntaryVentilation != nullptr)
-    data.MaximumVoluntaryVentilation(std::unique_ptr<CDM::ScalarVolumeData>(m_MaximumVoluntaryVentilation->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MaximumVoluntaryVentilation, data.MaximumVoluntaryVentilation());
   if (m_PeakExpiratoryFlow != nullptr)
-    data.PeakExpiratoryFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_PeakExpiratoryFlow->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PeakExpiratoryFlow, data.PeakExpiratoryFlow());
   if (m_ResidualVolume != nullptr)
-    data.ResidualVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_ResidualVolume->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ResidualVolume, data.ResidualVolume());
   if (m_SlowVitalCapacity != nullptr)
-    data.SlowVitalCapacity(std::unique_ptr<CDM::ScalarVolumeData>(m_SlowVitalCapacity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SlowVitalCapacity, data.SlowVitalCapacity());
   if (m_TotalLungCapacity != nullptr)
-    data.TotalLungCapacity(std::unique_ptr<CDM::ScalarVolumeData>(m_TotalLungCapacity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TotalLungCapacity, data.TotalLungCapacity());
   if (m_VitalCapacity != nullptr)
-    data.VitalCapacity(std::unique_ptr<CDM::ScalarVolumeData>(m_VitalCapacity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_VitalCapacity, data.VitalCapacity());
   if (m_LungVolumePlot != nullptr)
-    data.LungVolumePlot(std::unique_ptr<CDM::FunctionVolumeVsTimeData>(m_LungVolumePlot->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LungVolumePlot, data.LungVolumePlot());
 }
 
 bool SEPulmonaryFunctionTest::HasExpiratoryReserveVolume()

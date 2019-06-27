@@ -37,7 +37,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarHeatConductancePerArea() = default;
   virtual ~SEScalarHeatConductancePerArea() = default;
-
-  CDM::ScalarHeatConductancePerAreaData* Unload() const override;
 };
 }

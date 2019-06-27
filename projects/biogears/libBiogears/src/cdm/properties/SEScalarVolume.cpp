@@ -29,15 +29,6 @@ VolumeUnit::VolumeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarVolumeData* SEScalarVolume::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarVolumeData* data(new CDM::ScalarVolumeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool VolumeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(L.GetString(),unit) == 0)

@@ -38,7 +38,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarFlowCompliance() = default;
   virtual ~SEScalarFlowCompliance() = default;
-
-  CDM::ScalarFlowComplianceData* Unload() const override;
 };
 }

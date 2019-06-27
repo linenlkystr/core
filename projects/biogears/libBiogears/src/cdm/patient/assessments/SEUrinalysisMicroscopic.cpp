@@ -13,6 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarAmount.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEUrinalysisMicroscopic::SEUrinalysisMicroscopic(Logger* logger)
   : SEPatientAssessment(logger)
@@ -64,6 +65,7 @@ void SEUrinalysisMicroscopic::Reset()
 bool SEUrinalysisMicroscopic::Load(const CDM::UrinalysisMicroscopicData& in)
 {
   SEPatientAssessment::Load(in);
+  //TODO: Implement Load
   return true;
 }
 
@@ -78,14 +80,17 @@ void SEUrinalysisMicroscopic::Unload(CDM::UrinalysisMicroscopicData& data)
 {
   if (HasObservationType())
     data.ObservationType(m_ObservationType);
-  if (HasRedBloodCellsResult())
-    data.RedBloodCells(std::unique_ptr<CDM::ScalarAmountData>(m_RedBloodCells->Unload()));
-  if (HasWhiteBloodCellsResult())
-    data.WhiteBloodCells(std::unique_ptr<CDM::ScalarAmountData>(m_WhiteBloodCells->Unload()));
+  if (HasRedBloodCellsResult()) {
+    io::PropertyIoDelegate::UnMarshall(*m_RedBloodCells, data.RedBloodCells());
+  }
+  if (HasWhiteBloodCellsResult()) {
+    io::PropertyIoDelegate::UnMarshall(*m_WhiteBloodCells, data.WhiteBloodCells());
+  }
   if (HasEpithelialCellsResult())
     data.EpithelialCells(m_EpithelialCells);
-  if (HasCastsResult())
-    data.Casts(std::unique_ptr<CDM::ScalarAmountData>(m_Casts->Unload()));
+  if (HasCastsResult()) {
+    io::PropertyIoDelegate::UnMarshall(*m_Casts, data.Casts());
+  }
   if (HasCrystalsResult())
     data.Crystals(m_Crystals);
   if (HasBacteriaResult())

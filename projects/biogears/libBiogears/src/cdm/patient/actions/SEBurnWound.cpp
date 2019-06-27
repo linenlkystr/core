@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTypes.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 
 SEBurnWound::SEBurnWound()
@@ -48,7 +49,7 @@ bool SEBurnWound::IsActive() const
 bool SEBurnWound::Load(const CDM::BurnWoundData& in)
 {
   SEPatientAction::Load(in);
-  GetTotalBodySurfaceArea().Load(in.TotalBodySurfaceArea());
+  io::PropertyIoDelegate::Marshall(in.TotalBodySurfaceArea(), GetTotalBodySurfaceArea());
   return true;
 }
 
@@ -63,7 +64,7 @@ void SEBurnWound::Unload(CDM::BurnWoundData& data) const
 {
   SEPatientAction::Unload(data);
   if (m_TBSA != nullptr)
-    data.TotalBodySurfaceArea(std::unique_ptr<CDM::Scalar0To1Data>(m_TBSA->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TBSA, data.TotalBodySurfaceArea());
 }
 
 bool SEBurnWound::HasTotalBodySurfaceArea() const

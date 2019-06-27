@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/cdm/properties/SEScalarArea.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEImpairedAlveolarExchange::SEImpairedAlveolarExchange()
   : SEPatientCondition()
@@ -41,9 +42,9 @@ bool SEImpairedAlveolarExchange::IsValid() const
 bool SEImpairedAlveolarExchange::Load(const CDM::ImpairedAlveolarExchangeData& in)
 {
   if (in.ImpairedSurfaceArea().present())
-    GetImpairedSurfaceArea().Load(in.ImpairedSurfaceArea().get());
+    io::PropertyIoDelegate::Marshall(in.ImpairedSurfaceArea(), GetImpairedSurfaceArea());
   if (in.ImpairedFraction().present())
-    GetImpairedFraction().Load(in.ImpairedFraction().get());
+      io::PropertyIoDelegate::Marshall(in.ImpairedFraction(), GetImpairedFraction());
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -57,9 +58,9 @@ CDM::ImpairedAlveolarExchangeData* SEImpairedAlveolarExchange::Unload() const
 void SEImpairedAlveolarExchange::Unload(CDM::ImpairedAlveolarExchangeData& data) const
 {
   if (HasImpairedSurfaceArea())
-    data.ImpairedSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_ImpairedSurfaceArea->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ImpairedSurfaceArea, data.ImpairedSurfaceArea());
   if (HasImpairedFraction())
-    data.ImpairedFraction(std::unique_ptr<CDM::Scalar0To1Data>(m_ImpairedFraction->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ImpairedFraction, data.ImpairedFraction());
 }
 //-----------------------------------------------------------------------------
 bool SEImpairedAlveolarExchange::HasImpairedSurfaceArea() const

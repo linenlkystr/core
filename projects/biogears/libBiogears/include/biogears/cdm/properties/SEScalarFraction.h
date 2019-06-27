@@ -22,8 +22,6 @@ public:
   SEScalarFraction();
   virtual ~SEScalarFraction() = default;
 
-  CDM::ScalarFractionData* Unload() const;
-
   using SEScalar::GetValue;
   double GetValue(const NoUnit& unitless) const;
   using SEScalar::SetValue;

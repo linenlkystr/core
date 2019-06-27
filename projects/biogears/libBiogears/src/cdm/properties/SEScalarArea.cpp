@@ -26,15 +26,6 @@ AreaUnit::AreaUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarAreaData* SEScalarArea::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarAreaData* data(new CDM::ScalarAreaData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool AreaUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(cm2.GetString(), unit) == 0)

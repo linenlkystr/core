@@ -35,7 +35,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarElectricCurrent() = default;
   virtual ~SEScalarElectricCurrent() = default;
-
-  CDM::ScalarElectricCurrentData* Unload() const override;
 };
 }

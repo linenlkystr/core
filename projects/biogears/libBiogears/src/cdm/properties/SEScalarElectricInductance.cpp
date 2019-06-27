@@ -24,15 +24,7 @@ ElectricInductanceUnit::ElectricInductanceUnit(const std::string& u)
   : CCompoundUnit(u)
 {
 }
-//-----------------------------------------------------------------------------
-CDM::ScalarElectricInductanceData* SEScalarElectricInductance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarElectricInductanceData* data(new CDM::ScalarElectricInductanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
+
 //-----------------------------------------------------------------------------
 bool ElectricInductanceUnit::IsValidUnit(const char* unit)
 {

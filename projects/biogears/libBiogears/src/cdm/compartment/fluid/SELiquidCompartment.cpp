@@ -17,6 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarFraction.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SELiquidCompartment::SELiquidCompartment(const char* name, Logger* logger)
   : SELiquidCompartment(std::string{ name }, logger)
@@ -57,10 +58,12 @@ bool SELiquidCompartment::Load(const CDM::LiquidCompartmentData& in, SESubstance
       CreateSubstanceQuantity(*sub).Load(d);
       ;
     }
-    if (in.pH().present())
-      GetPH().Load(in.pH().get());
-    if (in.WaterVolumeFraction().present())
-      GetWaterVolumeFraction().Load(in.WaterVolumeFraction().get());
+    if (in.pH().present()) {
+      io::PropertyIoDelegate::Marshall(in.pH(), GetPH());
+    }
+    if (in.WaterVolumeFraction().present()) {
+      io::PropertyIoDelegate::Marshall(in.WaterVolumeFraction(), GetWaterVolumeFraction());
+    }
   }
   return true;
 }
@@ -77,10 +80,12 @@ void SELiquidCompartment::Unload(CDM::LiquidCompartmentData& data)
   SEFluidCompartment::Unload(data);
   for (SELiquidSubstanceQuantity* subQ : m_SubstanceQuantities)
     data.SubstanceQuantity().push_back(std::unique_ptr<CDM::LiquidSubstanceQuantityData>(subQ->Unload()));
-  if (HasPH())
-    data.pH(std::unique_ptr<CDM::ScalarData>(GetPH().Unload()));
-  if (HasWaterVolumeFraction())
-    data.WaterVolumeFraction(std::unique_ptr<CDM::ScalarFractionData>(GetWaterVolumeFraction().Unload()));
+  if (HasPH()) {
+    io::PropertyIoDelegate::UnMarshall(GetPH(), data.pH());
+  }
+  if (HasWaterVolumeFraction()) {
+      io::PropertyIoDelegate::UnMarshall(GetWaterVolumeFraction(), data.WaterVolumeFraction());
+  }
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SELiquidCompartment::GetScalar(const char* name)

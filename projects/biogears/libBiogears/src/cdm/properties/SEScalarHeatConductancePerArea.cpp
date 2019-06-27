@@ -27,15 +27,6 @@ HeatConductancePerAreaUnit::HeatConductancePerAreaUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarHeatConductancePerAreaData* SEScalarHeatConductancePerArea::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarHeatConductancePerAreaData* data(new CDM::ScalarHeatConductancePerAreaData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool HeatConductancePerAreaUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(W_Per_m2_K.GetString(),unit) == 0)

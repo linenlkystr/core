@@ -29,15 +29,6 @@ FlowInertanceUnit::FlowInertanceUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarFlowInertanceData* SEScalarFlowInertance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarFlowInertanceData* data(new CDM::ScalarFlowInertanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool FlowInertanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(mmHg_s2_Per_mL.GetString(), unit) == 0)

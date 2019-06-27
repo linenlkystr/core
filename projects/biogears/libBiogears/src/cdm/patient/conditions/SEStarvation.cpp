@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTime.h>
 #include <biogears/schema/cdm/PatientConditions.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEStarvation::SEStarvation()
   : SEPatientCondition()
@@ -40,7 +41,7 @@ bool SEStarvation::IsValid() const
 bool SEStarvation::Load(const CDM::StarvationData& in)
 {
   SEPatientCondition::Load(in);
-  GetTimeSinceMeal().Load(in.TimeSinceMeal());
+  io::PropertyIoDelegate::Marshall(in.TimeSinceMeal(), GetTimeSinceMeal());
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -55,7 +56,7 @@ void SEStarvation::Unload(CDM::StarvationData& data) const
 {
   SEPatientCondition::Unload(data);
   if (m_TimeSinceMeal != nullptr)
-    data.TimeSinceMeal(std::unique_ptr<CDM::ScalarTimeData>(m_TimeSinceMeal->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TimeSinceMeal, data.TimeSinceMeal());
 }
 //-----------------------------------------------------------------------------
 bool SEStarvation::HasTimeSinceMeal() const

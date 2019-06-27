@@ -28,15 +28,6 @@ HeatResistanceUnit::HeatResistanceUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarHeatResistanceData* SEScalarHeatResistance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarHeatResistanceData* data(new CDM::ScalarHeatResistanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool HeatResistanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(K_Per_W.GetString(),unit) == 0)

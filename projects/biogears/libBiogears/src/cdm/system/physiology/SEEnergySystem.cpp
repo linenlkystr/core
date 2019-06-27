@@ -23,6 +23,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/container/Tree.tci.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 constexpr char idAchievedExerciseLevel[] = "AchievedExerciseLevel";
 constexpr char idChlorideLostToSweat[] = "ChlorideLostToSweat";
@@ -128,33 +129,33 @@ bool SEEnergySystem::Load(const CDM::EnergySystemData& in)
   SESystem::Load(in);
 
   if (in.AchievedExerciseLevel().present())
-    GetAchievedExerciseLevel().Load(in.AchievedExerciseLevel().get());
+    io::PropertyIoDelegate::Marshall(in.AchievedExerciseLevel(), GetAchievedExerciseLevel());
   if (in.ChlorideLostToSweat().present())
-    GetChlorideLostToSweat().Load(in.ChlorideLostToSweat().get());
+      io::PropertyIoDelegate::Marshall(in.ChlorideLostToSweat(), GetChlorideLostToSweat());
   if (in.CoreTemperature().present())
-    GetCoreTemperature().Load(in.CoreTemperature().get());
+      io::PropertyIoDelegate::Marshall(in.CoreTemperature(), GetCoreTemperature());
   if (in.CreatinineProductionRate().present())
-    GetCreatinineProductionRate().Load(in.CreatinineProductionRate().get());
+      io::PropertyIoDelegate::Marshall(in.CreatinineProductionRate(), GetCreatinineProductionRate());
   if (in.EnergyDeficit().present())
-    GetEnergyDeficit().Load(in.EnergyDeficit().get());
+      io::PropertyIoDelegate::Marshall(in.EnergyDeficit(), GetEnergyDeficit());
   if (in.ExerciseMeanArterialPressureDelta().present())
-    GetExerciseMeanArterialPressureDelta().Load(in.ExerciseMeanArterialPressureDelta().get());
+      io::PropertyIoDelegate::Marshall(in.ExerciseMeanArterialPressureDelta(), GetExerciseMeanArterialPressureDelta());
   if (in.FatigueLevel().present())
-    GetFatigueLevel().Load(in.FatigueLevel().get());
+      io::PropertyIoDelegate::Marshall(in.FatigueLevel(), GetFatigueLevel());
   if (in.LactateProductionRate().present())
-    GetLactateProductionRate().Load(in.LactateProductionRate().get());
+      io::PropertyIoDelegate::Marshall(in.LactateProductionRate(), GetLactateProductionRate());
   if (in.PotassiumLostToSweat().present())
-    GetPotassiumLostToSweat().Load(in.PotassiumLostToSweat().get());
+      io::PropertyIoDelegate::Marshall(in.PotassiumLostToSweat(), GetPotassiumLostToSweat());
   if (in.SkinTemperature().present())
-    GetSkinTemperature().Load(in.SkinTemperature().get());
+      io::PropertyIoDelegate::Marshall(in.SkinTemperature(), GetSkinTemperature());
   if (in.SodiumLostToSweat().present())
-    GetSodiumLostToSweat().Load(in.SodiumLostToSweat().get());
+      io::PropertyIoDelegate::Marshall(in.SodiumLostToSweat(), GetSodiumLostToSweat());
   if (in.SweatRate().present())
-    GetSweatRate().Load(in.SweatRate().get());
+      io::PropertyIoDelegate::Marshall(in.SweatRate(), GetSweatRate());
   if (in.TotalMetabolicRate().present())
-    GetTotalMetabolicRate().Load(in.TotalMetabolicRate().get());
+      io::PropertyIoDelegate::Marshall(in.TotalMetabolicRate(), GetTotalMetabolicRate());
   if (in.TotalWorkRateLevel().present())
-    GetTotalWorkRateLevel().Load(in.TotalWorkRateLevel().get());
+      io::PropertyIoDelegate::Marshall(in.TotalWorkRateLevel(), GetTotalWorkRateLevel());
 
   return true;
 }
@@ -173,33 +174,33 @@ void SEEnergySystem::Unload(CDM::EnergySystemData& data) const
   SESystem::Unload(data);
 
   if (m_AchievedExerciseLevel != nullptr)
-    data.AchievedExerciseLevel(std::unique_ptr<CDM::ScalarFractionData>(m_AchievedExerciseLevel->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_AchievedExerciseLevel, data.AchievedExerciseLevel());
   if (m_ChlorideLostToSweat != nullptr)
-    data.ChlorideLostToSweat(std::unique_ptr<CDM::ScalarMassData>(m_ChlorideLostToSweat->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ChlorideLostToSweat, data.ChlorideLostToSweat());
   if (m_CoreTemperature != nullptr)
-    data.CoreTemperature(std::unique_ptr<CDM::ScalarTemperatureData>(m_CoreTemperature->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CoreTemperature, data.CoreTemperature());
   if (m_CreatinineProductionRate != nullptr)
-    data.CreatinineProductionRate(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_CreatinineProductionRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CreatinineProductionRate, data.CreatinineProductionRate());
   if (m_EnergyDeficit != nullptr)
-    data.EnergyDeficit(std::unique_ptr<CDM::ScalarPowerData>(m_EnergyDeficit->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_EnergyDeficit, data.EnergyDeficit());
   if (m_ExerciseMeanArterialPressureDelta != nullptr)
-    data.ExerciseMeanArterialPressureDelta(std::unique_ptr<CDM::ScalarPressureData>(m_ExerciseMeanArterialPressureDelta->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ExerciseMeanArterialPressureDelta, data.ExerciseMeanArterialPressureDelta());
   if (m_FatigueLevel != nullptr)
-    data.FatigueLevel(std::unique_ptr<CDM::ScalarFractionData>(m_FatigueLevel->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_FatigueLevel, data.FatigueLevel());
   if (m_LactateProductionRate != nullptr)
-    data.LactateProductionRate(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_LactateProductionRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LactateProductionRate, data.LactateProductionRate());
   if (m_PotassiumLostToSweat != nullptr)
-    data.PotassiumLostToSweat(std::unique_ptr<CDM::ScalarMassData>(m_PotassiumLostToSweat->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PotassiumLostToSweat, data.PotassiumLostToSweat());
   if (m_SkinTemperature != nullptr)
-    data.SkinTemperature(std::unique_ptr<CDM::ScalarTemperatureData>(m_SkinTemperature->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_SkinTemperature, data.SkinTemperature());
   if (m_SodiumLostToSweat != nullptr)
-    data.SodiumLostToSweat(std::unique_ptr<CDM::ScalarMassData>(m_SodiumLostToSweat->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_SodiumLostToSweat, data.SodiumLostToSweat());
   if (m_SweatRate != nullptr)
-    data.SweatRate(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_SweatRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_SweatRate, data.SweatRate());
   if (m_TotalMetabolicRate != nullptr)
-    data.TotalMetabolicRate(std::unique_ptr<CDM::ScalarPowerData>(m_TotalMetabolicRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_TotalMetabolicRate, data.TotalMetabolicRate());
   if (m_TotalWorkRateLevel != nullptr)
-    data.TotalWorkRateLevel(std::unique_ptr<CDM::ScalarFractionData>(m_TotalWorkRateLevel->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_TotalWorkRateLevel, data.TotalWorkRateLevel());
 }
 //-------------------------------------------------------------------------------
 

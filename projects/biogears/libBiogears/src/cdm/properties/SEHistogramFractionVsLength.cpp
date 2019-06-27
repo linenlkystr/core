@@ -46,28 +46,6 @@ bool SEHistogramFractionVsLength::IsVaild() const
   return true;
 }
 
-bool SEHistogramFractionVsLength::Load(const CDM::HistogramFractionVsLengthData& in)
-{
-  if (!SEHistogram::Load(in))
-    return false;
-  m_LengthUnit = &LengthUnit::GetCompoundUnit(in.IndependentUnit().get());
-  return IsValid();
-}
-
-CDM::HistogramFractionVsLengthData* SEHistogramFractionVsLength::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::HistogramFractionVsLengthData* data(new CDM::HistogramFractionVsLengthData());
-  Unload(*data);
-  return data;
-}
-
-void SEHistogramFractionVsLength::Unload(CDM::HistogramFractionVsLengthData& data) const
-{
-  SEHistogram::Unload(data);
-  data.IndependentUnit(m_LengthUnit->GetString());
-}
 
 double SEHistogramFractionVsLength::GetLengthValue(unsigned int index, const LengthUnit& unit) const
 {

@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
+#include "../../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEAnesthesiaMachineChamber::SEAnesthesiaMachineChamber(SESubstanceManager& substances)
   : Loggable(substances.GetLogger())
@@ -45,7 +46,7 @@ bool SEAnesthesiaMachineChamber::Load(const CDM::AnesthesiaMachineChamberData& i
   if (in.State().present())
     SetState(in.State().get());
   if (in.SubstanceFraction().present())
-    GetSubstanceFraction().Load(in.SubstanceFraction().get());
+    io::PropertyIoDelegate::Marshall(in.SubstanceFraction(), GetSubstanceFraction());
   if (in.Substance().present()) {
     m_Substance = m_Substances.GetSubstance(in.Substance().get());
     if (m_Substance == nullptr) {
@@ -71,8 +72,9 @@ void SEAnesthesiaMachineChamber::Unload(CDM::AnesthesiaMachineChamberData& data)
 {
   if (HasState())
     data.State(m_State);
-  if (m_SubstanceFraction != nullptr)
-    data.SubstanceFraction(std::unique_ptr<CDM::ScalarFractionData>(m_SubstanceFraction->Unload()));
+  if (m_SubstanceFraction != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_SubstanceFraction, data.SubstanceFraction());
+  }
   if (HasSubstance())
     data.Substance(m_Substance->GetName());
 }

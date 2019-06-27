@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarAreaPerTimePressure AreaPerTimePressure = biogears::SEScalarAreaPerTimePressure();
-  auto ptr = AreaPerTimePressure.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::AreaPerTimePressureUnit::IsValidUnit("m^2/s mmHg");

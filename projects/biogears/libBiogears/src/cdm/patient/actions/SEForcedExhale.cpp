@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/cdm/properties/SEScalarTime.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEForcedExhale::SEForcedExhale()
   : SEConsciousRespirationCommand()
@@ -47,8 +48,9 @@ bool SEForcedExhale::IsActive() const
 bool SEForcedExhale::Load(const CDM::ForcedExhaleData& in)
 {
   SEConsciousRespirationCommand::Load(in);
-  GetExpiratoryReserveVolumeFraction().Load(in.ExpiratoryReserveVolumeFraction());
-  GetPeriod().Load(in.Period());
+  
+  io::PropertyIoDelegate::Marshall(in.ExpiratoryReserveVolumeFraction(), GetExpiratoryReserveVolumeFraction());
+  io::PropertyIoDelegate::Marshall(in.Period(), GetPeriod());
   return true;
 }
 
@@ -62,10 +64,12 @@ CDM::ForcedExhaleData* SEForcedExhale::Unload() const
 void SEForcedExhale::Unload(CDM::ForcedExhaleData& data) const
 {
   SEConsciousRespirationCommand::Unload(data);
-  if (m_ExpiratoryReserveVolumeFraction != nullptr)
-    data.ExpiratoryReserveVolumeFraction(std::unique_ptr<CDM::Scalar0To1Data>(m_ExpiratoryReserveVolumeFraction->Unload()));
-  if (m_Period != nullptr)
-    data.Period(std::unique_ptr<CDM::ScalarTimeData>(m_Period->Unload()));
+  if (m_ExpiratoryReserveVolumeFraction != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_ExpiratoryReserveVolumeFraction, data.ExpiratoryReserveVolumeFraction());
+  }
+  if (m_Period != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Period, data.Period());
+  }
 }
 
 bool SEForcedExhale::HasExpiratoryReserveVolumeFraction() const

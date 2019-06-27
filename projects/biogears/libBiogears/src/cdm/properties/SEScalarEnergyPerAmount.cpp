@@ -26,15 +26,6 @@ EnergyPerAmountUnit::EnergyPerAmountUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarEnergyPerAmountData* SEScalarEnergyPerAmount::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarEnergyPerAmountData* data(new CDM::ScalarEnergyPerAmountData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool EnergyPerAmountUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(kcal_Per_mol.GetString(), unit) == 0)

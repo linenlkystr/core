@@ -27,15 +27,6 @@ HeatCapacitancePerMassUnit::HeatCapacitancePerMassUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarHeatCapacitancePerMassData* SEScalarHeatCapacitancePerMass::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarHeatCapacitancePerMassData* data(new CDM::ScalarHeatCapacitancePerMassData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool HeatCapacitancePerMassUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(J_Per_K_kg.GetString(), unit) == 0)

@@ -12,6 +12,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/patient/actions/SEPainStimulus.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"  
 namespace biogears {
 SEPainStimulus::SEPainStimulus()
   : SEPatientAction()
@@ -46,7 +47,7 @@ bool SEPainStimulus::IsActive() const
 bool SEPainStimulus::Load(const CDM::PainStimulusData& in)
 {
   SEPatientAction::Load(in);
-  GetSeverity().Load(in.Severity());
+  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
   m_Location = in.Location();
   return true;
 }
@@ -62,7 +63,7 @@ void SEPainStimulus::Unload(CDM::PainStimulusData& data) const
 {
   SEPatientAction::Unload(data);
   if (m_Severity != nullptr)
-    data.Severity(std::unique_ptr<CDM::Scalar0To1Data>(m_Severity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
   if (HasLocation())
     data.Location(m_Location);
 }
@@ -83,7 +84,7 @@ std::string SEPainStimulus::GetLocation() const
 {
   return m_Location;
 }
-  //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 const char* SEPainStimulus::GetLocation_cStr() const
 {
   return m_Location.c_str();

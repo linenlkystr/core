@@ -28,6 +28,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
   constexpr char idGlomerularFiltrationRate[] = "GlomerularFiltrationRate";
   constexpr char idFiltrationFraction[] = "FiltrationFraction";
@@ -347,117 +348,117 @@ bool SERenalSystem::Load(const CDM::RenalSystemData& in)
   SESystem::Load(in);
 
   if (in.GlomerularFiltrationRate().present())
-    GetGlomerularFiltrationRate().Load(in.GlomerularFiltrationRate().get());
+    io::PropertyIoDelegate::Marshall(in.GlomerularFiltrationRate(), GetGlomerularFiltrationRate());
   if (in.FiltrationFraction().present())
-    GetFiltrationFraction().Load(in.FiltrationFraction().get());
+      io::PropertyIoDelegate::Marshall(in.FiltrationFraction(), GetFiltrationFraction());
 
   if (in.LeftAfferentArterioleResistance().present())
-    GetLeftAfferentArterioleResistance().Load(in.LeftAfferentArterioleResistance().get());
+      io::PropertyIoDelegate::Marshall(in.LeftAfferentArterioleResistance(), GetLeftAfferentArterioleResistance());
   if (in.LeftBowmansCapsulesHydrostaticPressure().present())
-    GetLeftBowmansCapsulesHydrostaticPressure().Load(in.LeftBowmansCapsulesHydrostaticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftBowmansCapsulesHydrostaticPressure(), GetLeftBowmansCapsulesHydrostaticPressure());
   if (in.LeftBowmansCapsulesOsmoticPressure().present())
-    GetLeftBowmansCapsulesOsmoticPressure().Load(in.LeftBowmansCapsulesOsmoticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftBowmansCapsulesOsmoticPressure(), GetLeftBowmansCapsulesOsmoticPressure());
   if (in.LeftEfferentArterioleResistance().present())
-    GetLeftEfferentArterioleResistance().Load(in.LeftEfferentArterioleResistance().get());
+      io::PropertyIoDelegate::Marshall(in.LeftEfferentArterioleResistance(), GetLeftEfferentArterioleResistance());
   if (in.LeftGlomerularCapillariesHydrostaticPressure().present())
-    GetLeftGlomerularCapillariesHydrostaticPressure().Load(in.LeftGlomerularCapillariesHydrostaticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftGlomerularCapillariesHydrostaticPressure(), GetLeftGlomerularCapillariesHydrostaticPressure());
   if (in.LeftGlomerularCapillariesOsmoticPressure().present())
-    GetLeftGlomerularCapillariesOsmoticPressure().Load(in.LeftGlomerularCapillariesOsmoticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftGlomerularCapillariesOsmoticPressure(), GetLeftGlomerularCapillariesOsmoticPressure());
   if (in.LeftGlomerularFiltrationCoefficient().present())
-    GetLeftGlomerularFiltrationCoefficient().Load(in.LeftGlomerularFiltrationCoefficient().get());
+      io::PropertyIoDelegate::Marshall(in.LeftGlomerularFiltrationCoefficient(), GetLeftGlomerularFiltrationCoefficient());
   if (in.LeftGlomerularFiltrationRate().present())
-    GetLeftGlomerularFiltrationRate().Load(in.LeftGlomerularFiltrationRate().get());
+      io::PropertyIoDelegate::Marshall(in.LeftGlomerularFiltrationRate(), GetLeftGlomerularFiltrationRate());
   if (in.LeftGlomerularFiltrationSurfaceArea().present())
-    GetLeftGlomerularFiltrationSurfaceArea().Load(in.LeftGlomerularFiltrationSurfaceArea().get());
+      io::PropertyIoDelegate::Marshall(in.LeftGlomerularFiltrationSurfaceArea(), GetLeftGlomerularFiltrationSurfaceArea());
   if (in.LeftGlomerularFluidPermeability().present())
-    GetLeftGlomerularFluidPermeability().Load(in.LeftGlomerularFluidPermeability().get());
+      io::PropertyIoDelegate::Marshall(in.LeftGlomerularFluidPermeability(), GetLeftGlomerularFluidPermeability());
   if (in.LeftFiltrationFraction().present())
-    GetLeftFiltrationFraction().Load(in.LeftFiltrationFraction().get());
+      io::PropertyIoDelegate::Marshall(in.LeftFiltrationFraction(), GetLeftFiltrationFraction());
   if (in.LeftNetFiltrationPressure().present())
-    GetLeftNetFiltrationPressure().Load(in.LeftNetFiltrationPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftNetFiltrationPressure(), GetLeftNetFiltrationPressure());
   if (in.LeftNetReabsorptionPressure().present())
-    GetLeftNetReabsorptionPressure().Load(in.LeftNetReabsorptionPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftNetReabsorptionPressure(), GetLeftNetReabsorptionPressure());
   if (in.LeftPeritubularCapillariesHydrostaticPressure().present())
-    GetLeftPeritubularCapillariesHydrostaticPressure().Load(in.LeftPeritubularCapillariesHydrostaticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftPeritubularCapillariesHydrostaticPressure(), GetLeftPeritubularCapillariesHydrostaticPressure());
   if (in.LeftPeritubularCapillariesOsmoticPressure().present())
-    GetLeftPeritubularCapillariesOsmoticPressure().Load(in.LeftPeritubularCapillariesOsmoticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftPeritubularCapillariesOsmoticPressure(), GetLeftPeritubularCapillariesOsmoticPressure());
   if (in.LeftReabsorptionFiltrationCoefficient().present())
-    GetLeftReabsorptionFiltrationCoefficient().Load(in.LeftReabsorptionFiltrationCoefficient().get());
+      io::PropertyIoDelegate::Marshall(in.LeftReabsorptionFiltrationCoefficient(), GetLeftReabsorptionFiltrationCoefficient());
   if (in.LeftReabsorptionRate().present())
-    GetLeftReabsorptionRate().Load(in.LeftReabsorptionRate().get());
+      io::PropertyIoDelegate::Marshall(in.LeftReabsorptionRate(), GetLeftReabsorptionRate());
   if (in.LeftTubularReabsorptionFiltrationSurfaceArea().present())
-    GetLeftTubularReabsorptionFiltrationSurfaceArea().Load(in.LeftTubularReabsorptionFiltrationSurfaceArea().get());
+      io::PropertyIoDelegate::Marshall(in.LeftTubularReabsorptionFiltrationSurfaceArea(), GetLeftTubularReabsorptionFiltrationSurfaceArea());
   if (in.LeftTubularReabsorptionFluidPermeability().present())
-    GetLeftTubularReabsorptionFluidPermeability().Load(in.LeftTubularReabsorptionFluidPermeability().get());
+      io::PropertyIoDelegate::Marshall(in.LeftTubularReabsorptionFluidPermeability(), GetLeftTubularReabsorptionFluidPermeability());
   if (in.LeftTubularHydrostaticPressure().present())
-    GetLeftTubularHydrostaticPressure().Load(in.LeftTubularHydrostaticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftTubularHydrostaticPressure(), GetLeftTubularHydrostaticPressure());
   if (in.LeftTubularOsmoticPressure().present())
-    GetLeftTubularOsmoticPressure().Load(in.LeftTubularOsmoticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.LeftTubularOsmoticPressure(), GetLeftTubularOsmoticPressure());
 
   if (in.RenalBloodFlow().present())
-    GetRenalBloodFlow().Load(in.RenalBloodFlow().get());
+      io::PropertyIoDelegate::Marshall(in.RenalBloodFlow(), GetRenalBloodFlow());
   if (in.RenalPlasmaFlow().present())
-    GetRenalPlasmaFlow().Load(in.RenalPlasmaFlow().get());
+      io::PropertyIoDelegate::Marshall(in.RenalPlasmaFlow(), GetRenalPlasmaFlow());
   if (in.RenalVascularResistance().present())
-    GetRenalVascularResistance().Load(in.RenalVascularResistance().get());
+      io::PropertyIoDelegate::Marshall(in.RenalVascularResistance(), GetRenalVascularResistance());
 
   if (in.RightAfferentArterioleResistance().present())
-    GetRightAfferentArterioleResistance().Load(in.RightAfferentArterioleResistance().get());
+      io::PropertyIoDelegate::Marshall(in.RightAfferentArterioleResistance(), GetRightAfferentArterioleResistance());
   if (in.RightBowmansCapsulesHydrostaticPressure().present())
-    GetRightBowmansCapsulesHydrostaticPressure().Load(in.RightBowmansCapsulesHydrostaticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightBowmansCapsulesHydrostaticPressure(), GetRightBowmansCapsulesHydrostaticPressure());
   if (in.RightBowmansCapsulesOsmoticPressure().present())
-    GetRightBowmansCapsulesOsmoticPressure().Load(in.RightBowmansCapsulesOsmoticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightBowmansCapsulesOsmoticPressure(), GetRightBowmansCapsulesOsmoticPressure());
   if (in.RightEfferentArterioleResistance().present())
-    GetRightEfferentArterioleResistance().Load(in.RightEfferentArterioleResistance().get());
+      io::PropertyIoDelegate::Marshall(in.RightEfferentArterioleResistance(), GetRightEfferentArterioleResistance());
   if (in.RightGlomerularCapillariesHydrostaticPressure().present())
-    GetRightGlomerularCapillariesHydrostaticPressure().Load(in.RightGlomerularCapillariesHydrostaticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightGlomerularCapillariesHydrostaticPressure(), GetRightGlomerularCapillariesHydrostaticPressure());
   if (in.RightGlomerularCapillariesOsmoticPressure().present())
-    GetRightGlomerularCapillariesOsmoticPressure().Load(in.RightGlomerularCapillariesOsmoticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightGlomerularCapillariesOsmoticPressure(), GetRightGlomerularCapillariesOsmoticPressure());
   if (in.RightGlomerularFiltrationCoefficient().present())
-    GetRightGlomerularFiltrationCoefficient().Load(in.RightGlomerularFiltrationCoefficient().get());
+      io::PropertyIoDelegate::Marshall(in.RightGlomerularFiltrationCoefficient(), GetRightGlomerularFiltrationCoefficient());
   if (in.RightGlomerularFiltrationRate().present())
-    GetRightGlomerularFiltrationRate().Load(in.RightGlomerularFiltrationRate().get());
+      io::PropertyIoDelegate::Marshall(in.RightGlomerularFiltrationRate(), GetRightGlomerularFiltrationRate());
   if (in.RightGlomerularFiltrationSurfaceArea().present())
-    GetRightGlomerularFiltrationSurfaceArea().Load(in.RightGlomerularFiltrationSurfaceArea().get());
+      io::PropertyIoDelegate::Marshall(in.RightGlomerularFiltrationSurfaceArea(), GetRightGlomerularFiltrationSurfaceArea());
   if (in.RightGlomerularFluidPermeability().present())
-    GetRightGlomerularFluidPermeability().Load(in.RightGlomerularFluidPermeability().get());
+      io::PropertyIoDelegate::Marshall(in.RightGlomerularFluidPermeability(), GetRightGlomerularFluidPermeability());
   if (in.RightFiltrationFraction().present())
-    GetRightFiltrationFraction().Load(in.RightFiltrationFraction().get());
+      io::PropertyIoDelegate::Marshall(in.RightFiltrationFraction(), GetRightFiltrationFraction());
   if (in.RightNetFiltrationPressure().present())
-    GetRightNetFiltrationPressure().Load(in.RightNetFiltrationPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightNetFiltrationPressure(), GetRightNetFiltrationPressure());
   if (in.RightNetReabsorptionPressure().present())
-    GetRightNetReabsorptionPressure().Load(in.RightNetReabsorptionPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightNetReabsorptionPressure(), GetRightNetReabsorptionPressure());
   if (in.RightPeritubularCapillariesHydrostaticPressure().present())
-    GetRightPeritubularCapillariesHydrostaticPressure().Load(in.RightPeritubularCapillariesHydrostaticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightPeritubularCapillariesHydrostaticPressure(), GetRightPeritubularCapillariesHydrostaticPressure());
   if (in.RightPeritubularCapillariesOsmoticPressure().present())
-    GetRightPeritubularCapillariesOsmoticPressure().Load(in.RightPeritubularCapillariesOsmoticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightPeritubularCapillariesOsmoticPressure(), GetRightPeritubularCapillariesOsmoticPressure());
   if (in.RightReabsorptionFiltrationCoefficient().present())
-    GetRightReabsorptionFiltrationCoefficient().Load(in.RightReabsorptionFiltrationCoefficient().get());
+      io::PropertyIoDelegate::Marshall(in.RightReabsorptionFiltrationCoefficient(), GetRightReabsorptionFiltrationCoefficient());
   if (in.RightReabsorptionRate().present())
-    GetRightReabsorptionRate().Load(in.RightReabsorptionRate().get());
+      io::PropertyIoDelegate::Marshall(in.RightReabsorptionRate(), GetRightReabsorptionRate());
   if (in.RightTubularReabsorptionFiltrationSurfaceArea().present())
-    GetRightTubularReabsorptionFiltrationSurfaceArea().Load(in.RightTubularReabsorptionFiltrationSurfaceArea().get());
+      io::PropertyIoDelegate::Marshall(in.RightTubularReabsorptionFiltrationSurfaceArea(), GetRightTubularReabsorptionFiltrationSurfaceArea());
   if (in.RightTubularReabsorptionFluidPermeability().present())
-    GetRightTubularReabsorptionFluidPermeability().Load(in.RightTubularReabsorptionFluidPermeability().get());
+    io::PropertyIoDelegate::Marshall(in.RightTubularReabsorptionFluidPermeability(), GetRightTubularReabsorptionFluidPermeability());
   if (in.RightTubularHydrostaticPressure().present())
-    GetRightTubularHydrostaticPressure().Load(in.RightTubularHydrostaticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightTubularHydrostaticPressure(), GetRightTubularHydrostaticPressure());
   if (in.RightTubularOsmoticPressure().present())
-    GetRightTubularOsmoticPressure().Load(in.RightTubularOsmoticPressure().get());
+      io::PropertyIoDelegate::Marshall(in.RightTubularOsmoticPressure(), GetRightTubularOsmoticPressure());
 
   if (in.UrinationRate().present())
-    GetUrinationRate().Load(in.UrinationRate().get());
+      io::PropertyIoDelegate::Marshall(in.UrinationRate(), GetUrinationRate());
   if (in.UrineOsmolality().present())
-    GetUrineOsmolality().Load(in.UrineOsmolality().get());
+      io::PropertyIoDelegate::Marshall(in.UrineOsmolality(), GetUrineOsmolality());
   if (in.UrineOsmolarity().present())
-    GetUrineOsmolarity().Load(in.UrineOsmolarity().get());
+      io::PropertyIoDelegate::Marshall(in.UrineOsmolarity(), GetUrineOsmolarity());
   if (in.UrineProductionRate().present())
-    GetUrineProductionRate().Load(in.UrineProductionRate().get());
+      io::PropertyIoDelegate::Marshall(in.UrineProductionRate(), GetUrineProductionRate());
   if (in.UrineSpecificGravity().present())
-    GetUrineSpecificGravity().Load(in.UrineSpecificGravity().get());
+      io::PropertyIoDelegate::Marshall(in.UrineSpecificGravity(), GetUrineSpecificGravity());
   if (in.UrineVolume().present())
-    GetUrineVolume().Load(in.UrineVolume().get());
+      io::PropertyIoDelegate::Marshall(in.UrineVolume(), GetUrineVolume());
   if (in.UrineUreaNitrogenConcentration().present())
-    GetUrineUreaNitrogenConcentration().Load(in.UrineUreaNitrogenConcentration().get());
+      io::PropertyIoDelegate::Marshall(in.UrineUreaNitrogenConcentration(), GetUrineUreaNitrogenConcentration());
 
   return true;
 }
@@ -475,117 +476,117 @@ void SERenalSystem::Unload(CDM::RenalSystemData& data) const
 {
   SESystem::Unload(data);
   if (m_GlomerularFiltrationRate != nullptr)
-    data.GlomerularFiltrationRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_GlomerularFiltrationRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_GlomerularFiltrationRate, data.GlomerularFiltrationRate());
   if (m_FiltrationFraction != nullptr)
-    data.FiltrationFraction(std::unique_ptr<CDM::ScalarFractionData>(m_FiltrationFraction->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_FiltrationFraction, data.FiltrationFraction());
 
   if (m_LeftAfferentArterioleResistance != nullptr)
-    data.LeftAfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_LeftAfferentArterioleResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftAfferentArterioleResistance, data.LeftAfferentArterioleResistance());
   if (m_LeftBowmansCapsulesHydrostaticPressure != nullptr)
-    data.LeftBowmansCapsulesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftBowmansCapsulesHydrostaticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftBowmansCapsulesHydrostaticPressure, data.LeftBowmansCapsulesHydrostaticPressure());
   if (m_LeftBowmansCapsulesOsmoticPressure != nullptr)
-    data.LeftBowmansCapsulesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftBowmansCapsulesOsmoticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftBowmansCapsulesOsmoticPressure, data.LeftBowmansCapsulesOsmoticPressure());
   if (m_LeftEfferentArterioleResistance != nullptr)
-    data.LeftEfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_LeftEfferentArterioleResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftEfferentArterioleResistance, data.LeftEfferentArterioleResistance());
   if (m_LeftGlomerularCapillariesHydrostaticPressure != nullptr)
-    data.LeftGlomerularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftGlomerularCapillariesHydrostaticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftGlomerularCapillariesHydrostaticPressure, data.LeftGlomerularCapillariesHydrostaticPressure());
   if (m_LeftGlomerularCapillariesOsmoticPressure != nullptr)
-    data.LeftGlomerularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftGlomerularCapillariesOsmoticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftGlomerularCapillariesOsmoticPressure, data.LeftGlomerularCapillariesOsmoticPressure());
   if (m_LeftGlomerularFiltrationCoefficient != nullptr)
-    data.LeftGlomerularFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_LeftGlomerularFiltrationCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftGlomerularFiltrationCoefficient, data.LeftGlomerularFiltrationCoefficient());
   if (m_LeftGlomerularFiltrationRate != nullptr)
-    data.LeftGlomerularFiltrationRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_LeftGlomerularFiltrationRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftGlomerularFiltrationRate, data.LeftGlomerularFiltrationRate());
   if (m_LeftGlomerularFiltrationSurfaceArea != nullptr)
-    data.LeftGlomerularFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_LeftGlomerularFiltrationSurfaceArea->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftGlomerularFiltrationSurfaceArea, data.LeftGlomerularFiltrationSurfaceArea());
   if (m_LeftGlomerularFluidPermeability != nullptr)
-    data.LeftGlomerularFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_LeftGlomerularFluidPermeability->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftGlomerularFluidPermeability, data.LeftGlomerularFluidPermeability());
   if (m_LeftFiltrationFraction != nullptr)
-    data.LeftFiltrationFraction(std::unique_ptr<CDM::ScalarFractionData>(m_LeftFiltrationFraction->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftFiltrationFraction, data.LeftFiltrationFraction());
   if (m_LeftNetFiltrationPressure != nullptr)
-    data.LeftNetFiltrationPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftNetFiltrationPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftNetFiltrationPressure, data.LeftNetFiltrationPressure());
   if (m_LeftNetReabsorptionPressure != nullptr)
-    data.LeftNetReabsorptionPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftNetReabsorptionPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftNetReabsorptionPressure, data.LeftNetReabsorptionPressure());
   if (m_LeftPeritubularCapillariesHydrostaticPressure != nullptr)
-    data.LeftPeritubularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftPeritubularCapillariesHydrostaticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftPeritubularCapillariesHydrostaticPressure, data.LeftPeritubularCapillariesHydrostaticPressure());
   if (m_LeftPeritubularCapillariesOsmoticPressure != nullptr)
-    data.LeftPeritubularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftPeritubularCapillariesOsmoticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftPeritubularCapillariesOsmoticPressure, data.LeftPeritubularCapillariesOsmoticPressure());
   if (m_LeftReabsorptionFiltrationCoefficient != nullptr)
-    data.LeftReabsorptionFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_LeftReabsorptionFiltrationCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftReabsorptionFiltrationCoefficient, data.LeftReabsorptionFiltrationCoefficient());
   if (m_LeftReabsorptionRate != nullptr)
-    data.LeftReabsorptionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_LeftReabsorptionRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftReabsorptionRate, data.LeftReabsorptionRate());
   if (m_LeftTubularReabsorptionFiltrationSurfaceArea != nullptr)
-    data.LeftTubularReabsorptionFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_LeftTubularReabsorptionFiltrationSurfaceArea->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftTubularReabsorptionFiltrationSurfaceArea, data.LeftTubularReabsorptionFiltrationSurfaceArea());
   if (m_LeftTubularReabsorptionFluidPermeability != nullptr)
-    data.LeftTubularReabsorptionFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_LeftTubularReabsorptionFluidPermeability->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftTubularReabsorptionFluidPermeability, data.LeftTubularReabsorptionFluidPermeability());
   if (m_LeftTubularHydrostaticPressure != nullptr)
-    data.LeftTubularHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftTubularHydrostaticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftTubularHydrostaticPressure, data.LeftTubularHydrostaticPressure());
   if (m_LeftTubularOsmoticPressure != nullptr)
-    data.LeftTubularOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_LeftTubularOsmoticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftTubularOsmoticPressure, data.LeftTubularOsmoticPressure());
 
   if (m_RenalBloodFlow != nullptr)
-    data.RenalBloodFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RenalBloodFlow->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RenalBloodFlow, data.RenalBloodFlow());
   if (m_RenalPlasmaFlow != nullptr)
-    data.RenalPlasmaFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RenalPlasmaFlow->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RenalPlasmaFlow, data.RenalPlasmaFlow());
   if (m_RenalVascularResistance != nullptr)
-    data.RenalVascularResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RenalVascularResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RenalVascularResistance, data.RenalVascularResistance());
 
   if (m_RightAfferentArterioleResistance != nullptr)
-    data.RightAfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RightAfferentArterioleResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightAfferentArterioleResistance, data.RightAfferentArterioleResistance());
   if (m_RightBowmansCapsulesHydrostaticPressure != nullptr)
-    data.RightBowmansCapsulesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightBowmansCapsulesHydrostaticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightBowmansCapsulesHydrostaticPressure, data.RightBowmansCapsulesHydrostaticPressure());
   if (m_RightBowmansCapsulesOsmoticPressure != nullptr)
-    data.RightBowmansCapsulesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightBowmansCapsulesOsmoticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightBowmansCapsulesOsmoticPressure, data.RightBowmansCapsulesOsmoticPressure());
   if (m_RightEfferentArterioleResistance != nullptr)
-    data.RightEfferentArterioleResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RightEfferentArterioleResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightEfferentArterioleResistance, data.RightEfferentArterioleResistance());
   if (m_RightGlomerularCapillariesHydrostaticPressure != nullptr)
-    data.RightGlomerularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightGlomerularCapillariesHydrostaticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightGlomerularCapillariesHydrostaticPressure, data.RightGlomerularCapillariesHydrostaticPressure());
   if (m_RightGlomerularCapillariesOsmoticPressure != nullptr)
-    data.RightGlomerularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightGlomerularCapillariesOsmoticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightGlomerularCapillariesOsmoticPressure, data.RightGlomerularCapillariesOsmoticPressure());
   if (m_RightGlomerularFiltrationCoefficient != nullptr)
-    data.RightGlomerularFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_RightGlomerularFiltrationCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightGlomerularFiltrationCoefficient, data.RightGlomerularFiltrationCoefficient());
   if (m_RightGlomerularFiltrationRate != nullptr)
-    data.RightGlomerularFiltrationRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RightGlomerularFiltrationRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightGlomerularFiltrationRate, data.RightGlomerularFiltrationRate());
   if (m_RightGlomerularFiltrationSurfaceArea != nullptr)
-    data.RightGlomerularFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_RightGlomerularFiltrationSurfaceArea->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightGlomerularFiltrationSurfaceArea, data.RightGlomerularFiltrationSurfaceArea());
   if (m_RightGlomerularFluidPermeability != nullptr)
-    data.RightGlomerularFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_RightGlomerularFluidPermeability->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightGlomerularFluidPermeability, data.RightGlomerularFluidPermeability());
   if (m_RightFiltrationFraction != nullptr)
-    data.RightFiltrationFraction(std::unique_ptr<CDM::ScalarFractionData>(m_RightFiltrationFraction->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightFiltrationFraction, data.RightFiltrationFraction());
   if (m_RightNetFiltrationPressure != nullptr)
-    data.RightNetFiltrationPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightNetFiltrationPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightNetFiltrationPressure, data.RightNetFiltrationPressure());
   if (m_RightNetReabsorptionPressure != nullptr)
-    data.RightNetReabsorptionPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightNetReabsorptionPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightNetReabsorptionPressure, data.RightNetReabsorptionPressure());
   if (m_RightPeritubularCapillariesHydrostaticPressure != nullptr)
-    data.RightPeritubularCapillariesHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightPeritubularCapillariesHydrostaticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightPeritubularCapillariesHydrostaticPressure, data.RightPeritubularCapillariesHydrostaticPressure());
   if (m_RightPeritubularCapillariesOsmoticPressure != nullptr)
-    data.RightPeritubularCapillariesOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightPeritubularCapillariesOsmoticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightPeritubularCapillariesOsmoticPressure, data.RightPeritubularCapillariesOsmoticPressure());
   if (m_RightReabsorptionFiltrationCoefficient != nullptr)
-    data.RightReabsorptionFiltrationCoefficient(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_RightReabsorptionFiltrationCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightReabsorptionFiltrationCoefficient, data.RightReabsorptionFiltrationCoefficient());
   if (m_RightReabsorptionRate != nullptr)
-    data.RightReabsorptionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_RightReabsorptionRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightReabsorptionRate, data.RightReabsorptionRate());
   if (m_RightTubularReabsorptionFiltrationSurfaceArea != nullptr)
-    data.RightTubularReabsorptionFiltrationSurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_RightTubularReabsorptionFiltrationSurfaceArea->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RightTubularReabsorptionFiltrationSurfaceArea, data.RightTubularReabsorptionFiltrationSurfaceArea());
   if (m_RightTubularReabsorptionFluidPermeability != nullptr)
-    data.RightTubularReabsorptionFluidPermeability(std::unique_ptr<CDM::ScalarVolumePerTimePressureAreaData>(m_RightTubularReabsorptionFluidPermeability->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightTubularReabsorptionFluidPermeability, data.RightTubularReabsorptionFluidPermeability());
   if (m_RightTubularHydrostaticPressure != nullptr)
-    data.RightTubularHydrostaticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightTubularHydrostaticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightTubularHydrostaticPressure, data.RightTubularHydrostaticPressure());
   if (m_RightTubularOsmoticPressure != nullptr)
-    data.RightTubularOsmoticPressure(std::unique_ptr<CDM::ScalarPressureData>(m_RightTubularOsmoticPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightTubularOsmoticPressure, data.RightTubularOsmoticPressure());
 
   if (m_UrinationRate != nullptr)
-    data.UrinationRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_UrinationRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_UrinationRate, data.UrinationRate());
   if (m_UrineOsmolality != nullptr)
-    data.UrineOsmolality(std::unique_ptr<CDM::ScalarOsmolalityData>(m_UrineOsmolality->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_UrineOsmolality, data.UrineOsmolality());
   if (m_UrineOsmolarity != nullptr)
-    data.UrineOsmolarity(std::unique_ptr<CDM::ScalarOsmolarityData>(m_UrineOsmolarity->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_UrineOsmolarity, data.UrineOsmolarity());
   if (m_UrineProductionRate != nullptr)
-    data.UrineProductionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_UrineProductionRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_UrineProductionRate, data.UrineProductionRate());
   if (m_UrineSpecificGravity != nullptr)
-    data.UrineSpecificGravity(std::unique_ptr<CDM::ScalarData>(m_UrineSpecificGravity->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_UrineSpecificGravity, data.UrineSpecificGravity());
   if (m_UrineVolume != nullptr)
-    data.UrineVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_UrineVolume->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_UrineVolume, data.UrineVolume());
   if (m_UrineUreaNitrogenConcentration != nullptr)
-    data.UrineUreaNitrogenConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_UrineUreaNitrogenConcentration->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_UrineUreaNitrogenConcentration, data.UrineUreaNitrogenConcentration());
 }
 //-------------------------------------------------------------------------------
 

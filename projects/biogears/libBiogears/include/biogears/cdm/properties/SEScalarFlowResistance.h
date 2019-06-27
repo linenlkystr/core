@@ -39,7 +39,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarFlowResistance() = default;
   virtual ~SEScalarFlowResistance() = default;
-
-  CDM::ScalarFlowResistanceData* Unload() const override;
 };
 }

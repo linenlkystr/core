@@ -25,15 +25,6 @@ HeatInductanceUnit::HeatInductanceUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarHeatInductanceData* SEScalarHeatInductance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarHeatInductanceData* data(new CDM::ScalarHeatInductanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool HeatInductanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(K_s_Per_W.GetString(),unit) == 0)

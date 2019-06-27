@@ -10,6 +10,7 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
+#include "../../utils/io/PropertyIoDelegate.h"
 #include <biogears/cdm/circuit/fluid/SEFluidCircuitNode.h>
 
 namespace biogears {
@@ -37,15 +38,15 @@ bool SEFluidCircuitNode::Load(const CDM::FluidCircuitNodeData& in)
 {
   SECircuitNode::Load(in);
   if (in.Pressure().present())
-    GetPressure().Load(in.Pressure().get());
+    io::PropertyIoDelegate::Marshall(in.Pressure(), GetPressure());
   if (in.NextPressure().present())
-    GetNextPressure().Load(in.NextPressure().get());
+    io::PropertyIoDelegate::Marshall(in.NextPressure(), GetNextPressure());
   if (in.Volume().present())
-    GetVolume().Load(in.Volume().get());
+    io::PropertyIoDelegate::Marshall(in.Volume(), GetVolume());
   if (in.NextVolume().present())
-    GetNextVolume().Load(in.NextVolume().get());
+    io::PropertyIoDelegate::Marshall(in.NextVolume(), GetNextVolume());
   if (in.VolumeBaseline().present())
-    GetVolumeBaseline().Load(in.VolumeBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.VolumeBaseline(), GetVolumeBaseline());
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -60,15 +61,15 @@ void SEFluidCircuitNode::Unload(CDM::FluidCircuitNodeData& data) const
 {
   SECircuitNode::Unload(data);
   if (HasPressure())
-    data.Pressure(std::unique_ptr<CDM::ScalarPressureData>(m_Potential->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Potential, data.Pressure());
   if (HasNextPressure())
-    data.NextPressure(std::unique_ptr<CDM::ScalarPressureData>(m_NextPotential->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextPotential, data.NextPressure());
   if (HasVolume())
-    data.Volume(std::unique_ptr<CDM::ScalarVolumeData>(m_Quantity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Quantity, data.Volume());
   if (HasNextVolume())
-    data.NextVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_NextQuantity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextQuantity, data.NextVolume());
   if (HasVolumeBaseline())
-    data.VolumeBaseline(std::unique_ptr<CDM::ScalarVolumeData>(m_QuantityBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_QuantityBaseline, data.VolumeBaseline());
 }
 //-----------------------------------------------------------------------------
 bool SEFluidCircuitNode::HasPressure() const

@@ -28,15 +28,6 @@ VolumePerTimePressureUnit::VolumePerTimePressureUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarVolumePerTimePressureData* SEScalarVolumePerTimePressure::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarVolumePerTimePressureData* data(new CDM::ScalarVolumePerTimePressureData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool VolumePerTimePressureUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(L_Per_s_mmHg.GetString(),unit) == 0)

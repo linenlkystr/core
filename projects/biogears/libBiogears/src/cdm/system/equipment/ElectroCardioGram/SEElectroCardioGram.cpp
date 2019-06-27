@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../../utils/io/PropertyIoDelegate.h" 
 namespace biogears {
 SEElectroCardioGram::SEElectroCardioGram(Logger* logger)
   : SESystem(logger)
@@ -60,29 +61,29 @@ void SEElectroCardioGram::Clear()
 bool SEElectroCardioGram::Load(const CDM::ElectroCardioGramData& in)
 {
   if (in.Lead1ElectricPotential().present())
-    GetLead1ElectricPotential().Load(in.Lead1ElectricPotential().get());
+    io::PropertyIoDelegate::Marshall(in.Lead1ElectricPotential(), GetLead1ElectricPotential());
   if (in.Lead2ElectricPotential().present())
-    GetLead2ElectricPotential().Load(in.Lead2ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead2ElectricPotential(), GetLead2ElectricPotential());
   if (in.Lead3ElectricPotential().present())
-    GetLead3ElectricPotential().Load(in.Lead3ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead3ElectricPotential(), GetLead3ElectricPotential());
   if (in.Lead4ElectricPotential().present())
-    GetLead4ElectricPotential().Load(in.Lead4ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead4ElectricPotential(), GetLead4ElectricPotential());
   if (in.Lead5ElectricPotential().present())
-    GetLead5ElectricPotential().Load(in.Lead5ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead5ElectricPotential(), GetLead5ElectricPotential());
   if (in.Lead6ElectricPotential().present())
-    GetLead6ElectricPotential().Load(in.Lead6ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead6ElectricPotential(), GetLead6ElectricPotential());
   if (in.Lead7ElectricPotential().present())
-    GetLead7ElectricPotential().Load(in.Lead7ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead7ElectricPotential(), GetLead7ElectricPotential());
   if (in.Lead8ElectricPotential().present())
-    GetLead8ElectricPotential().Load(in.Lead8ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead8ElectricPotential(), GetLead8ElectricPotential());
   if (in.Lead9ElectricPotential().present())
-    GetLead9ElectricPotential().Load(in.Lead9ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead9ElectricPotential(), GetLead9ElectricPotential());
   if (in.Lead10ElectricPotential().present())
-    GetLead10ElectricPotential().Load(in.Lead10ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead10ElectricPotential(), GetLead10ElectricPotential());
   if (in.Lead11ElectricPotential().present())
-    GetLead11ElectricPotential().Load(in.Lead11ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead11ElectricPotential(), GetLead11ElectricPotential());
   if (in.Lead12ElectricPotential().present())
-    GetLead12ElectricPotential().Load(in.Lead12ElectricPotential().get());
+      io::PropertyIoDelegate::Marshall(in.Lead12ElectricPotential(), GetLead12ElectricPotential());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -98,29 +99,29 @@ CDM::ElectroCardioGramData* SEElectroCardioGram::Unload() const
 void SEElectroCardioGram::Unload(CDM::ElectroCardioGramData& data) const
 {
   if (m_Lead1ElectricPotential != nullptr)
-    data.Lead1ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead1ElectricPotential->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Lead1ElectricPotential, data.Lead1ElectricPotential());
   if (m_Lead2ElectricPotential != nullptr)
-    data.Lead2ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead2ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead2ElectricPotential, data.Lead2ElectricPotential());
   if (m_Lead3ElectricPotential != nullptr)
-    data.Lead3ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead3ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead3ElectricPotential, data.Lead3ElectricPotential());
   if (m_Lead4ElectricPotential != nullptr)
-    data.Lead4ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead4ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead4ElectricPotential, data.Lead4ElectricPotential());
   if (m_Lead5ElectricPotential != nullptr)
-    data.Lead5ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead5ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead5ElectricPotential, data.Lead5ElectricPotential());
   if (m_Lead6ElectricPotential != nullptr)
-    data.Lead6ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead6ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead6ElectricPotential, data.Lead6ElectricPotential());
   if (m_Lead7ElectricPotential != nullptr)
-    data.Lead7ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead7ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead7ElectricPotential, data.Lead7ElectricPotential());
   if (m_Lead8ElectricPotential != nullptr)
-    data.Lead8ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead8ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead8ElectricPotential, data.Lead8ElectricPotential());
   if (m_Lead9ElectricPotential != nullptr)
-    data.Lead9ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead9ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead9ElectricPotential, data.Lead9ElectricPotential());
   if (m_Lead10ElectricPotential != nullptr)
-    data.Lead10ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead10ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead10ElectricPotential, data.Lead10ElectricPotential());
   if (m_Lead11ElectricPotential != nullptr)
-    data.Lead11ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead11ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead11ElectricPotential, data.Lead11ElectricPotential());
   if (m_Lead12ElectricPotential != nullptr)
-    data.Lead12ElectricPotential(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Lead12ElectricPotential->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Lead12ElectricPotential, data.Lead12ElectricPotential());
 }
 //-------------------------------------------------------------------------------
 const SEScalar* SEElectroCardioGram::GetScalar(const char* name)

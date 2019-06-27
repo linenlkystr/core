@@ -28,15 +28,6 @@ LengthPerTimePressureUnit::LengthPerTimePressureUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarLengthPerTimePressureData* SEScalarLengthPerTimePressure::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarLengthPerTimePressureData* data(new CDM::ScalarLengthPerTimePressureData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool LengthPerTimePressureUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(m_Per_s_mmHg.GetString(),unit) == 0)

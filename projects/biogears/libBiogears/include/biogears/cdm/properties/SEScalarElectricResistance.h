@@ -35,7 +35,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarElectricResistance() = default;
   virtual ~SEScalarElectricResistance() = default;
-
-  CDM::ScalarElectricResistanceData* Unload() const override;
 };
 }

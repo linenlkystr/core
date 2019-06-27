@@ -26,15 +26,6 @@ PressureTimePerAreaUnit::PressureTimePerAreaUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarPressureTimePerAreaData* SEScalarPressureTimePerArea::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarPressureTimePerAreaData* data(new CDM::ScalarPressureTimePerAreaData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool PressureTimePerAreaUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(mmHg_Per_mL_m2.GetString(),unit) == 0)

@@ -39,7 +39,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarPressure() = default;
   virtual ~SEScalarPressure() = default;
-
-  CDM::ScalarPressureData* Unload() const override;
 };
 }

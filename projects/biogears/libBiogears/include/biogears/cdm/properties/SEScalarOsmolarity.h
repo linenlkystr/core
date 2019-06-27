@@ -36,7 +36,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarOsmolarity() = default;
   virtual ~SEScalarOsmolarity() = default;
-
-  CDM::ScalarOsmolarityData* Unload() const override;
 };
 }

@@ -13,6 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarTime.h>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEScenarioAutoSerialization::SEScenarioAutoSerialization(Logger* logger)
   : Loggable(logger)
@@ -62,7 +63,7 @@ bool SEScenarioAutoSerialization::IsValid() const
 bool SEScenarioAutoSerialization::Load(const CDM::ScenarioAutoSerializationData& in)
 {
   Clear();
-  GetPeriod().Load(in.Period());
+  io::PropertyIoDelegate::Marshall(in.Period(), GetPeriod());
   SetPeriodTimeStamps(in.PeriodTimeStamps());
   SetAfterActions(in.AfterActions());
   SetReloadState(in.ReloadState());
@@ -81,7 +82,7 @@ CDM::ScenarioAutoSerializationData* SEScenarioAutoSerialization::Unload() const
 void SEScenarioAutoSerialization::Unload(CDM::ScenarioAutoSerializationData& data) const
 {
   if (HasPeriod())
-    data.Period(std::unique_ptr<CDM::ScalarTimeData>(m_Period->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Period, data.Period());
   if (HasPeriodTimeStamps())
     data.PeriodTimeStamps(m_PeriodTimeStamps);
   if (HasAfterActions())
@@ -222,5 +223,5 @@ void SEScenarioAutoSerialization::InvalidateFileName()
 {
   m_FileName = "";
 }
-  //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 }

@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"  
 namespace biogears {
   constexpr char idInsulinSynthesisRate[] = "InsulinSynthesisRate";
   constexpr char idGlucagonSynthesisRate[] = "GlucagonSynthesisRate";
@@ -59,9 +60,9 @@ bool SEEndocrineSystem::Load(const CDM::EndocrineSystemData& in)
 {
   SESystem::Load(in);
   if (in.InsulinSynthesisRate().present())
-    GetInsulinSynthesisRate().Load(in.InsulinSynthesisRate().get());
+    io::PropertyIoDelegate::Marshall(in.InsulinSynthesisRate(), GetInsulinSynthesisRate());
   if (in.GlucagonSynthesisRate().present())
-    GetGlucagonSynthesisRate().Load(in.GlucagonSynthesisRate().get());
+      io::PropertyIoDelegate::Marshall(in.GlucagonSynthesisRate(), GetGlucagonSynthesisRate());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -77,9 +78,9 @@ CDM::EndocrineSystemData* SEEndocrineSystem::Unload() const
 void SEEndocrineSystem::Unload(CDM::EndocrineSystemData& data) const
 {
   if (m_InsulinSynthesisRate != nullptr)
-    data.InsulinSynthesisRate(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_InsulinSynthesisRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_InsulinSynthesisRate, data.InsulinSynthesisRate());
   if (m_GlucagonSynthesisRate != nullptr)
-    data.GlucagonSynthesisRate(std::unique_ptr<CDM::ScalarAmountPerTimeData>(m_GlucagonSynthesisRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_GlucagonSynthesisRate, data.GlucagonSynthesisRate());
   SESystem::Unload(data);
 }
 //-------------------------------------------------------------------------------

@@ -18,6 +18,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/system/physiology/SEBloodChemistrySystem.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SECompleteBloodCount::SECompleteBloodCount(Logger* logger)
   : SEPatientAssessment(logger)
@@ -66,7 +67,30 @@ void SECompleteBloodCount::Reset()
 bool SECompleteBloodCount::Load(const CDM::CompleteBloodCountData& in)
 {
   SEPatientAssessment::Load(in);
-  // TODO
+  if (in.Hematocrit().present()) {
+    io::PropertyIoDelegate::Marshall(in.Hematocrit(), GetHematocrit());
+  }
+  if (in.Hemoglobin().present()) {
+    io::PropertyIoDelegate::Marshall(in.Hemoglobin(), GetHemoglobin());
+  }
+  if (in.PlateletCount().present()) {
+    io::PropertyIoDelegate::Marshall(in.PlateletCount(), GetPlateletCount());
+  }
+  if (in.MeanCorpuscularHemoglobin().present()) {
+    io::PropertyIoDelegate::Marshall(in.MeanCorpuscularHemoglobin(), GetMeanCorpuscularHemoglobin());
+  }
+  if (in.MeanCorpuscularHemoglobinConcentration().present()) {
+    io::PropertyIoDelegate::Marshall(in.MeanCorpuscularHemoglobinConcentration(), GetMeanCorpuscularHemoglobinConcentration());
+  }
+  if (in.MeanCorpuscularVolume().present()) {
+    io::PropertyIoDelegate::Marshall(in.MeanCorpuscularVolume(), GetMeanCorpuscularVolume());
+  }
+  if (in.RedBloodCellCount().present()) {
+    io::PropertyIoDelegate::Marshall(in.RedBloodCellCount(), GetRedBloodCellCount());
+  }
+  if (in.WhiteBloodCellCount().present()) {
+    io::PropertyIoDelegate::Marshall(in.WhiteBloodCellCount(), GetWhiteBloodCellCount());
+  }
   return true;
 }
 
@@ -80,22 +104,30 @@ CDM::CompleteBloodCountData* SECompleteBloodCount::Unload()
 void SECompleteBloodCount::Unload(CDM::CompleteBloodCountData& data)
 {
   SEPatientAssessment::Unload(data);
-  if (HasHematocrit())
-    data.Hematocrit(std::unique_ptr<CDM::ScalarFractionData>(m_Hematocrit->Unload()));
-  if (HasHemoglobin())
-    data.Hemoglobin(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_Hemoglobin->Unload()));
-  if (HasPlateletCount())
-    data.PlateletCount(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_PlateletCount->Unload()));
-  if (HasMeanCorpuscularHemoglobin())
-    data.MeanCorpuscularHemoglobin(std::unique_ptr<CDM::ScalarMassPerAmountData>(m_MeanCorpuscularHemoglobin->Unload()));
-  if (HasMeanCorpuscularHemoglobinConcentration())
-    data.MeanCorpuscularHemoglobinConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_MeanCorpuscularHemoglobinConcentration->Unload()));
-  if (HasMeanCorpuscularVolume())
-    data.MeanCorpuscularVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_MeanCorpuscularVolume->Unload()));
-  if (HasRedBloodCellCount())
-    data.RedBloodCellCount(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_RedBloodCellCount->Unload()));
-  if (HasWhiteBloodCellCount())
-    data.WhiteBloodCellCount(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_WhiteBloodCellCount->Unload()));
+  if (HasHematocrit()) {
+    io::PropertyIoDelegate::UnMarshall(*m_Hematocrit, data.Hematocrit());
+  }
+  if (HasHemoglobin()) {
+    io::PropertyIoDelegate::UnMarshall(*m_Hemoglobin, data.Hemoglobin());
+  }
+  if (HasPlateletCount()) {
+    io::PropertyIoDelegate::UnMarshall(*m_PlateletCount, data.PlateletCount());
+  }
+  if (HasMeanCorpuscularHemoglobin()) {
+    io::PropertyIoDelegate::UnMarshall(*m_MeanCorpuscularHemoglobin, data.MeanCorpuscularHemoglobin());
+  }
+  if (HasMeanCorpuscularHemoglobinConcentration()) {
+    io::PropertyIoDelegate::UnMarshall(*m_MeanCorpuscularHemoglobinConcentration, data.MeanCorpuscularHemoglobinConcentration());
+  }
+  if (HasMeanCorpuscularVolume()) {
+    io::PropertyIoDelegate::UnMarshall(*m_MeanCorpuscularVolume, data.MeanCorpuscularVolume());
+  }
+  if (HasRedBloodCellCount()) {
+    io::PropertyIoDelegate::UnMarshall(*m_RedBloodCellCount, data.RedBloodCellCount());
+  }
+  if (HasWhiteBloodCellCount()) {
+    io::PropertyIoDelegate::UnMarshall(*m_WhiteBloodCellCount, data.WhiteBloodCellCount());
+  }
 }
 
 bool SECompleteBloodCount::HasHematocrit()

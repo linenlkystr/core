@@ -16,6 +16,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstanceTissuePharmacokinetics::SESubstanceTissuePharmacokinetics(const std::string& name, Logger* logger)
   : Loggable(logger)
@@ -39,7 +40,7 @@ bool SESubstanceTissuePharmacokinetics::Load(const CDM::SubstanceTissuePharmacok
 {
   Clear();
   if (in.PartitionCoefficient().present())
-    GetPartitionCoefficient().Load(in.PartitionCoefficient().get());
+  io::PropertyIoDelegate::Marshall(in.PartitionCoefficient(), GetPartitionCoefficient());
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -54,7 +55,7 @@ void SESubstanceTissuePharmacokinetics::Unload(CDM::SubstanceTissuePharmacokinet
 {
   data.Name(m_Name);
   if (m_PartitionCoefficient != nullptr)
-    data.PartitionCoefficient(std::unique_ptr<CDM::ScalarData>(m_PartitionCoefficient->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PartitionCoefficient, data.PartitionCoefficient());
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SESubstanceTissuePharmacokinetics::GetScalar(const char* name)

@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEFunction.h>
 #include <biogears/schema/cdm/TestReport.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SETestErrorStatistics::SETestErrorStatistics(Logger* logger)
   : Loggable(logger)
@@ -90,7 +91,7 @@ void SETestErrorStatistics::Unload(CDM::TestErrorStatisticsData& data) const
   if (!m_PropertyName.empty())
     data.PropertyName(m_PropertyName);
   if (m_PercentToleranceVsNumErrorsHistogram != nullptr) {
-    data.PercentToleranceVsNumErrors(std::unique_ptr<CDM::FunctionData>(m_PercentToleranceVsNumErrorsHistogram->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PercentToleranceVsNumErrorsHistogram, data.PercentToleranceVsNumErrors());
   }
 }
 

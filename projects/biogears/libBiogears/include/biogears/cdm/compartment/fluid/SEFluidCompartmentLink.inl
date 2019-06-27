@@ -16,6 +16,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 
+#include "cdm/utils/io/PropertyIoDelegate.h"
 namespace biogears {
 template <FLUID_COMPARTMENT_LINK_TEMPLATE>
 SEFluidCompartmentLink<FLUID_COMPARTMENT_LINK_TYPES>::SEFluidCompartmentLink(CompartmentType& src, CompartmentType& tgt, const char* name)
@@ -57,7 +58,7 @@ bool SEFluidCompartmentLink<FLUID_COMPARTMENT_LINK_TYPES>::Load(const CDM::Fluid
     MapPath(*path);
   } else {
     if (in.Flow().present())
-      const_cast<SEScalarVolumePerTime&>(GetFlow()).Load(in.Flow().get());
+      io::PropertyIoDelegate::Marshall(in.Flow(), GetFlow());
   }
   return true;
 }
@@ -72,7 +73,7 @@ void SEFluidCompartmentLink<FLUID_COMPARTMENT_LINK_TYPES>::Unload(CDM::FluidComp
     data.Path(m_Path->GetName());
   // Even if you have a path, I am unloading everything, this makes the xml actually usefull...
   if (HasFlow())
-    data.Flow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(GetFlow().Unload()));
+    io::PropertyIoDelegate::UnMarshall(GetFlow(), data.Flow());
 }
 //-------------------------------------------------------------------------------
 template <FLUID_COMPARTMENT_LINK_TEMPLATE>

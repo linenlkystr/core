@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarMassPerVolume MassPerVolume = biogears::SEScalarMassPerVolume();
-  auto ptr = MassPerVolume.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0  = biogears::MassPerVolumeUnit::IsValidUnit("g/dL");

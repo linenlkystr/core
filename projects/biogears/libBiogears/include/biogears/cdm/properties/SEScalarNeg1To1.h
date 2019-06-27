@@ -22,7 +22,6 @@ public:
   SEScalarNeg1To1();
   virtual ~SEScalarNeg1To1() = default;
 
-  CDM::ScalarNeg1To1Data* Unload() const override;
 
   using SEScalar::GetValue;
   double GetValue(const NoUnit& unitless) const;

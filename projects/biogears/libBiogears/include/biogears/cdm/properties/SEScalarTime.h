@@ -39,7 +39,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarTime() = default;
   virtual ~SEScalarTime() = default;
-
-  CDM::ScalarTimeData* Unload() const override;
 };
 }

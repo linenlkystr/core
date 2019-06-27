@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarFlowInertance FlowInertance = biogears::SEScalarFlowInertance();
-  auto ptr = FlowInertance.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::FlowInertanceUnit::IsValidUnit("mmHg s^2/mL");

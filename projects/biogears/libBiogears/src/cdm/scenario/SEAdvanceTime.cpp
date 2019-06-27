@@ -13,6 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarTime.h>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEAdvanceTime::SEAdvanceTime()
   : SEAction()
@@ -39,7 +40,7 @@ bool SEAdvanceTime::IsValid() const
 bool SEAdvanceTime::Load(const CDM::AdvanceTimeData& in)
 {
   SEAction::Load(in);
-  GetTime().Load(in.Time());
+  io::PropertyIoDelegate::Marshall(in.Time(), GetTime());
   return true;
 }
 
@@ -54,7 +55,7 @@ void SEAdvanceTime::Unload(CDM::AdvanceTimeData& data) const
 {
   SEAction::Unload(data);
   if (HasTime())
-    data.Time(std::unique_ptr<CDM::ScalarTimeData>(m_Time->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Time, data.Time());
 }
 
 void SEAdvanceTime::ToString(std::ostream& str) const

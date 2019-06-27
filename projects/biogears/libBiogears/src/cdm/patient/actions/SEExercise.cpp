@@ -11,9 +11,10 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 #include <biogears/cdm/patient/actions/SEExercise.h>
 
-#include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/cdm/properties/SEScalar.h>
+#include <biogears/cdm/properties/SEScalar0To1.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEExercise::SEExercise()
   : SEPatientAction()
@@ -36,7 +37,7 @@ void SEExercise::Clear()
 
 bool SEExercise::IsValid() const
 {
-    return SEPatientAction::IsValid() && (HasDesiredWorkRate() || HasIntensity());
+  return SEPatientAction::IsValid() && (HasDesiredWorkRate() || HasIntensity());
 }
 
 bool SEExercise::IsActive() const
@@ -46,17 +47,18 @@ bool SEExercise::IsActive() const
   } else if (HasDesiredWorkRate()) {
     return !m_DesiredWorkRate->IsZero();
   } else {
-      return false;
+    return false;
   }
 }
 
 bool SEExercise::Load(const CDM::ExerciseData& in)
 {
   SEPatientAction::Load(in);
-  if (in.Intensity().present())
-    GetIntensity().Load(in.Intensity().get());
-  else if (in.DesiredWorkRate().present()) 
-    GetDesiredWorkRate().Load(in.DesiredWorkRate().get());
+  if (in.Intensity().present()) {
+    io::PropertyIoDelegate::Marshall(in.Intensity(), GetIntensity());
+  } else if (in.DesiredWorkRate().present()) {
+    io::PropertyIoDelegate::Marshall(in.DesiredWorkRate(), GetDesiredWorkRate());
+  }
   return true;
 }
 
@@ -71,10 +73,10 @@ void SEExercise::Unload(CDM::ExerciseData& data) const
 {
   SEPatientAction::Unload(data);
   if (m_Intensity != nullptr) {
-    data.Intensity(std::unique_ptr<CDM::Scalar0To1Data>(m_Intensity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Intensity, data.Intensity());
   }
   if (m_DesiredWorkRate != nullptr) {
-    data.DesiredWorkRate(std::unique_ptr<CDM::ScalarData>(m_DesiredWorkRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DesiredWorkRate, data.DesiredWorkRate());
   }
 }
 

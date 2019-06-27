@@ -19,6 +19,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 
+#include "cdm/utils/io/PropertyIoDelegate.h"
 namespace biogears {
 template <FLUID_COMPARTMENT_TEMPLATE>
 SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::SEFluidCompartment(const char* name, Logger* logger)
@@ -73,16 +74,18 @@ bool SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::Load(const CDM::FluidCompartme
     for (auto name : in.Node()) {
       SEFluidCircuitNode* node = circuits->GetFluidNode(name);
       if (node == nullptr) {
-        Error("Compartment is mapped to circuit node, " + std::string{ name } +", but provided circuit manager did not have that node");
+        Error("Compartment is mapped to circuit node, " + std::string{ name } + ", but provided circuit manager did not have that node");
         return false;
       }
       MapNode(*node);
     }
   } else { // Only load these if you don't have children or nodes
-    if (in.Pressure().present())
-      GetPressure().Load(in.Pressure().get());
-    if (in.Volume().present())
-      GetVolume().Load(in.Volume().get());
+    if (in.Pressure().present()) {
+      io::PropertyIoDelegate::Marshall(in.Pressure(), GetPressure());
+    }
+    if (in.Volume().present()) {
+      io::PropertyIoDelegate::Marshall(in.Volume(), GetVolume());
+    }
   }
   return true;
 }
@@ -96,14 +99,18 @@ void SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::Unload(CDM::FluidCompartmentDa
   for (SEFluidCircuitNode* nodes : m_Nodes.GetNodes())
     data.Node().push_back(nodes->GetName());
   // Even if you have children or nodes, I am unloading everything, this makes the xml actually usefull...
-  if (HasInFlow())
-    data.InFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(GetInFlow().Unload()));
-  if (HasOutFlow())
-    data.OutFlow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(GetOutFlow().Unload()));
-  if (HasPressure())
-    data.Pressure(std::unique_ptr<CDM::ScalarPressureData>(GetPressure().Unload()));
-  if (HasVolume())
-    data.Volume(std::unique_ptr<CDM::ScalarVolumeData>(GetVolume().Unload()));
+  if (HasInFlow()) {
+    io::PropertyIoDelegate::UnMarshall(GetInFlow(), data.InFlow());
+  }
+  if (HasOutFlow()) {
+    io::PropertyIoDelegate::UnMarshall(GetOutFlow(), data.OutFlow());
+  }
+  if (HasPressure()) {
+    io::PropertyIoDelegate::UnMarshall(GetPressure(), data.Pressure());
+  }
+  if (HasVolume()) {
+    io::PropertyIoDelegate::UnMarshall(GetVolume(), data.Volume());
+  }
 }
 //-----------------------------------------------------------------------------
 template <FLUID_COMPARTMENT_TEMPLATE>
@@ -465,7 +472,7 @@ const std::vector<LinkType*>& SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::GetLi
 template <FLUID_COMPARTMENT_TEMPLATE>
 bool SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::HasChild(const char* name)
 {
-  return HasChild( std::string{ name } );
+  return HasChild(std::string{ name });
 }
 //-----------------------------------------------------------------------------
 template <FLUID_COMPARTMENT_TEMPLATE>

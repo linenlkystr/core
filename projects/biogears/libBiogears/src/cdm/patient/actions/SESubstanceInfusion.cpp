@@ -17,6 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstanceInfusion::SESubstanceInfusion(const SESubstance& substance)
   : SESubstanceAdministration()
@@ -51,8 +52,8 @@ bool SESubstanceInfusion::IsActive() const
 bool SESubstanceInfusion::Load(const CDM::SubstanceInfusionData& in)
 {
   SESubstanceAdministration::Load(in);
-  GetRate().Load(in.Rate());
-  GetConcentration().Load(in.Concentration());
+  io::PropertyIoDelegate::Marshall(in.Rate(), GetRate());
+  io::PropertyIoDelegate::Marshall(in.Concentration(), GetConcentration());
   return true;
 }
 
@@ -66,10 +67,12 @@ CDM::SubstanceInfusionData* SESubstanceInfusion::Unload() const
 void SESubstanceInfusion::Unload(CDM::SubstanceInfusionData& data) const
 {
   SESubstanceAdministration::Unload(data);
-  if (m_Rate != nullptr)
-    data.Rate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_Rate->Unload()));
-  if (m_Concentration != nullptr)
-    data.Concentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_Concentration->Unload()));
+  if (m_Rate != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Rate, data.Rate());
+  }
+  if (m_Concentration != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Concentration, data.Concentration());
+  }
   data.Substance(m_Substance.GetName());
 }
 

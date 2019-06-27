@@ -235,7 +235,7 @@ protected:
   std::map<CDM::enumPatientEvent::value, double> m_EventDuration_s;
 
   std::string m_Name;
-  CDM::enumSex::value m_Sex;
+  CDM::enumSex::value m_Gender;
   SEScalarTime* m_Age;
   SEScalarMass* m_Weight;
   SEScalarLength* m_Height;

@@ -50,37 +50,6 @@ void SEHistogram::Invalidate()
   Clear();
 }
 
-bool SEHistogram::Load(const CDM::HistogramData& in)
-{
-  Clear();
-  for (unsigned int i = 0; i < in.Dependent().DoubleList().size(); i++)
-    m_Dependent.push_back(in.Dependent().DoubleList()[i]);
-  for (unsigned int i = 0; i < in.Independent().DoubleList().size(); i++)
-    m_Independent.push_back(in.Independent().DoubleList()[i]);
-  return IsValid();
-}
-
-CDM::HistogramData* SEHistogram::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::HistogramData* data(new CDM::HistogramData());
-  Unload(*data);
-  return data;
-}
-
-void SEHistogram::Unload(CDM::HistogramData& data) const
-{
-  data.Dependent(std::unique_ptr<CDM::DoubleList>(new CDM::DoubleList()));
-  data.Dependent().DoubleList(std::unique_ptr<CDM::DoubleList>(new CDM::DoubleList()));
-  data.Independent(std::unique_ptr<CDM::DoubleList>(new CDM::DoubleList()));
-  data.Independent().DoubleList(std::unique_ptr<CDM::DoubleList>(new CDM::DoubleList()));
-  for (unsigned int i = 0; i < m_Dependent.size(); i++)
-    data.Dependent().DoubleList().push_back(m_Dependent[i]);
-  for (unsigned int i = 0; i < m_Independent.size(); i++)
-    data.Independent().DoubleList().push_back(m_Independent[i]);
-}
-
 unsigned int SEHistogram::NumberOfBins() const
 {
   if (IsValid())

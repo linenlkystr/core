@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/testing/SETestCase.h>
 #include <biogears/schema/cdm/TestReport.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SETestCase::SETestCase(Logger* logger)
   : Loggable(logger)
@@ -51,8 +52,8 @@ bool SETestCase::Load(const CDM::TestCase& in)
   Reset();
 
   m_Name = in.Name();
-  GetDuration().Load(in.Time());
 
+  io::PropertyIoDelegate::Marshall(in.Time(), GetDuration());
   SETestErrorStatistics* ex;
   CDM::TestErrorStatisticsData* eData;
   for (unsigned int i = 0; i < in.CaseEqualError().size(); i++) {
@@ -82,8 +83,8 @@ void SETestCase::Unload(CDM::TestCase& data) const
 {
   data.Name(m_Name);
 
-  data.Time(std::unique_ptr<CDM::ScalarTimeData>(m_Duration.Unload()));
 
+  io::PropertyIoDelegate::UnMarshall(m_Duration, data.Time());
   for (unsigned int i = 0; i < m_Failure.size(); i++) {
     data.Failure().push_back(m_Failure.at(i));
   }

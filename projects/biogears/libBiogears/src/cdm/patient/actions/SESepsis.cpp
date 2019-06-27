@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTypes.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 
 SESepsis::SESepsis()
@@ -49,7 +50,7 @@ bool SESepsis::Load(const CDM::SepsisData& in)
 {
   SEPatientAction::Load(in);
   m_Compartment = in.Compartment();
-  GetSeverity().Load(in.Severity());
+  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -66,7 +67,7 @@ void SESepsis::Unload(CDM::SepsisData& data) const
   if (HasCompartment())
     data.Compartment(m_Compartment);
   if (m_Severity != nullptr)
-    data.Severity(std::unique_ptr<CDM::Scalar0To1Data>(m_Severity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
 }
 //-------------------------------------------------------------------------------
 const char* SESepsis::GetCompartment_cStr() const

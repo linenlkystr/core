@@ -27,6 +27,8 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/engine/Controller/BioGears.h>
 #include <biogears/engine/BioGearsPhysiologyEngine.h>
+
+#include "../../cdm/utils/io/PropertyIoDelegate.h"
 namespace BGE = mil::tatrc::physiology::biogears;
 
 namespace biogears {
@@ -117,10 +119,10 @@ bool AnesthesiaMachine::Load(const CDM::BioGearsAnesthesiaMachineData& in)
     return false;
   BioGearsSystem::LoadState();
   m_inhaling = in.Inhaling();
-  m_currentbreathingCycleTime.Load(in.CurrentBreathingCycleTime());
-  m_inspirationTime.Load(in.InspirationTime());
-  m_O2InletVolumeFraction.Load(in.OxygenInletVolumeFraction());
-  m_totalBreathingCycleTime.Load(in.TotalBreathingCycleTime());
+  io::PropertyIoDelegate::Marshall(in.CurrentBreathingCycleTime(), m_currentbreathingCycleTime);
+  io::PropertyIoDelegate::Marshall(in.InspirationTime(), m_inspirationTime);
+  io::PropertyIoDelegate::Marshall(in.OxygenInletVolumeFraction(), m_O2InletVolumeFraction);
+  io::PropertyIoDelegate::Marshall(in.TotalBreathingCycleTime(), m_totalBreathingCycleTime);
   return true;
 }
 CDM::BioGearsAnesthesiaMachineData* AnesthesiaMachine::Unload() const
@@ -133,10 +135,10 @@ void AnesthesiaMachine::Unload(CDM::BioGearsAnesthesiaMachineData& data) const
 {
   SEAnesthesiaMachine::Unload(data);
   data.Inhaling(m_inhaling);
-  data.CurrentBreathingCycleTime(std::unique_ptr<CDM::ScalarTimeData>(m_currentbreathingCycleTime.Unload()));
-  data.InspirationTime(std::unique_ptr<CDM::ScalarTimeData>(m_inspirationTime.Unload()));
-  data.OxygenInletVolumeFraction(std::unique_ptr<CDM::ScalarData>(m_O2InletVolumeFraction.Unload()));
-  data.TotalBreathingCycleTime(std::unique_ptr<CDM::ScalarTimeData>(m_totalBreathingCycleTime.Unload()));
+  io::PropertyIoDelegate::UnMarshall(m_currentbreathingCycleTime, data.InspirationTime());
+  io::PropertyIoDelegate::UnMarshall(m_inspirationTime, data.OxygenInletVolumeFraction());
+  io::PropertyIoDelegate::UnMarshall(m_O2InletVolumeFraction, data.TotalBreathingCycleTime());
+  io::PropertyIoDelegate::UnMarshall(m_totalBreathingCycleTime, data.TotalBreathingCycleTime());
 }
 
 //--------------------------------------------------------------------------------------------------

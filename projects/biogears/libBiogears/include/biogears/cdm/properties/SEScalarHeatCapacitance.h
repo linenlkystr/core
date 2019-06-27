@@ -38,7 +38,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarHeatCapacitance() = default;
   virtual ~SEScalarHeatCapacitance() = default;
-
-  CDM::ScalarHeatCapacitanceData* Unload() const override;
 };
 }

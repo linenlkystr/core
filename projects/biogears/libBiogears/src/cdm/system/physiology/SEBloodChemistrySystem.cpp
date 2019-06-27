@@ -21,41 +21,42 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
-  constexpr char idArterialBloodPH[] = "ArterialBloodPH";
-  constexpr char idArterialBloodPHBaseline[] = "ArterialBloodPHBaseline";
-  constexpr char idBloodDensity[] = "BloodDensity";
-  constexpr char idBloodSpecificHeat[] = "BloodSpecificHeat";
-  constexpr char idBloodUreaNitrogenConcentration[] = "BloodUreaNitrogenConcentration";
-  constexpr char idCarbonDioxideSaturation[] = "CarbonDioxideSaturation";
-  constexpr char idCarbonMonoxideSaturation[] = "CarbonMonoxideSaturation";
-  constexpr char idHematocrit[] = "Hematocrit";
-  constexpr char idHemoglobinContent[] = "HemoglobinContent";
-  constexpr char idOxygenSaturation[] = "OxygenSaturation";
-  constexpr char idOxygenVenousSaturation[] = "OxygenVenousSaturation";
-  constexpr char idPhosphate[] = "Phosphate";
-  constexpr char idPlasmaVolume[] = "PlasmaVolume";
-  constexpr char idPulseOximetry[] = "PulseOximetry";
-  constexpr char idRedBloodCellAcetylcholinesterase[] = "RedBloodCellAcetylcholinesterase";
-  constexpr char idRedBloodCellCount[] = "RedBloodCellCount";
-  constexpr char idShuntFraction[] = "ShuntFraction";
-  constexpr char idStrongIonDifference[] = "StrongIonDifference";
-  constexpr char idTotalBilirubin[] = "TotalBilirubin";
-  constexpr char idTotalProteinConcentration[] = "TotalProteinConcentration";
-  constexpr char idVenousBloodPH[] = "VenousBloodPH";
-  constexpr char idVolumeFractionNeutralPhospholipidInPlasma[] = "VolumeFractionNeutralPhospholipidInPlasma";
-  constexpr char idVolumeFractionNeutralLipidInPlasma[] = "VolumeFractionNeutralLipidInPlasma";
-  constexpr char idWhiteBloodCellCount[] = "WhiteBloodCellCount";
-  constexpr char idArterialCarbonDioxidePressure[] = "ArterialCarbonDioxidePressure";
-  constexpr char idArterialOxygenPressure[] = "ArterialOxygenPressure";
-  constexpr char idPulmonaryArterialCarbonDioxidePressure[] = "PulmonaryArterialCarbonDioxidePressure";
-  constexpr char idPulmonaryArterialOxygenPressure[] = "PulmonaryArterialOxygenPressure";
-  constexpr char idPulmonaryVenousCarbonDioxidePressure[] = "PulmonaryVenousCarbonDioxidePressure";
-  constexpr char idPulmonaryVenousOxygenPressure[] = "PulmonaryVenousOxygenPressure";
-  constexpr char idVenousCarbonDioxidePressure[] = "VenousCarbonDioxidePressure";
-  constexpr char idVenousOxygenPressure[] = "VenousOxygenPressure";
-  constexpr char idSepsisInfectionState[] = "SepsisInfectionState";
-  constexpr char idAcuteInflammatoryResponse[] = "AcuteInflammatoryResponse";
+constexpr char idArterialBloodPH[] = "ArterialBloodPH";
+constexpr char idArterialBloodPHBaseline[] = "ArterialBloodPHBaseline";
+constexpr char idBloodDensity[] = "BloodDensity";
+constexpr char idBloodSpecificHeat[] = "BloodSpecificHeat";
+constexpr char idBloodUreaNitrogenConcentration[] = "BloodUreaNitrogenConcentration";
+constexpr char idCarbonDioxideSaturation[] = "CarbonDioxideSaturation";
+constexpr char idCarbonMonoxideSaturation[] = "CarbonMonoxideSaturation";
+constexpr char idHematocrit[] = "Hematocrit";
+constexpr char idHemoglobinContent[] = "HemoglobinContent";
+constexpr char idOxygenSaturation[] = "OxygenSaturation";
+constexpr char idOxygenVenousSaturation[] = "OxygenVenousSaturation";
+constexpr char idPhosphate[] = "Phosphate";
+constexpr char idPlasmaVolume[] = "PlasmaVolume";
+constexpr char idPulseOximetry[] = "PulseOximetry";
+constexpr char idRedBloodCellAcetylcholinesterase[] = "RedBloodCellAcetylcholinesterase";
+constexpr char idRedBloodCellCount[] = "RedBloodCellCount";
+constexpr char idShuntFraction[] = "ShuntFraction";
+constexpr char idStrongIonDifference[] = "StrongIonDifference";
+constexpr char idTotalBilirubin[] = "TotalBilirubin";
+constexpr char idTotalProteinConcentration[] = "TotalProteinConcentration";
+constexpr char idVenousBloodPH[] = "VenousBloodPH";
+constexpr char idVolumeFractionNeutralPhospholipidInPlasma[] = "VolumeFractionNeutralPhospholipidInPlasma";
+constexpr char idVolumeFractionNeutralLipidInPlasma[] = "VolumeFractionNeutralLipidInPlasma";
+constexpr char idWhiteBloodCellCount[] = "WhiteBloodCellCount";
+constexpr char idArterialCarbonDioxidePressure[] = "ArterialCarbonDioxidePressure";
+constexpr char idArterialOxygenPressure[] = "ArterialOxygenPressure";
+constexpr char idPulmonaryArterialCarbonDioxidePressure[] = "PulmonaryArterialCarbonDioxidePressure";
+constexpr char idPulmonaryArterialOxygenPressure[] = "PulmonaryArterialOxygenPressure";
+constexpr char idPulmonaryVenousCarbonDioxidePressure[] = "PulmonaryVenousCarbonDioxidePressure";
+constexpr char idPulmonaryVenousOxygenPressure[] = "PulmonaryVenousOxygenPressure";
+constexpr char idVenousCarbonDioxidePressure[] = "VenousCarbonDioxidePressure";
+constexpr char idVenousOxygenPressure[] = "VenousOxygenPressure";
+constexpr char idSepsisInfectionState[] = "SepsisInfectionState";
+constexpr char idAcuteInflammatoryResponse[] = "AcuteInflammatoryResponse";
 
 SEBloodChemistrySystem::SEBloodChemistrySystem(Logger* logger)
   : SESystem(logger)
@@ -236,70 +237,69 @@ bool SEBloodChemistrySystem::Load(const CDM::BloodChemistrySystemData& in)
   SESystem::Load(in);
 
   if (in.ArterialBloodPH().present())
-    GetArterialBloodPH().Load(in.ArterialBloodPH().get());
+  io::PropertyIoDelegate::Marshall(in.ArterialBloodPH(), GetArterialBloodPH());
   if (in.ArterialBloodPHBaseline().present())
-    GetArterialBloodPHBaseline().Load(in.ArterialBloodPHBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.ArterialBloodPHBaseline(), GetArterialBloodPHBaseline());
   if (in.BloodDensity().present())
-    GetBloodDensity().Load(in.BloodDensity().get());
+    io::PropertyIoDelegate::Marshall(in.BloodDensity(), GetBloodDensity());
   if (in.BloodSpecificHeat().present())
-    GetBloodSpecificHeat().Load(in.BloodSpecificHeat().get());
+    io::PropertyIoDelegate::Marshall(in.BloodSpecificHeat(), GetBloodSpecificHeat());
   if (in.BloodUreaNitrogenConcentration().present())
-    GetBloodUreaNitrogenConcentration().Load(in.BloodUreaNitrogenConcentration().get());
+    io::PropertyIoDelegate::Marshall(in.BloodUreaNitrogenConcentration(), GetBloodUreaNitrogenConcentration());
   if (in.CarbonDioxideSaturation().present())
-    GetCarbonDioxideSaturation().Load(in.CarbonDioxideSaturation().get());
+    io::PropertyIoDelegate::Marshall(in.CarbonDioxideSaturation(), GetCarbonDioxideSaturation());
   if (in.CarbonMonoxideSaturation().present())
-    GetCarbonMonoxideSaturation().Load(in.CarbonMonoxideSaturation().get());
+    io::PropertyIoDelegate::Marshall(in.CarbonMonoxideSaturation(), GetCarbonMonoxideSaturation());
   if (in.Hematocrit().present())
-    GetHematocrit().Load(in.Hematocrit().get());
+    io::PropertyIoDelegate::Marshall(in.Hematocrit(), GetHematocrit());
   if (in.HemoglobinContent().present())
-    GetHemoglobinContent().Load(in.HemoglobinContent().get());
+    io::PropertyIoDelegate::Marshall(in.HemoglobinContent(), GetHemoglobinContent());
   if (in.OxygenSaturation().present())
-    GetOxygenSaturation().Load(in.OxygenSaturation().get());
+    io::PropertyIoDelegate::Marshall(in.OxygenSaturation(), GetOxygenSaturation());
   if (in.OxygenVenousSaturation().present())
-    GetOxygenVenousSaturation().Load(in.OxygenVenousSaturation().get());
+    io::PropertyIoDelegate::Marshall(in.OxygenVenousSaturation(), GetOxygenVenousSaturation());
   if (in.Phosphate().present())
-    GetPhosphate().Load(in.Phosphate().get());
+    io::PropertyIoDelegate::Marshall(in.Phosphate(), GetPhosphate());
   if (in.PlasmaVolume().present())
-    GetPlasmaVolume().Load(in.PlasmaVolume().get());
+    io::PropertyIoDelegate::Marshall(in.PlasmaVolume(), GetPlasmaVolume());
   if (in.PulseOximetry().present())
-    GetPulseOximetry().Load(in.PulseOximetry().get());
+    io::PropertyIoDelegate::Marshall(in.PulseOximetry(), GetPulseOximetry());
   if (in.RedBloodCellAcetylcholinesterase().present())
-    GetRedBloodCellAcetylcholinesterase().Load(in.RedBloodCellAcetylcholinesterase().get());
+    io::PropertyIoDelegate::Marshall(in.RedBloodCellAcetylcholinesterase(), GetRedBloodCellAcetylcholinesterase());
   if (in.RedBloodCellCount().present())
-    GetRedBloodCellCount().Load(in.RedBloodCellCount().get());
+    io::PropertyIoDelegate::Marshall(in.RedBloodCellCount(), GetRedBloodCellCount());
   if (in.ShuntFraction().present())
-    GetShuntFraction().Load(in.ShuntFraction().get());
+    io::PropertyIoDelegate::Marshall(in.ShuntFraction(), GetShuntFraction());
   if (in.StrongIonDifference().present())
-    GetStrongIonDifference().Load(in.StrongIonDifference().get());
+    io::PropertyIoDelegate::Marshall(in.StrongIonDifference(), GetStrongIonDifference());
   if (in.TotalBilirubin().present())
-    GetTotalBilirubin().Load(in.TotalBilirubin().get());
+    io::PropertyIoDelegate::Marshall(in.TotalBilirubin(), GetTotalBilirubin());
   if (in.TotalProteinConcentration().present())
-    GetTotalProteinConcentration().Load(in.TotalProteinConcentration().get());
+    io::PropertyIoDelegate::Marshall(in.TotalProteinConcentration(), GetTotalProteinConcentration());
   if (in.VenousBloodPH().present())
-    GetVenousBloodPH().Load(in.VenousBloodPH().get());
+    io::PropertyIoDelegate::Marshall(in.VenousBloodPH(), GetVenousBloodPH());
   if (in.VolumeFractionNeutralPhospholipidInPlasma().present())
-    GetVolumeFractionNeutralPhospholipidInPlasma().Load(in.VolumeFractionNeutralPhospholipidInPlasma().get());
+    io::PropertyIoDelegate::Marshall(in.VolumeFractionNeutralPhospholipidInPlasma(), GetVolumeFractionNeutralPhospholipidInPlasma());
   if (in.VolumeFractionNeutralLipidInPlasma().present())
-    GetVolumeFractionNeutralLipidInPlasma().Load(in.VolumeFractionNeutralLipidInPlasma().get());
+    io::PropertyIoDelegate::Marshall(in.VolumeFractionNeutralLipidInPlasma(), GetVolumeFractionNeutralLipidInPlasma());
   if (in.WhiteBloodCellCount().present())
-    GetWhiteBloodCellCount().Load(in.WhiteBloodCellCount().get());
-
+    io::PropertyIoDelegate::Marshall(in.WhiteBloodCellCount(), GetWhiteBloodCellCount());
   if (in.ArterialCarbonDioxidePressure().present())
-    GetArterialCarbonDioxidePressure().Load(in.ArterialCarbonDioxidePressure().get());
+    io::PropertyIoDelegate::Marshall(in.ArterialCarbonDioxidePressure(), GetArterialCarbonDioxidePressure());
   if (in.ArterialOxygenPressure().present())
-    GetArterialOxygenPressure().Load(in.ArterialOxygenPressure().get());
+    io::PropertyIoDelegate::Marshall(in.ArterialOxygenPressure(), GetArterialOxygenPressure());
   if (in.PulmonaryArterialCarbonDioxidePressure().present())
-    GetPulmonaryArterialCarbonDioxidePressure().Load(in.PulmonaryArterialCarbonDioxidePressure().get());
+    io::PropertyIoDelegate::Marshall(in.PulmonaryArterialCarbonDioxidePressure(), GetPulmonaryArterialCarbonDioxidePressure());
   if (in.PulmonaryArterialOxygenPressure().present())
-    GetPulmonaryArterialOxygenPressure().Load(in.PulmonaryArterialOxygenPressure().get());
+    io::PropertyIoDelegate::Marshall(in.PulmonaryArterialOxygenPressure(), GetPulmonaryArterialOxygenPressure());
   if (in.PulmonaryVenousOxygenPressure().present())
-    GetPulmonaryVenousOxygenPressure().Load(in.PulmonaryVenousOxygenPressure().get());
+    io::PropertyIoDelegate::Marshall(in.PulmonaryVenousOxygenPressure(), GetPulmonaryVenousOxygenPressure());
   if (in.PulmonaryVenousCarbonDioxidePressure().present())
-    GetPulmonaryVenousCarbonDioxidePressure().Load(in.PulmonaryVenousCarbonDioxidePressure().get());
+    io::PropertyIoDelegate::Marshall(in.PulmonaryVenousCarbonDioxidePressure(), GetPulmonaryVenousCarbonDioxidePressure());
   if (in.VenousCarbonDioxidePressure().present())
-    GetVenousCarbonDioxidePressure().Load(in.VenousCarbonDioxidePressure().get());
+    io::PropertyIoDelegate::Marshall(in.VenousCarbonDioxidePressure(), GetVenousCarbonDioxidePressure());
   if (in.VenousOxygenPressure().present())
-    GetVenousOxygenPressure().Load(in.VenousOxygenPressure().get());
+    io::PropertyIoDelegate::Marshall(in.VenousOxygenPressure(), GetVenousOxygenPressure());
   if (in.AcuteInflammatoryResponse().present())
     GetAcuteInflammatoryResponse().Load(in.AcuteInflammatoryResponse().get());
   return true;
@@ -319,70 +319,70 @@ void SEBloodChemistrySystem::Unload(CDM::BloodChemistrySystemData& data) const
   SESystem::Unload(data);
 
   if (m_ArterialBloodPH != nullptr)
-    data.ArterialBloodPH(std::unique_ptr<CDM::ScalarData>(m_ArterialBloodPH->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ArterialBloodPH, data.ArterialBloodPH());
   if (m_ArterialBloodPHBaseline != nullptr)
-    data.ArterialBloodPHBaseline(std::unique_ptr<CDM::ScalarData>(m_ArterialBloodPHBaseline->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ArterialBloodPHBaseline, data.ArterialBloodPHBaseline());
   if (m_BloodDensity != nullptr)
-    data.BloodDensity(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_BloodDensity->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_BloodDensity, data.BloodDensity());
   if (m_BloodSpecificHeat != nullptr)
-    data.BloodSpecificHeat(std::unique_ptr<CDM::ScalarHeatCapacitancePerMassData>(m_BloodSpecificHeat->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_BloodSpecificHeat, data.BloodSpecificHeat());
   if (m_BloodUreaNitrogenConcentration != nullptr)
-    data.BloodUreaNitrogenConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_BloodUreaNitrogenConcentration->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_BloodUreaNitrogenConcentration, data.BloodUreaNitrogenConcentration());
   if (m_CarbonDioxideSaturation != nullptr)
-    data.CarbonDioxideSaturation(std::unique_ptr<CDM::ScalarFractionData>(m_CarbonDioxideSaturation->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CarbonDioxideSaturation, data.CarbonDioxideSaturation());
   if (m_CarbonMonoxideSaturation != nullptr)
-    data.CarbonMonoxideSaturation(std::unique_ptr<CDM::ScalarFractionData>(m_CarbonMonoxideSaturation->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CarbonMonoxideSaturation, data.CarbonMonoxideSaturation());
   if (m_Hematocrit != nullptr)
-    data.Hematocrit(std::unique_ptr<CDM::ScalarFractionData>(m_Hematocrit->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Hematocrit, data.Hematocrit());
   if (m_HemoglobinContent != nullptr)
-    data.HemoglobinContent(std::unique_ptr<CDM::ScalarMassData>(m_HemoglobinContent->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_HemoglobinContent, data.HemoglobinContent());
   if (m_OxygenSaturation != nullptr)
-    data.OxygenSaturation(std::unique_ptr<CDM::ScalarFractionData>(m_OxygenSaturation->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_OxygenSaturation, data.OxygenSaturation());
   if (m_OxygenVenousSaturation != nullptr)
-    data.OxygenVenousSaturation(std::unique_ptr<CDM::ScalarFractionData>(m_OxygenVenousSaturation->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_OxygenVenousSaturation, data.OxygenVenousSaturation());
   if (m_Phosphate != nullptr)
-    data.Phosphate(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_Phosphate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Phosphate, data.Phosphate());
   if (m_PlasmaVolume != nullptr)
-    data.PlasmaVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_PlasmaVolume->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PlasmaVolume, data.PlasmaVolume());
   if (m_PulseOximetry != nullptr)
-    data.PulseOximetry(std::unique_ptr<CDM::ScalarFractionData>(m_PulseOximetry->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulseOximetry, data.PulseOximetry());
   if (m_RedBloodCellAcetylcholinesterase != nullptr)
-    data.RedBloodCellAcetylcholinesterase(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_RedBloodCellAcetylcholinesterase->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RedBloodCellAcetylcholinesterase, data.RedBloodCellAcetylcholinesterase());
   if (m_RedBloodCellCount != nullptr)
-    data.RedBloodCellCount(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_RedBloodCellCount->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RedBloodCellCount, data.RedBloodCellCount());
   if (m_ShuntFraction != nullptr)
-    data.ShuntFraction(std::unique_ptr<CDM::ScalarFractionData>(m_ShuntFraction->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ShuntFraction, data.ShuntFraction());
   if (m_StrongIonDifference != nullptr)
-    data.StrongIonDifference(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_StrongIonDifference->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_StrongIonDifference, data.StrongIonDifference());
   if (m_TotalBilirubin != nullptr)
-    data.TotalBilirubin(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_TotalBilirubin->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_TotalBilirubin, data.TotalBilirubin());
   if (m_TotalProteinConcentration != nullptr)
-    data.TotalProteinConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_TotalProteinConcentration->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_TotalProteinConcentration, data.TotalProteinConcentration());
   if (m_VolumeFractionNeutralPhospholipidInPlasma != nullptr)
-    data.VolumeFractionNeutralPhospholipidInPlasma(std::unique_ptr<CDM::ScalarFractionData>(m_VolumeFractionNeutralPhospholipidInPlasma->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_VolumeFractionNeutralPhospholipidInPlasma, data.VolumeFractionNeutralPhospholipidInPlasma());
   if (m_VolumeFractionNeutralLipidInPlasma != nullptr)
-    data.VolumeFractionNeutralLipidInPlasma(std::unique_ptr<CDM::ScalarFractionData>(m_VolumeFractionNeutralLipidInPlasma->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_VolumeFractionNeutralLipidInPlasma, data.VolumeFractionNeutralLipidInPlasma());
   if (m_WhiteBloodCellCount != nullptr)
-    data.WhiteBloodCellCount(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_WhiteBloodCellCount->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_WhiteBloodCellCount, data.WhiteBloodCellCount());
 
   if (m_ArterialCarbonDioxidePressure != nullptr)
-    data.ArterialCarbonDioxidePressure(std::unique_ptr<CDM::ScalarPressureData>(m_ArterialCarbonDioxidePressure->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ArterialCarbonDioxidePressure, data.ArterialCarbonDioxidePressure());
   if (m_ArterialOxygenPressure != nullptr)
-    data.ArterialOxygenPressure(std::unique_ptr<CDM::ScalarPressureData>(m_ArterialOxygenPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ArterialOxygenPressure, data.ArterialOxygenPressure());
   if (m_PulmonaryArterialCarbonDioxidePressure != nullptr)
-    data.PulmonaryArterialCarbonDioxidePressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonaryArterialCarbonDioxidePressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryArterialCarbonDioxidePressure, data.PulmonaryArterialCarbonDioxidePressure());
   if (m_PulmonaryArterialOxygenPressure != nullptr)
-    data.PulmonaryArterialOxygenPressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonaryArterialOxygenPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryArterialOxygenPressure, data.PulmonaryArterialOxygenPressure());
   if (m_PulmonaryVenousCarbonDioxidePressure != nullptr)
-    data.PulmonaryVenousCarbonDioxidePressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonaryVenousCarbonDioxidePressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryVenousCarbonDioxidePressure, data.PulmonaryVenousCarbonDioxidePressure());
   if (m_PulmonaryVenousOxygenPressure != nullptr)
-    data.PulmonaryVenousOxygenPressure(std::unique_ptr<CDM::ScalarPressureData>(m_PulmonaryVenousOxygenPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryVenousOxygenPressure, data.PulmonaryVenousOxygenPressure());
   if (m_VenousCarbonDioxidePressure != nullptr)
-    data.VenousCarbonDioxidePressure(std::unique_ptr<CDM::ScalarPressureData>(m_VenousCarbonDioxidePressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_VenousCarbonDioxidePressure, data.VenousCarbonDioxidePressure());
   if (m_VenousBloodPH != nullptr)
-    data.VenousBloodPH(std::unique_ptr<CDM::ScalarData>(m_VenousBloodPH->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_VenousBloodPH, data.VenousBloodPH());
   if (m_VenousOxygenPressure != nullptr)
-    data.VenousOxygenPressure(std::unique_ptr<CDM::ScalarPressureData>(m_VenousOxygenPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_VenousOxygenPressure, data.VenousOxygenPressure());
   if (m_AcuteInflammatoryResponse != nullptr)
     data.AcuteInflammatoryResponse(std::unique_ptr<CDM::InflammationStateData>(m_AcuteInflammatoryResponse->Unload()));
 }
@@ -1039,7 +1039,7 @@ SEInflammationState& SEBloodChemistrySystem::GetAcuteInflammatoryResponse()
 //-------------------------------------------------------------------------------
 Tree<const char*> SEBloodChemistrySystem::GetPhysiologyRequestGraph() const
 {
-  return Tree<const char*>{classname()}
+  return Tree<const char*>{ classname() }
     .emplace_back(idArterialBloodPH)
     .emplace_back(idArterialBloodPHBaseline)
     .emplace_back(idBloodDensity)
@@ -1072,7 +1072,6 @@ Tree<const char*> SEBloodChemistrySystem::GetPhysiologyRequestGraph() const
     .emplace_back(idVenousCarbonDioxidePressure)
     .emplace_back(idVenousOxygenPressure)
     .emplace_back(idSepsisInfectionState)
-    .emplace_back(idAcuteInflammatoryResponse)
-    ;
+    .emplace_back(idAcuteInflammatoryResponse);
 }
 }

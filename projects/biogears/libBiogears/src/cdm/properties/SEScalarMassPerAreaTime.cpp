@@ -25,15 +25,6 @@ MassPerAreaTimeUnit::MassPerAreaTimeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarMassPerAreaTimeData* SEScalarMassPerAreaTime::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarMassPerAreaTimeData* data(new CDM::ScalarMassPerAreaTimeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool MassPerAreaTimeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(g_Per_cm2_s.GetString(),unit) == 0)

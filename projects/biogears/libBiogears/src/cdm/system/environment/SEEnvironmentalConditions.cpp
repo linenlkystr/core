@@ -25,6 +25,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/cdm/utils/FileUtils.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEEnvironmentalConditions::SEEnvironmentalConditions(SESubstanceManager& substances)
   : Loggable(substances.GetLogger())
@@ -105,23 +106,23 @@ bool SEEnvironmentalConditions::Load(const CDM::EnvironmentalConditionsData& in)
   if (in.SurroundingType().present())
     m_SurroundingType = in.SurroundingType().get();
   if (in.AirDensity().present())
-    GetAirDensity().Load(in.AirDensity().get());
+    io::PropertyIoDelegate::Marshall(in.AirDensity(), GetAirDensity());
   if (in.AirVelocity().present())
-    GetAirVelocity().Load(in.AirVelocity().get());
+      io::PropertyIoDelegate::Marshall(in.AirVelocity(), GetAirVelocity());
   if (in.AmbientTemperature().present())
-    GetAmbientTemperature().Load(in.AmbientTemperature().get());
+    io::PropertyIoDelegate::Marshall(in.AmbientTemperature(), GetAmbientTemperature());
   if (in.AtmosphericPressure().present())
-    GetAtmosphericPressure().Load(in.AtmosphericPressure().get());
+    io::PropertyIoDelegate::Marshall(in.AtmosphericPressure(), GetAtmosphericPressure());
   if (in.ClothingResistance().present())
-    GetClothingResistance().Load(in.ClothingResistance().get());
+    io::PropertyIoDelegate::Marshall(in.ClothingResistance(), GetClothingResistance());
   if (in.Emissivity().present())
-    GetEmissivity().Load(in.Emissivity().get());
+    io::PropertyIoDelegate::Marshall(in.Emissivity(), GetEmissivity());
   if (in.MeanRadiantTemperature().present())
-    GetMeanRadiantTemperature().Load(in.MeanRadiantTemperature().get());
+    io::PropertyIoDelegate::Marshall(in.MeanRadiantTemperature(), GetMeanRadiantTemperature());
   if (in.RelativeHumidity().present())
-    GetRelativeHumidity().Load(in.RelativeHumidity().get());
+    io::PropertyIoDelegate::Marshall(in.RelativeHumidity(), GetRelativeHumidity());
   if (in.RespirationAmbientTemperature().present())
-    GetRespirationAmbientTemperature().Load(in.RespirationAmbientTemperature().get());
+    io::PropertyIoDelegate::Marshall(in.RespirationAmbientTemperature(), GetRespirationAmbientTemperature());
 
   SESubstance* sub;
   for (const CDM::SubstanceFractionData& sfData : in.AmbientGas()) {
@@ -176,23 +177,23 @@ void SEEnvironmentalConditions::Unload(CDM::EnvironmentalConditionsData& data) c
   if (HasSurroundingType())
     data.SurroundingType(m_SurroundingType);
   if (m_AirDensity != nullptr)
-    data.AirDensity(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_AirDensity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_AirDensity, data.AirDensity());
   if (m_AirVelocity != nullptr)
-    data.AirVelocity(std::unique_ptr<CDM::ScalarLengthPerTimeData>(m_AirVelocity->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_AirVelocity, data.AirVelocity());
   if (m_AmbientTemperature != nullptr)
-    data.AmbientTemperature(std::unique_ptr<CDM::ScalarTemperatureData>(m_AmbientTemperature->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_AmbientTemperature, data.AmbientTemperature());
   if (m_AtmosphericPressure != nullptr)
-    data.AtmosphericPressure(std::unique_ptr<CDM::ScalarPressureData>(m_AtmosphericPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_AtmosphericPressure, data.AtmosphericPressure());
   if (m_ClothingResistance != nullptr)
-    data.ClothingResistance(std::unique_ptr<CDM::ScalarHeatResistanceAreaData>(m_ClothingResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ClothingResistance, data.ClothingResistance());
   if (m_Emissivity != nullptr)
-    data.Emissivity(std::unique_ptr<CDM::ScalarFractionData>(m_Emissivity->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_Emissivity, data.Emissivity());
   if (m_MeanRadiantTemperature != nullptr)
-    data.MeanRadiantTemperature(std::unique_ptr<CDM::ScalarTemperatureData>(m_MeanRadiantTemperature->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MeanRadiantTemperature, data.MeanRadiantTemperature());
   if (m_RelativeHumidity != nullptr)
-    data.RelativeHumidity(std::unique_ptr<CDM::ScalarFractionData>(m_RelativeHumidity->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RelativeHumidity, data.RelativeHumidity());
   if (m_RespirationAmbientTemperature != nullptr)
-    data.RespirationAmbientTemperature(std::unique_ptr<CDM::ScalarTemperatureData>(m_RespirationAmbientTemperature->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RespirationAmbientTemperature, data.RespirationAmbientTemperature());
 
   for (SESubstanceFraction* sf : m_AmbientGases)
     data.AmbientGas().push_back(std::unique_ptr<CDM::SubstanceFractionData>(sf->Unload()));

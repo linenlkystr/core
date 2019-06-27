@@ -25,15 +25,6 @@ ElectricChargeUnit::ElectricChargeUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarElectricChargeData* SEScalarElectricCharge::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarElectricChargeData* data(new CDM::ScalarElectricChargeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool ElectricChargeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(C.GetString(),unit) == 0)

@@ -40,7 +40,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarLength() = default;
   virtual ~SEScalarLength() = default;
-
-  CDM::ScalarLengthData* Unload() const override;
 };
 }

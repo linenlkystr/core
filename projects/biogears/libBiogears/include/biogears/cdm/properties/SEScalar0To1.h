@@ -21,8 +21,6 @@ public:
   SEScalar0To1();
   virtual ~SEScalar0To1() {}
 
-  CDM::Scalar0To1Data* Unload() const;
-
   double GetValue() const { return SEScalar::GetValue(); }
   double GetValue(const NoUnit& unitless) const { return SEScalar::GetValue(); }
   void SetValue(double d);

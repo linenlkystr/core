@@ -36,6 +36,6 @@ public:
   SEScalarElectricInductance() = default;
   virtual ~SEScalarElectricInductance() = default;
 
-  CDM::ScalarElectricInductanceData* Unload() const override;
+
 };
 }

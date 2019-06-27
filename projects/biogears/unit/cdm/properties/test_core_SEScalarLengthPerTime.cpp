@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarLengthPerTime LengthPerTime = biogears::SEScalarLengthPerTime();
-  auto ptr = LengthPerTime.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::LengthPerTimeUnit::IsValidUnit("m/s");

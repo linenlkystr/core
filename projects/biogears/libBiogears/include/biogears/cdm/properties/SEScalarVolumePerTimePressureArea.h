@@ -36,7 +36,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarVolumePerTimePressureArea() = default;
   virtual ~SEScalarVolumePerTimePressureArea() = default;
-
-  CDM::ScalarVolumePerTimePressureAreaData* Unload() const override;
 };
 }

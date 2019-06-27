@@ -28,15 +28,6 @@ EnergyPerMassUnit::EnergyPerMassUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarEnergyPerMassData* SEScalarEnergyPerMass::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarEnergyPerMassData* data(new CDM::ScalarEnergyPerMassData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool EnergyPerMassUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(J_Per_kg.GetString(), unit) == 0)

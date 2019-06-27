@@ -40,7 +40,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarLengthPerTime() = default;
   virtual ~SEScalarLengthPerTime() = default;
-
-  CDM::ScalarLengthPerTimeData* Unload() const override;
 };
 }

@@ -35,7 +35,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarArea() = default;
   virtual ~SEScalarArea() = default;
-
-  CDM::ScalarAreaData* Unload() const override;
 };
 }

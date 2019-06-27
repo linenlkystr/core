@@ -28,12 +28,6 @@ public:
 
   virtual void Clear(); //clear memory
 
-  virtual bool Load(const CDM::FunctionData& in);
-  virtual CDM::FunctionData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::FunctionData& data) const;
-
 public:
   virtual bool IsValid() const;
   virtual void Invalidate();

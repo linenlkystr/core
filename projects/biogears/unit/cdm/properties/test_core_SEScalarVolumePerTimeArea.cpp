@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarVolumePerTimeArea VolumePerTimeArea = biogears::SEScalarVolumePerTimeArea();
-  auto ptr = VolumePerTimeArea.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::VolumePerTimeAreaUnit::IsValidUnit("mL/min m^2");

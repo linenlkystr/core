@@ -107,14 +107,6 @@ using namespace biogears;
 
     virtual ~TestScalarQuantity() = default;
 
-    CDM::ScalarMassData* Unload() const override
-    {
-      if (!IsValid())
-        return nullptr;
-      CDM::ScalarMassData* data(new CDM::ScalarMassData());
-      SEScalarQuantity::Unload(*data);
-      return data;
-    }
   };
 
 

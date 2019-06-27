@@ -27,15 +27,6 @@ FrequencyUnit::FrequencyUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarFrequencyData* SEScalarFrequency::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarFrequencyData* data(new CDM::ScalarFrequencyData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool FrequencyUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(Per_min.GetString(),unit) == 0)

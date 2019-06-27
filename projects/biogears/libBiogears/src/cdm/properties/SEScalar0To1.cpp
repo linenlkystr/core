@@ -18,15 +18,6 @@ SEScalar0To1::SEScalar0To1()
 {
 }
 
-CDM::Scalar0To1Data* SEScalar0To1::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::Scalar0To1Data* data(new CDM::Scalar0To1Data());
-  SEScalar::Unload(*data);
-  return data;
-}
-
 void SEScalar0To1::SetValue(double d)
 {
   if (d > 1 || d < 0)

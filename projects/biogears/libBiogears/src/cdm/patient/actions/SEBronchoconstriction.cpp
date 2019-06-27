@@ -13,6 +13,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEBronchoconstriction.h>
 #include <biogears/cdm/properties/SEScalar0To1.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEBronchoconstriction::SEBronchoconstriction()
   : SEPatientAction()
@@ -44,7 +45,7 @@ bool SEBronchoconstriction::IsActive() const
 bool SEBronchoconstriction::Load(const CDM::BronchoconstrictionData& in)
 {
   SEPatientAction::Load(in);
-  GetSeverity().Load(in.Severity());
+  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
   return true;
 }
 
@@ -59,7 +60,7 @@ void SEBronchoconstriction::Unload(CDM::BronchoconstrictionData& data) const
 {
   SEPatientAction::Unload(data);
   if (m_Severity != nullptr)
-    data.Severity(std::unique_ptr<CDM::Scalar0To1Data>(m_Severity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
 }
 
 bool SEBronchoconstriction::HasSeverity() const

@@ -41,7 +41,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarAmountPerTime() = default;
   virtual ~SEScalarAmountPerTime() = default;
-
-  CDM::ScalarAmountPerTimeData* Unload() const override;
 };
 }

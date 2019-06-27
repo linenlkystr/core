@@ -17,6 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Properties.hxx>
 #include <biogears/schema/cdm/Substance.hxx>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstancePharmacodynamics::SESubstancePharmacodynamics(Logger* logger)
   : Loggable(logger)
@@ -132,20 +133,20 @@ const SEScalar* SESubstancePharmacodynamics::GetScalar(const std::string& name)
 //-----------------------------------------------------------------------------
 bool SESubstancePharmacodynamics::Load(const CDM::SubstancePharmacodynamicsData& in)
 {
-  GetBronchodilation().Load(in.Bronchodilation());
-  GetDiastolicPressureModifier().Load(in.DiastolicPressureModifier());
-  GetEC50().Load(in.EC50());
-  GetEMaxShapeParameter().Load(in.EMaxShapeParameter());
-  GetHeartRateModifier().Load(in.HeartRateModifier());
-  GetNeuromuscularBlock().Load(in.NeuromuscularBlock());
+  io::PropertyIoDelegate::Marshall(in.Bronchodilation(), GetBronchodilation());
+  io::PropertyIoDelegate::Marshall(in.DiastolicPressureModifier(), GetDiastolicPressureModifier());
+  io::PropertyIoDelegate::Marshall(in.EC50(), GetEC50());
+  io::PropertyIoDelegate::Marshall(in.EMaxShapeParameter(), GetEMaxShapeParameter());
+  io::PropertyIoDelegate::Marshall(in.HeartRateModifier(), GetHeartRateModifier());
+  io::PropertyIoDelegate::Marshall(in.NeuromuscularBlock(), GetNeuromuscularBlock());
   GetPupillaryResponse().Load(in.PupillaryResponse());
-  GetRespirationRateModifier().Load(in.RespirationRateModifier());
-  GetSedation().Load(in.Sedation());
-  GetSystolicPressureModifier().Load(in.SystolicPressureModifier());
-  GetTidalVolumeModifier().Load(in.TidalVolumeModifier());
-  GetTubularPermeabilityModifier().Load(in.TubularPermeabilityModifier());
-  GetCentralNervousModifier().Load(in.CentralNervousModifier());
-  GetEffectSiteRateConstant().Load(in.EffectSiteRateConstant());
+  io::PropertyIoDelegate::Marshall(in.RespirationRateModifier(), GetRespirationRateModifier());
+  io::PropertyIoDelegate::Marshall(in.Sedation(), GetSedation());
+  io::PropertyIoDelegate::Marshall(in.SystolicPressureModifier(), GetSystolicPressureModifier());
+  io::PropertyIoDelegate::Marshall(in.TidalVolumeModifier(), GetTidalVolumeModifier());
+  io::PropertyIoDelegate::Marshall(in.TubularPermeabilityModifier(), GetTubularPermeabilityModifier());
+  io::PropertyIoDelegate::Marshall(in.CentralNervousModifier(), GetCentralNervousModifier());
+  io::PropertyIoDelegate::Marshall(in.EffectSiteRateConstant(), GetEffectSiteRateConstant());
   CalculateDerived();
   return true;
 }
@@ -162,33 +163,34 @@ CDM::SubstancePharmacodynamicsData* SESubstancePharmacodynamics::Unload() const
 void SESubstancePharmacodynamics::Unload(CDM::SubstancePharmacodynamicsData& data) const
 {
   if (HasBronchodilation())
-    data.Bronchodilation(std::unique_ptr<CDM::ScalarFractionData>(m_Bronchodilation->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Bronchodilation, data.Bronchodilation());
   if (HasDiastolicPressureModifier())
-    data.DiastolicPressureModifier(std::unique_ptr<CDM::ScalarFractionData>(m_DiastolicPressureModifier->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DiastolicPressureModifier, data.DiastolicPressureModifier());
+  ;
   if (HasEC50())
-    data.EC50(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_EC50->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_EC50, data.EC50());
   if (HasEMaxShapeParameter())
-    data.EMaxShapeParameter(std::unique_ptr<CDM::ScalarData>(m_EMaxShapeParameter->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_EMaxShapeParameter, data.EMaxShapeParameter());
   if (HasHeartRateModifier())
-    data.HeartRateModifier(std::unique_ptr<CDM::ScalarFractionData>(m_HeartRateModifier->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_HeartRateModifier, data.HeartRateModifier());
   if (HasNeuromuscularBlock())
-    data.NeuromuscularBlock(std::unique_ptr<CDM::ScalarFractionData>(m_NeuromuscularBlock->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NeuromuscularBlock, data.NeuromuscularBlock());
   if (HasPupillaryResponse())
     data.PupillaryResponse(std::unique_ptr<CDM::PupillaryResponseData>(m_PupillaryResponse->Unload()));
   if (HasRespirationRateModifier())
-    data.RespirationRateModifier(std::unique_ptr<CDM::ScalarFractionData>(m_RespirationRateModifier->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RespirationRateModifier, data.RespirationRateModifier());
   if (HasSedation())
-    data.Sedation(std::unique_ptr<CDM::ScalarFractionData>(m_Sedation->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Sedation, data.Sedation());
   if (HasSystolicPressureModifier())
-    data.SystolicPressureModifier(std::unique_ptr<CDM::ScalarFractionData>(m_SystolicPressureModifier->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SystolicPressureModifier, data.SystolicPressureModifier());
   if (HasTidalVolumeModifier())
-    data.TidalVolumeModifier(std::unique_ptr<CDM::ScalarFractionData>(m_TidalVolumeModifier->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TidalVolumeModifier, data.TidalVolumeModifier());
   if (HasTubularPermeabilityModifier())
-    data.TubularPermeabilityModifier(std::unique_ptr<CDM::ScalarFractionData>(m_TubularPermeabilityModifier->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TubularPermeabilityModifier, data.TubularPermeabilityModifier());
   if (HasCentralNervousModifier())
-    data.CentralNervousModifier(std::unique_ptr<CDM::ScalarFractionData>(m_CentralNervousModifier->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CentralNervousModifier, data.CentralNervousModifier());
   if (HasEffectSiteRateConstant())
-    data.EffectSiteRateConstant(std::unique_ptr<CDM::ScalarFrequencyData>(m_EffectSiteRateConstant->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_EffectSiteRateConstant, data.EffectSiteRateConstant());
 }
 //-----------------------------------------------------------------------------
 void SESubstancePharmacodynamics::CalculateDerived()

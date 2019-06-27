@@ -19,6 +19,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTime.h>
 #include <biogears/cdm/system/equipment/ElectroCardioGram/SEElectroCardioGramInterpolator.h>
 
+#include "../../cdm/utils/io/PropertyIoDelegate.h"
 namespace biogears {
 PhysiologyEngineConfiguration::PhysiologyEngineConfiguration(Logger* logger)
   : Loggable(logger)
@@ -84,7 +85,8 @@ bool PhysiologyEngineConfiguration::Load(const CDM::PhysiologyEngineConfiguratio
     Clear(); // Reset only if we are not merging
 
   if (in.TimeStep().present())
-    GetTimeStep().Load(in.TimeStep().get());
+
+    io::PropertyIoDelegate::Marshall(in.TimeStep(), GetTimeStep());
   if (in.WritePatientBaselineFile().present())
     SetWritePatientBaselineFile(in.WritePatientBaselineFile().get());
 
@@ -144,7 +146,7 @@ void PhysiologyEngineConfiguration::Unload(CDM::PhysiologyEngineConfigurationDat
   if (HasStabilizationCriteria())
     data.StabilizationCriteria(std::unique_ptr<CDM::PhysiologyEngineStabilizationData>(m_StabilizationCriteria->Unload()));
   if (HasTimeStep())
-    data.TimeStep(std::unique_ptr<CDM::ScalarTimeData>(m_TimeStep->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TimeStep, data.TimeStep());
   if (HasWritePatientBaselineFile())
     data.WritePatientBaselineFile(m_WritePatientBaselineFile);
 }

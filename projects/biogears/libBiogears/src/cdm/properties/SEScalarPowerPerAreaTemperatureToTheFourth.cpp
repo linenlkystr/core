@@ -25,15 +25,6 @@ PowerPerAreaTemperatureToTheFourthUnit::PowerPerAreaTemperatureToTheFourthUnit(c
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarPowerPerAreaTemperatureToTheFourthData* SEScalarPowerPerAreaTemperatureToTheFourth::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarPowerPerAreaTemperatureToTheFourthData* data(new CDM::ScalarPowerPerAreaTemperatureToTheFourthData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool PowerPerAreaTemperatureToTheFourthUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(W_Per_m2_K4.GetString(),unit) == 0)

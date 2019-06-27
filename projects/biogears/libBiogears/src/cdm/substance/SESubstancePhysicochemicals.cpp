@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstancePhysicochemicals.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstancePhysicochemicals::SESubstancePhysicochemicals(Logger* logger)
   : Loggable(logger)
@@ -84,15 +85,16 @@ const SEScalar* SESubstancePhysicochemicals::GetScalar(const std::string& name)
 bool SESubstancePhysicochemicals::Load(const CDM::SubstancePhysicochemicalData& in)
 {
   Clear();
-
-  GetAcidDissociationConstant().Load(in.AcidDissociationConstant());
+  io::PropertyIoDelegate::Marshall(in.AcidDissociationConstant(), GetAcidDissociationConstant());
   m_BindingProtein = in.BindingProtein();
-  GetBloodPlasmaRatio().Load(in.BloodPlasmaRatio());
-  GetFractionUnboundInPlasma().Load(in.FractionUnboundInPlasma());
+  io::PropertyIoDelegate::Marshall(in.BloodPlasmaRatio(), GetBloodPlasmaRatio());
+  io::PropertyIoDelegate::Marshall(in.FractionUnboundInPlasma(), GetFractionUnboundInPlasma());
   SetIonicState(in.IonicState());
-  GetLogP().Load(in.LogP());
+  io::PropertyIoDelegate::Marshall(in.LogP(), GetLogP());
+
+
   if (in.OralAbsorptionRateConstant().present())
-    GetOralAbsorptionRateConstant().Load(in.OralAbsorptionRateConstant().get());
+    io::PropertyIoDelegate::Marshall(in.OralAbsorptionRateConstant(), GetOralAbsorptionRateConstant());
 
   return true;
 }
@@ -109,19 +111,19 @@ CDM::SubstancePhysicochemicalData* SESubstancePhysicochemicals::Unload() const
 void SESubstancePhysicochemicals::Unload(CDM::SubstancePhysicochemicalData& data) const
 {
   if (HasAcidDissociationConstant())
-    data.AcidDissociationConstant(std::unique_ptr<CDM::ScalarData>(m_AcidDissociationConstant->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_AcidDissociationConstant, data.AcidDissociationConstant());
   if (HasBindingProtein())
     data.BindingProtein(m_BindingProtein);
   if (HasBloodPlasmaRatio())
-    data.BloodPlasmaRatio(std::unique_ptr<CDM::ScalarData>(m_BloodPlasmaRatio->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BloodPlasmaRatio, data.BloodPlasmaRatio());
   if (HasFractionUnboundInPlasma())
-    data.FractionUnboundInPlasma(std::unique_ptr<CDM::ScalarFractionData>(m_FractionUnboundInPlasma->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_FractionUnboundInPlasma, data.FractionUnboundInPlasma());
   if (HasIonicState())
     data.IonicState(m_IonicState);
   if (HasLogP())
-    data.LogP(std::unique_ptr<CDM::ScalarData>(m_LogP->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LogP, data.LogP());
   if (HasOralAbsorptionRateConstant())
-    data.OralAbsorptionRateConstant(std::unique_ptr<CDM::ScalarData>(m_OralAbsorptionRateConstant->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_OralAbsorptionRateConstant, data.OralAbsorptionRateConstant());
 };
 //-----------------------------------------------------------------------------
 bool SESubstancePhysicochemicals::HasAcidDissociationConstant() const

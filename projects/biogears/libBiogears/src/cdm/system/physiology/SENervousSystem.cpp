@@ -17,16 +17,17 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
-  constexpr char idBaroreceptorHeartRateScale[] = "BaroreceptorHeartRateScale";
-  constexpr char idBaroreceptorHeartElastanceScale[] = "BaroreceptorHeartElastanceScale";
-  constexpr char idBaroreceptorResistanceScale[] = "BaroreceptorResistanceScale";
-  constexpr char idBaroreceptorComplianceScale[] = "BaroreceptorComplianceScale";
-  constexpr char idChemoreceptorHeartRateScale[] = "ChemoreceptorHeartRateScale";
-  constexpr char idChemoreceptorHeartElastanceScale[] = "ChemoreceptorHeartElastanceScale";
-  constexpr char idPainVisualAnalogueScale[] = "PainVisualAnalogueScale";
-  constexpr char idLeftEyePupillaryResponse[] = "LeftEyePupillaryResponse";
-  constexpr char idRightEyePupillaryResponse[] = "RightEyePupillaryResponse";
+constexpr char idBaroreceptorHeartRateScale[] = "BaroreceptorHeartRateScale";
+constexpr char idBaroreceptorHeartElastanceScale[] = "BaroreceptorHeartElastanceScale";
+constexpr char idBaroreceptorResistanceScale[] = "BaroreceptorResistanceScale";
+constexpr char idBaroreceptorComplianceScale[] = "BaroreceptorComplianceScale";
+constexpr char idChemoreceptorHeartRateScale[] = "ChemoreceptorHeartRateScale";
+constexpr char idChemoreceptorHeartElastanceScale[] = "ChemoreceptorHeartElastanceScale";
+constexpr char idPainVisualAnalogueScale[] = "PainVisualAnalogueScale";
+constexpr char idLeftEyePupillaryResponse[] = "LeftEyePupillaryResponse";
+constexpr char idRightEyePupillaryResponse[] = "RightEyePupillaryResponse";
 
 SENervousSystem::SENervousSystem(Logger* logger)
   : SESystem(logger)
@@ -102,19 +103,19 @@ bool SENervousSystem::Load(const CDM::NervousSystemData& in)
 {
   SESystem::Load(in);
   if (in.BaroreceptorHeartRateScale().present())
-    GetBaroreceptorHeartRateScale().Load(in.BaroreceptorHeartRateScale().get());
+    io::PropertyIoDelegate::Marshall(in.BaroreceptorHeartRateScale(), GetBaroreceptorHeartRateScale());
   if (in.BaroreceptorHeartElastanceScale().present())
-    GetBaroreceptorHeartElastanceScale().Load(in.BaroreceptorHeartElastanceScale().get());
+    io::PropertyIoDelegate::Marshall(in.BaroreceptorHeartElastanceScale(), GetBaroreceptorHeartElastanceScale());
   if (in.BaroreceptorResistanceScale().present())
-    GetBaroreceptorResistanceScale().Load(in.BaroreceptorResistanceScale().get());
+    io::PropertyIoDelegate::Marshall(in.BaroreceptorResistanceScale(), GetBaroreceptorResistanceScale());
   if (in.BaroreceptorComplianceScale().present())
-    GetBaroreceptorComplianceScale().Load(in.BaroreceptorComplianceScale().get());
+    io::PropertyIoDelegate::Marshall(in.BaroreceptorComplianceScale(), GetBaroreceptorComplianceScale());
   if (in.ChemoreceptorHeartRateScale().present())
-    GetChemoreceptorHeartRateScale().Load(in.ChemoreceptorHeartRateScale().get());
+    io::PropertyIoDelegate::Marshall(in.ChemoreceptorHeartRateScale(), GetChemoreceptorHeartRateScale());
   if (in.ChemoreceptorHeartElastanceScale().present())
-    GetChemoreceptorHeartElastanceScale().Load(in.ChemoreceptorHeartElastanceScale().get());
+    io::PropertyIoDelegate::Marshall(in.ChemoreceptorHeartElastanceScale(), GetChemoreceptorHeartElastanceScale());
   if (in.PainVisualAnalogueScale().present())
-    GetPainVisualAnalogueScale().Load(in.PainVisualAnalogueScale().get());
+    io::PropertyIoDelegate::Marshall(in.PainVisualAnalogueScale(), GetPainVisualAnalogueScale());
   if (in.LeftEyePupillaryResponse().present())
     GetLeftEyePupillaryResponse().Load(in.LeftEyePupillaryResponse().get());
   if (in.RightEyePupillaryResponse().present())
@@ -135,19 +136,19 @@ void SENervousSystem::Unload(CDM::NervousSystemData& data) const
 {
   SESystem::Unload(data);
   if (m_BaroreceptorHeartRateScale != nullptr)
-    data.BaroreceptorHeartRateScale(std::unique_ptr<CDM::ScalarData>(m_BaroreceptorHeartRateScale->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BaroreceptorHeartRateScale, data.BaroreceptorHeartRateScale());
   if (m_BaroreceptorHeartElastanceScale != nullptr)
-    data.BaroreceptorHeartElastanceScale(std::unique_ptr<CDM::ScalarData>(m_BaroreceptorHeartElastanceScale->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BaroreceptorHeartElastanceScale, data.BaroreceptorHeartElastanceScale());
   if (m_BaroreceptorResistanceScale != nullptr)
-    data.BaroreceptorResistanceScale(std::unique_ptr<CDM::ScalarData>(m_BaroreceptorResistanceScale->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BaroreceptorResistanceScale, data.BaroreceptorResistanceScale());
   if (m_BaroreceptorComplianceScale != nullptr)
-    data.BaroreceptorComplianceScale(std::unique_ptr<CDM::ScalarData>(m_BaroreceptorComplianceScale->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BaroreceptorComplianceScale, data.BaroreceptorComplianceScale());
   if (m_ChemoreceptorHeartRateScale != nullptr)
-    data.ChemoreceptorHeartRateScale(std::unique_ptr<CDM::ScalarData>(m_ChemoreceptorHeartRateScale->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ChemoreceptorHeartRateScale, data.ChemoreceptorHeartRateScale());
   if (m_ChemoreceptorHeartElastanceScale != nullptr)
-    data.ChemoreceptorHeartElastanceScale(std::unique_ptr<CDM::ScalarData>(m_ChemoreceptorHeartElastanceScale->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ChemoreceptorHeartElastanceScale, data.ChemoreceptorHeartElastanceScale());
   if (m_PainVisualAnalogueScale != nullptr)
-    data.PainVisualAnalogueScale(std::unique_ptr<CDM::ScalarData>(m_PainVisualAnalogueScale->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PainVisualAnalogueScale, data.PainVisualAnalogueScale());
   if (m_LeftEyePupillaryResponse != nullptr)
     data.LeftEyePupillaryResponse(std::unique_ptr<CDM::PupillaryResponseData>(m_LeftEyePupillaryResponse->Unload()));
   if (m_RightEyePupillaryResponse != nullptr)
@@ -342,7 +343,7 @@ void SENervousSystem::RemoveRightEyePupillaryResponse()
 //-------------------------------------------------------------------------------
 Tree<const char*> SENervousSystem::GetPhysiologyRequestGraph() const
 {
-  return Tree<const char*>{classname()}
+  return Tree<const char*>{ classname() }
     .emplace_back(idBaroreceptorHeartRateScale)
     .emplace_back(idBaroreceptorHeartElastanceScale)
     .emplace_back(idBaroreceptorResistanceScale)
@@ -351,7 +352,6 @@ Tree<const char*> SENervousSystem::GetPhysiologyRequestGraph() const
     .emplace_back(idChemoreceptorHeartElastanceScale)
     .emplace_back(idPainVisualAnalogueScale)
     .emplace_back(idLeftEyePupillaryResponse)
-    .emplace_back(idRightEyePupillaryResponse)
-  ;
+    .emplace_back(idRightEyePupillaryResponse);
 }
 }

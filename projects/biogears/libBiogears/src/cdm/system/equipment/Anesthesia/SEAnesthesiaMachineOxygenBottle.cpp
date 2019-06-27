@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../../utils/io/PropertyIoDelegate.h" 
 namespace biogears {
 SEAnesthesiaMachineOxygenBottle::SEAnesthesiaMachineOxygenBottle(Logger* logger)
   : Loggable(logger)
@@ -38,7 +39,7 @@ void SEAnesthesiaMachineOxygenBottle::Clear()
 bool SEAnesthesiaMachineOxygenBottle::Load(const CDM::AnesthesiaMachineOxygenBottleData& in)
 {
   if (in.Volume().present())
-    GetVolume().Load(in.Volume().get());
+    io::PropertyIoDelegate::Marshall(in.Volume(), GetVolume());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ CDM::AnesthesiaMachineOxygenBottleData* SEAnesthesiaMachineOxygenBottle::Unload(
 void SEAnesthesiaMachineOxygenBottle::Unload(CDM::AnesthesiaMachineOxygenBottleData& data) const
 {
   if (m_Volume != nullptr)
-    data.Volume(std::unique_ptr<CDM::ScalarVolumeData>(m_Volume->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Volume, data.Volume());
 }
 //-------------------------------------------------------------------------------
 

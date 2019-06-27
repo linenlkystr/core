@@ -27,15 +27,6 @@ VolumePerTimeAreaUnit::VolumePerTimeAreaUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarVolumePerTimeAreaData* SEScalarVolumePerTimeArea::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarVolumePerTimeAreaData* data(new CDM::ScalarVolumePerTimeAreaData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool VolumePerTimeAreaUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(mL_Per_min_m2.GetString(),unit) == 0)

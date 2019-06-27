@@ -40,7 +40,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarPower() = default;
   virtual ~SEScalarPower() = default;
-
-  CDM::ScalarPowerData* Unload() const override ;
 };
 }

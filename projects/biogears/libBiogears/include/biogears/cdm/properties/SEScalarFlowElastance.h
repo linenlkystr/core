@@ -37,7 +37,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarFlowElastance() = default;
   virtual ~SEScalarFlowElastance() = default;
-
-  CDM::ScalarFlowElastanceData* Unload() const override;
 };
 }

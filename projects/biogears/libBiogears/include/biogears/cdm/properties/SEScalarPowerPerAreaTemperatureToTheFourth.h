@@ -35,7 +35,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarPowerPerAreaTemperatureToTheFourth() = default;
   virtual ~SEScalarPowerPerAreaTemperatureToTheFourth() = default;
-
-  CDM::ScalarPowerPerAreaTemperatureToTheFourthData* Unload() const override;
 };
 }

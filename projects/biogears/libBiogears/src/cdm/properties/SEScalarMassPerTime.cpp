@@ -32,15 +32,6 @@ MassPerTimeUnit::MassPerTimeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarMassPerTimeData* SEScalarMassPerTime::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarMassPerTimeData* data(new CDM::ScalarMassPerTimeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool MassPerTimeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(g_Per_s.GetString(),unit) == 0)

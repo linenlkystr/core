@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/cdm/properties/SEScalarTime.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEBreathHold::SEBreathHold()
   : SEConsciousRespirationCommand()
@@ -46,7 +47,7 @@ bool SEBreathHold::IsActive() const
 bool SEBreathHold::Load(const CDM::BreathHoldData& in)
 {
   SEConsciousRespirationCommand::Load(in);
-  GetPeriod().Load(in.Period());
+    io::PropertyIoDelegate::Marshall(in.Period(), GetPeriod());
   return true;
 }
 
@@ -61,7 +62,7 @@ void SEBreathHold::Unload(CDM::BreathHoldData& data) const
 {
   SEConsciousRespirationCommand::Unload(data);
   if (m_Period != nullptr)
-    data.Period(std::unique_ptr<CDM::ScalarTimeData>(m_Period->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Period, data.Period());
 }
 
 bool SEBreathHold::HasPeriod() const

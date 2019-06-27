@@ -26,15 +26,6 @@ VolumePerTimePressureAreaUnit::VolumePerTimePressureAreaUnit(const std::string& 
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarVolumePerTimePressureAreaData* SEScalarVolumePerTimePressureArea::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarVolumePerTimePressureAreaData* data(new CDM::ScalarVolumePerTimePressureAreaData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool VolumePerTimePressureAreaUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(mL_Per_min_mmHg_m2.GetString(), unit) == 0)

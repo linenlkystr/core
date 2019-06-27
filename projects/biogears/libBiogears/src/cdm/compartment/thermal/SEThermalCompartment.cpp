@@ -18,6 +18,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarPower.h>
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEThermalCompartment::SEThermalCompartment(const char* name, Logger* logger)
   : SEThermalCompartment(std::string{ name }, logger)
@@ -66,16 +67,16 @@ bool SEThermalCompartment::Load(const CDM::ThermalCompartmentData& in, SECircuit
     for (auto name : in.Node()) {
       SEThermalCircuitNode* node = circuits->GetThermalNode(name);
       if (node == nullptr) {
-        Error("Compartment is mapped to circuit node, " + std::string{ name } +", but provided circuit manager did not have that node");
+        Error("Compartment is mapped to circuit node, " + std::string{ name } + ", but provided circuit manager did not have that node");
         return false;
       }
       MapNode(*node);
     }
   } else { // Only load these if you don't have children or nodes
     if (in.Heat().present())
-      GetHeat().Load(in.Heat().get());
+      io::PropertyIoDelegate::Marshall(in.Heat(), GetHeat());
     if (in.Temperature().present())
-      GetTemperature().Load(in.Temperature().get());
+      io::PropertyIoDelegate::Marshall(in.Temperature(), GetTemperature());
   }
   return true;
 }
@@ -96,13 +97,13 @@ void SEThermalCompartment::Unload(CDM::ThermalCompartmentData& data)
     data.Node().push_back(nodes->GetName());
   // Even if you have children or nodes, I am unloading everything, this makes the xml actually usefull...
   if (HasHeatTransferRateIn())
-    data.HeatTransferRateIn(std::unique_ptr<CDM::ScalarPowerData>(GetHeatTransferRateIn().Unload()));
+    io::PropertyIoDelegate::UnMarshall(GetHeatTransferRateIn(), data.HeatTransferRateIn());
   if (HasHeatTransferRateOut())
-    data.HeatTransferRateOut(std::unique_ptr<CDM::ScalarPowerData>(GetHeatTransferRateOut().Unload()));
+    io::PropertyIoDelegate::UnMarshall(GetHeatTransferRateOut(), data.HeatTransferRateOut());
   if (HasHeat())
-    data.Heat(std::unique_ptr<CDM::ScalarEnergyData>(GetHeat().Unload()));
+    io::PropertyIoDelegate::UnMarshall(GetHeat(), data.Heat());
   if (HasTemperature())
-    data.Temperature(std::unique_ptr<CDM::ScalarTemperatureData>(GetTemperature().Unload()));
+    io::PropertyIoDelegate::UnMarshall(GetTemperature(), data.Temperature());
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SEThermalCompartment::GetScalar(const char* name)

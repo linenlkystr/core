@@ -17,6 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEActiveHeating::SEActiveHeating(Logger* logger)
   : Loggable(logger)
@@ -61,11 +62,13 @@ const SEScalar* SEActiveHeating::GetScalar(const std::string& name)
 //-----------------------------------------------------------------------------
 bool SEActiveHeating::Load(const CDM::ActiveHeatingData& in)
 {
-  GetPower().Load(in.Power());
-  if (in.SurfaceArea().present())
-    GetSurfaceArea().Load(in.SurfaceArea().get());
-  if (in.SurfaceAreaFraction().present())
-    GetSurfaceAreaFraction().Load(in.SurfaceAreaFraction().get());
+  io::PropertyIoDelegate::Marshall(in.Power(), GetPower());
+  if (in.SurfaceArea().present()) {
+    io::PropertyIoDelegate::Marshall(in.SurfaceArea(), GetSurfaceArea());
+  }
+  if (in.SurfaceAreaFraction().present()) {
+    io::PropertyIoDelegate::Marshall(in.SurfaceAreaFraction(), GetSurfaceAreaFraction());
+  }
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -78,11 +81,13 @@ CDM::ActiveHeatingData* SEActiveHeating::Unload() const
 //-----------------------------------------------------------------------------
 void SEActiveHeating::Unload(CDM::ActiveHeatingData& data) const
 {
-  data.Power(std::unique_ptr<CDM::ScalarPowerData>(m_Power->Unload()));
-  if (HasSurfaceArea())
-    data.SurfaceArea(std::unique_ptr<CDM::ScalarAreaData>(m_SurfaceArea->Unload()));
-  if (HasSurfaceAreaFraction())
-    data.SurfaceAreaFraction(std::unique_ptr<CDM::ScalarFractionData>(m_SurfaceAreaFraction->Unload()));
+  io::PropertyIoDelegate::UnMarshall(*m_Power, data.Power());
+  if (HasSurfaceArea()) {
+    io::PropertyIoDelegate::UnMarshall(*m_SurfaceArea, data.SurfaceArea());
+  }
+  if (HasSurfaceAreaFraction()) {
+    io::PropertyIoDelegate::UnMarshall(*m_SurfaceAreaFraction, data.SurfaceAreaFraction());
+  }
 }
 //-----------------------------------------------------------------------------
 bool SEActiveHeating::HasPower() const

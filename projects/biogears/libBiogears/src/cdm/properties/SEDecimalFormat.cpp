@@ -42,41 +42,6 @@ void SEDecimalFormat::Set(const SEDecimalFormat& f)
   m_Notation = f.m_Notation;
 }
 
-bool SEDecimalFormat::Load(const CDM::DecimalFormatData& in)
-{
-  Reset();
-  if (in.DecimalFormat().present()) {
-    if (in.DecimalFormat().get() == CDM::enumDecimalFormat::FixedMantissa)
-      m_Notation = DecimalNotation::Fixed;
-    else if (in.DecimalFormat().get() == CDM::enumDecimalFormat::SignificantDigits)
-      m_Notation = DecimalNotation::Scientific;
-  }
-  if (in.Precision().present())
-    m_Precision = in.Precision().get();
-  return true;
-}
-CDM::DecimalFormatData* SEDecimalFormat::Unload()
-{
-  CDM::DecimalFormatData* to = new CDM::DecimalFormatData();
-  Unload(*to);
-  return to;
-}
-void SEDecimalFormat::Unload(CDM::DecimalFormatData& data) const
-{
-  data.Precision( static_cast<CDM::DecimalFormatData::Precision_type>(m_Precision));
-  switch (m_Notation) {
-  case DecimalNotation::Default:
-  case DecimalNotation::Fixed: {
-    data.DecimalFormat(CDM::enumDecimalFormat::FixedMantissa);
-    break;
-  }
-  case DecimalNotation::Scientific: {
-    data.DecimalFormat(CDM::enumDecimalFormat::SignificantDigits);
-    break;
-  }
-  }
-}
-
 void SEDecimalFormat::SetPrecision(std::streamsize p)
 {
   m_Precision = p;

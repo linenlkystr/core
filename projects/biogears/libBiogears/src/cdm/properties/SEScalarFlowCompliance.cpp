@@ -28,15 +28,6 @@ FlowComplianceUnit::FlowComplianceUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarFlowComplianceData* SEScalarFlowCompliance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarFlowComplianceData* data(new CDM::ScalarFlowComplianceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool FlowComplianceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(L_Per_cmH2O.GetString(), unit) == 0)

@@ -15,9 +15,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarMass.h>
 #include <biogears/cdm/properties/SEScalarMassPerTime.h>
 #include <biogears/cdm/properties/SEScalarVolume.h>
+#include <biogears/cdm/utils/FileUtils.h>
 #include <biogears/schema/cdm/PatientNutrition.hxx>
 #include <biogears/schema/cdm/Properties.hxx>
-#include <biogears/cdm/utils/FileUtils.h>
+
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SENutrition::SENutrition(Logger* logger)
   : Loggable(logger)
@@ -112,23 +114,23 @@ bool SENutrition::Load(const CDM::NutritionData& in)
     m_Name = "Standard Meal";
   }
   if (in.Carbohydrate().present())
-    GetCarbohydrate().Load(in.Carbohydrate().get());
+    io::PropertyIoDelegate::Marshall(in.Carbohydrate(), GetCarbohydrate());
   if (in.CarbohydrateDigestionRate().present())
-    GetCarbohydrateDigestionRate().Load(in.CarbohydrateDigestionRate().get());
+    io::PropertyIoDelegate::Marshall(in.CarbohydrateDigestionRate(), GetCarbohydrateDigestionRate());
   if (in.Fat().present())
-    GetFat().Load(in.Fat().get());
+    io::PropertyIoDelegate::Marshall(in.Fat(), GetFat());
   if (in.FatDigestionRate().present())
-    GetFatDigestionRate().Load(in.FatDigestionRate().get());
+    io::PropertyIoDelegate::Marshall(in.FatDigestionRate(), GetFatDigestionRate());
   if (in.Protein().present())
-    GetProtein().Load(in.Protein().get());
+    io::PropertyIoDelegate::Marshall(in.Protein(), GetProtein());
   if (in.ProteinDigestionRate().present())
-    GetProteinDigestionRate().Load(in.ProteinDigestionRate().get());
+    io::PropertyIoDelegate::Marshall(in.ProteinDigestionRate(), GetProteinDigestionRate());
   if (in.Calcium().present())
-    GetCalcium().Load(in.Calcium().get());
+    io::PropertyIoDelegate::Marshall(in.Calcium(), GetCalcium());
   if (in.Sodium().present())
-    GetSodium().Load(in.Sodium().get());
+    io::PropertyIoDelegate::Marshall(in.Sodium(), GetSodium());
   if (in.Water().present())
-    GetWater().Load(in.Water().get());
+    io::PropertyIoDelegate::Marshall(in.Water(), GetWater());
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -144,24 +146,33 @@ void SENutrition::Unload(CDM::NutritionData& data) const
   if (!m_Name.empty()) {
     data.Name(m_Name);
   }
-  if (m_Carbohydrate != nullptr)
-    data.Carbohydrate(std::unique_ptr<CDM::ScalarMassData>(m_Carbohydrate->Unload()));
-  if (m_CarbohydrateDigestionRate != nullptr)
-    data.CarbohydrateDigestionRate(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_CarbohydrateDigestionRate->Unload()));
-  if (m_Fat != nullptr)
-    data.Fat(std::unique_ptr<CDM::ScalarMassData>(m_Fat->Unload()));
-  if (m_FatDigestionRate != nullptr)
-    data.FatDigestionRate(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_FatDigestionRate->Unload()));
-  if (m_Protein != nullptr)
-    data.Protein(std::unique_ptr<CDM::ScalarMassData>(m_Protein->Unload()));
-  if (m_ProteinDigestionRate != nullptr)
-    data.ProteinDigestionRate(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_ProteinDigestionRate->Unload()));
-  if (m_Calcium != nullptr)
-    data.Calcium(std::unique_ptr<CDM::ScalarMassData>(m_Calcium->Unload()));
-  if (m_Sodium != nullptr)
-    data.Sodium(std::unique_ptr<CDM::ScalarMassData>(m_Sodium->Unload()));
-  if (m_Water != nullptr)
-    data.Water(std::unique_ptr<CDM::ScalarVolumeData>(m_Water->Unload()));
+  if (m_Carbohydrate != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Carbohydrate, data.Carbohydrate());
+  }
+  if (m_CarbohydrateDigestionRate != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_CarbohydrateDigestionRate, data.CarbohydrateDigestionRate());
+  }
+  if (m_Fat != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Fat, data.Fat());
+  }
+  if (m_FatDigestionRate != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_FatDigestionRate, data.FatDigestionRate());
+  }
+  if (m_Protein != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Protein, data.Protein());
+  }
+  if (m_ProteinDigestionRate != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_ProteinDigestionRate, data.ProteinDigestionRate());
+  }
+  if (m_Calcium != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Calcium, data.Calcium());
+  }
+  if (m_Sodium != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Sodium, data.Sodium());
+  }
+  if (m_Water != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Water, data.Water());
+  }
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SENutrition::GetScalar(const char* name)
@@ -203,7 +214,7 @@ bool SENutrition::Load(const std::string& given)
   std::unique_ptr<CDM::ObjectData> data;
 
   std::string filepath = given;
-  if ( !IsAbsolutePath(given) && !TestFirstDirName(given,"nutrition")) {
+  if (!IsAbsolutePath(given) && !TestFirstDirName(given, "nutrition")) {
     filepath = "nutrition/";
     filepath += given;
   }

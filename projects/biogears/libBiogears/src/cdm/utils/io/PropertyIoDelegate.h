@@ -12,9 +12,13 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 
-#include <biogears/exports.h>
 #include "biogears/cdm/CommonDataModel.h"
 #include "biogears/cdm/properties/SEDecimalFormat.h"
+#include <biogears/exports.h>
+
+#include <biogears/schema/cdm/Properties.hxx>
+
+//#include <memory>
 
 CDM_BIND_DECL(DecimalFormatData)
 CDM_BIND_DECL(FunctionElectricPotentialVsTimeData)
@@ -75,7 +79,6 @@ CDM_BIND_DECL(ScalarPressureData)
 CDM_BIND_DECL(ScalarPressurePerVolumeData)
 CDM_BIND_DECL(ScalarPressureTimePerAreaData)
 CDM_BIND_DECL(ScalarPressureTimePerVolumeAreaData)
-CDM_BIND_DECL(ScalarQuantityData)
 CDM_BIND_DECL(ScalarQuantityData)
 CDM_BIND_DECL(ScalarTemperatureData)
 CDM_BIND_DECL(ScalarTimeData)
@@ -163,6 +166,14 @@ class SEUnitScalar;
 namespace io {
   class BIOGEARS_PRIVATE_API PropertyIoDelegate {
   public:
+    //template <typename SE, typename XSD>  option
+    template <typename SE, typename XSD>
+    static void Marshall(xsd::cxx::tree::optional<XSD> const& option_in, SE& out);
+    template <typename SE, typename XSD>
+    static void UnMarshall(const SE& in, xsd::cxx::tree::optional<XSD>& option_out);
+    //template <typename SE, typename XSD>  option
+    static void Marshall(xsd::cxx::tree::optional<CDM::DecimalFormatData> const& option_in, SEDecimalFormat& out);
+    static void UnMarshall(const SEDecimalFormat& in, xsd::cxx::tree::optional<CDM::DecimalFormatData>& option_out);
     //template <typename T> class SEScalarQuantity;
     template <typename Unit>
     static void Marshall(const CDM::ScalarData& in, SEScalarQuantity<Unit>& out);
@@ -369,34 +380,51 @@ namespace io {
     //class SEScalarVolumePerTimePressure;
     static void Marshall(const CDM::ScalarVolumePerTimePressureData& in, SEScalarVolumePerTimePressure& out);
     static void UnMarshall(const SEScalarVolumePerTimePressure& in, CDM::ScalarVolumePerTimePressureData& out);
-    };
+  };
 
   //-------------------------------------------------------------------------------
-    template <typename Unit>
-    void PropertyIoDelegate::Marshall(const CDM::ScalarData& in, SEScalarQuantity<Unit>& out)
-    {
-      if (out.m_readOnly) {
+  template <typename Unit>
+  void PropertyIoDelegate::Marshall(const CDM::ScalarData& in, SEScalarQuantity<Unit>& out)
+  {
+    if (out.m_readOnly) {
 #if defined(BIOGEARS_THROW_READONLY_EXCEPTIONS)
-        throw CommonDataModelException("Scalar is marked read-only");
+      throw CommonDataModelException("Scalar is marked read-only");
 #else
-        return;
+      return;
 #endif
-      }
-      out.Clear();
-      out.SEProperty::Load(in);
-      if (in.unit().present()) {
-        out.SetValue(in.value(), Unit::GetCompoundUnit(in.unit().get()));
-      } else
-        throw CommonDataModelException("ScalarQuantity attempted to load a ScalarData with no unit, must have a unit.");
-      out.m_readOnly = in.readOnly();
     }
-    //-------------------------------------------------------------------------------
-    template <typename Unit>
-    void PropertyIoDelegate::UnMarshall(const SEScalarQuantity<Unit>& in, CDM::ScalarData& out)
-    {
-      out.value(in.m_value);
-      out.unit(in.m_unit->GetString());
-      out.readOnly(in.m_readOnly);
+    out.Clear();
+    if (in.unit().present()) {
+      out.SetValue(in.value(), Unit::GetCompoundUnit(in.unit().get()));
+    } else
+      throw CommonDataModelException("ScalarQuantity attempted to load a ScalarData with no unit, must have a unit.");
+    out.m_readOnly = in.readOnly();
+  }
+  //-------------------------------------------------------------------------------
+  template <typename Unit>
+  void PropertyIoDelegate::UnMarshall(const SEScalarQuantity<Unit>& in, CDM::ScalarData& out)
+  {
+    out.value(in.m_value);
+    out.unit(in.m_unit->GetString());
+    out.readOnly(in.m_readOnly);
+  }
+  //----------------------------------------------------------------------------------
+  template <typename SE, typename XSD>
+  void PropertyIoDelegate::Marshall(xsd::cxx::tree::optional<XSD> const& option_in, SE& out)
+  {
+    if (!option_in.present()) {
+      out.Invalidate();
+    } else {
+      Marshall(option_in.get(), out);
     }
   }
+  //----------------------------------------------------------------------------------
+  template <typename SE, typename XSD>
+  void PropertyIoDelegate::UnMarshall(const SE& in, xsd::cxx::tree::optional<XSD>& option_out)
+  {
+    auto item = std::make_unique<XSD>();
+    UnMarshall(in, *item);
+    option_out.set(*item);
+  }
+}
 }

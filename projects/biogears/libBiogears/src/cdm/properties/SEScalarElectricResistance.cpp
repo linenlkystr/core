@@ -25,15 +25,6 @@ ElectricResistanceUnit::ElectricResistanceUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarElectricResistanceData* SEScalarElectricResistance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarElectricResistanceData* data(new CDM::ScalarElectricResistanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool ElectricResistanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(Ohm.GetString(),unit) == 0)

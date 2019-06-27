@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEVaporizerFailure::SEVaporizerFailure()
   : SEAnesthesiaMachineAction()
@@ -45,7 +46,7 @@ bool SEVaporizerFailure::IsActive() const
 bool SEVaporizerFailure::Load(const CDM::VaporizerFailureData& in)
 {
   SEAnesthesiaMachineAction::Load(in);
-  GetSeverity().Load(in.Severity());
+  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
   return true;
 }
 
@@ -60,7 +61,7 @@ void SEVaporizerFailure::Unload(CDM::VaporizerFailureData& data) const
 {
   SEAnesthesiaMachineAction::Unload(data);
   if (m_Severity != nullptr)
-    data.Severity(std::unique_ptr<CDM::Scalar0To1Data>(m_Severity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
 }
 
 bool SEVaporizerFailure::HasSeverity() const

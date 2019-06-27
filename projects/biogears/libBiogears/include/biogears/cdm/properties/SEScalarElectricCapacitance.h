@@ -35,7 +35,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarElectricCapacitance() = default;
   virtual ~SEScalarElectricCapacitance() = default;
-
-  CDM::ScalarElectricCapacitanceData* Unload() const override;
 };
 }

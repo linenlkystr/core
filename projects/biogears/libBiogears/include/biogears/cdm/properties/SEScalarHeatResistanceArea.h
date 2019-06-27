@@ -38,7 +38,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarHeatResistanceArea() = default;
   virtual ~SEScalarHeatResistanceArea() = default;
-
-  CDM::ScalarHeatResistanceAreaData* Unload() const override;
 };
 }

@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Properties.hxx>
 #include <biogears/schema/cdm/TestReport.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SETestSuite::SETestSuite(Logger* logger)
   : Loggable(logger)
@@ -106,7 +107,8 @@ void SETestSuite::Unload(CDM::TestSuite& data) const
   data.Performed(m_Performed);
   if (GetNumberOfTests() != 0) {
     data.Tests(GetNumberOfTests());
-    data.Time(std::unique_ptr<CDM::ScalarTimeData>(GetDuration().Unload()));
+    
+    io::PropertyIoDelegate::UnMarshall(GetDuration(), data.Time());
     data.Errors(GetNumberOfErrors());
   }
 

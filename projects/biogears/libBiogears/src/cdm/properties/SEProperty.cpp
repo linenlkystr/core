@@ -27,12 +27,4 @@ void SEProperty::Clear()
 {
 }
 
-bool SEProperty::Load(const CDM::PropertyData& in)
-{
-  return true;
-}
-
-void SEProperty::Unload(CDM::PropertyData& data) const
-{
-}
 }

@@ -25,6 +25,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/GeneralMath.h>
 #include <biogears/cdm/utils/TimingProfile.h>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 bool PhysiologyEngineDynamicStabilization::StabilizeRestingState(PhysiologyEngine& engine)
 {
@@ -526,9 +527,9 @@ void PhysiologyEngineDynamicStabilizationCriteria::Clear()
 bool PhysiologyEngineDynamicStabilizationCriteria::Load(const CDM::PhysiologyEngineDynamicStabilizationCriteriaData& in)
 {
   Clear();
-  GetConvergenceTime().Load(in.ConvergenceTime());
-  GetMinimumReactionTime().Load(in.MinimumReactionTime());
-  GetMaximumAllowedStabilizationTime().Load(in.MaximumAllowedStabilizationTime());
+  io::PropertyIoDelegate::Marshall(in.ConvergenceTime(), GetConvergenceTime());
+  io::PropertyIoDelegate::Marshall(in.MinimumReactionTime(), GetMinimumReactionTime());
+  io::PropertyIoDelegate::Marshall(in.MaximumAllowedStabilizationTime(), GetMaximumAllowedStabilizationTime());
   for (auto pcData : in.PropertyConvergence())
     CreateSystemPropertyConvergence(pcData.PercentDifference(), pcData.Name());
   return true;
@@ -543,9 +544,9 @@ CDM::PhysiologyEngineDynamicStabilizationCriteriaData* PhysiologyEngineDynamicSt
 //-----------------------------------------------------------------------------
 void PhysiologyEngineDynamicStabilizationCriteria::Unload(CDM::PhysiologyEngineDynamicStabilizationCriteriaData& data) const
 {
-  data.ConvergenceTime(std::unique_ptr<CDM::ScalarTimeData>(m_ConvergenceTime->Unload()));
-  data.MinimumReactionTime(std::unique_ptr<CDM::ScalarTimeData>(m_MinimumReactionTime->Unload()));
-  data.MaximumAllowedStabilizationTime(std::unique_ptr<CDM::ScalarTimeData>(m_MaximumAllowedStabilizationTime->Unload()));
+  io::PropertyIoDelegate::UnMarshall(*m_ConvergenceTime, data.ConvergenceTime());
+  io::PropertyIoDelegate::UnMarshall(*m_MinimumReactionTime, data.MinimumReactionTime());
+  io::PropertyIoDelegate::UnMarshall(*m_MaximumAllowedStabilizationTime, data.MaximumAllowedStabilizationTime());
   for (auto pc : m_PropertyConvergence) {
     std::unique_ptr<CDM::PhysiologyEngineDynamicStabilizationCriteriaPropertyData> pcData(new CDM::PhysiologyEngineDynamicStabilizationCriteriaPropertyData());
     pcData->Name(pc->GetDataRequest().GetName());

@@ -35,7 +35,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarMassPerAreaTime() = default;
   virtual ~SEScalarMassPerAreaTime() = default;
-
-  CDM::ScalarMassPerAreaTimeData* Unload() const override;
 };
 }

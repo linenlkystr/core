@@ -58,39 +58,7 @@ void SEScalar::Clear()
   Invalidate();
 }
 
-//-------------------------------------------------------------------------------
-void SEScalar::Load(const CDM::ScalarData& in)
-{
-  Clear();
-  SEProperty::Load(in);
-  SetValue(in.value());
-  if (in.unit().present()) {
-    std::string u = in.unit().get();
-    if (!("unitless" == u || "" == u || u.empty())) {
-      throw CommonDataModelException("CDM::Scalar API is intended to be unitless, You are trying to load a ScalarData with a unit defined");
-    }
-  }
-  m_readOnly = in.readOnly();
-}
 
-//-------------------------------------------------------------------------------
-CDM::ScalarData* SEScalar::Unload() const
-{
-  if (!IsValid()) {
-    return nullptr;
-  }
-  CDM::ScalarData* data(new CDM::ScalarData());
-  Unload(*data);
-  return data;
-}
-
-//-------------------------------------------------------------------------------
-void SEScalar::Unload(CDM::ScalarData& data) const
-{
-  SEProperty::Unload(data);
-  data.value(m_value);
-  data.readOnly(m_readOnly);
-}
 
 //-------------------------------------------------------------------------------
 bool SEScalar::Set(const SEScalar& s)

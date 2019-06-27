@@ -38,7 +38,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarInversePressure() = default;
   virtual ~SEScalarInversePressure() = default;
-
-  CDM::ScalarInversePressureData* Unload() const override;
 };
 }

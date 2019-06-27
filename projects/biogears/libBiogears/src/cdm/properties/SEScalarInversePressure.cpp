@@ -28,15 +28,6 @@ InversePressureUnit::InversePressureUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarInversePressureData* SEScalarInversePressure::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarInversePressureData* data(new CDM::ScalarInversePressureData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool InversePressureUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(Inverse_Pa.GetString(),unit) == 0)

@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstanceFraction::SESubstanceFraction(SESubstance& substance)
   : m_Substance(substance)
@@ -34,7 +35,7 @@ void SESubstanceFraction::Clear()
 
 bool SESubstanceFraction::Load(const CDM::SubstanceFractionData& in)
 {
-  GetFractionAmount().Load(in.FractionAmount());
+  io::PropertyIoDelegate::Marshall(in.FractionAmount(), GetFractionAmount());
   return true;
 }
 
@@ -49,7 +50,7 @@ void SESubstanceFraction::Unload(CDM::SubstanceFractionData& data) const
 {
   data.Name(m_Substance.GetName());
   if (HasFractionAmount())
-    data.FractionAmount(std::unique_ptr<CDM::ScalarFractionData>(m_FractionAmount->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_FractionAmount, data.FractionAmount());
 }
 
 bool SESubstanceFraction::HasFractionAmount() const

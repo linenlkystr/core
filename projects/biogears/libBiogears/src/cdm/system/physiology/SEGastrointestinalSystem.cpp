@@ -17,6 +17,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Properties.hxx>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
+
 namespace biogears {
   constexpr char idChymeAbsorptionRate[] = "ChymeAbsorptionRate";
   constexpr char idStomachContents[] = "StomachContents";
@@ -67,7 +69,7 @@ bool SEGastrointestinalSystem::Load(const CDM::GastrointestinalSystemData& in)
 {
   SESystem::Load(in);
   if (in.ChymeAbsorptionRate().present())
-    GetChymeAbsorptionRate().Load(in.ChymeAbsorptionRate().get());
+    io::PropertyIoDelegate::Marshall(in.ChymeAbsorptionRate(), GetChymeAbsorptionRate());
   if (in.StomachContents().present())
     GetStomachContents().Load(in.StomachContents().get());
   return true;
@@ -86,7 +88,7 @@ void SEGastrointestinalSystem::Unload(CDM::GastrointestinalSystemData& data) con
 {
   SESystem::Unload(data);
   if (m_ChymeAbsorptionRate != nullptr)
-    data.ChymeAbsorptionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_ChymeAbsorptionRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ChymeAbsorptionRate, data.ChymeAbsorptionRate());
   if (m_StomachContents != nullptr)
     data.StomachContents(std::unique_ptr<CDM::NutritionData>(m_StomachContents->Unload()));
 }

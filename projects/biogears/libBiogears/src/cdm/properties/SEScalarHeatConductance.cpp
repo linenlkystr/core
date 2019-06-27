@@ -28,15 +28,6 @@ HeatConductanceUnit::HeatConductanceUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarHeatConductanceData* SEScalarHeatConductance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarHeatConductanceData* data(new CDM::ScalarHeatConductanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool HeatConductanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(W_Per_K.GetString(),unit) == 0)

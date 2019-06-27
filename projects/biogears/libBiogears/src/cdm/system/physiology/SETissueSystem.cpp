@@ -22,6 +22,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
   constexpr char idCarbonDioxideProductionRate[] = "CarbonDioxideProductionRate";
   constexpr char idDehydrationFraction[] = "DehydrationFraction";
@@ -149,43 +150,43 @@ bool SETissueSystem::Load(const CDM::TissueSystemData& in)
 {
   SESystem::Load(in);
   if (in.CarbonDioxideProductionRate().present())
-    GetCarbonDioxideProductionRate().Load(in.CarbonDioxideProductionRate().get());
+    io::PropertyIoDelegate::Marshall(in.CarbonDioxideProductionRate(), GetCarbonDioxideProductionRate());
   if (in.DehydrationFraction().present())
-    GetDehydrationFraction().Load(in.DehydrationFraction().get());
+      io::PropertyIoDelegate::Marshall(in.DehydrationFraction(), GetDehydrationFraction());
   if (in.ExtracellularFluidVolume().present())
-    GetExtracellularFluidVolume().Load(in.ExtracellularFluidVolume().get());
+      io::PropertyIoDelegate::Marshall(in.ExtracellularFluidVolume(), GetExtracellularFluidVolume());
   if (in.ExtravascularFluidVolume().present())
-    GetExtravascularFluidVolume().Load(in.ExtravascularFluidVolume().get());
+      io::PropertyIoDelegate::Marshall(in.ExtravascularFluidVolume(), GetExtravascularFluidVolume());
   if (in.IntracellularFluidPH().present())
-    GetIntracellularFluidPH().Load(in.IntracellularFluidPH().get());
+      io::PropertyIoDelegate::Marshall(in.IntracellularFluidPH(), GetIntracellularFluidPH());
   if (in.IntracellularFluidVolume().present())
-    GetIntracellularFluidVolume().Load(in.IntracellularFluidVolume().get());
+      io::PropertyIoDelegate::Marshall(in.IntracellularFluidVolume(), GetIntracellularFluidVolume());
   if (in.TotalBodyFluidVolume().present())
-    GetTotalBodyFluidVolume().Load(in.TotalBodyFluidVolume().get());
+      io::PropertyIoDelegate::Marshall(in.TotalBodyFluidVolume(), GetTotalBodyFluidVolume());
   if (in.OxygenConsumptionRate().present())
-    GetOxygenConsumptionRate().Load(in.OxygenConsumptionRate().get());
+      io::PropertyIoDelegate::Marshall(in.OxygenConsumptionRate(), GetOxygenConsumptionRate());
   if (in.RespiratoryExchangeRatio().present())
-    GetRespiratoryExchangeRatio().Load(in.RespiratoryExchangeRatio().get());
+    io::PropertyIoDelegate::Marshall(in.RespiratoryExchangeRatio(), GetRespiratoryExchangeRatio());
   if (in.LiverInsulinSetPoint().present())
-    GetLiverInsulinSetPoint().Load(in.LiverInsulinSetPoint().get());
+      io::PropertyIoDelegate::Marshall(in.LiverInsulinSetPoint(), GetLiverInsulinSetPoint());
   if (in.LiverGlucagonSetPoint().present())
-    GetLiverGlucagonSetPoint().Load(in.LiverGlucagonSetPoint().get());
+      io::PropertyIoDelegate::Marshall(in.LiverGlucagonSetPoint(), GetLiverGlucagonSetPoint());
   if (in.MuscleInsulinSetPoint().present())
-    GetMuscleInsulinSetPoint().Load(in.MuscleInsulinSetPoint().get());
+      io::PropertyIoDelegate::Marshall(in.MuscleInsulinSetPoint(), GetMuscleInsulinSetPoint());
   if (in.MuscleGlucagonSetPoint().present())
-    GetMuscleGlucagonSetPoint().Load(in.MuscleGlucagonSetPoint().get());
+      io::PropertyIoDelegate::Marshall(in.MuscleGlucagonSetPoint(), GetMuscleGlucagonSetPoint());
   if (in.FatInsulinSetPoint().present())
-    GetFatInsulinSetPoint().Load(in.FatInsulinSetPoint().get());
+      io::PropertyIoDelegate::Marshall(in.FatInsulinSetPoint(), GetFatInsulinSetPoint());
   if (in.FatGlucagonSetPoint().present())
-    GetFatGlucagonSetPoint().Load(in.FatGlucagonSetPoint().get());
+      io::PropertyIoDelegate::Marshall(in.FatGlucagonSetPoint(), GetFatGlucagonSetPoint());
   if (in.LiverGlycogen().present())
-    GetLiverGlycogen().Load(in.LiverGlycogen().get());
+      io::PropertyIoDelegate::Marshall(in.LiverGlycogen(), GetLiverGlycogen());
   if (in.MuscleGlycogen().present())
-    GetMuscleGlycogen().Load(in.MuscleGlycogen().get());
+    io::PropertyIoDelegate::Marshall(in.MuscleGlycogen(), GetMuscleGlycogen());
   if (in.StoredProtein().present())
-    GetStoredProtein().Load(in.StoredProtein().get());
+      io::PropertyIoDelegate::Marshall(in.StoredProtein(), GetStoredProtein());
   if (in.StoredFat().present())
-    GetStoredFat().Load(in.StoredFat().get());
+      io::PropertyIoDelegate::Marshall(in.StoredFat(), GetStoredFat());
 
   return true;
 }
@@ -200,43 +201,43 @@ CDM::TissueSystemData* SETissueSystem::Unload() const
 void SETissueSystem::Unload(CDM::TissueSystemData& data) const
 {
   if (m_CarbonDioxideProductionRate != nullptr)
-    data.CarbonDioxideProductionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_CarbonDioxideProductionRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CarbonDioxideProductionRate, data.CarbonDioxideProductionRate());
   if (m_DehydrationFraction != nullptr)
-    data.DehydrationFraction(std::unique_ptr<CDM::Scalar0To1Data>(m_DehydrationFraction->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_DehydrationFraction, data.DehydrationFraction());
   if (m_ExtracellularFluidVolume != nullptr)
-    data.ExtracellularFluidVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_ExtracellularFluidVolume->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ExtracellularFluidVolume, data.ExtracellularFluidVolume());
   if (m_ExtravascularFluidVolume != nullptr)
-    data.ExtravascularFluidVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_ExtravascularFluidVolume->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ExtravascularFluidVolume, data.ExtravascularFluidVolume());
   if (m_IntracellularFluidPH != nullptr)
-    data.IntracellularFluidPH(std::unique_ptr<CDM::ScalarData>(m_IntracellularFluidPH->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_IntracellularFluidPH, data.IntracellularFluidPH());
   if (m_IntracellularFluidVolume != nullptr)
-    data.IntracellularFluidVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_IntracellularFluidVolume->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_IntracellularFluidVolume, data.IntracellularFluidVolume());
   if (m_TotalBodyFluidVolume != nullptr)
-    data.TotalBodyFluidVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_TotalBodyFluidVolume->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_TotalBodyFluidVolume, data.TotalBodyFluidVolume());
   if (m_OxygenConsumptionRate != nullptr)
-    data.OxygenConsumptionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_OxygenConsumptionRate->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_OxygenConsumptionRate, data.OxygenConsumptionRate());
   if (m_RespiratoryExchangeRatio != nullptr)
-    data.RespiratoryExchangeRatio(std::unique_ptr<CDM::ScalarData>(m_RespiratoryExchangeRatio->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RespiratoryExchangeRatio, data.RespiratoryExchangeRatio());
   if (m_LiverInsulinSetPoint != nullptr)
-    data.LiverInsulinSetPoint(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_LiverInsulinSetPoint->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LiverInsulinSetPoint, data.LiverInsulinSetPoint());
   if (m_LiverGlucagonSetPoint != nullptr)
-    data.LiverGlucagonSetPoint(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_LiverGlucagonSetPoint->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LiverGlucagonSetPoint, data.LiverGlucagonSetPoint());
   if (m_MuscleInsulinSetPoint != nullptr)
-    data.MuscleInsulinSetPoint(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_MuscleInsulinSetPoint->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MuscleInsulinSetPoint, data.MuscleInsulinSetPoint());
   if (m_MuscleGlucagonSetPoint != nullptr)
-    data.MuscleGlucagonSetPoint(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_MuscleGlucagonSetPoint->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MuscleGlucagonSetPoint, data.MuscleGlucagonSetPoint());
   if (m_FatInsulinSetPoint != nullptr)
-    data.FatInsulinSetPoint(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_FatInsulinSetPoint->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_FatInsulinSetPoint, data.FatInsulinSetPoint());
   if (m_FatGlucagonSetPoint != nullptr)
-    data.FatGlucagonSetPoint(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_FatGlucagonSetPoint->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_FatGlucagonSetPoint, data.FatGlucagonSetPoint());
   if (m_LiverGlycogen != nullptr)
-    data.LiverGlycogen(std::unique_ptr<CDM::ScalarMassData>(m_LiverGlycogen->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LiverGlycogen, data.LiverGlycogen());
   if (m_MuscleGlycogen != nullptr)
-    data.MuscleGlycogen(std::unique_ptr<CDM::ScalarMassData>(m_MuscleGlycogen->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MuscleGlycogen, data.MuscleGlycogen());
   if (m_StoredProtein != nullptr)
-    data.StoredProtein(std::unique_ptr<CDM::ScalarMassData>(m_StoredProtein->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_StoredProtein, data.StoredProtein());
   if (m_StoredFat != nullptr)
-    data.StoredFat(std::unique_ptr<CDM::ScalarMassData>(m_StoredFat->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_StoredFat, data.StoredFat());
 
   SESystem::Unload(data);
 }

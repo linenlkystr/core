@@ -26,15 +26,6 @@ InverseVolumeUnit::InverseVolumeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarInverseVolumeData* SEScalarInverseVolume::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarInverseVolumeData* data(new CDM::ScalarInverseVolumeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool InverseVolumeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(Inverse_L.GetString(),unit) == 0)

@@ -39,7 +39,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarFlowInertance() = default;
   virtual ~SEScalarFlowInertance() = default;
-
-  CDM::ScalarFlowInertanceData* Unload() const override;
 };
 }

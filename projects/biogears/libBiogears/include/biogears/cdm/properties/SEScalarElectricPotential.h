@@ -36,7 +36,5 @@ class BIOGEARS_API SEScalarElectricPotential : public SEScalarQuantity<ElectricP
 public:
   SEScalarElectricPotential() = default;
   virtual ~SEScalarElectricPotential() = default;
-
-  CDM::ScalarElectricPotentialData* Unload() const override;
 };
 }

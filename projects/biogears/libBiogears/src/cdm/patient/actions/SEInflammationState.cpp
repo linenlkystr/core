@@ -14,7 +14,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/cdm/properties/SEScalar0To1.h>
-
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 
 SEInflammationState::SEInflammationState()
@@ -67,23 +67,23 @@ void SEInflammationState::Clear()
 //-------------------------------------------------------------------------------
 bool SEInflammationState::Load(const CDM::InflammationStateData& in)
 {
-  GetPathogen().Load(in.Pathogen());
-  GetTrauma().Load(in.Trauma());
-  GetMacrophageResting().Load(in.MacrophageResting());
-  GetMacrophageActive().Load(in.MacrophageActive());
-  GetNeutrophilResting().Load(in.NeutrophilResting());
-  GetNeutrophilActive().Load(in.NeutrophilActive());
-  GetInducibleNOSynthasePre().Load(in.InducibleNOSynthasePre());
-  GetInducibleNOSynthase().Load(in.InducibleNOSynthase());
-  GetConstitutiveNOSynthase().Load(in.ConstitutiveNOSynthase());
-  GetNitrate().Load(in.Nitrate());
-  GetNitricOxide().Load(in.NitricOxide());
-  GetTumorNecrosisFactor().Load(in.TumorNecrosisFactor());
-  GetInterleukin6().Load(in.Interleukin6());
-  GetInterleukin10().Load(in.Interleukin10());
-  GetInterleukin12().Load(in.Interleukin12());
-  GetCatecholamines().Load(in.Catecholamines());
-  GetTissueIntegrity().Load(in.TissueIntegrity());
+  io::PropertyIoDelegate::Marshall(in.Pathogen(), GetPathogen());
+  io::PropertyIoDelegate::Marshall(in.Trauma(), GetTrauma());
+  io::PropertyIoDelegate::Marshall(in.MacrophageResting(), GetMacrophageResting());
+  io::PropertyIoDelegate::Marshall(in.MacrophageActive(), GetMacrophageActive());
+  io::PropertyIoDelegate::Marshall(in.NeutrophilResting(), GetNeutrophilResting());
+  io::PropertyIoDelegate::Marshall(in.NeutrophilActive(), GetNeutrophilActive());
+  io::PropertyIoDelegate::Marshall(in.InducibleNOSynthasePre(), GetInducibleNOSynthasePre());
+  io::PropertyIoDelegate::Marshall(in.InducibleNOSynthase(), GetInducibleNOSynthase());
+  io::PropertyIoDelegate::Marshall(in.ConstitutiveNOSynthase(), GetConstitutiveNOSynthase());
+  io::PropertyIoDelegate::Marshall(in.Nitrate(), GetNitrate());
+  io::PropertyIoDelegate::Marshall(in.NitricOxide(), GetNitricOxide());
+  io::PropertyIoDelegate::Marshall(in.TumorNecrosisFactor(), GetTumorNecrosisFactor());
+  io::PropertyIoDelegate::Marshall(in.Interleukin6(), GetInterleukin6());
+  io::PropertyIoDelegate::Marshall(in.Interleukin10(), GetInterleukin10());
+  io::PropertyIoDelegate::Marshall(in.Interleukin12(), GetInterleukin12());
+  io::PropertyIoDelegate::Marshall(in.Catecholamines(), GetCatecholamines());
+  io::PropertyIoDelegate::Marshall(in.TissueIntegrity(), GetTissueIntegrity());
   for (auto src : in.Source()){
     m_InflammationSources.push_back(src);
   }
@@ -99,23 +99,23 @@ CDM::InflammationStateData* SEInflammationState::Unload() const
 //-------------------------------------------------------------------------------
 void SEInflammationState::Unload(CDM::InflammationStateData& data) const
 {
-  data.Pathogen(std::unique_ptr<CDM::ScalarData>(m_Pathogen->Unload()));
-  data.Trauma(std::unique_ptr<CDM::ScalarData>(m_Trauma->Unload()));
-  data.MacrophageResting(std::unique_ptr<CDM::ScalarData>(m_MacrophageResting->Unload()));
-  data.MacrophageActive(std::unique_ptr<CDM::ScalarData>(m_MacrophageActive->Unload()));
-  data.NeutrophilResting(std::unique_ptr<CDM::ScalarData>(m_NeutrophilResting->Unload()));
-  data.NeutrophilActive(std::unique_ptr<CDM::ScalarData>(m_NeutrophilActive->Unload()));
-  data.InducibleNOSynthasePre(std::unique_ptr<CDM::ScalarData>(m_InducibleNOSynthasePre->Unload()));
-  data.InducibleNOSynthase(std::unique_ptr<CDM::ScalarData>(m_InducibleNOSynthase->Unload()));
-  data.ConstitutiveNOSynthase(std::unique_ptr<CDM::ScalarData>(m_ConstitutiveNOSynthase->Unload()));
-  data.Nitrate(std::unique_ptr<CDM::ScalarData>(m_Nitrate->Unload()));
-  data.NitricOxide(std::unique_ptr<CDM::ScalarData>(m_NitricOxide->Unload()));
-  data.TumorNecrosisFactor(std::unique_ptr<CDM::ScalarData>(m_TumorNecrosisFactor->Unload()));
-  data.Interleukin6(std::unique_ptr<CDM::ScalarData>(m_Interleukin6->Unload()));
-  data.Interleukin10(std::unique_ptr<CDM::ScalarData>(m_Interleukin10->Unload()));
-  data.Interleukin12(std::unique_ptr<CDM::ScalarData>(m_Interleukin12->Unload()));
-  data.Catecholamines(std::unique_ptr<CDM::ScalarData>(m_Catecholamines->Unload()));
-  data.TissueIntegrity(std::unique_ptr<CDM::Scalar0To1Data>(m_TissueIntegrity->Unload()));
+  io::PropertyIoDelegate::UnMarshall(*m_Pathogen, data.Pathogen());
+  io::PropertyIoDelegate::UnMarshall(*m_Trauma, data.Trauma());
+  io::PropertyIoDelegate::UnMarshall(*m_MacrophageResting, data.MacrophageResting());
+  io::PropertyIoDelegate::UnMarshall(*m_MacrophageActive, data.MacrophageActive());
+  io::PropertyIoDelegate::UnMarshall(*m_NeutrophilResting, data.NeutrophilResting());
+  io::PropertyIoDelegate::UnMarshall(*m_NeutrophilActive, data.NeutrophilActive());
+  io::PropertyIoDelegate::UnMarshall(*m_InducibleNOSynthasePre, data.InducibleNOSynthasePre());
+  io::PropertyIoDelegate::UnMarshall(*m_InducibleNOSynthase, data.InducibleNOSynthase());
+  io::PropertyIoDelegate::UnMarshall(*m_ConstitutiveNOSynthase, data.ConstitutiveNOSynthase());
+  io::PropertyIoDelegate::UnMarshall(*m_Nitrate, data.Nitrate());
+  io::PropertyIoDelegate::UnMarshall(*m_NitricOxide, data.NitricOxide());
+  io::PropertyIoDelegate::UnMarshall(*m_TumorNecrosisFactor, data.TumorNecrosisFactor());
+  io::PropertyIoDelegate::UnMarshall(*m_Interleukin6, data.Interleukin6());
+  io::PropertyIoDelegate::UnMarshall(*m_Interleukin10, data.Interleukin10());
+  io::PropertyIoDelegate::UnMarshall(*m_Interleukin12, data.Interleukin12());
+  io::PropertyIoDelegate::UnMarshall(*m_Catecholamines, data.Catecholamines());
+  io::PropertyIoDelegate::UnMarshall(*m_TissueIntegrity, data.TissueIntegrity());
   for (auto src : m_InflammationSources) {
     data.Source().push_back(src);
   }

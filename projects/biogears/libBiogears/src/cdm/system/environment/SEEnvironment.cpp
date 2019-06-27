@@ -30,6 +30,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/environment/conditions/SEInitialEnvironment.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"  
 namespace biogears {
 SEEnvironment::SEEnvironment(SESubstanceManager& substances)
   : SESystem(substances.GetLogger())
@@ -134,21 +135,21 @@ bool SEEnvironment::Load(const CDM::EnvironmentData& in)
     GetConditions().Load(in.Conditions().get());
 
   if (in.ConvectiveHeatLoss().present())
-    GetConvectiveHeatLoss().Load(in.ConvectiveHeatLoss().get());
+    io::PropertyIoDelegate::Marshall(in.ConvectiveHeatLoss(), GetConvectiveHeatLoss());
   if (in.ConvectiveHeatTranferCoefficient().present())
-    GetConvectiveHeatTranferCoefficient().Load(in.ConvectiveHeatTranferCoefficient().get());
+    io::PropertyIoDelegate::Marshall(in.ConvectiveHeatTranferCoefficient(), GetConvectiveHeatTranferCoefficient());
   if (in.EvaporativeHeatLoss().present())
-    GetEvaporativeHeatLoss().Load(in.EvaporativeHeatLoss().get());
+    io::PropertyIoDelegate::Marshall(in.EvaporativeHeatLoss(), GetEvaporativeHeatLoss());
   if (in.EvaporativeHeatTranferCoefficient().present())
-    GetEvaporativeHeatTranferCoefficient().Load(in.EvaporativeHeatTranferCoefficient().get());
+    io::PropertyIoDelegate::Marshall(in.EvaporativeHeatTranferCoefficient(), GetEvaporativeHeatTranferCoefficient());
   if (in.RadiativeHeatLoss().present())
-    GetRadiativeHeatLoss().Load(in.RadiativeHeatLoss().get());
+    io::PropertyIoDelegate::Marshall(in.RadiativeHeatLoss(), GetRadiativeHeatLoss());
   if (in.RadiativeHeatTranferCoefficient().present())
-    GetRadiativeHeatTranferCoefficient().Load(in.RadiativeHeatTranferCoefficient().get());
+    io::PropertyIoDelegate::Marshall(in.RadiativeHeatTranferCoefficient(), GetRadiativeHeatTranferCoefficient());
   if (in.RespirationHeatLoss().present())
-    GetRespirationHeatLoss().Load(in.RespirationHeatLoss().get());
+    io::PropertyIoDelegate::Marshall(in.RespirationHeatLoss(), GetRespirationHeatLoss());
   if (in.SkinHeatLoss().present())
-    GetSkinHeatLoss().Load(in.SkinHeatLoss().get());
+    io::PropertyIoDelegate::Marshall(in.SkinHeatLoss(), GetSkinHeatLoss());
 
   StateChange();
   return true;
@@ -203,21 +204,21 @@ void SEEnvironment::Unload(CDM::EnvironmentData& data) const
     data.Conditions(std::unique_ptr<CDM::EnvironmentalConditionsData>(m_Conditions->Unload()));
 
   if (m_ConvectiveHeatLoss != nullptr)
-    data.ConvectiveHeatLoss(std::unique_ptr<CDM::ScalarPowerData>(m_ConvectiveHeatLoss->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ConvectiveHeatLoss, data.ConvectiveHeatLoss());
   if (m_ConvectiveHeatTranferCoefficient != nullptr)
-    data.ConvectiveHeatTranferCoefficient(std::unique_ptr<CDM::ScalarHeatConductancePerAreaData>(m_ConvectiveHeatTranferCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ConvectiveHeatTranferCoefficient, data.ConvectiveHeatTranferCoefficient());
   if (m_EvaporativeHeatLoss != nullptr)
-    data.EvaporativeHeatLoss(std::unique_ptr<CDM::ScalarPowerData>(m_EvaporativeHeatLoss->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_EvaporativeHeatLoss, data.EvaporativeHeatLoss());
   if (m_EvaporativeHeatTranferCoefficient != nullptr)
-    data.EvaporativeHeatTranferCoefficient(std::unique_ptr<CDM::ScalarHeatConductancePerAreaData>(m_EvaporativeHeatTranferCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_EvaporativeHeatTranferCoefficient, data.EvaporativeHeatTranferCoefficient());
   if (m_RadiativeHeatLoss != nullptr)
-    data.RadiativeHeatLoss(std::unique_ptr<CDM::ScalarPowerData>(m_RadiativeHeatLoss->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RadiativeHeatLoss, data.RadiativeHeatLoss());
   if (m_RadiativeHeatTranferCoefficient != nullptr)
-    data.RadiativeHeatTranferCoefficient(std::unique_ptr<CDM::ScalarHeatConductancePerAreaData>(m_RadiativeHeatTranferCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RadiativeHeatTranferCoefficient, data.RadiativeHeatTranferCoefficient());
   if (m_RespirationHeatLoss != nullptr)
-    data.RespirationHeatLoss(std::unique_ptr<CDM::ScalarPowerData>(m_RespirationHeatLoss->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RespirationHeatLoss, data.RespirationHeatLoss());
   if (m_SkinHeatLoss != nullptr)
-    data.SkinHeatLoss(std::unique_ptr<CDM::ScalarPowerData>(m_SkinHeatLoss->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_SkinHeatLoss, data.SkinHeatLoss());
 };
 //-------------------------------------------------------------------------------
 

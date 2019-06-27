@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEHemorrhage::SEHemorrhage()
   : SEPatientAction()
@@ -54,7 +55,7 @@ bool SEHemorrhage::Load(const CDM::HemorrhageData& in)
 {
   SEPatientAction::Load(in);
   m_Compartment = in.Compartment();
-  GetInitialRate().Load(in.InitialRate());
+  io::PropertyIoDelegate::Marshall(in.InitialRate(), GetInitialRate());
   //Place compartments in torso in a map so that we don't get too messy with nested conditionals.  Each vector is digits 2-4 of the MCIS code
   organMap["VenaCava"] = std::vector<unsigned int>{ 6, 6, 0 };
   organMap["LeftLung"] = std::vector<unsigned int>{ 7, 1, 0 };
@@ -82,10 +83,12 @@ CDM::HemorrhageData* SEHemorrhage::Unload() const
 void SEHemorrhage::Unload(CDM::HemorrhageData& data) const
 {
   SEPatientAction::Unload(data);
-  if (HasCompartment())
+  if (HasCompartment()) {
     data.Compartment(m_Compartment);
-  if (HasInitialRate())
-    data.InitialRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_InitialRate->Unload()));
+  }
+  if (HasInitialRate()) {
+    io::PropertyIoDelegate::UnMarshall(*m_InitialRate, data.InitialRate());
+  }
 }
 //-----------------------------------------------------------------------------
 void SEHemorrhage::SetMCIS()

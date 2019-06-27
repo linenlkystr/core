@@ -13,12 +13,13 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEDataRequestManager::SEDataRequestManager(Logger* logger)
   : Loggable(logger)
   , m_SamplesPerSecond(1.0)
   , m_ResultsFile("")
- 
+
 {
   m_DefaultDecimalFormatting = nullptr;
   m_OverrideDecimalFormatting = nullptr;
@@ -70,7 +71,7 @@ void SEDataRequestManager::SetWorkingDir(const std::string& name)
   m_WorkingDir = name;
 }
 //-----------------------------------------------------------------------------
-std::string SEDataRequestManager::GetResovedFilePath() const{ return m_WorkingDir + m_ResultsFile; }
+std::string SEDataRequestManager::GetResovedFilePath() const { return m_WorkingDir + m_ResultsFile; }
 //-----------------------------------------------------------------------------
 void SEDataRequestManager::Clear()
 {
@@ -88,9 +89,9 @@ bool SEDataRequestManager::Load(const CDM::DataRequestsData& in, SESubstanceMana
   if (in.SamplesPerSecond().present())
     m_SamplesPerSecond = in.SamplesPerSecond().get();
   if (in.DefaultDecimalFormatting().present())
-    GetDefaultDecimalFormatting().Load(in.DefaultDecimalFormatting().get());
+    io::PropertyIoDelegate::Marshall(in.DefaultDecimalFormatting(), GetDefaultDecimalFormatting());
   if (in.OverrideDecimalFormatting().present())
-    GetOverrideDecimalFormatting().Load(in.OverrideDecimalFormatting().get());
+    io::PropertyIoDelegate::Marshall(in.OverrideDecimalFormatting(), GetOverrideDecimalFormatting());
 
   for (unsigned int i = 0; i < in.DataRequest().size(); i++) {
     SEDataRequest* dr = newFromBind(in.DataRequest()[i], subMgr, m_DefaultDecimalFormatting);
@@ -116,9 +117,9 @@ void SEDataRequestManager::Unload(CDM::DataRequestsData& data) const
   if (HasResultsFilename())
     data.Filename(m_ResultsFile);
   if (HasDefaultDecimalFormatting())
-    data.DefaultDecimalFormatting(std::unique_ptr<CDM::DecimalFormatData>(m_DefaultDecimalFormatting->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultDecimalFormatting, data.DefaultDecimalFormatting());
   if (HasOverrideDecimalFormatting())
-    data.OverrideDecimalFormatting(std::unique_ptr<CDM::DecimalFormatData>(m_OverrideDecimalFormatting->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_OverrideDecimalFormatting, data.OverrideDecimalFormatting());
   for (SEDataRequest* dr : m_Requests)
     data.DataRequest().push_back(std::unique_ptr<CDM::DataRequestData>(dr->Unload()));
 }

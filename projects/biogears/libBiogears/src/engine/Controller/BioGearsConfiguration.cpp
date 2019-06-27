@@ -46,6 +46,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/ElectroCardioGram/SEElectroCardioGramInterpolator.h>
 #include <biogears/cdm/utils/FileUtils.h>
 
+#include "../../cdm/utils/io/PropertyIoDelegate.h"
 namespace biogears {
 
 BioGearsConfiguration::BioGearsConfiguration(SESubstanceManager& substances)
@@ -459,101 +460,100 @@ bool BioGearsConfiguration::Load(const CDM::BioGearsConfigurationData& in)
   if (in.BaroreceptorConfiguration().present()) {
     const CDM::BaroreceptorConfigurationData& config = in.BaroreceptorConfiguration().get();
     if (config.ResponseSlope().present())
-      GetResponseSlope().Load(config.ResponseSlope().get());
-    if (config.HeartRateDistributedTimeDelay().present())
-      GetHeartRateDistributedTimeDelay().Load(config.HeartRateDistributedTimeDelay().get());
+      io::PropertyIoDelegate::Marshall(config.ResponseSlope(), GetResponseSlope());
+    io::PropertyIoDelegate::Marshall(config.HeartRateDistributedTimeDelay(), GetHeartRateDistributedTimeDelay());
     if (config.HeartElastanceDistributedTimeDelay().present())
-      GetHeartElastanceDistributedTimeDelay().Load(config.HeartElastanceDistributedTimeDelay().get());
+      io::PropertyIoDelegate::Marshall(config.HeartElastanceDistributedTimeDelay(), GetHeartElastanceDistributedTimeDelay());
     if (config.SystemicResistanceDistributedTimeDelay().present())
-      GetSystemicResistanceDistributedTimeDelay().Load(config.SystemicResistanceDistributedTimeDelay().get());
+      io::PropertyIoDelegate::Marshall(config.SystemicResistanceDistributedTimeDelay(), GetSystemicResistanceDistributedTimeDelay());
     if (config.VenousComplianceDistributedTimeDelay().present())
-      GetVenousComplianceDistributedTimeDelay().Load(config.VenousComplianceDistributedTimeDelay().get());
+      io::PropertyIoDelegate::Marshall(config.VenousComplianceDistributedTimeDelay(), GetVenousComplianceDistributedTimeDelay());
     if (config.NormalizedHeartRateIntercept().present())
-      GetNormalizedHeartRateIntercept().Load(config.NormalizedHeartRateIntercept().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedHeartRateIntercept(), GetNormalizedHeartRateIntercept());
     if (config.NormalizedHeartRateSympatheticSlope().present())
-      GetNormalizedHeartRateSympatheticSlope().Load(config.NormalizedHeartRateSympatheticSlope().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedHeartRateSympatheticSlope(), GetNormalizedHeartRateSympatheticSlope());
     if (config.NormalizedHeartRateParasympatheticSlope().present())
-      GetNormalizedHeartRateParasympatheticSlope().Load(config.NormalizedHeartRateParasympatheticSlope().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedHeartRateParasympatheticSlope(), GetNormalizedHeartRateParasympatheticSlope());
     if (config.NormalizedHeartElastanceIntercept().present())
-      GetNormalizedHeartElastanceIntercept().Load(config.NormalizedHeartElastanceIntercept().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedHeartElastanceIntercept(), GetNormalizedHeartElastanceIntercept());
     if (config.NormalizedHeartElastanceSympatheticSlope().present())
-      GetNormalizedHeartElastanceSympatheticSlope().Load(config.NormalizedHeartElastanceSympatheticSlope().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedHeartElastanceSympatheticSlope(), GetNormalizedHeartElastanceSympatheticSlope());
     if (config.NormalizedResistanceIntercept().present())
-      GetNormalizedResistanceIntercept().Load(config.NormalizedResistanceIntercept().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedResistanceIntercept(), GetNormalizedResistanceIntercept());
     if (config.NormalizedResistanceSympatheticSlope().present())
-      GetNormalizedResistanceSympatheticSlope().Load(config.NormalizedResistanceSympatheticSlope().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedResistanceSympatheticSlope(), GetNormalizedResistanceSympatheticSlope());
     if (config.NormalizedComplianceIntercept().present())
-      GetNormalizedComplianceIntercept().Load(config.NormalizedComplianceIntercept().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedComplianceIntercept(), GetNormalizedComplianceIntercept());
     if (config.NormalizedComplianceParasympatheticSlope().present())
-      GetNormalizedComplianceParasympatheticSlope().Load(config.NormalizedComplianceParasympatheticSlope().get());
+      io::PropertyIoDelegate::Marshall(config.NormalizedComplianceParasympatheticSlope(), GetNormalizedComplianceParasympatheticSlope());
   }
 
   // Blood Chemistry
   if (in.BloodChemistryConfiguration().present()) {
     const CDM::BloodChemistryConfigurationData& config = in.BloodChemistryConfiguration().get();
     if (config.MeanCorpuscularVolume().present())
-      GetMeanCorpuscularVolume().Load(config.MeanCorpuscularVolume().get());
+      io::PropertyIoDelegate::Marshall(config.MeanCorpuscularVolume(), GetMeanCorpuscularVolume());
     if (config.MeanCorpuscularHemoglobin().present())
-      GetMeanCorpuscularHemoglobin().Load(config.MeanCorpuscularHemoglobin().get());
+      io::PropertyIoDelegate::Marshall(config.MeanCorpuscularHemoglobin(), GetMeanCorpuscularHemoglobin());
     if (config.StandardDiffusionDistance().present())
-      GetStandardDiffusionDistance().Load(config.StandardDiffusionDistance().get());
+      io::PropertyIoDelegate::Marshall(config.StandardDiffusionDistance(), GetStandardDiffusionDistance());
     if (config.StandardOxygenDiffusionCoefficient().present())
-      GetStandardOxygenDiffusionCoefficient().Load(config.StandardOxygenDiffusionCoefficient().get());
+      io::PropertyIoDelegate::Marshall(config.StandardOxygenDiffusionCoefficient(), GetStandardOxygenDiffusionCoefficient());
   }
 
   // Cardiovascular
   if (in.CardiovascularConfiguration().present()) {
     const CDM::CardiovascularConfigurationData& config = in.CardiovascularConfiguration().get();
     if (config.LeftHeartElastanceMaximum().present())
-      GetLeftHeartElastanceMaximum().Load(config.LeftHeartElastanceMaximum().get());
+      io::PropertyIoDelegate::Marshall(config.LeftHeartElastanceMaximum(), GetLeftHeartElastanceMaximum());
     if (config.LeftHeartElastanceMinimum().present())
-      GetLeftHeartElastanceMinimum().Load(config.LeftHeartElastanceMinimum().get());
+      io::PropertyIoDelegate::Marshall(config.LeftHeartElastanceMinimum(), GetLeftHeartElastanceMinimum());
     if (config.MinimumBloodVolumeFraction().present())
-      GetMinimumBloodVolumeFraction().Load(config.MinimumBloodVolumeFraction().get());
+      io::PropertyIoDelegate::Marshall(config.MinimumBloodVolumeFraction(), GetMinimumBloodVolumeFraction());
     if (config.RightHeartElastanceMaximum().present())
-      GetRightHeartElastanceMaximum().Load(config.RightHeartElastanceMaximum().get());
+      io::PropertyIoDelegate::Marshall(config.RightHeartElastanceMaximum(), GetRightHeartElastanceMaximum());
     if (config.RightHeartElastanceMinimum().present())
-      GetRightHeartElastanceMinimum().Load(config.RightHeartElastanceMinimum().get());
+      io::PropertyIoDelegate::Marshall(config.RightHeartElastanceMinimum(), GetRightHeartElastanceMinimum());
     if (config.StandardPulmonaryCapillaryCoverage().present())
-      GetStandardPulmonaryCapillaryCoverage().Load(config.StandardPulmonaryCapillaryCoverage().get());
+      io::PropertyIoDelegate::Marshall(config.StandardPulmonaryCapillaryCoverage(), GetStandardPulmonaryCapillaryCoverage());
   }
 
   // Circuit
   if (in.CircuitConfiguration().present()) {
     const CDM::CircuitConfigurationData& config = in.CircuitConfiguration().get();
     if (config.CardiovascularOpenResistance().present())
-      GetCardiovascularOpenResistance().Load(config.CardiovascularOpenResistance().get());
+      io::PropertyIoDelegate::Marshall(config.CardiovascularOpenResistance(), GetCardiovascularOpenResistance());
     if (config.DefaultOpenElectricResistance().present())
-      GetDefaultOpenElectricResistance().Load(config.DefaultOpenElectricResistance().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultOpenElectricResistance(), GetDefaultOpenElectricResistance());
     if (config.DefaultOpenFlowResistance().present())
-      GetDefaultOpenFlowResistance().Load(config.DefaultOpenFlowResistance().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultOpenFlowResistance(), GetDefaultOpenFlowResistance());
     if (config.DefaultOpenHeatResistance().present())
-      GetDefaultOpenHeatResistance().Load(config.DefaultOpenHeatResistance().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultOpenHeatResistance(), GetDefaultOpenHeatResistance());
     if (config.DefaultClosedElectricResistance().present())
-      GetDefaultClosedElectricResistance().Load(config.DefaultClosedElectricResistance().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultClosedElectricResistance(), GetDefaultClosedElectricResistance());
     if (config.DefaultClosedFlowResistance().present())
-      GetDefaultClosedFlowResistance().Load(config.DefaultClosedFlowResistance().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultClosedFlowResistance(), GetDefaultClosedFlowResistance());
     if (config.DefaultClosedHeatResistance().present())
-      GetDefaultClosedHeatResistance().Load(config.DefaultClosedHeatResistance().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultClosedHeatResistance(), GetDefaultClosedHeatResistance());
     if (config.MachineClosedResistance().present())
-      GetMachineClosedResistance().Load(config.MachineClosedResistance().get());
+      io::PropertyIoDelegate::Marshall(config.MachineClosedResistance(), GetMachineClosedResistance());
     if (config.MachineOpenResistance().present())
-      GetMachineOpenResistance().Load(config.MachineOpenResistance().get());
+      io::PropertyIoDelegate::Marshall(config.MachineOpenResistance(), GetMachineOpenResistance());
     if (config.RespiratoryClosedResistance().present())
-      GetRespiratoryClosedResistance().Load(config.RespiratoryClosedResistance().get());
+      io::PropertyIoDelegate::Marshall(config.RespiratoryClosedResistance(), GetRespiratoryClosedResistance());
     if (config.RespiratoryOpenResistance().present())
-      GetRespiratoryOpenResistance().Load(config.RespiratoryOpenResistance().get());
+      io::PropertyIoDelegate::Marshall(config.RespiratoryOpenResistance(), GetRespiratoryOpenResistance());
   }
 
   // Constants
   if (in.ConstantsConfiguration().present()) {
     const CDM::ConstantsConfigurationData& config = in.ConstantsConfiguration().get();
     if (config.OxygenMetabolicConstant().present())
-      GetOxygenMetabolicConstant().Load(config.OxygenMetabolicConstant().get());
+      io::PropertyIoDelegate::Marshall(config.OxygenMetabolicConstant(), GetOxygenMetabolicConstant());
     if (config.StefanBoltzmann().present())
-      GetStefanBoltzmann().Load(config.StefanBoltzmann().get());
+      io::PropertyIoDelegate::Marshall(config.StefanBoltzmann(), GetStefanBoltzmann());
     if (config.UniversalGasConstant().present())
-      GetUniversalGasConstant().Load(config.UniversalGasConstant().get());
+      io::PropertyIoDelegate::Marshall(config.UniversalGasConstant(), GetUniversalGasConstant());
   }
 
   // Drugs
@@ -567,34 +567,34 @@ bool BioGearsConfiguration::Load(const CDM::BioGearsConfigurationData& in)
   if (in.EnergyConfiguration().present()) {
     const CDM::EnergyConfigurationData& config = in.EnergyConfiguration().get();
     if (config.BodySpecificHeat().present())
-      GetBodySpecificHeat().Load(config.BodySpecificHeat().get());
+      io::PropertyIoDelegate::Marshall(config.BodySpecificHeat(), GetBodySpecificHeat());
     if (config.CoreTemperatureLow().present())
-      GetCoreTemperatureLow().Load(config.CoreTemperatureLow().get());
+      io::PropertyIoDelegate::Marshall(config.CoreTemperatureLow(), GetCoreTemperatureLow());
     if (config.CoreTemperatureHigh().present())
-      GetCoreTemperatureHigh().Load(config.CoreTemperatureHigh().get());
+      io::PropertyIoDelegate::Marshall(config.CoreTemperatureHigh(), GetCoreTemperatureHigh());
     if (config.DeltaCoreTemperatureLow().present())
-      GetDeltaCoreTemperatureLow().Load(config.DeltaCoreTemperatureLow().get());
+      io::PropertyIoDelegate::Marshall(config.DeltaCoreTemperatureLow(), GetDeltaCoreTemperatureLow());
     if (config.EnergyPerATP().present())
-      GetEnergyPerATP().Load(config.EnergyPerATP().get());
+      io::PropertyIoDelegate::Marshall(config.EnergyPerATP(), GetEnergyPerATP());
     if (config.SweatHeatTransfer().present())
-      GetSweatHeatTransfer().Load(config.SweatHeatTransfer().get());
+      io::PropertyIoDelegate::Marshall(config.SweatHeatTransfer(), GetSweatHeatTransfer());
     if (config.VaporizationEnergy().present())
-      GetVaporizationEnergy().Load(config.VaporizationEnergy().get());
+      io::PropertyIoDelegate::Marshall(config.VaporizationEnergy(), GetVaporizationEnergy());
     if (config.VaporSpecificHeat().present())
-      GetVaporSpecificHeat().Load(config.VaporSpecificHeat().get());
+      io::PropertyIoDelegate::Marshall(config.VaporSpecificHeat(), GetVaporSpecificHeat());
   }
 
   // Environment
   if (in.EnvironmentConfiguration().present()) {
     const CDM::EnvironmentConfigurationData& config = in.EnvironmentConfiguration().get();
     if (config.AirDensity().present())
-      GetAirDensity().Load(config.AirDensity().get());
+      io::PropertyIoDelegate::Marshall(config.AirDensity(), GetAirDensity());
     if (config.AirSpecificHeat().present())
-      GetAirSpecificHeat().Load(config.AirSpecificHeat().get());
+      io::PropertyIoDelegate::Marshall(config.AirSpecificHeat(), GetAirSpecificHeat());
     if (config.MolarMassOfDryAir().present())
-      GetMolarMassOfDryAir().Load(config.MolarMassOfDryAir().get());
+      io::PropertyIoDelegate::Marshall(config.MolarMassOfDryAir(), GetMolarMassOfDryAir());
     if (config.MolarMassOfWaterVapor().present())
-      GetMolarMassOfWaterVapor().Load(config.MolarMassOfWaterVapor().get());
+      io::PropertyIoDelegate::Marshall(config.MolarMassOfWaterVapor(), GetMolarMassOfWaterVapor());
     if (config.InitialEnvironmentalConditionsFile().present()) {
       if (!GetInitialEnvironmentalConditions().Load(config.InitialEnvironmentalConditionsFile().get())) {
         Error("Unable to load InitialEnvironmentalConditions file");
@@ -607,24 +607,24 @@ bool BioGearsConfiguration::Load(const CDM::BioGearsConfigurationData& in)
       }
     }
     if (config.WaterDensity().present())
-      GetWaterDensity().Load(config.WaterDensity().get());
+      io::PropertyIoDelegate::Marshall(config.WaterDensity(), GetWaterDensity());
   }
 
   // Gastrointestinal
   if (in.GastrointestinalConfiguration().present()) {
     const CDM::GastrointestinalConfigurationData& config = in.GastrointestinalConfiguration().get();
     if (config.CalciumAbsorptionFraction().present())
-      GetCalciumAbsorptionFraction().Load(config.CalciumAbsorptionFraction().get());
+      io::PropertyIoDelegate::Marshall(config.CalciumAbsorptionFraction(), GetCalciumAbsorptionFraction());
     if (config.CalciumDigestionRate().present())
-      GetCalciumDigestionRate().Load(config.CalciumDigestionRate().get());
+      io::PropertyIoDelegate::Marshall(config.CalciumDigestionRate(), GetCalciumDigestionRate());
     if (config.CarbohydrateAbsorptionFraction().present())
-      GetCarbohydrateAbsorptionFraction().Load(config.CarbohydrateAbsorptionFraction().get());
+      io::PropertyIoDelegate::Marshall(config.CarbohydrateAbsorptionFraction(), GetCarbohydrateAbsorptionFraction());
     if (config.DefaultCarbohydrateDigestionRate().present())
-      GetDefaultCarbohydrateDigestionRate().Load(config.DefaultCarbohydrateDigestionRate().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultCarbohydrateDigestionRate(), GetDefaultCarbohydrateDigestionRate());
     if (config.DefaultFatDigestionRate().present())
-      GetDefaultFatDigestionRate().Load(config.DefaultFatDigestionRate().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultFatDigestionRate(), GetDefaultFatDigestionRate());
     if (config.DefaultProteinDigestionRate().present())
-      GetDefaultProteinDigestionRate().Load(config.DefaultProteinDigestionRate().get());
+      io::PropertyIoDelegate::Marshall(config.DefaultProteinDigestionRate(), GetDefaultProteinDigestionRate());
     if (config.DefaultStomachContentsFile().present()) {
       if (!GetDefaultStomachContents().Load(config.DefaultStomachContentsFile().get())) {
         Error("Unable to load Standard Stomach Contents file");
@@ -646,18 +646,18 @@ bool BioGearsConfiguration::Load(const CDM::BioGearsConfigurationData& in)
         m_DefaultStomachContents->GetProteinDigestionRate().Set(GetDefaultProteinDigestionRate());
     }
     if (config.FatAbsorptionFraction().present())
-      GetFatAbsorptionFraction().Load(config.FatAbsorptionFraction().get());
+      io::PropertyIoDelegate::Marshall(config.FatAbsorptionFraction(), GetFatAbsorptionFraction());
     if (config.ProteinToUreaFraction().present())
-      GetProteinToUreaFraction().Load(config.ProteinToUreaFraction().get());
+      io::PropertyIoDelegate::Marshall(config.ProteinToUreaFraction(), GetProteinToUreaFraction());
     if (config.WaterDigestionRate().present())
-      GetWaterDigestionRate().Load(config.WaterDigestionRate().get());
+      io::PropertyIoDelegate::Marshall(config.WaterDigestionRate(), GetWaterDigestionRate());
   }
 
   // Nervous
   if (in.NervousConfiguration().present()) {
     const CDM::NervousConfigurationData& config = in.NervousConfiguration().get();
     if (config.PupilDiameterBaseline().present())
-      GetPupilDiameterBaseline().Load(config.PupilDiameterBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.PupilDiameterBaseline(), GetPupilDiameterBaseline());
   }
 
   // Renal
@@ -668,53 +668,53 @@ bool BioGearsConfiguration::Load(const CDM::BioGearsConfigurationData& in)
       EnableRenal(config.EnableRenal().get());
 
     if (config.PlasmaSodiumConcentrationSetPoint().present())
-      GetPlasmaSodiumConcentrationSetPoint().Load(config.PlasmaSodiumConcentrationSetPoint().get());
+      io::PropertyIoDelegate::Marshall(config.PlasmaSodiumConcentrationSetPoint(), GetPlasmaSodiumConcentrationSetPoint());
 
     if (config.LeftGlomerularFluidPermeabilityBaseline().present())
-      GetLeftGlomerularFluidPermeabilityBaseline().Load(config.LeftGlomerularFluidPermeabilityBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.LeftGlomerularFluidPermeabilityBaseline(), GetLeftGlomerularFluidPermeabilityBaseline());
     if (config.LeftGlomerularFilteringSurfaceAreaBaseline().present())
-      GetLeftGlomerularFilteringSurfaceAreaBaseline().Load(config.LeftGlomerularFilteringSurfaceAreaBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.LeftGlomerularFilteringSurfaceAreaBaseline(), GetLeftGlomerularFilteringSurfaceAreaBaseline());
     if (config.LeftTubularReabsorptionFluidPermeabilityBaseline().present())
-      GetLeftTubularReabsorptionFluidPermeabilityBaseline().Load(config.LeftTubularReabsorptionFluidPermeabilityBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.LeftTubularReabsorptionFluidPermeabilityBaseline(), GetLeftTubularReabsorptionFluidPermeabilityBaseline());
     if (config.LeftTubularReabsorptionFilteringSurfaceAreaBaseline().present())
-      GetLeftTubularReabsorptionFilteringSurfaceAreaBaseline().Load(config.LeftTubularReabsorptionFilteringSurfaceAreaBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.LeftTubularReabsorptionFilteringSurfaceAreaBaseline(), GetLeftTubularReabsorptionFilteringSurfaceAreaBaseline());
 
     if (config.MaximumAfferentResistance().present())
-      GetMaximumAfferentResistance().Load(config.MaximumAfferentResistance().get());
+      io::PropertyIoDelegate::Marshall(config.MaximumAfferentResistance(), GetMaximumAfferentResistance());
     if (config.MinimumAfferentResistance().present())
-      GetMinimumAfferentResistance().Load(config.MinimumAfferentResistance().get());
+      io::PropertyIoDelegate::Marshall(config.MinimumAfferentResistance(), GetMinimumAfferentResistance());
 
     if (config.RightGlomerularFluidPermeabilityBaseline().present())
-      GetRightGlomerularFluidPermeabilityBaseline().Load(config.RightGlomerularFluidPermeabilityBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.RightGlomerularFluidPermeabilityBaseline(), GetRightGlomerularFluidPermeabilityBaseline());
     if (config.RightGlomerularFilteringSurfaceAreaBaseline().present())
-      GetRightGlomerularFilteringSurfaceAreaBaseline().Load(config.RightGlomerularFilteringSurfaceAreaBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.RightGlomerularFilteringSurfaceAreaBaseline(), GetRightGlomerularFilteringSurfaceAreaBaseline());
     if (config.RightTubularReabsorptionFluidPermeabilityBaseline().present())
-      GetRightTubularReabsorptionFluidPermeabilityBaseline().Load(config.RightTubularReabsorptionFluidPermeabilityBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.RightTubularReabsorptionFluidPermeabilityBaseline(), GetRightTubularReabsorptionFluidPermeabilityBaseline());
     if (config.RightTubularReabsorptionFilteringSurfaceAreaBaseline().present())
-      GetRightTubularReabsorptionFilteringSurfaceAreaBaseline().Load(config.RightTubularReabsorptionFilteringSurfaceAreaBaseline().get());
+      io::PropertyIoDelegate::Marshall(config.RightTubularReabsorptionFilteringSurfaceAreaBaseline(), GetRightTubularReabsorptionFilteringSurfaceAreaBaseline());
     if (config.TargetSodiumDelivery().present())
-      GetTargetSodiumDelivery().Load(config.TargetSodiumDelivery().get());
+      io::PropertyIoDelegate::Marshall(config.TargetSodiumDelivery(), GetTargetSodiumDelivery());
   }
 
   // Respiratory
   if (in.RespiratoryConfiguration().present()) {
     const CDM::RespiratoryConfigurationData& config = in.RespiratoryConfiguration().get();
     if (config.CentralControllerCO2PressureSetPoint().present())
-      GetCentralControllerCO2PressureSetPoint().Load(config.CentralControllerCO2PressureSetPoint().get());
+      io::PropertyIoDelegate::Marshall(config.CentralControllerCO2PressureSetPoint(), GetCentralControllerCO2PressureSetPoint());
     if (config.CentralVentilatoryControllerGain().present())
-      GetCentralVentilatoryControllerGain().Load(config.CentralVentilatoryControllerGain().get());
+      io::PropertyIoDelegate::Marshall(config.CentralVentilatoryControllerGain(), GetCentralVentilatoryControllerGain());
     if (config.PeripheralControllerCO2PressureSetPoint().present())
-      GetPeripheralControllerCO2PressureSetPoint().Load(config.PeripheralControllerCO2PressureSetPoint().get());
+      io::PropertyIoDelegate::Marshall(config.PeripheralControllerCO2PressureSetPoint(), GetPeripheralControllerCO2PressureSetPoint());
     if (config.PeripheralVentilatoryControllerGain().present())
-      GetPeripheralVentilatoryControllerGain().Load(config.PeripheralVentilatoryControllerGain().get());
+      io::PropertyIoDelegate::Marshall(config.PeripheralVentilatoryControllerGain(), GetPeripheralVentilatoryControllerGain());
     if (config.PleuralComplianceSensitivity().present())
-      GetPleuralComplianceSensitivity().Load(config.PleuralComplianceSensitivity().get());
+      io::PropertyIoDelegate::Marshall(config.PleuralComplianceSensitivity(), GetPleuralComplianceSensitivity());
     if (config.PulmonaryVentilationRateMaximum().present())
-      GetPulmonaryVentilationRateMaximum().Load(config.PulmonaryVentilationRateMaximum().get());
+      io::PropertyIoDelegate::Marshall(config.PulmonaryVentilationRateMaximum(), GetPulmonaryVentilationRateMaximum());
     if (config.VentilationTidalVolumeIntercept().present())
-      GetVentilationTidalVolumeIntercept().Load(config.VentilationTidalVolumeIntercept().get());
+      io::PropertyIoDelegate::Marshall(config.VentilationTidalVolumeIntercept(), GetVentilationTidalVolumeIntercept());
     if (config.VentilatoryOcclusionPressure().present())
-      GetVentilatoryOcclusionPressure().Load(config.VentilatoryOcclusionPressure().get());
+      io::PropertyIoDelegate::Marshall(config.VentilatoryOcclusionPressure(), GetVentilatoryOcclusionPressure());
   }
 
   // Tissue
@@ -742,97 +742,101 @@ void BioGearsConfiguration::Unload(CDM::BioGearsConfigurationData& data) const
   // Barorecptor
   CDM::BaroreceptorConfigurationData* baro(new CDM::BaroreceptorConfigurationData());
   if (HasResponseSlope())
-    baro->ResponseSlope(std::unique_ptr<CDM::ScalarData>(m_ResponseSlope->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ResponseSlope, baro->ResponseSlope());
   if (HasHeartRateDistributedTimeDelay())
-    baro->HeartRateDistributedTimeDelay(std::unique_ptr<CDM::ScalarTimeData>(m_HeartRateDistributedTimeDelay->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_HeartRateDistributedTimeDelay, baro->HeartRateDistributedTimeDelay());
+  ;
   if (HasHeartElastanceDistributedTimeDelay())
-    baro->HeartElastanceDistributedTimeDelay(std::unique_ptr<CDM::ScalarTimeData>(m_HeartElastanceDistributedTimeDelay->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_HeartElastanceDistributedTimeDelay, baro->HeartElastanceDistributedTimeDelay());
+  ;
   if (HasSystemicResistanceDistributedTimeDelay())
-    baro->SystemicResistanceDistributedTimeDelay(std::unique_ptr<CDM::ScalarTimeData>(m_SystemicResistanceDistributedTimeDelay->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SystemicResistanceDistributedTimeDelay, baro->SystemicResistanceDistributedTimeDelay());
+  ;
   if (HasVenousComplianceDistributedTimeDelay())
-    baro->VenousComplianceDistributedTimeDelay(std::unique_ptr<CDM::ScalarTimeData>(m_VenousComplianceDistributedTimeDelay->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_VenousComplianceDistributedTimeDelay, baro->VenousComplianceDistributedTimeDelay());
+  ;
   if (HasNormalizedHeartRateIntercept())
-    baro->NormalizedHeartRateIntercept(std::unique_ptr<CDM::ScalarData>(m_NormalizedHeartRateIntercept->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedHeartRateIntercept, baro->NormalizedHeartRateIntercept());
   if (HasNormalizedHeartRateSympatheticSlope())
-    baro->NormalizedHeartRateSympatheticSlope(std::unique_ptr<CDM::ScalarData>(m_NormalizedHeartRateSympatheticSlope->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedHeartRateSympatheticSlope, baro->NormalizedHeartRateSympatheticSlope());
   if (HasNormalizedHeartRateParasympatheticSlope())
-    baro->NormalizedHeartRateParasympatheticSlope(std::unique_ptr<CDM::ScalarData>(m_NormalizedHeartRateParasympatheticSlope->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedHeartRateParasympatheticSlope, baro->NormalizedHeartRateParasympatheticSlope());
   if (HasNormalizedHeartElastanceIntercept())
-    baro->NormalizedHeartElastanceIntercept(std::unique_ptr<CDM::ScalarData>(m_NormalizedHeartElastanceIntercept->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedHeartElastanceIntercept, baro->NormalizedHeartElastanceIntercept());
   if (HasNormalizedHeartElastanceSympatheticSlope())
-    baro->NormalizedHeartElastanceSympatheticSlope(std::unique_ptr<CDM::ScalarData>(m_NormalizedHeartElastanceSympatheticSlope->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedHeartElastanceSympatheticSlope, baro->NormalizedHeartElastanceSympatheticSlope());
   if (HasNormalizedResistanceIntercept())
-    baro->NormalizedResistanceIntercept(std::unique_ptr<CDM::ScalarData>(m_NormalizedResistanceIntercept->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedResistanceIntercept, baro->NormalizedResistanceIntercept());
   if (HasNormalizedResistanceSympatheticSlope())
-    baro->NormalizedResistanceSympatheticSlope(std::unique_ptr<CDM::ScalarData>(m_NormalizedResistanceSympatheticSlope->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedResistanceSympatheticSlope, baro->NormalizedComplianceParasympatheticSlope());
   if (HasNormalizedComplianceIntercept())
-    baro->NormalizedComplianceIntercept(std::unique_ptr<CDM::ScalarData>(m_NormalizedComplianceIntercept->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedComplianceIntercept, baro->NormalizedComplianceIntercept());
   if (HasNormalizedComplianceParasympatheticSlope())
-    baro->NormalizedComplianceParasympatheticSlope(std::unique_ptr<CDM::ScalarData>(m_NormalizedComplianceParasympatheticSlope->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NormalizedComplianceParasympatheticSlope, baro->NormalizedComplianceParasympatheticSlope());
   data.BaroreceptorConfiguration(std::unique_ptr<CDM::BaroreceptorConfigurationData>(baro));
 
   // Blood Chemistry
   CDM::BloodChemistryConfigurationData* bc(new CDM::BloodChemistryConfigurationData());
   if (HasMeanCorpuscularHemoglobin())
-    bc->MeanCorpuscularHemoglobin(std::unique_ptr<CDM::ScalarMassPerAmountData>(m_MeanCorpuscularHemoglobin->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MeanCorpuscularHemoglobin, bc->MeanCorpuscularHemoglobin());
   if (HasMeanCorpuscularVolume())
-    bc->MeanCorpuscularVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_MeanCorpuscularVolume->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MeanCorpuscularVolume, bc->MeanCorpuscularVolume());
   if (HasStandardDiffusionDistance())
-    bc->StandardDiffusionDistance(std::unique_ptr<CDM::ScalarLengthData>(m_StandardDiffusionDistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_StandardDiffusionDistance, bc->StandardDiffusionDistance());
   if (HasStandardOxygenDiffusionCoefficient())
-    bc->StandardOxygenDiffusionCoefficient(std::unique_ptr<CDM::ScalarAreaPerTimePressureData>(m_StandardOxygenDiffusionCoefficient->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_StandardOxygenDiffusionCoefficient, bc->StandardOxygenDiffusionCoefficient());
   data.BloodChemistryConfiguration(std::unique_ptr<CDM::BloodChemistryConfigurationData>(bc));
 
   // Cardiovascular
   CDM::CardiovascularConfigurationData* cv(new CDM::CardiovascularConfigurationData());
   if (m_LeftHeartElastanceMaximum != nullptr)
-    cv->LeftHeartElastanceMaximum(std::unique_ptr<CDM::ScalarFlowElastanceData>(m_LeftHeartElastanceMaximum->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LeftHeartElastanceMaximum, cv->LeftHeartElastanceMaximum());
   if (m_LeftHeartElastanceMinimum != nullptr)
-    cv->LeftHeartElastanceMinimum(std::unique_ptr<CDM::ScalarFlowElastanceData>(m_LeftHeartElastanceMinimum->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_LeftHeartElastanceMinimum, cv->LeftHeartElastanceMinimum());
   if (HasMinimumBloodVolumeFraction())
-    cv->MinimumBloodVolumeFraction(std::unique_ptr<CDM::ScalarFractionData>(m_MinimumBloodVolumeFraction->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MinimumBloodVolumeFraction, cv->MinimumBloodVolumeFraction());
   if (m_RightHeartElastanceMaximum != nullptr)
-    cv->RightHeartElastanceMaximum(std::unique_ptr<CDM::ScalarFlowElastanceData>(m_RightHeartElastanceMaximum->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RightHeartElastanceMaximum, cv->RightHeartElastanceMaximum());
   if (m_RightHeartElastanceMinimum != nullptr)
-    cv->RightHeartElastanceMinimum(std::unique_ptr<CDM::ScalarFlowElastanceData>(m_RightHeartElastanceMinimum->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RightHeartElastanceMinimum, cv->RightHeartElastanceMinimum());
   if (HasStandardPulmonaryCapillaryCoverage())
-    cv->StandardPulmonaryCapillaryCoverage(std::unique_ptr<CDM::ScalarData>(m_StandardPulmonaryCapillaryCoverage->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_StandardPulmonaryCapillaryCoverage, cv->StandardPulmonaryCapillaryCoverage());
   data.CardiovascularConfiguration(std::unique_ptr<CDM::CardiovascularConfigurationData>(cv));
 
   // Circuits
   CDM::CircuitConfigurationData* circuit(new CDM::CircuitConfigurationData());
   if (HasCardiovascularOpenResistance())
-    circuit->CardiovascularOpenResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_CardiovascularOpenResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CardiovascularOpenResistance, circuit->CardiovascularOpenResistance());
   if (HasDefaultClosedElectricResistance())
-    circuit->DefaultClosedElectricResistance(std::unique_ptr<CDM::ScalarElectricResistanceData>(m_DefaultClosedElectricResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultClosedElectricResistance, circuit->DefaultClosedElectricResistance());
   if (HasDefaultClosedFlowResistance())
-    circuit->DefaultClosedFlowResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_DefaultClosedFlowResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultClosedFlowResistance, circuit->DefaultClosedFlowResistance());
   if (HasDefaultClosedHeatResistance())
-    circuit->DefaultClosedHeatResistance(std::unique_ptr<CDM::ScalarHeatResistanceData>(m_DefaultClosedHeatResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultClosedHeatResistance, circuit->DefaultClosedHeatResistance());
   if (HasDefaultOpenElectricResistance())
-    circuit->DefaultOpenElectricResistance(std::unique_ptr<CDM::ScalarElectricResistanceData>(m_DefaultOpenElectricResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultOpenElectricResistance, circuit->DefaultOpenElectricResistance());
   if (HasDefaultOpenFlowResistance())
-    circuit->DefaultOpenFlowResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_DefaultOpenFlowResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultOpenFlowResistance, circuit->DefaultOpenFlowResistance());
   if (HasDefaultOpenHeatResistance())
-    circuit->DefaultOpenHeatResistance(std::unique_ptr<CDM::ScalarHeatResistanceData>(m_DefaultOpenHeatResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultOpenHeatResistance, circuit->DefaultOpenHeatResistance());
   if (HasMachineClosedResistance())
-    circuit->MachineClosedResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_MachineClosedResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MachineClosedResistance, circuit->MachineClosedResistance());
   if (HasMachineOpenResistance())
-    circuit->MachineOpenResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_MachineOpenResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MachineOpenResistance, circuit->MachineOpenResistance());
   if (HasRespiratoryClosedResistance())
-    circuit->RespiratoryClosedResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RespiratoryClosedResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RespiratoryClosedResistance, circuit->RespiratoryClosedResistance());
   if (HasRespiratoryOpenResistance())
-    circuit->RespiratoryOpenResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_RespiratoryOpenResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RespiratoryOpenResistance, circuit->RespiratoryOpenResistance());
   data.CircuitConfiguration(std::unique_ptr<CDM::CircuitConfigurationData>(circuit));
 
   // Constants
   CDM::ConstantsConfigurationData* consts(new CDM::ConstantsConfigurationData());
   if (HasOxygenMetabolicConstant())
-    consts->OxygenMetabolicConstant(std::unique_ptr<CDM::ScalarData>(m_OxygenMetabolicConstant->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_OxygenMetabolicConstant, consts->OxygenMetabolicConstant());
   if (HasStefanBoltzmann())
-    consts->StefanBoltzmann(std::unique_ptr<CDM::ScalarPowerPerAreaTemperatureToTheFourthData>(m_StefanBoltzmann->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_StefanBoltzmann, consts->StefanBoltzmann());
   if (HasUniversalGasConstant())
-    consts->UniversalGasConstant(std::unique_ptr<CDM::ScalarHeatCapacitancePerAmountData>(m_UniversalGasConstant->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, consts->UniversalGasConstant());
   data.ConstantsConfiguration(std::unique_ptr<CDM::ConstantsConfigurationData>(consts));
 
   // Drugs
@@ -844,67 +848,67 @@ void BioGearsConfiguration::Unload(CDM::BioGearsConfigurationData& data) const
   // Energy
   CDM::EnergyConfigurationData* energy(new CDM::EnergyConfigurationData());
   if (HasBodySpecificHeat())
-    energy->BodySpecificHeat(std::unique_ptr<CDM::ScalarHeatCapacitancePerMassData>(m_BodySpecificHeat->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, energy->BodySpecificHeat());
   if (HasCoreTemperatureLow())
-    energy->CoreTemperatureLow(std::unique_ptr<CDM::ScalarTemperatureData>(m_CoreTemperatureLow->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, energy->CoreTemperatureLow());
   if (HasCoreTemperatureHigh())
-    energy->CoreTemperatureHigh(std::unique_ptr<CDM::ScalarTemperatureData>(m_CoreTemperatureHigh->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, energy->CoreTemperatureHigh());
   if (HasDeltaCoreTemperatureLow())
-    energy->DeltaCoreTemperatureLow(std::unique_ptr<CDM::ScalarTemperatureData>(m_DeltaCoreTemperatureLow->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, energy->DeltaCoreTemperatureLow());
   if (HasEnergyPerATP())
-    energy->EnergyPerATP(std::unique_ptr<CDM::ScalarEnergyPerAmountData>(m_EnergyPerATP->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, energy->EnergyPerATP());
   if (HasSweatHeatTransfer())
-    energy->SweatHeatTransfer(std::unique_ptr<CDM::ScalarHeatConductanceData>(m_SweatHeatTransfer->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, energy->SweatHeatTransfer());
   if (HasVaporSpecificHeat())
-    energy->VaporSpecificHeat(std::unique_ptr<CDM::ScalarHeatCapacitancePerMassData>(m_VaporSpecificHeat->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, energy->VaporSpecificHeat());
   if (HasVaporizationEnergy())
-    energy->VaporizationEnergy(std::unique_ptr<CDM::ScalarEnergyPerMassData>(m_VaporizationEnergy->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_UniversalGasConstant, energy->VaporizationEnergy());
   data.EnergyConfiguration(std::unique_ptr<CDM::EnergyConfigurationData>(energy));
 
   // Environment
   CDM::EnvironmentConfigurationData* env(new CDM::EnvironmentConfigurationData());
   if (HasAirDensity())
-    env->AirDensity(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_AirDensity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_AirDensity, env->AirDensity());
   if (HasAirSpecificHeat())
-    env->AirSpecificHeat(std::unique_ptr<CDM::ScalarHeatCapacitancePerMassData>(m_AirSpecificHeat->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_AirSpecificHeat, env->AirSpecificHeat());
   if (HasMolarMassOfDryAir())
-    env->MolarMassOfDryAir(std::unique_ptr<CDM::ScalarMassPerAmountData>(m_MolarMassOfDryAir->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MolarMassOfDryAir, env->MolarMassOfDryAir());
   if (HasMolarMassOfWaterVapor())
-    env->MolarMassOfWaterVapor(std::unique_ptr<CDM::ScalarMassPerAmountData>(m_MolarMassOfWaterVapor->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MolarMassOfWaterVapor, env->MolarMassOfWaterVapor());
   if (HasInitialEnvironmentalConditions())
     env->InitialEnvironmentalConditions(std::unique_ptr<CDM::EnvironmentalConditionsData>(m_InitialEnvironmentalConditions->Unload()));
   if (HasWaterDensity())
-    env->WaterDensity(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_WaterDensity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_WaterDensity, env->WaterDensity());
   data.EnvironmentConfiguration(std::unique_ptr<CDM::EnvironmentConfigurationData>(env));
 
   // Gastrointestinal
   CDM::GastrointestinalConfigurationData* gi(new CDM::GastrointestinalConfigurationData());
   if (HasCalciumAbsorptionFraction())
-    gi->CalciumAbsorptionFraction(std::unique_ptr<CDM::ScalarFractionData>(m_CalciumAbsorptionFraction->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CalciumAbsorptionFraction, gi->CalciumAbsorptionFraction());
   if (HasCalciumDigestionRate())
-    gi->CalciumDigestionRate(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_CalciumDigestionRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CalciumDigestionRate, gi->CalciumDigestionRate());
   if (HasCarbohydrateAbsorptionFraction())
-    gi->CarbohydrateAbsorptionFraction(std::unique_ptr<CDM::ScalarFractionData>(m_CarbohydrateAbsorptionFraction->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CarbohydrateAbsorptionFraction, gi->CarbohydrateAbsorptionFraction());
   if (HasDefaultCarbohydrateDigestionRate())
-    gi->DefaultCarbohydrateDigestionRate(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_DefaultCarbohydrateDigestionRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultCarbohydrateDigestionRate, gi->DefaultCarbohydrateDigestionRate());
   if (HasDefaultFatDigestionRate())
-    gi->DefaultFatDigestionRate(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_DefaultFatDigestionRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultFatDigestionRate, gi->DefaultFatDigestionRate());
   if (HasDefaultProteinDigestionRate())
-    gi->DefaultProteinDigestionRate(std::unique_ptr<CDM::ScalarMassPerTimeData>(m_DefaultProteinDigestionRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DefaultProteinDigestionRate, gi->DefaultProteinDigestionRate());
   if (HasDefaultStomachContents())
     gi->DefaultStomachContents(std::unique_ptr<CDM::NutritionData>(m_DefaultStomachContents->Unload()));
   if (HasFatAbsorptionFraction())
-    gi->FatAbsorptionFraction(std::unique_ptr<CDM::ScalarFractionData>(m_FatAbsorptionFraction->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_FatAbsorptionFraction, gi->FatAbsorptionFraction());
   if (HasProteinToUreaFraction())
-    gi->ProteinToUreaFraction(std::unique_ptr<CDM::ScalarFractionData>(m_ProteinToUreaFraction->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ProteinToUreaFraction, gi->ProteinToUreaFraction());
   if (HasWaterDigestionRate())
-    gi->WaterDigestionRate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_WaterDigestionRate->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_WaterDigestionRate, gi->WaterDigestionRate());
   data.GastrointestinalConfiguration(std::unique_ptr<CDM::GastrointestinalConfigurationData>(gi));
 
   // Nervous
   CDM::NervousConfigurationData* n(new CDM::NervousConfigurationData());
   if (HasPupilDiameterBaseline())
-    n->PupilDiameterBaseline(std::unique_ptr<CDM::ScalarLengthData>(m_PupilDiameterBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PupilDiameterBaseline, n->PupilDiameterBaseline());
   data.NervousConfiguration(std::unique_ptr<CDM::NervousConfigurationData>(n));
 
   // Renal
@@ -912,49 +916,49 @@ void BioGearsConfiguration::Unload(CDM::BioGearsConfigurationData& data) const
   if (HasEnableRenal())
     renal->EnableRenal(m_RenalEnabled);
   if (HasPlasmaSodiumConcentrationSetPoint())
-    renal->PlasmaSodiumConcentrationSetPoint(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_PlasmaSodiumConcentrationSetPoint->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PlasmaSodiumConcentrationSetPoint, renal->PlasmaSodiumConcentrationSetPoint());
   if (HasLeftGlomerularFilteringSurfaceAreaBaseline())
-    renal->LeftGlomerularFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_LeftGlomerularFilteringSurfaceAreaBaseline->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftGlomerularFilteringSurfaceAreaBaseline, renal->LeftGlomerularFilteringSurfaceAreaBaseline());
   if (HasLeftGlomerularFluidPermeabilityBaseline())
-    renal->LeftGlomerularFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_LeftGlomerularFluidPermeabilityBaseline->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftGlomerularFluidPermeabilityBaseline, renal->LeftGlomerularFluidPermeabilityBaseline());
   if (HasLeftTubularReabsorptionFilteringSurfaceAreaBaseline())
-    renal->LeftTubularReabsorptionFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftTubularReabsorptionFilteringSurfaceAreaBaseline, renal->LeftTubularReabsorptionFilteringSurfaceAreaBaseline());
   if (HasLeftTubularReabsorptionFluidPermeabilityBaseline())
-    renal->LeftTubularReabsorptionFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_LeftTubularReabsorptionFluidPermeabilityBaseline->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_LeftTubularReabsorptionFluidPermeabilityBaseline, renal->LeftTubularReabsorptionFluidPermeabilityBaseline());
 
   if (HasMaximumAfferentResistance())
-    renal->MaximumAfferentResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_MaximumAfferentResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MaximumAfferentResistance, renal->MaximumAfferentResistance());
   if (HasMinimumAfferentResistance())
-    renal->MinimumAfferentResistance(std::unique_ptr<CDM::ScalarFlowResistanceData>(m_MinimumAfferentResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MinimumAfferentResistance, renal->MinimumAfferentResistance());
 
   if (HasRightGlomerularFilteringSurfaceAreaBaseline())
-    renal->RightGlomerularFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_RightGlomerularFilteringSurfaceAreaBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RightGlomerularFilteringSurfaceAreaBaseline, renal->RightGlomerularFilteringSurfaceAreaBaseline());
   if (HasRightGlomerularFluidPermeabilityBaseline())
-    renal->RightGlomerularFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_RightGlomerularFluidPermeabilityBaseline->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightGlomerularFluidPermeabilityBaseline, renal->RightGlomerularFluidPermeabilityBaseline());
   if (HasRightTubularReabsorptionFilteringSurfaceAreaBaseline())
-    renal->RightTubularReabsorptionFilteringSurfaceAreaBaseline(std::unique_ptr<CDM::ScalarAreaData>(m_RightTubularReabsorptionFilteringSurfaceAreaBaseline->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightTubularReabsorptionFilteringSurfaceAreaBaseline, renal->RightTubularReabsorptionFilteringSurfaceAreaBaseline());
   if (HasRightTubularReabsorptionFluidPermeabilityBaseline())
-    renal->RightTubularReabsorptionFluidPermeabilityBaseline(std::unique_ptr<CDM::ScalarData>(m_RightTubularReabsorptionFluidPermeabilityBaseline->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_RightTubularReabsorptionFluidPermeabilityBaseline, renal->RightTubularReabsorptionFluidPermeabilityBaseline());
   data.RenalConfiguration(std::unique_ptr<CDM::RenalConfigurationData>(renal));
 
   // Respiratory
   CDM::RespiratoryConfigurationData* resp(new CDM::RespiratoryConfigurationData());
   if (m_CentralControllerCO2PressureSetPoint != nullptr)
-    resp->CentralControllerCO2PressureSetPoint(std::unique_ptr<CDM::ScalarPressureData>(m_CentralControllerCO2PressureSetPoint->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CentralControllerCO2PressureSetPoint, renal->RightTubularReabsorptionFluidPermeabilityBaseline());
   if (HasCentralVentilatoryControllerGain())
-    resp->CentralVentilatoryControllerGain(std::unique_ptr<CDM::ScalarData>(m_CentralVentilatoryControllerGain->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_CentralVentilatoryControllerGain, resp->CentralVentilatoryControllerGain());
   if (m_PeripheralControllerCO2PressureSetPoint != nullptr)
-    resp->PeripheralControllerCO2PressureSetPoint(std::unique_ptr<CDM::ScalarPressureData>(m_PeripheralControllerCO2PressureSetPoint->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PeripheralControllerCO2PressureSetPoint, resp->PeripheralControllerCO2PressureSetPoint());
   if (HasPeripheralVentilatoryControllerGain())
-    resp->PeripheralVentilatoryControllerGain(std::unique_ptr<CDM::ScalarData>(m_PeripheralVentilatoryControllerGain->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PeripheralVentilatoryControllerGain, resp->PeripheralVentilatoryControllerGain());
   if (HasPleuralComplianceSensitivity())
-    resp->PleuralComplianceSensitivity(std::unique_ptr<CDM::ScalarInverseVolumeData>(m_PleuralComplianceSensitivity->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PleuralComplianceSensitivity, resp->PleuralComplianceSensitivity());
   if (m_PulmonaryVentilationRateMaximum != nullptr)
-    resp->PulmonaryVentilationRateMaximum(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_PulmonaryVentilationRateMaximum->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryVentilationRateMaximum, resp->PulmonaryVentilationRateMaximum());
   if (HasVentilationTidalVolumeIntercept())
-    resp->VentilationTidalVolumeIntercept(std::unique_ptr<CDM::ScalarVolumeData>(m_VentilationTidalVolumeIntercept->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_VentilationTidalVolumeIntercept, resp->VentilationTidalVolumeIntercept());
   if (HasVentilatoryOcclusionPressure())
-    resp->VentilatoryOcclusionPressure(std::unique_ptr<CDM::ScalarPressureData>(m_VentilatoryOcclusionPressure->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_VentilatoryOcclusionPressure, resp->VentilatoryOcclusionPressure());
   data.RespiratoryConfiguration(std::unique_ptr<CDM::RespiratoryConfigurationData>(resp));
 
   // Tissue

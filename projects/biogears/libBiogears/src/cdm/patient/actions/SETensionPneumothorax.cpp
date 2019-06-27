@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SETensionPneumothorax::SETensionPneumothorax()
   : SEPatientAction()
@@ -39,7 +40,7 @@ void SETensionPneumothorax::Clear()
 bool SETensionPneumothorax::Load(const CDM::TensionPneumothoraxData& in)
 {
   SEPatientAction::Load(in);
-  GetSeverity().Load(in.Severity());
+  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
   m_Type = in.Type();
   m_Side = in.Side();
   return true;
@@ -55,12 +56,15 @@ CDM::TensionPneumothoraxData* SETensionPneumothorax::Unload() const
 void SETensionPneumothorax::Unload(CDM::TensionPneumothoraxData& data) const
 {
   SEPatientAction::Unload(data);
-  if (m_Severity != nullptr)
-    data.Severity(std::unique_ptr<CDM::Scalar0To1Data>(m_Severity->Unload()));
-  if (HasType())
+  if (m_Severity != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
+  }
+  if (HasType()) {
     data.Type(m_Type);
-  if (HasSide())
+  }
+  if (HasSide()) {
     data.Side(m_Side);
+  }
 }
 
 bool SETensionPneumothorax::IsValid() const
@@ -69,7 +73,7 @@ bool SETensionPneumothorax::IsValid() const
 }
 
 bool SETensionPneumothorax::IsActive() const
-{ 
+{
   return IsValid();
 }
 

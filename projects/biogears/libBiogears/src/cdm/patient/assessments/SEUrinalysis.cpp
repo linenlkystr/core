@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarMassPerTime.h>
 #include <biogears/cdm/properties/SEScalarMassPerVolume.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEUrinalysis::SEUrinalysis(Logger* logger)
   : SEPatientAssessment(logger)
@@ -81,6 +82,7 @@ void SEUrinalysis::Reset()
 bool SEUrinalysis::Load(const CDM::UrinalysisData& in)
 {
   SEPatientAssessment::Load(in);
+  //TODO: Implement Load
   return true;
 }
 
@@ -102,18 +104,22 @@ void SEUrinalysis::Unload(CDM::UrinalysisData& data)
     data.Glucose(m_Glucose);
   if (HasKetoneResult())
     data.Ketone(m_Ketone);
-  if (HasBilirubinResult())
-    data.Bilirubin(std::unique_ptr<CDM::ScalarData>(m_Bilirubin->Unload()));
-  if (HasSpecificGravityResult())
-    data.SpecificGravity(std::unique_ptr<CDM::ScalarData>(m_SpecificGravity->Unload()));
+  if (HasBilirubinResult()) {
+    io::PropertyIoDelegate::UnMarshall(*m_Bilirubin, data.Bilirubin());
+  }
+  if (HasSpecificGravityResult()) {
+    io::PropertyIoDelegate::UnMarshall(*m_SpecificGravity, data.SpecificGravity());
+  }
   if (HasBloodResult())
     data.Blood(m_Blood);
-  if (HasPHResult())
-    data.pH(std::unique_ptr<CDM::ScalarData>(m_pH->Unload()));
+  if (HasPHResult()) {
+    io::PropertyIoDelegate::UnMarshall(*m_pH, data.pH());
+  }
   if (HasProteinResult())
     data.Protein(m_Protein);
-  if (HasUrobilinogenResult())
-    data.Urobilinogen(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_Urobilinogen->Unload()));
+  if (HasUrobilinogenResult()) {
+    io::PropertyIoDelegate::UnMarshall(*m_Urobilinogen, data.Urobilinogen());
+  }
   if (HasNitriteResult())
     data.Nitrite(m_Nitrite);
   if (HasLeukocyteEsteraseResult())

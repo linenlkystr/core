@@ -40,7 +40,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarAmountPerVolume() = default;
   virtual ~SEScalarAmountPerVolume() = default;
-
-  CDM::ScalarAmountPerVolumeData* Unload() const override;
 };
 }

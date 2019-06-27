@@ -22,9 +22,10 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 
-  constexpr char idBronchodilationLevel[] = "BronchodilationLevel";
+constexpr char idBronchodilationLevel[] = "BronchodilationLevel";
 constexpr char idHeartRateChange[] = "HeartRateChange";
 constexpr char idMeanBloodPressureChange[] = "MeanBloodPressureChange";
 constexpr char idNeuromuscularBlockLevel[] = "NeuromuscularBlockLevel";
@@ -82,27 +83,27 @@ bool SEDrugSystem::Load(const CDM::DrugSystemData& in)
   SESystem::Load(in);
 
   if (in.BronchodilationLevel().present())
-    GetBronchodilationLevel().Load(in.BronchodilationLevel().get());
+    io::PropertyIoDelegate::Marshall(in.BronchodilationLevel(), GetBronchodilationLevel());
   if (in.HeartRateChange().present())
-    GetHeartRateChange().Load(in.HeartRateChange().get());
+    io::PropertyIoDelegate::Marshall(in.HeartRateChange(), GetHeartRateChange());
   if (in.MeanBloodPressureChange().present())
-    GetMeanBloodPressureChange().Load(in.MeanBloodPressureChange().get());
+    io::PropertyIoDelegate::Marshall(in.MeanBloodPressureChange(), GetMeanBloodPressureChange());
   if (in.NeuromuscularBlockLevel().present())
-    GetNeuromuscularBlockLevel().Load(in.NeuromuscularBlockLevel().get());
+    io::PropertyIoDelegate::Marshall(in.NeuromuscularBlockLevel(), GetNeuromuscularBlockLevel());
   if (in.PulsePressureChange().present())
-    GetPulsePressureChange().Load(in.PulsePressureChange().get());
+    io::PropertyIoDelegate::Marshall(in.PulsePressureChange(), GetPulsePressureChange());
   if (in.PupillaryResponse().present())
     GetPupillaryResponse().Load(in.PupillaryResponse().get());
   if (in.RespirationRateChange().present())
-    GetRespirationRateChange().Load(in.RespirationRateChange().get());
+    io::PropertyIoDelegate::Marshall(in.RespirationRateChange(), GetRespirationRateChange());
   if (in.SedationLevel().present())
-    GetSedationLevel().Load(in.SedationLevel().get());
+    io::PropertyIoDelegate::Marshall(in.SedationLevel(), GetSedationLevel());
   if (in.TidalVolumeChange().present())
-    GetTidalVolumeChange().Load(in.TidalVolumeChange().get());
+    io::PropertyIoDelegate::Marshall(in.TidalVolumeChange(), GetTidalVolumeChange());
   if (in.TubularPermeabilityChange().present())
-    GetTubularPermeabilityChange().Load(in.TubularPermeabilityChange().get());
+    io::PropertyIoDelegate::Marshall(in.TubularPermeabilityChange(), GetTubularPermeabilityChange());
   if (in.CentralNervousResponse().present())
-    GetCentralNervousResponse().Load(in.CentralNervousResponse().get());
+    io::PropertyIoDelegate::Marshall(in.CentralNervousResponse(), GetCentralNervousResponse());
 
   return true;
 }
@@ -160,30 +161,29 @@ void SEDrugSystem::Unload(CDM::DrugSystemData& data) const
   SESystem::Unload(data);
 
   if (m_BronchodilationLevel != nullptr)
-    data.BronchodilationLevel(std::unique_ptr<CDM::ScalarFractionData>(m_BronchodilationLevel->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BronchodilationLevel, data.BronchodilationLevel());
   if (m_HeartRateChange != nullptr)
-    data.HeartRateChange(std::unique_ptr<CDM::ScalarFrequencyData>(m_HeartRateChange->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_HeartRateChange, data.HeartRateChange());
   if (m_MeanBloodPressureChange != nullptr)
-    data.MeanBloodPressureChange(std::unique_ptr<CDM::ScalarPressureData>(m_MeanBloodPressureChange->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MeanBloodPressureChange, data.MeanBloodPressureChange());
   if (m_NeuromuscularBlockLevel != nullptr)
-    data.NeuromuscularBlockLevel(std::unique_ptr<CDM::ScalarFractionData>(m_NeuromuscularBlockLevel->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NeuromuscularBlockLevel, data.NeuromuscularBlockLevel());
   if (m_PulsePressureChange != nullptr)
-    data.PulsePressureChange(std::unique_ptr<CDM::ScalarPressureData>(m_PulsePressureChange->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PulsePressureChange, data.PulsePressureChange());
   if (m_PupillaryResponse != nullptr)
     data.PupillaryResponse(std::unique_ptr<CDM::PupillaryResponseData>(m_PupillaryResponse->Unload()));
   if (m_RespirationRateChange != nullptr)
-    data.RespirationRateChange(std::unique_ptr<CDM::ScalarFrequencyData>(m_RespirationRateChange->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RespirationRateChange, data.RespirationRateChange());
   if (m_SedationLevel != nullptr)
-    data.SedationLevel(std::unique_ptr<CDM::ScalarFractionData>(m_SedationLevel->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SedationLevel, data.SedationLevel());
   if (m_TidalVolumeChange != nullptr)
-    data.TidalVolumeChange(std::unique_ptr<CDM::ScalarVolumeData>(m_TidalVolumeChange->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TidalVolumeChange, data.TidalVolumeChange());
   if (m_TubularPermeabilityChange != nullptr)
-    data.TubularPermeabilityChange(std::unique_ptr<CDM::ScalarFractionData>(m_TubularPermeabilityChange->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TubularPermeabilityChange, data.TubularPermeabilityChange());
   if (m_CentralNervousResponse != nullptr)
-    data.CentralNervousResponse(std::unique_ptr<CDM::ScalarFractionData>(m_CentralNervousResponse->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CentralNervousResponse, data.CentralNervousResponse());
 }
 //-------------------------------------------------------------------------------
-
 
 bool SEDrugSystem::HasBronchodilationLevel() const
 {
@@ -409,7 +409,7 @@ double SEDrugSystem::GetCentralNervousResponse() const
 //-------------------------------------------------------------------------------
 Tree<const char*> SEDrugSystem::GetPhysiologyRequestGraph() const
 {
-  return Tree<const char*>{classname()}
+  return Tree<const char*>{ classname() }
     .emplace_back(idBronchodilationLevel)
     .emplace_back(idHeartRateChange)
     .emplace_back(idMeanBloodPressureChange)

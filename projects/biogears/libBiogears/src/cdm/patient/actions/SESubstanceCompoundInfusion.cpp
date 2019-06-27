@@ -16,6 +16,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceCompound.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstanceCompoundInfusion::SESubstanceCompoundInfusion(const SESubstanceCompound& compound)
   : SESubstanceAdministration()
@@ -41,8 +42,8 @@ void SESubstanceCompoundInfusion::Clear()
 bool SESubstanceCompoundInfusion::Load(const CDM::SubstanceCompoundInfusionData& in)
 {
   SESubstanceAdministration::Load(in);
-  GetRate().Load(in.Rate());
-  GetBagVolume().Load(in.BagVolume());
+  io::PropertyIoDelegate::Marshall(in.Rate(), GetRate());
+  io::PropertyIoDelegate::Marshall(in.BagVolume(), GetBagVolume());
   return true;
 }
 
@@ -66,10 +67,12 @@ CDM::SubstanceCompoundInfusionData* SESubstanceCompoundInfusion::Unload() const
 void SESubstanceCompoundInfusion::Unload(CDM::SubstanceCompoundInfusionData& data) const
 {
   SESubstanceAdministration::Unload(data);
-  if (m_Rate != nullptr)
-    data.Rate(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_Rate->Unload()));
-  if (m_BagVolume != nullptr)
-    data.BagVolume(std::unique_ptr<CDM::ScalarVolumeData>(m_BagVolume->Unload()));
+  if (m_Rate != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_Rate, data.Rate());
+  }
+  if (m_BagVolume != nullptr) {
+    io::PropertyIoDelegate::UnMarshall(*m_BagVolume, data.BagVolume());
+  }
   data.SubstanceCompound(m_Compound.GetName());
 }
 
@@ -112,5 +115,4 @@ void SESubstanceCompoundInfusion::ToString(std::ostream& str) const
   str << "\n\tSubstance Compound: " << m_Compound.GetName();
   str << std::flush;
 }
-
 }

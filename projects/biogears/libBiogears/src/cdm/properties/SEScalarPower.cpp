@@ -30,15 +30,6 @@ PowerUnit::PowerUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarPowerData* SEScalarPower::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarPowerData* data(new CDM::ScalarPowerData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool PowerUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(W.GetString(),unit) == 0)

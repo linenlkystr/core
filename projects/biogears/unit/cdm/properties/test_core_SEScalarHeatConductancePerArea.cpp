@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarHeatConductancePerArea HeatConductancePerArea = biogears::SEScalarHeatConductancePerArea();
-  auto ptr = HeatConductancePerArea.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::HeatConductancePerAreaUnit::IsValidUnit("W/m^2 K");

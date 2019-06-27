@@ -10,8 +10,8 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
+#include "../../utils/io/PropertyIoDelegate.h"
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitNode.h>
-
 namespace biogears {
 SEElectricalCircuitNode::SEElectricalCircuitNode(const char* name, Logger* logger)
   : SECircuitNode<SEScalarElectricPotential, SEScalarElectricCharge>(name, logger)
@@ -36,15 +36,15 @@ bool SEElectricalCircuitNode::Load(const CDM::ElectricalCircuitNodeData& in)
 {
   SECircuitNode::Load(in);
   if (in.Voltage().present())
-    GetVoltage().Load(in.Voltage().get());
+    io::PropertyIoDelegate::Marshall(in.Voltage(), GetVoltage());
   if (in.NextVoltage().present())
-    GetNextVoltage().Load(in.NextVoltage().get());
+    io::PropertyIoDelegate::Marshall(in.NextVoltage(), GetNextVoltage());
   if (in.Charge().present())
-    GetCharge().Load(in.Charge().get());
+    io::PropertyIoDelegate::Marshall(in.Charge(), GetCharge());
   if (in.NextCharge().present())
-    GetNextCharge().Load(in.NextCharge().get());
+    io::PropertyIoDelegate::Marshall(in.NextCharge(), GetNextCharge());
   if (in.ChargeBaseline().present())
-    GetChargeBaseline().Load(in.ChargeBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.ChargeBaseline(), GetChargeBaseline());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -59,15 +59,15 @@ void SEElectricalCircuitNode::Unload(CDM::ElectricalCircuitNodeData& data) const
 {
   SECircuitNode::Unload(data);
   if (HasVoltage())
-    data.Voltage(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_Potential->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Potential, data.Voltage());
   if (HasNextVoltage())
-    data.NextVoltage(std::unique_ptr<CDM::ScalarElectricPotentialData>(m_NextPotential->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextPotential, data.NextVoltage());
   if (HasCharge())
-    data.Charge(std::unique_ptr<CDM::ScalarElectricChargeData>(m_Quantity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Quantity, data.Charge());
   if (HasNextCharge())
-    data.NextCharge(std::unique_ptr<CDM::ScalarElectricChargeData>(m_NextQuantity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextQuantity, data.NextCharge());
   if (HasChargeBaseline())
-    data.ChargeBaseline(std::unique_ptr<CDM::ScalarElectricChargeData>(m_QuantityBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_QuantityBaseline, data.ChargeBaseline());
 }
 
 //-------------------------------------------------------------------------------

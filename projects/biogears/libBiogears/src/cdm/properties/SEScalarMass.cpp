@@ -27,15 +27,6 @@ MassUnit::MassUnit(const std::string& u)
   : CCompoundUnit(u)
 {  }
 //-------------------------------------------------------------------------------
-CDM::ScalarMassData* SEScalarMass::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarMassData* data(new CDM::ScalarMassData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool MassUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(g.GetString(),unit) == 0)

@@ -26,15 +26,6 @@ AmountPerMassUnit::AmountPerMassUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarAmountPerMassData* SEScalarAmountPerMass::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarAmountPerMassData* data(new CDM::ScalarAmountPerMassData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool AmountPerMassUnit::IsValidUnit(const char* unit)
 {
   return IsValidUnit(std::string{ unit });

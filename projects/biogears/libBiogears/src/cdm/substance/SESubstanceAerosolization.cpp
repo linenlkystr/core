@@ -17,6 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarNeg1To1.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstanceAerosolization::SESubstanceAerosolization(Logger* logger)
   : Loggable(logger)
@@ -66,9 +67,9 @@ const SEScalar* SESubstanceAerosolization::GetScalar(const std::string& name)
 bool SESubstanceAerosolization::Load(const CDM::SubstanceAerosolizationData& in)
 {
   Clear();
-  GetBronchioleModifier().Load(in.BronchioleModifier());
-  GetInflammationCoefficient().Load(in.InflammationCoefficient());
-  GetParticulateSizeDistribution().Load(in.ParticulateSizeDistribution());
+  io::PropertyIoDelegate::Marshall(in.BronchioleModifier(), GetBronchioleModifier());
+  io::PropertyIoDelegate::Marshall(in.InflammationCoefficient(), GetInflammationCoefficient());
+  io::PropertyIoDelegate::Marshall(in.ParticulateSizeDistribution(), GetParticulateSizeDistribution());
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -84,11 +85,11 @@ CDM::SubstanceAerosolizationData* SESubstanceAerosolization::Unload() const
 void SESubstanceAerosolization::Unload(CDM::SubstanceAerosolizationData& data) const
 {
   if (HasBronchioleModifier())
-    data.BronchioleModifier(std::unique_ptr<CDM::ScalarNeg1To1Data>(m_BronchioleModifier->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BronchioleModifier, data.BronchioleModifier());
   if (HasInflammationCoefficient())
-    data.InflammationCoefficient(std::unique_ptr<CDM::Scalar0To1Data>(m_InflammationCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_InflammationCoefficient, data.InflammationCoefficient());
   if (HasParticulateSizeDistribution())
-    data.ParticulateSizeDistribution(std::unique_ptr<CDM::HistogramFractionVsLengthData>(m_ParticulateSizeDistribution->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_ParticulateSizeDistribution, data.ParticulateSizeDistribution());
 };
 //-----------------------------------------------------------------------------
 bool SESubstanceAerosolization::HasBronchioleModifier() const

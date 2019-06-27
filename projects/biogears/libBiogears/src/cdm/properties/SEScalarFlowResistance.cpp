@@ -29,15 +29,6 @@ FlowResistanceUnit::FlowResistanceUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarFlowResistanceData* SEScalarFlowResistance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarFlowResistanceData* data(new CDM::ScalarFlowResistanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool FlowResistanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(cmH2O_s_Per_L.GetString(),unit) == 0)

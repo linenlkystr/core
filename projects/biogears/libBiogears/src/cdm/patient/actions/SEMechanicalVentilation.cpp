@@ -20,6 +20,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEMechanicalVentilation::SEMechanicalVentilation()
   : SEPatientAction()
@@ -84,14 +85,16 @@ bool SEMechanicalVentilation::Load(const CDM::MechanicalVentilationData& in, con
 {
   SEPatientAction::Clear();
   SetState(in.State());
-  if (in.Flow().present())
-    GetFlow().Load(in.Flow().get());
-  else
+  if (in.Flow().present()) {
+    io::PropertyIoDelegate::Marshall(in.Flow(), GetFlow());
+  } else{
     GetFlow().Invalidate();
-  if (in.Pressure().present())
-    GetPressure().Load(in.Pressure().get());
-  else
+  }
+  if (in.Pressure().present()) {
+    io::PropertyIoDelegate::Marshall(in.Pressure(), GetPressure());
+  } else {
     GetPressure().Invalidate();
+  }
 
   m_GasFractions.clear();
   m_cGasFractions.clear();
@@ -125,12 +128,15 @@ CDM::MechanicalVentilationData* SEMechanicalVentilation::Unload() const
 void SEMechanicalVentilation::Unload(CDM::MechanicalVentilationData& data) const
 {
   SEPatientAction::Unload(data);
-  if (HasState())
+  if (HasState()) {
     data.State(m_State);
-  if (HasFlow())
-    data.Flow(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_Flow->Unload()));
-  if (HasPressure())
-    data.Pressure(std::unique_ptr<CDM::ScalarPressureData>(m_Pressure->Unload()));
+  }
+  if (HasFlow()) {
+    io::PropertyIoDelegate::UnMarshall(*m_Flow, data.Flow());
+  }
+  if (HasPressure()) {
+    io::PropertyIoDelegate::UnMarshall(*m_Pressure, data.Pressure());
+  }
 
   for (SESubstanceFraction* sf : m_GasFractions)
     data.GasFraction().push_back(std::unique_ptr<CDM::SubstanceFractionData>(sf->Unload()));

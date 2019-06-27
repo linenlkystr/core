@@ -37,7 +37,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarFrequency() = default;
   virtual ~SEScalarFrequency() = default;
-
-  CDM::ScalarFrequencyData* Unload() const override;
 };
 }

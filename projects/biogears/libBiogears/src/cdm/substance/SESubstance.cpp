@@ -26,6 +26,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstancePharmacodynamics.h>
 #include <biogears/cdm/substance/SESubstancePharmacokinetics.h>
 
+#include "../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SESubstance::SESubstance(Logger* logger)
   : Loggable(logger)
@@ -177,46 +178,46 @@ bool SESubstance::Load(const CDM::SubstanceData& in)
   if (in.Classification().present())
     m_Classification = in.Classification().get();
   if (in.Density().present())
-    GetDensity().Load(in.Density().get());
+    io::PropertyIoDelegate::Marshall(in.Density(), GetDensity());
   if (in.MolarMass().present())
-    GetMolarMass().Load(in.MolarMass().get());
+      io::PropertyIoDelegate::Marshall(in.MolarMass(), GetMolarMass());
 
   if (in.MaximumDiffusionFlux().present())
-    GetMaximumDiffusionFlux().Load(in.MaximumDiffusionFlux().get());
+      io::PropertyIoDelegate::Marshall(in.MaximumDiffusionFlux(), GetMaximumDiffusionFlux());
   if (in.MichaelisCoefficient().present())
-    GetMichaelisCoefficient().Load(in.MichaelisCoefficient().get());
+      io::PropertyIoDelegate::Marshall(in.MichaelisCoefficient(), GetMichaelisCoefficient());
   if (in.MembraneResistance().present())
-    GetMembraneResistance().Load(in.MembraneResistance().get());
+      io::PropertyIoDelegate::Marshall(in.MembraneResistance(), GetMembraneResistance());
 
   if (in.BloodConcentration().present())
-    GetBloodConcentration().Load(in.BloodConcentration().get());
+      io::PropertyIoDelegate::Marshall(in.BloodConcentration(), GetBloodConcentration());
   if (in.MassInBody().present())
-    GetMassInBody().Load(in.MassInBody().get());
+      io::PropertyIoDelegate::Marshall(in.MassInBody(), GetMassInBody());
   if (in.MassInBlood().present())
-    GetMassInBlood().Load(in.MassInBlood().get());
+      io::PropertyIoDelegate::Marshall(in.MassInBlood(), GetMassInBlood());
   if (in.MassInTissue().present())
-    GetMassInTissue().Load(in.MassInTissue().get());
+      io::PropertyIoDelegate::Marshall(in.MassInTissue(), GetMassInTissue());
   if (in.PlasmaConcentration().present())
-    GetPlasmaConcentration().Load(in.PlasmaConcentration().get());
+      io::PropertyIoDelegate::Marshall(in.PlasmaConcentration(), GetPlasmaConcentration());
   if (in.EffectSiteConcentration().present())
-    GetEffectSiteConcentration().Load(in.EffectSiteConcentration().get());
+      io::PropertyIoDelegate::Marshall(in.EffectSiteConcentration(), GetEffectSiteConcentration());
   if (in.SystemicMassCleared().present())
-    GetSystemicMassCleared().Load(in.SystemicMassCleared().get());
+    io::PropertyIoDelegate::Marshall(in.SystemicMassCleared(), GetSystemicMassCleared());
   if (in.TissueConcentration().present())
-    GetTissueConcentration().Load(in.TissueConcentration().get());
+      io::PropertyIoDelegate::Marshall(in.TissueConcentration(), GetTissueConcentration());
 
   if (in.AlveolarTransfer().present())
-    GetAlveolarTransfer().Load(in.AlveolarTransfer().get());
+      io::PropertyIoDelegate::Marshall(in.AlveolarTransfer(), GetAlveolarTransfer());
   if (in.DiffusingCapacity().present())
-    GetDiffusingCapacity().Load(in.DiffusingCapacity().get());
+      io::PropertyIoDelegate::Marshall(in.DiffusingCapacity(), GetDiffusingCapacity());
   if (in.EndTidalFraction().present())
-    GetEndTidalFraction().Load(in.EndTidalFraction().get());
+      io::PropertyIoDelegate::Marshall(in.EndTidalFraction(), GetEndTidalFraction());
   if (in.EndTidalPressure().present())
-    GetEndTidalPressure().Load(in.EndTidalPressure().get());
+      io::PropertyIoDelegate::Marshall(in.EndTidalPressure(), GetEndTidalPressure());
   if (in.RelativeDiffusionCoefficient().present())
-    GetRelativeDiffusionCoefficient().Load(in.RelativeDiffusionCoefficient().get());
+      io::PropertyIoDelegate::Marshall(in.RelativeDiffusionCoefficient(), GetRelativeDiffusionCoefficient());
   if (in.SolubilityCoefficient().present())
-    GetSolubilityCoefficient().Load(in.SolubilityCoefficient().get());
+      io::PropertyIoDelegate::Marshall(in.SolubilityCoefficient(), GetSolubilityCoefficient());
 
   if (in.Aerosolization().present())
     GetAerosolization().Load(in.Aerosolization().get());
@@ -254,46 +255,46 @@ void SESubstance::Unload(CDM::SubstanceData& data) const
   if (HasClassification())
     data.Classification(m_Classification);
   if (HasDensity())
-    data.Density(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_Density->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Density, data.Density());
   if (HasMolarMass())
-    data.MolarMass(std::unique_ptr<CDM::ScalarMassPerAmountData>(m_MolarMass->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MolarMass, data.MolarMass());
 
   if (HasMaximumDiffusionFlux())
-    data.MaximumDiffusionFlux(std::unique_ptr<CDM::ScalarMassPerAreaTimeData>(m_MaximumDiffusionFlux->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MaximumDiffusionFlux, data.MaximumDiffusionFlux());
   if (HasMichaelisCoefficient())
-    data.MichaelisCoefficient(std::unique_ptr<CDM::ScalarData>(m_MichaelisCoefficient->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MichaelisCoefficient, data.MichaelisCoefficient());
   if (HasMembraneResistance())
-    data.MembraneResistance(std::unique_ptr<CDM::ScalarElectricResistanceData>(m_MembraneResistance->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MembraneResistance, data.MembraneResistance());
 
   if (HasBloodConcentration())
-    data.BloodConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_BloodConcentration->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_BloodConcentration, data.BloodConcentration());
   if (HasMassInBody())
-    data.MassInBody(std::unique_ptr<CDM::ScalarMassData>(m_MassInBody->Unload()));
+      io::PropertyIoDelegate::UnMarshall(*m_MassInBody, data.MassInBody());
   if (HasMassInBlood())
-    data.MassInBlood(std::unique_ptr<CDM::ScalarMassData>(m_MassInBlood->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MassInBlood, data.MassInBlood());
   if (HasMassInTissue())
-    data.MassInTissue(std::unique_ptr<CDM::ScalarMassData>(m_MassInTissue->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_MassInTissue, data.MassInTissue());
   if (HasPlasmaConcentration())
-    data.PlasmaConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_PlasmaConcentration->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PlasmaConcentration, data.PlasmaConcentration());
   if (HasEffectSiteConcentration())
-    data.EffectSiteConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_EffectSiteConcentration->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_EffectSiteConcentration, data.EffectSiteConcentration());
   if (HasSystemicMassCleared())
-    data.SystemicMassCleared(std::unique_ptr<CDM::ScalarMassData>(m_SystemicMassCleared->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SystemicMassCleared, data.SystemicMassCleared());
   if (HasTissueConcentration())
-    data.TissueConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_TissueConcentration->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_TissueConcentration, data.TissueConcentration());
 
   if (HasAlveolarTransfer())
-    data.AlveolarTransfer(std::unique_ptr<CDM::ScalarVolumePerTimeData>(m_AlveolarTransfer->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_AlveolarTransfer, data.AlveolarTransfer());
   if (HasDiffusingCapacity())
-    data.DiffusingCapacity(std::unique_ptr<CDM::ScalarVolumePerTimePressureData>(m_DiffusingCapacity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_DiffusingCapacity, data.DiffusingCapacity());
   if (HasEndTidalFraction())
-    data.EndTidalFraction(std::unique_ptr<CDM::ScalarFractionData>(m_EndTidalFraction->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_EndTidalFraction, data.EndTidalFraction());
   if (HasEndTidalPressure())
-    data.EndTidalPressure(std::unique_ptr<CDM::ScalarPressureData>(m_EndTidalPressure->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_EndTidalPressure, data.EndTidalPressure());
   if (HasSolubilityCoefficient())
-    data.SolubilityCoefficient(std::unique_ptr<CDM::ScalarInversePressureData>(m_SolubilityCoefficient->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_SolubilityCoefficient, data.SolubilityCoefficient());
   if (HasRelativeDiffusionCoefficient())
-    data.RelativeDiffusionCoefficient(std::unique_ptr<CDM::ScalarData>(m_RelativeDiffusionCoefficient->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_RelativeDiffusionCoefficient, data.RelativeDiffusionCoefficient());
 
   if (HasAerosolization())
     data.Aerosolization(std::unique_ptr<CDM::SubstanceAerosolizationData>(m_Aerosolization->Unload()));

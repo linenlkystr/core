@@ -32,30 +32,6 @@ void SEFunctionVolumeVsTime::Clear()
   m_VolumeUnit = nullptr;
 }
 
-bool SEFunctionVolumeVsTime::Load(const CDM::FunctionVolumeVsTimeData& in)
-{
-  if (!SEFunction::Load(in))
-    return false;
-  m_TimeUnit = &TimeUnit::GetCompoundUnit(in.IndependentUnit().get());
-  m_VolumeUnit = &VolumeUnit::GetCompoundUnit(in.DependentUnit().get());
-  return IsValid();
-}
-
-CDM::FunctionVolumeVsTimeData* SEFunctionVolumeVsTime::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::FunctionVolumeVsTimeData* data(new CDM::FunctionVolumeVsTimeData());
-  Unload(*data);
-  return data;
-}
-
-void SEFunctionVolumeVsTime::Unload(CDM::FunctionVolumeVsTimeData& data) const
-{
-  SEFunction::Unload(data);
-  data.IndependentUnit(m_TimeUnit->GetString());
-  data.DependentUnit(m_VolumeUnit->GetString());
-}
 
 double SEFunctionVolumeVsTime::GetTimeValue(unsigned int index, const TimeUnit& unit)
 {

@@ -57,13 +57,6 @@ void TEST_FIXTURE_NAME::TearDown()
 {
 }
 
-TEST_F(TEST_FIXTURE_NAME, Unload)
-{
-  biogears::SEScalarFlowCompliance FlowCompliance = biogears::SEScalarFlowCompliance();
-  auto ptr = FlowCompliance.Unload();
-  EXPECT_EQ(ptr, nullptr);
-}
-
 TEST_F(TEST_FIXTURE_NAME, IsValidUnit)
 {
   bool unit0 = biogears::FlowComplianceUnit::IsValidUnit("L/cmH2O");

@@ -35,7 +35,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarHeatInductance() = default;
   virtual ~SEScalarHeatInductance() = default;
-
-  CDM::ScalarHeatInductanceData* Unload() const override;
 };
 }

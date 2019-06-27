@@ -27,15 +27,6 @@ FlowElastanceUnit::FlowElastanceUnit(const std::string& u)
 {
 }
 //-----------------------------------------------------------------------------
-CDM::ScalarFlowElastanceData* SEScalarFlowElastance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarFlowElastanceData* data(new CDM::ScalarFlowElastanceData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 bool FlowElastanceUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(cmH2O_Per_L.GetString(),unit) == 0)

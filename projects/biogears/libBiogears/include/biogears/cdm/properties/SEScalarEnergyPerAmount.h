@@ -36,7 +36,5 @@ friend io::PropertyIoDelegate;
 public:
   SEScalarEnergyPerAmount() = default;
   virtual ~SEScalarEnergyPerAmount() = default;
-
-  CDM::ScalarEnergyPerAmountData* Unload() const override;
 };
 }

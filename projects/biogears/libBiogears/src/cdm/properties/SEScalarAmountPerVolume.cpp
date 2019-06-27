@@ -29,15 +29,6 @@ AmountPerVolumeUnit::AmountPerVolumeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarAmountPerVolumeData* SEScalarAmountPerVolume::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarAmountPerVolumeData* data(new CDM::ScalarAmountPerVolumeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool AmountPerVolumeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(mol_Per_L.GetString(),unit) == 0)

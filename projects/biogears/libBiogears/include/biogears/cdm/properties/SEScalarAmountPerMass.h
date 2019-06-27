@@ -38,6 +38,5 @@ public:
   SEScalarAmountPerMass() = default;
   virtual ~SEScalarAmountPerMass() = default;
 
-  CDM::ScalarAmountPerMassData* Unload() const override;
 };
 }

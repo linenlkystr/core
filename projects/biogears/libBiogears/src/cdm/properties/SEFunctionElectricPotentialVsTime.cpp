@@ -34,30 +34,6 @@ void SEFunctionElectricPotentialVsTime::Clear()
   m_ElectricPotentialUnit = nullptr;
 }
 
-bool SEFunctionElectricPotentialVsTime::Load(const CDM::FunctionElectricPotentialVsTimeData& in)
-{
-  if (!SEFunction::Load(in))
-    return false;
-  m_TimeUnit = &TimeUnit::GetCompoundUnit(in.IndependentUnit().get());
-  m_ElectricPotentialUnit = &ElectricPotentialUnit::GetCompoundUnit(in.DependentUnit().get());
-  return IsValid();
-}
-
-CDM::FunctionElectricPotentialVsTimeData* SEFunctionElectricPotentialVsTime::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::FunctionElectricPotentialVsTimeData* data(new CDM::FunctionElectricPotentialVsTimeData());
-  Unload(*data);
-  return data;
-}
-
-void SEFunctionElectricPotentialVsTime::Unload(CDM::FunctionElectricPotentialVsTimeData& data) const
-{
-  SEFunction::Unload(data);
-  data.IndependentUnit(m_TimeUnit->GetString());
-  data.DependentUnit(m_ElectricPotentialUnit->GetString());
-}
 
 double SEFunctionElectricPotentialVsTime::GetTimeValue(unsigned int index, const TimeUnit& unit)
 {

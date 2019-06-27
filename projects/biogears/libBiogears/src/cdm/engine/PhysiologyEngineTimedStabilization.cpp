@@ -19,6 +19,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/SECondition.h>
 #include <biogears/cdm/utils/TimingProfile.h>
 
+#include "../utils/io/PropertyIoDelegate.h"
+
 namespace biogears {
 bool PhysiologyEngineTimedStabilization::StabilizeRestingState(PhysiologyEngine& engine)
 {
@@ -149,11 +151,12 @@ void PhysiologyEngineTimedStabilization::Clear()
 bool PhysiologyEngineTimedStabilization::Load(const CDM::PhysiologyEngineTimedStabilizationData& in)
 {
   PhysiologyEngineStabilization::Load(in);
-  GetRestingStabilizationTime().Load(in.RestingStabilizationTime());
-  if (in.FeedbackStabilizationTime().present())
-    GetFeedbackStabilizationTime().Load(in.FeedbackStabilizationTime().get());
-  for (auto cc : in.ConditionStabilization()) {
-    PhysiologyEngineTimedStabilizationCriteria* sc = new PhysiologyEngineTimedStabilizationCriteria(nullptr);
+  io::PropertyIoDelegate::Marshall(in.RestingStabilizationTime(), GetRestingStabilizationTime());
+  if (in.FeedbackStabilizationTime().present()) {
+    io::PropertyIoDelegate::Marshall(in.FeedbackStabilizationTime(), GetFeedbackStabilizationTime());
+  }
+  for (auto& cc : in.ConditionStabilization()) {
+    auto* sc = new PhysiologyEngineTimedStabilizationCriteria(nullptr);
     sc->Load(cc);
     m_ConditionCriteria.push_back(sc);
   }
@@ -170,10 +173,10 @@ CDM::PhysiologyEngineTimedStabilizationData* PhysiologyEngineTimedStabilization:
 void PhysiologyEngineTimedStabilization::Unload(CDM::PhysiologyEngineTimedStabilizationData& data) const
 {
   PhysiologyEngineStabilization::Unload(data);
-  data.RestingStabilizationTime(std::unique_ptr<CDM::ScalarTimeData>(m_RestingStabilizationTime.Unload()));
+  io::PropertyIoDelegate::UnMarshall(m_RestingStabilizationTime, data.RestingStabilizationTime());
   if (HasFeedbackStabilizationTime())
-    data.FeedbackStabilizationTime(std::unique_ptr<CDM::ScalarTimeData>(m_FeedbackStabilizationTime->Unload()));
-  for (auto cc : m_ConditionCriteria) {
+    io::PropertyIoDelegate::UnMarshall(*m_FeedbackStabilizationTime, data.FeedbackStabilizationTime());
+  for (auto& cc : m_ConditionCriteria) {
     data.ConditionStabilization().push_back(std::unique_ptr<CDM::PhysiologyEngineTimedConditionStabilizationData>(cc->Unload()));
   }
 }
@@ -320,7 +323,7 @@ bool PhysiologyEngineTimedStabilizationCriteria::Load(const CDM::PhysiologyEngin
 {
   Clear();
   SetName(in.Name());
-  GetTime().Load(in.Time());
+  io::PropertyIoDelegate::Marshall(in.Time(), GetTime());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -334,7 +337,8 @@ CDM::PhysiologyEngineTimedConditionStabilizationData* PhysiologyEngineTimedStabi
 void PhysiologyEngineTimedStabilizationCriteria::Unload(CDM::PhysiologyEngineTimedConditionStabilizationData& data) const
 {
   data.Name(m_Name);
-  data.Time(std::unique_ptr<CDM::ScalarTimeData>(GetTime().Unload()));
+  io::PropertyIoDelegate::UnMarshall(GetTime(), data.Time());
+ 
 }
 //-------------------------------------------------------------------------------
 std::string PhysiologyEngineTimedStabilizationCriteria::GetName() const

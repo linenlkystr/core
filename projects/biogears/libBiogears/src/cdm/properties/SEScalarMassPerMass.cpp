@@ -26,15 +26,6 @@ MassPerMassUnit::MassPerMassUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarMassPerMassData* SEScalarMassPerMass::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarMassPerMassData* data(new CDM::ScalarMassPerMassData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool MassPerMassUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(ug_Per_kg.GetString(),unit) == 0)

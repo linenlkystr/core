@@ -10,12 +10,14 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
+#include "../../utils/io/PropertyIoDelegate.h"
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitPath.h>
 
 namespace biogears {
 SEThermalCircuitPath::SEThermalCircuitPath(SEThermalCircuitNode& src, SEThermalCircuitNode& tgt, const char* name)
-  :SEThermalCircuitPath(src, tgt, std::string{name})
-{}
+  : SEThermalCircuitPath(src, tgt, std::string{ name })
+{
+}
 //-------------------------------------------------------------------------------
 SEThermalCircuitPath::SEThermalCircuitPath(SEThermalCircuitNode& src, SEThermalCircuitNode& tgt, const std::string& name)
   : SECircuitPath<SEScalarPower, SEScalarHeatResistance, SEScalarHeatCapacitance, SEScalarHeatInductance, SEScalarTemperature, SEScalarEnergy>(src, tgt, name)
@@ -38,41 +40,41 @@ bool SEThermalCircuitPath::Load(const CDM::ThermalCircuitPathData& in)
 {
   SECircuitPath::Load(in);
   if (in.Resistance().present())
-    GetResistance().Load(in.Resistance().get());
+    io::PropertyIoDelegate::Marshall(in.Resistance(), GetResistance());
   if (in.NextResistance().present())
-    GetNextResistance().Load(in.NextResistance().get());
+    io::PropertyIoDelegate::Marshall(in.NextResistance(), GetNextResistance());
   if (in.ResistanceBaseline().present())
-    GetResistanceBaseline().Load(in.ResistanceBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.ResistanceBaseline(), GetResistanceBaseline());
   if (in.Capacitance().present())
-    GetCapacitance().Load(in.Capacitance().get());
+    io::PropertyIoDelegate::Marshall(in.Capacitance(), GetCapacitance());
   if (in.NextCapacitance().present())
-    GetNextCapacitance().Load(in.NextCapacitance().get());
+    io::PropertyIoDelegate::Marshall(in.NextCapacitance(), GetNextCapacitance());
   if (in.CapacitanceBaseline().present())
-    GetCapacitanceBaseline().Load(in.CapacitanceBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.CapacitanceBaseline(), GetCapacitanceBaseline());
   if (in.Inductance().present())
-    GetInductance().Load(in.Inductance().get());
+    io::PropertyIoDelegate::Marshall(in.Inductance(), GetInductance());
   if (in.NextInductance().present())
-    GetNextInductance().Load(in.NextInductance().get());
+    io::PropertyIoDelegate::Marshall(in.NextInductance(), GetNextInductance());
   if (in.InductanceBaseline().present())
-    GetInductanceBaseline().Load(in.InductanceBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.InductanceBaseline(), GetInductanceBaseline());
   if (in.HeatTransferRate().present())
-    GetHeatTransferRate().Load(in.HeatTransferRate().get());
+    io::PropertyIoDelegate::Marshall(in.HeatTransferRate(), GetHeatTransferRate());
   if (in.NextHeatTransferRate().present())
-    GetNextHeatTransferRate().Load(in.NextHeatTransferRate().get());
+    io::PropertyIoDelegate::Marshall(in.NextHeatTransferRate(), GetNextHeatTransferRate());
   if (in.HeatSource().present())
-    GetHeatSource().Load(in.HeatSource().get());
+    io::PropertyIoDelegate::Marshall(in.HeatSource(), GetHeatSource());
   if (in.NextHeatSource().present())
-    GetNextHeatSource().Load(in.NextHeatSource().get());
+    io::PropertyIoDelegate::Marshall(in.NextHeatSource(), GetNextHeatSource());
   if (in.HeatSourceBaseline().present())
-    GetHeatSourceBaseline().Load(in.HeatSourceBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.HeatSourceBaseline(), GetHeatSourceBaseline());
   if (in.TemperatureSource().present())
-    GetTemperatureSource().Load(in.TemperatureSource().get());
+    io::PropertyIoDelegate::Marshall(in.TemperatureSource(), GetTemperatureSource());
   if (in.NextTemperatureSource().present())
-    GetNextTemperatureSource().Load(in.NextTemperatureSource().get());
+    io::PropertyIoDelegate::Marshall(in.NextTemperatureSource(), GetNextTemperatureSource());
   if (in.TemperatureSourceBaseline().present())
-    GetTemperatureSourceBaseline().Load(in.TemperatureSourceBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.TemperatureSourceBaseline(), GetTemperatureSourceBaseline());
   if (in.ValveBreakdownTemperature().present())
-    GetValveBreakdownTemperature().Load(in.ValveBreakdownTemperature().get());
+    io::PropertyIoDelegate::Marshall(in.ValveBreakdownTemperature(), GetValveBreakdownTemperature());
 
   return HasValidElements();
 }
@@ -88,41 +90,41 @@ void SEThermalCircuitPath::Unload(CDM::ThermalCircuitPathData& data) const
 {
   SECircuitPath::Unload(data);
   if (HasResistance())
-    data.Resistance(std::unique_ptr<CDM::ScalarHeatResistanceData>(m_Resistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Resistance, data.Resistance());
   if (HasNextResistance())
-    data.NextResistance(std::unique_ptr<CDM::ScalarHeatResistanceData>(m_NextResistance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextResistance, data.NextResistance());
   if (HasResistanceBaseline())
-    data.ResistanceBaseline(std::unique_ptr<CDM::ScalarHeatResistanceData>(m_ResistanceBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ResistanceBaseline, data.ResistanceBaseline());
   if (HasCapacitance())
-    data.Capacitance(std::unique_ptr<CDM::ScalarHeatCapacitanceData>(m_Capacitance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Capacitance, data.Capacitance());
   if (HasNextCapacitance())
-    data.NextCapacitance(std::unique_ptr<CDM::ScalarHeatCapacitanceData>(m_NextCapacitance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextCapacitance, data.NextCapacitance());
   if (HasCapacitanceBaseline())
-    data.CapacitanceBaseline(std::unique_ptr<CDM::ScalarHeatCapacitanceData>(m_CapacitanceBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_CapacitanceBaseline, data.CapacitanceBaseline());
   if (HasInductance())
-    data.Inductance(std::unique_ptr<CDM::ScalarHeatInductanceData>(m_Inductance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Inductance, data.Inductance());
   if (HasNextInductance())
-    data.NextInductance(std::unique_ptr<CDM::ScalarHeatInductanceData>(m_NextInductance->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextInductance, data.NextInductance());
   if (HasInductanceBaseline())
-    data.InductanceBaseline(std::unique_ptr<CDM::ScalarHeatInductanceData>(m_InductanceBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_InductanceBaseline, data.InductanceBaseline());
   if (HasHeatTransferRate())
-    data.HeatTransferRate(std::unique_ptr<CDM::ScalarPowerData>(m_Flux->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Flux, data.HeatTransferRate());
   if (HasNextHeatTransferRate())
-    data.NextHeatTransferRate(std::unique_ptr<CDM::ScalarPowerData>(m_NextFlux->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextFlux, data.NextHeatTransferRate());
   if (HasHeatSource())
-    data.HeatSource(std::unique_ptr<CDM::ScalarPowerData>(m_FluxSource->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_FluxSource, data.HeatSource());
   if (HasNextHeatSource())
-    data.NextHeatSource(std::unique_ptr<CDM::ScalarPowerData>(m_NextFluxSource->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextFluxSource, data.NextHeatSource());
   if (HasHeatSourceBaseline())
-    data.HeatSourceBaseline(std::unique_ptr<CDM::ScalarPowerData>(m_FluxSourceBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_FluxSourceBaseline, data.HeatSourceBaseline());
   if (HasTemperatureSource())
-    data.TemperatureSource(std::unique_ptr<CDM::ScalarTemperatureData>(m_PotentialSource->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PotentialSource, data.TemperatureSource());
   if (HasNextTemperatureSource())
-    data.NextTemperatureSource(std::unique_ptr<CDM::ScalarTemperatureData>(m_NextPotentialSource->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextPotentialSource, data.NextTemperatureSource());
   if (HasTemperatureSourceBaseline())
-    data.TemperatureSourceBaseline(std::unique_ptr<CDM::ScalarTemperatureData>(m_PotentialSourceBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_PotentialSourceBaseline, data.TemperatureSourceBaseline());
   if (HasValveBreakdownTemperature())
-    data.ValveBreakdownTemperature(std::unique_ptr<CDM::ScalarTemperatureData>(m_ValveBreakdownPotential->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_ValveBreakdownPotential, data.ValveBreakdownTemperature());
 }
 //-------------------------------------------------------------------------------
 

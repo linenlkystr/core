@@ -12,6 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitNode.h>
 
+//Private Includes
+#include "../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEThermalCircuitNode::SEThermalCircuitNode(const char* name, Logger* logger)
   : SEThermalCircuitNode(std::string{ name }, logger)
@@ -37,15 +39,15 @@ bool SEThermalCircuitNode::Load(const CDM::ThermalCircuitNodeData& in)
 {
   SECircuitNode::Load(in);
   if (in.Temperature().present())
-    GetTemperature().Load(in.Temperature().get());
+    io::PropertyIoDelegate::Marshall(in.Temperature(), GetTemperature());
   if (in.NextTemperature().present())
-    GetNextTemperature().Load(in.NextTemperature().get());
+    io::PropertyIoDelegate::Marshall(in.NextTemperature(), GetNextTemperature());
   if (in.Heat().present())
-    GetHeat().Load(in.Heat().get());
+    io::PropertyIoDelegate::Marshall(in.Heat(), GetHeat());
   if (in.NextHeat().present())
-    GetNextHeat().Load(in.NextHeat().get());
+    io::PropertyIoDelegate::Marshall(in.NextHeat(), GetNextHeat());
   if (in.HeatBaseline().present())
-    GetHeatBaseline().Load(in.HeatBaseline().get());
+    io::PropertyIoDelegate::Marshall(in.HeatBaseline(), GetHeatBaseline());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -60,15 +62,15 @@ void SEThermalCircuitNode::Unload(CDM::ThermalCircuitNodeData& data) const
 {
   SECircuitNode::Unload(data);
   if (HasTemperature())
-    data.Temperature(std::unique_ptr<CDM::ScalarTemperatureData>(m_Potential->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Potential, data.Temperature());
   if (HasNextTemperature())
-    data.NextTemperature(std::unique_ptr<CDM::ScalarTemperatureData>(m_NextPotential->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextPotential, data.NextTemperature());
   if (HasHeat())
-    data.Heat(std::unique_ptr<CDM::ScalarEnergyData>(m_Quantity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_Quantity, data.Heat());
   if (HasNextHeat())
-    data.NextHeat(std::unique_ptr<CDM::ScalarEnergyData>(m_NextQuantity->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_NextQuantity, data.NextHeat());
   if (HasHeatBaseline())
-    data.HeatBaseline(std::unique_ptr<CDM::ScalarEnergyData>(m_QuantityBaseline->Unload()));
+    io::PropertyIoDelegate::UnMarshall(*m_QuantityBaseline, data.HeatBaseline());
 }
 //-------------------------------------------------------------------------------
 bool SEThermalCircuitNode::HasTemperature() const

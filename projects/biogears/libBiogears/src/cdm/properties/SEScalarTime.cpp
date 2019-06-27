@@ -32,15 +32,6 @@ TimeUnit::TimeUnit(const std::string& u)
 {
 }
 //-------------------------------------------------------------------------------
-CDM::ScalarTimeData* SEScalarTime::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::ScalarTimeData* data(new CDM::ScalarTimeData());
-  SEScalarQuantity::Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 bool TimeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(s.GetString(),unit) == 0)
