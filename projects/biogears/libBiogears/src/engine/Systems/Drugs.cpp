@@ -389,6 +389,7 @@ void Drugs::AdministerSubstanceOral()
 
   SESubstanceOralDose* oDose;
   const SESubstance* sub;
+  std::vector<const SESubstance*> deactiveSubs;
   double timeStep_s = m_data.GetTimeStep().GetValue(TimeUnit::s);
   for (auto od : oralDoses) {
     sub = od.first;
@@ -415,9 +416,7 @@ void Drugs::AdministerSubstanceOral()
       //If 99.9% of the original dose has been removed from model (either through absorption or swallowing), deactivate the action and remove it
 	  // from the TransmucosalStates map.  This will not effect the GI Transit state--drug in GI will still be processed.
       if (massRemaining_ug < 0.001 * oDose->GetDose().GetValue(MassUnit::ug)) {
-        m_data.GetActions().GetPatientActions().RemoveSubstanceOralDose(*sub);
-        delete m_TransmucosalStates[sub];
-        m_TransmucosalStates[sub] = nullptr;
+        deactiveSubs.emplace_back(sub);   
       }
     } else {
       //Oral dose is being given as a pill--initiate a GI absorption model state for it if it doesn't already exist.
@@ -432,8 +431,15 @@ void Drugs::AdministerSubstanceOral()
       }
 	  //We can remove the action right away because the GI will keep processing the drug once the transit model state is initiated
 	  //By deactivating the Oral Dose action right away, we will be able to detect repeat dose actions
-      m_data.GetActions().GetPatientActions().RemoveSubstanceOralDose(*sub);
+      deactiveSubs.emplace_back(sub);
     }
+  }
+  for (auto deSub : deactiveSubs) {
+    if (oralDoses.at(deSub)->GetAdminRoute() == CDM::enumOralAdministration::Transmucosal) {
+      delete m_TransmucosalStates[deSub];
+      m_TransmucosalStates[deSub] = nullptr;
+    }
+    m_data.GetActions().GetPatientActions().RemoveSubstanceOralDose(*deSub);
   }
 }
 //--------------------------------------------------------------------------------------------------
@@ -809,7 +815,6 @@ void Drugs::CalculatePlasmaSubstanceConcentration()
     if (sub->HasMassInBlood()) {
       massInBlood_ug = sub->GetMassInBlood(MassUnit::ug);
     }
-	massInBlood_ug = m_data.GetSubstances().GetSubstanceMass(*sub, m_data.GetCompartments().GetVascularLeafCompartments(), MassUnit::ug);
 	//K_bp = Cb/Cp  ---> Cp = Cb/K_bp
 	sub->GetPlasmaConcentration().SetValue((massInBlood_ug / bloodVolume_mL) / bloodPlasmaRatio, MassPerVolumeUnit::ug_Per_mL);
 
