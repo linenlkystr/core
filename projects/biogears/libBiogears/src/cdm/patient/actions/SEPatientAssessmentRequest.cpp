@@ -40,27 +40,6 @@ bool SEPatientAssessmentRequest::IsActive() const
   return IsValid();
 }
 
-bool SEPatientAssessmentRequest::Load(const CDM::PatientAssessmentRequestData& in)
-{
-  SEPatientAction::Load(in);
-  m_Type = in.Type();
-  return true;
-}
-
-CDM::PatientAssessmentRequestData* SEPatientAssessmentRequest::Unload() const
-{
-  CDM::PatientAssessmentRequestData* data(new CDM::PatientAssessmentRequestData());
-  Unload(*data);
-  return data;
-}
-
-void SEPatientAssessmentRequest::Unload(CDM::PatientAssessmentRequestData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (HasType())
-    data.Type(m_Type);
-}
-
 CDM::enumPatientAssessment::value SEPatientAssessmentRequest::GetType() const
 {
   return m_Type;

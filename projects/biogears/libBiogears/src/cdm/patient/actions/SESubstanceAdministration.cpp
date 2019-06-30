@@ -38,15 +38,4 @@ bool SESubstanceAdministration::IsActive() const
 {
   return IsValid();
 }
-
-bool SESubstanceAdministration::Load(const CDM::SubstanceAdministrationData& in)
-{
-  SEPatientAction::Load(in);
-  return true;
-}
-
-void SESubstanceAdministration::Unload(CDM::SubstanceAdministrationData& data) const
-{
-  SEPatientAction::Unload(data);
-}
 }

@@ -43,29 +43,6 @@ bool SEAsthmaAttack::IsActive() const
   return IsValid() ? !m_Severity->IsZero() : false;
 }
 
-bool SEAsthmaAttack::Load(const CDM::AsthmaAttackData& in)
-{
-  SEPatientAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::AsthmaAttackData* SEAsthmaAttack::Unload() const
-{
-  CDM::AsthmaAttackData* data(new CDM::AsthmaAttackData());
-  Unload(*data);
-  return data;
-}
-
-void SEAsthmaAttack::Unload(CDM::AsthmaAttackData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_Severity != nullptr) {
-    data.Severity(std::make_unique<CDM::Scalar0To1Data>());
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
-  }
-}
-
 bool SEAsthmaAttack::HasSeverity() const
 {
   return m_Severity == nullptr ? false : m_Severity->IsValid();

@@ -28,19 +28,6 @@ void SEConsciousRespirationCommand::Clear()
   m_Comment = "";
 }
 //-------------------------------------------------------------------------------
-bool SEConsciousRespirationCommand::Load(const CDM::ConsciousRespirationCommandData& in)
-{
-  if (in.Comment().present())
-    m_Comment = in.Comment().get();
-  return true;
-}
-//-------------------------------------------------------------------------------
-void SEConsciousRespirationCommand::Unload(CDM::ConsciousRespirationCommandData& data) const
-{
-  if (HasComment())
-    data.Comment(m_Comment);
-}
-//-------------------------------------------------------------------------------
 bool SEConsciousRespirationCommand::IsValid() const
 {
   return true;

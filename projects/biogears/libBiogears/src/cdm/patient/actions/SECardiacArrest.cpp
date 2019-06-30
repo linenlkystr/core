@@ -45,26 +45,6 @@ void SECardiacArrest::SetActive(bool b)
   m_State = b ? CDM::enumOnOff::On : CDM::enumOnOff::Off;
 }
 
-bool SECardiacArrest::Load(const CDM::CardiacArrestData& in)
-{
-  SEPatientAction::Load(in);
-  m_State = in.State();
-  return true;
-}
-
-CDM::CardiacArrestData* SECardiacArrest::Unload() const
-{
-  CDM::CardiacArrestData* data(new CDM::CardiacArrestData());
-  Unload(*data);
-  return data;
-}
-
-void SECardiacArrest::Unload(CDM::CardiacArrestData& data) const
-{
-  SEPatientAction::Unload(data);
-  data.State(m_State);
-}
-
 void SECardiacArrest::ToString(std::ostream& str) const
 {
   str << "Patient Action : Cardiac Arrest";

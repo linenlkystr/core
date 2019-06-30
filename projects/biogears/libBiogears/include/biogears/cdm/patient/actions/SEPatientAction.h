@@ -14,8 +14,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/SEAction.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionIo)
 namespace biogears {
 class BIOGEARS_API SEPatientAction : public SEAction {
+  friend io::PatientActionIo;
+
 public:
   SEPatientAction();
   virtual ~SEPatientAction();
@@ -23,12 +26,6 @@ public:
   virtual void Clear(); //clear memory
 
   virtual bool IsValid() const;
-
-  virtual bool Load(const CDM::PatientActionData& in);
-  virtual CDM::PatientActionData* Unload() const = 0;
-
-protected:
-  virtual void Unload(CDM::PatientActionData& data) const;
 
 public:
   virtual void ToString(std::ostream& str) const = 0;

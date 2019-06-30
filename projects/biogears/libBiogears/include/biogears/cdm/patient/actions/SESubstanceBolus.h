@@ -16,10 +16,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
+
 namespace biogears {
 class SESubstance;
 
 class BIOGEARS_API SESubstanceBolus : public SESubstanceAdministration {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SESubstanceBolus(const SESubstance& substance);
   virtual ~SESubstanceBolus();
@@ -28,12 +32,6 @@ public:
 
   virtual bool IsValid() const;
   virtual bool IsActive() const;
-
-  virtual bool Load(const CDM::SubstanceBolusData& in);
-  virtual CDM::SubstanceBolusData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceBolusData& data) const;
 
 public:
   virtual CDM::enumBolusAdministration::value GetAdminRoute() const;
@@ -59,15 +57,11 @@ protected:
 };
 
 class BIOGEARS_API SESubstanceBolusState {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SESubstanceBolusState(const SESubstance& sub);
   ~SESubstanceBolusState();
-
-  virtual bool Load(const CDM::SubstanceBolusStateData& in);
-  virtual CDM::SubstanceBolusStateData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceBolusStateData& data) const;
 
 public:
   SEScalarTime& GetElapsedTime() { return m_elapsedTime; }

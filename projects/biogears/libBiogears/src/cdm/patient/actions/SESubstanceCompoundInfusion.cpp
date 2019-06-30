@@ -39,14 +39,6 @@ void SESubstanceCompoundInfusion::Clear()
   // m_Compound=nullptr; Keeping mapping!!
 }
 
-bool SESubstanceCompoundInfusion::Load(const CDM::SubstanceCompoundInfusionData& in)
-{
-  SESubstanceAdministration::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Rate(), GetRate());
-  io::PropertyIoDelegate::Marshall(in.BagVolume(), GetBagVolume());
-  return true;
-}
-
 bool SESubstanceCompoundInfusion::IsValid() const
 {
   return SESubstanceAdministration::IsValid() && HasRate() && HasBagVolume();
@@ -55,25 +47,6 @@ bool SESubstanceCompoundInfusion::IsValid() const
 bool SESubstanceCompoundInfusion::IsActive() const
 {
   return IsValid() ? !m_Rate->IsZero() : false;
-}
-
-CDM::SubstanceCompoundInfusionData* SESubstanceCompoundInfusion::Unload() const
-{
-  CDM::SubstanceCompoundInfusionData* data(new CDM::SubstanceCompoundInfusionData());
-  Unload(*data);
-  return data;
-}
-
-void SESubstanceCompoundInfusion::Unload(CDM::SubstanceCompoundInfusionData& data) const
-{
-  SESubstanceAdministration::Unload(data);
-  if (m_Rate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Rate, data.Rate());
-  }
-  if (m_BagVolume != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_BagVolume, data.BagVolume());
-  }
-  data.SubstanceCompound(m_Compound.GetName());
 }
 
 bool SESubstanceCompoundInfusion::HasRate() const

@@ -14,10 +14,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
+
 namespace biogears {
 class SEScalar0To1;
 
 class BIOGEARS_API SETensionPneumothorax : public SEPatientAction {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SETensionPneumothorax();
   virtual ~SETensionPneumothorax() override;
@@ -29,12 +33,6 @@ public:
 
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
-
-  virtual bool Load(const CDM::TensionPneumothoraxData& in);
-  virtual CDM::TensionPneumothoraxData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::TensionPneumothoraxData& data) const;
 
 public:
   virtual CDM::enumPneumothoraxType::value GetType() const;

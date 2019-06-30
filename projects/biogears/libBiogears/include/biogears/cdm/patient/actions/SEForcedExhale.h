@@ -14,12 +14,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEConsciousRespirationCommand.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
+
 namespace biogears {
 class SEScalar0To1;
 class SEConsciousRespiration;
 
 class BIOGEARS_API SEForcedExhale : public SEConsciousRespirationCommand {
   friend class SEConsciousRespiration;
+  friend class io::PatientActionsIoDelegate;
   SEForcedExhale();
 
 public:
@@ -29,9 +32,6 @@ public:
 
   virtual bool IsValid() const;
   virtual bool IsActive() const;
-
-  virtual bool Load(const CDM::ForcedExhaleData& in);
-  virtual CDM::ForcedExhaleData* Unload() const;
 
 protected:
   virtual void Unload(CDM::ForcedExhaleData& data) const;

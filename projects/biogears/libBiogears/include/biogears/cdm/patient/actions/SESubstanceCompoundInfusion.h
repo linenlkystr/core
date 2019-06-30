@@ -14,12 +14,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SESubstanceAdministration.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
+
 namespace biogears {
 class SEScalarVolume;
 class SEScalarVolumePerTime;
 class SESubstanceCompound;
 
 class BIOGEARS_API SESubstanceCompoundInfusion : public SESubstanceAdministration {
+  friend class io::PatientActionsIoDelegate;
 public:
   SESubstanceCompoundInfusion(const SESubstanceCompound& compound);
   virtual ~SESubstanceCompoundInfusion();
@@ -28,12 +31,6 @@ public:
 
   virtual bool IsValid() const;
   virtual bool IsActive() const;
-
-  virtual bool Load(const CDM::SubstanceCompoundInfusionData& in);
-  virtual CDM::SubstanceCompoundInfusionData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceCompoundInfusionData& data) const;
 
 public:
   virtual bool HasBagVolume() const;

@@ -44,27 +44,6 @@ bool SEAcuteStress::IsActive() const
   return IsValid() ? !m_Severity->IsZero() : false;
 }
 
-bool SEAcuteStress::Load(const CDM::AcuteStressData& in)
-{
-  SEPatientAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::AcuteStressData* SEAcuteStress::Unload() const
-{
-  CDM::AcuteStressData* data(new CDM::AcuteStressData());
-  Unload(*data);
-  return data;
-}
-
-void SEAcuteStress::Unload(CDM::AcuteStressData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_Severity != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
-}
-
 bool SEAcuteStress::HasSeverity() const
 {
   return m_Severity == nullptr ? false : m_Severity->IsValid();

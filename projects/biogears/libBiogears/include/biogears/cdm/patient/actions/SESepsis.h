@@ -17,11 +17,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
+
 namespace biogears {
 class SEScalar0To1;
 class SEScalar;
 
 class BIOGEARS_API SESepsis : public SEPatientAction {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SESepsis();
   virtual ~SESepsis() override;
@@ -33,12 +37,6 @@ public:
 
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
-
-  virtual bool Load(const CDM::SepsisData& in);
-  virtual CDM::SepsisData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::SepsisData& data) const;
 
 public:
   virtual const char* GetCompartment_cStr() const;

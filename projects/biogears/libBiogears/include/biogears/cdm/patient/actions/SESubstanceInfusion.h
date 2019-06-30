@@ -19,7 +19,11 @@ class SESubstance;
 class SEScalarMassPerVolume;
 class SEScalarVolumePerTime;
 
+IO_DECL(PatientActionsIoDelegate)
+
 class BIOGEARS_API SESubstanceInfusion : public SESubstanceAdministration {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SESubstanceInfusion(const SESubstance& substance);
   virtual ~SESubstanceInfusion();
@@ -28,12 +32,6 @@ public:
 
   virtual bool IsValid() const;
   virtual bool IsActive() const;
-
-  virtual bool Load(const CDM::SubstanceInfusionData& in);
-  virtual CDM::SubstanceInfusionData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceInfusionData& data) const;
 
 public:
   virtual bool HasConcentration() const;

@@ -46,30 +46,6 @@ bool SESepsis::IsActive() const
   return IsValid() ? !(m_Severity->GetValue() < ZERO_APPROX) : false;
 }
 //-------------------------------------------------------------------------------
-bool SESepsis::Load(const CDM::SepsisData& in)
-{
-  SEPatientAction::Load(in);
-  m_Compartment = in.Compartment();
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-//-------------------------------------------------------------------------------
-CDM::SepsisData* SESepsis::Unload() const
-{
-  CDM::SepsisData* data(new CDM::SepsisData());
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-void SESepsis::Unload(CDM::SepsisData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (HasCompartment())
-    data.Compartment(m_Compartment);
-  if (m_Severity != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
-}
-//-------------------------------------------------------------------------------
 const char* SESepsis::GetCompartment_cStr() const
 {
   return m_Compartment.c_str();

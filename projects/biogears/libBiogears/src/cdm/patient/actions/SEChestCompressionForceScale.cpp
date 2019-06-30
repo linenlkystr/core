@@ -45,32 +45,6 @@ bool SEChestCompressionForceScale::IsActive() const
   return IsValid() ? !m_ForceScale->IsZero() : false;
 }
 
-bool SEChestCompressionForceScale::Load(const CDM::ChestCompressionForceScaleData& in)
-{
-  SEChestCompression::Load(in);
-
-  io::PropertyIoDelegate::Marshall(in.ForceScale(), GetForceScale());
-  if (in.ForcePeriod().present())
-    io::PropertyIoDelegate::Marshall(in.ForcePeriod(), GetForcePeriod());
-  return true;
-}
-
-CDM::ChestCompressionForceScaleData* SEChestCompressionForceScale::Unload() const
-{
-  CDM::ChestCompressionForceScaleData* data(new CDM::ChestCompressionForceScaleData());
-  Unload(*data);
-  return data;
-}
-
-void SEChestCompressionForceScale::Unload(CDM::ChestCompressionForceScaleData& data) const
-{
-  SEChestCompression::Unload(data);
-  if (m_ForceScale != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ForceScale, data.ForceScale());
-  if (m_ForcePeriod != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ForcePeriod, data.ForcePeriod());
-}
-
 bool SEChestCompressionForceScale::HasForceScale() const
 {
   return m_ForceScale == nullptr ? false : m_ForceScale->IsValid();

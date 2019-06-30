@@ -47,29 +47,6 @@ void SENeedleDecompression::SetActive(bool b)
   m_State = b ? CDM::enumOnOff::On : CDM::enumOnOff::Off;
 }
 
-bool SENeedleDecompression::Load(const CDM::NeedleDecompressionData& in)
-{
-  SEPatientAction::Load(in);
-  m_Side = in.Side();
-  m_State = in.State();
-  return true;
-}
-
-CDM::NeedleDecompressionData* SENeedleDecompression::Unload() const
-{
-  CDM::NeedleDecompressionData* data(new CDM::NeedleDecompressionData());
-  Unload(*data);
-  return data;
-}
-
-void SENeedleDecompression::Unload(CDM::NeedleDecompressionData& data) const
-{
-  SEPatientAction::Unload(data);
-  data.State(m_State);
-  if (HasSide())
-    data.Side(m_Side);
-}
-
 CDM::enumSide::value SENeedleDecompression::GetSide() const
 {
   return m_Side;

@@ -43,27 +43,6 @@ bool SEPericardialEffusion::IsActive() const
   return IsValid() ? !m_EffusionRate->IsZero() : false;
 }
 
-bool SEPericardialEffusion::Load(const CDM::PericardialEffusionData& in)
-{
-  SEPatientAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.EffusionRate(), GetEffusionRate());
-  return true;
-}
-
-CDM::PericardialEffusionData* SEPericardialEffusion::Unload() const
-{
-  CDM::PericardialEffusionData* data(new CDM::PericardialEffusionData());
-  Unload(*data);
-  return data;
-}
-
-void SEPericardialEffusion::Unload(CDM::PericardialEffusionData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_EffusionRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_EffusionRate, data.EffusionRate());
-}
-
 bool SEPericardialEffusion::HasEffusionRate() const
 {
   return m_EffusionRate == nullptr ? false : m_EffusionRate->IsValid();

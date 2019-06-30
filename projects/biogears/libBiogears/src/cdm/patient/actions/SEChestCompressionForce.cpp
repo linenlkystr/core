@@ -21,61 +21,40 @@ SEChestCompressionForce::SEChestCompressionForce()
 {
   m_Force = nullptr;
 }
-
+//-----------------------------------------------------------------------------
 SEChestCompressionForce::~SEChestCompressionForce()
 {
   Clear();
 }
-
+//-----------------------------------------------------------------------------
 void SEChestCompressionForce::Clear()
 {
   SEChestCompression::Clear();
   SAFE_DELETE(m_Force);
 }
-
+//-----------------------------------------------------------------------------
 bool SEChestCompressionForce::IsValid() const
 {
   return SEChestCompression::IsValid() && HasForce();
 }
-
+//-----------------------------------------------------------------------------
 bool SEChestCompressionForce::IsActive() const
 {
   return IsValid() ? !m_Force->IsZero() : false;
 }
-
-bool SEChestCompressionForce::Load(const CDM::ChestCompressionForceData& in)
-{
-  SEChestCompression::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Force(), GetForce());
-  return true;
-}
-
-CDM::ChestCompressionForceData* SEChestCompressionForce::Unload() const
-{
-  CDM::ChestCompressionForceData* data(new CDM::ChestCompressionForceData());
-  Unload(*data);
-  return data;
-}
-
-void SEChestCompressionForce::Unload(CDM::ChestCompressionForceData& data) const
-{
-  SEChestCompression::Unload(data);
-  if (m_Force != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Force, data.Force());
-}
-
+//-----------------------------------------------------------------------------
 bool SEChestCompressionForce::HasForce() const
 {
   return m_Force == nullptr ? false : m_Force->IsValid();
 }
-
+//-----------------------------------------------------------------------------
 SEScalarForce& SEChestCompressionForce::GetForce()
 {
   if (m_Force == nullptr)
     m_Force = new SEScalarForce();
   return *m_Force;
 }
-
+//-----------------------------------------------------------------------------
 void SEChestCompressionForce::ToString(std::ostream& str) const
 {
   str << "Patient Action : Chest Compression";
@@ -85,4 +64,5 @@ void SEChestCompressionForce::ToString(std::ostream& str) const
   HasForce() ? str << *m_Force : str << "NaN";
   str << std::flush;
 }
+//-----------------------------------------------------------------------------
 }

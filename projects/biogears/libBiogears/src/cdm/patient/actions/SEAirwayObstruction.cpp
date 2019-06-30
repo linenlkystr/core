@@ -44,28 +44,6 @@ bool SEAirwayObstruction::IsActive() const
   return IsValid() ? !m_Severity->IsZero() : false;
 }
 
-bool SEAirwayObstruction::Load(const CDM::AirwayObstructionData& in)
-{
-  SEPatientAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::AirwayObstructionData* SEAirwayObstruction::Unload() const
-{
-  CDM::AirwayObstructionData* data(new CDM::AirwayObstructionData());
-  Unload(*data);
-  return data;
-}
-
-void SEAirwayObstruction::Unload(CDM::AirwayObstructionData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_Severity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
-  }
-}
-
 bool SEAirwayObstruction::HasSeverity() const
 {
   return m_Severity == nullptr ? false : m_Severity->IsValid();

@@ -51,35 +51,6 @@ bool SEExercise::IsActive() const
   }
 }
 
-bool SEExercise::Load(const CDM::ExerciseData& in)
-{
-  SEPatientAction::Load(in);
-  if (in.Intensity().present()) {
-    io::PropertyIoDelegate::Marshall(in.Intensity(), GetIntensity());
-  } else if (in.DesiredWorkRate().present()) {
-    io::PropertyIoDelegate::Marshall(in.DesiredWorkRate(), GetDesiredWorkRate());
-  }
-  return true;
-}
-
-CDM::ExerciseData* SEExercise::Unload() const
-{
-  CDM::ExerciseData* data(new CDM::ExerciseData());
-  Unload(*data);
-  return data;
-}
-
-void SEExercise::Unload(CDM::ExerciseData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_Intensity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Intensity, data.Intensity());
-  }
-  if (m_DesiredWorkRate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_DesiredWorkRate, data.DesiredWorkRate());
-  }
-}
-
 bool SEExercise::HasIntensity() const
 {
   return m_Intensity == nullptr ? false : m_Intensity->IsValid();

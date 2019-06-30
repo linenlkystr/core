@@ -38,24 +38,6 @@ bool SEUrinate::IsActive() const
   return IsValid();
 }
 
-bool SEUrinate::Load(const CDM::UrinateData& in)
-{
-  SEPatientAction::Load(in);
-  return true;
-}
-
-CDM::UrinateData* SEUrinate::Unload() const
-{
-  CDM::UrinateData* data(new CDM::UrinateData());
-  Unload(*data);
-  return data;
-}
-
-void SEUrinate::Unload(CDM::UrinateData& data) const
-{
-  SEPatientAction::Unload(data);
-}
-
 void SEUrinate::ToString(std::ostream& str) const
 {
   str << "Patient Action : Urinate";

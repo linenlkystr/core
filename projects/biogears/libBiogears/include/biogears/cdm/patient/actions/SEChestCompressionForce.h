@@ -14,10 +14,13 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEChestCompression.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
 namespace biogears {
 class SEScalarForce;
 
 class BIOGEARS_API SEChestCompressionForce : public SEChestCompression {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SEChestCompressionForce();
   virtual ~SEChestCompressionForce();
@@ -28,12 +31,7 @@ public:
   virtual bool IsActive() const;
 
   virtual bool Load(const CDM::ChestCompressionForceData& in);
-  virtual CDM::ChestCompressionForceData* Unload() const;
 
-protected:
-  virtual void Unload(CDM::ChestCompressionForceData& data) const;
-
-public:
   virtual bool HasForce() const;
   virtual SEScalarForce& GetForce();
 

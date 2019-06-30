@@ -40,27 +40,6 @@ bool SEIntubation::IsActive() const
   return HasType() && GetType() != CDM::enumIntubationType::Off;
 }
 
-bool SEIntubation::Load(const CDM::IntubationData& in)
-{
-  SEPatientAction::Load(in);
-  m_Type = in.Type();
-  return true;
-}
-
-CDM::IntubationData* SEIntubation::Unload() const
-{
-  CDM::IntubationData* data(new CDM::IntubationData());
-  Unload(*data);
-  return data;
-}
-
-void SEIntubation::Unload(CDM::IntubationData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (HasType())
-    data.Type(m_Type);
-}
-
 CDM::enumIntubationType::value SEIntubation::GetType() const
 {
   return m_Type;

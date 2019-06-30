@@ -13,7 +13,6 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 
-#include <biogears/schema/cdm/PatientActions.hxx>
 #include <biogears/cdm/properties/SEScalarPressure.h>
 #include <biogears/cdm/properties/SEScalarMass.h>
 #include <biogears/cdm/properties/SEScalarTemperature.h>
@@ -29,11 +28,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarMassPerVolume.h>
 #include <biogears/cdm/properties/SEScalarAmountPerVolume.h>
 
-class Serializer;
+#include <biogears/cdm/CommonDataModel.h>
+
+IO_DECL(PatientActionsIoDelegate)
 
 namespace biogears {
 
 class BIOGEARS_API SEOverride : public SEPatientAction {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SEOverride();
   virtual ~SEOverride();
@@ -46,19 +49,13 @@ public:
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
 
-  virtual bool Load(const CDM::OverrideData& in);
-  virtual CDM::OverrideData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::OverrideData& data) const;
-
 public:
-  CDM::enumOnOff::value GetOverrideState() const;
-  void SetOverrideState(CDM::enumOnOff::value state);
+  bool GetOverrideState() const;
+  void SetOverrideState(bool state);
   bool HasOverrideState() const;
   void InvalidateOverrideState();
-  CDM::enumOnOff::value GetOverrideConformance() const;
-  void SetOverrideConformance(CDM::enumOnOff::value valid);
+  bool GetOverrideConformance() const;
+  void SetOverrideConformance(bool valid);
   bool HasOverrideConformance() const;
   void InvalidateOverrideConformance();
 
@@ -283,8 +280,8 @@ public:
   virtual void ToString(std::ostream& str) const override;
 
 protected:
-  CDM::enumOnOff m_OverrideState;
-  CDM::enumOnOff m_OverrideConformance;
+  bool m_OverrideState;
+  bool m_OverrideConformance;
   SEScalar* m_ArterialPHOR;
   SEScalar* m_VenousPHOR;
   SEScalarFraction* m_CO2SaturationOR;

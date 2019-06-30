@@ -43,8 +43,8 @@ void SEMechanicalVentilation::Clear()
   SAFE_DELETE(m_Flow);
   SAFE_DELETE(m_Pressure);
 
-  DELETE_VECTOR(m_GasFractions);
   m_cGasFractions.clear();
+  DELETE_VECTOR(m_GasFractions);
 }
 
 bool SEMechanicalVentilation::IsValid() const
@@ -79,67 +79,6 @@ bool SEMechanicalVentilation::IsActive() const
   if (!HasState())
     return false;
   return GetState() == CDM::enumOnOff::On;
-}
-
-bool SEMechanicalVentilation::Load(const CDM::MechanicalVentilationData& in, const SESubstanceManager& subMgr)
-{
-  SEPatientAction::Clear();
-  SetState(in.State());
-  if (in.Flow().present()) {
-    io::PropertyIoDelegate::Marshall(in.Flow(), GetFlow());
-  } else{
-    GetFlow().Invalidate();
-  }
-  if (in.Pressure().present()) {
-    io::PropertyIoDelegate::Marshall(in.Pressure(), GetPressure());
-  } else {
-    GetPressure().Invalidate();
-  }
-
-  m_GasFractions.clear();
-  m_cGasFractions.clear();
-  SESubstance* sub;
-  for (const CDM::SubstanceFractionData& sfData : in.GasFraction()) {
-    sub = subMgr.GetSubstance(sfData.Name());
-    if (sub == nullptr) {
-      Error("Substance not found : " + sfData.Name());
-      return false;
-    }
-    if (sub->GetState() != CDM::enumSubstanceState::Gas) {
-      Error("Substance not gas : " + sfData.Name());
-      return false;
-    }
-    SESubstanceFraction* sf = new SESubstanceFraction(*sub);
-    sf->Load(sfData);
-    m_GasFractions.push_back(sf);
-    m_cGasFractions.push_back(sf);
-  }
-
-  return IsValid();
-}
-
-CDM::MechanicalVentilationData* SEMechanicalVentilation::Unload() const
-{
-  CDM::MechanicalVentilationData* data = new CDM::MechanicalVentilationData();
-  Unload(*data);
-  return data;
-}
-
-void SEMechanicalVentilation::Unload(CDM::MechanicalVentilationData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (HasState()) {
-    data.State(m_State);
-  }
-  if (HasFlow()) {
-    io::PropertyIoDelegate::UnMarshall(*m_Flow, data.Flow());
-  }
-  if (HasPressure()) {
-    io::PropertyIoDelegate::UnMarshall(*m_Pressure, data.Pressure());
-  }
-
-  for (SESubstanceFraction* sf : m_GasFractions)
-    data.GasFraction().push_back(std::unique_ptr<CDM::SubstanceFractionData>(sf->Unload()));
 }
 
 CDM::enumOnOff::value SEMechanicalVentilation::GetState() const

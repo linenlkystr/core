@@ -17,11 +17,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
 namespace biogears {
 class SEScalar0To1;
 class SEScalar;
 
 class BIOGEARS_API SEBurnWound : public SEPatientAction {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SEBurnWound();
   virtual ~SEBurnWound() override;
@@ -33,12 +36,6 @@ public:
 
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
-
-  virtual bool Load(const CDM::BurnWoundData& in);
-  virtual CDM::BurnWoundData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::BurnWoundData& data) const;
 
 public:
   virtual bool HasTotalBodySurfaceArea() const;

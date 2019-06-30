@@ -44,27 +44,6 @@ bool SEApnea::IsActive() const
   return IsValid() ? !m_Severity->IsZero() : false;
 }
 
-bool SEApnea::Load(const CDM::ApneaData& in)
-{
-  SEPatientAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::ApneaData* SEApnea::Unload() const
-{
-  CDM::ApneaData* data(new CDM::ApneaData());
-  Unload(*data);
-  return data;
-}
-
-void SEApnea::Unload(CDM::ApneaData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_Severity != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
-}
-
 bool SEApnea::HasSeverity() const
 {
   return m_Severity == nullptr ? false : m_Severity->IsValid();

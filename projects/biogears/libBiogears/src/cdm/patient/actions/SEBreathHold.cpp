@@ -44,27 +44,6 @@ bool SEBreathHold::IsActive() const
   return SEConsciousRespirationCommand::IsActive();
 }
 
-bool SEBreathHold::Load(const CDM::BreathHoldData& in)
-{
-  SEConsciousRespirationCommand::Load(in);
-    io::PropertyIoDelegate::Marshall(in.Period(), GetPeriod());
-  return true;
-}
-
-CDM::BreathHoldData* SEBreathHold::Unload() const
-{
-  CDM::BreathHoldData* data(new CDM::BreathHoldData());
-  Unload(*data);
-  return data;
-}
-
-void SEBreathHold::Unload(CDM::BreathHoldData& data) const
-{
-  SEConsciousRespirationCommand::Unload(data);
-  if (m_Period != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Period, data.Period());
-}
-
 bool SEBreathHold::HasPeriod() const
 {
   return m_Period == nullptr ? false : m_Period->IsValid();

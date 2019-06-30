@@ -46,27 +46,6 @@ bool SEBurnWound::IsActive() const
   return IsValid() ? !(m_TBSA->GetValue() < ZERO_APPROX) : false;
 }
 
-bool SEBurnWound::Load(const CDM::BurnWoundData& in)
-{
-  SEPatientAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.TotalBodySurfaceArea(), GetTotalBodySurfaceArea());
-  return true;
-}
-
-CDM::BurnWoundData* SEBurnWound::Unload() const
-{
-  CDM::BurnWoundData* data(new CDM::BurnWoundData());
-  Unload(*data);
-  return data;
-}
-
-void SEBurnWound::Unload(CDM::BurnWoundData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_TBSA != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_TBSA, data.TotalBodySurfaceArea());
-}
-
 bool SEBurnWound::HasTotalBodySurfaceArea() const
 {
   return m_TBSA == nullptr ? false : m_TBSA->IsValid();

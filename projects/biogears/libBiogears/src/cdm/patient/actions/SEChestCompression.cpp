@@ -36,15 +36,4 @@ bool SEChestCompression::IsActive() const
 {
   return IsValid();
 }
-
-bool SEChestCompression::Load(const CDM::ChestCompressionData& in)
-{
-  SEPatientAction::Load(in);
-  return true;
-}
-
-void SEChestCompression::Unload(CDM::ChestCompressionData& data) const
-{
-  SEPatientAction::Unload(data);
-}
 }

@@ -42,27 +42,6 @@ bool SEBronchoconstriction::IsActive() const
   return IsValid() ? !m_Severity->IsZero() : false;
 }
 
-bool SEBronchoconstriction::Load(const CDM::BronchoconstrictionData& in)
-{
-  SEPatientAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::BronchoconstrictionData* SEBronchoconstriction::Unload() const
-{
-  CDM::BronchoconstrictionData* data(new CDM::BronchoconstrictionData());
-  Unload(*data);
-  return data;
-}
-
-void SEBronchoconstriction::Unload(CDM::BronchoconstrictionData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_Severity != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
-}
-
 bool SEBronchoconstriction::HasSeverity() const
 {
   return m_Severity == nullptr ? false : m_Severity->IsValid();

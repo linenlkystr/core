@@ -14,8 +14,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
 namespace biogears {
 class BIOGEARS_API SEChestOcclusiveDressing : public SEPatientAction {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SEChestOcclusiveDressing();
   virtual ~SEChestOcclusiveDressing() override;
@@ -28,12 +31,6 @@ public:
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
   virtual void SetActive(bool b);
-
-  virtual bool Load(const CDM::ChestOcclusiveDressingData& in);
-  virtual CDM::ChestOcclusiveDressingData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::ChestOcclusiveDressingData& data) const;
 
 public:
   virtual CDM::enumSide::value GetSide() const;

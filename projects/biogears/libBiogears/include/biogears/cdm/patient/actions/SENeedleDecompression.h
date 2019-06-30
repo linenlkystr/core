@@ -14,8 +14,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
+
 namespace biogears {
 class BIOGEARS_API SENeedleDecompression : public SEPatientAction {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SENeedleDecompression();
   virtual ~SENeedleDecompression() override;
@@ -28,12 +32,6 @@ public:
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
   virtual void SetActive(bool b);
-
-  virtual bool Load(const CDM::NeedleDecompressionData& in);
-  virtual CDM::NeedleDecompressionData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::NeedleDecompressionData& data) const;
 
 public:
   virtual CDM::enumSide::value GetSide() const;

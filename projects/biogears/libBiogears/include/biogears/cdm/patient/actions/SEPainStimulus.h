@@ -16,8 +16,12 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
 
+IO_DECL(PatientActionsIoDelegate)
+
 namespace biogears {
 class BIOGEARS_API SEPainStimulus : public SEPatientAction {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SEPainStimulus();
   virtual ~SEPainStimulus() override;
@@ -29,12 +33,6 @@ public:
 
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
-
-  virtual bool Load(const CDM::PainStimulusData& in);
-  virtual CDM::PainStimulusData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::PainStimulusData& data) const;
 
 public:
   virtual bool HasSeverity() const;

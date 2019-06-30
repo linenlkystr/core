@@ -47,29 +47,6 @@ void SEChestOcclusiveDressing::SetActive(bool b)
   m_State = b ? CDM::enumOnOff::On : CDM::enumOnOff::Off;
 }
 
-bool SEChestOcclusiveDressing::Load(const CDM::ChestOcclusiveDressingData& in)
-{
-  SEPatientAction::Load(in);
-  m_Side = in.Side();
-  m_State = in.State();
-  return true;
-}
-
-CDM::ChestOcclusiveDressingData* SEChestOcclusiveDressing::Unload() const
-{
-  CDM::ChestOcclusiveDressingData* data(new CDM::ChestOcclusiveDressingData());
-  Unload(*data);
-  return data;
-}
-
-void SEChestOcclusiveDressing::Unload(CDM::ChestOcclusiveDressingData& data) const
-{
-  SEPatientAction::Unload(data);
-  data.State(m_State);
-  if (HasSide())
-    data.Side(m_Side);
-}
-
 CDM::enumSide::value SEChestOcclusiveDressing::GetSide() const
 {
   return m_Side;

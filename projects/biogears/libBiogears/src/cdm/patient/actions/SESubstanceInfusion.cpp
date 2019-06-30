@@ -49,33 +49,6 @@ bool SESubstanceInfusion::IsActive() const
   return IsValid() ? !m_Rate->IsZero() : false;
 }
 
-bool SESubstanceInfusion::Load(const CDM::SubstanceInfusionData& in)
-{
-  SESubstanceAdministration::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Rate(), GetRate());
-  io::PropertyIoDelegate::Marshall(in.Concentration(), GetConcentration());
-  return true;
-}
-
-CDM::SubstanceInfusionData* SESubstanceInfusion::Unload() const
-{
-  CDM::SubstanceInfusionData* data(new CDM::SubstanceInfusionData());
-  Unload(*data);
-  return data;
-}
-
-void SESubstanceInfusion::Unload(CDM::SubstanceInfusionData& data) const
-{
-  SESubstanceAdministration::Unload(data);
-  if (m_Rate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Rate, data.Rate());
-  }
-  if (m_Concentration != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Concentration, data.Concentration());
-  }
-  data.Substance(m_Substance.GetName());
-}
-
 bool SESubstanceInfusion::HasRate() const
 {
   return m_Rate == nullptr ? false : m_Rate->IsValid();

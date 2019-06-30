@@ -14,10 +14,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
+IO_DECL(PatientActionsIoDelegate)
+
 namespace biogears {
 class SEScalarVolumePerTime;
 
 class BIOGEARS_API SEPericardialEffusion : public SEPatientAction {
+  friend class io::PatientActionsIoDelegate;
+
 public:
   SEPericardialEffusion();
   virtual ~SEPericardialEffusion() override;
@@ -29,12 +33,6 @@ public:
 
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
-
-  virtual bool Load(const CDM::PericardialEffusionData& in);
-  virtual CDM::PericardialEffusionData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::PericardialEffusionData& data) const;
 
 public:
   virtual bool HasEffusionRate() const;

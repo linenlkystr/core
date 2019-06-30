@@ -37,36 +37,6 @@ void SETensionPneumothorax::Clear()
   SAFE_DELETE(m_Severity);
 }
 
-bool SETensionPneumothorax::Load(const CDM::TensionPneumothoraxData& in)
-{
-  SEPatientAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
-  m_Type = in.Type();
-  m_Side = in.Side();
-  return true;
-}
-
-CDM::TensionPneumothoraxData* SETensionPneumothorax::Unload() const
-{
-  CDM::TensionPneumothoraxData* data(new CDM::TensionPneumothoraxData());
-  Unload(*data);
-  return data;
-}
-
-void SETensionPneumothorax::Unload(CDM::TensionPneumothoraxData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (m_Severity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
-  }
-  if (HasType()) {
-    data.Type(m_Type);
-  }
-  if (HasSide()) {
-    data.Side(m_Side);
-  }
-}
-
 bool SETensionPneumothorax::IsValid() const
 {
   return SEPatientAction::IsValid() && HasType() && HasSide() && HasSeverity();

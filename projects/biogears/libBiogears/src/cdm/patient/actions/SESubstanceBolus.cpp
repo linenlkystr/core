@@ -50,36 +50,6 @@ bool SESubstanceBolus::IsActive() const
   return IsValid();
 }
 
-bool SESubstanceBolus::Load(const CDM::SubstanceBolusData& in)
-{
-  SESubstanceAdministration::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Dose(), GetDose());
-  io::PropertyIoDelegate::Marshall(in.Concentration(), GetConcentration());
-  m_AdminRoute = in.AdminRoute();
-  return true;
-}
-
-CDM::SubstanceBolusData* SESubstanceBolus::Unload() const
-{
-  CDM::SubstanceBolusData* data(new CDM::SubstanceBolusData());
-  Unload(*data);
-  return data;
-}
-
-void SESubstanceBolus::Unload(CDM::SubstanceBolusData& data) const
-{
-  SESubstanceAdministration::Unload(data);
-  if (m_Dose != nullptr) {
-  io::PropertyIoDelegate::UnMarshall(*m_Dose, data.Dose());
-  }
-  if (m_Concentration != nullptr) {
-  io::PropertyIoDelegate::UnMarshall(*m_Concentration, data.Concentration());
-  }    
-  if (HasAdminRoute())
-    data.AdminRoute(m_AdminRoute);
-  data.Substance(m_Substance.GetName());
-}
-
 CDM::enumBolusAdministration::value SESubstanceBolus::GetAdminRoute() const
 {
   return m_AdminRoute;
@@ -139,6 +109,7 @@ void SESubstanceBolus::ToString(std::ostream& str) const
   str << std::flush;
 }
 
+
 SESubstanceBolusState::SESubstanceBolusState(const SESubstance& sub)
   : m_substance(sub)
 {
@@ -148,23 +119,5 @@ SESubstanceBolusState::SESubstanceBolusState(const SESubstance& sub)
 SESubstanceBolusState::~SESubstanceBolusState()
 {
 }
-bool SESubstanceBolusState::Load(const CDM::SubstanceBolusStateData& in)
-{
-  io::PropertyIoDelegate::Marshall(in.ElapsedTime(), m_elapsedTime);
-  io::PropertyIoDelegate::Marshall(in.AdministeredDose(), m_administeredDose);
-  return true;
-}
-CDM::SubstanceBolusStateData* SESubstanceBolusState::Unload() const
-{
-  CDM::SubstanceBolusStateData* data = new CDM::SubstanceBolusStateData();
-  Unload(*data);
-  return data;
-}
-void SESubstanceBolusState::Unload(CDM::SubstanceBolusStateData& data) const
-{
-  data.Substance(m_substance.GetName());
-  io::PropertyIoDelegate::UnMarshall(m_elapsedTime, data.ElapsedTime());
-  io::PropertyIoDelegate::UnMarshall(m_administeredDose, data.AdministeredDose());
-  
-}
+
 }

@@ -33,14 +33,4 @@ bool SEPatientAction::IsValid() const
   return SEAction::IsValid();
 }
 
-bool SEPatientAction::Load(const CDM::PatientActionData& in)
-{
-  SEAction::Load(in);
-  return true;
-}
-
-void SEPatientAction::Unload(CDM::PatientActionData& data) const
-{
-  SEAction::Unload(data);
-}
 }

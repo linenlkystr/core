@@ -51,46 +51,6 @@ bool SEHemorrhage::IsActive() const
   return IsValid() ? !(m_InitialRate->GetValue(VolumePerTimeUnit::mL_Per_min) <= ZERO_APPROX) : false;
 }
 //-----------------------------------------------------------------------------
-bool SEHemorrhage::Load(const CDM::HemorrhageData& in)
-{
-  SEPatientAction::Load(in);
-  m_Compartment = in.Compartment();
-  io::PropertyIoDelegate::Marshall(in.InitialRate(), GetInitialRate());
-  //Place compartments in torso in a map so that we don't get too messy with nested conditionals.  Each vector is digits 2-4 of the MCIS code
-  organMap["VenaCava"] = std::vector<unsigned int>{ 6, 6, 0 };
-  organMap["LeftLung"] = std::vector<unsigned int>{ 7, 1, 0 };
-  organMap["RightLung"] = std::vector<unsigned int>{ 7, 1, 0 };
-  organMap["Myocardium"] = std::vector<unsigned int>{ 7, 2, 0 };
-  organMap["Liver"] = std::vector<unsigned int>{ 8, 1, 0 };
-  organMap["Spleen"] = std::vector<unsigned int>{ 8, 2, 0 };
-  organMap["Splanchnic"] = std::vector<unsigned int>{ 8, 3, 0 };
-  organMap["LeftKidney"] = std::vector<unsigned int>{ 8, 4, 0 };
-  organMap["RightKidney"] = std::vector<unsigned int>{ 8, 4, 0 };
-  organMap["SmallIntestine"] = std::vector<unsigned int>{ 8, 5, 0 };
-  organMap["LargeIntestine"] = std::vector<unsigned int>{ 8, 6, 0 };
-  SetMCIS();
-
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::HemorrhageData* SEHemorrhage::Unload() const
-{
-  CDM::HemorrhageData* data(new CDM::HemorrhageData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEHemorrhage::Unload(CDM::HemorrhageData& data) const
-{
-  SEPatientAction::Unload(data);
-  if (HasCompartment()) {
-    data.Compartment(m_Compartment);
-  }
-  if (HasInitialRate()) {
-    io::PropertyIoDelegate::UnMarshall(*m_InitialRate, data.InitialRate());
-  }
-}
-//-----------------------------------------------------------------------------
 void SEHemorrhage::SetMCIS()
 {
   bool found = false;
