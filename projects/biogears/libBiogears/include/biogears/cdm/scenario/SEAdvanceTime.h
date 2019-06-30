@@ -14,10 +14,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/SEAction.h>
 #include <biogears/schema/cdm/Scenario.hxx>
 
+IO_DECL(ScenarioIoDelegate)
 namespace biogears {
 class TimeUnit;
 
 class BIOGEARS_API SEAdvanceTime : public SEAction {
+  friend io::ScenarioIoDelegate;
 public:
   SEAdvanceTime();
   virtual ~SEAdvanceTime() override;
@@ -28,13 +30,7 @@ public:
   virtual void Clear() override; //clear memory
 
   virtual bool IsValid() const override;
-
-  virtual bool Load(const CDM::AdvanceTimeData& in);
-  virtual CDM::AdvanceTimeData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::AdvanceTimeData& data) const;
-
+  
 public:
   virtual void ToString(std::ostream& str) const override;
 

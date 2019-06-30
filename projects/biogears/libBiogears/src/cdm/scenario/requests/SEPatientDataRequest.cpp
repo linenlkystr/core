@@ -16,32 +16,15 @@ SEPatientDataRequest::SEPatientDataRequest(const SEDecimalFormat* dfault)
   : SEDataRequest(dfault)
 {
 }
-
+//-------------------------------------------------------------------------------
 SEPatientDataRequest::~SEPatientDataRequest()
 {
   Clear();
 }
-
+//-------------------------------------------------------------------------------
 void SEPatientDataRequest::Clear()
 {
   SEDataRequest::Clear();
 }
-
-bool SEPatientDataRequest::Load(const CDM::PatientDataRequestData& in)
-{
-  SEDataRequest::Load(in);
-  return true;
-}
-
-CDM::PatientDataRequestData* SEPatientDataRequest::Unload() const
-{
-  CDM::PatientDataRequestData* data = new CDM::PatientDataRequestData();
-  Unload(*data);
-  return data;
-}
-
-void SEPatientDataRequest::Unload(CDM::PatientDataRequestData& data) const
-{
-  SEDataRequest::Unload(data);
-}
+//-------------------------------------------------------------------------------
 }

@@ -38,31 +38,6 @@ bool SESerializeState::IsValid() const
   return HasFilename() && HasType();
 }
 //-----------------------------------------------------------------------------
-bool SESerializeState::Load(const CDM::SerializeStateData& in)
-{
-
-  SEAction::Load(in);
-  SetType(in.Type());
-  SetFilename(in.Filename());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::SerializeStateData* SESerializeState::Unload() const
-{
-  CDM::SerializeStateData* data = new CDM::SerializeStateData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SESerializeState::Unload(CDM::SerializeStateData& data) const
-{
-  SEAction::Unload(data);
-  if (HasFilename())
-    data.Filename(m_Filename);
-  if (HasType())
-    data.Type(m_Type);
-}
-//-----------------------------------------------------------------------------
 void SESerializeState::ToString(std::ostream& str) const
 {
   if (HasComment())

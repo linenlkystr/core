@@ -42,32 +42,6 @@ size_t SEDataRequest::HashCode() const
   return h;
 }
 //-----------------------------------------------------------------------------
-bool SEDataRequest::Load(const CDM::DataRequestData& in)
-{
-  io::PropertyIoDelegate::Marshall(static_cast<CDM::DecimalFormatData const&>(in), *static_cast<SEDecimalFormat*>(this));
-  m_Name = in.Name();
-  if (in.Unit().present())
-    m_RequestedUnit = in.Unit().get();
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::DataRequestData* SEDataRequest::Unload() const
-{
-  CDM::DataRequestData* data = new CDM::DataRequestData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEDataRequest::Unload(CDM::DataRequestData& data) const
-{
-  io::PropertyIoDelegate::UnMarshall( *static_cast<SEDecimalFormat const*>(this), static_cast<CDM::DecimalFormatData &>(data));
-  data.Name(m_Name);
-  if (HasUnit())
-    data.Unit(m_Unit->GetString());
-  else if (HasRequestedUnit())
-    data.Unit(m_RequestedUnit);
-}
-//-----------------------------------------------------------------------------
 std::string SEDataRequest::GetName() const
 {
   return m_Name;

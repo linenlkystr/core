@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/requests/SECompartmentDataRequest.h>
 #include <biogears/schema/cdm/Scenario.hxx>
 
+IO_DECL(ScenarioIoDelegate)
+
 namespace biogears {
 class SESubstance;
 class SESubstanceManager;
@@ -21,6 +23,7 @@ class SEDataRequestManager;
 
 class BIOGEARS_API SEThermalCompartmentDataRequest : public SECompartmentDataRequest {
   friend class SEDataRequestManager;
+  friend class io::ScenarioIoDelegate;
 
 protected:
   SEThermalCompartmentDataRequest(const SEDecimalFormat* dfault = nullptr);

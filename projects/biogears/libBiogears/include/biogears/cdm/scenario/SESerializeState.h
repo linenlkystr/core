@@ -16,8 +16,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/SEAction.h>
 #include <biogears/schema/cdm/Scenario.hxx>
 
+IO_DECL(ScenarioIoDelegate)
 namespace biogears {
 class BIOGEARS_API SESerializeState : public SEAction {
+  friend class io::ScenarioIoDelegate;
+
 public:
   SESerializeState();
   virtual ~SESerializeState() override;
@@ -29,12 +32,7 @@ public:
 
   virtual bool IsValid() const override;
 
-  virtual bool Load(const CDM::SerializeStateData& in);
-  virtual CDM::SerializeStateData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::SerializeStateData& data) const;
-
+  
 public:
   virtual void ToString(std::ostream& str) const override;
 

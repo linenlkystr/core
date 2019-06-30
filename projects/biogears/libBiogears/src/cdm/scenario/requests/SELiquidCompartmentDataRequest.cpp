@@ -26,21 +26,4 @@ SELiquidCompartmentDataRequest::~SELiquidCompartmentDataRequest()
   Clear();
 }
 
-bool SELiquidCompartmentDataRequest::Load(const CDM::LiquidCompartmentDataRequestData& in, const SESubstanceManager& substances)
-{
-  SECompartmentSubstanceDataRequest::Load(in, substances);
-  return true;
-}
-
-CDM::LiquidCompartmentDataRequestData* SELiquidCompartmentDataRequest::Unload() const
-{
-  CDM::LiquidCompartmentDataRequestData* data = new CDM::LiquidCompartmentDataRequestData();
-  Unload(*data);
-  return data;
-}
-
-void SELiquidCompartmentDataRequest::Unload(CDM::LiquidCompartmentDataRequestData& data) const
-{
-  SECompartmentSubstanceDataRequest::Unload(data);
-}
 }

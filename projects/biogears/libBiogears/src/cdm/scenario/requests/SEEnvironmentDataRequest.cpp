@@ -18,32 +18,15 @@ SEEnvironmentDataRequest::SEEnvironmentDataRequest(const SEDecimalFormat* dfault
   : SEDataRequest(dfault)
 {
 }
-
+//-------------------------------------------------------------------------------
 SEEnvironmentDataRequest::~SEEnvironmentDataRequest()
 {
   Clear();
 }
-
+//-------------------------------------------------------------------------------
 void SEEnvironmentDataRequest::Clear()
 {
   SEDataRequest::Clear();
 }
-
-bool SEEnvironmentDataRequest::Load(const CDM::EnvironmentDataRequestData& in)
-{
-  SEDataRequest::Load(in);
-  return true;
-}
-
-CDM::EnvironmentDataRequestData* SEEnvironmentDataRequest::Unload() const
-{
-  CDM::EnvironmentDataRequestData* data = new CDM::EnvironmentDataRequestData();
-  Unload(*data);
-  return data;
-}
-
-void SEEnvironmentDataRequest::Unload(CDM::EnvironmentDataRequestData& data) const
-{
-  SEDataRequest::Unload(data);
-}
+//-------------------------------------------------------------------------------
 }

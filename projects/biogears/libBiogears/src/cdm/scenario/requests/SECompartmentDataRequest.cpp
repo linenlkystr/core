@@ -38,19 +38,6 @@ size_t SECompartmentDataRequest::HashCode()
   return h;
 }
 //-------------------------------------------------------------------------------
-bool SECompartmentDataRequest::Load(const CDM::CompartmentDataRequestData& in)
-{
-  SEDataRequest::Load(in);
-  SetCompartment(in.Compartment());
-  return true;
-}
-//-------------------------------------------------------------------------------
-void SECompartmentDataRequest::Unload(CDM::CompartmentDataRequestData& data) const
-{
-  SEDataRequest::Unload(data);
-  data.Compartment(m_Compartment);
-}
-//-------------------------------------------------------------------------------
 const char* SECompartmentDataRequest::GetCompartment() const
 {
   return m_Compartment.c_str();

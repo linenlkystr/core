@@ -15,24 +15,19 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 
 CDM_BIND_DECL(ConditionData);
+IO_DECL(ScenarioIoDelegate)
 
 namespace biogears {
 class SESubstanceManager;
 
 class BIOGEARS_API SECondition : public Loggable {
+  friend io::ScenarioIoDelegate;
+
 public:
   SECondition();
   virtual ~SECondition();
 
   virtual void Clear(); // Deletes all members
-
-  static SECondition* newFromBind(const CDM::ConditionData& condition, SESubstanceManager& substances);
-
-  virtual bool Load(const CDM::ConditionData& in);
-  virtual CDM::ConditionData* Unload() const;
-
-protected:
-  void Unload(CDM::ConditionData& data) const;
 
 public:
   /** Test if the action has all data it needs */

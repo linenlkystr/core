@@ -15,6 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 
 CDM_BIND_DECL(ScenarioInitialParametersData)
+IO_DECL(ScenarioIoDelegate)
 
 namespace biogears {
 class SEScenario;
@@ -26,18 +27,13 @@ class PhysiologyEngineConfiguration;
 class BIOGEARS_API SEScenarioInitialParameters : public Loggable {
 protected:
   friend SEScenario;
+  friend io::ScenarioIoDelegate;
 
   SEScenarioInitialParameters(SESubstanceManager& subMgr);
   virtual ~SEScenarioInitialParameters();
 
 public:
   virtual void Clear(); //clear memory
-
-  bool Load(const CDM::ScenarioInitialParametersData& in);
-  CDM::ScenarioInitialParametersData* Unload() const;
-
-protected:
-  void Unload(CDM::ScenarioInitialParametersData& data) const;
 
 public:
   virtual bool IsValid() const;

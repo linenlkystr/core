@@ -45,31 +45,6 @@ size_t SESubstanceDataRequest::HashCode() const
   return h;
 }
 //-----------------------------------------------------------------------------
-bool SESubstanceDataRequest::Load(const CDM::SubstanceDataRequestData& in, const SESubstanceManager& substances)
-{
-  SEDataRequest::Load(in);
-  if (in.Compartment().present())
-    SetCompartment(in.Compartment().get());
-  SetSubstance(substances.GetSubstance(in.Substance()));
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::SubstanceDataRequestData* SESubstanceDataRequest::Unload() const
-{
-  CDM::SubstanceDataRequestData* data = new CDM::SubstanceDataRequestData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SESubstanceDataRequest::Unload(CDM::SubstanceDataRequestData& data) const
-{
-  SEDataRequest::Unload(data);
-  if (HasCompartment())
-    data.Compartment(m_Compartment);
-  if (HasSubstance())
-    data.Substance(m_Substance->GetName());
-}
-//-----------------------------------------------------------------------------
 const char* SESubstanceDataRequest::GetCompartment() const
 {
   return m_Compartment.c_str();

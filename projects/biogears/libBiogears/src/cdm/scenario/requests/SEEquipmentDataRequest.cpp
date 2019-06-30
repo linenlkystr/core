@@ -31,27 +31,6 @@ void SEEquipmentDataRequest::Clear()
   m_Type = "";
 }
 //-----------------------------------------------------------------------------
-bool SEEquipmentDataRequest::Load(const CDM::EquipmentDataRequestData& in)
-{
-  SEDataRequest::Load(in);
-  SetType(in.Type());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::EquipmentDataRequestData* SEEquipmentDataRequest::Unload() const
-{
-  CDM::EquipmentDataRequestData* data = new CDM::EquipmentDataRequestData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEEquipmentDataRequest::Unload(CDM::EquipmentDataRequestData& data) const
-{
-  SEDataRequest::Unload(data);
-  if (HasType())
-    data.Type(m_Type);
-}
-//-----------------------------------------------------------------------------
 bool SEEquipmentDataRequest::HasType() const
 {
   return !(m_Type.empty());

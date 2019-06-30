@@ -19,38 +19,21 @@ SETissueCompartmentDataRequest::SETissueCompartmentDataRequest(const SEDecimalFo
   : SECompartmentDataRequest(dfault)
 {
 }
-
+//-------------------------------------------------------------------------------
 SETissueCompartmentDataRequest::~SETissueCompartmentDataRequest()
 {
   Clear();
 }
-
+//-------------------------------------------------------------------------------
 void SETissueCompartmentDataRequest::Clear()
 {
   SECompartmentDataRequest::Clear();
 }
-
+//-------------------------------------------------------------------------------
 size_t SETissueCompartmentDataRequest::HashCode()
 {
   size_t h = SECompartmentDataRequest::HashCode();
   return h;
 }
-
-bool SETissueCompartmentDataRequest::Load(const CDM::TissueCompartmentDataRequestData& in)
-{
-  SECompartmentDataRequest::Load(in);
-  return true;
-}
-
-CDM::TissueCompartmentDataRequestData* SETissueCompartmentDataRequest::Unload() const
-{
-  CDM::TissueCompartmentDataRequestData* data = new CDM::TissueCompartmentDataRequestData();
-  Unload(*data);
-  return data;
-}
-
-void SETissueCompartmentDataRequest::Unload(CDM::TissueCompartmentDataRequestData& data) const
-{
-  SECompartmentDataRequest::Unload(data);
-}
+//-------------------------------------------------------------------------------
 }

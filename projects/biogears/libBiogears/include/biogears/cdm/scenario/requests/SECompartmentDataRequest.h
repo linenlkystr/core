@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/requests/SEDataRequest.h>
 #include <biogears/schema/cdm/Scenario.hxx>
 
+IO_DECL(ScenarioIoDelegate)
 namespace biogears {
 class SESubstance;
 class SESubstanceManager;
@@ -22,6 +23,7 @@ class SEDataRequestManager;
 
 class BIOGEARS_API SECompartmentDataRequest : public SEDataRequest {
   friend class SEDataRequestManager;
+  friend class ScenarioIoDelegate;
 
 protected:
   SECompartmentDataRequest(const SEDecimalFormat* dfault = nullptr);
@@ -30,9 +32,6 @@ public:
   virtual ~SECompartmentDataRequest();
 
   virtual void Clear() override; //clear memory
-
-  virtual bool Load(const CDM::CompartmentDataRequestData& in);
-  virtual CDM::CompartmentDataRequestData* Unload() const override= 0 ;
 
   virtual size_t HashCode();
 
@@ -46,9 +45,6 @@ public:
   virtual void Set(const std::string& cmpt, const std::string& name, const std::string& unit = "");
   virtual void Set(const char* cmpt, const char* name, const CCompoundUnit& unit);
   virtual void Set(const std::string& cmpt, const std::string& name, const CCompoundUnit& unit);
-
-protected:
-  virtual void Unload(CDM::CompartmentDataRequestData& data) const;
 
   std::string m_Compartment;
 };

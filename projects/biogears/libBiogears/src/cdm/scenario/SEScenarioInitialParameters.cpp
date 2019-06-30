@@ -43,50 +43,6 @@ void SEScenarioInitialParameters::Clear()
   DELETE_VECTOR(m_Conditions);
 }
 //-----------------------------------------------------------------------------
-bool SEScenarioInitialParameters::Load(const CDM::ScenarioInitialParametersData& in)
-{
-  Clear();
-
-  if (in.Configuration().present())
-    GetConfiguration().Load(in.Configuration().get());
-
-  if (in.PatientFile().present())
-    m_PatientFile = in.PatientFile().get();
-  else if (in.Patient().present())
-    GetPatient().Load(in.Patient().get());
-  else {
-    Error("No patient provided");
-    return false;
-  }
-
-  for (unsigned int i = 0; i < in.Condition().size(); i++) {
-    SECondition* c = SECondition::newFromBind(in.Condition()[i], m_SubMgr);
-    if (c != nullptr)
-      m_Conditions.push_back(c);
-  }
-
-  return IsValid();
-}
-//-----------------------------------------------------------------------------
-CDM::ScenarioInitialParametersData* SEScenarioInitialParameters::Unload() const
-{
-  CDM::ScenarioInitialParametersData* data = new CDM::ScenarioInitialParametersData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEScenarioInitialParameters::Unload(CDM::ScenarioInitialParametersData& data) const
-{
-  if (HasPatientFile())
-    data.PatientFile(m_PatientFile);
-  else if (HasPatient())
-    data.Patient(std::unique_ptr<CDM::PatientData>(m_Patient->Unload()));
-  for (SECondition* c : m_Conditions)
-    data.Condition().push_back(std::unique_ptr<CDM::ConditionData>(c->Unload()));
-  if (HasConfiguration())
-    data.Configuration(std::unique_ptr<CDM::PhysiologyEngineConfigurationData>(m_Configuration->Unload()));
-}
-//-----------------------------------------------------------------------------
 bool SEScenarioInitialParameters::IsValid() const
 {
   if (!HasPatientFile() && HasPatient())

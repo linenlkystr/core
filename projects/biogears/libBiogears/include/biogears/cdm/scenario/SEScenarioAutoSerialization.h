@@ -16,21 +16,17 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Scenario.hxx>
 
 CDM_BIND_DECL(ScenarioAutoSerializationData)
+IO_DECL(ScenarioIoDelegate)
 namespace biogears {
 
 class BIOGEARS_API SEScenarioAutoSerialization : public Loggable {
+  friend io::ScenarioIoDelegate;
 public:
   SEScenarioAutoSerialization(Logger* logger);
   virtual ~SEScenarioAutoSerialization();
 
   virtual void Clear();
   virtual bool IsValid() const;
-
-  virtual bool Load(const CDM::ScenarioAutoSerializationData& in);
-  virtual CDM::ScenarioAutoSerializationData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::ScenarioAutoSerializationData& data) const;
 
 public:
   virtual bool HasPeriod() const;

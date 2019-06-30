@@ -60,41 +60,6 @@ bool SEScenarioAutoSerialization::IsValid() const
   return true;
 }
 //-----------------------------------------------------------------------------
-bool SEScenarioAutoSerialization::Load(const CDM::ScenarioAutoSerializationData& in)
-{
-  Clear();
-  io::PropertyIoDelegate::Marshall(in.Period(), GetPeriod());
-  SetPeriodTimeStamps(in.PeriodTimeStamps());
-  SetAfterActions(in.AfterActions());
-  SetReloadState(in.ReloadState());
-  SetDirectory(in.Directory());
-  SetFileName(in.FileName());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::ScenarioAutoSerializationData* SEScenarioAutoSerialization::Unload() const
-{
-  CDM::ScenarioAutoSerializationData* data(new CDM::ScenarioAutoSerializationData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEScenarioAutoSerialization::Unload(CDM::ScenarioAutoSerializationData& data) const
-{
-  if (HasPeriod())
-    io::PropertyIoDelegate::UnMarshall(*m_Period, data.Period());
-  if (HasPeriodTimeStamps())
-    data.PeriodTimeStamps(m_PeriodTimeStamps);
-  if (HasAfterActions())
-    data.AfterActions(m_AfterActions);
-  if (HasReloadState())
-    data.ReloadState(m_ReloadState);
-  if (HasDirectory())
-    data.Directory(m_Directory);
-  if (HasFileName())
-    data.FileName(m_FileName);
-}
-//-----------------------------------------------------------------------------
 bool SEScenarioAutoSerialization::HasPeriod() const
 {
   return m_Period == nullptr ? false : m_Period->IsValid();

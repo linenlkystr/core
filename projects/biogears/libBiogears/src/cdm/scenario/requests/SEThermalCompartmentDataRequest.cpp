@@ -19,27 +19,17 @@ SEThermalCompartmentDataRequest::SEThermalCompartmentDataRequest(const SEDecimal
   : SECompartmentDataRequest(dfault)
 {
 }
-
+//-------------------------------------------------------------------------------
 SEThermalCompartmentDataRequest::~SEThermalCompartmentDataRequest()
 {
   Clear();
 }
-
-bool SEThermalCompartmentDataRequest::Load(const CDM::ThermalCompartmentDataRequestData& in)
-{
-  SECompartmentDataRequest::Load(in);
-  return true;
-}
-
+//-------------------------------------------------------------------------------
 CDM::ThermalCompartmentDataRequestData* SEThermalCompartmentDataRequest::Unload() const
 {
   CDM::ThermalCompartmentDataRequestData* data = new CDM::ThermalCompartmentDataRequestData();
   Unload(*data);
   return data;
 }
-
-void SEThermalCompartmentDataRequest::Unload(CDM::ThermalCompartmentDataRequestData& data) const
-{
-  SECompartmentDataRequest::Unload(data);
-}
+//-------------------------------------------------------------------------------
 }

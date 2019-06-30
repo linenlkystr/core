@@ -17,6 +17,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/SEScenario.h>
 #include <biogears/cdm/scenario/SEScenarioInitialParameters.h>
 
+#include "../utils/io/ScenarioIoDelegate.h"
+
 namespace biogears {
 SEScenario::SEScenario(SESubstanceManager& subMgr)
   : Loggable(subMgr.GetLogger())
@@ -43,55 +45,7 @@ void SEScenario::Clear()
   DELETE_VECTOR(m_Actions);
   m_DataRequestMgr.Clear();
 }
-//-----------------------------------------------------------------------------
-bool SEScenario::Load(const CDM::ScenarioData& in)
-{
-  Clear();
-  if (in.Name().present())
-    m_Name = in.Name().get();
-  if (in.Description().present())
-    m_Description = in.Description().get();
-  if (in.EngineStateFile().present())
-    SetEngineStateFile(in.EngineStateFile().get());
-  else if (in.InitialParameters().present()) {
-    GetInitialParameters().Load(in.InitialParameters().get());
-  } else {
-    Error("No State or Initial Parameters provided");
-    return false;
-  }
-  if (in.AutoSerialization().present())
-    GetAutoSerialization().Load(in.AutoSerialization().get());
-  if (in.DataRequests().present())
-    m_DataRequestMgr.Load(in.DataRequests().get(), m_SubMgr);
-  for (unsigned int i = 0; i < in.Action().size(); i++) {
-    SEAction* a = SEAction::newFromBind(in.Action()[i], m_SubMgr);
-    if (a != nullptr)
-      m_Actions.push_back(a);
-  }
-  return IsValid();
-}
-//-----------------------------------------------------------------------------
-CDM::ScenarioData* SEScenario::Unload() const
-{
-  CDM::ScenarioData* data = new CDM::ScenarioData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEScenario::Unload(CDM::ScenarioData& data) const
-{
-  data.Name(m_Name);
-  data.Description(m_Description);
-  if (HasEngineStateFile())
-    data.EngineStateFile(m_EngineStateFile);
-  else if (HasInitialParameters())
-    data.InitialParameters(std::unique_ptr<CDM::ScenarioInitialParametersData>(m_InitialParameters->Unload()));
-  if (HasAutoSerialization())
-    data.AutoSerialization(std::unique_ptr<CDM::ScenarioAutoSerializationData>(m_AutoSerialization->Unload()));
-  data.DataRequests(std::unique_ptr<CDM::DataRequestsData>(m_DataRequestMgr.Unload()));
-  for (SEAction* a : m_Actions)
-    data.Action().push_back(std::unique_ptr<CDM::ActionData>(a->Unload()));
-}
+
 //-----------------------------------------------------------------------------
 bool SEScenario::Load(const char* scenarioFile)
 {
@@ -111,7 +65,7 @@ bool SEScenario::Load(const std::string& scenarioFile)
     Error(ss);
     return false;
   }
-  return Load(*pData);
+  return ScenarioIoDelegate::Marshall(*pData,*this);
 }
 //-----------------------------------------------------------------------------
 bool SEScenario::IsValid() const

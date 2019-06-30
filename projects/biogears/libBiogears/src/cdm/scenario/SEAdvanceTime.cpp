@@ -32,32 +32,6 @@ void SEAdvanceTime::Clear()
   SAFE_DELETE(m_Time);
 }
 
-bool SEAdvanceTime::IsValid() const
-{
-  return HasTime() && m_Time->IsValid();
-}
-
-bool SEAdvanceTime::Load(const CDM::AdvanceTimeData& in)
-{
-  SEAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Time(), GetTime());
-  return true;
-}
-
-CDM::AdvanceTimeData* SEAdvanceTime::Unload() const
-{
-  CDM::AdvanceTimeData* data = new CDM::AdvanceTimeData();
-  Unload(*data);
-  return data;
-}
-
-void SEAdvanceTime::Unload(CDM::AdvanceTimeData& data) const
-{
-  SEAction::Unload(data);
-  if (HasTime())
-    io::PropertyIoDelegate::UnMarshall(*m_Time, data.Time());
-}
-
 void SEAdvanceTime::ToString(std::ostream& str) const
 {
   if (HasComment())

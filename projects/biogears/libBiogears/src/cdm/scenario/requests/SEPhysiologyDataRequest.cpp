@@ -17,32 +17,15 @@ SEPhysiologyDataRequest::SEPhysiologyDataRequest(const SEDecimalFormat* dfault)
   : SEDataRequest(dfault)
 {
 }
-
+//-------------------------------------------------------------------------------
 SEPhysiologyDataRequest::~SEPhysiologyDataRequest()
 {
   Clear();
 }
-
+//-------------------------------------------------------------------------------
 void SEPhysiologyDataRequest::Clear()
 {
   SEDataRequest::Clear();
 }
-
-bool SEPhysiologyDataRequest::Load(const CDM::PhysiologyDataRequestData& in)
-{
-  SEDataRequest::Load(in);
-  return true;
-}
-
-CDM::PhysiologyDataRequestData* SEPhysiologyDataRequest::Unload() const
-{
-  CDM::PhysiologyDataRequestData* data = new CDM::PhysiologyDataRequestData();
-  Unload(*data);
-  return data;
-}
-
-void SEPhysiologyDataRequest::Unload(CDM::PhysiologyDataRequestData& data) const
-{
-  SEDataRequest::Unload(data);
-}
+//-------------------------------------------------------------------------------
 }
