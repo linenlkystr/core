@@ -20,77 +20,6 @@ specific language governing permissions and limitations under the License.
 
 //#include <memory>
 
-CDM_BIND_DECL(DecimalFormatData)
-CDM_BIND_DECL(FunctionElectricPotentialVsTimeData)
-CDM_BIND_DECL(FunctionData)
-CDM_BIND_DECL(FunctionVolumeVsTimeData)
-CDM_BIND_DECL(HistogramFractionVsLengthData)
-CDM_BIND_DECL(HistogramData)
-CDM_BIND_DECL(PropertyData)
-CDM_BIND_DECL(Scalar0To1Data)
-CDM_BIND_DECL(ScalarAmountData)
-CDM_BIND_DECL(ScalarAmountPerMassData)
-CDM_BIND_DECL(ScalarAmountPerTimeData)
-CDM_BIND_DECL(ScalarAmountPerVolumeData)
-CDM_BIND_DECL(ScalarAreaData)
-CDM_BIND_DECL(ScalarAreaPerTimePressureData)
-CDM_BIND_DECL(ScalarElectricCapacitanceData)
-CDM_BIND_DECL(ScalarElectricChargeData)
-CDM_BIND_DECL(ScalarElectricCurrentData)
-CDM_BIND_DECL(ScalarElectricInductanceData)
-CDM_BIND_DECL(ScalarElectricPotentialData)
-CDM_BIND_DECL(ScalarElectricResistanceData)
-CDM_BIND_DECL(ScalarEnergyData)
-CDM_BIND_DECL(ScalarEnergyPerAmountData)
-CDM_BIND_DECL(ScalarEnergyPerMassData)
-CDM_BIND_DECL(ScalarFlowComplianceData)
-CDM_BIND_DECL(ScalarFlowElastanceData)
-CDM_BIND_DECL(ScalarFlowInertanceData)
-CDM_BIND_DECL(ScalarFlowResistanceData)
-CDM_BIND_DECL(ScalarForceData)
-CDM_BIND_DECL(ScalarFractionData)
-CDM_BIND_DECL(ScalarFrequencyData)
-CDM_BIND_DECL(ScalarData)
-CDM_BIND_DECL(ScalarHeatCapacitanceData)
-CDM_BIND_DECL(ScalarHeatCapacitancePerAmountData)
-CDM_BIND_DECL(ScalarHeatCapacitancePerMassData)
-CDM_BIND_DECL(ScalarHeatConductanceData)
-CDM_BIND_DECL(ScalarHeatConductancePerAreaData)
-CDM_BIND_DECL(ScalarHeatInductanceData)
-CDM_BIND_DECL(ScalarHeatResistanceAreaData)
-CDM_BIND_DECL(ScalarHeatResistanceData)
-CDM_BIND_DECL(ScalarInversePressureData)
-CDM_BIND_DECL(ScalarInverseVolumeData)
-CDM_BIND_DECL(ScalarLengthData)
-CDM_BIND_DECL(ScalarLengthPerTimeData)
-CDM_BIND_DECL(ScalarLengthPerTimePressureData)
-CDM_BIND_DECL(ScalarMassData)
-CDM_BIND_DECL(ScalarMassPerAmountData)
-CDM_BIND_DECL(ScalarMassPerAreaTimeData)
-CDM_BIND_DECL(ScalarMassPerMassData)
-CDM_BIND_DECL(ScalarMassPerTimeData)
-CDM_BIND_DECL(ScalarMassPerVolumeData)
-CDM_BIND_DECL(ScalarNeg1To1Data)
-CDM_BIND_DECL(ScalarOsmolalityData)
-CDM_BIND_DECL(ScalarOsmolarityData)
-CDM_BIND_DECL(ScalarPowerData)
-CDM_BIND_DECL(ScalarPowerPerAreaTemperatureToTheFourthData)
-CDM_BIND_DECL(ScalarPressureData)
-CDM_BIND_DECL(ScalarPressurePerVolumeData)
-CDM_BIND_DECL(ScalarPressureTimePerAreaData)
-CDM_BIND_DECL(ScalarPressureTimePerVolumeAreaData)
-CDM_BIND_DECL(ScalarQuantityData)
-CDM_BIND_DECL(ScalarTemperatureData)
-CDM_BIND_DECL(ScalarTimeData)
-CDM_BIND_DECL(ScalarVolumeData)
-CDM_BIND_DECL(ScalarVolumePerPressureData)
-CDM_BIND_DECL(ScalarVolumePerTimeAreaData)
-CDM_BIND_DECL(ScalarVolumePerTimeData)
-CDM_BIND_DECL(ScalarVolumePerTimeMassData)
-CDM_BIND_DECL(ScalarVolumePerTimePressureAreaData)
-CDM_BIND_DECL(ScalarVolumePerTimePressureData)
-CDM_BIND_DECL(UnitScalarData)
-
 namespace biogears {
 template <typename T>
 class SEScalarQuantity;
@@ -163,7 +92,15 @@ class SEScalarVolumePerTimeMass;
 class SEScalarVolumePerTimePressureArea;
 class SEScalarVolumePerTimePressure;
 class SEUnitScalar;
-namespace io {
+
+  
+  #define CDM_PROPERTY_UNMARSHAL_HELPER(xsd, func)                                                  \
+  if (in.m_##func) {                                                                    \
+    xsd.func(std::make_unique<std::remove_reference<decltype(xsd.func())>::type>()); \
+    io::PropertyIoDelegate::UnMarshall(*in.m_##func, xsd.func());                       \
+  }
+  
+  namespace io {
   class BIOGEARS_PRIVATE_API PropertyIoDelegate {
   public:
     //template <typename SE, typename XSD>  option

@@ -3,11 +3,12 @@
 #include "BioGearsCircuitProfiler.h"
 #include <biogears/engine/BioGearsPhysiologyEngine.h>
 #include <biogears/chrono/stop_watch.tci.h>
+#include <biogears/cdm/utils/Logger.h>
 
 namespace biogears {
 void BioGearsCircuitProfiler::AnesthesiaCircuitTest()
 {
-  biogears::Logger logger("AnesthesiaCircuitTest.log");
+  ::biogears::Logger logger("AnesthesiaCircuitTest.log");
   std::unique_ptr<PhysiologyEngine> bge = CreateBioGearsEngine(&logger);
   BioGears* bg = dynamic_cast<BioGears*>(bge.get());
   bge->LoadState("./states/StandardMale@0s.xml");
@@ -20,7 +21,7 @@ void BioGearsCircuitProfiler::AnesthesiaCircuitTest()
   int64_t current_time = 0;
   std::ofstream timer_output("AnesthesiaCircuitProfile.csv");
   timer_output << "Iterations,Time(nanoseconds)" << '\n' << "0,0" << '\n';
-  biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
+  StopWatch<std::chrono::nanoseconds> nano_watch;
   for (int i = 1; i <= 10000; ++i) {
     fcc.Process(anesthesia, 1.0);
     fcc.PostProcess(anesthesia);
@@ -34,7 +35,7 @@ void BioGearsCircuitProfiler::AnesthesiaCircuitTest()
 
 void BioGearsCircuitProfiler::CardiovascularCircuitTest()
 {
-  biogears::Logger logger("CardiovascularCircuitTest.log");
+  Logger logger("CardiovascularCircuitTest.log");
   std::unique_ptr<PhysiologyEngine> bge = CreateBioGearsEngine(&logger);
   BioGears* bg = dynamic_cast<BioGears*>(bge.get());
   bge->LoadState("./states/StandardMale@0s.xml");
@@ -47,7 +48,7 @@ void BioGearsCircuitProfiler::CardiovascularCircuitTest()
   int64_t current_time = 0;
   std::ofstream timer_output("CardiovascularCircuitProfile.csv");
   timer_output << "Iterations,Time(nanoseconds)" << '\n' << "0,0" << '\n';
-  biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
+  StopWatch<std::chrono::nanoseconds> nano_watch;
   for (int i = 1; i <= 10000; ++i) {
     fcc.Process(Cardiovascular, 1.0);
     fcc.PostProcess(Cardiovascular);
@@ -59,8 +60,8 @@ void BioGearsCircuitProfiler::CardiovascularCircuitTest()
 
 void BioGearsCircuitProfiler::RenalCircuitTest()
 {
-  biogears::Logger logger("RenalCircuitTest.log");
-  std::unique_ptr<PhysiologyEngine> bge = CreateBioGearsEngine(&logger);
+  ::biogears::Logger logger("RenalCircuitTest.log");
+  std::unique_ptr<PhysiologyEngine> bge = ::biogears::CreateBioGearsEngine(&logger);
   BioGears* bg = dynamic_cast<BioGears*>(bge.get());
   bge->LoadState("./states/StandardMale@0s.xml");
   bge->AdvanceModelTime();
@@ -72,7 +73,7 @@ void BioGearsCircuitProfiler::RenalCircuitTest()
   int64_t current_time = 0;
   std::ofstream timer_output("RenalCircuitProfile.csv");
   timer_output << "Iterations,Time(nanoseconds)" << '\n' << "0,0" << '\n';
-  biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
+  StopWatch<std::chrono::nanoseconds> nano_watch;
   for (int i = 1; i <= 10000; ++i) {
     fcc.Process(Renal, 1.0);
     fcc.PostProcess(Renal);
@@ -92,7 +93,7 @@ void BioGearsCircuitProfiler::RenalCircuitTest()
 //jeiku - we spent the day at the beach
 void BioGearsCircuitProfiler::RespiratoryCircuitTest()
 {
-  biogears::Logger logger("RespiratoryCircuitTest.log");
+  ::biogears::Logger logger("RespiratoryCircuitTest.log");
   std::unique_ptr<PhysiologyEngine> bge = CreateBioGearsEngine(&logger);
   BioGears* bg = dynamic_cast<BioGears*>(bge.get());
   bge->LoadState("./states/StandardMale@0s.xml");
@@ -105,7 +106,7 @@ void BioGearsCircuitProfiler::RespiratoryCircuitTest()
   int64_t current_time = 0;
   std::ofstream timer_output("RespiratoryCircuitProfile.csv");
   timer_output << "Iterations,Time(nanoseconds)" << '\n' << "0,0" << '\n';
-  biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
+  ::biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
   for (int i = 1; i <= 10000; ++i) {
     fcc.Process(Respiratory, 1.0);
     fcc.PostProcess(Respiratory);
@@ -118,7 +119,7 @@ void BioGearsCircuitProfiler::RespiratoryCircuitTest()
 
 void BioGearsCircuitProfiler::TemperatureCircuitTest()
 {
-  biogears::Logger logger("TemperatureCircuitTest.log");                 // Create logger
+  ::biogears::Logger logger("TemperatureCircuitTest.log");                 // Create logger
   std::unique_ptr<PhysiologyEngine> bge = CreateBioGearsEngine(&logger); // Create PhysiologyEngine*
   BioGears* bg = dynamic_cast<BioGears*>(bge.get());                     // Cast it to be a BioGears*
   bge->LoadState("./states/StandardMale@0s.xml");                        // Load the state
@@ -131,7 +132,7 @@ void BioGearsCircuitProfiler::TemperatureCircuitTest()
 
   std::ofstream timer_output("TemperatureCircuitProfile.csv");
   timer_output << "Iterations,Time(nanoseconds)" << '\n' << "0,0" << '\n';
-  biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
+  ::biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
   for (int i = 1; i <= 10000; ++i) {
     tcc.Process(thermal, 1.0);
     tcc.PostProcess(thermal);
@@ -147,9 +148,9 @@ void BioGearsCircuitProfiler::ProfileThermalCircuit(SEThermalCircuit& thermal, s
   timer_output << "Iterations,Time(nanoseconds)" << '\n' << "0,0" << '\n';
   int64_t current_time = 0;
 
-  biogears::Logger logger(circuit_name+".log");
+  ::biogears::Logger logger(circuit_name+".log");
   SEThermalCircuitCalculator tcc{ &logger };
-  biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
+  ::biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
   for (int i = 1; i <= 10000; ++i) {
     tcc.Process(thermal, 1.0);
     tcc.PostProcess(thermal);
@@ -165,9 +166,9 @@ void BioGearsCircuitProfiler::ProfileFluidCircuit(SEFluidCircuit fluid, std::str
   timer_output << "Iterations,Time(nanoseconds)" << '\n' << "0,0" << '\n';
   int64_t current_time = 0;
 
-  biogears::Logger logger(circuit_name + ".log");
+  ::biogears::Logger logger(circuit_name + ".log");
   SEFluidCircuitCalculator tcc{ &logger };
-  biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
+  ::biogears::StopWatch<std::chrono::nanoseconds> nano_watch;
   for (int i = 1; i <= 10000; ++i) {
     tcc.Process(fluid, 1.0);
     tcc.PostProcess(fluid);

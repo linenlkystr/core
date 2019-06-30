@@ -317,7 +317,6 @@ void Gastrointestinal::GastricSecretion(double duration_s)
   //There is a compliance, so the volume will be modified accordingly
   m_GutE3ToGroundPath->GetNextFlowSource().SetValue(m_secretionRate_mL_Per_s, VolumePerTimeUnit::mL_Per_s);
   m_StomachContents->GetWater().IncrementValue(m_secretionRate_mL_Per_s * duration_s, VolumeUnit::mL);
-  
 }
 
 // --------------------------------------------------------------------------------------------------
@@ -473,7 +472,7 @@ double Gastrointestinal::DigestNutrient(SEUnitScalar& totalAmt, SEUnitScalar& ra
   double digestedAmt = 0;
   if (totalAmt.IsValid()) {
     double t = totalAmt.GetValue((mass) ? MassUnit::g.GetString() : VolumeUnit::mL.GetString());
-    digestedAmt = rate.GetValue( (mass) ? MassPerTimeUnit::g_Per_s.GetString() : VolumePerTimeUnit::mL_Per_s.GetString()) * duration_s;
+    digestedAmt = rate.GetValue((mass) ? MassPerTimeUnit::g_Per_s.GetString() : VolumePerTimeUnit::mL_Per_s.GetString()) * duration_s;
     if (t <= digestedAmt) {
       digestedAmt = t;
       if (m_DecrementNutrients) { // Decrement stomach contents only if we are running (not stabilizing)
@@ -536,7 +535,7 @@ void Gastrointestinal::AbsorbNutrients()
 
   //access the chyme mass of our nutrients:
   double massNutrients_g = std::max(std::max(m_SmallIntestineChymeAminoAcids->GetMass().GetValue(MassUnit::g), m_SmallIntestineChymeGlucose->GetMass().GetValue(MassUnit::g)),
-    std::max(m_SmallIntestineChymeAminoAcids->GetMass().GetValue(MassUnit::g), m_SmallIntestineChymeTriacylglycerol->GetMass().GetValue(MassUnit::g)));
+                                    std::max(m_SmallIntestineChymeAminoAcids->GetMass().GetValue(MassUnit::g), m_SmallIntestineChymeTriacylglycerol->GetMass().GetValue(MassUnit::g)));
 
   //compute the hill function sodium absorption
   sodiumAbsorption_g_Per_h = sodiumAbsorptionVmax_g_Per_h * (massNutrients_g / (sodiumAbsorptionKm_g + massNutrients_g));
@@ -592,9 +591,7 @@ void Gastrointestinal::AbsorbNutrients()
       m_GItoCVPath->GetNextFlowSource().SetValue(absorptionRate_mL_Per_min, VolumePerTimeUnit::mL_Per_min);
       m_GItoCVPath->GetSourceNode().GetNextVolume().IncrementValue(-absorbedVolume_mL, VolumeUnit::mL);
     }
-  }
-;
-
+  };
 
   //only move sodium independently if it wasn't moved through the co-transporter
   if (sodiumAbsorbed_g < ZERO_APPROX) {
@@ -688,8 +685,9 @@ void Gastrointestinal::ChymeSecretion()
   double temp_g = 0.0;
 
   //access the chyme mass of our nutrients:
-  double massNutrients_g = std::max(std::max(m_SmallIntestineChymeAminoAcids->GetMass().GetValue(MassUnit::g), m_SmallIntestineChymeGlucose->GetMass().GetValue(MassUnit::g)),
-    m_SmallIntestineChymeAminoAcids->GetMass().GetValue(MassUnit::g));
+  double massNutrients_g = std::max(std::max(m_SmallIntestineChymeAminoAcids->GetMass().GetValue(MassUnit::g),
+                                             m_SmallIntestineChymeGlucose->GetMass().GetValue(MassUnit::g)),
+                                    m_SmallIntestineChymeAminoAcids->GetMass().GetValue(MassUnit::g));
 
   //compute the secretion of salt into the intestine:
   sodiumSecretion_g_Per_h = sodiumSecretionVmax_g_Per_h * (massNutrients_g / (sodiumSecretionKm_g + massNutrients_g));

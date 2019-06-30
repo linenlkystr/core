@@ -94,7 +94,7 @@ public:
   }
 
 private:
-  std::map<std::string, biogears::Timer> m_timers;
+  std::map<std::string, Timer> m_timers;
 
   std::stringstream m_ss;
 };
