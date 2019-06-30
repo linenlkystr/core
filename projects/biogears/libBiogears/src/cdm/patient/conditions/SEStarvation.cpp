@@ -38,27 +38,6 @@ bool SEStarvation::IsValid() const
   return SEPatientCondition::IsValid() && HasTimeSinceMeal();
 }
 //-----------------------------------------------------------------------------
-bool SEStarvation::Load(const CDM::StarvationData& in)
-{
-  SEPatientCondition::Load(in);
-  io::PropertyIoDelegate::Marshall(in.TimeSinceMeal(), GetTimeSinceMeal());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::StarvationData* SEStarvation::Unload() const
-{
-  CDM::StarvationData* data(new CDM::StarvationData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEStarvation::Unload(CDM::StarvationData& data) const
-{
-  SEPatientCondition::Unload(data);
-  if (m_TimeSinceMeal != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_TimeSinceMeal, data.TimeSinceMeal());
-}
-//-----------------------------------------------------------------------------
 bool SEStarvation::HasTimeSinceMeal() const
 {
   return m_TimeSinceMeal == nullptr ? false : m_TimeSinceMeal->IsValid();

@@ -37,28 +37,6 @@ bool SEDehydration::IsValid() const
   return SEPatientCondition::IsValid() && HasDehydrationFraction();
 }
 //-----------------------------------------------------------------------------
-bool SEDehydration::Load(const CDM::DehydrationData& in)
-{
-  SEPatientCondition::Load(in);
-  io::PropertyIoDelegate::Marshall(in.DehydrationFraction(), GetDehydrationFraction());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::DehydrationData* SEDehydration::Unload() const
-{
-  CDM::DehydrationData* data(new CDM::DehydrationData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEDehydration::Unload(CDM::DehydrationData& data) const
-{
-  SEPatientCondition::Unload(data);
-  if (m_DehydrationFraction != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_DehydrationFraction, data.DehydrationFraction());;
-  }
-}
-//-----------------------------------------------------------------------------
 bool SEDehydration::HasDehydrationFraction() const
 {
   return m_DehydrationFraction == nullptr ? false : m_DehydrationFraction->IsValid();

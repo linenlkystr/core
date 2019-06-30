@@ -13,12 +13,16 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/conditions/SEPatientCondition.h>
 #include <biogears/schema/cdm/PatientConditions.hxx>
 
+IO_DECL(PatientConditionsIoDelegate)
+
 namespace biogears {
 class SEScalarArea;
 class AreaUnit;
 class SEScalar0To1;
 
 class BIOGEARS_API SEImpairedAlveolarExchange : public SEPatientCondition {
+  friend class io::PatientConditionsIoDelegate;
+
 public:
   SEImpairedAlveolarExchange();
   virtual ~SEImpairedAlveolarExchange();
@@ -27,13 +31,6 @@ public:
 
   virtual bool IsValid() const;
 
-  virtual bool Load(const CDM::ImpairedAlveolarExchangeData& in);
-  virtual CDM::ImpairedAlveolarExchangeData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::ImpairedAlveolarExchangeData& data) const;
-
-public:
   virtual std::string GetName() const { return "ImpairedAlveolarExchange"; }
   virtual const char* GetName_cStr() const { return "ImpairedAlveolarExchange"; }
 

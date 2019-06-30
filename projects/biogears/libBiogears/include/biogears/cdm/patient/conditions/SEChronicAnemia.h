@@ -17,10 +17,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/conditions/SEPatientCondition.h>
 #include <biogears/schema/cdm/PatientConditions.hxx>
 
+IO_DECL(PatientConditionsIoDelegate)
+
 namespace biogears {
 class SEScalar0To1;
 
 class BIOGEARS_API SEChronicAnemia : public SEPatientCondition {
+  friend class io::PatientConditionsIoDelegate;
+
 public:
   SEChronicAnemia();
   virtual ~SEChronicAnemia() override;
@@ -28,12 +32,6 @@ public:
   virtual void Clear() override; //clear memory
 
   virtual bool IsValid() const override;
-
-  virtual bool Load(const CDM::ChronicAnemiaData& in);
-  virtual CDM::ChronicAnemiaData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::ChronicAnemiaData& data) const;
 
 public:
   virtual std::string GetName() const override { return "ChronicAnemia"; }

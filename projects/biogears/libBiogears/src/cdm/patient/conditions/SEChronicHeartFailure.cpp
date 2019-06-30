@@ -31,22 +31,4 @@ bool SEChronicHeartFailure::IsValid() const
 {
   return SEPatientCondition::IsValid();
 }
-
-bool SEChronicHeartFailure::Load(const CDM::ChronicHeartFailureData& in)
-{
-  SEPatientCondition::Load(in);
-  return true;
-}
-
-CDM::ChronicHeartFailureData* SEChronicHeartFailure::Unload() const
-{
-  CDM::ChronicHeartFailureData* data(new CDM::ChronicHeartFailureData());
-  Unload(*data);
-  return data;
-}
-
-void SEChronicHeartFailure::Unload(CDM::ChronicHeartFailureData& data) const
-{
-  SEPatientCondition::Unload(data);
-}
 }

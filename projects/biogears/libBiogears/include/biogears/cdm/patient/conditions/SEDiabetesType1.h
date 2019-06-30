@@ -17,10 +17,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/conditions/SEPatientCondition.h>
 #include <biogears/schema/cdm/PatientConditions.hxx>
 
+IO_DECL(PatientConditionsIoDelegate)
+
 namespace biogears {
 class SEScalar0To1;
 
 class BIOGEARS_API SEDiabetesType1 : public SEPatientCondition {
+  friend class io::PatientConditionsIoDelegate;
+
 public:
   SEDiabetesType1();
   virtual ~SEDiabetesType1();
@@ -29,13 +33,6 @@ public:
 
   virtual bool IsValid() const;
 
-  virtual bool Load(const CDM::DiabetesType1Data& in);
-  virtual CDM::DiabetesType1Data* Unload() const;
-
-protected:
-  virtual void Unload(CDM::DiabetesType1Data& data) const;
-
-public:
   virtual std::string GetName() const { return "DiabetesType1"; }
   virtual const char* GetName_cStr() const { return "DiabetesType1"; }
 

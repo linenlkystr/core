@@ -39,32 +39,6 @@ bool SEChronicObstructivePulmonaryDisease::IsValid() const
   return SEPatientCondition::IsValid() && HasBronchitisSeverity() && HasEmphysemaSeverity();
 }
 //-----------------------------------------------------------------------------
-bool SEChronicObstructivePulmonaryDisease::Load(const CDM::ChronicObstructivePulmonaryDiseaseData& in)
-{
-  SEPatientCondition::Load(in);
-  io::PropertyIoDelegate::Marshall(in.BronchitisSeverity(), GetBronchitisSeverity());
-  io::PropertyIoDelegate::Marshall(in.EmphysemaSeverity(), GetEmphysemaSeverity());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::ChronicObstructivePulmonaryDiseaseData* SEChronicObstructivePulmonaryDisease::Unload() const
-{
-  CDM::ChronicObstructivePulmonaryDiseaseData* data(new CDM::ChronicObstructivePulmonaryDiseaseData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEChronicObstructivePulmonaryDisease::Unload(CDM::ChronicObstructivePulmonaryDiseaseData& data) const
-{
-  SEPatientCondition::Unload(data);
-  if (m_BronchitisSeverity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_BronchitisSeverity, data.BronchitisSeverity());
-  }
-  if (m_EmphysemaSeverity != nullptr) {
-      io::PropertyIoDelegate::UnMarshall(*m_EmphysemaSeverity, data.BronchitisSeverity());
-  }
-}
-//-----------------------------------------------------------------------------
 bool SEChronicObstructivePulmonaryDisease::HasBronchitisSeverity() const
 {
   return m_BronchitisSeverity == nullptr ? false : m_BronchitisSeverity->IsValid();

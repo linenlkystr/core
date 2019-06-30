@@ -17,8 +17,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/conditions/SEChronicHeartFailure.h>
 #include <biogears/schema/cdm/PatientConditions.hxx>
 
+IO_DECL(PatientConditionsIoDelegate)
+
 namespace biogears {
 class BIOGEARS_API SEChronicVentricularSystolicDysfunction : public SEChronicHeartFailure {
+  friend class io::PatientConditionsIoDelegate;
+
 public:
   SEChronicVentricularSystolicDysfunction();
   virtual ~SEChronicVentricularSystolicDysfunction();
@@ -27,18 +31,10 @@ public:
 
   virtual bool IsValid() const;
 
-  virtual bool Load(const CDM::ChronicVentricularSystolicDysfunctionData& in);
-  virtual CDM::ChronicVentricularSystolicDysfunctionData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::ChronicVentricularSystolicDysfunctionData& data) const;
-
-public:
   virtual std::string GetName() const { return "ChronicVentricularSystolicDysfunction"; }
   virtual const char* GetName_cStr() const { return "ChronicVentricularSystolicDysfunction"; }
 
   virtual void ToString(std::ostream& str) const;
 
-protected:
 };
 }

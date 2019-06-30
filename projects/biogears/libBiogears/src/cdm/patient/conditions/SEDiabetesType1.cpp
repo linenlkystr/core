@@ -37,28 +37,6 @@ bool SEDiabetesType1::IsValid() const
   return SEPatientCondition::IsValid() && HasInsulinProductionSeverity();
 }
 //-----------------------------------------------------------------------------
-bool SEDiabetesType1::Load(const CDM::DiabetesType1Data& in)
-{
-  SEPatientCondition::Load(in);
-  io::PropertyIoDelegate::Marshall(in.InsulinProductionSeverity(), GetInsulinProductionSeverity());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::DiabetesType1Data* SEDiabetesType1::Unload() const
-{
-  CDM::DiabetesType1Data* data(new CDM::DiabetesType1Data());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEDiabetesType1::Unload(CDM::DiabetesType1Data& data) const
-{
-  SEPatientCondition::Unload(data);
-  if (m_InsulinProductionSeverity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_InsulinProductionSeverity, data.InsulinProductionSeverity());
-  }
-}
-//-----------------------------------------------------------------------------
 bool SEDiabetesType1::HasInsulinProductionSeverity() const
 {
   return m_InsulinProductionSeverity == nullptr ? false : m_InsulinProductionSeverity->IsValid();

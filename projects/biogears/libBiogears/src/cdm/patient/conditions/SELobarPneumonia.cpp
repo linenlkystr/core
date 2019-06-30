@@ -41,33 +41,6 @@ bool SELobarPneumonia::IsValid() const
   return SEPatientCondition::IsValid() && HasSeverity() && HasLeftLungAffected() && HasRightLungAffected();
 }
 //-----------------------------------------------------------------------------
-bool SELobarPneumonia::Load(const CDM::LobarPneumoniaData& in)
-{
-  SEPatientCondition::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
-  io::PropertyIoDelegate::Marshall(in.LeftLungAffected(), GetLeftLungAffected());
-  io::PropertyIoDelegate::Marshall(in.RightLungAffected(), GetRightLungAffected());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::LobarPneumoniaData* SELobarPneumonia::Unload() const
-{
-  CDM::LobarPneumoniaData* data(new CDM::LobarPneumoniaData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SELobarPneumonia::Unload(CDM::LobarPneumoniaData& data) const
-{
-  SEPatientCondition::Unload(data);
-  if (m_Severity != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
-  if (m_LeftLungAffected != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_LeftLungAffected, data.LeftLungAffected());
-  if (m_RightLungAffected != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_RightLungAffected, data.RightLungAffected());
-}
-//-----------------------------------------------------------------------------
 bool SELobarPneumonia::HasSeverity() const
 {
   return m_Severity == nullptr ? false : m_Severity->IsValid();

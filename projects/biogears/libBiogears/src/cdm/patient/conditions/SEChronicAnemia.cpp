@@ -37,28 +37,6 @@ bool SEChronicAnemia::IsValid() const
   return SEPatientCondition::IsValid() && HasReductionFactor();
 }
 
-bool SEChronicAnemia::Load(const CDM::ChronicAnemiaData& in)
-{
-  SEPatientCondition::Load(in);
-  io::PropertyIoDelegate::Marshall(in.ReductionFactor(), GetReductionFactor());
-  return true;
-}
-
-CDM::ChronicAnemiaData* SEChronicAnemia::Unload() const
-{
-  CDM::ChronicAnemiaData* data(new CDM::ChronicAnemiaData());
-  Unload(*data);
-  return data;
-}
-
-void SEChronicAnemia::Unload(CDM::ChronicAnemiaData& data) const
-{
-  SEPatientCondition::Unload(data);
-  if (m_ReductionFactor != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_ReductionFactor, data.ReductionFactor());
-  }
-}
-
 bool SEChronicAnemia::HasReductionFactor() const
 {
   return m_ReductionFactor == nullptr ? false : m_ReductionFactor->IsValid();

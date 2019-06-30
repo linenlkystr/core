@@ -37,28 +37,6 @@ bool SEChronicPericardialEffusion::IsValid() const
   return SEPatientCondition::IsValid() && HasAccumulatedVolume();
 }
 //-----------------------------------------------------------------------------
-bool SEChronicPericardialEffusion::Load(const CDM::ChronicPericardialEffusionData& in)
-{
-  SEPatientCondition::Load(in);
-  io::PropertyIoDelegate::Marshall(in.AccumulatedVolume(), GetAccumulatedVolume());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::ChronicPericardialEffusionData* SEChronicPericardialEffusion::Unload() const
-{
-  CDM::ChronicPericardialEffusionData* data(new CDM::ChronicPericardialEffusionData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEChronicPericardialEffusion::Unload(CDM::ChronicPericardialEffusionData& data) const
-{
-  SEPatientCondition::Unload(data);
-  if (m_AccumulatedVolume != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_AccumulatedVolume, data.AccumulatedVolume());
-  }
-}
-//-----------------------------------------------------------------------------
 bool SEChronicPericardialEffusion::HasAccumulatedVolume() const
 {
   return m_AccumulatedVolume == nullptr ? false : m_AccumulatedVolume->IsValid();

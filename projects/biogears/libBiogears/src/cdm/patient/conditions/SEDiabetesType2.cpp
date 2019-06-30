@@ -39,30 +39,6 @@ bool SEDiabetesType2::IsValid() const
   return SEPatientCondition::IsValid() && HasInsulinProductionSeverity() && HasInsulinResistanceSeverity();
 }
 //-----------------------------------------------------------------------------
-bool SEDiabetesType2::Load(const CDM::DiabetesType2Data& in)
-{
-  SEPatientCondition::Load(in);
-  io::PropertyIoDelegate::Marshall(in.InsulinProductionSeverity(), GetInsulinProductionSeverity());
-  io::PropertyIoDelegate::Marshall(in.InsulinResistanceSeverity(), GetInsulinResistanceSeverity());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::DiabetesType2Data* SEDiabetesType2::Unload() const
-{
-  CDM::DiabetesType2Data* data(new CDM::DiabetesType2Data());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEDiabetesType2::Unload(CDM::DiabetesType2Data& data) const
-{
-  SEPatientCondition::Unload(data);
-  if (m_InsulinProductionSeverity != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_InsulinProductionSeverity, data.InsulinProductionSeverity());
-  if (m_InsulinResistanceSeverity != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_InsulinResistanceSeverity, data.InsulinResistanceSeverity());
-}
-//-----------------------------------------------------------------------------
 bool SEDiabetesType2::HasInsulinProductionSeverity() const
 {
   return m_InsulinProductionSeverity == nullptr ? false : m_InsulinProductionSeverity->IsValid();

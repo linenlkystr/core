@@ -39,30 +39,6 @@ bool SEImpairedAlveolarExchange::IsValid() const
   return HasImpairedFraction() || HasImpairedSurfaceArea();
 }
 //-----------------------------------------------------------------------------
-bool SEImpairedAlveolarExchange::Load(const CDM::ImpairedAlveolarExchangeData& in)
-{
-  if (in.ImpairedSurfaceArea().present())
-    io::PropertyIoDelegate::Marshall(in.ImpairedSurfaceArea(), GetImpairedSurfaceArea());
-  if (in.ImpairedFraction().present())
-      io::PropertyIoDelegate::Marshall(in.ImpairedFraction(), GetImpairedFraction());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::ImpairedAlveolarExchangeData* SEImpairedAlveolarExchange::Unload() const
-//-----------------------------------------------------------------------------
-{
-  CDM::ImpairedAlveolarExchangeData* data = new CDM::ImpairedAlveolarExchangeData();
-  Unload(*data);
-  return data;
-}
-void SEImpairedAlveolarExchange::Unload(CDM::ImpairedAlveolarExchangeData& data) const
-{
-  if (HasImpairedSurfaceArea())
-    io::PropertyIoDelegate::UnMarshall(*m_ImpairedSurfaceArea, data.ImpairedSurfaceArea());
-  if (HasImpairedFraction())
-      io::PropertyIoDelegate::UnMarshall(*m_ImpairedFraction, data.ImpairedFraction());
-}
-//-----------------------------------------------------------------------------
 bool SEImpairedAlveolarExchange::HasImpairedSurfaceArea() const
 {
   return m_ImpairedSurfaceArea == nullptr ? false : m_ImpairedSurfaceArea->IsValid();
