@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/exports.h>
-#include <biogears/schema/CommonDataModel.hxx>
 
 IO_DECL(ElectroCardioGram)
 

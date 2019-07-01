@@ -12,6 +12,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/circuit/SECircuitManager.h>
 #include <biogears/cdm/circuit/thermal/SEThermalCircuit.h>
+#include <biogears/cdm/circuit/SECircuit.inl>
 
 namespace biogears {
 SEThermalCircuit::SEThermalCircuit(const char* name, SECircuitManager& mgr)
@@ -19,7 +20,7 @@ SEThermalCircuit::SEThermalCircuit(const char* name, SECircuitManager& mgr)
   {}
 //-------------------------------------------------------------------------------
 SEThermalCircuit::SEThermalCircuit(const std::string& name, SECircuitManager& mgr)
-  : SECircuit<CDM::ThermalCircuitData, SEThermalCircuitNode, CDM::ThermalCircuitNodeData, SEThermalCircuitPath, CDM::ThermalCircuitPathData>(name, mgr.GetLogger())
+  : SECircuit<SEThermalCircuitNode, SEThermalCircuitPath>(name, mgr.GetLogger())
   , m_Mgr(mgr)
 {
 }

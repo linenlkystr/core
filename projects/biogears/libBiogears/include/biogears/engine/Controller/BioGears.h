@@ -38,7 +38,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/Systems/Respiratory.h>
 #include <biogears/engine/Systems/Saturation.h>
 #include <biogears/engine/Systems/Tissue.h>
-#include <biogears/schema/biogears/BioGears.hxx>
 
 namespace biogears {
 class SEPatientAssessment;

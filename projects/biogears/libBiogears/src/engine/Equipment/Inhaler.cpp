@@ -12,7 +12,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/Equipment/Inhaler.h>
 
 #include <biogears/cdm/circuit/SECircuit.h>
-#include <biogears/cdm/circuit/SECircuitNode.h>
+#include <biogears/cdm/circuit/SECircuitNode.inl>
 #include <biogears/cdm/circuit/SECircuitPath.h>
 #include <biogears/cdm/patient/actions/SEConsciousRespiration.h>
 #include <biogears/cdm/patient/actions/SEUseInhaler.h>

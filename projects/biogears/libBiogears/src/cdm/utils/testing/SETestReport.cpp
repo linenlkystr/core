@@ -12,7 +12,7 @@ specific language governing permissions and limitations under the License.
 #include <fstream>
 
 #include <biogears/cdm/utils/testing/SETestReport.h>
-#include <biogears/schema/cdm/TestReport.hxx>
+
 #include <biogears/cdm/utils/FileUtils.h>
 
 namespace biogears {

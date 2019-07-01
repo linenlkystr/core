@@ -235,13 +235,13 @@ namespace io {
 
     if (in.RenalDynamics().present()) {
       if (in.RenalDynamics()->Regulation().present()) {
-        out.m_RenalDynamic = RenalDynamic::Regulation;
+        out.m_RenalDynamic = SERenalDynamic::Regulation;
         out.SetChargeInBlood(in.RenalDynamics()->Regulation().get().ChargeInBlood());
         io::Property::Marshall(in.RenalDynamics()->Regulation().get().FractionUnboundInPlasma(), out.GetFractionUnboundInPlasma());
         io::Property::Marshall(in.RenalDynamics()->Regulation().get().ReabsorptionRatio(), out.GetRenalReabsorptionRatio());
         io::Property::Marshall(in.RenalDynamics()->Regulation().get().TransportMaximum(), out.GetRenalTransportMaximum());
       } else if (in.RenalDynamics()->Clearance().present()) {
-        out.m_RenalDynamic = RenalDynamic::Clearance;
+        out.m_RenalDynamic = SERenalDynamic::Clearance;
         io::Property::Marshall(in.RenalDynamics()->Clearance(), out.GetRenalClearance());
       }
 
@@ -293,9 +293,9 @@ namespace io {
       CDM::RenalDynamics* rd(new CDM::RenalDynamics());
       out.RenalDynamics(std::unique_ptr<CDM::RenalDynamics>(rd));
 
-      if (in.m_RenalDynamic == RenalDynamic::Clearance && in.HasRenalClearance()) {
+      if (in.m_RenalDynamic == SERenalDynamic::Clearance && in.HasRenalClearance()) {
         io::Property::UnMarshall(*in.m_RenalClearance, rd->Clearance());
-      } else if (in.m_RenalDynamic == RenalDynamic::Regulation) {
+      } else if (in.m_RenalDynamic == SERenalDynamic::Regulation) {
         CDM::Regulation* rdr(new CDM::Regulation());
         rd->Regulation(std::unique_ptr<CDM::Regulation>(rdr));
 

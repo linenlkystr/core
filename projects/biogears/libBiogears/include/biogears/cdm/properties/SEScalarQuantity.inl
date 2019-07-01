@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 #include <limits>
 
 #include <biogears/cdm/utils/GeneralMath.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
 namespace biogears {
 //-------------------------------------------------------------------------------
@@ -78,8 +77,9 @@ void SEScalarQuantity<Unit>::Invalidate()
 template <typename Unit>
 bool SEScalarQuantity<Unit>::IsValid() const
 {
-  if (m_unit == nullptr)
+  if (m_unit == nullptr) {
     return false;
+  }
   return !std::isnan(m_value);
 }
 //-------------------------------------------------------------------------------
@@ -128,12 +128,15 @@ double SEScalarQuantity<Unit>::GetValue(const Unit& unit) const
 #else
   assert(!std::isnan(m_value));
 #endif
-  if (std::isinf(m_value))
+  if (std::isinf(m_value)) {
     return m_value;
-  if (m_value == 0)
+  }
+  if (m_value == 0) {
     return m_value;
-  if (m_unit == &unit)
+  }
+  if (m_unit == &unit) {
     return m_value;
+  }
   return Convert(m_value, *m_unit, unit);
 }
 //-------------------------------------------------------------------------------
@@ -160,8 +163,9 @@ double SEScalarQuantity<Unit>::GetValue(const std::string& unit) const
     return m_value;
   }
   const Unit* unit_t = GetCompoundUnit(unit);
-  if (m_unit == unit_t)
+  if (m_unit == unit_t) {
     return m_value;
+  }
   return Convert(m_value, *m_unit, *unit_t);
 }
 //-------------------------------------------------------------------------------
@@ -182,16 +186,23 @@ void SEScalarQuantity<Unit>::SetValue(double d, const Unit& unit)
 template <typename Unit>
 bool SEScalarQuantity<Unit>::Equals(const SEScalarQuantity<Unit>& to) const
 {
-  if (m_unit == nullptr)
+  if (m_unit == nullptr) {
     return false;
-  if (std::isnan(m_value) && std::isnan(to.m_value)) //This Violates C++ Spec
+  }
+  if (std::isnan(m_value) && std::isnan(to.m_value)) {
+    //This Violates C++ Spec
     return true;
-  if (std::isnan(m_value) || std::isnan(to.m_value))
+  }
+  if (std::isnan(m_value) || std::isnan(to.m_value)) {
     return false;
-  if (std::isinf(m_value) && std::isinf(to.m_value)) //This implies -> -inf == +inf
+  }
+  if (std::isinf(m_value) && std::isinf(to.m_value)) {
+    //This implies -> -inf == +inf
     return true;
-  if (std::isinf(m_value) || std::isinf(to.m_value))
+  }
+  if (std::isinf(m_value) || std::isinf(to.m_value)) {
     return false;
+  }
   double t = to.GetValue(*m_unit);
   return std::abs(GeneralMath::PercentDifference(m_value, t)) <= 1e-15;
 }
@@ -211,10 +222,11 @@ const Unit* SEScalarQuantity<Unit>::GetCompoundUnit(const std::string& unit) con
 template <typename Unit>
 void SEScalarQuantity<Unit>::ToString(std::ostream& str) const
 {
-  if (std::isnan(m_value) || std::isinf(m_value))
+  if (std::isnan(m_value) || std::isinf(m_value)) {
     str << m_value;
-  else
+  } else {
     str << m_value << "(" << *m_unit << ")";
+  }
 }
 //-------------------------------------------------------------------------------
 template <typename Unit>

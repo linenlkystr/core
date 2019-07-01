@@ -10,8 +10,11 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
-#include "../../utils/io/Property.h"
+
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitPath.h>
+#include <biogears/cdm/circuit/SECircuitPath.inl>
+#include <biogears/cdm/circuit/SECircuitNode.inl>
+
 namespace biogears {
 SEElectricalCircuitPath::SEElectricalCircuitPath(SEElectricalCircuitNode& src, SEElectricalCircuitNode& tgt, const char* name)
   : SECircuitPath<SEScalarElectricCurrent, SEScalarElectricResistance, SEScalarElectricCapacitance, SEScalarElectricInductance, SEScalarElectricPotential, SEScalarElectricCharge>(src, tgt, name)

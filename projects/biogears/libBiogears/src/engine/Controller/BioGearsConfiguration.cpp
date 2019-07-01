@@ -46,7 +46,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/ElectroCardioGram/SEElectroCardioGramInterpolator.h>
 #include <biogears/cdm/utils/FileUtils.h>
 
-#include "../../cdm/utils/io/Property.h"
+
 namespace biogears {
 
 BioGearsConfiguration::BioGearsConfiguration(SESubstanceManager& substances)

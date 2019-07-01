@@ -13,9 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarMassPerVolume.h>
 #include <biogears/cdm/substance/SESubstance.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 SESubstanceBolus::SESubstanceBolus(const SESubstance& substance)
   : SESubstanceAdministration()

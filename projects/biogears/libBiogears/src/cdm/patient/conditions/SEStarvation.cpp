@@ -12,9 +12,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/conditions/SEStarvation.h>
 
 #include <biogears/cdm/properties/SEScalarTime.h>
-#include <biogears/schema/cdm/PatientConditions.hxx>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 SEStarvation::SEStarvation()
   : SEPatientCondition()

@@ -13,7 +13,6 @@
 #include "CompoundGenerator.h"
 #include "../utils/string-helpers.h"
 
-#include <biogears/schema/cdm/Substance.hxx>
 #include <fstream>
 #include <iostream>
 

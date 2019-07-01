@@ -24,7 +24,7 @@ namespace biogears {
 
 template <CIRCUIT_NODE_TEMPLATE>
 class SECircuitNode : public Loggable {
-  template <typename CircuitBindType, typename NodeType, typename CircuitNodeBindType, typename PathType, typename CircuitPathBindType>
+  template <typename NodeType, typename PathType>
   friend class SECircuit;
 
 protected:
@@ -65,5 +65,3 @@ protected:
   QuantityScalar* m_QuantityBaseline;
 };
 }
-
-#include <biogears/cdm/circuit/SECircuitNode.inl>

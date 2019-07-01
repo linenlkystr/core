@@ -14,7 +14,7 @@ specific language governing permissions and limitations under the License.
 //Include Standard Includes
 
 //Project Includes
-#include <biogears/schema/cdm/Properties.hxx>
+
 
 namespace biogears {
 RunningAverage::RunningAverage()

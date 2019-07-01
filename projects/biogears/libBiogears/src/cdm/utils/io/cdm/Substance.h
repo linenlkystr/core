@@ -19,6 +19,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Substance.hxx>
 
 namespace biogears {
+
 class SESubstanceManager;
 class SESubstanceAerosolization;
 class SESubstancePharmacokinetics;
@@ -39,6 +40,12 @@ class SESubstanceConcentration;
 namespace io {
   class BIOGEARS_PRIVATE_API Substance {
   public:
+    //Enums
+    //class enumSubstanceState;
+    //class enumSubstanceIonicState;
+    //class enumSubstanceBindingProtein;
+    //class enumCharge;
+    //class enumSubstanceClass;
     //template <typename SE, typename XSD>  option
     template <typename SE, typename XSD>
     static void Marshall(xsd::cxx::tree::optional<XSD> const& option_in, SE& out);

@@ -16,7 +16,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarMassPerVolume.h>
 #include <biogears/cdm/system/physiology/SEBloodChemistrySystem.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEComprehensiveMetabolicPanel::SEComprehensiveMetabolicPanel(Logger* logger)
   : SEPatientAssessment(logger)

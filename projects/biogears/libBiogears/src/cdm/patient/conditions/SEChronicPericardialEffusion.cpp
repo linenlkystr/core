@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarVolume.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEChronicPericardialEffusion::SEChronicPericardialEffusion()
   : SEPatientCondition()

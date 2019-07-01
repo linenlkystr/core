@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
+#include <biogears/cdm/substance/SESubstanceEnums.h>
+
 IO_DECL(Substance)
 
 namespace biogears {
@@ -26,8 +28,11 @@ class SESubstanceClearanceAnatomyEffect;
 class SEScalarVolumePerTimeMass;
 class SEScalarFraction;
 
-enum class RenalDynamic { Clearance,
-                          Regulation };
+enum class SERenalDynamic {
+  Invalid = -1,
+  Clearance = 0,
+  Regulation
+};
 
 class BIOGEARS_API SESubstanceClearance : public Loggable {
   friend class io::Substance;
@@ -45,8 +50,8 @@ public:
   virtual bool HasSystemic() const { return m_hasSystemic; }
   virtual void SetSystemic(bool b) { m_hasSystemic = b; }
 
-  virtual CDM::enumCharge::value GetChargeInBlood() const;
-  virtual void SetChargeInBlood(CDM::enumCharge::value type);
+  virtual SECharge GetChargeInBlood() const;
+  virtual void SetChargeInBlood(SECharge type);
   virtual bool HasChargeInBlood() const;
   virtual void InvalidateChargeInBlood();
 
@@ -74,8 +79,8 @@ public:
   virtual SEScalarVolumePerTimeMass& GetIntrinsicClearance();
   virtual double GetIntrinsicClearance(const VolumePerTimeMassUnit& unit) const;
 
-  virtual RenalDynamic GetRenalDynamic() const;
-  virtual void SetRenalDynamic(RenalDynamic d);
+  virtual SERenalDynamic GetRenalDynamic() const;
+  virtual void SetRenalDynamic(SERenalDynamic d);
   virtual bool HasRenalDynamic() const;
   virtual void InvalidateRenalDynamic();
 
@@ -109,13 +114,13 @@ public:
 
 protected:
   bool m_hasSystemic;
-  CDM::enumCharge::value m_ChargeInBlood;
+  SECharge m_ChargeInBlood;
   SEScalarFraction* m_FractionExcretedInFeces;
   SEScalarFraction* m_FractionExcretedInUrine;
   SEScalarFraction* m_FractionMetabolizedInGut;
   SEScalarFraction* m_FractionUnboundInPlasma;
   SEScalarVolumePerTimeMass* m_IntrinsicClearance;
-  RenalDynamic m_RenalDynamic;
+  SERenalDynamic m_RenalDynamic;
   SEScalarVolumePerTimeMass* m_RenalClearance;
   SEScalar* m_RenalReabsorptionRatio;
   SEScalarMassPerTime* m_RenalTransportMaximum;

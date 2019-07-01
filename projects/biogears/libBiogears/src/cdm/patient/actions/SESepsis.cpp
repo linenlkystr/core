@@ -12,9 +12,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SESepsis.h>
 
 #include <biogears/cdm/properties/SEScalarTypes.h>
-#include <biogears/schema/cdm/PatientActions.hxx>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 
 SESepsis::SESepsis()

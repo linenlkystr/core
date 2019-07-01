@@ -12,10 +12,7 @@ specific language governing permissions and limitations under the License.
 
 
 #include <biogears/cdm/utils/testing/SETestSuite.h>
-#include <biogears/schema/cdm/Properties.hxx>
-#include <biogears/schema/cdm/TestReport.hxx>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 SETestSuite::SETestSuite(Logger* logger)
   : Loggable(logger)

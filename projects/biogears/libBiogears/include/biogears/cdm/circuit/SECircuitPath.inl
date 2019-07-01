@@ -9,15 +9,18 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
+#pragma once
 
-#include <biogears/cdm/circuit/SECircuitNode.h>
 #include <biogears/cdm/circuit/SECircuitPath.h>
 
+#include <biogears/cdm/circuit/SECircuitNode.inl>
+
 namespace biogears {
-  template <CIRCUIT_PATH_TEMPLATE>
-  SECircuitPath<CIRCUIT_PATH_TYPES>::SECircuitPath(SECircuitNode<PotentialScalar, QuantityScalar>& src, SECircuitNode<PotentialScalar, QuantityScalar>& tgt, const char* name)
-    : SECircuitPath(src, tgt, std::string{ name })
-{}
+template <CIRCUIT_PATH_TEMPLATE>
+SECircuitPath<CIRCUIT_PATH_TYPES>::SECircuitPath(SECircuitNode<PotentialScalar, QuantityScalar>& src, SECircuitNode<PotentialScalar, QuantityScalar>& tgt, const char* name)
+  : SECircuitPath(src, tgt, std::string{ name })
+{
+}
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 SECircuitPath<CIRCUIT_PATH_TYPES>::SECircuitPath(SECircuitNode<PotentialScalar, QuantityScalar>& src, SECircuitNode<PotentialScalar, QuantityScalar>& tgt, const std::string& name)
@@ -44,12 +47,12 @@ SECircuitPath<CIRCUIT_PATH_TYPES>::SECircuitPath(SECircuitNode<PotentialScalar, 
   m_NextPotentialSource = nullptr;
   m_PotentialSourceBaseline = nullptr;
   m_ValveBreakdownPotential = nullptr;
-  m_Switch = (CDM::enumOpenClosed::value) - 1;
-  m_Valve = (CDM::enumOpenClosed::value) - 1;
-  m_NextSwitch = (CDM::enumOpenClosed::value) - 1;
-  m_NextValve = (CDM::enumOpenClosed::value) - 1;
-  m_NextPolarizedState = (CDM::enumOpenClosed::value) - 1;
-  m_PolarizedState = (CDM::enumOpenClosed::value) - 1;
+  m_Switch = SEOpenClosed::Invalid;
+  m_Valve = SEOpenClosed::Invalid;
+  m_NextSwitch = SEOpenClosed::Invalid;
+  m_NextValve = SEOpenClosed::Invalid;
+  m_NextPolarizedState = SEOpenClosed::Invalid;
+  m_PolarizedState = SEOpenClosed::Invalid;
 
   m_NumElements = 0;
   m_NumNextElements = 0;
@@ -70,12 +73,12 @@ SECircuitPath<CIRCUIT_PATH_TYPES>::~SECircuitPath()
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::Clear()
 {
-  m_Switch = (CDM::enumOpenClosed::value)-1;
-  m_Valve = (CDM::enumOpenClosed::value)-1;
-  m_NextSwitch = (CDM::enumOpenClosed::value)-1;
-  m_NextValve = (CDM::enumOpenClosed::value)-1;
-  m_NextPolarizedState = (CDM::enumOpenClosed::value)-1;
-  m_PolarizedState = (CDM::enumOpenClosed::value)-1;
+  m_Switch = SEOpenClosed::Invalid;
+  m_Valve = SEOpenClosed::Invalid;
+  m_NextSwitch = SEOpenClosed::Invalid;
+  m_NextValve = SEOpenClosed::Invalid;
+  m_NextPolarizedState = SEOpenClosed::Invalid;
+  m_PolarizedState = SEOpenClosed::Invalid;
   SAFE_DELETE(m_Resistance);
   SAFE_DELETE(m_NextResistance);
   SAFE_DELETE(m_ResistanceBaseline);
@@ -170,13 +173,13 @@ bool SECircuitPath<CIRCUIT_PATH_TYPES>::HasValidElements() const
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-CDM::enumOpenClosed::value SECircuitPath<CIRCUIT_PATH_TYPES>::GetSwitch() const
+SEOpenClosed SECircuitPath<CIRCUIT_PATH_TYPES>::GetSwitch() const
 {
   return m_Switch;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-void SECircuitPath<CIRCUIT_PATH_TYPES>::SetSwitch(CDM::enumOpenClosed::value state)
+void SECircuitPath<CIRCUIT_PATH_TYPES>::SetSwitch(SEOpenClosed state)
 {
   m_Switch = state;
 }
@@ -184,28 +187,28 @@ void SECircuitPath<CIRCUIT_PATH_TYPES>::SetSwitch(CDM::enumOpenClosed::value sta
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::FlipSwitch()
 {
-  m_Switch = (m_Switch == CDM::enumOpenClosed::Open) ? CDM::enumOpenClosed::Closed : CDM::enumOpenClosed::Open;
+  m_Switch = (m_Switch == SEOpenClosed::Open) ? SEOpenClosed::Closed : SEOpenClosed::Open;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 bool SECircuitPath<CIRCUIT_PATH_TYPES>::HasSwitch() const
 {
-  return m_Switch == (CDM::enumOpenClosed::value)-1 ? false : true;
+  return m_Switch != SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::InvalidateSwitch()
 {
-  m_Switch = (CDM::enumOpenClosed::value)-1;
+  m_Switch = SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-CDM::enumOpenClosed::value SECircuitPath<CIRCUIT_PATH_TYPES>::GetNextSwitch() const
+SEOpenClosed SECircuitPath<CIRCUIT_PATH_TYPES>::GetNextSwitch() const
 {
   return m_NextSwitch;
 }
 template <CIRCUIT_PATH_TEMPLATE>
-void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextSwitch(CDM::enumOpenClosed::value state)
+void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextSwitch(SEOpenClosed state)
 {
   m_NextSwitch = state;
 }
@@ -213,29 +216,29 @@ void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextSwitch(CDM::enumOpenClosed::value
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::FlipNextSwitch()
 {
-  m_NextSwitch = (m_NextSwitch == CDM::enumOpenClosed::Open) ? CDM::enumOpenClosed::Closed : CDM::enumOpenClosed::Open;
+  m_NextSwitch = (m_NextSwitch == SEOpenClosed::Open) ? SEOpenClosed::Closed : SEOpenClosed::Open;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 bool SECircuitPath<CIRCUIT_PATH_TYPES>::HasNextSwitch() const
 {
-  return m_NextSwitch == (CDM::enumOpenClosed::value)-1 ? false : true;
+  return m_NextSwitch != SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::InvalidateNextSwitch()
 {
-  m_NextSwitch = (CDM::enumOpenClosed::value)-1;
+  m_NextSwitch = SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-CDM::enumOpenClosed::value SECircuitPath<CIRCUIT_PATH_TYPES>::GetValve() const
+SEOpenClosed SECircuitPath<CIRCUIT_PATH_TYPES>::GetValve() const
 {
   return m_Valve;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-void SECircuitPath<CIRCUIT_PATH_TYPES>::SetValve(CDM::enumOpenClosed::value state)
+void SECircuitPath<CIRCUIT_PATH_TYPES>::SetValve(SEOpenClosed state)
 {
   m_Valve = state;
 }
@@ -243,29 +246,29 @@ void SECircuitPath<CIRCUIT_PATH_TYPES>::SetValve(CDM::enumOpenClosed::value stat
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::FlipValve()
 {
-  m_Valve = (m_Valve == CDM::enumOpenClosed::Open) ? CDM::enumOpenClosed::Closed : CDM::enumOpenClosed::Open;
+  m_Valve = (m_Valve == SEOpenClosed::Open) ? SEOpenClosed::Closed : SEOpenClosed::Open;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 bool SECircuitPath<CIRCUIT_PATH_TYPES>::HasValve() const
 {
-  return m_Valve == (CDM::enumOpenClosed::value)-1 ? false : true;
+  return m_Valve != SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::InvalidateValve()
 {
-  m_Valve = (CDM::enumOpenClosed::value)-1;
+  m_Valve = SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-CDM::enumOpenClosed::value SECircuitPath<CIRCUIT_PATH_TYPES>::GetNextValve() const
+SEOpenClosed SECircuitPath<CIRCUIT_PATH_TYPES>::GetNextValve() const
 {
   return m_NextValve;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextValve(CDM::enumOpenClosed::value state)
+void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextValve(SEOpenClosed state)
 {
   m_NextValve = state;
 }
@@ -273,29 +276,29 @@ void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextValve(CDM::enumOpenClosed::value 
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::FlipNextValve()
 {
-  m_NextValve = (m_NextValve == CDM::enumOpenClosed::Open) ? CDM::enumOpenClosed::Closed : CDM::enumOpenClosed::Open;
+  m_NextValve = (m_NextValve == SEOpenClosed::Open) ? SEOpenClosed::Closed : SEOpenClosed::Open;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 bool SECircuitPath<CIRCUIT_PATH_TYPES>::HasNextValve() const
 {
-  return m_NextValve == (CDM::enumOpenClosed::value)-1 ? false : true;
+  return m_NextValve != SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::InvalidateNextValve()
 {
-  m_NextValve = (CDM::enumOpenClosed::value)-1;
+  m_NextValve = SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-CDM::enumOpenClosed::value SECircuitPath<CIRCUIT_PATH_TYPES>::GetNextPolarizedState() const
+SEOpenClosed SECircuitPath<CIRCUIT_PATH_TYPES>::GetNextPolarizedState() const
 {
   return m_NextPolarizedState;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextPolarizedState(CDM::enumOpenClosed::value state)
+void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextPolarizedState(SEOpenClosed state)
 {
   m_NextPolarizedState = state;
 }
@@ -303,29 +306,29 @@ void SECircuitPath<CIRCUIT_PATH_TYPES>::SetNextPolarizedState(CDM::enumOpenClose
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::FlipNextPolarizedState()
 {
-  m_NextPolarizedState = (m_NextPolarizedState == CDM::enumOpenClosed::Open) ? CDM::enumOpenClosed::Closed : CDM::enumOpenClosed::Open;
+  m_NextPolarizedState = (m_NextPolarizedState == SEOpenClosed::Open) ? SEOpenClosed::Closed : SEOpenClosed::Open;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 bool SECircuitPath<CIRCUIT_PATH_TYPES>::HasNextPolarizedState() const
 {
-  return m_NextPolarizedState == (CDM::enumOpenClosed::value)-1 ? false : true;
+  return m_NextPolarizedState != SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::InvalidateNextPolarizedState()
 {
-  m_NextPolarizedState = (CDM::enumOpenClosed::value)-1;
+  m_NextPolarizedState = SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-CDM::enumOpenClosed::value SECircuitPath<CIRCUIT_PATH_TYPES>::GetPolarizedState() const
+SEOpenClosed SECircuitPath<CIRCUIT_PATH_TYPES>::GetPolarizedState() const
 {
   return m_PolarizedState;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
-void SECircuitPath<CIRCUIT_PATH_TYPES>::SetPolarizedState(CDM::enumOpenClosed::value state)
+void SECircuitPath<CIRCUIT_PATH_TYPES>::SetPolarizedState(SEOpenClosed state)
 {
   m_PolarizedState = state;
 }
@@ -333,19 +336,19 @@ void SECircuitPath<CIRCUIT_PATH_TYPES>::SetPolarizedState(CDM::enumOpenClosed::v
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::FlipPolarizedState()
 {
-  m_PolarizedState = (m_PolarizedState == CDM::enumOpenClosed::Open) ? CDM::enumOpenClosed::Closed : CDM::enumOpenClosed::Open;
+  m_PolarizedState = (m_PolarizedState == SEOpenClosed::Open) ? SEOpenClosed::Closed : SEOpenClosed::Open;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 bool SECircuitPath<CIRCUIT_PATH_TYPES>::HasPolarizedState() const
 {
-  return m_PolarizedState == (CDM::enumOpenClosed::value)-1 ? false : true;
+  return m_PolarizedState != SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>
 void SECircuitPath<CIRCUIT_PATH_TYPES>::InvalidatePolarizedState()
 {
-  m_PolarizedState = (CDM::enumOpenClosed::value)-1;
+  m_PolarizedState = SEOpenClosed::Invalid;
 }
 //-------------------------------------------------------------------------------
 /////////////////

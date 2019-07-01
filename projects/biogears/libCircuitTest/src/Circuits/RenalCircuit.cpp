@@ -25,7 +25,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/physiology/SEBloodChemistrySystem.h>
 #include <biogears/engine/Systems/Renal.h>
 #include <biogears/engine/test/BioGearsEngineTest.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
 namespace biogears {
 void BioGearsEngineTest::RenalCircuitAndTransportTest(const std::string& sTestDirectory)

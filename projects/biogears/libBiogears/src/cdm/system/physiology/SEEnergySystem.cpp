@@ -21,9 +21,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 #include <biogears/container/Tree.tci.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 constexpr char idAchievedExerciseLevel[] = "AchievedExerciseLevel";
 constexpr char idChlorideLostToSweat[] = "ChlorideLostToSweat";

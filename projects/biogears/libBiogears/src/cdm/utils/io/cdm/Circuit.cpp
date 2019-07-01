@@ -5,7 +5,7 @@
 #include <biogears/cdm/circuit/SECircuit.h>
 
 #include <biogears/cdm/circuit/SECircuitManager.h>;
-#include <biogears/cdm/circuit/SECircuitNode.h>
+#include <biogears/cdm/circuit/SECircuitNode.inl>
 #include <biogears/cdm/circuit/SECircuitPath.h>
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuit.h>
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitNode.h>

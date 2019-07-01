@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarHeatConductancePerArea.h>
 #include <biogears/cdm/substance/SESubstanceFraction.h>
-#include <biogears/schema/cdm/EnvironmentActions.hxx>
+
 
 namespace biogears {
 SEEnvironmentActionCollection::SEEnvironmentActionCollection(SESubstanceManager& substances)

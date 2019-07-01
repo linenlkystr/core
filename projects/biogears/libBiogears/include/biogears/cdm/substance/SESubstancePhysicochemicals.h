@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
+#include <biogears/cdm/substance/SESubstanceEnums.h>
+
 IO_DECL(Substance)
 
 namespace biogears {
@@ -34,8 +36,8 @@ public:
   virtual SEScalar& GetAcidDissociationConstant();
   virtual double GetAcidDissociationConstant() const;
 
-  virtual CDM::enumSubstanceBindingProtein::value GetBindingProtein() const;
-  virtual void SetBindingProtein(CDM::enumSubstanceBindingProtein::value state);
+  virtual SESubstanceBindingProtein GetBindingProtein() const;
+  virtual void SetBindingProtein(SESubstanceBindingProtein state);
   virtual bool HasBindingProtein() const;
   virtual void InvalidateBindingProtein();
 
@@ -47,8 +49,8 @@ public:
   virtual SEScalarFraction& GetFractionUnboundInPlasma();
   virtual double GetFractionUnboundInPlasma() const;
 
-  virtual CDM::enumSubstanceIonicState::value GetIonicState() const;
-  virtual void SetIonicState(CDM::enumSubstanceIonicState::value state);
+  virtual SESubstanceIonicState GetIonicState() const;
+  virtual void SetIonicState(SESubstanceIonicState state);
   virtual bool HasIonicState() const;
   virtual void InvalidateIonicState();
 
@@ -62,10 +64,10 @@ public:
 
 protected:
   SEScalar* m_AcidDissociationConstant;
-  CDM::enumSubstanceBindingProtein::value m_BindingProtein;
+  SESubstanceBindingProtein m_BindingProtein;
   SEScalar* m_BloodPlasmaRatio;
   SEScalarFraction* m_FractionUnboundInPlasma;
-  CDM::enumSubstanceIonicState::value m_IonicState;
+  SESubstanceIonicState m_IonicState;
   SEScalar* m_LogP;
   SEScalar* m_OralAbsorptionRateConstant;
 };

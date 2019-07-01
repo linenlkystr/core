@@ -33,7 +33,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/Controller/BioGears.h>
 #include <biogears/engine/Equipment/ECG.h>
 
-#include "../../cdm/utils/io/Property.h"
+
 namespace BGE = mil::tatrc::physiology::biogears;
 
 namespace biogears {

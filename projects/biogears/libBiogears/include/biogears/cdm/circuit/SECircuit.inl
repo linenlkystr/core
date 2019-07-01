@@ -13,6 +13,9 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/circuit/SECircuit.h>
 
+#include <biogears/cdm/circuit/SECircuitPath.inl>
+#include <biogears/cdm/circuit/SECircuitNode.inl>
+
 #define OPEN_RESISTANCE 1e100
 
 namespace biogears {
@@ -299,7 +302,7 @@ size_t SECircuit<CIRCUIT_TYPES>::GetCalculatorIndex(const NodeType& node) const
 {
   auto itr = m_CalculatorIndex.find(&node);
   if (itr == m_CalculatorIndex.end()) {
-    Error("Node " + std::string{ node.GetName() } +" is not in Calculator Index Map.");
+    Error("Node " + std::string{ node.GetName() } + " is not in Calculator Index Map.");
     return -1;
   }
   return itr->second;
@@ -349,7 +352,7 @@ PathType* SECircuit<CIRCUIT_TYPES>::GetPath(const std::string& name)
 template <CIRCUIT_TEMPLATE>
 const PathType* SECircuit<CIRCUIT_TYPES>::GetPath(const char* name) const
 {
-  return  GetPath(std::string{ name });
+  return GetPath(std::string{ name });
 }
 //-----------------------------------------------------------------------------
 template <CIRCUIT_TEMPLATE>

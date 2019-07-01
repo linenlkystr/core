@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/circuit/SECircuitManager.h>
 #include <biogears/cdm/compartment/SECompartment.h>
-#include <biogears/schema/cdm/Compartment.hxx>
 
 namespace biogears {
 SECompartment::SECompartment(const char* name, Logger* logger)

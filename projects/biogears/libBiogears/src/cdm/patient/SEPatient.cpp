@@ -14,10 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/Serializer.h>
 #include <biogears/cdm/properties/SEScalarTypes.h>
 #include <biogears/cdm/utils/SEEventHandler.h>
-#include <biogears/schema/cdm/Patient.hxx>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../utils/io/Property.h"
 namespace biogears {
 SEPatient::SEPatient(Logger* logger)
   : Loggable(logger)

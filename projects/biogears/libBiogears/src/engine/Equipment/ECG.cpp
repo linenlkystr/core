@@ -21,7 +21,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/BioGearsPhysiologyEngine.h>
 #include <biogears/engine/Controller/BioGears.h>
 
-#include "../../cdm/utils/io/Property.h"
+
 namespace BGE = mil::tatrc::physiology::biogears;
 
 namespace biogears {

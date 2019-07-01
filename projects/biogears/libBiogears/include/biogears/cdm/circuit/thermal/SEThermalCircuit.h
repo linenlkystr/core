@@ -18,7 +18,7 @@ specific language governing permissions and limitations under the License.
 IO_DECL(Circuit)
 namespace biogears {
 class SECircuitManager;
-class BIOGEARS_API SEThermalCircuit : public SECircuit<CDM::ThermalCircuitData, SEThermalCircuitNode, CDM::ThermalCircuitNodeData, SEThermalCircuitPath, CDM::ThermalCircuitPathData> {
+class BIOGEARS_API SEThermalCircuit : public SECircuit<SEThermalCircuitNode, SEThermalCircuitPath> {
   friend class SECircuitManager;
   friend class io::Circuit;
 

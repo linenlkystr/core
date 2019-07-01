@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarAmount.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEUrinalysisMicroscopic::SEUrinalysisMicroscopic(Logger* logger)
   : SEPatientAssessment(logger)

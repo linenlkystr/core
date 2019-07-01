@@ -11,6 +11,7 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitNode.h>
+#include <biogears/cdm/circuit/SECircuitNode.inl>
 namespace biogears {
 SEElectricalCircuitNode::SEElectricalCircuitNode(const char* name, Logger* logger)
   : SECircuitNode<SEScalarElectricPotential, SEScalarElectricCharge>(name, logger)

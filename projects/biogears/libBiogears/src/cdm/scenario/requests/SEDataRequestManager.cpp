@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEDataRequestManager::SEDataRequestManager(Logger* logger)
   : Loggable(logger)

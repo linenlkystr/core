@@ -14,7 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/cdm/properties/SEScalarTime.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEForcedInhale::SEForcedInhale()
   : SEConsciousRespirationCommand()

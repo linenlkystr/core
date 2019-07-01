@@ -12,7 +12,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/Systems/Renal.h>
 
 #include <biogears/cdm/circuit/SECircuit.h>
-#include <biogears/cdm/circuit/SECircuitNode.h>
+#include <biogears/cdm/circuit/SECircuitNode.inl>
 #include <biogears/cdm/circuit/SECircuitPath.h>
 #include <biogears/cdm/compartment/fluid/SELiquidCompartmentGraph.h>
 #include <biogears/cdm/patient/SEPatient.h>

@@ -15,8 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/SEPatient.h>
 #include <biogears/cdm/scenario/SECondition.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
-#include <biogears/schema/cdm/Patient.hxx>
-#include <biogears/schema/cdm/Scenario.hxx>
+
 
 namespace biogears {
 SEScenarioInitialParameters::SEScenarioInitialParameters(SESubstanceManager& subMgr)

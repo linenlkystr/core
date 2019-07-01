@@ -32,7 +32,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 #include <biogears/cdm/utils/DataTrack.h>
 #include <biogears/cdm/utils/FileUtils.h>
-#include <biogears/schema/cdm/Circuit.hxx>
 #include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 
 namespace biogears {

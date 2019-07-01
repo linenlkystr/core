@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 constexpr char idBaroreceptorHeartRateScale[] = "BaroreceptorHeartRateScale";
 constexpr char idBaroreceptorHeartElastanceScale[] = "BaroreceptorHeartElastanceScale";

@@ -18,7 +18,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarPower.h>
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEThermalCompartment::SEThermalCompartment(const char* name, Logger* logger)
   : SEThermalCompartment(std::string{ name }, logger)

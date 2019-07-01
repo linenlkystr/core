@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarNeg1To1.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEPupillaryResponse::SEPupillaryResponse(Logger* logger)
   : m_ReactivityModifier(nullptr)

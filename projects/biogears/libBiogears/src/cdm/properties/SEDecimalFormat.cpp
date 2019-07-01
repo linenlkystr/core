@@ -15,7 +15,6 @@ specific language governing permissions and limitations under the License.
 #include <iomanip>
 #include <fstream>
 //Project Includes
-#include <biogears/schema/cdm/Properties.hxx>
 
 namespace biogears {
 SEDecimalFormat::SEDecimalFormat(const SEDecimalFormat* dfault)

@@ -17,8 +17,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTime.h>
 #include <biogears/cdm/system/equipment/Anesthesia/SEAnesthesiaMachine.h>
 #include <biogears/engine/Controller/BioGearsSystem.h>
-#include <biogears/schema/biogears/BioGears.hxx>
-#include <biogears/schema/biogears/BioGearsEquipment.hxx>
 
 namespace biogears {
 class BioGears;

@@ -19,7 +19,7 @@ IO_DECL(Circuit)
 
 namespace biogears {
 class SECircuitManager;
-class BIOGEARS_API SEFluidCircuit : public SECircuit<CDM::FluidCircuitData, SEFluidCircuitNode, CDM::FluidCircuitNodeData, SEFluidCircuitPath, CDM::FluidCircuitPathData> {
+class BIOGEARS_API SEFluidCircuit : public SECircuit<SEFluidCircuitNode, SEFluidCircuitPath> {
   friend class SECircuitManager;
   friend class io::Circuit;
 

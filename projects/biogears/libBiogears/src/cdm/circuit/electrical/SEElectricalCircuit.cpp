@@ -12,16 +12,17 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/circuit/SECircuitManager.h>
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuit.h>
+#include <biogears/cdm/circuit/SECircuit.inl>
 
 namespace biogears {
 SEElectricalCircuit::SEElectricalCircuit(const std::string& name, SECircuitManager& mgr)
-  : SECircuit<CDM::ElectricalCircuitData, SEElectricalCircuitNode, CDM::ElectricalCircuitNodeData, SEElectricalCircuitPath, CDM::ElectricalCircuitPathData>(name, mgr.GetLogger())
+  : SECircuit<SEElectricalCircuitNode, SEElectricalCircuitPath>(name, mgr.GetLogger())
   , m_Mgr(mgr)
 {
 }
 //-------------------------------------------------------------------------------
 SEElectricalCircuit::SEElectricalCircuit(const char* name, SECircuitManager& mgr)
-  : SECircuit<CDM::ElectricalCircuitData, SEElectricalCircuitNode, CDM::ElectricalCircuitNodeData, SEElectricalCircuitPath, CDM::ElectricalCircuitPathData>(name, mgr.GetLogger())
+  : SECircuit<SEElectricalCircuitNode, SEElectricalCircuitPath>(name, mgr.GetLogger())
   , m_Mgr(mgr)
 {
 }

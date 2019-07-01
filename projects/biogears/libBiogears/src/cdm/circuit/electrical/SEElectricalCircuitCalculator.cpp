@@ -11,6 +11,9 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitCalculator.h>
+#include <biogears/cdm/circuit/SECircuitPath.inl>
+#include <biogears/cdm/circuit/SECircuitNode.inl>
+
 
 namespace biogears {
 SEElectricalCircuitCalculator::SEElectricalCircuitCalculator(Logger* logger)

@@ -14,9 +14,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <biogears/schema/cdm/Properties.hxx>
-#include <biogears/schema/cdm/AnesthesiaActions.hxx>
-
 IO_DECL(Anesthesia)
 
 namespace biogears {

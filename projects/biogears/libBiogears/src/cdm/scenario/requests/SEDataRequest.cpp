@@ -14,7 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEDataRequest::SEDataRequest(const SEDecimalFormat* dfault)
   : SEDecimalFormat(dfault)

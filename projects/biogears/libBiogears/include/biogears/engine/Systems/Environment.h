@@ -16,7 +16,6 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/system/environment/SEEnvironment.h>
 #include <biogears/engine/Controller/BioGearsSystem.h>
-#include <biogears/schema/biogears/BioGearsEnvironment.hxx>
 
 namespace biogears {
 class SEPatient;

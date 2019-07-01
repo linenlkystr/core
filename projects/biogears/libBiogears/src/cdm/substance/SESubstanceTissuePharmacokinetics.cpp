@@ -14,9 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceTissuePharmacokinetics.h>
 
 #include <biogears/cdm/properties/SEScalar.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../utils/io/Property.h"
 namespace biogears {
 SESubstanceTissuePharmacokinetics::SESubstanceTissuePharmacokinetics(const std::string& name, Logger* logger)
   : Loggable(logger)

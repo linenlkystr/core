@@ -18,7 +18,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceClearance.h>
 #include <biogears/cdm/substance/SESubstancePharmacodynamics.h>
 #include <biogears/cdm/substance/SESubstancePharmacokinetics.h>
-
+#include <biogears/cdm/substance/SESubstanceEnums.h>
 IO_DECL(Substance)
 
 namespace biogears {
@@ -40,6 +40,7 @@ class VolumePerTimeUnit;
 class SEScalarPressure;
 class PressureUnit;
 
+
 class BIOGEARS_API SESubstance : public Loggable {
   friend class io::Substance;
 
@@ -59,13 +60,13 @@ public:
   virtual bool HasName() const;
   virtual void InvalidateName();
 
-  virtual CDM::enumSubstanceState::value GetState() const;
-  virtual void SetState(CDM::enumSubstanceState::value state);
+  virtual SESubstanceState GetState() const;
+  virtual void SetState(SESubstanceState state);
   virtual bool HasState() const;
   virtual void InvalidateState();
 
-  virtual CDM::enumSubstanceClass::value GetClassification() const;
-  virtual void SetClassification(CDM::enumSubstanceClass::value subClass);
+  virtual SESubstanceClass GetClassification() const;
+  virtual void SetClassification(SESubstanceClass subClass);
   virtual bool HasClassification() const;
   virtual void InvalidateClassification();
 
@@ -170,8 +171,8 @@ public:
 
 protected:
   std::string m_Name;
-  CDM::enumSubstanceClass::value m_Classification;
-  CDM::enumSubstanceState::value m_State;
+  SESubstanceClass m_Classification;
+  SESubstanceState m_State;
   SEScalarMassPerVolume* m_Density;
   SEScalarMassPerAmount* m_MolarMass;
 

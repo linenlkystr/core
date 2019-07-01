@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/Property.h"
+
 namespace biogears {
 SEActiveHeating::SEActiveHeating(Logger* logger)
   : Loggable(logger)

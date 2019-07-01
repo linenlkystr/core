@@ -16,10 +16,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarMassPerTime.h>
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/utils/FileUtils.h>
-#include <biogears/schema/cdm/PatientNutrition.hxx>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../utils/io/Property.h"
 namespace biogears {
 SENutrition::SENutrition(Logger* logger)
   : Loggable(logger)

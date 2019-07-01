@@ -14,10 +14,10 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/cdm/properties/SEScalarMassPerTime.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
-#include <biogears/schema/cdm/Properties.hxx>
+
 #include <biogears/container/Tree.tci.h>
 
-#include "../../utils/io/Property.h"
+
 
 namespace biogears {
   constexpr char idChymeAbsorptionRate[] = "ChymeAbsorptionRate";
