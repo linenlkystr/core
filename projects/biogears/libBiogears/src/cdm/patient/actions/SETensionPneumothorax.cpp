@@ -17,8 +17,8 @@ namespace biogears {
 SETensionPneumothorax::SETensionPneumothorax()
   : SEPatientAction()
 {
-  m_Type = (CDM::enumPneumothoraxType::value)-1;
-  m_Side = (CDM::enumSide::value)-1;
+  m_Type = SEPneumothoraxType::Invalid;
+  m_Side = SESide::Invalid;
   m_Severity = nullptr;
 }
 
@@ -30,8 +30,8 @@ SETensionPneumothorax::~SETensionPneumothorax()
 void SETensionPneumothorax::Clear()
 {
   SEPatientAction::Clear();
-  m_Type = (CDM::enumPneumothoraxType::value)-1;
-  m_Side = (CDM::enumSide::value)-1;
+  m_Type = SEPneumothoraxType::Invalid;
+  m_Side = SESide::Invalid;
   SAFE_DELETE(m_Severity);
 }
 
@@ -45,38 +45,38 @@ bool SETensionPneumothorax::IsActive() const
   return IsValid();
 }
 
-CDM::enumPneumothoraxType::value SETensionPneumothorax::GetType() const
+SEPneumothoraxType SETensionPneumothorax::GetType() const
 {
   return m_Type;
 }
-void SETensionPneumothorax::SetType(CDM::enumPneumothoraxType::value Type)
+void SETensionPneumothorax::SetType(SEPneumothoraxType Type)
 {
   m_Type = Type;
 }
 bool SETensionPneumothorax::HasType() const
 {
-  return m_Type == ((CDM::enumPneumothoraxType::value)-1) ? false : true;
+  return m_Type != (SEPneumothoraxType::Invalid);
 }
 void SETensionPneumothorax::InvalidateType()
 {
-  m_Type = (CDM::enumPneumothoraxType::value)-1;
+  m_Type = SEPneumothoraxType::Invalid;
 }
 
-CDM::enumSide::value SETensionPneumothorax::GetSide() const
+SESide SETensionPneumothorax::GetSide() const
 {
   return m_Side;
 }
-void SETensionPneumothorax::SetSide(CDM::enumSide::value Side)
+void SETensionPneumothorax::SetSide(SESide Side)
 {
   m_Side = Side;
 }
 bool SETensionPneumothorax::HasSide() const
 {
-  return m_Side == ((CDM::enumSide::value)-1) ? false : true;
+  return m_Side != (SESide::Invalid);
 }
 void SETensionPneumothorax::InvalidateSide()
 {
-  m_Side = (CDM::enumSide::value)-1;
+  m_Side = SESide::Invalid;
 }
 
 bool SETensionPneumothorax::HasSeverity() const
@@ -90,17 +90,17 @@ SEScalar0To1& SETensionPneumothorax::GetSeverity()
   return *m_Severity;
 }
 
-void SETensionPneumothorax::ToString(std::ostream& str) const
+void SETensionPneumothorax::ToString(std::ostream& ss) const
 {
-  str << "Patient Action : Tension Pneumothorax";
+  ss << "Patient Action : Tension Pneumothorax";
   if (HasComment())
-    str << "\n\tComment: " << m_Comment;
-  str << "\n\tSeverity: ";
-  HasSeverity() ? str << *m_Severity : str << "NaN";
-  str << "\n\tType: ";
-  HasType() ? str << GetType() : str << "Not Set";
-  str << "\n\tSide: ";
-  HasSide() ? str << GetSide() : str << "Not Set";
-  str << std::flush;
+    ss << "\n\tComment: " << m_Comment;
+  ss << "\n\tSeverity: ";
+  HasSeverity() ? ss << *m_Severity : ss << "NaN";
+  ss << "\n\tType: ";
+  HasType() ? ss << GetType() : ss << "Not Set";
+  ss << "\n\tSide: ";
+  HasSide() ? ss << GetSide() : ss << "Not Set";
+  ss << std::flush;
 }
 }

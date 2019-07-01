@@ -68,7 +68,7 @@ void SEInflammationState::Clear()
 void SEInflammationState::InitializeState()
 {
   //Values from Chow2005Acute
-  GetPathogen().SetValue(0.0);  //Change this back to 0 after testing
+  GetPathogen().SetValue(0.0); //Change this back to 0 after testing
   GetTrauma().SetValue(0.0);
   GetMacrophageResting().SetValue(1.0);
   GetMacrophageActive().SetValue(0.0);
@@ -80,8 +80,8 @@ void SEInflammationState::InitializeState()
   GetNitrate().SetValue(0.0);
   GetNitricOxide().SetValue(0.0);
   GetTumorNecrosisFactor().SetValue(0.0);
-  GetInterleukin6().SetValue(17.0);     //Value is in pg/L-->gets scaled down in model
-  GetInterleukin10().SetValue(80.0);    //Value is in pg/L-->gets scaled down in model  
+  GetInterleukin6().SetValue(17.0); //Value is in pg/L-->gets scaled down in model
+  GetInterleukin10().SetValue(80.0); //Value is in pg/L-->gets scaled down in model
   GetInterleukin12().SetValue(0.0);
   GetCatecholamines().SetValue(0.0);
   GetTissueIntegrity().SetValue(1.0);
@@ -89,10 +89,11 @@ void SEInflammationState::InitializeState()
 //-------------------------------------------------------------------------------
 bool SEInflammationState::IsValid()
 {
-  if (HasPathogen() && HasTrauma() && HasMacrophageResting() && HasMacrophageActive() && HasNeutrophilResting() && HasNeutrophilActive() && HasInducibleNOSynthasePre() && HasInducibleNOSynthase() && HasConstitutiveNOSynthase() && HasNitrate() && HasNitricOxide() && HasTumorNecrosisFactor() && HasInterleukin6() && HasInterleukin10() && HasInterleukin12() && HasCatecholamines() && HasTissueIntegrity())
+  if (HasPathogen() && HasTrauma() && HasMacrophageResting() && HasMacrophageActive() && HasNeutrophilResting() && HasNeutrophilActive() && HasInducibleNOSynthasePre() && HasInducibleNOSynthase() && HasConstitutiveNOSynthase() && HasNitrate() && HasNitricOxide() && HasTumorNecrosisFactor() && HasInterleukin6() && HasInterleukin10() && HasInterleukin12() && HasCatecholamines() && HasTissueIntegrity()) {
     return true;
-  else
+  } else {
     return false;
+  }
 }
 //-------------------------------------------------------------------------------
 const SEScalar* SEInflammationState::GetScalar(const char* name)
@@ -102,40 +103,57 @@ const SEScalar* SEInflammationState::GetScalar(const char* name)
 //-------------------------------------------------------------------------------
 const SEScalar* SEInflammationState::GetScalar(const std::string& name)
 {
-  if (name.compare("Pathogen") == 0)
+  if (name.compare("Pathogen") == 0) {
     return &GetPathogen();
-  if (name.compare("Trauma") == 0)
+  }
+  if (name.compare("Trauma") == 0) {
     return &GetTrauma();
-  if (name.compare("MacrophageResting") == 0)
+  }
+  if (name.compare("MacrophageResting") == 0) {
     return &GetMacrophageResting();
-  if (name.compare("MacrophageActive") == 0)
+  }
+  if (name.compare("MacrophageActive") == 0) {
     return &GetMacrophageActive();
-  if (name.compare("NeutrophilResting") == 0)
+  }
+  if (name.compare("NeutrophilResting") == 0) {
     return &GetNeutrophilResting();
-  if (name.compare("NeutrophilActive") == 0)
+  }
+  if (name.compare("NeutrophilActive") == 0) {
     return &GetNeutrophilActive();
-  if (name.compare("InducibleNOSynthasePre") == 0)
+  }
+  if (name.compare("InducibleNOSynthasePre") == 0) {
     return &GetInducibleNOSynthasePre();
-  if (name.compare("InducibleNOSynthase") == 0)
+  }
+  if (name.compare("InducibleNOSynthase") == 0) {
     return &GetInducibleNOSynthase();
-  if (name.compare("ConstitutiveNOSynthase") == 0)
+  }
+  if (name.compare("ConstitutiveNOSynthase") == 0) {
     return &GetConstitutiveNOSynthase();
-  if (name.compare("Nitrate") == 0)
+  }
+  if (name.compare("Nitrate") == 0) {
     return &GetNitrate();
-  if (name.compare("NitricOxide") == 0)
+  }
+  if (name.compare("NitricOxide") == 0) {
     return &GetNitricOxide();
-  if (name.compare("TumorNecrosisFactor") == 0)
+  }
+  if (name.compare("TumorNecrosisFactor") == 0) {
     return &GetTumorNecrosisFactor();
-  if (name.compare("Interleukin6") == 0)
+  }
+  if (name.compare("Interleukin6") == 0) {
     return &GetInterleukin6();
-  if (name.compare("Interleukin10") == 0)
+  }
+  if (name.compare("Interleukin10") == 0) {
     return &GetInterleukin10();
-  if (name.compare("Interleukin12") == 0)
+  }
+  if (name.compare("Interleukin12") == 0) {
     return &GetInterleukin12();
-  if (name.compare("Catecholamines") == 0)
+  }
+  if (name.compare("Catecholamines") == 0) {
     return &GetCatecholamines();
-  if (name.compare("TissueIntegrity") == 0)
+  }
+  if (name.compare("TissueIntegrity") == 0) {
     return &GetTissueIntegrity();
+  }
 
   return nullptr;
 }
@@ -147,15 +165,17 @@ bool SEInflammationState::HasPathogen() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetPathogen()
 {
-  if (m_Pathogen == nullptr)
+  if (m_Pathogen == nullptr) {
     m_Pathogen = new SEScalar();
+  }
   return *m_Pathogen;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetPathogen() const
 {
-  if (m_Pathogen == nullptr)
+  if (m_Pathogen == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Pathogen->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -166,15 +186,17 @@ bool SEInflammationState::HasTrauma() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetTrauma()
 {
-  if (m_Trauma == nullptr)
+  if (m_Trauma == nullptr) {
     m_Trauma = new SEScalar();
+  }
   return *m_Trauma;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetTrauma() const
 {
-  if (m_Trauma == nullptr)
+  if (m_Trauma == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Trauma->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -185,15 +207,17 @@ bool SEInflammationState::HasMacrophageResting() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetMacrophageResting()
 {
-  if (m_MacrophageResting == nullptr)
+  if (m_MacrophageResting == nullptr) {
     m_MacrophageResting = new SEScalar();
+  }
   return *m_MacrophageResting;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetMacrophageResting() const
 {
-  if (m_MacrophageResting == nullptr)
+  if (m_MacrophageResting == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_MacrophageResting->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -204,15 +228,17 @@ bool SEInflammationState::HasMacrophageActive() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetMacrophageActive()
 {
-  if (m_MacrophageActive == nullptr)
+  if (m_MacrophageActive == nullptr) {
     m_MacrophageActive = new SEScalar();
+  }
   return *m_MacrophageActive;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetMacrophageActive() const
 {
-  if (m_MacrophageActive == nullptr)
+  if (m_MacrophageActive == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_MacrophageActive->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -223,15 +249,17 @@ bool SEInflammationState::HasNeutrophilResting() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetNeutrophilResting()
 {
-  if (m_NeutrophilResting == nullptr)
+  if (m_NeutrophilResting == nullptr) {
     m_NeutrophilResting = new SEScalar();
+  }
   return *m_NeutrophilResting;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetNeutrophilResting() const
 {
-  if (m_NeutrophilResting == nullptr)
+  if (m_NeutrophilResting == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NeutrophilResting->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -242,15 +270,17 @@ bool SEInflammationState::HasNeutrophilActive() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetNeutrophilActive()
 {
-  if (m_NeutrophilActive == nullptr)
+  if (m_NeutrophilActive == nullptr) {
     m_NeutrophilActive = new SEScalar();
+  }
   return *m_NeutrophilActive;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetNeutrophilActive() const
 {
-  if (m_NeutrophilActive == nullptr)
+  if (m_NeutrophilActive == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NeutrophilActive->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -261,15 +291,17 @@ bool SEInflammationState::HasInducibleNOSynthasePre() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetInducibleNOSynthasePre()
 {
-  if (m_InducibleNOSynthasePre == nullptr)
+  if (m_InducibleNOSynthasePre == nullptr) {
     m_InducibleNOSynthasePre = new SEScalar();
+  }
   return *m_InducibleNOSynthasePre;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetInducibleNOSynthasePre() const
 {
-  if (m_InducibleNOSynthasePre == nullptr)
+  if (m_InducibleNOSynthasePre == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_InducibleNOSynthasePre->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -280,15 +312,17 @@ bool SEInflammationState::HasInducibleNOSynthase() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetInducibleNOSynthase()
 {
-  if (m_InducibleNOSynthase == nullptr)
+  if (m_InducibleNOSynthase == nullptr) {
     m_InducibleNOSynthase = new SEScalar();
+  }
   return *m_InducibleNOSynthase;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetInducibleNOSynthase() const
 {
-  if (m_InducibleNOSynthase == nullptr)
+  if (m_InducibleNOSynthase == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_InducibleNOSynthase->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -299,15 +333,17 @@ bool SEInflammationState::HasConstitutiveNOSynthase() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetConstitutiveNOSynthase()
 {
-  if (m_ConstitutiveNOSynthase == nullptr)
+  if (m_ConstitutiveNOSynthase == nullptr) {
     m_ConstitutiveNOSynthase = new SEScalar();
+  }
   return *m_ConstitutiveNOSynthase;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetConstitutiveNOSynthase() const
 {
-  if (m_ConstitutiveNOSynthase == nullptr)
+  if (m_ConstitutiveNOSynthase == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_ConstitutiveNOSynthase->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -318,15 +354,17 @@ bool SEInflammationState::HasNitrate() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetNitrate()
 {
-  if (m_Nitrate == nullptr)
+  if (m_Nitrate == nullptr) {
     m_Nitrate = new SEScalar();
+  }
   return *m_Nitrate;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetNitrate() const
 {
-  if (m_Nitrate == nullptr)
+  if (m_Nitrate == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Nitrate->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -337,15 +375,17 @@ bool SEInflammationState::HasNitricOxide() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetNitricOxide()
 {
-  if (m_NitricOxide == nullptr)
+  if (m_NitricOxide == nullptr) {
     m_NitricOxide = new SEScalar();
+  }
   return *m_NitricOxide;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetNitricOxide() const
 {
-  if (m_NitricOxide == nullptr)
+  if (m_NitricOxide == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NitricOxide->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -356,15 +396,17 @@ bool SEInflammationState::HasTumorNecrosisFactor() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetTumorNecrosisFactor()
 {
-  if (m_TumorNecrosisFactor == nullptr)
+  if (m_TumorNecrosisFactor == nullptr) {
     m_TumorNecrosisFactor = new SEScalar();
+  }
   return *m_TumorNecrosisFactor;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetTumorNecrosisFactor() const
 {
-  if (m_TumorNecrosisFactor == nullptr)
+  if (m_TumorNecrosisFactor == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_TumorNecrosisFactor->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -375,15 +417,17 @@ bool SEInflammationState::HasInterleukin6() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetInterleukin6()
 {
-  if (m_Interleukin6 == nullptr)
+  if (m_Interleukin6 == nullptr) {
     m_Interleukin6 = new SEScalar();
+  }
   return *m_Interleukin6;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetInterleukin6() const
 {
-  if (m_Interleukin6 == nullptr)
+  if (m_Interleukin6 == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Interleukin6->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -394,15 +438,17 @@ bool SEInflammationState::HasInterleukin10() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetInterleukin10()
 {
-  if (m_Interleukin10 == nullptr)
+  if (m_Interleukin10 == nullptr) {
     m_Interleukin10 = new SEScalar();
+  }
   return *m_Interleukin10;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetInterleukin10() const
 {
-  if (m_Interleukin10 == nullptr)
+  if (m_Interleukin10 == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Interleukin10->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -413,15 +459,17 @@ bool SEInflammationState::HasInterleukin12() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetInterleukin12()
 {
-  if (m_Interleukin12 == nullptr)
+  if (m_Interleukin12 == nullptr) {
     m_Interleukin12 = new SEScalar();
+  }
   return *m_Interleukin12;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetInterleukin12() const
 {
-  if (m_Interleukin12 == nullptr)
+  if (m_Interleukin12 == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Interleukin12->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -432,15 +480,17 @@ bool SEInflammationState::HasCatecholamines() const
 //-------------------------------------------------------------------------------
 SEScalar& SEInflammationState::GetCatecholamines()
 {
-  if (m_Catecholamines == nullptr)
+  if (m_Catecholamines == nullptr) {
     m_Catecholamines = new SEScalar();
+  }
   return *m_Catecholamines;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetCatecholamines() const
 {
-  if (m_Catecholamines == nullptr)
+  if (m_Catecholamines == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Catecholamines->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -451,15 +501,17 @@ bool SEInflammationState::HasTissueIntegrity() const
 //-------------------------------------------------------------------------------
 SEScalar0To1& SEInflammationState::GetTissueIntegrity()
 {
-  if (m_TissueIntegrity == nullptr)
+  if (m_TissueIntegrity == nullptr) {
     m_TissueIntegrity = new SEScalar0To1();
+  }
   return *m_TissueIntegrity;
 }
 //-------------------------------------------------------------------------------
 double SEInflammationState::GetTissueIntegrity() const
 {
-  if (m_TissueIntegrity == nullptr)
+  if (m_TissueIntegrity == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_TissueIntegrity->GetValue();
 }
 //-------------------------------------------------------------------------------
@@ -468,7 +520,7 @@ bool SEInflammationState::HasInflammationSources() const
   return !m_InflammationSources.empty();
 }
 //-------------------------------------------------------------------------------
-std::vector<CDM::enumInflammationSource>& SEInflammationState::GetInflammationSources()
+std::vector<SEInflammationSource>& SEInflammationState::GetInflammationSources()
 {
   return m_InflammationSources;
 }

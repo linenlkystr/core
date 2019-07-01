@@ -12,6 +12,7 @@ specific language governing permissions and limitations under the License.
 
 
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitPath.h>
+#include <biogears/cdm/circuit/SECircuit.inl>
 
 namespace biogears {
 SEThermalCircuitPath::SEThermalCircuitPath(SEThermalCircuitNode& src, SEThermalCircuitNode& tgt, const char* name)

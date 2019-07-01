@@ -9,10 +9,9 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
-#include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
-
-#include <biogears/cdm/compartment/fluid/SELiquidCompartmentLink.h>
 #include <biogears/cdm/compartment/tissue/SETissueCompartment.h>
+
+#include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/cdm/properties/SEScalarElectricPotential.h>
 #include <biogears/cdm/properties/SEScalarFraction.h>
@@ -20,6 +19,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarMassPerMass.h>
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
+
+#include <biogears/cdm/compartment/fluid/SEFluidCompartment.inl>
 
 namespace biogears {
 SETissueCompartment::SETissueCompartment(const char* name, Logger* logger)
@@ -69,25 +70,25 @@ const SEScalar* SETissueCompartment::GetScalar(const char* name)
 //-----------------------------------------------------------------------------
 const SEScalar* SETissueCompartment::GetScalar(const std::string& name)
 {
-  if (name.compare("AcidicPhospohlipidConcentration") == 0)
+  if (name == "AcidicPhospohlipidConcentration")
     return &GetAcidicPhospohlipidConcentration();
-  if (name.compare("MatrixVolume") == 0)
+  if (name == "MatrixVolume")
     return &GetMatrixVolume();
-  if (name.compare("MembranePotential") == 0)
+  if (name == "MembranePotential")
     return &GetMembranePotential();
-  if (name.compare("NeutralLipidsVolumeFraction") == 0)
+  if (name == "NeutralLipidsVolumeFraction")
     return &GetNeutralLipidsVolumeFraction();
-  if (name.compare("NeutralPhospholipidsVolumeFraction") == 0)
+  if (name == "NeutralPhospholipidsVolumeFraction")
     return &GetNeutralPhospholipidsVolumeFraction();
-  if (name.compare("ReflectionCoefficient") == 0)
+  if (name == "ReflectionCoefficient")
     return &GetReflectionCoefficient();
-  if (name.compare("TissueToPlasmaAlbuminRatio") == 0)
+  if (name == "TissueToPlasmaAlbuminRatio")
     return &GetTissueToPlasmaAlbuminRatio();
-  if (name.compare("TissueToPlasmaAlphaAcidGlycoproteinRatio") == 0)
+  if (name == "TissueToPlasmaAlphaAcidGlycoproteinRatio")
     return &GetTissueToPlasmaAlphaAcidGlycoproteinRatio();
-  if (name.compare("TissueToPlasmaLipoproteinRatio") == 0)
+  if (name == "TissueToPlasmaLipoproteinRatio")
     return &GetTissueToPlasmaLipoproteinRatio();
-  if (name.compare("TotalMass") == 0)
+  if (name == "TotalMass")
     return &GetTotalMass();
   return nullptr;
 }

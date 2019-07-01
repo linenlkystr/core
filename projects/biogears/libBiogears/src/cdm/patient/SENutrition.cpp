@@ -17,6 +17,9 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/utils/FileUtils.h>
 
+#include <biogears/schema/cdm/PatientNutrition.hxx>
+#include "../utils/io/cdm/PatientNutrition.h"
+
 namespace biogears {
 SENutrition::SENutrition(Logger* logger)
   : Loggable(logger)
@@ -101,40 +104,6 @@ void SENutrition::Increment(const SENutrition& from)
     GetWater().Increment(*from.m_Water);
 }
 //-----------------------------------------------------------------------------
-void SENutrition::Unload(CDM::NutritionData& data) const
-{
-  if (!m_Name.empty()) {
-    data.Name(m_Name);
-  }
-  if (m_Carbohydrate != nullptr) {
-    io::Property::UnMarshall(*m_Carbohydrate, data.Carbohydrate());
-  }
-  if (m_CarbohydrateDigestionRate != nullptr) {
-    io::Property::UnMarshall(*m_CarbohydrateDigestionRate, data.CarbohydrateDigestionRate());
-  }
-  if (m_Fat != nullptr) {
-    io::Property::UnMarshall(*m_Fat, data.Fat());
-  }
-  if (m_FatDigestionRate != nullptr) {
-    io::Property::UnMarshall(*m_FatDigestionRate, data.FatDigestionRate());
-  }
-  if (m_Protein != nullptr) {
-    io::Property::UnMarshall(*m_Protein, data.Protein());
-  }
-  if (m_ProteinDigestionRate != nullptr) {
-    io::Property::UnMarshall(*m_ProteinDigestionRate, data.ProteinDigestionRate());
-  }
-  if (m_Calcium != nullptr) {
-    io::Property::UnMarshall(*m_Calcium, data.Calcium());
-  }
-  if (m_Sodium != nullptr) {
-    io::Property::UnMarshall(*m_Sodium, data.Sodium());
-  }
-  if (m_Water != nullptr) {
-    io::Property::UnMarshall(*m_Water, data.Water());
-  }
-}
-//-----------------------------------------------------------------------------
 const SEScalar* SENutrition::GetScalar(const char* name)
 {
   return GetScalar(std::string{ name });
@@ -142,33 +111,33 @@ const SEScalar* SENutrition::GetScalar(const char* name)
 //-----------------------------------------------------------------------------
 const SEScalar* SENutrition::GetScalar(const std::string& name)
 {
-  if (name.compare("Carbohydrate") == 0)
+  if (name == "Carbohydrate")
     return &GetCarbohydrate();
-  if (name.compare("CarbohydrateDigestionRate") == 0)
+  if (name == "CarbohydrateDigestionRate")
     return &GetCarbohydrateDigestionRate();
-  if (name.compare("Fat") == 0)
+  if (name == "Fat")
     return &GetFat();
-  if (name.compare("FatDigestionRate") == 0)
+  if (name == "FatDigestionRate")
     return &GetFatDigestionRate();
-  if (name.compare("Protein") == 0)
+  if (name == "Protein")
     return &GetProtein();
-  if (name.compare("ProteinDigestionRate") == 0)
+  if (name == "ProteinDigestionRate")
     return &GetProteinDigestionRate();
-  if (name.compare("Calcium") == 0)
+  if (name == "Calcium")
     return &GetCalcium();
-  if (name.compare("Sodium") == 0)
+  if (name == "Sodium")
     return &GetSodium();
-  if (name.compare("Water") == 0)
+  if (name == "Water")
     return &GetWater();
   return nullptr;
 }
 //-----------------------------------------------------------------------------
-bool SENutrition::Load(const char* nutritionFile)
+void SENutrition::Load(const char* nutritionFile)
 {
-  return Load(std::string{ nutritionFile });
+  Load(std::string{ nutritionFile });
 }
 //-----------------------------------------------------------------------------
-bool SENutrition::Load(const std::string& given)
+void SENutrition::Load(const std::string& given)
 {
   CDM::NutritionData* pData;
   std::unique_ptr<CDM::ObjectData> data;
@@ -185,9 +154,9 @@ bool SENutrition::Load(const std::string& given)
     std::stringstream ss;
     ss << "Nutrition file could not be read : " << ResolvePath(given) << std::endl;
     Error(ss);
-    return false;
+    throw CommonDataModelException(ss.str());
   }
-  return Load(*pData);
+  io::PatientNutrition::Marshall(*pData,*this);
 }
 //-----------------------------------------------------------------------------
 std::string SENutrition::GetName() const

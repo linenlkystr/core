@@ -70,21 +70,21 @@ void SECompartmentManager::Clear()
   m_TissueName2Compartments.clear();
 }
 //-------------------------------------------------------------------------------
-bool SECompartmentManager::HasCompartment(CDM::enumCompartmentType::value type, const char* name) const
+bool SECompartmentManager::HasCompartment(SECompartmentType type, const char* name) const
 {
   return HasCompartment(type, std::string{ name });
 }
 //-------------------------------------------------------------------------------
-bool SECompartmentManager::HasCompartment(CDM::enumCompartmentType::value type, const std::string& name) const
+bool SECompartmentManager::HasCompartment(SECompartmentType type, const std::string& name) const
 {
   switch (type) {
-  case CDM::enumCompartmentType::Gas:
+  case SECompartmentType::Gas:
     return HasGasCompartment(name);
-  case CDM::enumCompartmentType::Liquid:
+  case SECompartmentType::Liquid:
     return HasLiquidCompartment(name);
-  case CDM::enumCompartmentType::Thermal:
+  case SECompartmentType::Thermal:
     return HasThermalCompartment(name);
-  case CDM::enumCompartmentType::Tissue:
+  case SECompartmentType::Tissue:
     return HasTissueCompartment(name);
   default:
     return false;
@@ -92,21 +92,21 @@ bool SECompartmentManager::HasCompartment(CDM::enumCompartmentType::value type, 
   return false;
 }
 //-------------------------------------------------------------------------------
-SECompartment* SECompartmentManager::GetCompartment(CDM::enumCompartmentType::value type, const char* name)
+SECompartment* SECompartmentManager::GetCompartment(SECompartmentType type, const char* name)
 {
   return GetCompartment(type, std::string{ name });
 }
 //-------------------------------------------------------------------------------
-SECompartment* SECompartmentManager::GetCompartment(CDM::enumCompartmentType::value type, const std::string& name)
+SECompartment* SECompartmentManager::GetCompartment(SECompartmentType type, const std::string& name)
 {
   switch (type) {
-  case CDM::enumCompartmentType::Gas:
+  case SECompartmentType::Gas:
     return GetGasCompartment(name);
-  case CDM::enumCompartmentType::Liquid:
+  case SECompartmentType::Liquid:
     return GetLiquidCompartment(name);
-  case CDM::enumCompartmentType::Thermal:
+  case SECompartmentType::Thermal:
     return GetThermalCompartment(name);
-  case CDM::enumCompartmentType::Tissue:
+  case SECompartmentType::Tissue:
     return GetTissueCompartment(name);
   default:
     return nullptr;
@@ -114,21 +114,21 @@ SECompartment* SECompartmentManager::GetCompartment(CDM::enumCompartmentType::va
   return nullptr;
 }
 //-------------------------------------------------------------------------------
-const SECompartment* SECompartmentManager::GetCompartment(CDM::enumCompartmentType::value type, const char* name) const
+const SECompartment* SECompartmentManager::GetCompartment(SECompartmentType type, const char* name) const
 {
   return GetCompartment(type, std::string{ name });
 }
 //-------------------------------------------------------------------------------
-const SECompartment* SECompartmentManager::GetCompartment(CDM::enumCompartmentType::value type, const std::string& name) const
+const SECompartment* SECompartmentManager::GetCompartment(SECompartmentType type, const std::string& name) const
 {
   switch (type) {
-  case CDM::enumCompartmentType::Gas:
+  case SECompartmentType::Gas:
     return GetGasCompartment(name);
-  case CDM::enumCompartmentType::Liquid:
+  case SECompartmentType::Liquid:
     return GetLiquidCompartment(name);
-  case CDM::enumCompartmentType::Thermal:
+  case SECompartmentType::Thermal:
     return GetThermalCompartment(name);
-  case CDM::enumCompartmentType::Tissue:
+  case SECompartmentType::Tissue:
     return GetTissueCompartment(name);
   default:
     return nullptr;
@@ -221,7 +221,7 @@ void SECompartmentManager::DeleteGasLink(const char* name)
 {
   return DeleteGasLink(std::string{ name });
 }
-  //-------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
 void SECompartmentManager::DeleteGasLink(const std::string& name)
 {
   SEGasCompartmentLink* link = GetGasLink(name);
@@ -267,7 +267,7 @@ const SEGasCompartmentLink* SECompartmentManager::GetGasLink(const std::string& 
 const std::vector<SEGasCompartmentLink*>& SECompartmentManager::GetGasLinks()
 {
   return m_GasLinks;
-}//-------------------------------------------------------------------------------
+} //-------------------------------------------------------------------------------
 SEGasCompartmentGraph& SECompartmentManager::CreateGasGraph(const char* name)
 {
   return CreateGasGraph(std::string{ name });

@@ -19,7 +19,7 @@ SESubstanceBolus::SESubstanceBolus(const SESubstance& substance)
   : SESubstanceAdministration()
   , m_Substance(substance)
 {
-  m_AdminRoute = (CDM::enumBolusAdministration::value)-1;
+  m_AdminRoute = SEBolusAdministration::Invalid;
   m_Dose = nullptr;
   m_Concentration = nullptr;
 }
@@ -32,7 +32,7 @@ SESubstanceBolus::~SESubstanceBolus()
 void SESubstanceBolus::Clear()
 {
   SESubstanceAdministration::Clear();
-  m_AdminRoute = (CDM::enumBolusAdministration::value)-1;
+  m_AdminRoute = SEBolusAdministration::Invalid;
   SAFE_DELETE(m_Dose);
   SAFE_DELETE(m_Concentration);
   // m_Substance=nullptr; Keeping mapping!!
@@ -48,21 +48,21 @@ bool SESubstanceBolus::IsActive() const
   return IsValid();
 }
 
-CDM::enumBolusAdministration::value SESubstanceBolus::GetAdminRoute() const
+SEBolusAdministration SESubstanceBolus::GetAdminRoute() const
 {
   return m_AdminRoute;
 }
-void SESubstanceBolus::SetAdminRoute(CDM::enumBolusAdministration::value route)
+void SESubstanceBolus::SetAdminRoute(SEBolusAdministration route)
 {
   m_AdminRoute = route;
 }
 bool SESubstanceBolus::HasAdminRoute() const
 {
-  return m_AdminRoute == ((CDM::enumBolusAdministration::value)-1) ? false : true;
+  return m_AdminRoute == (SEBolusAdministration::Invalid) ? false : true;
 }
 void SESubstanceBolus::InvalidateAdminRoute()
 {
-  m_AdminRoute = (CDM::enumBolusAdministration::value)-1;
+  m_AdminRoute = SEBolusAdministration::Invalid;
 }
 
 bool SESubstanceBolus::HasDose() const

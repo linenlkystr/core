@@ -32,10 +32,6 @@ public:
   virtual bool IsValid() const;
   virtual bool IsActive() const;
 
-protected:
-  virtual void Unload(CDM::ForcedExhaleData& data) const;
-
-public:
   virtual void ToString(std::ostream& str) const;
 
   virtual bool HasExpiratoryReserveVolumeFraction() const;

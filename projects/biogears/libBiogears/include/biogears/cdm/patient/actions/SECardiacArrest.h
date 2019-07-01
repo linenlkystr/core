@@ -13,6 +13,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 
+#include <biogears/cdm/properties/PropertyEnum.h>
+
 IO_DECL(PatientActions)
 namespace biogears {
 class BIOGEARS_API SECardiacArrest : public SEPatientAction {
@@ -35,6 +37,6 @@ public:
   virtual void ToString(std::ostream& str) const override;
 
 protected:
-  CDM::enumOnOff::value m_State;
+  SEOnOff m_State;
 };
 }

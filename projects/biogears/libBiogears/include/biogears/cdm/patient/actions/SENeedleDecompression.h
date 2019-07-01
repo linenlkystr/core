@@ -12,6 +12,7 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
+#include <biogears/cdm/properties/PropertyEnum.h>
 
 IO_DECL(PatientActions)
 
@@ -33,15 +34,15 @@ public:
   virtual void SetActive(bool b);
 
 public:
-  virtual CDM::enumSide::value GetSide() const;
-  virtual void SetSide(CDM::enumSide::value LeftOrRight);
+  virtual SESide GetSide() const;
+  virtual void SetSide(SESide LeftOrRight);
   virtual bool HasSide() const;
   virtual void InvalidateSide();
 
   virtual void ToString(std::ostream& str) const override;
 
 protected:
-  CDM::enumSide::value m_Side;
-  CDM::enumOnOff::value m_State;
+  SESide m_Side;
+  SEOnOff m_State;
 };
 }

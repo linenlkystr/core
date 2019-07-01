@@ -12,6 +12,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitNode.h>
 
+#include <biogears/cdm/circuit/SECircuitNode.inl>
 //Private Includes
 
 namespace biogears {

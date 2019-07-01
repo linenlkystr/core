@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SESubstanceAdministration.h>
 #include <biogears/cdm/properties/SEScalarTime.h>
 #include <biogears/cdm/properties/SEScalarVolume.h>
+#include "SEPatientActionsEnums.h"
 
 IO_DECL(PatientActions)
 
@@ -33,8 +34,8 @@ public:
   virtual bool IsActive() const;
 
 public:
-  virtual CDM::enumBolusAdministration::value GetAdminRoute() const;
-  virtual void SetAdminRoute(CDM::enumBolusAdministration::value name);
+  virtual SEBolusAdministration GetAdminRoute() const;
+  virtual void SetAdminRoute(SEBolusAdministration name);
   virtual bool HasAdminRoute() const;
   virtual void InvalidateAdminRoute();
 
@@ -49,7 +50,7 @@ public:
   virtual void ToString(std::ostream& str) const;
 
 protected:
-  CDM::enumBolusAdministration::value m_AdminRoute;
+  SEBolusAdministration m_AdminRoute;
   SEScalarMassPerVolume* m_Concentration;
   SEScalarVolume* m_Dose;
   const SESubstance& m_Substance;

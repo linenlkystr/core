@@ -12,11 +12,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 
 #include <biogears/cdm/compartment/fluid/SEFluidCompartment.inl>
+
 #include <biogears/cdm/compartment/substances/SELiquidSubstanceQuantity.h>
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/cdm/properties/SEScalarFraction.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
-
+#include <biogears/cdm/substance/SESubstanceEnums.h>
 
 namespace biogears {
 SELiquidCompartment::SELiquidCompartment(const char* name, Logger* logger)
@@ -71,7 +72,7 @@ void SELiquidCompartment::StateChange()
 void SELiquidCompartment::Balance(BalanceLiquidBy by)
 {
   for (SELiquidSubstanceQuantity* subQ : m_SubstanceQuantities) {
-    if (by == BalanceLiquidBy::PartialPressure && subQ->GetSubstance().GetState() != CDM::enumSubstanceState::Gas)
+    if (by == BalanceLiquidBy::PartialPressure && subQ->GetSubstance().GetState() != SESubstanceState::Gas)
       continue;
 
     //Partial pressures only make sense for gases in liquids

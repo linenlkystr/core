@@ -12,6 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
+#include <biogears/cdm/patient/actions/SEPatientActionsEnums.h>
+#include <biogears/cdm/properties/PropertyEnum.h>
 
 IO_DECL(PatientActions)
 
@@ -34,13 +36,13 @@ public:
   virtual bool IsActive() const override;
 
 public:
-  virtual CDM::enumPneumothoraxType::value GetType() const;
-  virtual void SetType(CDM::enumPneumothoraxType::value name);
+  virtual SEPneumothoraxType GetType() const;
+  virtual void SetType(SEPneumothoraxType name);
   virtual bool HasType() const;
   virtual void InvalidateType();
 
-  virtual CDM::enumSide::value GetSide() const;
-  virtual void SetSide(CDM::enumSide::value name);
+  virtual SESide GetSide() const;
+  virtual void SetSide(SESide name);
   virtual bool HasSide() const;
   virtual void InvalidateSide();
 
@@ -50,9 +52,15 @@ public:
   virtual void ToString(std::ostream& str) const override;
 
 protected:
-  CDM::enumPneumothoraxType::value m_Type;
-  CDM::enumSide::value m_Side;
+  SEPneumothoraxType m_Type;
+  SESide m_Side;
   SEScalar0To1* m_Severity;
-  CDM::enumOnOff::value m_State;
+  SEOnOff m_State;
 };
+
+std::ostream& operator<<(std::ostream& os, const SETensionPneumothorax& tp)
+{
+  tp.ToString(os);
+  return os;
+}
 }

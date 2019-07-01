@@ -11,14 +11,15 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 #include <biogears/cdm/compartment/substances/SEGasSubstanceQuantity.h>
 
+#include <biogears/cdm/compartment/fluid/SEFluidCompartment.inl>
+#include <biogears/cdm/compartment/fluid/SEFluidCompartmentLink.inl>
+
 #include <biogears/cdm/compartment/fluid/SEGasCompartment.h>
-#include <biogears/cdm/compartment/fluid/SEGasCompartmentLink.h>
 #include <biogears/cdm/properties/SEScalarFraction.h>
 #include <biogears/cdm/properties/SEScalarPressure.h>
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
-
 
 namespace biogears {
 SEGasSubstanceQuantity::SEGasSubstanceQuantity(SESubstance& sub, SEGasCompartment& compartment)
@@ -29,7 +30,7 @@ SEGasSubstanceQuantity::SEGasSubstanceQuantity(SESubstance& sub, SEGasCompartmen
   m_Volume = nullptr;
   m_VolumeFraction = nullptr;
 
-  if (m_Substance.GetState() != CDM::enumSubstanceState::Gas)
+  if (m_Substance.GetState() != SESubstanceState::Gas)
     Fatal("The substance for a Gas Substance quantity must be a gas");
 }
 //-------------------------------------------------------------------------------

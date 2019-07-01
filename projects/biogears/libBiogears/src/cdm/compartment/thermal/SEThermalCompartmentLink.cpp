@@ -9,8 +9,9 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
-#include <biogears/cdm/compartment/SECompartmentGraph.inl>
 #include <biogears/cdm/compartment/thermal/SEThermalCompartmentLink.h>
+
+#include <biogears/cdm/compartment/SECompartmentGraph.inl>
 
 #include <biogears/cdm/circuit/SECircuitManager.h>
 #include <biogears/cdm/properties/SEScalarPower.h>
@@ -32,19 +33,6 @@ SEThermalCompartmentLink::SEThermalCompartmentLink(SEThermalCompartment& src, SE
 //-------------------------------------------------------------------------------
 SEThermalCompartmentLink::~SEThermalCompartmentLink()
 {
-}
-//-------------------------------------------------------------------------------
-void SEThermalCompartmentLink::Unload(CDM::ThermalCompartmentLinkData& data)
-{
-  SECompartmentLink::Unload(data);
-  data.SourceCompartment(m_SourceCmpt.GetName());
-  data.TargetCompartment(m_TargetCmpt.GetName());
-  if (m_Path != nullptr)
-    data.Path(m_Path->GetName());
-  // Even if you have a path, I am unloading everything, this makes the xml actually usefull...
-  if (HasHeatTransferRate()) {
-    io::Property::UnMarshall(GetHeatTransferRate(), data.HeatTransferRate());
-  }
 }
 //-------------------------------------------------------------------------------
 void SEThermalCompartmentLink::Clear()

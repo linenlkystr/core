@@ -52,8 +52,9 @@ SEScalarFlowResistance& SEFluidCircuitPath::GetResistance()
 }
 double SEFluidCircuitPath::GetResistance(const FlowResistanceUnit& unit) const
 {
-  if (m_Resistance == nullptr)
+  if (m_Resistance == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Resistance->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasNextResistance() const
@@ -66,8 +67,9 @@ SEScalarFlowResistance& SEFluidCircuitPath::GetNextResistance()
 }
 double SEFluidCircuitPath::GetNextResistance(const FlowResistanceUnit& unit) const
 {
-  if (m_NextResistance == nullptr)
+  if (m_NextResistance == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NextResistance->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasResistanceBaseline() const
@@ -80,8 +82,9 @@ SEScalarFlowResistance& SEFluidCircuitPath::GetResistanceBaseline()
 }
 double SEFluidCircuitPath::GetResistanceBaseline(const FlowResistanceUnit& unit) const
 {
-  if (m_ResistanceBaseline == nullptr)
+  if (m_ResistanceBaseline == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_ResistanceBaseline->GetValue(unit);
 }
 
@@ -99,8 +102,9 @@ SEScalarFlowCompliance& SEFluidCircuitPath::GetCompliance()
 }
 double SEFluidCircuitPath::GetCompliance(const FlowComplianceUnit& unit) const
 {
-  if (m_Capacitance == nullptr)
+  if (m_Capacitance == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Capacitance->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasNextCompliance() const
@@ -113,8 +117,9 @@ SEScalarFlowCompliance& SEFluidCircuitPath::GetNextCompliance()
 }
 double SEFluidCircuitPath::GetNextCompliance(const FlowComplianceUnit& unit) const
 {
-  if (m_NextCapacitance == nullptr)
+  if (m_NextCapacitance == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NextCapacitance->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasComplianceBaseline() const
@@ -127,8 +132,9 @@ SEScalarFlowCompliance& SEFluidCircuitPath::GetComplianceBaseline()
 }
 double SEFluidCircuitPath::GetComplianceBaseline(const FlowComplianceUnit& unit) const
 {
-  if (m_CapacitanceBaseline == nullptr)
+  if (m_CapacitanceBaseline == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_CapacitanceBaseline->GetValue(unit);
 }
 
@@ -146,8 +152,9 @@ SEScalarFlowInertance& SEFluidCircuitPath::GetInertance()
 }
 double SEFluidCircuitPath::GetInertance(const FlowInertanceUnit& unit) const
 {
-  if (m_Inductance == nullptr)
+  if (m_Inductance == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Inductance->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasNextInertance() const
@@ -160,8 +167,9 @@ SEScalarFlowInertance& SEFluidCircuitPath::GetNextInertance()
 }
 double SEFluidCircuitPath::GetNextInertance(const FlowInertanceUnit& unit) const
 {
-  if (m_NextInductance == nullptr)
+  if (m_NextInductance == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NextInductance->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasInertanceBaseline() const
@@ -174,8 +182,9 @@ SEScalarFlowInertance& SEFluidCircuitPath::GetInertanceBaseline()
 }
 double SEFluidCircuitPath::GetInertanceBaseline(const FlowInertanceUnit& unit) const
 {
-  if (m_InductanceBaseline == nullptr)
+  if (m_InductanceBaseline == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_InductanceBaseline->GetValue(unit);
 }
 
@@ -192,8 +201,9 @@ SEScalarVolumePerTime& SEFluidCircuitPath::GetFlow()
 }
 double SEFluidCircuitPath::GetFlow(const VolumePerTimeUnit& unit) const
 {
-  if (m_Flux == nullptr)
+  if (m_Flux == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_Flux->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasNextFlow() const
@@ -206,8 +216,9 @@ SEScalarVolumePerTime& SEFluidCircuitPath::GetNextFlow()
 }
 double SEFluidCircuitPath::GetNextFlow(const VolumePerTimeUnit& unit) const
 {
-  if (m_NextFlux == nullptr)
+  if (m_NextFlux == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NextFlux->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasFlowSource() const
@@ -220,8 +231,9 @@ SEScalarVolumePerTime& SEFluidCircuitPath::GetFlowSource()
 }
 double SEFluidCircuitPath::GetFlowSource(const VolumePerTimeUnit& unit) const
 {
-  if (m_FluxSource == nullptr)
+  if (m_FluxSource == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_FluxSource->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasNextFlowSource() const
@@ -234,8 +246,9 @@ SEScalarVolumePerTime& SEFluidCircuitPath::GetNextFlowSource()
 }
 double SEFluidCircuitPath::GetNextFlowSource(const VolumePerTimeUnit& unit) const
 {
-  if (m_NextFluxSource == nullptr)
+  if (m_NextFluxSource == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NextFluxSource->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasFlowSourceBaseline() const
@@ -248,8 +261,9 @@ SEScalarVolumePerTime& SEFluidCircuitPath::GetFlowSourceBaseline()
 }
 double SEFluidCircuitPath::GetFlowSourceBaseline(const VolumePerTimeUnit& unit) const
 {
-  if (m_FluxSourceBaseline == nullptr)
+  if (m_FluxSourceBaseline == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_FluxSourceBaseline->GetValue(unit);
 }
 
@@ -266,8 +280,9 @@ SEScalarPressure& SEFluidCircuitPath::GetPressureSource()
 }
 double SEFluidCircuitPath::GetPressureSource(const PressureUnit& unit) const
 {
-  if (m_PotentialSource == nullptr)
+  if (m_PotentialSource == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_PotentialSource->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasNextPressureSource() const
@@ -280,8 +295,9 @@ SEScalarPressure& SEFluidCircuitPath::GetNextPressureSource()
 }
 double SEFluidCircuitPath::GetNextPressureSource(const PressureUnit& unit) const
 {
-  if (m_NextPotentialSource == nullptr)
+  if (m_NextPotentialSource == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_NextPotentialSource->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasPressureSourceBaseline() const
@@ -294,8 +310,9 @@ SEScalarPressure& SEFluidCircuitPath::GetPressureSourceBaseline()
 }
 double SEFluidCircuitPath::GetPressureSourceBaseline(const PressureUnit& unit) const
 {
-  if (m_PotentialSourceBaseline == nullptr)
+  if (m_PotentialSourceBaseline == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_PotentialSourceBaseline->GetValue(unit);
 }
 bool SEFluidCircuitPath::HasValveBreakdownPressure() const
@@ -308,8 +325,9 @@ SEScalarPressure& SEFluidCircuitPath::GetValveBreakdownPressure()
 }
 double SEFluidCircuitPath::GetValveBreakdownPressure(const PressureUnit& unit) const
 {
-  if (m_ValveBreakdownPotential == nullptr)
+  if (m_ValveBreakdownPotential == nullptr) {
     return SEScalar::dNaN();
+  }
   return m_ValveBreakdownPotential->GetValue(unit);
 }
 }

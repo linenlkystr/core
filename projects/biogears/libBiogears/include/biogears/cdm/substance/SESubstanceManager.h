@@ -20,6 +20,7 @@ namespace biogears {
 class SESubstance;
 class SESubstanceCompound;
 
+
 class BIOGEARS_API SESubstanceManager : public Loggable {
   friend class io::Substance;
 
@@ -83,7 +84,7 @@ protected:
   std::vector<SESubstanceCompound*> m_ActiveCompounds;
 
 private:
-  std::map<SESubstance*, const CDM::SubstanceData*> m_OriginalSubstanceData;
-  std::map<SESubstanceCompound*, const CDM::SubstanceCompoundData*> m_OriginalCompoundData;
+  std::map<SESubstance*, const SESubstance*> m_OriginalSubstanceData;
+  std::map<SESubstanceCompound*, const SESubstanceCompound*> m_OriginalCompoundData;
 };
 }

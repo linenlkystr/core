@@ -16,17 +16,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/SECompartmentTransportGraph.inl>
 #include <biogears/cdm/compartment/fluid/SEFluidCompartment.inl>
 #include <biogears/cdm/compartment/fluid/SEFluidCompartmentLink.inl>
-#include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 
 namespace biogears {
-  SELiquidCompartmentGraph::SELiquidCompartmentGraph(const char* name, Logger* logger)
-    : SELiquidCompartmentGraph(std::string{ name }, logger) {};
+SELiquidCompartmentGraph::SELiquidCompartmentGraph(const char* name, Logger* logger)
+  : SELiquidCompartmentGraph(std::string{ name }, logger){};
 
-  SELiquidCompartmentGraph::SELiquidCompartmentGraph(const std::string& name, Logger* logger)
-    : SECompartmentTransportGraph(name, logger) {};
+SELiquidCompartmentGraph::SELiquidCompartmentGraph(const std::string& name, Logger* logger)
+  : SECompartmentTransportGraph(name, logger){};
 
-  SELiquidCompartmentGraph::~SELiquidCompartmentGraph() {}
-
+SELiquidCompartmentGraph::~SELiquidCompartmentGraph() {}
 
 void SELiquidCompartmentGraph::BalanceByIntensive()
 {

@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
+#include <biogears/cdm/patient/SEPatientEnums.h>
+
 IO_DECL(Patient)
 
 namespace biogears {
@@ -52,8 +54,8 @@ public:
 
   virtual void Clear();
 
-  bool Load(const char* patientFile);
-  bool Load(const std::string& patientFile);
+  void Load(const char* patientFile);
+  void Load(const std::string& patientFile);
 
 
   /** @name GetScalar
@@ -67,10 +69,10 @@ public:
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 
-  virtual const std::map<CDM::enumPatientEvent::value, bool>& GetEventStates() const { return m_EventState; }
-  virtual void SetEvent(CDM::enumPatientEvent::value type, bool active, const SEScalarTime& time);
-  virtual bool IsEventActive(CDM::enumPatientEvent::value state) const;
-  virtual double GetEventDuration(CDM::enumPatientEvent::value type, const TimeUnit& unit) const;
+  virtual const std::map<SEPatientEvent, bool>& GetEventStates() const { return m_EventState; }
+  virtual void SetEvent(SEPatientEvent type, bool active, const SEScalarTime& time);
+  virtual bool IsEventActive(SEPatientEvent state) const;
+  virtual double GetEventDuration(SEPatientEvent type, const TimeUnit& unit) const;
   virtual void UpdateEvents(const SEScalarTime& timeStep);
   /** @name ForwardEvents
    *  @brief - Set a callback class to invoke when any event changes
@@ -88,13 +90,13 @@ public:
   virtual bool HasName() const;
   virtual void InvalidateName();
 
-  virtual CDM::enumSex::value GetGender() const;
-  virtual void SetGender(CDM::enumSex::value sex);
+  virtual SEGender GetGender() const;
+  virtual void SetGender(SEGender sex);
   virtual bool HasGender() const;
   virtual void InvalidateGender();
 
-  virtual CDM::enumSex::value GetSex() const;
-  virtual void SetSex(CDM::enumSex::value sex);
+  virtual SEGender GetSex() const;
+  virtual void SetSex(SEGender sex);
   virtual bool HasSex() const;
   virtual void InvalidateSex();
 
@@ -225,11 +227,11 @@ public:
 protected:
   std::stringstream m_ss;
   mutable SEEventHandler* m_EventHandler;
-  std::map<CDM::enumPatientEvent::value, bool> m_EventState;
-  std::map<CDM::enumPatientEvent::value, double> m_EventDuration_s;
+  std::map<SEPatientEvent, bool> m_EventState;
+  std::map<SEPatientEvent, double> m_EventDuration_s;
 
   std::string m_Name;
-  CDM::enumSex::value m_Gender;
+  SEGender m_Gender;
   SEScalarTime* m_Age;
   SEScalarMass* m_Weight;
   SEScalarLength* m_Height;

@@ -33,10 +33,7 @@ public:
 
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
-
-protected:
-  virtual void Unload(CDM::ConsumeNutrientsData& data) const;
-
+  
 public:
   bool HasNutrition() const;
   SENutrition& GetNutrition();

@@ -45,17 +45,6 @@ bool SEForcedInhale::IsActive() const
   return SEConsciousRespirationCommand::IsActive();
 }
 //-----------------------------------------------------------------------------
-void SEForcedInhale::Unload(CDM::ForcedInhaleData& data) const
-{
-  SEConsciousRespirationCommand::Unload(data);
-  if (m_InspiratoryCapacityFraction != nullptr) {
-    io::Property::UnMarshall(*m_InspiratoryCapacityFraction, data.InspiratoryCapacityFraction());
-  }
-  if (m_Period != nullptr) {
-    io::Property::UnMarshall(*m_Period, data.Period());
-  }
-}
-//-----------------------------------------------------------------------------
 bool SEForcedInhale::HasInspiratoryCapacityFraction() const
 {
   return m_InspiratoryCapacityFraction == nullptr ? false : m_InspiratoryCapacityFraction->IsValid();

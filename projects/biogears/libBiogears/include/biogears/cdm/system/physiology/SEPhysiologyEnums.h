@@ -12,40 +12,42 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 
+#include <ostream>
+
 namespace biogears {
-enum class SESubstanceState {
+
+enum class SEInflammationSource {
   Invalid = -1,
-  Solid = 0,
-  Liquid,
-  Gas,
-  Molecular
+  Burn = 0,
+  Hemorrhage,
+  Pathogen
 };
-enum class SESubstanceIonicState {
+
+enum class SEHeartRhythm {
   Invalid = -1,
-  WeakBase = 0,
-  Base,
-  Acid,
-  Neutral
+  Asystole = 0,
+  NormalSinus
 };
-enum class SESubstanceBindingProtein {
-  Invalid = -1,
-  Albumin = 0,
-  Lipoprotein,
-  AAG
-};
-enum class SECharge {
-  Invalid = -1,
-  Positive = 0,
-  Negative,
-  Neutral
-};
-enum class SESubstanceClass {
-  Invalid = -1,
-  Anesthetic = 0,
-  Antibiotic,
-  Ion,
-  Opioid,
-  ReversalAgent,
-  Sedative
-};
+
+inline std::ostream& operator<<(std::ostream& os, const SEInflammationSource& e)
+{
+  switch (e) {
+    case SEInflammationSource::Burn: os << "Burn"; break;
+    case SEInflammationSource::Hemorrhage: os << "Hemorrhage"; break;
+    case SEInflammationSource::Pathogen: os << "Pathogen"; break;
+  default:
+    os << "Invalid";
+  }
+  return os;
+}
+inline std::ostream& operator<<(std::ostream& os, const SEHeartRhythm& e)
+{
+  switch (e) {
+    case SEHeartRhythm::Asystole: os << "Asystole"; break;
+    case SEHeartRhythm::NormalSinus: os << "NormalSinus"; break;
+  default:
+    os << "Invalid";
+  }
+  return os;
+}
 }

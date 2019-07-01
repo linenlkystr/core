@@ -13,6 +13,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 
+#include <biogears/cdm/patient/actions/SEPatientActionsEnums.h>
+
 IO_DECL(PatientActions)
 
 namespace biogears {
@@ -37,8 +39,8 @@ public:
   virtual bool HasSeverity() const;
   virtual SEScalar0To1& GetSeverity();
 
-  virtual CDM::enumBrainInjuryType::value GetType() const;
-  virtual void SetType(CDM::enumBrainInjuryType::value t);
+  virtual SEBrainInjuryType GetType() const;
+  virtual void SetType(SEBrainInjuryType t);
   virtual bool HasType() const;
   virtual void InvalidateType();
 
@@ -46,6 +48,6 @@ public:
 
 protected:
   SEScalar0To1* m_Severity;
-  CDM::enumBrainInjuryType::value m_Type;
+  SEBrainInjuryType m_Type;
 };
 }

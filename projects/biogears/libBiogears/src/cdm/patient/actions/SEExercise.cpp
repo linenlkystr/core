@@ -22,24 +22,24 @@ SEExercise::SEExercise()
   m_Intensity = nullptr;
   m_DesiredWorkRate = nullptr;
 }
-
+//----------------------------------------------------------------------------------
 SEExercise::~SEExercise()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEExercise::Clear()
 {
   SEPatientAction::Clear();
   SAFE_DELETE(m_Intensity);
   SAFE_DELETE(m_DesiredWorkRate)
 }
-
+//----------------------------------------------------------------------------------
 bool SEExercise::IsValid() const
 {
   return SEPatientAction::IsValid() && (HasDesiredWorkRate() || HasIntensity());
 }
-
+//----------------------------------------------------------------------------------
 bool SEExercise::IsActive() const
 {
   if (HasIntensity()) {
@@ -50,29 +50,31 @@ bool SEExercise::IsActive() const
     return false;
   }
 }
-
+//----------------------------------------------------------------------------------
 bool SEExercise::HasIntensity() const
 {
   return m_Intensity == nullptr ? false : m_Intensity->IsValid();
 }
+//----------------------------------------------------------------------------------
 SEScalar0To1& SEExercise::GetIntensity()
 {
   if (m_Intensity == nullptr)
     m_Intensity = new SEScalar0To1();
   return *m_Intensity;
 }
-
+//----------------------------------------------------------------------------------
 bool SEExercise::HasDesiredWorkRate() const
 {
   return m_DesiredWorkRate == nullptr ? false : m_DesiredWorkRate->IsValid();
 }
+//----------------------------------------------------------------------------------
 SEScalar& SEExercise::GetDesiredWorkRate()
 {
   if (m_DesiredWorkRate == nullptr)
     m_DesiredWorkRate = new SEScalar();
   return *m_DesiredWorkRate;
 }
-
+//----------------------------------------------------------------------------------
 void SEExercise::ToString(std::ostream& str) const
 {
   str << "Patient Action : Exercise";
@@ -89,4 +91,5 @@ void SEExercise::ToString(std::ostream& str) const
   }
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

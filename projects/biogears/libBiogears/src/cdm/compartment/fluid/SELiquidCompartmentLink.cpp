@@ -16,7 +16,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/SECompartmentTransportGraph.inl>
 #include <biogears/cdm/compartment/fluid/SEFluidCompartment.inl>
 #include <biogears/cdm/compartment/fluid/SEFluidCompartmentLink.inl>
-#include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 
 namespace biogears {
 SELiquidCompartmentLink::SELiquidCompartmentLink(SELiquidCompartment& src, SELiquidCompartment& tgt, const char* name)

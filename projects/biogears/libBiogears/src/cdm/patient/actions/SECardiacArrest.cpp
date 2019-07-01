@@ -16,7 +16,7 @@ namespace biogears {
 SECardiacArrest::SECardiacArrest()
   : SEPatientAction()
 {
-  m_State = CDM::enumOnOff::Off;
+  m_State = SEOnOff::Off;
 }
 
 SECardiacArrest::~SECardiacArrest()
@@ -27,7 +27,7 @@ SECardiacArrest::~SECardiacArrest()
 void SECardiacArrest::Clear()
 {
   SEPatientAction::Clear();
-  m_State = CDM::enumOnOff::Off;
+  m_State = SEOnOff::Off;
 }
 
 bool SECardiacArrest::IsValid() const
@@ -37,12 +37,12 @@ bool SECardiacArrest::IsValid() const
 
 bool SECardiacArrest::IsActive() const
 {
-  return IsValid() && m_State == CDM::enumOnOff::On;
+  return IsValid() && m_State == SEOnOff::On;
 }
 
 void SECardiacArrest::SetActive(bool b)
 {
-  m_State = b ? CDM::enumOnOff::On : CDM::enumOnOff::Off;
+  m_State = b ? SEOnOff::On : SEOnOff::Off;
 }
 
 void SECardiacArrest::ToString(std::ostream& str) const

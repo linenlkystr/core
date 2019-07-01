@@ -21,6 +21,13 @@ IO_DECL(Compartment)
 
 namespace biogears {
 
+class SEScalarVolume;
+class SEScalar0To1;
+class SEScalarFraction;
+class SEScalarMass;
+class VolumeUnit;
+class MassUnit;
+
 class SESubstance;
 class SESubstanceManager;
 class SELiquidCompartment;

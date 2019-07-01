@@ -16,7 +16,7 @@ namespace biogears {
 SEIntubation::SEIntubation()
   : SEPatientAction()
 {
-  m_Type = (CDM::enumIntubationType::value)-1;
+  m_Type = (SEIntubationType)-1;
 }
 
 SEIntubation::~SEIntubation()
@@ -27,7 +27,7 @@ SEIntubation::~SEIntubation()
 void SEIntubation::Clear()
 {
   SEPatientAction::Clear();
-  m_Type = (CDM::enumIntubationType::value)-1;
+  m_Type = (SEIntubationType)-1;
 }
 
 bool SEIntubation::IsValid() const
@@ -37,24 +37,24 @@ bool SEIntubation::IsValid() const
 
 bool SEIntubation::IsActive() const
 {
-  return HasType() && GetType() != CDM::enumIntubationType::Off;
+  return HasType() && GetType() != SEIntubationType::Off;
 }
 
-CDM::enumIntubationType::value SEIntubation::GetType() const
+SEIntubationType SEIntubation::GetType() const
 {
   return m_Type;
 }
-void SEIntubation::SetType(CDM::enumIntubationType::value Type)
+void SEIntubation::SetType(SEIntubationType Type)
 {
   m_Type = Type;
 }
 bool SEIntubation::HasType() const
 {
-  return m_Type == ((CDM::enumIntubationType::value)-1) ? false : true;
+  return m_Type == ((SEIntubationType)-1) ? false : true;
 }
 void SEIntubation::InvalidateType()
 {
-  m_Type = (CDM::enumIntubationType::value)-1;
+  m_Type = (SEIntubationType)-1;
 }
 
 void SEIntubation::ToString(std::ostream& str) const

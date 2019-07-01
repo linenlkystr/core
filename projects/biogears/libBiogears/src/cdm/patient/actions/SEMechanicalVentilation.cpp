@@ -23,7 +23,7 @@ namespace biogears {
 SEMechanicalVentilation::SEMechanicalVentilation()
   : SEPatientAction()
 {
-  m_State = CDM::enumOnOff::value(-1);
+  m_State = SEOnOff::Invalid;
   m_Flow = nullptr;
   m_Pressure = nullptr;
 }
@@ -37,7 +37,7 @@ void SEMechanicalVentilation::Clear()
 {
   SEPatientAction::Clear();
 
-  m_State = CDM::enumOnOff::value(-1);
+  m_State = SEOnOff::Invalid;
   SAFE_DELETE(m_Flow);
   SAFE_DELETE(m_Pressure);
 
@@ -51,7 +51,7 @@ bool SEMechanicalVentilation::IsValid() const
     Error("Mechanical Ventilation must have state.");
     return false;
   }
-  if (GetState() == CDM::enumOnOff::Off)
+  if (GetState() == SEOnOff::Off)
     return true;
   else {
     if (HasGasFraction()) {
@@ -76,24 +76,24 @@ bool SEMechanicalVentilation::IsActive() const
 {
   if (!HasState())
     return false;
-  return GetState() == CDM::enumOnOff::On;
+  return GetState() == SEOnOff::On;
 }
 
-CDM::enumOnOff::value SEMechanicalVentilation::GetState() const
+SEOnOff SEMechanicalVentilation::GetState() const
 {
   return m_State;
 }
-void SEMechanicalVentilation::SetState(CDM::enumOnOff::value state)
+void SEMechanicalVentilation::SetState(SEOnOff state)
 {
   m_State = state;
 }
 bool SEMechanicalVentilation::HasState() const
 {
-  return m_State == ((CDM::enumOnOff::value)-1) ? false : true;
+  return m_State != (SEOnOff::Invalid);
 }
 void SEMechanicalVentilation::InvalidateState()
 {
-  m_State = (CDM::enumOnOff::value)-1;
+  m_State = SEOnOff::Invalid;
 }
 
 bool SEMechanicalVentilation::HasFlow() const
@@ -132,7 +132,7 @@ double SEMechanicalVentilation::GetPressure(const PressureUnit& unit) const
 
 bool SEMechanicalVentilation::HasGasFraction() const
 {
-  return m_GasFractions.size() == 0 ? false : true;
+  return m_GasFractions.size() != 0;
 }
 bool SEMechanicalVentilation::HasGasFraction(const SESubstance& s) const
 {

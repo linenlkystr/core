@@ -31,10 +31,7 @@ public:
 
   virtual bool IsValid() const;
   virtual bool IsActive() const;
-
-protected:
-  virtual void Unload(CDM::ForcedInhaleData& data) const;
-
+  
 public:
   virtual bool HasInspiratoryCapacityFraction() const;
   virtual SEScalar0To1& GetInspiratoryCapacityFraction();

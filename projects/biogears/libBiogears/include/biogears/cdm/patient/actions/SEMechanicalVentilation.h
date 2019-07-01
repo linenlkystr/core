@@ -13,6 +13,7 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include "biogears/cdm/properties/SEScalarPressure.h"
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
+#include <biogears/cdm/properties/PropertyEnum.h>
 
 IO_DECL(PatientActions)
 
@@ -44,8 +45,8 @@ public:
   virtual bool IsActive() const override;
 
 public:
-  virtual CDM::enumOnOff::value GetState() const;
-  virtual void SetState(CDM::enumOnOff::value name);
+  virtual SEOnOff GetState() const;
+  virtual void SetState(SEOnOff name);
   virtual bool HasState() const;
   virtual void InvalidateState();
 
@@ -71,7 +72,7 @@ public:
 protected:
   std::stringstream m_ss;
 
-  CDM::enumOnOff::value m_State;
+  SEOnOff m_State;
   SEScalarVolumePerTime* m_Flow;
   SEScalarPressure* m_Pressure;
 

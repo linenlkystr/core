@@ -34,9 +34,6 @@ public:
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
 
-protected:
-  virtual void Unload(CDM::ExerciseData& data) const;
-
 public:
   virtual bool HasIntensity() const;
   virtual SEScalar0To1& GetIntensity();

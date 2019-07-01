@@ -12,6 +12,7 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
+#include <biogears/cdm/system/physiology/SEPhysiologyEnums.h>
 
 IO_DECL(Physiology)
 
@@ -104,7 +105,7 @@ public:
   virtual double GetTissueIntegrity() const;
 
   virtual bool HasInflammationSources() const;
-  virtual std::vector<CDM::enumInflammationSource>& GetInflammationSources();
+  virtual std::vector<SEInflammationSource>& GetInflammationSources();
 
 protected:
   SEScalar* m_Pathogen;
@@ -124,6 +125,6 @@ protected:
   SEScalar* m_Interleukin12;
   SEScalar* m_Catecholamines;
   SEScalar0To1* m_TissueIntegrity;
-  std::vector<CDM::enumInflammationSource> m_InflammationSources;
+  std::vector<SEInflammationSource> m_InflammationSources;
 };
 }

@@ -13,10 +13,9 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/compartment/SECompartmentGraph.inl>
 #include <biogears/cdm/compartment/fluid/SEFluidCompartment.inl>
+#include <biogears/cdm/compartment/fluid/SEFluidCompartmentLink.inl>
 #include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
-#include <biogears/cdm/properties/SEScalarFraction.h>
 #include <biogears/cdm/properties/SEScalarVolume.h>
-#include <biogears/cdm/substance/SESubstanceManager.h>
 
 namespace biogears {
 SEGasCompartment::SEGasCompartment(const char* name, Logger* logger)

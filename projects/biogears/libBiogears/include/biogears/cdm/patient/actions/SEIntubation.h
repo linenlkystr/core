@@ -12,6 +12,7 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
+#include <biogears/cdm/patient/actions/SEPatientActionsEnums.h>
 
 IO_DECL(PatientActions)
 
@@ -32,14 +33,14 @@ public:
   virtual bool IsActive() const override;
 
 public:
-  virtual CDM::enumIntubationType::value GetType() const;
-  virtual void SetType(CDM::enumIntubationType::value t);
+  virtual SEIntubationType GetType() const;
+  virtual void SetType(SEIntubationType t);
   virtual bool HasType() const;
   virtual void InvalidateType();
 
   virtual void ToString(std::ostream& str) const override;;
 
 protected:
-  CDM::enumIntubationType::value m_Type;
+  SEIntubationType m_Type;
 };
 }

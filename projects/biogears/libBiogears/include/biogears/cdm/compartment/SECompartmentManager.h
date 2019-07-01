@@ -24,6 +24,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/thermal/SEThermalCompartment.h>
 #include <biogears/cdm/compartment/thermal/SEThermalCompartmentLink.h>
 #include <biogears/cdm/compartment/tissue/SETissueCompartment.h>
+#include <biogears/cdm/compartment/SECompartmentEnums.h>
 
 IO_DECL(Compartment)
 
@@ -42,12 +43,12 @@ public:
   virtual void UpdateLinks(SEGasCompartmentGraph& graph);
   virtual void UpdateLinks(SELiquidCompartmentGraph& graph);
 
-  virtual bool HasCompartment(CDM::enumCompartmentType::value type, const char* name) const;
-  virtual bool HasCompartment(CDM::enumCompartmentType::value type, const std::string& name) const;
-  virtual SECompartment* GetCompartment(CDM::enumCompartmentType::value type, const char* name);
-  virtual SECompartment* GetCompartment(CDM::enumCompartmentType::value type, const std::string& name);
-  virtual const SECompartment* GetCompartment(CDM::enumCompartmentType::value type, const char* name) const;
-  virtual const SECompartment* GetCompartment(CDM::enumCompartmentType::value type, const std::string& name) const;
+  virtual bool HasCompartment(SECompartmentType type, const char* name) const;
+  virtual bool HasCompartment(SECompartmentType type, const std::string& name) const;
+  virtual SECompartment* GetCompartment(SECompartmentType type, const char* name);
+  virtual SECompartment* GetCompartment(SECompartmentType type, const std::string& name);
+  virtual const SECompartment* GetCompartment(SECompartmentType type, const char* name) const;
+  virtual const SECompartment* GetCompartment(SECompartmentType type, const std::string& name) const;
 
   virtual SEGasCompartment& CreateGasCompartment(const char* name);
   virtual SEGasCompartment& CreateGasCompartment(const std::string& name);

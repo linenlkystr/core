@@ -45,32 +45,6 @@ namespace biogears {
     return IsValid();
   }
   //-----------------------------------------------------------------------------
-  bool SEConsumeNutrients::Load(const CDM::ConsumeNutrientsData& in)
-  {
-    SEPatientAction::Load(in);
-    if (in.Nutrition().present())
-      GetNutrition().Load(in.Nutrition().get());
-    else if (in.NutritionFile().present())
-      SetNutritionFile(in.NutritionFile().get());
-    return true;
-  }
-  //-----------------------------------------------------------------------------
-  CDM::ConsumeNutrientsData* SEConsumeNutrients::Unload() const
-  {
-    CDM::ConsumeNutrientsData* data(new CDM::ConsumeNutrientsData());
-    Unload(*data);
-    return data;
-  }
-  //-----------------------------------------------------------------------------
-  void SEConsumeNutrients::Unload(CDM::ConsumeNutrientsData& data) const
-  {
-    SEPatientAction::Unload(data);
-    if (HasNutrition())
-      data.Nutrition(std::unique_ptr<CDM::NutritionData>(m_Nutrition->Unload()));
-    if (HasNutritionFile())
-      data.NutritionFile(m_NutritionFile);
-  }
-  //-----------------------------------------------------------------------------
   bool SEConsumeNutrients::HasNutrition() const
   {
     return m_Nutrition != nullptr;

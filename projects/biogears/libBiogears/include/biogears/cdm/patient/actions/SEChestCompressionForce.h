@@ -29,8 +29,6 @@ public:
   virtual bool IsValid() const;
   virtual bool IsActive() const;
 
-  virtual bool Load(const CDM::ChestCompressionForceData& in);
-
   virtual bool HasForce() const;
   virtual SEScalarForce& GetForce();
 

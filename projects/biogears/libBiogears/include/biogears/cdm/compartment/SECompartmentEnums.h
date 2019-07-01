@@ -1,5 +1,5 @@
 /**************************************************************************************
-Copyright 2015 Applied Research Associates, Inc.
+Copyright 2019 Applied Research Associates, Inc.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the License
 at:
@@ -11,18 +11,14 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
 #pragma once
-#include <biogears/exports.h>
 
-#include <biogears/cdm/patient/SEPatientEnums.h>
-#include <biogears/cdm/system/equipment/Anesthesia/SEAnesthesiaMachineEnums.h>
 namespace biogears {
-class BIOGEARS_API SEEventHandler : public Loggable {
-public:
-  SEEventHandler(Logger* logger)
-    : Loggable(logger){};
-  virtual ~SEEventHandler() = default;
-
-  virtual void HandlePatientEvent(SEPatientEvent type, bool active, const SEScalarTime* time = nullptr) = 0;
-  virtual void HandleAnesthesiaMachineEvent(SEAnesthesiaMachineEvent type, bool active, const SEScalarTime* time = nullptr) = 0;
+enum class SECompartmentType {
+  Invalid = -1,
+  Electrical = 0,
+  Gas,
+  Liquid,
+  Thermal,
+  Tissue
 };
 }

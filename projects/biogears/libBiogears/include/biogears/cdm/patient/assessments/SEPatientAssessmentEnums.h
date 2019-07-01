@@ -12,40 +12,37 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 
-enum class SESubstanceState {
-  Invalid = -1,
-  Anesthetic = 0,
-  Antibiotic,
-  Ion,
-  Opioid,
-  ReversalAgent,
-  Sedative
-};
-enum class SESubstanceIonicState {
-  Invalid = -1,
-  WeakBase = 0,
-  Base,
-  Acid,
-  Neutral
-};
-enum class SESubstanceBindingProtein {
-  Invalid = -1,
-  Albumin = 0,
-  Lipoprotein,
-  AAG
-};
-enum class SECharge {
+#include <ostream>
+
+namespace biogears {
+
+enum class SEPresenceIndicator {
   Invalid = -1,
   Positive = 0,
-  Negative,
-  Neutral
+  Negative
 };
-enum class SESubstanceClass {
+enum class SEClarityIndicator {
   Invalid = -1,
-  Anesthetic = 0,
-  Antibiotic,
-  Ion,
-  Opioid,
-  ReversalAgent,
-  Sedative
+  Clear = 0,
+  SlightlyCloudy,
+  Cloudy,
+  Turbid
 };
+enum class SEUrineColor {
+  Invalid = -1,
+  PaleYellow = 0,
+  Yellow,
+  DarkYellow
+};
+enum class SEMicroscopicObservationType {
+  Invalid = -1,
+  LowPowerField = 0,
+  HighPowerField
+};
+enum class SEMicroscopicObservationAmount {
+  Invalid = -1,
+  Few = 0,
+  Moderate,
+  Many
+};
+}

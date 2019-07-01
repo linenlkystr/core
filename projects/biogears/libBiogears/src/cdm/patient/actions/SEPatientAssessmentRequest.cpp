@@ -16,7 +16,7 @@ namespace biogears {
 SEPatientAssessmentRequest::SEPatientAssessmentRequest()
   : SEPatientAction()
 {
-  m_Type = (CDM::enumPatientAssessment::value)-1;
+  m_Type = SEPatientAssessmentType::Invalid;
 }
 
 SEPatientAssessmentRequest::~SEPatientAssessmentRequest()
@@ -27,7 +27,7 @@ SEPatientAssessmentRequest::~SEPatientAssessmentRequest()
 void SEPatientAssessmentRequest::Clear()
 {
   SEPatientAction::Clear();
-  m_Type = (CDM::enumPatientAssessment::value)-1;
+  m_Type = SEPatientAssessmentType::Invalid;
 }
 
 bool SEPatientAssessmentRequest::IsValid() const
@@ -40,21 +40,21 @@ bool SEPatientAssessmentRequest::IsActive() const
   return IsValid();
 }
 
-CDM::enumPatientAssessment::value SEPatientAssessmentRequest::GetType() const
+SEPatientAssessmentType SEPatientAssessmentRequest::GetType() const
 {
   return m_Type;
 }
-void SEPatientAssessmentRequest::SetType(CDM::enumPatientAssessment::value Type)
+void SEPatientAssessmentRequest::SetType(SEPatientAssessmentType Type)
 {
   m_Type = Type;
 }
 bool SEPatientAssessmentRequest::HasType() const
 {
-  return m_Type == ((CDM::enumPatientAssessment::value)-1) ? false : true;
+  return m_Type == (SEPatientAssessmentType::Invalid) ? false : true;
 }
 void SEPatientAssessmentRequest::InvalidateType()
 {
-  m_Type = (CDM::enumPatientAssessment::value)-1;
+  m_Type = SEPatientAssessmentType::Invalid;
 }
 
 void SEPatientAssessmentRequest::ToString(std::ostream& str) const

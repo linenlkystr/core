@@ -40,8 +40,8 @@ public:
   const SEScalar* GetScalar(const char* name);
   const SEScalar* GetScalar(const std::string& name);
 
-  bool Load(const char* nutritionFile);
-  bool Load(const std::string& nutritionFile);
+  void Load(const char* nutritionFile);
+  void Load(const std::string& nutritionFile);
 
   void Increment(const SENutrition& from);
 
