@@ -13,13 +13,13 @@ specific language governing permissions and limitations under the License.
 #pragma once
 
 #include <biogears/cdm/CommonDataModel.h>
-CDM_BIND_DECL(PropertyData)
-IO_DECL(PropertyIoDelegate)
+
+IO_DECL(Property)
 
 namespace biogears {
 class BIOGEARS_API SEProperty {
 public:
-friend io::PropertyIoDelegate;
+friend io::Property;
   SEProperty();
   virtual ~SEProperty();
   virtual void Clear(); //clear memory

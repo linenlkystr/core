@@ -34,7 +34,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarHeatResistanceArea : public SEScalarQuantity<HeatResistanceAreaUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarHeatResistanceArea() = default;
   virtual ~SEScalarHeatResistanceArea() = default;

@@ -22,7 +22,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
   constexpr char idAlveolarArterialGradient[] = "AlveolarArterialGradient";
   constexpr char idCarricoIndex[] = "CarricoIndex";
@@ -149,110 +149,6 @@ const SEScalar* SERespiratorySystem::GetScalar(const std::string& name)
   if (name == idTranspulmonaryPressure)
     return &GetTranspulmonaryPressure();
   return nullptr;
-}
-//-------------------------------------------------------------------------------
-
-bool SERespiratorySystem::Load(const CDM::RespiratorySystemData& in)
-{
-  SESystem::Load(in);
-
-  if (in.AlveolarArterialGradient().present())
-    io::PropertyIoDelegate::Marshall(in.AlveolarArterialGradient(), GetAlveolarArterialGradient());
-  if (in.CarricoIndex().present())
-      io::PropertyIoDelegate::Marshall(in.CarricoIndex(), GetCarricoIndex());
-  if (in.EndTidalCarbonDioxideFraction().present())
-      io::PropertyIoDelegate::Marshall(in.EndTidalCarbonDioxideFraction(), GetEndTidalCarbonDioxideFraction());
-  if (in.EndTidalCarbonDioxidePressure().present())
-      io::PropertyIoDelegate::Marshall(in.EndTidalCarbonDioxidePressure(), GetEndTidalCarbonDioxidePressure());
-  if (in.ExpiratoryFlow().present())
-    io::PropertyIoDelegate::Marshall(in.ExpiratoryFlow(), GetExpiratoryFlow());
-  if (in.InspiratoryExpiratoryRatio().present())
-      io::PropertyIoDelegate::Marshall(in.InspiratoryExpiratoryRatio(), GetInspiratoryExpiratoryRatio());
-  if (in.InspiratoryFlow().present())
-      io::PropertyIoDelegate::Marshall(in.InspiratoryFlow(), GetInspiratoryFlow());
-  if (in.PulmonaryCompliance().present())
-      io::PropertyIoDelegate::Marshall(in.PulmonaryCompliance(), GetPulmonaryCompliance());
-  if (in.PulmonaryResistance().present())
-      io::PropertyIoDelegate::Marshall(in.PulmonaryResistance(), GetPulmonaryResistance());
-  if (in.RespirationDriverPressure().present())
-      io::PropertyIoDelegate::Marshall(in.RespirationDriverPressure(), GetRespirationDriverPressure());
-  if (in.RespirationMusclePressure().present())
-      io::PropertyIoDelegate::Marshall(in.RespirationMusclePressure(), GetRespirationMusclePressure());
-  if (in.RespirationRate().present())
-      io::PropertyIoDelegate::Marshall(in.RespirationRate(), GetRespirationRate());
-  if (in.SpecificVentilation().present())
-      io::PropertyIoDelegate::Marshall(in.SpecificVentilation(), GetSpecificVentilation());
-  if (in.TargetPulmonaryVentilation().present())
-      io::PropertyIoDelegate::Marshall(in.TargetPulmonaryVentilation(), GetTargetPulmonaryVentilation());
-  if (in.TidalVolume().present())
-      io::PropertyIoDelegate::Marshall(in.TidalVolume(), GetTidalVolume());
-  if (in.TotalAlveolarVentilation().present())
-      io::PropertyIoDelegate::Marshall(in.TotalAlveolarVentilation(), GetTotalAlveolarVentilation());
-  if (in.TotalDeadSpaceVentilation().present())
-      io::PropertyIoDelegate::Marshall(in.TotalDeadSpaceVentilation(), GetTotalDeadSpaceVentilation());
-  if (in.TotalLungVolume().present())
-      io::PropertyIoDelegate::Marshall(in.TotalLungVolume(), GetTotalLungVolume());
-  if (in.TotalPulmonaryVentilation().present())
-      io::PropertyIoDelegate::Marshall(in.TotalPulmonaryVentilation(), GetTotalPulmonaryVentilation());
-  if (in.TranspulmonaryPressure().present())
-      io::PropertyIoDelegate::Marshall(in.TranspulmonaryPressure(), GetTranspulmonaryPressure());
-
-  return true;
-}
-//-------------------------------------------------------------------------------
-
-CDM::RespiratorySystemData* SERespiratorySystem::Unload() const
-{
-  CDM::RespiratorySystemData* data = new CDM::RespiratorySystemData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-
-void SERespiratorySystem::Unload(CDM::RespiratorySystemData& data) const
-{
-  SESystem::Unload(data);
-
-  if (m_AlveolarArterialGradient != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_AlveolarArterialGradient, data.AlveolarArterialGradient());
-  if (m_CarricoIndex != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_CarricoIndex, data.CarricoIndex());
-  if (m_EndTidalCarbonDioxideFraction != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_EndTidalCarbonDioxideFraction, data.EndTidalCarbonDioxideFraction());
-  if (m_EndTidalCarbonDioxidePressure != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_EndTidalCarbonDioxidePressure, data.EndTidalCarbonDioxidePressure());
-  if (m_ExpiratoryFlow != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_ExpiratoryFlow, data.ExpiratoryFlow());
-  if (m_InspiratoryExpiratoryRatio != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_InspiratoryExpiratoryRatio, data.InspiratoryExpiratoryRatio());
-  if (m_InspiratoryFlow != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_InspiratoryFlow, data.InspiratoryFlow());
-  if (m_PulmonaryCompliance != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryCompliance, data.PulmonaryCompliance());
-  if (m_PulmonaryResistance != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_PulmonaryResistance, data.PulmonaryResistance());
-  if (m_RespirationDriverPressure != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_RespirationDriverPressure, data.RespirationDriverPressure());
-  if (m_RespirationMusclePressure != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_RespirationMusclePressure, data.RespirationMusclePressure());
-  if (m_RespirationRate != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_RespirationRate, data.RespirationRate());
-  if (m_SpecificVentilation != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_SpecificVentilation, data.SpecificVentilation());
-  if (m_TargetPulmonaryVentilation != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TargetPulmonaryVentilation, data.TargetPulmonaryVentilation());
-  if (m_TidalVolume != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TidalVolume, data.TidalVolume());
-  if (m_TotalAlveolarVentilation != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TotalAlveolarVentilation, data.TotalAlveolarVentilation());
-  if (m_TotalDeadSpaceVentilation != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TotalDeadSpaceVentilation, data.TotalDeadSpaceVentilation());
-  if (m_TotalLungVolume != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TotalLungVolume, data.TotalLungVolume());
-  if (m_TotalPulmonaryVentilation != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TotalPulmonaryVentilation, data.TotalPulmonaryVentilation());
-  if (m_TranspulmonaryPressure != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_TranspulmonaryPressure, data.TranspulmonaryPressure());
 }
 //-------------------------------------------------------------------------------
 

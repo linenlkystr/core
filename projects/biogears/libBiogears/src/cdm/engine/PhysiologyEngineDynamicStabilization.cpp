@@ -25,7 +25,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/GeneralMath.h>
 #include <biogears/cdm/utils/TimingProfile.h>
 
-#include "../utils/io/PropertyIoDelegate.h"
+#include "../utils/io/EngineConfiguration.h"
+
 namespace biogears {
 bool PhysiologyEngineDynamicStabilization::StabilizeRestingState(PhysiologyEngine& engine)
 {
@@ -369,48 +370,12 @@ void PhysiologyEngineDynamicStabilization::Clear()
   DELETE_VECTOR(m_ConditionCriteria);
 }
 //-----------------------------------------------------------------------------
-bool PhysiologyEngineDynamicStabilization::Load(const CDM::PhysiologyEngineDynamicStabilizationData& in)
-{
-  PhysiologyEngineStabilization::Load(in);
-  GetRestingCriteria().Load(in.RestingStabilizationCriteria());
-  if (in.FeedbackStabilizationCriteria().present())
-    GetFeedbackCriteria().Load(in.FeedbackStabilizationCriteria().get());
-  for (auto cData : in.ConditionStabilization()) {
-    PhysiologyEngineDynamicStabilizationCriteria* c = new PhysiologyEngineDynamicStabilizationCriteria(GetLogger());
-    c->Load(cData.Criteria());
-    c->SetName(cData.Name());
-    AddConditionCriteria(*c);
-  }
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::PhysiologyEngineDynamicStabilizationData* PhysiologyEngineDynamicStabilization::Unload() const
-{
-  CDM::PhysiologyEngineDynamicStabilizationData* data(new CDM::PhysiologyEngineDynamicStabilizationData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void PhysiologyEngineDynamicStabilization::Unload(CDM::PhysiologyEngineDynamicStabilizationData& data) const
-{
-  PhysiologyEngineStabilization::Unload(data);
-  data.RestingStabilizationCriteria(std::unique_ptr<CDM::PhysiologyEngineDynamicStabilizationCriteriaData>(GetRestingCriteria().Unload()));
-  if (HasFeedbackCriteria())
-    data.FeedbackStabilizationCriteria(std::unique_ptr<CDM::PhysiologyEngineDynamicStabilizationCriteriaData>(GetFeedbackCriteria()->Unload()));
-  for (auto& c : m_ConditionCriteria) {
-    std::unique_ptr<CDM::PhysiologyEngineDynamicConditionStabilizationData> csData(new CDM::PhysiologyEngineDynamicConditionStabilizationData());
-    csData->Criteria(std::unique_ptr<CDM::PhysiologyEngineDynamicStabilizationCriteriaData>(c->Unload()));
-    csData->Name(c->GetName());
-    data.ConditionStabilization().push_back(*csData);
-  }
-}
-//-----------------------------------------------------------------------------
-bool PhysiologyEngineDynamicStabilization::Load(const char* file)
+void PhysiologyEngineDynamicStabilization::Load(const char* file)
 {
   return Load(std::string{ file });
 }
 //-----------------------------------------------------------------------------
-bool PhysiologyEngineDynamicStabilization::Load(const std::string& file)
+void PhysiologyEngineDynamicStabilization::Load(const std::string& file)
 {
   CDM::PhysiologyEngineDynamicStabilizationData* pData;
   std::unique_ptr<CDM::ObjectData> data;
@@ -522,37 +487,6 @@ void PhysiologyEngineDynamicStabilizationCriteria::Clear()
   SAFE_DELETE(m_MinimumReactionTime);
   SAFE_DELETE(m_MaximumAllowedStabilizationTime);
   DELETE_VECTOR(m_PropertyConvergence);
-}
-//-----------------------------------------------------------------------------
-bool PhysiologyEngineDynamicStabilizationCriteria::Load(const CDM::PhysiologyEngineDynamicStabilizationCriteriaData& in)
-{
-  Clear();
-  io::PropertyIoDelegate::Marshall(in.ConvergenceTime(), GetConvergenceTime());
-  io::PropertyIoDelegate::Marshall(in.MinimumReactionTime(), GetMinimumReactionTime());
-  io::PropertyIoDelegate::Marshall(in.MaximumAllowedStabilizationTime(), GetMaximumAllowedStabilizationTime());
-  for (auto pcData : in.PropertyConvergence())
-    CreateSystemPropertyConvergence(pcData.PercentDifference(), pcData.Name());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::PhysiologyEngineDynamicStabilizationCriteriaData* PhysiologyEngineDynamicStabilizationCriteria::Unload() const
-{
-  CDM::PhysiologyEngineDynamicStabilizationCriteriaData* data(new CDM::PhysiologyEngineDynamicStabilizationCriteriaData());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void PhysiologyEngineDynamicStabilizationCriteria::Unload(CDM::PhysiologyEngineDynamicStabilizationCriteriaData& data) const
-{
-  io::PropertyIoDelegate::UnMarshall(*m_ConvergenceTime, data.ConvergenceTime());
-  io::PropertyIoDelegate::UnMarshall(*m_MinimumReactionTime, data.MinimumReactionTime());
-  io::PropertyIoDelegate::UnMarshall(*m_MaximumAllowedStabilizationTime, data.MaximumAllowedStabilizationTime());
-  for (auto pc : m_PropertyConvergence) {
-    std::unique_ptr<CDM::PhysiologyEngineDynamicStabilizationCriteriaPropertyData> pcData(new CDM::PhysiologyEngineDynamicStabilizationCriteriaPropertyData());
-    pcData->Name(pc->GetDataRequest().GetName());
-    pcData->PercentDifference(pc->m_Target);
-    data.PropertyConvergence().push_back(*pcData.get());
-  }
 }
 //-----------------------------------------------------------------------------
 std::string PhysiologyEngineDynamicStabilizationCriteria::GetName() const

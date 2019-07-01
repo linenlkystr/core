@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Properties.hxx>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 
 namespace biogears {
   constexpr char idChymeAbsorptionRate[] = "ChymeAbsorptionRate";
@@ -64,36 +64,6 @@ const SEScalar* SEGastrointestinalSystem::GetScalar(const std::string& name)
   return nullptr;
 }
 //-------------------------------------------------------------------------------
-
-bool SEGastrointestinalSystem::Load(const CDM::GastrointestinalSystemData& in)
-{
-  SESystem::Load(in);
-  if (in.ChymeAbsorptionRate().present())
-    io::PropertyIoDelegate::Marshall(in.ChymeAbsorptionRate(), GetChymeAbsorptionRate());
-  if (in.StomachContents().present())
-    GetStomachContents().Load(in.StomachContents().get());
-  return true;
-}
-//-------------------------------------------------------------------------------
-
-CDM::GastrointestinalSystemData* SEGastrointestinalSystem::Unload() const
-{
-  CDM::GastrointestinalSystemData* data = new CDM::GastrointestinalSystemData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-
-void SEGastrointestinalSystem::Unload(CDM::GastrointestinalSystemData& data) const
-{
-  SESystem::Unload(data);
-  if (m_ChymeAbsorptionRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ChymeAbsorptionRate, data.ChymeAbsorptionRate());
-  if (m_StomachContents != nullptr)
-    data.StomachContents(std::unique_ptr<CDM::NutritionData>(m_StomachContents->Unload()));
-}
-//-------------------------------------------------------------------------------
-
 bool SEGastrointestinalSystem::HasChymeAbsorptionRate() const
 {
   return m_ChymeAbsorptionRate == nullptr ? false : m_ChymeAbsorptionRate->IsValid();

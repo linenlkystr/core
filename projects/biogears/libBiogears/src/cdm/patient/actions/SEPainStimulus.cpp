@@ -12,7 +12,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/patient/actions/SEPainStimulus.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"  
+#include "../../utils/io/Property.h"  
 namespace biogears {
 SEPainStimulus::SEPainStimulus()
   : SEPatientAction()

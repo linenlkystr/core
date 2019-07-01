@@ -16,7 +16,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/ElectroCardioGram/SEElectroCardioGramInterpolatorWaveform.h>
 #include <biogears/schema/cdm/Physiology.hxx>
 
-#include "../../../../cdm/utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEElectroCardioGramInterpolatorWaveform::SEElectroCardioGramInterpolatorWaveform(Logger* logger)
   : Loggable(logger)
@@ -41,28 +40,6 @@ void SEElectroCardioGramInterpolatorWaveform::Clear()
   m_ActiveIndicies.clear();
 }
 
-bool SEElectroCardioGramInterpolatorWaveform::Load(const CDM::ElectroCardioGramInterpolationWaveformData& in)
-{
-  Clear();
-  m_Rhythm = in.Rhythm();
-  m_LeadNumber = in.Lead();
-  io::PropertyIoDelegate::Marshall(in.Data(), GetData());
-  if (in.TimeStep().present())
-    io::PropertyIoDelegate::Marshall(in.TimeStep(), GetTimeStep());
-  if (in.ActiveIndicies().present()) {
-    for (size_t i = 0; i < in.ActiveIndicies().get().IntegerList().size(); i++)
-      m_ActiveIndicies.push_back(in.ActiveIndicies().get().IntegerList()[i]);
-  }
-  return true;
-}
-
-CDM::ElectroCardioGramInterpolationWaveformData* SEElectroCardioGramInterpolatorWaveform::Unload() const
-{
-  CDM::ElectroCardioGramInterpolationWaveformData* data(new CDM::ElectroCardioGramInterpolationWaveformData());
-  Unload(*data);
-  return data;
-}
-
 void SEElectroCardioGramInterpolatorWaveform::Unload(CDM::ElectroCardioGramInterpolationWaveformData& data) const
 {
   if (HasRhythm())
@@ -70,14 +47,14 @@ void SEElectroCardioGramInterpolatorWaveform::Unload(CDM::ElectroCardioGramInter
   if (HasLeadNumber())
     data.Lead(m_LeadNumber);
   if (HasData()) {
-    io::PropertyIoDelegate::UnMarshall(*m_Data, data.Data());
+    io::Property::UnMarshall(*m_Data, data.Data());
     data.ActiveIndicies(std::unique_ptr<CDM::IntegerArray>(new CDM::IntegerArray()));
     data.ActiveIndicies().get().IntegerList(std::unique_ptr<CDM::IntegerList>(new CDM::IntegerList()));
     for (int i : m_ActiveIndicies)
       data.ActiveIndicies().get().IntegerList().push_back(i);
   }
   if (HasTimeStep())
-    io::PropertyIoDelegate::UnMarshall(*m_TimeStep, data.TimeStep());
+    io::Property::UnMarshall(*m_TimeStep, data.TimeStep());
 }
 
 CDM::ElectroCardioGramWaveformLeadNumber SEElectroCardioGramInterpolatorWaveform::GetLeadNumber() const

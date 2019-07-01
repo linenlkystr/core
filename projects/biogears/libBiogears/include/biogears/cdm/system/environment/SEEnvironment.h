@@ -12,7 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/system/SESystem.h>
-#include <biogears/schema/cdm/Environment.hxx>
+
+IO_DECL(Environment)
 
 namespace biogears {
 class SESubstance;
@@ -31,22 +32,22 @@ class SEScalarHeatConductancePerArea;
 class HeatConductancePerAreaUnit;
 
 class BIOGEARS_API SEEnvironment : public SESystem {
+  friend class io::Environment;
+
 public:
   SEEnvironment(SESubstanceManager& substances);
   ~SEEnvironment() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SEEnvironment"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
 
   void Clear() override;
+;
+  void Load(const char* patientFile);
+  void Load(const std::string& patientFile);
 
-  bool Load(const CDM::EnvironmentData& in);
-  bool Load(const char* patientFile);
-  bool Load(const std::string& patientFile);
-
-  CDM::EnvironmentData* Unload() const override;
   Tree<const char*> GetPhysiologyRequestGraph() const override;
   /** @name ProcessChange
   * @brief - Will change this class as directed by the Action
@@ -127,9 +128,6 @@ public:
   bool HasSkinHeatLoss() const;
   SEScalarPower& GetSkinHeatLoss();
   double GetSkinHeatLoss(const PowerUnit& unit) const;
-
-protected:
-  void Unload(CDM::EnvironmentData& data) const;
 
 protected:
   std::string m_Name;

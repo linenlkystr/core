@@ -10,7 +10,7 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 #include <biogears/cdm/circuit/fluid/SEFluidCircuitNode.h>
 
 namespace biogears {
@@ -38,15 +38,15 @@ bool SEFluidCircuitNode::Load(const CDM::FluidCircuitNodeData& in)
 {
   SECircuitNode::Load(in);
   if (in.Pressure().present())
-    io::PropertyIoDelegate::Marshall(in.Pressure(), GetPressure());
+    io::Property::Marshall(in.Pressure(), GetPressure());
   if (in.NextPressure().present())
-    io::PropertyIoDelegate::Marshall(in.NextPressure(), GetNextPressure());
+    io::Property::Marshall(in.NextPressure(), GetNextPressure());
   if (in.Volume().present())
-    io::PropertyIoDelegate::Marshall(in.Volume(), GetVolume());
+    io::Property::Marshall(in.Volume(), GetVolume());
   if (in.NextVolume().present())
-    io::PropertyIoDelegate::Marshall(in.NextVolume(), GetNextVolume());
+    io::Property::Marshall(in.NextVolume(), GetNextVolume());
   if (in.VolumeBaseline().present())
-    io::PropertyIoDelegate::Marshall(in.VolumeBaseline(), GetVolumeBaseline());
+    io::Property::Marshall(in.VolumeBaseline(), GetVolumeBaseline());
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -61,15 +61,15 @@ void SEFluidCircuitNode::Unload(CDM::FluidCircuitNodeData& data) const
 {
   SECircuitNode::Unload(data);
   if (HasPressure())
-    io::PropertyIoDelegate::UnMarshall(*m_Potential, data.Pressure());
+    io::Property::UnMarshall(*m_Potential, data.Pressure());
   if (HasNextPressure())
-    io::PropertyIoDelegate::UnMarshall(*m_NextPotential, data.NextPressure());
+    io::Property::UnMarshall(*m_NextPotential, data.NextPressure());
   if (HasVolume())
-    io::PropertyIoDelegate::UnMarshall(*m_Quantity, data.Volume());
+    io::Property::UnMarshall(*m_Quantity, data.Volume());
   if (HasNextVolume())
-    io::PropertyIoDelegate::UnMarshall(*m_NextQuantity, data.NextVolume());
+    io::Property::UnMarshall(*m_NextQuantity, data.NextVolume());
   if (HasVolumeBaseline())
-    io::PropertyIoDelegate::UnMarshall(*m_QuantityBaseline, data.VolumeBaseline());
+    io::Property::UnMarshall(*m_QuantityBaseline, data.VolumeBaseline());
 }
 //-----------------------------------------------------------------------------
 bool SEFluidCircuitNode::HasPressure() const

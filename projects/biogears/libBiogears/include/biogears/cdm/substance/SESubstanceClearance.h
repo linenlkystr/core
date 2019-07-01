@@ -14,9 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <biogears/schema/cdm/Substance.hxx>
-
-CDM_BIND_DECL(SubstanceClearanceData)
+IO_DECL(Substance)
 
 namespace biogears {
 class SEScalar;
@@ -28,10 +26,12 @@ class SESubstanceClearanceAnatomyEffect;
 class SEScalarVolumePerTimeMass;
 class SEScalarFraction;
 
-
 enum class RenalDynamic { Clearance,
-  Regulation };
+                          Regulation };
+
 class BIOGEARS_API SESubstanceClearance : public Loggable {
+  friend class io::Substance;
+
 public:
   SESubstanceClearance(Logger* logger);
   virtual ~SESubstanceClearance();
@@ -42,13 +42,6 @@ public:
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 
-  virtual bool Load(const CDM::SubstanceClearanceData& in);
-  virtual CDM::SubstanceClearanceData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceClearanceData& data) const;
-
-public:
   virtual bool HasSystemic() const { return m_hasSystemic; }
   virtual void SetSystemic(bool b) { m_hasSystemic = b; }
 

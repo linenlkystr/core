@@ -36,7 +36,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarAmountPerTime : public SEScalarQuantity<AmountPerTimeUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 
 public:
   SEScalarAmountPerTime() = default;

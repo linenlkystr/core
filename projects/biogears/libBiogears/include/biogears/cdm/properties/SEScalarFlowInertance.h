@@ -35,7 +35,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarFlowInertance : public SEScalarQuantity<FlowInertanceUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarFlowInertance() = default;
   virtual ~SEScalarFlowInertance() = default;

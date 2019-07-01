@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarFraction.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SELiquidCompartment::SELiquidCompartment(const char* name, Logger* logger)
   : SELiquidCompartment(std::string{ name }, logger)
@@ -42,50 +42,6 @@ void SELiquidCompartment::Clear()
   SAFE_DELETE(m_pH);
   SAFE_DELETE(m_WaterVolumeFraction);
   m_Children.clear();
-}
-//-----------------------------------------------------------------------------
-bool SELiquidCompartment::Load(const CDM::LiquidCompartmentData& in, SESubstanceManager& subMgr, SECircuitManager* circuits)
-{
-  if (!SEFluidCompartment::Load(in, circuits))
-    return false;
-  if (in.Child().empty()) {
-    for (const CDM::LiquidSubstanceQuantityData& d : in.SubstanceQuantity()) {
-      SESubstance* sub = subMgr.GetSubstance(d.Substance());
-      if (sub == nullptr) {
-        Error("Could not find a substance for " + std::string{ d.Substance() });
-        return false;
-      }
-      CreateSubstanceQuantity(*sub).Load(d);
-      ;
-    }
-    if (in.pH().present()) {
-      io::PropertyIoDelegate::Marshall(in.pH(), GetPH());
-    }
-    if (in.WaterVolumeFraction().present()) {
-      io::PropertyIoDelegate::Marshall(in.WaterVolumeFraction(), GetWaterVolumeFraction());
-    }
-  }
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::LiquidCompartmentData* SELiquidCompartment::Unload()
-{
-  CDM::LiquidCompartmentData* data = new CDM::LiquidCompartmentData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SELiquidCompartment::Unload(CDM::LiquidCompartmentData& data)
-{
-  SEFluidCompartment::Unload(data);
-  for (SELiquidSubstanceQuantity* subQ : m_SubstanceQuantities)
-    data.SubstanceQuantity().push_back(std::unique_ptr<CDM::LiquidSubstanceQuantityData>(subQ->Unload()));
-  if (HasPH()) {
-    io::PropertyIoDelegate::UnMarshall(GetPH(), data.pH());
-  }
-  if (HasWaterVolumeFraction()) {
-      io::PropertyIoDelegate::UnMarshall(GetWaterVolumeFraction(), data.WaterVolumeFraction());
-  }
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SELiquidCompartment::GetScalar(const char* name)

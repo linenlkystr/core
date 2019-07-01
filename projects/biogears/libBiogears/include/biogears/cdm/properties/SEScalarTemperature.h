@@ -34,7 +34,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarTemperature : public SEScalarQuantity<TemperatureUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarTemperature() = default;
   virtual ~SEScalarTemperature() = default;

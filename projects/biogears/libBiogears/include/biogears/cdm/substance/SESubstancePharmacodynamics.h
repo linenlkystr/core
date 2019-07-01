@@ -16,7 +16,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/patient/actions/SEPupillaryResponse.h>
 
-CDM_BIND_DECL(SubstancePharmacodynamicsData)
+IO_DECL(Substance)
 
 namespace biogears {
 
@@ -26,6 +26,8 @@ class SEScalarMassPerVolume;
 class MassPerVolumeUnit;
 
 class BIOGEARS_API SESubstancePharmacodynamics : Loggable {
+  friend class io::Substance;
+
 public:
   SESubstancePharmacodynamics(Logger* logger);
   virtual ~SESubstancePharmacodynamics();
@@ -36,13 +38,6 @@ public:
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 
-  virtual bool Load(const CDM::SubstancePharmacodynamicsData& in);
-  virtual CDM::SubstancePharmacodynamicsData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstancePharmacodynamicsData& data) const;
-
-public:
   virtual bool HasBronchodilation() const;
   virtual SEScalarFraction& GetBronchodilation();
   virtual double GetBronchodilation() const;

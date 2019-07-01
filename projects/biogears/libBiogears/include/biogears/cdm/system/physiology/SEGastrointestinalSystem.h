@@ -13,18 +13,21 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/patient/SENutrition.h>
 #include <biogears/cdm/system/SESystem.h>
-#include <biogears/schema/biogears/BioGearsPhysiology.hxx>
+
+IO_DECL(Physiology)
 
 namespace biogears {
 class SEScalarVolumePerTime;
 class VolumePerTimeUnit;
 
 class BIOGEARS_API SEGastrointestinalSystem : public SESystem {
+  friend class io::Physiology;
+
 public:
   SEGastrointestinalSystem(Logger* logger);
   ~SEGastrointestinalSystem() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SEGastrointestinalSystem"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
@@ -43,12 +46,7 @@ public:
   const SENutrition* GetStomachContents() const;
   void RemoveStomachContents();
 
-  bool Load(const CDM::GastrointestinalSystemData& in);
-  CDM::GastrointestinalSystemData* Unload() const override;
-
   Tree<const char*> GetPhysiologyRequestGraph() const override;
-protected:
-  void Unload(CDM::GastrointestinalSystemData& data) const;
 
 protected:
   SEScalarVolumePerTime* m_ChymeAbsorptionRate;

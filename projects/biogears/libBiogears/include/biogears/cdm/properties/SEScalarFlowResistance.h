@@ -35,7 +35,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarFlowResistance : public SEScalarQuantity<FlowResistanceUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarFlowResistance() = default;
   virtual ~SEScalarFlowResistance() = default;

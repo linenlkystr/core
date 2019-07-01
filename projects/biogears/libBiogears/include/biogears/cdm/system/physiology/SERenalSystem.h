@@ -12,8 +12,9 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/system/SESystem.h>
-#include <biogears/schema/biogears/BioGearsPhysiology.hxx>
-#include "biogears/cdm/properties/SEScalarVolumePerTimePressure.h"
+#include <biogears/cdm/properties/SEScalarVolumePerTimePressure.h>
+
+IO_DECL(Physiology)
 
 namespace biogears {
 class SEScalarPressure;
@@ -40,11 +41,13 @@ class OsmolalityUnit;
 class MassPerVolumeUnit;
 
 class BIOGEARS_API SERenalSystem : public SESystem {
+  friend class io::Physiology;
+
 public:
   SERenalSystem(Logger* logger);
   ~SERenalSystem() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SERenalSystem"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
@@ -54,14 +57,8 @@ public:
   const SEScalar* GetScalar(const char* name) override;
   const SEScalar* GetScalar(const std::string& name) override;
 
-  bool Load(const CDM::RenalSystemData& in);
-  CDM::RenalSystemData* Unload() const override;
-
   Tree<const char*> GetPhysiologyRequestGraph() const override;
-protected:
-  void Unload(CDM::RenalSystemData& data) const;
 
-public:
   bool HasGlomerularFiltrationRate() const;
   SEScalarVolumePerTime& GetGlomerularFiltrationRate();
   double GetGlomerularFiltrationRate(const VolumePerTimeUnit& unit) const;

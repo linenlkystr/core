@@ -23,7 +23,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/substance/SESubstance.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SELiquidSubstanceQuantity::SELiquidSubstanceQuantity(SESubstance& sub, SELiquidCompartment& compartment)
   : SESubstanceQuantity(sub)
@@ -92,59 +92,6 @@ void SELiquidSubstanceQuantity::Clear()
   SAFE_DELETE(m_PartialPressure);
   SAFE_DELETE(m_Saturation);
   m_Children.clear();
-}
-//-----------------------------------------------------------------------------
-bool SELiquidSubstanceQuantity::Load(const CDM::LiquidSubstanceQuantityData& in)
-{
-  SESubstanceQuantity::Load(in);
-  if (!m_Compartment.HasChildren()) {
-    if (in.Concentration().present())
-      io::PropertyIoDelegate::Marshall(in.Concentration(), GetConcentration());
-    if (in.Mass().present())
-      io::PropertyIoDelegate::Marshall(in.Mass(), GetMass());
-    if (in.MassCleared().present())
-      io::PropertyIoDelegate::Marshall(in.MassCleared(), GetMassCleared());
-    if (in.MassDeposited().present())
-      io::PropertyIoDelegate::Marshall(in.MassDeposited(), GetMassDeposited());
-    if (in.MassExcreted().present())
-      io::PropertyIoDelegate::Marshall(in.MassExcreted(), GetMassExcreted());
-    if (in.Molarity().present())
-      io::PropertyIoDelegate::Marshall(in.Molarity(), GetMolarity());
-    if (in.PartialPressure().present())
-      io::PropertyIoDelegate::Marshall(in.PartialPressure(), GetPartialPressure());
-    if (in.Saturation().present())
-      io::PropertyIoDelegate::Marshall(in.Saturation(), GetSaturation());
-  }
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::LiquidSubstanceQuantityData* SELiquidSubstanceQuantity::Unload()
-{
-  CDM::LiquidSubstanceQuantityData* data = new CDM::LiquidSubstanceQuantityData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SELiquidSubstanceQuantity::Unload(CDM::LiquidSubstanceQuantityData& data)
-{
-  SESubstanceQuantity::Unload(data);
-  // Even if you have children, I am unloading everything, this makes the xml actually usefull...
-  if (HasConcentration())
-    io::PropertyIoDelegate::UnMarshall(GetConcentration(), data.Concentration());
-  if (HasMass())
-    io::PropertyIoDelegate::UnMarshall(GetMass(), data.Mass());
-  if (m_MassCleared != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_MassCleared, data.MassCleared());
-  if (m_MassDeposited != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_MassDeposited, data.MassDeposited());
-  if (m_MassExcreted != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_MassExcreted, data.MassExcreted());
-  if (HasMolarity())
-    io::PropertyIoDelegate::UnMarshall(GetMolarity(), data.Molarity());
-  if (HasPartialPressure())
-    io::PropertyIoDelegate::UnMarshall(GetPartialPressure(), data.PartialPressure());
-  if (HasSaturation())
-    io::PropertyIoDelegate::UnMarshall(GetSaturation(), data.Saturation());
 }
 //-----------------------------------------------------------------------------
 void SELiquidSubstanceQuantity::SetToZero()

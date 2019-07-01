@@ -14,12 +14,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <biogears/schema/cdm/Substance.hxx>
-
-CDM_BIND_DECL(SubstancePhysicochemicalData)
+IO_DECL(Substance)
 
 namespace biogears {
 class BIOGEARS_API SESubstancePhysicochemicals : public Loggable {
+  friend class io::Substance;
+
 public:
   SESubstancePhysicochemicals(Logger* logger);
   virtual ~SESubstancePhysicochemicals();
@@ -30,13 +30,6 @@ public:
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 
-  virtual bool Load(const CDM::SubstancePhysicochemicalData& in);
-  virtual CDM::SubstancePhysicochemicalData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstancePhysicochemicalData& data) const;
-
-public:
   virtual bool HasAcidDissociationConstant() const;
   virtual SEScalar& GetAcidDissociationConstant();
   virtual double GetAcidDissociationConstant() const;

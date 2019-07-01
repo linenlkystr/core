@@ -14,23 +14,18 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/engine/PhysiologyEngineStabilization.h>
 #include <biogears/cdm/properties/SEScalarTime.h>
-#include <biogears/schema/cdm/EngineConfiguration.hxx>
 
-CDM_BIND_DECL(PhysiologyEngineTimedConditionStabilizationData)
+IO_DECL(EngineConfiguration)
 
 namespace biogears {
 class BIOGEARS_API PhysiologyEngineTimedStabilizationCriteria : public Loggable {
+  friend class io::EngineConfiguration;
+
 public:
   PhysiologyEngineTimedStabilizationCriteria(Logger* logger);
   virtual ~PhysiologyEngineTimedStabilizationCriteria();
 
   virtual void Clear();
-
-  virtual bool Load(const CDM::PhysiologyEngineTimedConditionStabilizationData& in);
-  virtual CDM::PhysiologyEngineTimedConditionStabilizationData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::PhysiologyEngineTimedConditionStabilizationData& data) const;
 
 public:
   virtual std::string GetName() const;
@@ -49,23 +44,18 @@ protected:
   SEScalarTime m_Time;
 };
 
-CDM_BIND_DECL(PhysiologyEngineTimedStabilizationData)
+
 class BIOGEARS_API PhysiologyEngineTimedStabilization : public PhysiologyEngineStabilization {
+  friend class io::EngineConfiguration;
+
 public:
   PhysiologyEngineTimedStabilization(Logger* logger);
   virtual ~PhysiologyEngineTimedStabilization();
 
   virtual void Clear() override;
 
-  virtual bool Load(const CDM::PhysiologyEngineTimedStabilizationData& in);
-  virtual CDM::PhysiologyEngineTimedStabilizationData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::PhysiologyEngineTimedStabilizationData& data) const;
-
-public:
-  virtual bool Load(const char* file) override;
-  virtual bool Load(const std::string& file) override;
+  virtual void Load(const char* file) override;
+  virtual void Load(const std::string& file) override;
 
   virtual bool StabilizeRestingState(PhysiologyEngine& engine) override;
   virtual bool StabilizeFeedbackState(PhysiologyEngine& engine) override;

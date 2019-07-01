@@ -16,7 +16,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-CDM_BIND_DECL(TestErrorStatisticsData)
+IO_DECL(TestReport)
+
 namespace biogears{
 class SETestCase;
 class SETestSuite;
@@ -29,6 +30,7 @@ class SEFunction;
 class BIOGEARS_API SETestErrorStatistics : public Loggable {
   friend SETestCase;
   friend SETestSuite;
+  friend io::TestReport;
 
 protected:
   SETestErrorStatistics(Logger* logger);
@@ -38,12 +40,6 @@ public:
 
   virtual void Reset(); //reset values
   virtual void Clear(); //clear memory
-
-  bool Load(const CDM::TestErrorStatisticsData& in);
-  std::unique_ptr<CDM::TestErrorStatisticsData> Unload() const;
-
-protected:
-  void Unload(CDM::TestErrorStatisticsData& data) const;
 
 public:
   bool IsValid();

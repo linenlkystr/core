@@ -16,23 +16,20 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/schema/cdm/Substance.hxx>
 
+IO_DECL(Substance)
+
 namespace biogears {
 class SEScalar;
 
 class BIOGEARS_API SESubstanceTissuePharmacokinetics : public Loggable {
+  friend class io::Substance;
+
 public:
   SESubstanceTissuePharmacokinetics(const std::string& name, Logger* logger);
   virtual ~SESubstanceTissuePharmacokinetics();
 
   virtual void Clear();
 
-  virtual bool Load(const CDM::SubstanceTissuePharmacokineticsData& in);
-  virtual CDM::SubstanceTissuePharmacokineticsData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceTissuePharmacokineticsData& data) const;
-
-public:
   const SEScalar* GetScalar(const char* name);
   const SEScalar* GetScalar(const std::string& name);
 

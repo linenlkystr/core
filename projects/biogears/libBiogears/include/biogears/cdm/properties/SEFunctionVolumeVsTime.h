@@ -18,7 +18,7 @@ specific language governing permissions and limitations under the License.
 
 namespace biogears {
 class BIOGEARS_API SEFunctionVolumeVsTime : public SEFunction {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEFunctionVolumeVsTime();
   virtual ~SEFunctionVolumeVsTime();

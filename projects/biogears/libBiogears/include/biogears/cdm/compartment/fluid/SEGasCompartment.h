@@ -16,13 +16,16 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/substances/SEGasSubstanceQuantity.h>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
 
+IO_DECL(Compartment)
+
 namespace biogears {
 enum class BalanceGasBy { Volume,
-  VolumeFraction };
+                          VolumeFraction };
 
 class SECompartmentManager;
 class BIOGEARS_API SEGasCompartment : public SEFluidCompartment<SEGasCompartmentLink, SEGasTransportVertex, SEGasTransportSubstance, SEGasSubstanceQuantity> {
   friend class SECompartmentManager;
+  friend class io::Compartment;
 
 protected:
   SEGasCompartment(const char* name, Logger* logger);
@@ -30,12 +33,6 @@ protected:
 
 public:
   virtual ~SEGasCompartment();
-
-  virtual bool Load(const CDM::GasCompartmentData& in, SESubstanceManager& subMgr, SECircuitManager* circuits = nullptr);
-  virtual CDM::GasCompartmentData* Unload() override;
-
-protected:
-  virtual void Unload(CDM::GasCompartmentData& data);
 
 public:
   virtual void StateChange() override;

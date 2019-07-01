@@ -35,7 +35,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarTime : public SEScalarQuantity<TimeUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarTime() = default;
   virtual ~SEScalarTime() = default;

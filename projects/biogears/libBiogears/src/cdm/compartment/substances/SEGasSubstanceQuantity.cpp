@@ -19,7 +19,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEGasSubstanceQuantity::SEGasSubstanceQuantity(SESubstance& sub, SEGasCompartment& compartment)
   : SESubstanceQuantity(sub)
@@ -56,45 +56,6 @@ void SEGasSubstanceQuantity::Clear()
   m_Children.clear();
 }
 //-------------------------------------------------------------------------------
-bool SEGasSubstanceQuantity::Load(const CDM::GasSubstanceQuantityData& in)
-{
-  SESubstanceQuantity::Load(in);
-  if (!m_Compartment.HasChildren()) {
-    if (in.PartialPressure().present()) {
-      io::PropertyIoDelegate::Marshall(in.PartialPressure(), GetPartialPressure());
-    }
-    if (in.Volume().present()) {
-      io::PropertyIoDelegate::Marshall(in.Volume(), GetVolume());
-    }
-    if (in.VolumeFraction().present()) {
-      io::PropertyIoDelegate::Marshall(in.VolumeFraction(), GetVolumeFraction());
-    }
-  }
-  return true;
-}
-//-------------------------------------------------------------------------------
-CDM::GasSubstanceQuantityData* SEGasSubstanceQuantity::Unload()
-{
-  CDM::GasSubstanceQuantityData* data = new CDM::GasSubstanceQuantityData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-void SEGasSubstanceQuantity::Unload(CDM::GasSubstanceQuantityData& data)
-{
-  SESubstanceQuantity::Unload(data);
-  // Even if you have children, I am unloading everything, this makes the xml actually usefull...
-  if (HasPartialPressure()) {
-      io::PropertyIoDelegate::UnMarshall(GetPartialPressure(), data.PartialPressure());
-  }
-  if (HasVolume()) {
-      io::PropertyIoDelegate::UnMarshall(GetVolume(), data.Volume());
-  }
-  if (HasVolumeFraction()) {
-      io::PropertyIoDelegate::UnMarshall(GetVolumeFraction(), data.VolumeFraction());
-  }
-}
-//-------------------------------------------------------------------------------
 void SEGasSubstanceQuantity::SetToZero()
 {
   GetPartialPressure().SetValue(0, PressureUnit::mmHg);
@@ -109,11 +70,11 @@ const SEScalar* SEGasSubstanceQuantity::GetScalar(const char* name)
 //-------------------------------------------------------------------------------
 const SEScalar* SEGasSubstanceQuantity::GetScalar(const std::string& name)
 {
-  if (name.compare("PartialPressure") == 0)
+  if (name == "PartialPressure")
     return &GetPartialPressure();
-  if (name.compare("Volume") == 0)
+  if (name == "Volume")
     return &GetVolume();
-  if (name.compare("VolumeFraction") == 0)
+  if (name == "VolumeFraction")
     return &GetVolumeFraction();
   return nullptr;
 }

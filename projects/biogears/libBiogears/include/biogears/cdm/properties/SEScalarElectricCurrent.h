@@ -31,7 +31,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarElectricCurrent : public SEScalarQuantity<ElectricCurrentUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarElectricCurrent() = default;
   virtual ~SEScalarElectricCurrent() = default;

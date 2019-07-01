@@ -16,6 +16,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 #include <biogears/schema/cdm/AnesthesiaActions.hxx>
 
+IO_DECL(Anesthesia)
+
 namespace biogears {
 
 class SEEventHandler;
@@ -36,24 +38,23 @@ class SEScalarFraction;
 class BIOGEARS_API SEAnesthesiaMachine : public SESystem {
 protected:
   friend SEAnesthesiaMachineConfiguration;
+  friend class io::Anesthesia;
 
 public:
   SEAnesthesiaMachine(SESubstanceManager& substances);
   ~SEAnesthesiaMachine() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SEAnesthesiaMachine"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
 
   void Clear() override;
 
-  bool Load(const CDM::AnesthesiaMachineData& in);
-  CDM::AnesthesiaMachineData* Unload() const override;
+  void Load(const std::string& file);
 
   Tree<const char*> GetPhysiologyRequestGraph() const override;
 protected:
-  void Unload(CDM::AnesthesiaMachineData& data) const;
 
   /** @name StateChange
   *   @brief - This method is called when ever there is a state change
@@ -65,7 +66,6 @@ protected:
   void ProcessConfiguration(const SEAnesthesiaMachineConfiguration& config);
 
 public:
-  bool Load(const std::string& file);
 
   const SEScalar* GetScalar(const char* name) override;
   const SEScalar* GetScalar(const std::string& name) override;

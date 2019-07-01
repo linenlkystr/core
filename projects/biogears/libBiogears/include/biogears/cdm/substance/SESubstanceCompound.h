@@ -15,25 +15,22 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 #include <biogears/schema/cdm/Substance.hxx>
 
+IO_DECL(Substance)
+
 namespace biogears {
 class SESubstance;
 class SESubstanceManager;
 class SESubstanceConcentration;
 
 class BIOGEARS_API SESubstanceCompound : public Loggable {
+  friend class io::Substance;
+
 public:
   SESubstanceCompound(Logger* logger);
   virtual ~SESubstanceCompound();
 
   virtual void Clear();
 
-  virtual bool Load(const CDM::SubstanceCompoundData& in, const SESubstanceManager& subMgr);
-  virtual CDM::SubstanceCompoundData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceCompoundData& data) const;
-
-public:
   virtual std::string GetName() const;
   virtual const char* GetName_cStr() const;
   virtual void SetName(const char* name);

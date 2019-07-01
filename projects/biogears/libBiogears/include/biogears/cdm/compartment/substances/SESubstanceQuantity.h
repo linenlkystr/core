@@ -14,8 +14,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/schema/cdm/SubstanceQuantity.hxx>
 
+IO_DECL(SubstanceQuantity)
 namespace biogears {
 class BIOGEARS_API SESubstanceQuantity : public Loggable {
+  friend class io::SubstanceQuantity;
+
 public:
   SESubstanceQuantity(SESubstance& sub)
     : Loggable(sub.GetLogger())
@@ -25,12 +28,6 @@ public:
 
   virtual void Clear() = 0; //clear memory
   virtual void Invalidate() = 0;
-
-  virtual bool Load(const CDM::SubstanceQuantityData& in);
-  virtual CDM::SubstanceQuantityData* Unload() = 0;
-
-protected:
-  virtual void Unload(CDM::SubstanceQuantityData& data);
 
 public:
   virtual SESubstance& GetSubstance() const { return m_Substance; }

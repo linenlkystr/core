@@ -34,7 +34,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarHeatCapacitancePerMass : public SEScalarQuantity<HeatCapacitancePerMassUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarHeatCapacitancePerMass() = default;
   virtual ~SEScalarHeatCapacitancePerMass() = default;

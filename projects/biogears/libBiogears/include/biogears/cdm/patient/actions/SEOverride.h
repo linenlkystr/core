@@ -30,12 +30,12 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/CommonDataModel.h>
 
-IO_DECL(PatientActionsIoDelegate)
+IO_DECL(PatientActions)
 
 namespace biogears {
 
 class BIOGEARS_API SEOverride : public SEPatientAction {
-  friend class io::PatientActionsIoDelegate;
+  friend class io::PatientActions;
 
 public:
   SEOverride();

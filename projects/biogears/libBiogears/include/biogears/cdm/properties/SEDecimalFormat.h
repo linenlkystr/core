@@ -14,8 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-CDM_BIND_DECL(DecimalFormatData)
-IO_DECL(PropertyIoDelegate)
+IO_DECL(Property)
+
 namespace biogears {
 
 enum class DecimalNotation { Default,
@@ -23,7 +23,7 @@ enum class DecimalNotation { Default,
   Scientific };
 
 class BIOGEARS_API SEDecimalFormat {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEDecimalFormat(const SEDecimalFormat* dfault = nullptr);
   virtual ~SEDecimalFormat();

@@ -13,13 +13,15 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/compartment/fluid/SEFluidCompartmentLink.h>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
-#include <biogears/schema/cdm/Compartment.hxx>
+
+IO_DECL(Compartment)
 
 namespace biogears {
 class SELiquidCompartment;
 class SECompartmentManager;
 class SELiquidCompartmentLink : public SEFluidCompartmentLink<SELiquidTransportEdge, SELiquidTransportVertex, SELiquidCompartment> {
   friend class SECompartmentManager;
+  friend class io::Compartment;
 
 protected:
   SELiquidCompartmentLink(SELiquidCompartment& src, SELiquidCompartment& tgt, const char* name);
@@ -27,7 +29,5 @@ protected:
 
 public:
   ~SELiquidCompartmentLink() override = default;
-
-  virtual CDM::LiquidCompartmentLinkData* Unload() override;
 };
 }

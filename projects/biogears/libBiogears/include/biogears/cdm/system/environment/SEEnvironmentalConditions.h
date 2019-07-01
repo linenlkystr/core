@@ -13,9 +13,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
-#include <biogears/schema/cdm/Environment.hxx>
 
-CDM_BIND_DECL(EnvironmentalConditionsData)
+IO_DECL(Environment)
 
 namespace biogears {
 class SESubstance;
@@ -40,6 +39,8 @@ class PressureUnit;
 class SEScalarFraction;
 
 class BIOGEARS_API SEEnvironmentalConditions : public Loggable {
+  friend class io::Environment;
+
 protected:
   friend SEEnvironment;
   friend SEEnvironmentChange;
@@ -51,10 +52,8 @@ public:
 
   virtual void Clear();
 
-  virtual bool Load(const CDM::EnvironmentalConditionsData& in);
   virtual bool Load(const char* environmentFile);
   virtual bool Load(const std::string& environmentFile);
-  virtual CDM::EnvironmentalConditionsData* Unload() const;
 
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);

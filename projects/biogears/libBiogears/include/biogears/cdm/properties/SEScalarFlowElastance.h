@@ -33,7 +33,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarFlowElastance : public SEScalarQuantity<FlowElastanceUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarFlowElastance() = default;
   virtual ~SEScalarFlowElastance() = default;

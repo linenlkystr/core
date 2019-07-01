@@ -12,15 +12,14 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
-#include <biogears/schema/cdm/PatientActions.hxx>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
 
-IO_DECL(PatientActionsIoDelegate)
+IO_DECL(PatientActions)
 
 namespace biogears {
 class BIOGEARS_API SEPainStimulus : public SEPatientAction {
-  friend class io::PatientActionsIoDelegate;
+  friend class io::PatientActions;
 
 public:
   SEPainStimulus();

@@ -12,9 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/utils/GeneralMath.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-CDM_BIND_DECL(PhysiologyEngineConfigurationData)
+IO_DECL(EngineConfiguration)
 
 namespace biogears {
 class SEElectroCardioGramInterpolator;
@@ -26,6 +25,8 @@ class SEScalarTime;
 class TimeUnit;
 
 class BIOGEARS_API PhysiologyEngineConfiguration : public Loggable {
+  friend io::EngineConfiguration;
+
 public:
   PhysiologyEngineConfiguration(Logger* logger);
 
@@ -35,11 +36,8 @@ public:
 
   virtual void Merge(const PhysiologyEngineConfiguration& from);
 
-  virtual bool Load(const CDM::PhysiologyEngineConfigurationData& in);
-  virtual CDM::PhysiologyEngineConfigurationData* Unload() const;
-
-  virtual bool Load(const char* file);
-  virtual bool Load(const std::string& file);
+  virtual void Load(const char* file);
+  virtual void Load(const std::string& file);
 
   virtual bool HasECGInterpolator() const;
   virtual SEElectroCardioGramInterpolator& GetECGInterpolator();
@@ -68,9 +66,6 @@ public:
   virtual bool HasWritePatientBaselineFile() const { return m_WritePatientBaselineFile != (CDM::enumOnOff::value)-1; }
   virtual bool WritePatientBaselineFile() const { return m_WritePatientBaselineFile == CDM::enumOnOff::On; }
   virtual void SetWritePatientBaselineFile(CDM::enumOnOff::value v) { m_WritePatientBaselineFile = v; }
-
-protected:
-  void Unload(CDM::PhysiologyEngineConfigurationData& data) const;
 
 protected:
   bool m_Merge;

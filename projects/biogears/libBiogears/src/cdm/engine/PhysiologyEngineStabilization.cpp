@@ -22,65 +22,49 @@ PhysiologyEngineStabilization::PhysiologyEngineStabilization(Logger* logger)
   m_StabilizationDuration = nullptr;
   m_currentTime_s = 0;
 }
-
+//----------------------------------------------------------------------------------
 PhysiologyEngineStabilization::~PhysiologyEngineStabilization()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void PhysiologyEngineStabilization::Clear()
 {
   m_LogProgress = true;
   m_TrackingStabilization = CDM::enumOnOff::Off;
   SAFE_DELETE(m_StabilizationDuration);
 }
-
-bool PhysiologyEngineStabilization::Load(const CDM::PhysiologyEngineStabilizationData& in)
-{
-  Clear();
-  m_TrackingStabilization = in.TrackingStabilization();
-  return true;
-}
-
-CDM::PhysiologyEngineStabilizationData* PhysiologyEngineStabilization::Unload() const
-{
-  CDM::PhysiologyEngineStabilizationData* data(new CDM::PhysiologyEngineStabilizationData());
-  Unload(*data);
-  return data;
-}
-
-void PhysiologyEngineStabilization::Unload(CDM::PhysiologyEngineStabilizationData& data) const
-{
-  data.TrackingStabilization(m_TrackingStabilization);
-}
-
+//----------------------------------------------------------------------------------
 void PhysiologyEngineStabilization::LogProgress(bool b)
 {
   m_LogProgress = b;
 }
-
+//----------------------------------------------------------------------------------
 void PhysiologyEngineStabilization::TrackStabilization(CDM::enumOnOff::value state)
 {
   m_TrackingStabilization = state;
 }
+//----------------------------------------------------------------------------------
 bool PhysiologyEngineStabilization::IsTrackingStabilization()
 {
   return m_TrackingStabilization == CDM::enumOnOff::On;
 }
-
+//----------------------------------------------------------------------------------
 void PhysiologyEngineStabilization::CancelStabilization()
 {
   m_Cancelled = true;
 }
-
+//----------------------------------------------------------------------------------
 bool PhysiologyEngineStabilization::HasStabilizationDuration()
 {
   return m_StabilizationDuration == nullptr ? false : m_StabilizationDuration->IsValid();
 }
+//----------------------------------------------------------------------------------
 SEScalarTime& PhysiologyEngineStabilization::GetStabilizationDuration()
 {
   if (m_StabilizationDuration == nullptr)
     m_StabilizationDuration = new SEScalarTime();
   return *m_StabilizationDuration;
 }
+//----------------------------------------------------------------------------------
 }

@@ -31,7 +31,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarElectricInductance : public SEScalarQuantity<ElectricInductanceUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarElectricInductance() = default;
   virtual ~SEScalarElectricInductance() = default;

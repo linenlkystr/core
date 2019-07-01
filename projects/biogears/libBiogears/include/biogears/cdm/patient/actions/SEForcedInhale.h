@@ -12,9 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/actions/SEConsciousRespirationCommand.h>
-#include <biogears/schema/cdm/PatientActions.hxx>
 
-IO_DECL(PatientActionsIoDelegate)
+IO_DECL(PatientActions)
 
 namespace biogears {
 class SEScalar0To1;
@@ -22,7 +21,7 @@ class SEConsciousRespiration;
 
 class BIOGEARS_API SEForcedInhale : public SEConsciousRespirationCommand {
   friend class SEConsciousRespiration;
-  friend class io::PatientActionsIoDelegate;
+  friend class io::PatientActions;
   SEForcedInhale();
 
 public:

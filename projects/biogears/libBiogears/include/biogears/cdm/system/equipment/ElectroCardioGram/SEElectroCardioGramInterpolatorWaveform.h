@@ -13,25 +13,21 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/exports.h>
 #include <biogears/schema/CommonDataModel.hxx>
-#include <biogears/schema/biogears/BioGearsPhysiology.hxx>
 
-CDM_BIND_DECL(ElectroCardioGramInterpolationWaveformData)
+IO_DECL(ElectroCardioGram)
 
 namespace biogears {
+class TimeUnit;
+
 class BIOGEARS_API SEElectroCardioGramInterpolatorWaveform : public Loggable {
+  friend class io::ElectroCardioGram;
+
 public:
   SEElectroCardioGramInterpolatorWaveform(Logger* logger);
   virtual ~SEElectroCardioGramInterpolatorWaveform();
 
   virtual void Clear(); // Deletes all members
 
-  virtual bool Load(const CDM::ElectroCardioGramInterpolationWaveformData& in);
-  virtual CDM::ElectroCardioGramInterpolationWaveformData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::ElectroCardioGramInterpolationWaveformData& data) const;
-
-public:
   virtual bool HasLeadNumber() const;
   virtual CDM::ElectroCardioGramWaveformLeadNumber GetLeadNumber() const;
   virtual void SetLeadNumber(CDM::ElectroCardioGramWaveformLeadNumber n);

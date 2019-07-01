@@ -12,7 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/system/SESystem.h>
-#include <biogears/schema/biogears/BioGearsPhysiology.hxx>
+
+IO_DECL(Physiology)
 
 namespace biogears {
 class SEScalarVolumePerTime;
@@ -28,11 +29,13 @@ class SEScalarMass;
 class MassUnit;
 
 class BIOGEARS_API SETissueSystem : public SESystem {
+  friend class io::Physiology;
+
 public:
   SETissueSystem(Logger* logger);
   ~SETissueSystem() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SETissueSystem"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
@@ -42,14 +45,8 @@ public:
   const SEScalar* GetScalar(const char* name) override;
   const SEScalar* GetScalar(const std::string& name) override;
 
-  bool Load(const CDM::TissueSystemData& in);
-  CDM::TissueSystemData* Unload() const override;
-
   Tree<const char*> GetPhysiologyRequestGraph() const override;
-protected:
-  void Unload(CDM::TissueSystemData& data) const;
 
-public:
   bool HasCarbonDioxideProductionRate() const;
   SEScalarVolumePerTime& GetCarbonDioxideProductionRate();
   double GetCarbonDioxideProductionRate(const VolumePerTimeUnit& unit) const;

@@ -33,7 +33,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/Controller/BioGears.h>
 #include <biogears/engine/Equipment/ECG.h>
 
-#include "../../cdm/utils/io/PropertyIoDelegate.h"
+#include "../../cdm/utils/io/Property.h"
 namespace BGE = mil::tatrc::physiology::biogears;
 
 namespace biogears {
@@ -185,8 +185,8 @@ bool BioGearsEngine::LoadState(const CDM::PhysiologyEngineStateData& state, cons
     m_SimulationTime->Set(*simTime);
   } else {
     if (state.SimulationTime().present()) {
-      io::PropertyIoDelegate::Marshall(state.SimulationTime(), *m_CurrentTime);
-      io::PropertyIoDelegate::Marshall(state.SimulationTime(), *m_SimulationTime);
+      io::Property::Marshall(state.SimulationTime(), *m_CurrentTime);
+      io::Property::Marshall(state.SimulationTime(), *m_SimulationTime);
     } else {
       m_CurrentTime->SetValue(0, TimeUnit::s);
       m_SimulationTime->SetValue(0, TimeUnit::s);
@@ -425,7 +425,7 @@ std::unique_ptr<CDM::PhysiologyEngineStateData> BioGearsEngine::SaveState(const 
   std::unique_ptr<CDM::PhysiologyEngineStateData> state(new CDM::BioGearsStateData());
 
   state->contentVersion(BGE::Version);
-  io::PropertyIoDelegate::UnMarshall(*m_SimulationTime, state->SimulationTime());
+  io::Property::UnMarshall(*m_SimulationTime, state->SimulationTime());
   if (m_EngineTrack.GetDataRequestManager().HasDataRequests())
     state->DataRequests(std::unique_ptr<CDM::DataRequestsData>(m_EngineTrack.GetDataRequestManager().Unload()));
 

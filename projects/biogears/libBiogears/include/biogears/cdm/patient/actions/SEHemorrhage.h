@@ -16,15 +16,14 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
 #include <biogears/cdm/properties/SEScalarFlowResistance.h>
-#include <biogears/schema/cdm/PatientActions.hxx>
 
-IO_DECL(PatientActionsIoDelegate)
+IO_DECL(PatientActions)
 
 namespace biogears {
 class SEScalarVolumePerTime;
 
 class BIOGEARS_API SEHemorrhage : public SEPatientAction {
-  friend class io::PatientActionsIoDelegate;
+  friend class io::PatientActions;
 
 public:
   SEHemorrhage();

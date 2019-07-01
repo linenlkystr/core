@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarNeg1To1.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
-#include "../utils/io/PropertyIoDelegate.h"
+#include "../utils/io/Property.h"
 namespace biogears {
 SESubstanceAerosolization::SESubstanceAerosolization(Logger* logger)
   : Loggable(logger)
@@ -57,40 +57,12 @@ const SEScalar* SESubstanceAerosolization::GetScalar(const char* name)
 //-----------------------------------------------------------------------------
 const SEScalar* SESubstanceAerosolization::GetScalar(const std::string& name)
 {
-  if (name.compare("BronchioleModifier") == 0)
+  if (name =="BronchioleModifier")
     return &GetBronchioleModifier();
-  if (name.compare("InflammationCoefficient") == 0)
+  if (name =="InflammationCoefficient")
     return &GetInflammationCoefficient();
   return nullptr;
 }
-//-----------------------------------------------------------------------------
-bool SESubstanceAerosolization::Load(const CDM::SubstanceAerosolizationData& in)
-{
-  Clear();
-  io::PropertyIoDelegate::Marshall(in.BronchioleModifier(), GetBronchioleModifier());
-  io::PropertyIoDelegate::Marshall(in.InflammationCoefficient(), GetInflammationCoefficient());
-  io::PropertyIoDelegate::Marshall(in.ParticulateSizeDistribution(), GetParticulateSizeDistribution());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::SubstanceAerosolizationData* SESubstanceAerosolization::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::SubstanceAerosolizationData* data = new CDM::SubstanceAerosolizationData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SESubstanceAerosolization::Unload(CDM::SubstanceAerosolizationData& data) const
-{
-  if (HasBronchioleModifier())
-    io::PropertyIoDelegate::UnMarshall(*m_BronchioleModifier, data.BronchioleModifier());
-  if (HasInflammationCoefficient())
-      io::PropertyIoDelegate::UnMarshall(*m_InflammationCoefficient, data.InflammationCoefficient());
-  if (HasParticulateSizeDistribution())
-      io::PropertyIoDelegate::UnMarshall(*m_ParticulateSizeDistribution, data.ParticulateSizeDistribution());
-};
 //-----------------------------------------------------------------------------
 bool SESubstanceAerosolization::HasBronchioleModifier() const
 {

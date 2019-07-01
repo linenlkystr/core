@@ -16,7 +16,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 
-#include "cdm/utils/io/PropertyIoDelegate.h"
 namespace biogears {
 template <FLUID_COMPARTMENT_LINK_TEMPLATE>
 SEFluidCompartmentLink<FLUID_COMPARTMENT_LINK_TYPES>::SEFluidCompartmentLink(CompartmentType& src, CompartmentType& tgt, const char* name)
@@ -38,42 +37,6 @@ SEFluidCompartmentLink<FLUID_COMPARTMENT_LINK_TYPES>::SEFluidCompartmentLink(Com
 template <FLUID_COMPARTMENT_LINK_TEMPLATE>
 SEFluidCompartmentLink<FLUID_COMPARTMENT_LINK_TYPES>::~SEFluidCompartmentLink()
 {
-}
-//-------------------------------------------------------------------------------
-template <FLUID_COMPARTMENT_LINK_TEMPLATE>
-bool SEFluidCompartmentLink<FLUID_COMPARTMENT_LINK_TYPES>::Load(const CDM::FluidCompartmentLinkData& in, SECircuitManager* circuits)
-{
-  if (!SECompartmentLink::Load(in, circuits))
-    return false;
-  if (in.Path().present()) {
-    if (circuits == nullptr) {
-      Error("Link is mapped to circuit path, " + std::string{ in.Path().get() } +", but no circuit manager was provided, cannot load");
-      return false;
-    }
-    SEFluidCircuitPath* path = circuits->GetFluidPath(in.Path().get());
-    if (path == nullptr) {
-      Error("Link is mapped to circuit path, " + std::string{ in.Path().get() } +", but provided circuit manager did not have that path");
-      return false;
-    }
-    MapPath(*path);
-  } else {
-    if (in.Flow().present())
-      io::PropertyIoDelegate::Marshall(in.Flow(), GetFlow());
-  }
-  return true;
-}
-//-------------------------------------------------------------------------------
-template <FLUID_COMPARTMENT_LINK_TEMPLATE>
-void SEFluidCompartmentLink<FLUID_COMPARTMENT_LINK_TYPES>::Unload(CDM::FluidCompartmentLinkData& data)
-{
-  SECompartmentLink::Unload(data);
-  data.SourceCompartment(m_SourceCmpt.GetName());
-  data.TargetCompartment(m_TargetCmpt.GetName());
-  if (m_Path != nullptr)
-    data.Path(m_Path->GetName());
-  // Even if you have a path, I am unloading everything, this makes the xml actually usefull...
-  if (HasFlow())
-    io::PropertyIoDelegate::UnMarshall(GetFlow(), data.Flow());
 }
 //-------------------------------------------------------------------------------
 template <FLUID_COMPARTMENT_LINK_TEMPLATE>

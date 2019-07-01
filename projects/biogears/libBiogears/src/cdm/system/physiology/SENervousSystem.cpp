@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 constexpr char idBaroreceptorHeartRateScale[] = "BaroreceptorHeartRateScale";
 constexpr char idBaroreceptorHeartElastanceScale[] = "BaroreceptorHeartElastanceScale";
@@ -98,57 +98,23 @@ const SEScalar* SENervousSystem::GetScalar(const std::string& name)
   return nullptr;
 }
 //-------------------------------------------------------------------------------
-
-bool SENervousSystem::Load(const CDM::NervousSystemData& in)
-{
-  SESystem::Load(in);
-  if (in.BaroreceptorHeartRateScale().present())
-    io::PropertyIoDelegate::Marshall(in.BaroreceptorHeartRateScale(), GetBaroreceptorHeartRateScale());
-  if (in.BaroreceptorHeartElastanceScale().present())
-    io::PropertyIoDelegate::Marshall(in.BaroreceptorHeartElastanceScale(), GetBaroreceptorHeartElastanceScale());
-  if (in.BaroreceptorResistanceScale().present())
-    io::PropertyIoDelegate::Marshall(in.BaroreceptorResistanceScale(), GetBaroreceptorResistanceScale());
-  if (in.BaroreceptorComplianceScale().present())
-    io::PropertyIoDelegate::Marshall(in.BaroreceptorComplianceScale(), GetBaroreceptorComplianceScale());
-  if (in.ChemoreceptorHeartRateScale().present())
-    io::PropertyIoDelegate::Marshall(in.ChemoreceptorHeartRateScale(), GetChemoreceptorHeartRateScale());
-  if (in.ChemoreceptorHeartElastanceScale().present())
-    io::PropertyIoDelegate::Marshall(in.ChemoreceptorHeartElastanceScale(), GetChemoreceptorHeartElastanceScale());
-  if (in.PainVisualAnalogueScale().present())
-    io::PropertyIoDelegate::Marshall(in.PainVisualAnalogueScale(), GetPainVisualAnalogueScale());
-  if (in.LeftEyePupillaryResponse().present())
-    GetLeftEyePupillaryResponse().Load(in.LeftEyePupillaryResponse().get());
-  if (in.RightEyePupillaryResponse().present())
-    GetRightEyePupillaryResponse().Load(in.RightEyePupillaryResponse().get());
-  return true;
-}
-//-------------------------------------------------------------------------------
-
-CDM::NervousSystemData* SENervousSystem::Unload() const
-{
-  CDM::NervousSystemData* data = new CDM::NervousSystemData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-
 void SENervousSystem::Unload(CDM::NervousSystemData& data) const
 {
   SESystem::Unload(data);
   if (m_BaroreceptorHeartRateScale != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_BaroreceptorHeartRateScale, data.BaroreceptorHeartRateScale());
+    io::Property::UnMarshall(*m_BaroreceptorHeartRateScale, data.BaroreceptorHeartRateScale());
   if (m_BaroreceptorHeartElastanceScale != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_BaroreceptorHeartElastanceScale, data.BaroreceptorHeartElastanceScale());
+    io::Property::UnMarshall(*m_BaroreceptorHeartElastanceScale, data.BaroreceptorHeartElastanceScale());
   if (m_BaroreceptorResistanceScale != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_BaroreceptorResistanceScale, data.BaroreceptorResistanceScale());
+    io::Property::UnMarshall(*m_BaroreceptorResistanceScale, data.BaroreceptorResistanceScale());
   if (m_BaroreceptorComplianceScale != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_BaroreceptorComplianceScale, data.BaroreceptorComplianceScale());
+    io::Property::UnMarshall(*m_BaroreceptorComplianceScale, data.BaroreceptorComplianceScale());
   if (m_ChemoreceptorHeartRateScale != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ChemoreceptorHeartRateScale, data.ChemoreceptorHeartRateScale());
+    io::Property::UnMarshall(*m_ChemoreceptorHeartRateScale, data.ChemoreceptorHeartRateScale());
   if (m_ChemoreceptorHeartElastanceScale != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ChemoreceptorHeartElastanceScale, data.ChemoreceptorHeartElastanceScale());
+    io::Property::UnMarshall(*m_ChemoreceptorHeartElastanceScale, data.ChemoreceptorHeartElastanceScale());
   if (m_PainVisualAnalogueScale != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_PainVisualAnalogueScale, data.PainVisualAnalogueScale());
+    io::Property::UnMarshall(*m_PainVisualAnalogueScale, data.PainVisualAnalogueScale());
   if (m_LeftEyePupillaryResponse != nullptr)
     data.LeftEyePupillaryResponse(std::unique_ptr<CDM::PupillaryResponseData>(m_LeftEyePupillaryResponse->Unload()));
   if (m_RightEyePupillaryResponse != nullptr)

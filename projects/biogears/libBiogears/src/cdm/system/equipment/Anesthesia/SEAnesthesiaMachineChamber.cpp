@@ -15,7 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../../utils/io/PropertyIoDelegate.h"
+#include "../../../utils/io/Property.h"
 namespace biogears {
 SEAnesthesiaMachineChamber::SEAnesthesiaMachineChamber(SESubstanceManager& substances)
   : Loggable(substances.GetLogger())
@@ -38,45 +38,6 @@ void SEAnesthesiaMachineChamber::Clear()
   m_State = (CDM::enumOnOff::value)-1;
   SAFE_DELETE(m_SubstanceFraction);
   m_Substance = nullptr;
-}
-//-------------------------------------------------------------------------------
-
-bool SEAnesthesiaMachineChamber::Load(const CDM::AnesthesiaMachineChamberData& in)
-{
-  if (in.State().present())
-    SetState(in.State().get());
-  if (in.SubstanceFraction().present())
-    io::PropertyIoDelegate::Marshall(in.SubstanceFraction(), GetSubstanceFraction());
-  if (in.Substance().present()) {
-    m_Substance = m_Substances.GetSubstance(in.Substance().get());
-    if (m_Substance == nullptr) {
-      std::stringstream ss;
-      ss << "Do not have substance : " << in.Substance().get();
-      Error(ss);
-      return false;
-    }
-  }
-  return true;
-}
-//-------------------------------------------------------------------------------
-
-CDM::AnesthesiaMachineChamberData* SEAnesthesiaMachineChamber::Unload() const
-{
-  CDM::AnesthesiaMachineChamberData* data = new CDM::AnesthesiaMachineChamberData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-
-void SEAnesthesiaMachineChamber::Unload(CDM::AnesthesiaMachineChamberData& data) const
-{
-  if (HasState())
-    data.State(m_State);
-  if (m_SubstanceFraction != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_SubstanceFraction, data.SubstanceFraction());
-  }
-  if (HasSubstance())
-    data.Substance(m_Substance->GetName());
 }
 //-------------------------------------------------------------------------------
 

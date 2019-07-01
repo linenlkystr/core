@@ -11,26 +11,20 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 #include <biogears/cdm/compartment/fluid/SELiquidCompartmentLink.h>
 
-#include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
-#include <biogears/cdm/compartment/SECompartmentTransportGraph.inl>
 #include <biogears/cdm/compartment/SECompartmentGraph.inl>
 #include <biogears/cdm/compartment/SECompartmentNodes.inl>
+#include <biogears/cdm/compartment/SECompartmentTransportGraph.inl>
 #include <biogears/cdm/compartment/fluid/SEFluidCompartment.inl>
 #include <biogears/cdm/compartment/fluid/SEFluidCompartmentLink.inl>
+#include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
 
 namespace biogears {
-  SELiquidCompartmentLink::SELiquidCompartmentLink(SELiquidCompartment& src, SELiquidCompartment& tgt, const char* name)
-    : SELiquidCompartmentLink(src, tgt, std::string{ name })
-  {
-  }
-  SELiquidCompartmentLink::SELiquidCompartmentLink(SELiquidCompartment& src, SELiquidCompartment& tgt, const std::string& name)
-    : SEFluidCompartmentLink(src, tgt, name)
-  {
-  }
-CDM::LiquidCompartmentLinkData* SELiquidCompartmentLink::Unload()
+SELiquidCompartmentLink::SELiquidCompartmentLink(SELiquidCompartment& src, SELiquidCompartment& tgt, const char* name)
+  : SELiquidCompartmentLink(src, tgt, std::string{ name })
 {
-  CDM::LiquidCompartmentLinkData* data = new CDM::LiquidCompartmentLinkData();
-  SEFluidCompartmentLink::Unload(*data);
-  return data;
+}
+SELiquidCompartmentLink::SELiquidCompartmentLink(SELiquidCompartment& src, SELiquidCompartment& tgt, const std::string& name)
+  : SEFluidCompartmentLink(src, tgt, name)
+{
 }
 }

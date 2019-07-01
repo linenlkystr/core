@@ -31,7 +31,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarElectricResistance : public SEScalarQuantity<ElectricResistanceUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarElectricResistance() = default;
   virtual ~SEScalarElectricResistance() = default;

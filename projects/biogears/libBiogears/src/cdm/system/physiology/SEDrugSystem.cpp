@@ -22,7 +22,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 
 constexpr char idBronchodilationLevel[] = "BronchodilationLevel";
@@ -77,37 +77,6 @@ void SEDrugSystem::Clear()
   SAFE_DELETE(m_CentralNervousResponse);
 }
 //-------------------------------------------------------------------------------
-
-bool SEDrugSystem::Load(const CDM::DrugSystemData& in)
-{
-  SESystem::Load(in);
-
-  if (in.BronchodilationLevel().present())
-    io::PropertyIoDelegate::Marshall(in.BronchodilationLevel(), GetBronchodilationLevel());
-  if (in.HeartRateChange().present())
-    io::PropertyIoDelegate::Marshall(in.HeartRateChange(), GetHeartRateChange());
-  if (in.MeanBloodPressureChange().present())
-    io::PropertyIoDelegate::Marshall(in.MeanBloodPressureChange(), GetMeanBloodPressureChange());
-  if (in.NeuromuscularBlockLevel().present())
-    io::PropertyIoDelegate::Marshall(in.NeuromuscularBlockLevel(), GetNeuromuscularBlockLevel());
-  if (in.PulsePressureChange().present())
-    io::PropertyIoDelegate::Marshall(in.PulsePressureChange(), GetPulsePressureChange());
-  if (in.PupillaryResponse().present())
-    GetPupillaryResponse().Load(in.PupillaryResponse().get());
-  if (in.RespirationRateChange().present())
-    io::PropertyIoDelegate::Marshall(in.RespirationRateChange(), GetRespirationRateChange());
-  if (in.SedationLevel().present())
-    io::PropertyIoDelegate::Marshall(in.SedationLevel(), GetSedationLevel());
-  if (in.TidalVolumeChange().present())
-    io::PropertyIoDelegate::Marshall(in.TidalVolumeChange(), GetTidalVolumeChange());
-  if (in.TubularPermeabilityChange().present())
-    io::PropertyIoDelegate::Marshall(in.TubularPermeabilityChange(), GetTubularPermeabilityChange());
-  if (in.CentralNervousResponse().present())
-    io::PropertyIoDelegate::Marshall(in.CentralNervousResponse(), GetCentralNervousResponse());
-
-  return true;
-}
-//-------------------------------------------------------------------------------
 const SEScalar* SEDrugSystem::GetScalar(const char* name)
 {
   return GetScalar(std::string{ name });
@@ -145,43 +114,6 @@ const SEScalar* SEDrugSystem::GetScalar(const std::string& name)
   }
 
   return nullptr;
-}
-//-------------------------------------------------------------------------------
-
-CDM::DrugSystemData* SEDrugSystem::Unload() const
-{
-  CDM::DrugSystemData* data = new CDM::DrugSystemData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-
-void SEDrugSystem::Unload(CDM::DrugSystemData& data) const
-{
-  SESystem::Unload(data);
-
-  if (m_BronchodilationLevel != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_BronchodilationLevel, data.BronchodilationLevel());
-  if (m_HeartRateChange != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_HeartRateChange, data.HeartRateChange());
-  if (m_MeanBloodPressureChange != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_MeanBloodPressureChange, data.MeanBloodPressureChange());
-  if (m_NeuromuscularBlockLevel != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_NeuromuscularBlockLevel, data.NeuromuscularBlockLevel());
-  if (m_PulsePressureChange != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_PulsePressureChange, data.PulsePressureChange());
-  if (m_PupillaryResponse != nullptr)
-    data.PupillaryResponse(std::unique_ptr<CDM::PupillaryResponseData>(m_PupillaryResponse->Unload()));
-  if (m_RespirationRateChange != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_RespirationRateChange, data.RespirationRateChange());
-  if (m_SedationLevel != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_SedationLevel, data.SedationLevel());
-  if (m_TidalVolumeChange != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_TidalVolumeChange, data.TidalVolumeChange());
-  if (m_TubularPermeabilityChange != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_TubularPermeabilityChange, data.TubularPermeabilityChange());
-  if (m_CentralNervousResponse != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_CentralNervousResponse, data.CentralNervousResponse());
 }
 //-------------------------------------------------------------------------------
 

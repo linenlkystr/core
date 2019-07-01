@@ -10,7 +10,7 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 #include <biogears/cdm/circuit/fluid/SEFluidCircuitPath.h>
 namespace biogears {
 SEFluidCircuitPath::SEFluidCircuitPath(SEFluidCircuitNode& src, SEFluidCircuitNode& tgt, const char* name)
@@ -40,41 +40,41 @@ bool SEFluidCircuitPath::Load(const CDM::FluidCircuitPathData& in)
   SECircuitPath::Load(in);
 
   if (in.Resistance().present())
-    io::PropertyIoDelegate::Marshall(in.Resistance(), GetResistance());
+    io::Property::Marshall(in.Resistance(), GetResistance());
   if (in.NextResistance().present())
-    io::PropertyIoDelegate::Marshall(in.NextResistance(), GetNextResistance());
+    io::Property::Marshall(in.NextResistance(), GetNextResistance());
   if (in.ResistanceBaseline().present())
-    io::PropertyIoDelegate::Marshall(in.ResistanceBaseline(), GetResistanceBaseline());
+    io::Property::Marshall(in.ResistanceBaseline(), GetResistanceBaseline());
   if (in.Compliance().present())
-    io::PropertyIoDelegate::Marshall(in.Compliance(), GetCompliance());
+    io::Property::Marshall(in.Compliance(), GetCompliance());
   if (in.NextCompliance().present())
-    io::PropertyIoDelegate::Marshall(in.NextCompliance(), GetNextCompliance());
+    io::Property::Marshall(in.NextCompliance(), GetNextCompliance());
   if (in.ComplianceBaseline().present())
-    io::PropertyIoDelegate::Marshall(in.ComplianceBaseline(), GetComplianceBaseline());
+    io::Property::Marshall(in.ComplianceBaseline(), GetComplianceBaseline());
   if (in.Inertance().present())
-    io::PropertyIoDelegate::Marshall(in.Inertance(), GetInertance());
+    io::Property::Marshall(in.Inertance(), GetInertance());
   if (in.NextInertance().present())
-    io::PropertyIoDelegate::Marshall(in.NextInertance(), GetNextInertance());
+    io::Property::Marshall(in.NextInertance(), GetNextInertance());
   if (in.InertanceBaseline().present())
-    io::PropertyIoDelegate::Marshall(in.InertanceBaseline(), GetInertanceBaseline());
+    io::Property::Marshall(in.InertanceBaseline(), GetInertanceBaseline());
   if (in.Flow().present())
-    io::PropertyIoDelegate::Marshall(in.Flow(), GetFlow());
+    io::Property::Marshall(in.Flow(), GetFlow());
   if (in.NextFlow().present())
-    io::PropertyIoDelegate::Marshall(in.NextFlow(), GetNextFlow());
+    io::Property::Marshall(in.NextFlow(), GetNextFlow());
   if (in.FlowSource().present())
-    io::PropertyIoDelegate::Marshall(in.FlowSource(), GetFlowSource());
+    io::Property::Marshall(in.FlowSource(), GetFlowSource());
   if (in.NextFlowSource().present())
-    io::PropertyIoDelegate::Marshall(in.NextFlowSource(), GetNextFlowSource());
+    io::Property::Marshall(in.NextFlowSource(), GetNextFlowSource());
   if (in.FlowSourceBaseline().present())
-    io::PropertyIoDelegate::Marshall(in.FlowSourceBaseline(), GetFlowSourceBaseline());
+    io::Property::Marshall(in.FlowSourceBaseline(), GetFlowSourceBaseline());
   if (in.PressureSource().present())
-    io::PropertyIoDelegate::Marshall(in.PressureSource(), GetPressureSource());
+    io::Property::Marshall(in.PressureSource(), GetPressureSource());
   if (in.NextPressureSource().present())
-    io::PropertyIoDelegate::Marshall(in.NextPressureSource(), GetNextPressureSource());
+    io::Property::Marshall(in.NextPressureSource(), GetNextPressureSource());
   if (in.PressureSourceBaseline().present())
-    io::PropertyIoDelegate::Marshall(in.PressureSourceBaseline(), GetPressureSourceBaseline());
+    io::Property::Marshall(in.PressureSourceBaseline(), GetPressureSourceBaseline());
   if (in.ValveBreakdownPressure().present())
-    io::PropertyIoDelegate::Marshall(in.ValveBreakdownPressure(), GetValveBreakdownPressure());
+    io::Property::Marshall(in.ValveBreakdownPressure(), GetValveBreakdownPressure());
 
   return HasValidElements();
 }
@@ -88,41 +88,41 @@ void SEFluidCircuitPath::Unload(CDM::FluidCircuitPathData& data) const
 {
   SECircuitPath::Unload(data);
   if (HasResistance())
-    io::PropertyIoDelegate::UnMarshall(*m_Resistance, data.Resistance());
+    io::Property::UnMarshall(*m_Resistance, data.Resistance());
   if (HasNextResistance())
-    io::PropertyIoDelegate::UnMarshall(*m_NextResistance, data.NextResistance());
+    io::Property::UnMarshall(*m_NextResistance, data.NextResistance());
   if (HasResistanceBaseline())
-    io::PropertyIoDelegate::UnMarshall(*m_ResistanceBaseline, data.ResistanceBaseline());
+    io::Property::UnMarshall(*m_ResistanceBaseline, data.ResistanceBaseline());
   if (HasCompliance())
-    io::PropertyIoDelegate::UnMarshall(*m_Capacitance, data.Compliance());
+    io::Property::UnMarshall(*m_Capacitance, data.Compliance());
   if (HasNextCompliance())
-    io::PropertyIoDelegate::UnMarshall(*m_NextCapacitance, data.NextCompliance());
+    io::Property::UnMarshall(*m_NextCapacitance, data.NextCompliance());
   if (HasComplianceBaseline())
-    io::PropertyIoDelegate::UnMarshall(*m_CapacitanceBaseline, data.ComplianceBaseline());
+    io::Property::UnMarshall(*m_CapacitanceBaseline, data.ComplianceBaseline());
   if (HasInertance())
-    io::PropertyIoDelegate::UnMarshall(*m_Inductance, data.Inertance());
+    io::Property::UnMarshall(*m_Inductance, data.Inertance());
   if (HasNextInertance())
-    io::PropertyIoDelegate::UnMarshall(*m_NextInductance, data.NextInertance());
+    io::Property::UnMarshall(*m_NextInductance, data.NextInertance());
   if (HasInertanceBaseline())
-    io::PropertyIoDelegate::UnMarshall(*m_InductanceBaseline, data.InertanceBaseline());
+    io::Property::UnMarshall(*m_InductanceBaseline, data.InertanceBaseline());
   if (HasFlow())
-    io::PropertyIoDelegate::UnMarshall(*m_Flux, data.Flow());
+    io::Property::UnMarshall(*m_Flux, data.Flow());
   if (HasNextFlow())
-    io::PropertyIoDelegate::UnMarshall(*m_NextFlux, data.NextFlow());
+    io::Property::UnMarshall(*m_NextFlux, data.NextFlow());
   if (HasFlowSource())
-    io::PropertyIoDelegate::UnMarshall(*m_FluxSource, data.FlowSource());
+    io::Property::UnMarshall(*m_FluxSource, data.FlowSource());
   if (HasNextFlowSource())
-    io::PropertyIoDelegate::UnMarshall(*m_NextFluxSource, data.NextFlowSource());
+    io::Property::UnMarshall(*m_NextFluxSource, data.NextFlowSource());
   if (HasFlowSourceBaseline())
-    io::PropertyIoDelegate::UnMarshall(*m_FluxSourceBaseline, data.FlowSourceBaseline());
+    io::Property::UnMarshall(*m_FluxSourceBaseline, data.FlowSourceBaseline());
   if (HasPressureSource())
-    io::PropertyIoDelegate::UnMarshall(*m_PotentialSource, data.PressureSource());
+    io::Property::UnMarshall(*m_PotentialSource, data.PressureSource());
   if (HasNextPressureSource())
-    io::PropertyIoDelegate::UnMarshall(*m_NextPotentialSource, data.NextPressureSource());
+    io::Property::UnMarshall(*m_NextPotentialSource, data.NextPressureSource());
   if (HasPressureSourceBaseline())
-    io::PropertyIoDelegate::UnMarshall(*m_PotentialSourceBaseline, data.PressureSourceBaseline());
+    io::Property::UnMarshall(*m_PotentialSourceBaseline, data.PressureSourceBaseline());
   if (HasValveBreakdownPressure())
-    io::PropertyIoDelegate::UnMarshall(*m_ValveBreakdownPotential, data.ValveBreakdownPressure());
+    io::Property::UnMarshall(*m_ValveBreakdownPotential, data.ValveBreakdownPressure());
 }
 
 ////////////////////////////////

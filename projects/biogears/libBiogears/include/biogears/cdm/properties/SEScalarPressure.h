@@ -35,7 +35,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarPressure : public SEScalarQuantity<PressureUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarPressure() = default;
   virtual ~SEScalarPressure() = default;

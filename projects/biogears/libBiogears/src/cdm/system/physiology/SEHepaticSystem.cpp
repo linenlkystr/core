@@ -16,7 +16,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 constexpr char idKetoneProductionRate[] = "KetoneProductionRate";
 constexpr char idHepaticGluconeogenesisRate[] = "HepaticGluconeogenesisRate";
@@ -55,36 +55,6 @@ const SEScalar* SEHepaticSystem::GetScalar(const std::string& name)
   if (name == idHepaticGluconeogenesisRate)
     return &GetHepaticGluconeogenesisRate();
   return nullptr;
-}
-//-------------------------------------------------------------------------------
-
-bool SEHepaticSystem::Load(const CDM::HepaticSystemData& in)
-{
-  SESystem::Load(in);
-
-  if (in.KetoneProductionRate().present())
-    io::PropertyIoDelegate::Marshall(in.KetoneProductionRate(), GetKetoneProductionRate());
-  if (in.HepaticGluconeogenesisRate().present())
-    io::PropertyIoDelegate::Marshall(in.HepaticGluconeogenesisRate(), GetHepaticGluconeogenesisRate());
-
-  return true;
-}
-//-------------------------------------------------------------------------------
-CDM::HepaticSystemData* SEHepaticSystem::Unload() const
-{
-  CDM::HepaticSystemData* data = new CDM::HepaticSystemData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-void SEHepaticSystem::Unload(CDM::HepaticSystemData& data) const
-{
-  SESystem::Unload(data);
-
-  if (m_KetoneProductionRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_KetoneProductionRate, data.KetoneProductionRate());
-  if (m_HepaticGluconeogenesisRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_HepaticGluconeogenesisRate, data.HepaticGluconeogenesisRate());
 }
 //-------------------------------------------------------------------------------
 

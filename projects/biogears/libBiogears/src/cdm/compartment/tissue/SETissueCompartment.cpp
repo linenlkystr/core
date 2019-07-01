@@ -21,7 +21,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SETissueCompartment::SETissueCompartment(const char* name, Logger* logger)
   : SETissueCompartment(std::string{ name }, logger)
@@ -68,25 +68,25 @@ bool SETissueCompartment::Load(const CDM::TissueCompartmentData& in, SESubstance
   if (!SECompartment::Load(in))
     return false;
   if (in.AcidicPhospohlipidConcentration().present())
-    io::PropertyIoDelegate::Marshall(in.AcidicPhospohlipidConcentration(), GetAcidicPhospohlipidConcentration());
+    io::Property::Marshall(in.AcidicPhospohlipidConcentration(), GetAcidicPhospohlipidConcentration());
   if (in.MatrixVolume().present())
-    io::PropertyIoDelegate::Marshall(in.MatrixVolume(), GetMatrixVolume());
+    io::Property::Marshall(in.MatrixVolume(), GetMatrixVolume());
   if (in.MembranePotential().present())
-    io::PropertyIoDelegate::Marshall(in.MembranePotential(), GetMembranePotential());
+    io::Property::Marshall(in.MembranePotential(), GetMembranePotential());
   if (in.NeutralLipidsVolumeFraction().present())
-    io::PropertyIoDelegate::Marshall(in.NeutralLipidsVolumeFraction(), GetNeutralLipidsVolumeFraction());
+    io::Property::Marshall(in.NeutralLipidsVolumeFraction(), GetNeutralLipidsVolumeFraction());
   if (in.NeutralPhospholipidsVolumeFraction().present())
-    io::PropertyIoDelegate::Marshall(in.NeutralPhospholipidsVolumeFraction(), GetNeutralPhospholipidsVolumeFraction());
+    io::Property::Marshall(in.NeutralPhospholipidsVolumeFraction(), GetNeutralPhospholipidsVolumeFraction());
   if (in.ReflectionCoefficient().present())
-    io::PropertyIoDelegate::Marshall(in.ReflectionCoefficient(), GetReflectionCoefficient());
+    io::Property::Marshall(in.ReflectionCoefficient(), GetReflectionCoefficient());
   if (in.TissueToPlasmaAlbuminRatio().present())
-    io::PropertyIoDelegate::Marshall(in.TissueToPlasmaAlbuminRatio(), GetTissueToPlasmaAlbuminRatio());
+    io::Property::Marshall(in.TissueToPlasmaAlbuminRatio(), GetTissueToPlasmaAlbuminRatio());
   if (in.TissueToPlasmaAlphaAcidGlycoproteinRatio().present())
-    io::PropertyIoDelegate::Marshall(in.TissueToPlasmaAlphaAcidGlycoproteinRatio(), GetTissueToPlasmaAlphaAcidGlycoproteinRatio());
+    io::Property::Marshall(in.TissueToPlasmaAlphaAcidGlycoproteinRatio(), GetTissueToPlasmaAlphaAcidGlycoproteinRatio());
   if (in.TissueToPlasmaLipoproteinRatio().present())
-    io::PropertyIoDelegate::Marshall(in.TissueToPlasmaLipoproteinRatio(), GetTissueToPlasmaLipoproteinRatio());
+    io::Property::Marshall(in.TissueToPlasmaLipoproteinRatio(), GetTissueToPlasmaLipoproteinRatio());
   if (in.TotalMass().present())
-    io::PropertyIoDelegate::Marshall(in.TotalMass(), GetTotalMass());
+    io::Property::Marshall(in.TotalMass(), GetTotalMass());
 
   return true;
 }
@@ -102,27 +102,27 @@ void SETissueCompartment::Unload(CDM::TissueCompartmentData& data)
 {
   SECompartment::Unload(data);
   if (HasAcidicPhospohlipidConcentration())
-    io::PropertyIoDelegate::UnMarshall(*m_AcidicPhospohlipidConcentration, data.AcidicPhospohlipidConcentration());
+    io::Property::UnMarshall(*m_AcidicPhospohlipidConcentration, data.AcidicPhospohlipidConcentration());
   if (HasMatrixVolume())
-    io::PropertyIoDelegate::UnMarshall(*m_MatrixVolume, data.MatrixVolume());
+    io::Property::UnMarshall(*m_MatrixVolume, data.MatrixVolume());
   if (HasMembranePotential())
-    io::PropertyIoDelegate::UnMarshall(*m_MembranePotential, data.MembranePotential());
+    io::Property::UnMarshall(*m_MembranePotential, data.MembranePotential());
   if (HasNeutralLipidsVolumeFraction())
-    io::PropertyIoDelegate::UnMarshall(*m_NeutralLipidsVolumeFraction, data.NeutralLipidsVolumeFraction());
+    io::Property::UnMarshall(*m_NeutralLipidsVolumeFraction, data.NeutralLipidsVolumeFraction());
   if (HasNeutralPhospholipidsVolumeFraction())
-    io::PropertyIoDelegate::UnMarshall(*m_NeutralPhospholipidsVolumeFraction, data.NeutralPhospholipidsVolumeFraction());
+    io::Property::UnMarshall(*m_NeutralPhospholipidsVolumeFraction, data.NeutralPhospholipidsVolumeFraction());
   if (HasReflectionCoefficient())
-    io::PropertyIoDelegate::UnMarshall(*m_ReflectionCoefficient, data.ReflectionCoefficient());
+    io::Property::UnMarshall(*m_ReflectionCoefficient, data.ReflectionCoefficient());
   if (HasTissueToPlasmaAlbuminRatio())
-    io::PropertyIoDelegate::UnMarshall(*m_TissueToPlasmaAlbuminRatio, data.TissueToPlasmaAlbuminRatio());
+    io::Property::UnMarshall(*m_TissueToPlasmaAlbuminRatio, data.TissueToPlasmaAlbuminRatio());
   if (HasTissueToPlasmaAlbuminRatio())
-    io::PropertyIoDelegate::UnMarshall(*m_TissueToPlasmaAlbuminRatio, data.TissueToPlasmaAlbuminRatio());
+    io::Property::UnMarshall(*m_TissueToPlasmaAlbuminRatio, data.TissueToPlasmaAlbuminRatio());
   if (HasTissueToPlasmaAlphaAcidGlycoproteinRatio())
-    io::PropertyIoDelegate::UnMarshall(*m_TissueToPlasmaAlphaAcidGlycoproteinRatio, data.TissueToPlasmaAlphaAcidGlycoproteinRatio());
+    io::Property::UnMarshall(*m_TissueToPlasmaAlphaAcidGlycoproteinRatio, data.TissueToPlasmaAlphaAcidGlycoproteinRatio());
   if (HasTissueToPlasmaLipoproteinRatio())
-    io::PropertyIoDelegate::UnMarshall(*m_TissueToPlasmaLipoproteinRatio, data.TissueToPlasmaLipoproteinRatio());
+    io::Property::UnMarshall(*m_TissueToPlasmaLipoproteinRatio, data.TissueToPlasmaLipoproteinRatio());
   if (HasTotalMass())
-    io::PropertyIoDelegate::UnMarshall(*m_TotalMass, data.TotalMass());
+    io::Property::UnMarshall(*m_TotalMass, data.TotalMass());
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SETissueCompartment::GetScalar(const char* name)

@@ -16,7 +16,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 #include <biogears/schema/cdm/Scenario.hxx>
 
-IO_DECL(ScenarioIoDelegate)
+IO_DECL(Scenario)
 namespace biogears {
 class SESubstanceManager;
 class SEAction;
@@ -26,7 +26,7 @@ class SEScenarioAutoSerialization;
 class SEDecimalFormat;
 
 class BIOGEARS_API SEScenario : public Loggable {
-  friend io::ScenarioIoDelegate;
+  friend io::Scenario;
 public:
   SEScenario(SESubstanceManager& subMgr);
 

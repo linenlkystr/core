@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarAmount.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEUrinalysisMicroscopic::SEUrinalysisMicroscopic(Logger* logger)
   : SEPatientAssessment(logger)
@@ -28,12 +28,12 @@ SEUrinalysisMicroscopic::SEUrinalysisMicroscopic(Logger* logger)
   m_Trichomonads = CDM::enumMicroscopicObservationAmount::value(-1);
   m_Yeast = CDM::enumMicroscopicObservationAmount::value(-1);
 }
-
+//----------------------------------------------------------------------------------
 SEUrinalysisMicroscopic::~SEUrinalysisMicroscopic()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::Clear()
 {
   SEPatientAssessment::Clear();
@@ -47,7 +47,7 @@ void SEUrinalysisMicroscopic::Clear()
   m_Trichomonads = CDM::enumMicroscopicObservationAmount::value(-1);
   m_Yeast = CDM::enumMicroscopicObservationAmount::value(-1);
 }
-
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::Reset()
 {
   SEPatientAssessment::Reset();
@@ -61,178 +61,161 @@ void SEUrinalysisMicroscopic::Reset()
   m_Trichomonads = CDM::enumMicroscopicObservationAmount::value(-1);
   m_Yeast = CDM::enumMicroscopicObservationAmount::value(-1);
 }
-
-bool SEUrinalysisMicroscopic::Load(const CDM::UrinalysisMicroscopicData& in)
-{
-  SEPatientAssessment::Load(in);
-  //TODO: Implement Load
-  return true;
-}
-
-CDM::UrinalysisMicroscopicData* SEUrinalysisMicroscopic::Unload()
-{
-  CDM::UrinalysisMicroscopicData* data = new CDM::UrinalysisMicroscopicData();
-  Unload(*data);
-  return data;
-}
-
-void SEUrinalysisMicroscopic::Unload(CDM::UrinalysisMicroscopicData& data)
-{
-  if (HasObservationType())
-    data.ObservationType(m_ObservationType);
-  if (HasRedBloodCellsResult()) {
-    io::PropertyIoDelegate::UnMarshall(*m_RedBloodCells, data.RedBloodCells());
-  }
-  if (HasWhiteBloodCellsResult()) {
-    io::PropertyIoDelegate::UnMarshall(*m_WhiteBloodCells, data.WhiteBloodCells());
-  }
-  if (HasEpithelialCellsResult())
-    data.EpithelialCells(m_EpithelialCells);
-  if (HasCastsResult()) {
-    io::PropertyIoDelegate::UnMarshall(*m_Casts, data.Casts());
-  }
-  if (HasCrystalsResult())
-    data.Crystals(m_Crystals);
-  if (HasBacteriaResult())
-    data.Bacteria(m_Bacteria);
-  if (HasTrichomonadsResult())
-    data.Trichomonads(m_Trichomonads);
-  if (HasYeastResult())
-    data.Yeast(m_Yeast);
-}
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasRedBloodCellsResult() const
 {
   return m_RedBloodCells == nullptr ? false : m_RedBloodCells->IsValid();
 }
+//----------------------------------------------------------------------------------
 SEScalarAmount& SEUrinalysisMicroscopic::GetRedBloodCellsResult()
 {
   if (m_RedBloodCells == nullptr)
     m_RedBloodCells = new SEScalarAmount();
   return *m_RedBloodCells;
 }
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasObservationType() const
 {
   return m_ObservationType != CDM::enumMicroscopicObservationType::value(-1);
 }
+//----------------------------------------------------------------------------------
 CDM::enumMicroscopicObservationType::value SEUrinalysisMicroscopic::GetObservationType() const
 {
   return m_ObservationType;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::SetObservationType(CDM::enumMicroscopicObservationType::value c)
 {
   m_ObservationType = c;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::InvalidateObservationType()
 {
   m_ObservationType = CDM::enumMicroscopicObservationType::value(-1);
 }
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasWhiteBloodCellsResult() const
 {
   return m_WhiteBloodCells == nullptr ? false : m_WhiteBloodCells->IsValid();
 }
+//----------------------------------------------------------------------------------
 SEScalarAmount& SEUrinalysisMicroscopic::GetWhiteBloodCellsResult()
 {
   if (m_WhiteBloodCells == nullptr)
     m_WhiteBloodCells = new SEScalarAmount();
   return *m_WhiteBloodCells;
 }
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasEpithelialCellsResult() const
 {
   return m_EpithelialCells != CDM::enumMicroscopicObservationAmount::value(-1);
 }
+//----------------------------------------------------------------------------------
 CDM::enumMicroscopicObservationAmount::value SEUrinalysisMicroscopic::GetEpithelialCellsResult() const
 {
   return m_EpithelialCells;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::SetEpithelialCellsResult(CDM::enumMicroscopicObservationAmount::value c)
 {
   m_EpithelialCells = c;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::InvalidateEpithelialCellsResult()
 {
   m_EpithelialCells = CDM::enumMicroscopicObservationAmount::value(-1);
 }
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasCastsResult() const
 {
   return m_Casts == nullptr ? false : m_Casts->IsValid();
 }
+//----------------------------------------------------------------------------------
 SEScalarAmount& SEUrinalysisMicroscopic::GetCastsResult()
 {
   if (m_Casts == nullptr)
     m_Casts = new SEScalarAmount();
   return *m_Casts;
 }
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasCrystalsResult() const
 {
   return m_Crystals != CDM::enumMicroscopicObservationAmount::value(-1);
 }
+//----------------------------------------------------------------------------------
 CDM::enumMicroscopicObservationAmount::value SEUrinalysisMicroscopic::GetCrystalsResult() const
 {
   return m_Crystals;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::SetCrystalsResult(CDM::enumMicroscopicObservationAmount::value c)
 {
   m_Crystals = c;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::InvalidateCrystalsResult()
 {
   m_Crystals = CDM::enumMicroscopicObservationAmount::value(-1);
 }
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasBacteriaResult() const
 {
   return m_Bacteria != CDM::enumMicroscopicObservationAmount::value(-1);
 }
+//----------------------------------------------------------------------------------
 CDM::enumMicroscopicObservationAmount::value SEUrinalysisMicroscopic::GetBacteriaResult() const
 {
   return m_Bacteria;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::SetBacteriaResult(CDM::enumMicroscopicObservationAmount::value c)
 {
   m_Bacteria = c;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::InvalidateBacteriaResult()
 {
   m_Bacteria = CDM::enumMicroscopicObservationAmount::value(-1);
 }
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasTrichomonadsResult() const
 {
   return m_Trichomonads != CDM::enumMicroscopicObservationAmount::value(-1);
 }
+//----------------------------------------------------------------------------------
 CDM::enumMicroscopicObservationAmount::value SEUrinalysisMicroscopic::GetTrichomonadsResult() const
 {
   return m_Trichomonads;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::SetTrichomonadsResult(CDM::enumMicroscopicObservationAmount::value c)
 {
   m_Trichomonads = c;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::InvalidateTrichomonadsResult()
 {
   m_Trichomonads = CDM::enumMicroscopicObservationAmount::value(-1);
 }
-
+//----------------------------------------------------------------------------------
 bool SEUrinalysisMicroscopic::HasYeastResult() const
 {
   return m_Yeast != CDM::enumMicroscopicObservationAmount::value(-1);
 }
+//----------------------------------------------------------------------------------
 CDM::enumMicroscopicObservationAmount::value SEUrinalysisMicroscopic::GetYeastResult() const
 {
   return m_Yeast;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::SetYeastResult(CDM::enumMicroscopicObservationAmount::value c)
 {
   m_Yeast = c;
 }
+//----------------------------------------------------------------------------------
 void SEUrinalysisMicroscopic::InvalidateYeastResult()
 {
   m_Yeast = CDM::enumMicroscopicObservationAmount::value(-1);
 }
+//----------------------------------------------------------------------------------
 }

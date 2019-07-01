@@ -15,13 +15,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 #include <biogears/schema/cdm/ElectroCardioGram.hxx>
 
-CDM_BIND_DECL(ElectroCardioGramWaveformInterpolatorData)
+IO_DECL(ElectroCardioGram)
 
 namespace biogears {
 class SEElectroCardioGramInterpolatorWaveform;
 class SEScalarElectricPotential;
 
 class BIOGEARS_API SEElectroCardioGramInterpolator : public Loggable {
+  friend class io::ElectroCardioGram;
+
 public:
   SEElectroCardioGramInterpolator(Logger* logger);
   virtual ~SEElectroCardioGramInterpolator();
@@ -30,13 +32,7 @@ public:
 
   virtual bool LoadWaveforms(const char* file, const SEScalarTime* timeStep = nullptr);
   virtual bool LoadWaveforms(const std::string& file, const SEScalarTime* timeStep = nullptr);
-  virtual bool Load(const CDM::ElectroCardioGramWaveformInterpolatorData& in);
-  virtual CDM::ElectroCardioGramWaveformInterpolatorData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::ElectroCardioGramWaveformInterpolatorData& data) const;
-
-public:
+  
   virtual void Interpolate(const SEScalarTime& timeStep);
   virtual bool StartNewCycle(CDM::enumHeartRhythm::value rhythm);
   virtual void CalculateWaveformsElectricPotential();

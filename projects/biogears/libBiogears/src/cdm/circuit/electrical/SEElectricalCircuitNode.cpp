@@ -10,7 +10,7 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitNode.h>
 namespace biogears {
 SEElectricalCircuitNode::SEElectricalCircuitNode(const char* name, Logger* logger)
@@ -36,15 +36,15 @@ bool SEElectricalCircuitNode::Load(const CDM::ElectricalCircuitNodeData& in)
 {
   SECircuitNode::Load(in);
   if (in.Voltage().present())
-    io::PropertyIoDelegate::Marshall(in.Voltage(), GetVoltage());
+    io::Property::Marshall(in.Voltage(), GetVoltage());
   if (in.NextVoltage().present())
-    io::PropertyIoDelegate::Marshall(in.NextVoltage(), GetNextVoltage());
+    io::Property::Marshall(in.NextVoltage(), GetNextVoltage());
   if (in.Charge().present())
-    io::PropertyIoDelegate::Marshall(in.Charge(), GetCharge());
+    io::Property::Marshall(in.Charge(), GetCharge());
   if (in.NextCharge().present())
-    io::PropertyIoDelegate::Marshall(in.NextCharge(), GetNextCharge());
+    io::Property::Marshall(in.NextCharge(), GetNextCharge());
   if (in.ChargeBaseline().present())
-    io::PropertyIoDelegate::Marshall(in.ChargeBaseline(), GetChargeBaseline());
+    io::Property::Marshall(in.ChargeBaseline(), GetChargeBaseline());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -59,15 +59,15 @@ void SEElectricalCircuitNode::Unload(CDM::ElectricalCircuitNodeData& data) const
 {
   SECircuitNode::Unload(data);
   if (HasVoltage())
-    io::PropertyIoDelegate::UnMarshall(*m_Potential, data.Voltage());
+    io::Property::UnMarshall(*m_Potential, data.Voltage());
   if (HasNextVoltage())
-    io::PropertyIoDelegate::UnMarshall(*m_NextPotential, data.NextVoltage());
+    io::Property::UnMarshall(*m_NextPotential, data.NextVoltage());
   if (HasCharge())
-    io::PropertyIoDelegate::UnMarshall(*m_Quantity, data.Charge());
+    io::Property::UnMarshall(*m_Quantity, data.Charge());
   if (HasNextCharge())
-    io::PropertyIoDelegate::UnMarshall(*m_NextQuantity, data.NextCharge());
+    io::Property::UnMarshall(*m_NextQuantity, data.NextCharge());
   if (HasChargeBaseline())
-    io::PropertyIoDelegate::UnMarshall(*m_QuantityBaseline, data.ChargeBaseline());
+    io::Property::UnMarshall(*m_QuantityBaseline, data.ChargeBaseline());
 }
 
 //-------------------------------------------------------------------------------

@@ -31,35 +31,6 @@ SEGasCompartmentGraph::SEGasCompartmentGraph(const std::string& name, Logger* lo
 
   : SECompartmentTransportGraph(name, logger){};
 //-----------------------------------------------------------------------------
-bool SEGasCompartmentGraph::Load(const CDM::GasCompartmentGraphData& in, SECompartmentManager& cmptMgr)
-{
-  m_Name = in.Name();
-  for (auto name : in.Compartment()) {
-    SEGasCompartment* cmpt = cmptMgr.GetGasCompartment(name);
-    if (cmpt == nullptr) {
-      Error("Could not find compartment " + std::string{ name } +" for graph " + m_Name);
-      return false;
-    }
-    AddCompartment(*cmpt);
-  }
-  for (auto name : in.Link()) {
-    SEGasCompartmentLink* link = cmptMgr.GetGasLink(name);
-    if (link == nullptr) {
-      Error("Could not find link " + std::string{ name } +" for graph " + m_Name);
-      return false;
-    }
-    AddLink(*link);
-  }
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::GasCompartmentGraphData* SEGasCompartmentGraph::Unload()
-{
-  CDM::GasCompartmentGraphData* data = new CDM::GasCompartmentGraphData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 void SEGasCompartmentGraph::Unload(CDM::GasCompartmentGraphData& data)
 {
   data.Name(m_Name);

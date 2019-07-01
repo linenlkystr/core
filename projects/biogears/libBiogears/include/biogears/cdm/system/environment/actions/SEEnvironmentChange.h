@@ -14,8 +14,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/environment/actions/SEEnvironmentAction.h>
 #include <biogears/schema/cdm/EnvironmentActions.hxx>
 
+IO_DECL(EnvironmentActions)
 namespace biogears {
 class BIOGEARS_API SEEnvironmentChange : public SEEnvironmentAction {
+  friend class io::EnvironmentActions;
+
 public:
   SEEnvironmentChange(SESubstanceManager& substances);
   virtual ~SEEnvironmentChange() override;
@@ -26,12 +29,6 @@ public:
   virtual void Clear() override;
 
   virtual bool IsValid() const override;
-
-  virtual bool Load(const CDM::EnvironmentChangeData& in);
-  virtual CDM::EnvironmentChangeData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::EnvironmentChangeData& data) const;
 
 public:
   virtual bool HasConditions() const;

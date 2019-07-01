@@ -12,10 +12,12 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/system/environment/SEEnvironmentalConditions.h>
 #include <biogears/cdm/system/environment/conditions/SEEnvironmentCondition.h>
-#include <biogears/schema/cdm/EnvironmentConditions.hxx>
 
+IO_DECL(EnvironmentConditions)
 namespace biogears {
 class BIOGEARS_API SEInitialEnvironment : public SEEnvironmentCondition {
+  friend class io::EnvironmentConditions;
+
 public:
   SEInitialEnvironment(SESubstanceManager& substances);
   virtual ~SEInitialEnvironment();
@@ -23,12 +25,6 @@ public:
   virtual void Clear();
 
   virtual bool IsValid() const;
-
-  virtual bool Load(const CDM::InitialEnvironmentData& in);
-  virtual CDM::InitialEnvironmentData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::InitialEnvironmentData& data) const;
 
 public:
   virtual std::string GetName() const { return "InitialEnvironment"; }

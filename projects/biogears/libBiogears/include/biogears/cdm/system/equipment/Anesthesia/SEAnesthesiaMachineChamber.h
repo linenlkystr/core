@@ -17,6 +17,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Properties.hxx>
 #include <biogears/schema/cdm/AnesthesiaActions.hxx>
 
+IO_DECL(Anesthesia)
+
 namespace biogears {
 class SESubstance;
 class SESubstanceManager;
@@ -27,6 +29,7 @@ class SEScalarFraction;
 class BIOGEARS_API SEAnesthesiaMachineChamber : Loggable {
 protected:
   friend SEAnesthesiaMachine;
+  friend class io::Anesthesia;
 
 public:
   SEAnesthesiaMachineChamber(SESubstanceManager& substances);
@@ -34,12 +37,7 @@ public:
 
   virtual void Clear();
 
-  virtual bool Load(const CDM::AnesthesiaMachineChamberData& in);
-  virtual CDM::AnesthesiaMachineChamberData* Unload() const;
-
 protected:
-  virtual void Unload(CDM::AnesthesiaMachineChamberData& data) const;
-
   virtual void Merge(const SEAnesthesiaMachineChamber& from);
 
 public:

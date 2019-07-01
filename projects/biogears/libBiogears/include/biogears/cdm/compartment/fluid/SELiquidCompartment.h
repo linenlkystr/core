@@ -14,11 +14,13 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/compartment/fluid/SEFluidCompartment.h>
 #include <biogears/cdm/compartment/fluid/SELiquidCompartmentLink.h>
+
 #include <biogears/cdm/compartment/substances/SELiquidSubstanceQuantity.h>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
-#include <biogears/schema/cdm/Compartment.hxx>
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/cdm/properties/SEScalarFraction.h>
+
+IO_DECL(Compartment)
 
 namespace biogears {
 class SETissueCompartment;
@@ -28,6 +30,7 @@ class BIOGEARS_API SELiquidCompartment : public SEFluidCompartment<SELiquidCompa
   friend class SETissueCompartment;
   friend class SECompartmentManager;
   friend class SELiquidSubstanceQuantity;
+  friend class io::Compartment;
 
 protected:
   SELiquidCompartment(const char* name, Logger* logger);
@@ -38,13 +41,6 @@ public:
 
   virtual void Clear() override;
 
-  virtual bool Load(const CDM::LiquidCompartmentData& in, SESubstanceManager& subMgr, SECircuitManager* circuits = nullptr);
-  virtual CDM::LiquidCompartmentData* Unload() override;
-
-protected:
-  virtual void Unload(CDM::LiquidCompartmentData& data);
-
-public:
   virtual const SEScalar* GetScalar(const char* name) override;
   virtual const SEScalar* GetScalar(const std::string& name) override;
 

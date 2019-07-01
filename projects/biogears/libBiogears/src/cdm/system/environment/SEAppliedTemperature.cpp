@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEAppliedTemperature::SEAppliedTemperature(Logger* logger)
   : Loggable(logger)
@@ -55,38 +55,6 @@ const SEScalar* SEAppliedTemperature::GetScalar(const std::string& name)
   if (name.compare("SurfaceAreaFraction") == 0)
     return &GetSurfaceAreaFraction();
   return nullptr;
-}
-//-----------------------------------------------------------------------------
-bool SEAppliedTemperature::Load(const CDM::AppliedTemperatureData& in)
-{
-  Clear();
-  if (in.State().present())
-    m_State = in.State().get();
-  if (in.Temperature().present())
-    io::PropertyIoDelegate::Marshall(in.Temperature(), GetTemperature());
-  if (in.SurfaceArea().present())
-    io::PropertyIoDelegate::Marshall(in.SurfaceArea(), GetSurfaceArea());
-  if (in.SurfaceAreaFraction().present())
-    io::PropertyIoDelegate::Marshall(in.SurfaceAreaFraction(), GetSurfaceAreaFraction());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::AppliedTemperatureData* SEAppliedTemperature::Unload() const
-{
-  CDM::AppliedTemperatureData* data = new CDM::AppliedTemperatureData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEAppliedTemperature::Unload(CDM::AppliedTemperatureData& data) const
-{
-  if (HasTemperature())
-    io::PropertyIoDelegate::UnMarshall(*m_Temperature, data.Temperature());
-  if (HasSurfaceArea())
-      io::PropertyIoDelegate::UnMarshall(*m_SurfaceArea, data.SurfaceArea());
-  if (HasSurfaceAreaFraction())
-      io::PropertyIoDelegate::UnMarshall(*m_SurfaceAreaFraction, data.SurfaceAreaFraction());
-  data.State(m_State);
 }
 //-----------------------------------------------------------------------------
 bool SEAppliedTemperature::HasTemperature() const

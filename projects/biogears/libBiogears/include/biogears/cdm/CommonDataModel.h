@@ -31,8 +31,7 @@ namespace io {
 }
 }
 
-//using namespace mil::tatrc::phsyiology::datamodel;
-#define CDM_BIND_DECL(type)   \
+#define CDM_BIND_DECL(type)
   namespace mil {             \
     namespace tatrc {         \
       namespace physiology {  \

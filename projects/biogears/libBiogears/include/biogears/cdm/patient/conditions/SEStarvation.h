@@ -14,11 +14,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/conditions/SEPatientCondition.h>
 #include <biogears/schema/cdm/PatientActions.hxx>
 
-IO_DECL(PatientConditionsIoDelegate)
+IO_DECL(PatientConditions)
 
 namespace biogears {
 class BIOGEARS_API SEStarvation : public SEPatientCondition {
-  friend class io::PatientConditionsIoDelegate;
+  friend class io::PatientConditions;
 
 public:
   SEStarvation();

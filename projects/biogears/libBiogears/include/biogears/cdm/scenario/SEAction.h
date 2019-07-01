@@ -14,13 +14,13 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-CDM_BIND_DECL(ActionData);
-IO_DECL(ScenarioIoDelegate)
+IO_DECL(Scenario)
+
 namespace biogears {
 class SESubstanceManager;
 
 class BIOGEARS_API SEAction : public Loggable {
-  friend io::ScenarioIoDelegate;
+  friend io::Scenario;
 
 public:
   virtual const char* classname() const = 0;

@@ -34,51 +34,6 @@ void SESubstanceCompound::Clear()
   m_cComponents.clear();
 }
 //-----------------------------------------------------------------------------
-bool SESubstanceCompound::Load(const CDM::SubstanceCompoundData& in, const SESubstanceManager& subMgr)
-{
-  Clear();
-  m_Name = in.Name();
-
-  std::string err;
-
-  SESubstance* substance = nullptr;
-  SESubstanceConcentration* cc;
-  CDM::SubstanceConcentrationData* ccData;
-  for (unsigned int i = 0; i < in.Component().size(); i++) {
-    ccData = (CDM::SubstanceConcentrationData*)&in.Component().at(i);
-    substance = subMgr.GetSubstance(ccData->Name());
-    if (substance == nullptr) {
-      /// \error Could not load find substance compound component for specified substance
-      err = "Could not load find substance compound component : ";
-      err += ccData->Name();
-      Error(err, "SESubstanceCompound::Load");
-      return false;
-    }
-    cc = new SESubstanceConcentration(*substance);
-    cc->Load(*ccData);
-    m_Components.push_back(cc);
-    m_cComponents.push_back(cc);
-  }
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::SubstanceCompoundData* SESubstanceCompound::Unload() const
-{
-  CDM::SubstanceCompoundData* data = new CDM::SubstanceCompoundData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SESubstanceCompound::Unload(CDM::SubstanceCompoundData& data) const
-{
-  if (HasName())
-    data.Name(m_Name);
-
-  for (unsigned int i = 0; i < m_Components.size(); i++) {
-    data.Component().push_back(*m_Components.at(i)->Unload());
-  }
-};
-//-----------------------------------------------------------------------------
 std::string SESubstanceCompound::GetName() const
 {
   return m_Name;

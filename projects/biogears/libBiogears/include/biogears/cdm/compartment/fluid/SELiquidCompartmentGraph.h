@@ -9,20 +9,19 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
-
 #pragma once
+
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/cdm/compartment/SECompartmentTransportGraph.h>
-#include <biogears/schema/cdm/Compartment.hxx>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
 #include <biogears/cdm/compartment/fluid/SELiquidCompartmentLink.h>
 
-CDM_BIND_DECL(LiquidCompartmentGraphData)
-
+IO_DECL(Compartment)
 namespace biogears {
 class SECompartmentManager;
 class BIOGEARS_API SELiquidCompartmentGraph : public SECompartmentTransportGraph<SELiquidTransportGraph, SELiquidTransportVertex, SELiquidTransportEdge, SELiquidCompartment, SELiquidCompartmentLink> {
   friend class SECompartmentManager;
+  friend class io::Compartment;
 
 protected:
   SELiquidCompartmentGraph(const char* name, Logger* logger);
@@ -32,13 +31,7 @@ public:
   virtual ~SELiquidCompartmentGraph() override;
 
   void AddGraph(SELiquidCompartmentGraph& graph);
-
-  virtual bool Load(const CDM::LiquidCompartmentGraphData& in, SECompartmentManager& cmptMgr);
-  virtual CDM::LiquidCompartmentGraphData* Unload();
-
-protected:
-  virtual void Unload(CDM::LiquidCompartmentGraphData& data);
-
+  
 protected:
   void BalanceByIntensive() override;
 };

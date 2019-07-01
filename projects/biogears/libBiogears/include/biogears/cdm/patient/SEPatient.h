@@ -14,9 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <biogears/schema/cdm/Patient.hxx>
-
-CDM_BIND_DECL(PatientData)
+IO_DECL(Patient)
 
 namespace biogears {
   
@@ -46,18 +44,17 @@ class SEScalarVolumePerTime;
 class VolumePerTimeUnit;
 
 class BIOGEARS_API SEPatient : public Loggable {
+  friend class io::Patient;
+
 public:
   SEPatient(Logger* logger);
   virtual ~SEPatient();
 
   virtual void Clear();
 
-  virtual bool Load(const CDM::PatientData& in);
-
   bool Load(const char* patientFile);
   bool Load(const std::string& patientFile);
 
-  virtual CDM::PatientData* Unload() const;
 
   /** @name GetScalar
   *   @brief - A reflextion type call that will return the Scalar associated
@@ -224,9 +221,6 @@ public:
   virtual bool HasVitalCapacity() const;
   virtual SEScalarVolume& GetVitalCapacity();
   virtual double GetVitalCapacity(const VolumeUnit& unit) const;
-
-protected:
-  virtual void Unload(CDM::PatientData& data) const;
 
 protected:
   std::stringstream m_ss;

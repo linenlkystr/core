@@ -14,15 +14,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SESubstanceAdministration.h>
 #include <biogears/cdm/properties/SEScalarTime.h>
 #include <biogears/cdm/properties/SEScalarVolume.h>
-#include <biogears/schema/cdm/PatientActions.hxx>
 
-IO_DECL(PatientActionsIoDelegate)
+IO_DECL(PatientActions)
 
 namespace biogears {
 class SESubstance;
 
 class BIOGEARS_API SESubstanceBolus : public SESubstanceAdministration {
-  friend class io::PatientActionsIoDelegate;
+  friend class io::PatientActions;
 
 public:
   SESubstanceBolus(const SESubstance& substance);
@@ -57,7 +56,7 @@ protected:
 };
 
 class BIOGEARS_API SESubstanceBolusState {
-  friend class io::PatientActionsIoDelegate;
+  friend class io::PatientActions;
 
 public:
   SESubstanceBolusState(const SESubstance& sub);

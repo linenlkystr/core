@@ -33,38 +33,6 @@ SEGasCompartment::~SEGasCompartment()
 {
 }
 //-------------------------------------------------------------------------------
-bool SEGasCompartment::Load(const CDM::GasCompartmentData& in, SESubstanceManager& subMgr, SECircuitManager* circuits)
-{
-  if (!SEFluidCompartment::Load(in, circuits))
-    return false;
-  if (in.Child().empty()) {
-    for (const CDM::GasSubstanceQuantityData& d : in.SubstanceQuantity()) {
-      SESubstance* sub = subMgr.GetSubstance(d.Substance());
-      if (sub == nullptr) {
-        Error("Could not find a substance for " + std::string{ d.Substance() });
-        return false;
-      }
-      CreateSubstanceQuantity(*sub).Load(d);
-      ;
-    }
-  }
-  return true;
-}
-//-------------------------------------------------------------------------------
-CDM::GasCompartmentData* SEGasCompartment::Unload()
-{
-  CDM::GasCompartmentData* data = new CDM::GasCompartmentData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-void SEGasCompartment::Unload(CDM::GasCompartmentData& data)
-{
-  SEFluidCompartment::Unload(data);
-  for (SEGasSubstanceQuantity* subQ : m_SubstanceQuantities)
-    data.SubstanceQuantity().push_back(std::unique_ptr<CDM::GasSubstanceQuantityData>(subQ->Unload()));
-}
-//-------------------------------------------------------------------------------
 void SEGasCompartment::StateChange()
 {
   m_Leaves.clear();

@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEDataRequestManager::SEDataRequestManager(Logger* logger)
   : Loggable(logger)
@@ -89,9 +89,9 @@ bool SEDataRequestManager::Load(const CDM::DataRequestsData& in, SESubstanceMana
   if (in.SamplesPerSecond().present())
     m_SamplesPerSecond = in.SamplesPerSecond().get();
   if (in.DefaultDecimalFormatting().present())
-    io::PropertyIoDelegate::Marshall(in.DefaultDecimalFormatting(), GetDefaultDecimalFormatting());
+    io::Property::Marshall(in.DefaultDecimalFormatting(), GetDefaultDecimalFormatting());
   if (in.OverrideDecimalFormatting().present())
-    io::PropertyIoDelegate::Marshall(in.OverrideDecimalFormatting(), GetOverrideDecimalFormatting());
+    io::Property::Marshall(in.OverrideDecimalFormatting(), GetOverrideDecimalFormatting());
 
   for (unsigned int i = 0; i < in.DataRequest().size(); i++) {
     SEDataRequest* dr = newFromBind(in.DataRequest()[i], subMgr, m_DefaultDecimalFormatting);
@@ -117,9 +117,9 @@ void SEDataRequestManager::Unload(CDM::DataRequestsData& data) const
   if (HasResultsFilename())
     data.Filename(m_ResultsFile);
   if (HasDefaultDecimalFormatting())
-    io::PropertyIoDelegate::UnMarshall(*m_DefaultDecimalFormatting, data.DefaultDecimalFormatting());
+    io::Property::UnMarshall(*m_DefaultDecimalFormatting, data.DefaultDecimalFormatting());
   if (HasOverrideDecimalFormatting())
-    io::PropertyIoDelegate::UnMarshall(*m_OverrideDecimalFormatting, data.OverrideDecimalFormatting());
+    io::Property::UnMarshall(*m_OverrideDecimalFormatting, data.OverrideDecimalFormatting());
   for (SEDataRequest* dr : m_Requests)
     data.DataRequest().push_back(std::unique_ptr<CDM::DataRequestData>(dr->Unload()));
 }

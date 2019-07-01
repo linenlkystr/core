@@ -14,7 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../../../utils/io/PropertyIoDelegate.h"
+#include "../../../../utils/io/Property.h"
 namespace biogears {
 SEInspiratoryValveObstruction::SEInspiratoryValveObstruction()
   : SEAnesthesiaMachineAction()
@@ -46,7 +46,7 @@ bool SEInspiratoryValveObstruction::IsActive() const
 bool SEInspiratoryValveObstruction::Load(const CDM::InspiratoryValveObstructionData& in)
 {
   SEAnesthesiaMachineAction::Load(in);
-  io::PropertyIoDelegate::Marshall(in.Severity(), GetSeverity());
+  io::Property::Marshall(in.Severity(), GetSeverity());
   return true;
 }
 
@@ -61,7 +61,7 @@ void SEInspiratoryValveObstruction::Unload(CDM::InspiratoryValveObstructionData&
 {
   SEAnesthesiaMachineAction::Unload(data);
   if (m_Severity != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Severity, data.Severity());
+    io::Property::UnMarshall(*m_Severity, data.Severity());
 }
 
 bool SEInspiratoryValveObstruction::HasSeverity() const

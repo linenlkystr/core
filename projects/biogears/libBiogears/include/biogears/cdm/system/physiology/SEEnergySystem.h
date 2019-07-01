@@ -12,7 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/system/SESystem.h>
-#include <biogears/schema/biogears/BioGearsPhysiology.hxx>
+
+IO_DECL(Physiology)
 
 namespace biogears {
 class SEScalarFraction;
@@ -30,11 +31,13 @@ class SEScalarPower;
 class PowerUnit;
 
 class BIOGEARS_API SEEnergySystem : public SESystem {
+  friend class io::Physiology;
+
 public:
   SEEnergySystem(Logger* logger);
   ~SEEnergySystem() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SEEnergySystem"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
@@ -44,14 +47,8 @@ public:
   const SEScalar* GetScalar(const char* name) override;
   const SEScalar* GetScalar(const std::string& name) override;
 
-  bool Load(const CDM::EnergySystemData& in);
-  CDM::EnergySystemData* Unload() const override;
-
   Tree<const char*> GetPhysiologyRequestGraph() const override;
-protected:
-  void Unload(CDM::EnergySystemData& data) const;
 
-public:
   bool HasAchievedExerciseLevel() const;
   SEScalarFraction& GetAchievedExerciseLevel();
   double GetAchievedExerciseLevel() const;

@@ -20,53 +20,21 @@ SETestReport::SETestReport(Logger* logger)
   : Loggable(logger)
 {
 }
-
+//-----------------------------------------------------------------------------
 SETestReport::~SETestReport()
 {
   Clear();
 }
-
+//-----------------------------------------------------------------------------
 void SETestReport::Clear()
 {
   DELETE_VECTOR(m_testSuite);
 }
-
+//-----------------------------------------------------------------------------
 void SETestReport::Reset()
 {
 }
-
-bool SETestReport::Load(const CDM::TestReportData& in)
-{
-  Reset();
-
-  SETestSuite* sx;
-  CDM::TestSuite* sData;
-  for (unsigned int i = 0; i < in.TestSuite().size(); i++) {
-    sData = (CDM::TestSuite*)&in.TestSuite().at(i);
-    if (sData != nullptr) {
-      sx = new SETestSuite(GetLogger());
-      sx->Load(*sData);
-    }
-    m_testSuite.push_back(sx);
-  }
-
-  return true;
-}
-
-std::unique_ptr<CDM::TestReportData> SETestReport::Unload() const
-{
-  std::unique_ptr<CDM::TestReportData> data(new CDM::TestReportData());
-  Unload(*data);
-  return data;
-}
-
-void SETestReport::Unload(CDM::TestReportData& data) const
-{
-  for (unsigned int i = 0; i < m_testSuite.size(); i++) {
-    data.TestSuite().push_back(*m_testSuite.at(i)->Unload());
-  }
-}
-
+//-----------------------------------------------------------------------------
 bool SETestReport::WriteFile(const std::string& fileName)
 {
   xml_schema::namespace_infomap map;
@@ -84,15 +52,17 @@ bool SETestReport::WriteFile(const std::string& fileName)
   }
   return true;
 }
-
+//-----------------------------------------------------------------------------
 SETestSuite& SETestReport::CreateTestSuite()
 {
   SETestSuite* suite = new SETestSuite(GetLogger());
   m_testSuite.push_back(suite);
   return *suite;
 }
+//-----------------------------------------------------------------------------
 const std::vector<SETestSuite*>& SETestReport::GetTestSuites() const
 {
   return m_testSuite;
 }
+//-----------------------------------------------------------------------------
 }

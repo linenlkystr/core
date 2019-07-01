@@ -15,6 +15,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 #include <biogears/schema/cdm/Substance.hxx>
 
+IO_DECL(Substance)
+
 namespace biogears {
 class SEScalar;
 class SEScalarNeg1To1;
@@ -22,6 +24,8 @@ class SEScalar0To1;
 class SEHistogramFractionVsLength;
 
 class BIOGEARS_API SESubstanceAerosolization : public Loggable {
+  friend class io::Substance;
+
 public:
   SESubstanceAerosolization(Logger* logger);
   virtual ~SESubstanceAerosolization();
@@ -31,12 +35,6 @@ public:
 
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
-
-  virtual bool Load(const CDM::SubstanceAerosolizationData& in);
-  virtual CDM::SubstanceAerosolizationData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceAerosolizationData& data) const;
 
 public:
   virtual bool HasBronchioleModifier() const;

@@ -16,37 +16,20 @@ SEEnvironmentAction::SEEnvironmentAction()
   : SEAction()
 {
 }
-
+//----------------------------------------------------------------------------------
 SEEnvironmentAction::~SEEnvironmentAction()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEEnvironmentAction::Clear()
 {
   SEAction::Clear();
 }
-
+//----------------------------------------------------------------------------------
 bool SEEnvironmentAction::IsValid() const
 {
   return SEAction::IsValid();
 }
-
-bool SEEnvironmentAction::Load(const CDM::EnvironmentActionData& in)
-{
-  SEAction::Load(in);
-  return true;
-}
-
-CDM::EnvironmentActionData* SEEnvironmentAction::Unload() const
-{
-  CDM::EnvironmentActionData* data = new CDM::EnvironmentActionData();
-  Unload(*data);
-  return data;
-}
-
-void SEEnvironmentAction::Unload(CDM::EnvironmentActionData& data) const
-{
-  SEAction::Unload(data);
-}
+//----------------------------------------------------------------------------------
 }

@@ -14,12 +14,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/SEAction.h>
 #include <biogears/schema/cdm/Scenario.hxx>
 
-IO_DECL(ScenarioIoDelegate)
+IO_DECL(Scenario)
 namespace biogears {
 class TimeUnit;
 
 class BIOGEARS_API SEAdvanceTime : public SEAction {
-  friend io::ScenarioIoDelegate;
+  friend io::Scenario;
 public:
   SEAdvanceTime();
   virtual ~SEAdvanceTime() override;

@@ -16,15 +16,18 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarPressure.h>
 #include <biogears/cdm/patient/actions/SEPupillaryResponse.h>
 #include <biogears/cdm/system/SESystem.h>
-#include <biogears/schema/biogears/BioGearsPhysiology.hxx>
+
+IO_DECL(Physiology)
 
 namespace biogears {
 class BIOGEARS_API SENervousSystem : public SESystem {
+  friend class io::Physiology;
+
 public:
   SENervousSystem(Logger* logger);
   ~SENervousSystem() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SENervousSystem"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
@@ -34,14 +37,8 @@ public:
   const SEScalar* GetScalar(const char* name) override;
   const SEScalar* GetScalar(const std::string& name) override;
 
-  bool Load(const CDM::NervousSystemData& in);
-  CDM::NervousSystemData* Unload() const override;
-
   Tree<const char*> GetPhysiologyRequestGraph() const override;
-protected:
-  void Unload(CDM::NervousSystemData& data) const;
 
-public:
   bool HasBaroreceptorHeartRateScale() const;
   SEScalar& GetBaroreceptorHeartRateScale();
   double GetBaroreceptorHeartRateScale() const;

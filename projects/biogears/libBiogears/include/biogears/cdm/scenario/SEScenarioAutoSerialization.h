@@ -13,14 +13,13 @@ specific language governing permissions and limitations under the License.
 #pragma once
 
 #include <biogears/cdm/properties/SEScalarTime.h>
-#include <biogears/schema/cdm/Scenario.hxx>
 
-CDM_BIND_DECL(ScenarioAutoSerializationData)
-IO_DECL(ScenarioIoDelegate)
+IO_DECL(Scenario)
+
 namespace biogears {
 
 class BIOGEARS_API SEScenarioAutoSerialization : public Loggable {
-  friend io::ScenarioIoDelegate;
+  friend io::Scenario;
 public:
   SEScenarioAutoSerialization(Logger* logger);
   virtual ~SEScenarioAutoSerialization();

@@ -14,7 +14,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 
 SEInflammationState::SEInflammationState()
@@ -63,62 +63,6 @@ void SEInflammationState::Clear()
   SAFE_DELETE(m_Catecholamines);
   SAFE_DELETE(m_TissueIntegrity);
   m_InflammationSources.clear();
-}
-//-------------------------------------------------------------------------------
-bool SEInflammationState::Load(const CDM::InflammationStateData& in)
-{
-  io::PropertyIoDelegate::Marshall(in.Pathogen(), GetPathogen());
-  io::PropertyIoDelegate::Marshall(in.Trauma(), GetTrauma());
-  io::PropertyIoDelegate::Marshall(in.MacrophageResting(), GetMacrophageResting());
-  io::PropertyIoDelegate::Marshall(in.MacrophageActive(), GetMacrophageActive());
-  io::PropertyIoDelegate::Marshall(in.NeutrophilResting(), GetNeutrophilResting());
-  io::PropertyIoDelegate::Marshall(in.NeutrophilActive(), GetNeutrophilActive());
-  io::PropertyIoDelegate::Marshall(in.InducibleNOSynthasePre(), GetInducibleNOSynthasePre());
-  io::PropertyIoDelegate::Marshall(in.InducibleNOSynthase(), GetInducibleNOSynthase());
-  io::PropertyIoDelegate::Marshall(in.ConstitutiveNOSynthase(), GetConstitutiveNOSynthase());
-  io::PropertyIoDelegate::Marshall(in.Nitrate(), GetNitrate());
-  io::PropertyIoDelegate::Marshall(in.NitricOxide(), GetNitricOxide());
-  io::PropertyIoDelegate::Marshall(in.TumorNecrosisFactor(), GetTumorNecrosisFactor());
-  io::PropertyIoDelegate::Marshall(in.Interleukin6(), GetInterleukin6());
-  io::PropertyIoDelegate::Marshall(in.Interleukin10(), GetInterleukin10());
-  io::PropertyIoDelegate::Marshall(in.Interleukin12(), GetInterleukin12());
-  io::PropertyIoDelegate::Marshall(in.Catecholamines(), GetCatecholamines());
-  io::PropertyIoDelegate::Marshall(in.TissueIntegrity(), GetTissueIntegrity());
-  for (auto src : in.Source()){
-    m_InflammationSources.push_back(src);
-  }
-  return true;
-}
-//-------------------------------------------------------------------------------
-CDM::InflammationStateData* SEInflammationState::Unload() const
-{
-  CDM::InflammationStateData* data = new CDM::InflammationStateData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-void SEInflammationState::Unload(CDM::InflammationStateData& data) const
-{
-  io::PropertyIoDelegate::UnMarshall(*m_Pathogen, data.Pathogen());
-  io::PropertyIoDelegate::UnMarshall(*m_Trauma, data.Trauma());
-  io::PropertyIoDelegate::UnMarshall(*m_MacrophageResting, data.MacrophageResting());
-  io::PropertyIoDelegate::UnMarshall(*m_MacrophageActive, data.MacrophageActive());
-  io::PropertyIoDelegate::UnMarshall(*m_NeutrophilResting, data.NeutrophilResting());
-  io::PropertyIoDelegate::UnMarshall(*m_NeutrophilActive, data.NeutrophilActive());
-  io::PropertyIoDelegate::UnMarshall(*m_InducibleNOSynthasePre, data.InducibleNOSynthasePre());
-  io::PropertyIoDelegate::UnMarshall(*m_InducibleNOSynthase, data.InducibleNOSynthase());
-  io::PropertyIoDelegate::UnMarshall(*m_ConstitutiveNOSynthase, data.ConstitutiveNOSynthase());
-  io::PropertyIoDelegate::UnMarshall(*m_Nitrate, data.Nitrate());
-  io::PropertyIoDelegate::UnMarshall(*m_NitricOxide, data.NitricOxide());
-  io::PropertyIoDelegate::UnMarshall(*m_TumorNecrosisFactor, data.TumorNecrosisFactor());
-  io::PropertyIoDelegate::UnMarshall(*m_Interleukin6, data.Interleukin6());
-  io::PropertyIoDelegate::UnMarshall(*m_Interleukin10, data.Interleukin10());
-  io::PropertyIoDelegate::UnMarshall(*m_Interleukin12, data.Interleukin12());
-  io::PropertyIoDelegate::UnMarshall(*m_Catecholamines, data.Catecholamines());
-  io::PropertyIoDelegate::UnMarshall(*m_TissueIntegrity, data.TissueIntegrity());
-  for (auto src : m_InflammationSources) {
-    data.Source().push_back(src);
-  }
 }
 //-------------------------------------------------------------------------------
 void SEInflammationState::InitializeState()

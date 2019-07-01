@@ -12,7 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/assessments/SEPatientAssessment.h>
-#include <biogears/schema/cdm/PatientAssessments.hxx>
+
+IO_DECL(PatientAssessments)
 
 namespace biogears {
 class SEBloodChemistrySystem;
@@ -20,6 +21,8 @@ class SEScalarMassPerVolume;
 class SEScalarAmountPerVolume;
 
 class BIOGEARS_API SEComprehensiveMetabolicPanel : public SEPatientAssessment {
+  friend class io::PatientAssessments;
+
 public:
   SEComprehensiveMetabolicPanel(Logger* logger);
   virtual ~SEComprehensiveMetabolicPanel();
@@ -27,53 +30,46 @@ public:
   virtual void Reset(); //reset values
   virtual void Clear(); //clear memory
 
-  virtual bool Load(const CDM::ComprehensiveMetabolicPanelData& in);
-  virtual CDM::ComprehensiveMetabolicPanelData* Unload();
-
-protected:
-  virtual void Unload(CDM::ComprehensiveMetabolicPanelData& data);
-
-public:
-  bool HasAlbumin();
+  bool HasAlbumin() const;
   SEScalarMassPerVolume& GetAlbumin();
 
-  bool HasALP();
+  bool HasALP() const;
   SEScalarMassPerVolume& GetALP();
 
-  bool HasALT();
+  bool HasALT() const;
   SEScalarMassPerVolume& GetALT();
 
-  bool HasAST();
+  bool HasAST() const;
   SEScalarMassPerVolume& GetAST();
 
-  bool HasBUN();
+  bool HasBUN() const;
   SEScalarMassPerVolume& GetBUN();
 
-  bool HasCalcium();
+  bool HasCalcium() const;
   SEScalarMassPerVolume& GetCalcium();
 
-  bool HasChloride();
+  bool HasChloride() const;
   SEScalarAmountPerVolume& GetChloride();
 
-  bool HasCO2();
+  bool HasCO2() const;
   SEScalarAmountPerVolume& GetCO2();
 
-  bool HasCreatinine();
+  bool HasCreatinine() const;
   SEScalarMassPerVolume& GetCreatinine();
 
-  bool HasGlucose();
+  bool HasGlucose() const;
   SEScalarMassPerVolume& GetGlucose();
 
-  bool HasPotassium();
+  bool HasPotassium() const;
   SEScalarAmountPerVolume& GetPotassium();
 
-  bool HasSodium();
+  bool HasSodium() const;
   SEScalarAmountPerVolume& GetSodium();
 
-  bool HasTotalBilirubin();
+  bool HasTotalBilirubin() const;
   SEScalarMassPerVolume& GetTotalBilirubin();
 
-  bool HasTotalProtein();
+  bool HasTotalProtein() const;
   SEScalarMassPerVolume& GetTotalProtein();
 
 protected:

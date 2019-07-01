@@ -33,7 +33,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarElectricCharge : public SEScalarQuantity<ElectricChargeUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarElectricCharge() = default;
   virtual ~SEScalarElectricCharge() = default;

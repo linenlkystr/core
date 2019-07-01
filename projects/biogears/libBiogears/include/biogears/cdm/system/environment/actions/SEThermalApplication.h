@@ -13,12 +13,16 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/environment/actions/SEEnvironmentAction.h>
 #include <biogears/schema/cdm/EnvironmentActions.hxx>
 
+IO_DECL(EnvironmentActions)
+
 namespace biogears {
 class SEActiveHeating;
 class SEActiveCooling;
 class SEAppliedTemperature;
 
 class BIOGEARS_API SEThermalApplication : public SEEnvironmentAction {
+  friend class io::EnvironmentActions;
+
 public:
   SEThermalApplication();
   virtual ~SEThermalApplication() override;
@@ -31,13 +35,6 @@ public:
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
 
-  virtual bool Load(const CDM::ThermalApplicationData& in);
-  virtual CDM::ThermalApplicationData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::ThermalApplicationData& data) const;
-
-public:
   virtual bool HasActiveHeating() const;
   virtual SEActiveHeating& GetActiveHeating();
   virtual void RemoveActiveHeating();

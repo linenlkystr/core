@@ -19,7 +19,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/PatientNutrition.hxx>
 #include <biogears/schema/cdm/Properties.hxx>
 
-#include "../utils/io/PropertyIoDelegate.h"
+#include "../utils/io/Property.h"
 namespace biogears {
 SENutrition::SENutrition(Logger* logger)
   : Loggable(logger)
@@ -104,74 +104,37 @@ void SENutrition::Increment(const SENutrition& from)
     GetWater().Increment(*from.m_Water);
 }
 //-----------------------------------------------------------------------------
-bool SENutrition::Load(const CDM::NutritionData& in)
-{
-  Clear();
-
-  if (in.Name().present()) {
-    m_Name = in.Name().get();
-  } else {
-    m_Name = "Standard Meal";
-  }
-  if (in.Carbohydrate().present())
-    io::PropertyIoDelegate::Marshall(in.Carbohydrate(), GetCarbohydrate());
-  if (in.CarbohydrateDigestionRate().present())
-    io::PropertyIoDelegate::Marshall(in.CarbohydrateDigestionRate(), GetCarbohydrateDigestionRate());
-  if (in.Fat().present())
-    io::PropertyIoDelegate::Marshall(in.Fat(), GetFat());
-  if (in.FatDigestionRate().present())
-    io::PropertyIoDelegate::Marshall(in.FatDigestionRate(), GetFatDigestionRate());
-  if (in.Protein().present())
-    io::PropertyIoDelegate::Marshall(in.Protein(), GetProtein());
-  if (in.ProteinDigestionRate().present())
-    io::PropertyIoDelegate::Marshall(in.ProteinDigestionRate(), GetProteinDigestionRate());
-  if (in.Calcium().present())
-    io::PropertyIoDelegate::Marshall(in.Calcium(), GetCalcium());
-  if (in.Sodium().present())
-    io::PropertyIoDelegate::Marshall(in.Sodium(), GetSodium());
-  if (in.Water().present())
-    io::PropertyIoDelegate::Marshall(in.Water(), GetWater());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::NutritionData* SENutrition::Unload() const
-{
-  CDM::NutritionData* data = new CDM::NutritionData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 void SENutrition::Unload(CDM::NutritionData& data) const
 {
   if (!m_Name.empty()) {
     data.Name(m_Name);
   }
   if (m_Carbohydrate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Carbohydrate, data.Carbohydrate());
+    io::Property::UnMarshall(*m_Carbohydrate, data.Carbohydrate());
   }
   if (m_CarbohydrateDigestionRate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_CarbohydrateDigestionRate, data.CarbohydrateDigestionRate());
+    io::Property::UnMarshall(*m_CarbohydrateDigestionRate, data.CarbohydrateDigestionRate());
   }
   if (m_Fat != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Fat, data.Fat());
+    io::Property::UnMarshall(*m_Fat, data.Fat());
   }
   if (m_FatDigestionRate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_FatDigestionRate, data.FatDigestionRate());
+    io::Property::UnMarshall(*m_FatDigestionRate, data.FatDigestionRate());
   }
   if (m_Protein != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Protein, data.Protein());
+    io::Property::UnMarshall(*m_Protein, data.Protein());
   }
   if (m_ProteinDigestionRate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_ProteinDigestionRate, data.ProteinDigestionRate());
+    io::Property::UnMarshall(*m_ProteinDigestionRate, data.ProteinDigestionRate());
   }
   if (m_Calcium != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Calcium, data.Calcium());
+    io::Property::UnMarshall(*m_Calcium, data.Calcium());
   }
   if (m_Sodium != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Sodium, data.Sodium());
+    io::Property::UnMarshall(*m_Sodium, data.Sodium());
   }
   if (m_Water != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Water, data.Water());
+    io::Property::UnMarshall(*m_Water, data.Water());
   }
 }
 //-----------------------------------------------------------------------------

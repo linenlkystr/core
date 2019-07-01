@@ -49,32 +49,6 @@ bool SEEnvironmentChange::IsValid() const
   return SEEnvironmentAction::IsValid() && (HasConditions() || HasConditionsFile());
 }
 //-----------------------------------------------------------------------------
-bool SEEnvironmentChange::Load(const CDM::EnvironmentChangeData& in)
-{
-  SEEnvironmentAction::Load(in);
-  if (in.ConditionsFile().present())
-    SetConditionsFile(in.ConditionsFile().get());
-  else if (in.Conditions().present())
-    GetConditions().Load(in.Conditions().get());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::EnvironmentChangeData* SEEnvironmentChange::Unload() const
-{
-  CDM::EnvironmentChangeData* data = new CDM::EnvironmentChangeData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEEnvironmentChange::Unload(CDM::EnvironmentChangeData& data) const
-{
-  SEEnvironmentAction::Unload(data);
-  if (HasConditions())
-    data.Conditions(std::unique_ptr<CDM::EnvironmentalConditionsData>(m_Conditions->Unload()));
-  else if (HasConditionsFile())
-    data.ConditionsFile(m_ConditionsFile);
-}
-//-----------------------------------------------------------------------------
 bool SEEnvironmentChange::HasConditions() const
 {
   return m_Conditions != nullptr;

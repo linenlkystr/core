@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalarNeg1To1.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEPupillaryResponse::SEPupillaryResponse(Logger* logger)
   : m_ReactivityModifier(nullptr)
@@ -48,34 +48,6 @@ const SEScalar* SEPupillaryResponse::GetScalar(const std::string& name)
   if (name.compare("SizeModifier") == 0)
     return &GetSizeModifier();
   return nullptr;
-}
-//-----------------------------------------------------------------------------
-bool SEPupillaryResponse::Load(const CDM::PupillaryResponseData& in)
-{
-  if (in.ReactivityModifier().present())
-    io::PropertyIoDelegate::Marshall(in.ReactivityModifier(), GetReactivityModifier());
-  if (in.ShapeModifier().present())
-      io::PropertyIoDelegate::Marshall(in.ShapeModifier(), GetShapeModifier());
-  if (in.SizeModifier().present())
-      io::PropertyIoDelegate::Marshall(in.SizeModifier(), GetSizeModifier());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::PupillaryResponseData* SEPupillaryResponse::Unload() const
-{
-  CDM::PupillaryResponseData* data = new CDM::PupillaryResponseData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEPupillaryResponse::Unload(CDM::PupillaryResponseData& data) const
-{
-  if (m_ReactivityModifier != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ReactivityModifier, data.ReactivityModifier());
-  if (m_ShapeModifier != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_ShapeModifier, data.ShapeModifier());
-  if (m_SizeModifier != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_SizeModifier, data.SizeModifier());
 }
 //-----------------------------------------------------------------------------
 bool SEPupillaryResponse::HasReactivityModifier() const

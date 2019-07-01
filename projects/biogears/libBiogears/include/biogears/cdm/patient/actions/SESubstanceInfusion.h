@@ -12,17 +12,17 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/actions/SESubstanceAdministration.h>
-#include <biogears/schema/cdm/PatientActions.hxx>
+
+IO_DECL(PatientActions)
 
 namespace biogears {
 class SESubstance;
 class SEScalarMassPerVolume;
 class SEScalarVolumePerTime;
 
-IO_DECL(PatientActionsIoDelegate)
 
 class BIOGEARS_API SESubstanceInfusion : public SESubstanceAdministration {
-  friend class io::PatientActionsIoDelegate;
+  friend class io::PatientActions;
 
 public:
   SESubstanceInfusion(const SESubstance& substance);

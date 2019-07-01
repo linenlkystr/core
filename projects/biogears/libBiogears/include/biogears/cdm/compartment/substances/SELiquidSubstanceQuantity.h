@@ -15,6 +15,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceTransport.h>
 #include <biogears/cdm/properties/SEScalarAmountPerVolume.h>
 
+IO_DECL(SubstanceQuantity)
+
 namespace biogears {
 class SELiquidCompartment;
 
@@ -27,6 +29,7 @@ enum class BalanceLiquidBy {
 class SELiquidCompartment;
 class BIOGEARS_API SELiquidSubstanceQuantity : public SESubstanceQuantity, public SELiquidTransportSubstance {
   friend class SELiquidCompartment;
+  friend class io::SubstanceQuantity;
 
 protected:
   SELiquidSubstanceQuantity(SESubstance& sub, SELiquidCompartment& compartment);
@@ -36,12 +39,6 @@ public:
 
   virtual void Clear() override;
   virtual void Invalidate() override;
-
-  virtual bool Load(const CDM::LiquidSubstanceQuantityData& in);
-  virtual CDM::LiquidSubstanceQuantityData* Unload() override;
-
-protected:
-  virtual void Unload(CDM::LiquidSubstanceQuantityData& data);
 
 public:
   virtual void SetToZero();

@@ -15,15 +15,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/SECompartmentTransportGraph.h>
 #include <biogears/cdm/compartment/fluid/SEGasCompartment.h>
 #include <biogears/cdm/compartment/fluid/SEGasCompartmentLink.h>
-#include <biogears/schema/cdm/Compartment.hxx>
 
-CDM_BIND_DECL(GasCompartmentGraphData)
+IO_DECL(Compartment)
 
 namespace biogears {
 class SECompartmentManager;
 
 class BIOGEARS_API SEGasCompartmentGraph : public SECompartmentTransportGraph<SEGasTransportGraph, SEGasTransportVertex, SEGasTransportEdge, SEGasCompartment, SEGasCompartmentLink> {
   friend class SECompartmentManager;
+  friend class io::Compartment;
 
 protected:
   SEGasCompartmentGraph(const char* name, Logger* logger);
@@ -33,12 +33,6 @@ public:
   virtual ~SEGasCompartmentGraph() = default;
 
   void AddGraph(SEGasCompartmentGraph& graph);
-
-  virtual bool Load(const CDM::GasCompartmentGraphData& in, SECompartmentManager& cmptMgr);
-  virtual CDM::GasCompartmentGraphData* Unload();
-
-protected:
-  virtual void Unload(CDM::GasCompartmentGraphData& data);
 
 protected:
   void BalanceByIntensive() override;

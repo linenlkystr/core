@@ -15,7 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/circuit/SECircuitManager.h>
 #include <biogears/cdm/properties/SEScalarPower.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEThermalCompartmentLink::SEThermalCompartmentLink(SEThermalCompartment& src, SEThermalCompartment& tgt, const char* name)
   : SEThermalCompartmentLink(src, tgt, std::string{ name })
@@ -52,7 +52,7 @@ bool SEThermalCompartmentLink::Load(const CDM::ThermalCompartmentLinkData& in, S
     MapPath(*path);
   } else {
     if (in.HeatTransferRate().present()) {
-      io::PropertyIoDelegate::Marshall(in.HeatTransferRate(), GetHeatTransferRate());
+      io::Property::Marshall(in.HeatTransferRate(), GetHeatTransferRate());
     }
   }
   return true;
@@ -74,7 +74,7 @@ void SEThermalCompartmentLink::Unload(CDM::ThermalCompartmentLinkData& data)
     data.Path(m_Path->GetName());
   // Even if you have a path, I am unloading everything, this makes the xml actually usefull...
   if (HasHeatTransferRate()) {
-    io::PropertyIoDelegate::UnMarshall(GetHeatTransferRate(), data.HeatTransferRate());
+    io::Property::UnMarshall(GetHeatTransferRate(), data.HeatTransferRate());
   }
 }
 //-------------------------------------------------------------------------------

@@ -31,7 +31,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarHeatInductance : public SEScalarQuantity<HeatInductanceUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarHeatInductance() = default;
   virtual ~SEScalarHeatInductance() = default;

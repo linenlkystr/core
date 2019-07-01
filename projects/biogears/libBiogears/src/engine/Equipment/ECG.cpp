@@ -21,7 +21,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/BioGearsPhysiologyEngine.h>
 #include <biogears/engine/Controller/BioGears.h>
 
-#include "../../cdm/utils/io/PropertyIoDelegate.h"
+#include "../../cdm/utils/io/Property.h"
 namespace BGE = mil::tatrc::physiology::biogears;
 
 namespace biogears {
@@ -96,8 +96,8 @@ bool ECG::Load(const CDM::BioGearsElectroCardioGramData& in)
   if (!SEElectroCardioGram::Load(in))
     return false;
   BioGearsSystem::LoadState();
-  io::PropertyIoDelegate::Marshall(in.HeartRythmTime(), m_heartRhythmTime);
-  io::PropertyIoDelegate::Marshall(in.HeartRythmPeriod(), m_heartRhythmPeriod);
+  io::Property::Marshall(in.HeartRythmTime(), m_heartRhythmTime);
+  io::Property::Marshall(in.HeartRythmPeriod(), m_heartRhythmPeriod);
   m_interpolator.Load(in.Waveforms());
   m_interpolator.SetLeadElectricPotential(3, GetLead3ElectricPotential());
   return true;
@@ -111,8 +111,8 @@ CDM::BioGearsElectroCardioGramData* ECG::Unload() const
 void ECG::Unload(CDM::BioGearsElectroCardioGramData& data) const
 {
   SEElectroCardioGram::Unload(data);
-  io::PropertyIoDelegate::UnMarshall(m_heartRhythmTime, data.HeartRythmTime());
-  io::PropertyIoDelegate::UnMarshall(m_heartRhythmPeriod, data.HeartRythmPeriod());
+  io::Property::UnMarshall(m_heartRhythmTime, data.HeartRythmTime());
+  io::Property::UnMarshall(m_heartRhythmPeriod, data.HeartRythmPeriod());
   data.Waveforms(std::unique_ptr<CDM::ElectroCardioGramWaveformInterpolatorData>(m_interpolator.Unload()));
 }
 

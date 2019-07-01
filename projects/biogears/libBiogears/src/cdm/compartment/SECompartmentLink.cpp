@@ -35,17 +35,6 @@ void SECompartmentLink::Clear()
 {
 }
 //-------------------------------------------------------------------------------
-bool SECompartmentLink::Load(const CDM::CompartmentLinkData& in, SECircuitManager* circuits)
-{
-  Clear();
-  return true;
-}
-//-------------------------------------------------------------------------------
-void SECompartmentLink::Unload(CDM::CompartmentLinkData& data)
-{
-  data.Name(m_Name);
-}
-//-------------------------------------------------------------------------------
 std::string SECompartmentLink::GetName() const
 {
   return m_Name;

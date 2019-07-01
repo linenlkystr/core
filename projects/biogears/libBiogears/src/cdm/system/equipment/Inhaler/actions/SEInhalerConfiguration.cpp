@@ -44,32 +44,6 @@ bool SEInhalerConfiguration::IsValid() const
   return SEInhalerAction::IsValid() && (HasConfiguration() || HasConfigurationFile());
 }
 //-----------------------------------------------------------------------------
-bool SEInhalerConfiguration::Load(const CDM::InhalerConfigurationData& in)
-{
-  SEInhalerAction::Load(in);
-  if (in.ConfigurationFile().present())
-    SetConfigurationFile(in.ConfigurationFile().get());
-  if (in.Configuration().present())
-    GetConfiguration().Load(in.Configuration().get());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::InhalerConfigurationData* SEInhalerConfiguration::Unload() const
-{
-  CDM::InhalerConfigurationData* data = new CDM::InhalerConfigurationData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEInhalerConfiguration::Unload(CDM::InhalerConfigurationData& data) const
-{
-  SEInhalerAction::Unload(data);
-  if (HasConfiguration())
-    data.Configuration(std::unique_ptr<CDM::InhalerData>(m_Configuration->Unload()));
-  else if (HasConfigurationFile())
-    data.ConfigurationFile(m_ConfigurationFile);
-}
-//-----------------------------------------------------------------------------
 bool SEInhalerConfiguration::HasConfiguration() const
 {
   return m_Configuration != nullptr;

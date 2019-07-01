@@ -15,7 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 #include <biogears/schema/cdm/AnesthesiaActions.hxx>
 
-CDM_BIND_DECL(AnesthesiaMachineOxygenBottleData)
+IO_DECL(Anesthesia)
 
 namespace biogears {
 class SEAnesthesiaMachine;
@@ -27,6 +27,7 @@ class VolumeUnit;
 class BIOGEARS_API SEAnesthesiaMachineOxygenBottle : Loggable {
 protected:
   friend SEAnesthesiaMachine;
+  friend class io::Anesthesia;
 
 public:
   SEAnesthesiaMachineOxygenBottle(Logger* logger);
@@ -34,12 +35,7 @@ public:
 
   virtual void Clear();
 
-  virtual bool Load(const CDM::AnesthesiaMachineOxygenBottleData& in);
-  virtual CDM::AnesthesiaMachineOxygenBottleData* Unload() const;
-
 protected:
-  virtual void Unload(CDM::AnesthesiaMachineOxygenBottleData& data) const;
-
   virtual void Merge(const SEAnesthesiaMachineOxygenBottle& from);
 
 public:

@@ -18,7 +18,7 @@ IO_DECL(IODelegate)
 
 namespace biogears {
 class BIOGEARS_API SEUnitScalar : public SEScalar {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEUnitScalar();
   SEUnitScalar(const SEUnitScalar&);

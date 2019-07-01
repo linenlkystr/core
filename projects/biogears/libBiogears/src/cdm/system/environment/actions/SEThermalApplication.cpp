@@ -28,12 +28,12 @@ SEThermalApplication::SEThermalApplication()
   m_ActiveCooling = nullptr;
   m_AppliedTemperature = nullptr;
 }
-
+//----------------------------------------------------------------------------------
 SEThermalApplication::~SEThermalApplication()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEThermalApplication::Clear()
 {
   SEEnvironmentAction::Clear();
@@ -43,12 +43,12 @@ void SEThermalApplication::Clear()
     SAFE_DELETE(m_AppliedTemperature);
   }
 }
-
+//----------------------------------------------------------------------------------
 bool SEThermalApplication::IsValid() const
 {
   return SEEnvironmentAction::IsValid();
 }
-
+//----------------------------------------------------------------------------------
 bool SEThermalApplication::IsActive() const
 {
   if (HasActiveHeating() && m_ActiveHeating->GetPower().IsPositive())
@@ -59,85 +59,58 @@ bool SEThermalApplication::IsActive() const
     return true;
   return false;
 }
-
-bool SEThermalApplication::Load(const CDM::ThermalApplicationData& in)
-{
-  // Set this before our super class tells us to Clear if the action wants us to keep our current data
-  m_ClearContents = !in.AppendToPrevious();
-  SEEnvironmentAction::Load(in);
-  m_ClearContents = true;
-  if (in.ActiveHeating().present())
-    GetActiveHeating().Load(in.ActiveHeating().get());
-  if (in.ActiveCooling().present())
-    GetActiveCooling().Load(in.ActiveCooling().get());
-  if (in.AppliedTemperature().present())
-    GetAppliedTemperature().Load(in.AppliedTemperature().get());
-
-  return true;
-}
-
-CDM::ThermalApplicationData* SEThermalApplication::Unload() const
-{
-  CDM::ThermalApplicationData* data = new CDM::ThermalApplicationData();
-  Unload(*data);
-  return data;
-}
-void SEThermalApplication::Unload(CDM::ThermalApplicationData& data) const
-{
-  SEEnvironmentAction::Unload(data);
-  if (HasActiveHeating())
-    data.ActiveHeating(std::unique_ptr<CDM::ActiveHeatingData>(m_ActiveHeating->Unload()));
-  if (HasActiveCooling())
-    data.ActiveCooling(std::unique_ptr<CDM::ActiveCoolingData>(m_ActiveCooling->Unload()));
-  if (HasAppliedTemperature())
-    data.AppliedTemperature(std::unique_ptr<CDM::AppliedTemperatureData>(m_AppliedTemperature->Unload()));
-}
-
+//----------------------------------------------------------------------------------
 bool SEThermalApplication::HasActiveHeating() const
 {
   return m_ActiveHeating != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEActiveHeating& SEThermalApplication::GetActiveHeating()
 {
   if (m_ActiveHeating == nullptr)
     m_ActiveHeating = new SEActiveHeating(GetLogger());
   return *m_ActiveHeating;
 }
+//----------------------------------------------------------------------------------
 void SEThermalApplication::RemoveActiveHeating()
 {
   SAFE_DELETE(m_ActiveHeating);
 }
-
+//----------------------------------------------------------------------------------
 bool SEThermalApplication::HasActiveCooling() const
 {
   return m_ActiveCooling != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEActiveCooling& SEThermalApplication::GetActiveCooling()
 {
   if (m_ActiveCooling == nullptr)
     m_ActiveCooling = new SEActiveCooling(GetLogger());
   return *m_ActiveCooling;
 }
+//----------------------------------------------------------------------------------
 void SEThermalApplication::RemoveActiveCooling()
 {
   SAFE_DELETE(m_ActiveCooling);
 }
-
+//----------------------------------------------------------------------------------
 bool SEThermalApplication::HasAppliedTemperature() const
 {
   return m_AppliedTemperature != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEAppliedTemperature& SEThermalApplication::GetAppliedTemperature()
 {
   if (m_AppliedTemperature == nullptr)
     m_AppliedTemperature = new SEAppliedTemperature(GetLogger());
   return *m_AppliedTemperature;
 }
+//----------------------------------------------------------------------------------
 void SEThermalApplication::RemoveAppliedTemperature()
 {
   SAFE_DELETE(m_AppliedTemperature);
 }
-
+//----------------------------------------------------------------------------------
 void SEThermalApplication::ToString(std::ostream& str) const
 {
   str << "Environment Action : Thermal Application";
@@ -163,4 +136,5 @@ void SEThermalApplication::ToString(std::ostream& str) const
 
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

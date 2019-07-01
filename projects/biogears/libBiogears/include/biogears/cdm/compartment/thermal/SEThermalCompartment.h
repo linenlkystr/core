@@ -13,9 +13,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/SECompartment.h>
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitNode.h>
 #include <biogears/cdm/compartment/SECompartmentNodes.h>
-#include <biogears/schema/cdm/Compartment.hxx>
-
-CDM_BIND_DECL(ThermalCompartmentData)
 
 namespace biogears {
 class SEThermalCompartmentLink;

@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <biogears/schema/cdm/Physiology.hxx>
+IO_DECL(Physiology)
 
 namespace biogears {
 
@@ -21,24 +21,20 @@ class SEScalar;
 class SEScalar0To1;
 
 class BIOGEARS_API SEInflammationState {
+  friend io::Physiology;
+
 public:
   SEInflammationState();
   virtual ~SEInflammationState();
 
   virtual void Clear();
-
-  virtual bool Load(const CDM::InflammationStateData& in);
-  virtual CDM::InflammationStateData* Unload() const;
+  
   virtual bool IsValid();
 
   void InitializeState();
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 
-protected:
-  virtual void Unload(CDM::InflammationStateData& data) const;
-
-public:
   virtual bool HasPathogen() const;
   virtual SEScalar& GetPathogen();
   virtual double GetPathogen() const;

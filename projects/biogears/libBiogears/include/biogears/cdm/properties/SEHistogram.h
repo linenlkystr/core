@@ -14,11 +14,9 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEProperty.h>
 #include <biogears/cdm/utils/unitconversion/UCCommon.h>
 
-CDM_BIND_DECL(HistogramData)
-
 namespace biogears {
 class BIOGEARS_API SEHistogram : public SEProperty {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEHistogram();
   virtual ~SEHistogram();

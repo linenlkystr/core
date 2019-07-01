@@ -13,13 +13,15 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/CommonDataModel.h>
 
-CDM_BIND_DECL(CompartmentLinkData)
+IO_DECL(Compartment)
 
 namespace biogears {
 class SECircuitManager;
 class SEScalar;
 
 class BIOGEARS_API SECompartmentLink : public Loggable {
+  friend class io::Compartment;
+
 protected:
   SECompartmentLink(const char* name, Logger* logger);
   SECompartmentLink(const std::string& name, Logger* logger);
@@ -28,12 +30,6 @@ public:
   virtual ~SECompartmentLink();
 
   virtual void Clear();
-
-  virtual bool Load(const CDM::CompartmentLinkData& in, SECircuitManager* circuits = nullptr);
-  virtual CDM::CompartmentLinkData* Unload() = 0;
-
-protected:
-  virtual void Unload(CDM::CompartmentLinkData& data);
 
 public:
   virtual std::string GetName() const;

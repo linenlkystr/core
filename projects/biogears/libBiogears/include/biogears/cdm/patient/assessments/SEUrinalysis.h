@@ -15,7 +15,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/fluid/SEFluidCompartmentLink.h>
 #include <biogears/cdm/patient/assessments/SEPatientAssessment.h>
 #include <biogears/cdm/patient/assessments/SEUrinalysisMicroscopic.h>
-#include <biogears/schema/cdm/PatientAssessments.hxx>
+
+IO_DECL(PatientAssessments)
 
 namespace biogears {
 class SEPatient;
@@ -23,6 +24,8 @@ class SERenalSystem;
 class SEAnatomy;
 
 class BIOGEARS_API SEUrinalysis : public SEPatientAssessment {
+  friend class io::PatientAssessments;
+
 public:
   SEUrinalysis(Logger* logger);
   virtual ~SEUrinalysis();
@@ -30,13 +33,6 @@ public:
   virtual void Reset();
   virtual void Clear();
 
-  virtual bool Load(const CDM::UrinalysisData& in);
-  virtual CDM::UrinalysisData* Unload();
-
-protected:
-  virtual void Unload(CDM::UrinalysisData& data);
-
-public:
   virtual bool HasColorResult() const;
   virtual CDM::enumUrineColor::value GetColorResult() const;
   virtual void SetColorResult(CDM::enumUrineColor::value color);

@@ -10,10 +10,9 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 #pragma once
-#include <biogears/cdm/system/environment/actions/SEEnvironmentAction.h>
-#include "biogears/cdm/properties/SEScalarFraction.h"
+#include <biogears/cdm/properties/SEScalarFraction.h>
 
-CDM_BIND_DECL(AppliedTemperatureData)
+IO_DECL(Environment)
 
 namespace biogears {
 class SEScalar;
@@ -23,6 +22,8 @@ class SEScalarArea;
 class AreaUnit;
 
 class BIOGEARS_API SEAppliedTemperature : public Loggable {
+  friend class io::Environment;
+
 public:
   SEAppliedTemperature(Logger* logger);
   SEAppliedTemperature(const SEAppliedTemperature& other);
@@ -30,13 +31,6 @@ public:
 
   virtual void Clear();
 
-  virtual bool Load(const CDM::AppliedTemperatureData& in);
-  virtual CDM::AppliedTemperatureData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::AppliedTemperatureData& data) const;
-
-public:
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 

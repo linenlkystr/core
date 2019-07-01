@@ -14,13 +14,15 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/engine/PhysiologyEngineStabilization.h>
 #include <biogears/cdm/engine/PhysiologyEngineTrack.h>
-#include <biogears/schema/biogears/BioGears.hxx>
+
+IO_DECL(EngineConfiguration)
 
 namespace biogears {
 class TimeUnit;
 class PhysiologyEngineDynamicStabilizationCriteria;
 
 class BIOGEARS_API PropertyConvergence : public Loggable {
+  friend class io::EngineConfiguration;
   friend PhysiologyEngineDynamicStabilizationCriteria;
 
 protected:
@@ -55,9 +57,10 @@ protected:
 };
 
 class PhysiologyEngineDynamicStabilization;
-CDM_BIND_DECL(PhysiologyEngineDynamicStabilizationCriteriaData)
+
 class BIOGEARS_API PhysiologyEngineDynamicStabilizationCriteria : public Loggable {
   friend PhysiologyEngineDynamicStabilization;
+  friend class io::EngineConfiguration;
 
 public:
   PhysiologyEngineDynamicStabilizationCriteria(Logger* logger);
@@ -66,13 +69,6 @@ public:
 
   virtual void Clear();
 
-  virtual bool Load(const CDM::PhysiologyEngineDynamicStabilizationCriteriaData& in);
-  virtual CDM::PhysiologyEngineDynamicStabilizationCriteriaData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::PhysiologyEngineDynamicStabilizationCriteriaData& data) const;
-
-public:
   virtual std::string GetName() const;
   virtual const char* GetName_cStr() const;
   virtual void SetName(const char* name);
@@ -120,6 +116,8 @@ protected:
 };
 
 class BIOGEARS_API PhysiologyEngineDynamicStabilizer : public Loggable {
+  friend class io::EngineConfiguration;
+
 public:
   PhysiologyEngineDynamicStabilizer(double timeStep_s, const PhysiologyEngineDynamicStabilizationCriteria& criteria);
   virtual ~PhysiologyEngineDynamicStabilizer(){};
@@ -145,23 +143,18 @@ protected:
   const std::vector<PropertyConvergence*>& m_properties;
 };
 
-CDM_BIND_DECL(PhysiologyEngineDynamicStabilizationData)
+
 class BIOGEARS_API PhysiologyEngineDynamicStabilization : public PhysiologyEngineStabilization {
+  friend class io::EngineConfiguration;
+
 public:
   PhysiologyEngineDynamicStabilization(Logger* logger);
   virtual ~PhysiologyEngineDynamicStabilization();
 
   virtual void Clear() override;
 
-  virtual bool Load(const CDM::PhysiologyEngineDynamicStabilizationData& in);
-  virtual CDM::PhysiologyEngineDynamicStabilizationData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::PhysiologyEngineDynamicStabilizationData& data) const;
-
-public:
-  virtual bool Load(const char* file) override;
-  virtual bool Load(const std::string& file) override;
+  virtual void Load(const char* file) override;
+  virtual void Load(const std::string& file) override;
 
   virtual bool StabilizeRestingState(PhysiologyEngine& engine) override;
   virtual bool StabilizeFeedbackState(PhysiologyEngine& engine) override;

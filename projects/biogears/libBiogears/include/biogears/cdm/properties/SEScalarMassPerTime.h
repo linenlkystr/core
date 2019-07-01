@@ -38,7 +38,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarMassPerTime : public SEScalarQuantity<MassPerTimeUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarMassPerTime() = default;
   virtual ~SEScalarMassPerTime() = default;

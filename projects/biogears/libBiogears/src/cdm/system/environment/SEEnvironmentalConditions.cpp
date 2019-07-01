@@ -25,7 +25,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/cdm/utils/FileUtils.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEEnvironmentalConditions::SEEnvironmentalConditions(SESubstanceManager& substances)
   : Loggable(substances.GetLogger())
@@ -96,110 +96,6 @@ const SEScalar* SEEnvironmentalConditions::GetScalar(const std::string& name)
     return &GetRespirationAmbientTemperature();
   // I did not support for getting a specific gas/aerosol scalars due to lack of coffee
   return nullptr;
-}
-//-----------------------------------------------------------------------------
-bool SEEnvironmentalConditions::Load(const CDM::EnvironmentalConditionsData& in)
-{
-  Clear();
-  if (in.Name().present())
-    m_Name = in.Name().get();
-  if (in.SurroundingType().present())
-    m_SurroundingType = in.SurroundingType().get();
-  if (in.AirDensity().present())
-    io::PropertyIoDelegate::Marshall(in.AirDensity(), GetAirDensity());
-  if (in.AirVelocity().present())
-      io::PropertyIoDelegate::Marshall(in.AirVelocity(), GetAirVelocity());
-  if (in.AmbientTemperature().present())
-    io::PropertyIoDelegate::Marshall(in.AmbientTemperature(), GetAmbientTemperature());
-  if (in.AtmosphericPressure().present())
-    io::PropertyIoDelegate::Marshall(in.AtmosphericPressure(), GetAtmosphericPressure());
-  if (in.ClothingResistance().present())
-    io::PropertyIoDelegate::Marshall(in.ClothingResistance(), GetClothingResistance());
-  if (in.Emissivity().present())
-    io::PropertyIoDelegate::Marshall(in.Emissivity(), GetEmissivity());
-  if (in.MeanRadiantTemperature().present())
-    io::PropertyIoDelegate::Marshall(in.MeanRadiantTemperature(), GetMeanRadiantTemperature());
-  if (in.RelativeHumidity().present())
-    io::PropertyIoDelegate::Marshall(in.RelativeHumidity(), GetRelativeHumidity());
-  if (in.RespirationAmbientTemperature().present())
-    io::PropertyIoDelegate::Marshall(in.RespirationAmbientTemperature(), GetRespirationAmbientTemperature());
-
-  SESubstance* sub;
-  for (const CDM::SubstanceFractionData& sfData : in.AmbientGas()) {
-    sub = m_Substances.GetSubstance(sfData.Name());
-    if (sub == nullptr) {
-      Error("Substance not found : " + sfData.Name());
-      return false;
-    }
-    if (sub->GetState() != CDM::enumSubstanceState::Gas) {
-      Error("Substance not gas : " + sfData.Name());
-      return false;
-    }
-    SESubstanceFraction* sf = new SESubstanceFraction(*sub);
-    sf->Load(sfData);
-    m_AmbientGases.push_back(sf);
-    m_cAmbientGases.push_back(sf);
-  }
-
-  for (const CDM::SubstanceConcentrationData& scData : in.AmbientAerosol()) {
-    sub = m_Substances.GetSubstance(scData.Name());
-    if (sub == nullptr) {
-      Error("Substance not found : " + scData.Name());
-      return false;
-    }
-    if (sub->GetState() != CDM::enumSubstanceState::Solid && sub->GetState() != CDM::enumSubstanceState::Liquid) {
-      Error("Substance not a liquid or solid : " + scData.Name());
-      return false;
-    }
-    SESubstanceConcentration* sc = new SESubstanceConcentration(*sub);
-    sc->Load(scData);
-    m_AmbientAerosols.push_back(sc);
-    m_cAmbientAerosols.push_back(sc);
-  }
-
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::EnvironmentalConditionsData* SEEnvironmentalConditions::Unload() const
-{
-  CDM::EnvironmentalConditionsData* data = new CDM::EnvironmentalConditionsData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEEnvironmentalConditions::Unload(CDM::EnvironmentalConditionsData& data) const
-{
-  if (HasName()) {
-    data.Name(m_Name);
-  } else {
-    data.Name("Local Environment Conditions");
-  }
-  if (HasSurroundingType())
-    data.SurroundingType(m_SurroundingType);
-  if (m_AirDensity != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_AirDensity, data.AirDensity());
-  if (m_AirVelocity != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_AirVelocity, data.AirVelocity());
-  if (m_AmbientTemperature != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_AmbientTemperature, data.AmbientTemperature());
-  if (m_AtmosphericPressure != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_AtmosphericPressure, data.AtmosphericPressure());
-  if (m_ClothingResistance != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_ClothingResistance, data.ClothingResistance());
-  if (m_Emissivity != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_Emissivity, data.Emissivity());
-  if (m_MeanRadiantTemperature != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_MeanRadiantTemperature, data.MeanRadiantTemperature());
-  if (m_RelativeHumidity != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_RelativeHumidity, data.RelativeHumidity());
-  if (m_RespirationAmbientTemperature != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_RespirationAmbientTemperature, data.RespirationAmbientTemperature());
-
-  for (SESubstanceFraction* sf : m_AmbientGases)
-    data.AmbientGas().push_back(std::unique_ptr<CDM::SubstanceFractionData>(sf->Unload()));
-
-  for (SESubstanceConcentration* sc : m_AmbientAerosols)
-    data.AmbientAerosol().push_back(std::unique_ptr<CDM::SubstanceConcentrationData>(sc->Unload()));
 }
 //-----------------------------------------------------------------------------
 void SEEnvironmentalConditions::Merge(const SEEnvironmentalConditions& from)

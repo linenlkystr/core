@@ -13,13 +13,15 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/properties/SEScalarTime.h>
 #include <biogears/cdm/utils/testing/SETestErrorStatistics.h>
-CDM_BIND_DECL(TestCase)
+
+IO_DECL(TestReport)
 
 namespace biogears {
 class SETestSuite;
 
 class BIOGEARS_API SETestCase : public Loggable {
   friend SETestSuite;
+  friend io::TestReport;
 
 protected:
   SETestCase(Logger* logger);
@@ -30,12 +32,6 @@ public:
 
   virtual void Reset(); //reset values
   virtual void Clear(); //clear memory
-
-  bool Load(const CDM::TestCase& in);
-  std::unique_ptr<CDM::TestCase> Unload() const;
-
-protected:
-  void Unload(CDM::TestCase& data) const;
 
 public:
   void SetName(const std::string& name);

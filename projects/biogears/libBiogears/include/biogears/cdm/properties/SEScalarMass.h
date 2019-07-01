@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/properties/SEScalarQuantity.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
 namespace biogears {
 class BIOGEARS_API MassUnit : public CCompoundUnit {
@@ -36,7 +35,7 @@ public:
   };
 
   class BIOGEARS_API SEScalarMass : public SEScalarQuantity<MassUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
   public:
     SEScalarMass() = default;
     virtual ~SEScalarMass() = default;

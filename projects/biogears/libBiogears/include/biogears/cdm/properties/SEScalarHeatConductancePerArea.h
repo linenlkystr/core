@@ -33,7 +33,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarHeatConductancePerArea : public SEScalarQuantity<HeatConductancePerAreaUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarHeatConductancePerArea() = default;
   virtual ~SEScalarHeatConductancePerArea() = default;

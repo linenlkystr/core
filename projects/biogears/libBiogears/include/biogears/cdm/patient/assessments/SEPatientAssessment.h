@@ -14,7 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-CDM_BIND_DECL(PatientAssessmentData)
+IO_DECL(PatientAssessmenst)
+
 namespace biogears {
 /**
  * @brief
@@ -23,18 +24,14 @@ namespace biogears {
  * value intended to give a genaral overview of the patient (SEPatientAssessment) or other systems
  */
 class BIOGEARS_API SEPatientAssessment : public Loggable {
+  friend class io::PatientAssessmenst;
+
 public:
   SEPatientAssessment(Logger* logger);
   virtual ~SEPatientAssessment();
 
   virtual void Reset();
   virtual void Clear();
-
-  virtual bool Load(const CDM::PatientAssessmentData& in);
-  virtual CDM::PatientAssessmentData* Unload();
-
-protected:
-  virtual void Unload(CDM::PatientAssessmentData& data);
 
 public:
 };

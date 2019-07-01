@@ -19,7 +19,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 
-#include "cdm/utils/io/PropertyIoDelegate.h"
+#include "cdm/utils/io/Property.h"
 namespace biogears {
 template <FLUID_COMPARTMENT_TEMPLATE>
 SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::SEFluidCompartment(const char* name, Logger* logger)
@@ -56,61 +56,6 @@ void SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::Clear()
   m_FluidChildren.clear();
   DELETE_VECTOR(m_SubstanceQuantities);
   m_Nodes.Clear();
-}
-//-----------------------------------------------------------------------------
-template <FLUID_COMPARTMENT_TEMPLATE>
-bool SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::Load(const CDM::FluidCompartmentData& in, SECircuitManager* circuits)
-{
-  if (!SECompartment::Load(in, circuits))
-    return false;
-  // Not Loading In/Out Flow, those are calculated on demand
-  if (!in.Child().empty())
-    return true;
-  else if (!in.Node().empty()) {
-    if (circuits == nullptr) {
-      Error("Compartment is mapped to circuit nodes, but no circuit manager was provided, cannot load");
-      return false;
-    }
-    for (auto name : in.Node()) {
-      SEFluidCircuitNode* node = circuits->GetFluidNode(name);
-      if (node == nullptr) {
-        Error("Compartment is mapped to circuit node, " + std::string{ name } + ", but provided circuit manager did not have that node");
-        return false;
-      }
-      MapNode(*node);
-    }
-  } else { // Only load these if you don't have children or nodes
-    if (in.Pressure().present()) {
-      io::PropertyIoDelegate::Marshall(in.Pressure(), GetPressure());
-    }
-    if (in.Volume().present()) {
-      io::PropertyIoDelegate::Marshall(in.Volume(), GetVolume());
-    }
-  }
-  return true;
-}
-//-----------------------------------------------------------------------------
-template <FLUID_COMPARTMENT_TEMPLATE>
-void SEFluidCompartment<FLUID_COMPARTMENT_TYPES>::Unload(CDM::FluidCompartmentData& data)
-{
-  SECompartment::Unload(data);
-  for (SEFluidCompartment* child : m_FluidChildren)
-    data.Child().push_back(child->GetName());
-  for (SEFluidCircuitNode* nodes : m_Nodes.GetNodes())
-    data.Node().push_back(nodes->GetName());
-  // Even if you have children or nodes, I am unloading everything, this makes the xml actually usefull...
-  if (HasInFlow()) {
-    io::PropertyIoDelegate::UnMarshall(GetInFlow(), data.InFlow());
-  }
-  if (HasOutFlow()) {
-    io::PropertyIoDelegate::UnMarshall(GetOutFlow(), data.OutFlow());
-  }
-  if (HasPressure()) {
-    io::PropertyIoDelegate::UnMarshall(GetPressure(), data.Pressure());
-  }
-  if (HasVolume()) {
-    io::PropertyIoDelegate::UnMarshall(GetVolume(), data.Volume());
-  }
 }
 //-----------------------------------------------------------------------------
 template <FLUID_COMPARTMENT_TEMPLATE>

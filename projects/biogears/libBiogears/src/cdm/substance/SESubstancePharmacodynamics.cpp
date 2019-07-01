@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Properties.hxx>
 #include <biogears/schema/cdm/Substance.hxx>
 
-#include "../utils/io/PropertyIoDelegate.h"
+#include "../utils/io/Property.h"
 namespace biogears {
 SESubstancePharmacodynamics::SESubstancePharmacodynamics(Logger* logger)
   : Loggable(logger)
@@ -101,96 +101,34 @@ const SEScalar* SESubstancePharmacodynamics::GetScalar(const char* name)
 //-----------------------------------------------------------------------------
 const SEScalar* SESubstancePharmacodynamics::GetScalar(const std::string& name)
 {
-  if (name.compare("Bronchodilation") == 0)
+  if (name == "Bronchodilation")
     return &GetBronchodilation();
-  if (name.compare("DiastolicPressureModifier") == 0)
+  if (name == "DiastolicPressureModifier")
     return &GetDiastolicPressureModifier();
-  if (name.compare("EC50") == 0)
+  if (name == "EC50")
     return &GetEC50();
-  if (name.compare("EMaxShapeParameter") == 0)
+  if (name == "EMaxShapeParameter")
     return &GetEMaxShapeParameter();
-  if (name.compare("HeartRateModifier") == 0)
+  if (name == "HeartRateModifier")
     return &GetHeartRateModifier();
-  if (name.compare("NeuromuscularBlock") == 0)
+  if (name == "NeuromuscularBlock")
     return &GetNeuromuscularBlock();
-  if (name.compare("RespirationRateModifier") == 0)
+  if (name == "RespirationRateModifier")
     return &GetRespirationRateModifier();
-  if (name.compare("Sedation") == 0)
+  if (name == "Sedation")
     return &GetSedation();
-  if (name.compare("SystolicPressureModifier") == 0)
+  if (name == "SystolicPressureModifier")
     return &GetSystolicPressureModifier();
-  if (name.compare("TidalVolumeModifier") == 0)
+  if (name == "TidalVolumeModifier")
     return &GetTidalVolumeModifier();
-  if (name.compare("TubularPermeabilityModifier") == 0)
+  if (name == "TubularPermeabilityModifier")
     return &GetTubularPermeabilityModifier();
-  if (name.compare("CentralNervousModifier") == 0)
+  if (name == "CentralNervousModifier")
     return &GetCentralNervousModifier();
-  if (name.compare("EffectSiteRateConstant") == 0)
+  if (name == "EffectSiteRateConstant")
     return &GetEffectSiteRateConstant();
 
   return GetPupillaryResponse().GetScalar(name);
-}
-//-----------------------------------------------------------------------------
-bool SESubstancePharmacodynamics::Load(const CDM::SubstancePharmacodynamicsData& in)
-{
-  io::PropertyIoDelegate::Marshall(in.Bronchodilation(), GetBronchodilation());
-  io::PropertyIoDelegate::Marshall(in.DiastolicPressureModifier(), GetDiastolicPressureModifier());
-  io::PropertyIoDelegate::Marshall(in.EC50(), GetEC50());
-  io::PropertyIoDelegate::Marshall(in.EMaxShapeParameter(), GetEMaxShapeParameter());
-  io::PropertyIoDelegate::Marshall(in.HeartRateModifier(), GetHeartRateModifier());
-  io::PropertyIoDelegate::Marshall(in.NeuromuscularBlock(), GetNeuromuscularBlock());
-  GetPupillaryResponse().Load(in.PupillaryResponse());
-  io::PropertyIoDelegate::Marshall(in.RespirationRateModifier(), GetRespirationRateModifier());
-  io::PropertyIoDelegate::Marshall(in.Sedation(), GetSedation());
-  io::PropertyIoDelegate::Marshall(in.SystolicPressureModifier(), GetSystolicPressureModifier());
-  io::PropertyIoDelegate::Marshall(in.TidalVolumeModifier(), GetTidalVolumeModifier());
-  io::PropertyIoDelegate::Marshall(in.TubularPermeabilityModifier(), GetTubularPermeabilityModifier());
-  io::PropertyIoDelegate::Marshall(in.CentralNervousModifier(), GetCentralNervousModifier());
-  io::PropertyIoDelegate::Marshall(in.EffectSiteRateConstant(), GetEffectSiteRateConstant());
-  CalculateDerived();
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::SubstancePharmacodynamicsData* SESubstancePharmacodynamics::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::SubstancePharmacodynamicsData* data = new CDM::SubstancePharmacodynamicsData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SESubstancePharmacodynamics::Unload(CDM::SubstancePharmacodynamicsData& data) const
-{
-  if (HasBronchodilation())
-    io::PropertyIoDelegate::UnMarshall(*m_Bronchodilation, data.Bronchodilation());
-  if (HasDiastolicPressureModifier())
-    io::PropertyIoDelegate::UnMarshall(*m_DiastolicPressureModifier, data.DiastolicPressureModifier());
-  ;
-  if (HasEC50())
-    io::PropertyIoDelegate::UnMarshall(*m_EC50, data.EC50());
-  if (HasEMaxShapeParameter())
-    io::PropertyIoDelegate::UnMarshall(*m_EMaxShapeParameter, data.EMaxShapeParameter());
-  if (HasHeartRateModifier())
-    io::PropertyIoDelegate::UnMarshall(*m_HeartRateModifier, data.HeartRateModifier());
-  if (HasNeuromuscularBlock())
-    io::PropertyIoDelegate::UnMarshall(*m_NeuromuscularBlock, data.NeuromuscularBlock());
-  if (HasPupillaryResponse())
-    data.PupillaryResponse(std::unique_ptr<CDM::PupillaryResponseData>(m_PupillaryResponse->Unload()));
-  if (HasRespirationRateModifier())
-    io::PropertyIoDelegate::UnMarshall(*m_RespirationRateModifier, data.RespirationRateModifier());
-  if (HasSedation())
-    io::PropertyIoDelegate::UnMarshall(*m_Sedation, data.Sedation());
-  if (HasSystolicPressureModifier())
-    io::PropertyIoDelegate::UnMarshall(*m_SystolicPressureModifier, data.SystolicPressureModifier());
-  if (HasTidalVolumeModifier())
-    io::PropertyIoDelegate::UnMarshall(*m_TidalVolumeModifier, data.TidalVolumeModifier());
-  if (HasTubularPermeabilityModifier())
-    io::PropertyIoDelegate::UnMarshall(*m_TubularPermeabilityModifier, data.TubularPermeabilityModifier());
-  if (HasCentralNervousModifier())
-    io::PropertyIoDelegate::UnMarshall(*m_CentralNervousModifier, data.CentralNervousModifier());
-  if (HasEffectSiteRateConstant())
-    io::PropertyIoDelegate::UnMarshall(*m_EffectSiteRateConstant, data.EffectSiteRateConstant());
 }
 //-----------------------------------------------------------------------------
 void SESubstancePharmacodynamics::CalculateDerived()

@@ -18,7 +18,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarPower.h>
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEThermalCompartment::SEThermalCompartment(const char* name, Logger* logger)
   : SEThermalCompartment(std::string{ name }, logger)
@@ -74,9 +74,9 @@ bool SEThermalCompartment::Load(const CDM::ThermalCompartmentData& in, SECircuit
     }
   } else { // Only load these if you don't have children or nodes
     if (in.Heat().present())
-      io::PropertyIoDelegate::Marshall(in.Heat(), GetHeat());
+      io::Property::Marshall(in.Heat(), GetHeat());
     if (in.Temperature().present())
-      io::PropertyIoDelegate::Marshall(in.Temperature(), GetTemperature());
+      io::Property::Marshall(in.Temperature(), GetTemperature());
   }
   return true;
 }
@@ -97,13 +97,13 @@ void SEThermalCompartment::Unload(CDM::ThermalCompartmentData& data)
     data.Node().push_back(nodes->GetName());
   // Even if you have children or nodes, I am unloading everything, this makes the xml actually usefull...
   if (HasHeatTransferRateIn())
-    io::PropertyIoDelegate::UnMarshall(GetHeatTransferRateIn(), data.HeatTransferRateIn());
+    io::Property::UnMarshall(GetHeatTransferRateIn(), data.HeatTransferRateIn());
   if (HasHeatTransferRateOut())
-    io::PropertyIoDelegate::UnMarshall(GetHeatTransferRateOut(), data.HeatTransferRateOut());
+    io::Property::UnMarshall(GetHeatTransferRateOut(), data.HeatTransferRateOut());
   if (HasHeat())
-    io::PropertyIoDelegate::UnMarshall(GetHeat(), data.Heat());
+    io::Property::UnMarshall(GetHeat(), data.Heat());
   if (HasTemperature())
-    io::PropertyIoDelegate::UnMarshall(GetTemperature(), data.Temperature());
+    io::Property::UnMarshall(GetTemperature(), data.Temperature());
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SEThermalCompartment::GetScalar(const char* name)

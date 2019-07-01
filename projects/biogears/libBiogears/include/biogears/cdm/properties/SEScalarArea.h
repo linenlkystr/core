@@ -31,7 +31,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarArea : public SEScalarQuantity<AreaUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarArea() = default;
   virtual ~SEScalarArea() = default;

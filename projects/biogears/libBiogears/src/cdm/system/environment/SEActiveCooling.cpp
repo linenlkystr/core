@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEActiveCooling::SEActiveCooling(Logger* logger)
   : Loggable(logger)
@@ -58,38 +58,6 @@ const SEScalar* SEActiveCooling::GetScalar(const std::string& name)
   if (name == "SurfaceAreaFraction")
     return &GetSurfaceAreaFraction();
   return nullptr;
-}
-//-----------------------------------------------------------------------------
-bool SEActiveCooling::Load(const CDM::ActiveCoolingData& in)
-{
-  io::PropertyIoDelegate::Marshall(in.Power(), GetPower());
-  if (in.SurfaceArea().present()) {
-    io::PropertyIoDelegate::Marshall(in.SurfaceArea(), GetSurfaceArea());
-  }
-  if (in.SurfaceAreaFraction().present()) {
-    io::PropertyIoDelegate::Marshall(in.SurfaceAreaFraction(), GetSurfaceAreaFraction());
-  }
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::ActiveCoolingData* SEActiveCooling::Unload() const
-{
-  CDM::ActiveCoolingData* data = new CDM::ActiveCoolingData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEActiveCooling::Unload(CDM::ActiveCoolingData& data) const
-{
-  if (HasPower()) {
-    io::PropertyIoDelegate::UnMarshall(*m_Power, data.Power());
-  }
-  if (HasSurfaceArea()) {
-    io::PropertyIoDelegate::UnMarshall(*m_SurfaceArea, data.SurfaceArea());
-  }
-  if (HasSurfaceAreaFraction()) {
-    io::PropertyIoDelegate::UnMarshall(*m_SurfaceAreaFraction, data.SurfaceAreaFraction());
-  }
 }
 //-----------------------------------------------------------------------------
 bool SEActiveCooling::HasPower() const

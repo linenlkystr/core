@@ -16,7 +16,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
-#include "../utils/io/PropertyIoDelegate.h"
+#include "../utils/io/Property.h"
 namespace biogears {
 SESubstanceTissuePharmacokinetics::SESubstanceTissuePharmacokinetics(const std::string& name, Logger* logger)
   : Loggable(logger)
@@ -28,34 +28,6 @@ SESubstanceTissuePharmacokinetics::SESubstanceTissuePharmacokinetics(const std::
 SESubstanceTissuePharmacokinetics::~SESubstanceTissuePharmacokinetics()
 {
   Clear();
-}
-//-----------------------------------------------------------------------------
-void SESubstanceTissuePharmacokinetics::Clear()
-{
-  ;
-  SAFE_DELETE(m_PartitionCoefficient)
-}
-//-----------------------------------------------------------------------------
-bool SESubstanceTissuePharmacokinetics::Load(const CDM::SubstanceTissuePharmacokineticsData& in)
-{
-  Clear();
-  if (in.PartitionCoefficient().present())
-  io::PropertyIoDelegate::Marshall(in.PartitionCoefficient(), GetPartitionCoefficient());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::SubstanceTissuePharmacokineticsData* SESubstanceTissuePharmacokinetics::Unload() const
-{
-  CDM::SubstanceTissuePharmacokineticsData* data = new CDM::SubstanceTissuePharmacokineticsData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SESubstanceTissuePharmacokinetics::Unload(CDM::SubstanceTissuePharmacokineticsData& data) const
-{
-  data.Name(m_Name);
-  if (m_PartitionCoefficient != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_PartitionCoefficient, data.PartitionCoefficient());
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SESubstanceTissuePharmacokinetics::GetScalar(const char* name)

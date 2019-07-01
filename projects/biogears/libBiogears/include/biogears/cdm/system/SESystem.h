@@ -18,13 +18,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/container/Tree.h>
 #include <biogears/exports.h>
 
-CDM_BIND_DECL(SystemData)
+IO_DECL(System);
 
 namespace biogears {
 class SESubstanceManager;
 class SEScalar;
 
 class BIOGEARS_API SESystem : public Loggable {
+  friend class io::System;
+
 public:
   SESystem(Logger* logger);
   virtual ~SESystem();
@@ -51,14 +53,9 @@ public:
   static const SEScalar* GetScalar(const char* name, std::vector<SESystem*>* systems);
   static const SEScalar* GetScalar(const std::string& name, std::vector<SESystem*>* systems);
 
-  bool Load(const CDM::SystemData& in);
-  virtual CDM::SystemData* Unload() const = 0;
-
   virtual Tree<const char*> GetPhysiologyRequestGraph() const = 0;
 
 protected:
-  void Unload(CDM::SystemData& data) const;
-
-  std::stringstream m_ss;
+    std::stringstream m_ss;
 };
 }

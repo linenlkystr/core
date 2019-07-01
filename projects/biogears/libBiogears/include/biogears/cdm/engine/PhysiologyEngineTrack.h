@@ -20,6 +20,9 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEGenericScalar.h>
 #include <biogears/cdm/scenario/requests/SEDataRequestManager.h>
 #include <biogears/cdm/utils/DataTrack.h>
+
+IO_DECL(EngineConfiguration)
+
 namespace biogears {
 class SESystem;
 class SEPatient;
@@ -46,6 +49,8 @@ enum class CompartmentUpdate { None,
   Saturation };
 
 class SEDataRequestScalar : public SEGenericScalar {
+  friend class io::EngineConfiguration;
+
 public:
   SEDataRequestScalar(Logger* logger)
     : SEGenericScalar(logger)

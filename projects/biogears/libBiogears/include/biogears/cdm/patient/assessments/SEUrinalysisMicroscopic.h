@@ -12,24 +12,21 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/assessments/SEPatientAssessment.h>
-#include <biogears/schema/cdm/PatientAssessments.hxx>
+
+IO_DECL(PatientAssessments)
 
 namespace biogears {
 class SEScalarAmount;
 
 class BIOGEARS_API SEUrinalysisMicroscopic : public SEPatientAssessment {
+  friend class io::PatientAssessments;
+
 public:
   SEUrinalysisMicroscopic(Logger* logger);
   virtual ~SEUrinalysisMicroscopic();
 
   virtual void Reset();
   virtual void Clear();
-
-  virtual bool Load(const CDM::UrinalysisMicroscopicData& in);
-  virtual CDM::UrinalysisMicroscopicData* Unload();
-
-protected:
-  virtual void Unload(CDM::UrinalysisMicroscopicData& data);
 
 public:
   virtual bool HasObservationType() const;

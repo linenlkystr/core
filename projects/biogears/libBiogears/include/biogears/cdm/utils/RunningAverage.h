@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 
 #include <biogears/exports.h>
-CDM_BIND_DECL(RunningAverageData);
+
 
 namespace biogears {
 class BIOGEARS_API RunningAverage {

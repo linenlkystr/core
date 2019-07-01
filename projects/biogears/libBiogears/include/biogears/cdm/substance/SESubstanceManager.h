@@ -13,14 +13,16 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
-CDM_BIND_DECL(SubstanceData);
-CDM_BIND_DECL(SubstanceCompoundData);
+
+IO_DECL(Substance)
 
 namespace biogears {
 class SESubstance;
 class SESubstanceCompound;
 
 class BIOGEARS_API SESubstanceManager : public Loggable {
+  friend class io::Substance;
+
 public:
   SESubstanceManager(Logger* logger);
   virtual ~SESubstanceManager();

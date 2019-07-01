@@ -12,7 +12,8 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/patient/assessments/SEPatientAssessment.h>
-#include <biogears/schema/cdm/PatientAssessments.hxx>
+
+IO_DECL(PatientAssessments)
 
 namespace biogears {
 class SEPatient;
@@ -22,6 +23,7 @@ class SEScalarVolumePerTime;
 class SEFunctionVolumeVsTime;
 
 class BIOGEARS_API SEPulmonaryFunctionTest : public SEPatientAssessment {
+  friend class io::PatientAssessments;
 public:
   SEPulmonaryFunctionTest(Logger* logger);
   virtual ~SEPulmonaryFunctionTest();
@@ -29,13 +31,6 @@ public:
   virtual void Reset();
   virtual void Clear();
 
-  virtual bool Load(const CDM::PulmonaryFunctionTestData& in);
-  virtual CDM::PulmonaryFunctionTestData* Unload();
-
-protected:
-  virtual void Unload(CDM::PulmonaryFunctionTestData& data);
-
-public:
   virtual int GetNumberOfPlotPoints() { return m_NumberOfPlotPoints; }
   virtual void SetNumberOfPlotPoints(int n) { m_NumberOfPlotPoints = n; }
 

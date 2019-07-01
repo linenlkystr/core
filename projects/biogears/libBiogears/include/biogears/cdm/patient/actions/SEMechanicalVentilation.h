@@ -13,9 +13,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include "biogears/cdm/properties/SEScalarPressure.h"
 #include <biogears/cdm/patient/actions/SEPatientAction.h>
-#include <biogears/schema/cdm/PatientActions.hxx>
 
-IO_DECL(PatientActionsIoDelegate)
+IO_DECL(PatientActions)
 
 namespace biogears {
 class Serializer;
@@ -29,7 +28,7 @@ class PressureUnit;
 
 
 class BIOGEARS_API SEMechanicalVentilation : public SEPatientAction {
-  friend class io::PatientActionsIoDelegate;
+  friend class io::PatientActions;
 
 protected:
 public:

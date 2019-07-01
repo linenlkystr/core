@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Compartment.hxx>
 #include <biogears/schema/cdm/Substance.hxx>
 
-#include "../utils/io/PropertyIoDelegate.h"
+#include "../utils/io/Property.h"
 namespace biogears {
 SESubstanceClearance::SESubstanceClearance(Logger* logger)
   : Loggable(logger)
@@ -106,145 +106,35 @@ const SEScalar* SESubstanceClearance::GetScalar(const char* name)
 //-----------------------------------------------------------------------------
 const SEScalar* SESubstanceClearance::GetScalar(const std::string& name)
 {
-  if (name.compare("FractionExcretedInFeces") == 0)
+  if (name == "FractionExcretedInFeces")
     return &GetFractionExcretedInFeces();
-  if (name.compare("FractionExcretedInUrine") == 0)
+  if (name == "FractionExcretedInUrine")
     return &GetFractionExcretedInUrine();
-  if (name.compare("FractionMetabolizedInGut") == 0)
+  if (name == "FractionMetabolizedInGut")
     return &GetFractionMetabolizedInGut();
-  if (name.compare("FractionUnboundInPlasma") == 0)
+  if (name == "FractionUnboundInPlasma")
     return &GetFractionUnboundInPlasma();
-  if (name.compare("IntrinsicClearance") == 0)
+  if (name == "IntrinsicClearance")
     return &GetIntrinsicClearance();
-  if (name.compare("GlomerularFilterability") == 0)
+  if (name == "GlomerularFilterability")
     return &GetGlomerularFilterability();
-  if (name.compare("RenalClearance") == 0)
+  if (name == "RenalClearance")
     return &GetRenalClearance();
-  if (name.compare("RenalReabsorptionRatio") == 0)
+  if (name == "RenalReabsorptionRatio")
     return &GetRenalReabsorptionRatio();
-  if (name.compare("RenalTransportMaximum") == 0)
+  if (name == "RenalTransportMaximum")
     return &GetRenalTransportMaximum();
-  if (name.compare("RenalFiltrationRate") == 0)
+  if (name == "RenalFiltrationRate")
     return &GetRenalFiltrationRate();
-  if (name.compare("RenalReabsorptionRate") == 0)
+  if (name == "RenalReabsorptionRate")
     return &GetRenalReabsorptionRate();
-  if (name.compare("RenalExcretionRate") == 0)
+  if (name == "RenalExcretionRate")
     return &GetRenalExcretionRate();
-  if (name.compare("SystemicClearance") == 0)
+  if (name == "SystemicClearance")
     return &GetSystemicClearance();
 
   return nullptr;
 }
-//-----------------------------------------------------------------------------
-bool SESubstanceClearance::Load(const CDM::SubstanceClearanceData& in)
-{
-  Clear();
-  // Make sure dups match
-  if (in.Systemic().present() && in.RenalDynamics()->Clearance().present() && in.Systemic().get().RenalClearance().value() != in.RenalDynamics()->Clearance().get().value()) {
-    Fatal("Multiple Renal Clearances specified, but not the same. These must match at this time.");
-    return false;
-  }
-  if (in.Systemic().present() && in.RenalDynamics()->Regulation().present() && in.Systemic().get().FractionUnboundInPlasma().value() != in.RenalDynamics()->Regulation().get().FractionUnboundInPlasma().value()) {
-    Fatal("Multiple FractionUnboundInPlasma values specified, but not the same. These must match at this time.");
-    return false;
-  }
-
-  if (in.Systemic().present()) {
-    SetSystemic(true);
-    io::PropertyIoDelegate::Marshall(in.Systemic().get().FractionExcretedInFeces(), GetFractionExcretedInFeces());
-    //io::PropertyIoDelegate::Marshall(in.Systemic().get().FractionExcretedInUrine(), GetFractionExcretedInUrine());
-    //io::PropertyIoDelegate::Marshall(in.Systemic().get().FractionMetabolizedInGut(), GetFractionMetabolizedInGut());
-    io::PropertyIoDelegate::Marshall(in.Systemic().get().FractionUnboundInPlasma(), GetFractionUnboundInPlasma());
-    io::PropertyIoDelegate::Marshall(in.Systemic().get().IntrinsicClearance(), GetIntrinsicClearance());
-    io::PropertyIoDelegate::Marshall(in.Systemic().get().RenalClearance(), GetRenalClearance());
-    io::PropertyIoDelegate::Marshall(in.Systemic().get().SystemicClearance(), GetSystemicClearance());
-  }
-
-  if (in.RenalDynamics().present()) {
-    if (in.RenalDynamics()->Regulation().present()) {
-      m_RenalDynamic = RenalDynamic::Regulation;
-      SetChargeInBlood(in.RenalDynamics()->Regulation().get().ChargeInBlood());
-      io::PropertyIoDelegate::Marshall(in.RenalDynamics()->Regulation().get().FractionUnboundInPlasma(), GetFractionUnboundInPlasma());
-      io::PropertyIoDelegate::Marshall(in.RenalDynamics()->Regulation().get().ReabsorptionRatio(), GetRenalReabsorptionRatio());
-      io::PropertyIoDelegate::Marshall(in.RenalDynamics()->Regulation().get().TransportMaximum(), GetRenalTransportMaximum());
-    } else if (in.RenalDynamics()->Clearance().present()) {
-      m_RenalDynamic = RenalDynamic::Clearance;
-      io::PropertyIoDelegate::Marshall(in.RenalDynamics()->Clearance(), GetRenalClearance());
-    }
-
-    if (in.RenalDynamics()->FiltrationRate().present())
-      io::PropertyIoDelegate::Marshall(in.RenalDynamics()->FiltrationRate(), GetRenalFiltrationRate());
-    if (in.RenalDynamics()->GlomerularFilterability().present())
-      io::PropertyIoDelegate::Marshall(in.RenalDynamics()->GlomerularFilterability(), GetGlomerularFilterability());
-    if (in.RenalDynamics()->ReabsorptionRate().present())
-      io::PropertyIoDelegate::Marshall(in.RenalDynamics()->ReabsorptionRate(), GetRenalReabsorptionRate());
-    if (in.RenalDynamics()->ExcretionRate().present())
-      io::PropertyIoDelegate::Marshall(in.RenalDynamics()->ExcretionRate(), GetRenalExcretionRate());
-  }
-
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::SubstanceClearanceData* SESubstanceClearance::Unload() const
-{
-  if (!IsValid())
-    return nullptr;
-  CDM::SubstanceClearanceData* data = new CDM::SubstanceClearanceData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SESubstanceClearance::Unload(CDM::SubstanceClearanceData& data) const
-{
-  if (HasSystemic()) {
-    CDM::Systemic* sys(new CDM::Systemic());
-    data.Systemic(std::unique_ptr<CDM::Systemic>(sys));
-
-    if (HasFractionExcretedInFeces())
-      io::PropertyIoDelegate::UnMarshall(*m_FractionExcretedInFeces, sys->FractionExcretedInFeces());
-    if (HasFractionExcretedInUrine())
-      io::PropertyIoDelegate::UnMarshall(*m_FractionExcretedInUrine, sys->FractionExcretedInUrine());
-    if (HasFractionMetabolizedInGut())
-      io::PropertyIoDelegate::UnMarshall(*m_FractionMetabolizedInGut, sys->FractionMetabolizedInGut());
-    if (HasFractionUnboundInPlasma())
-      io::PropertyIoDelegate::UnMarshall(*m_FractionUnboundInPlasma, sys->FractionUnboundInPlasma());
-    if (HasRenalClearance())
-      io::PropertyIoDelegate::UnMarshall(*m_RenalClearance, sys->RenalClearance());
-    if (HasIntrinsicClearance())
-      io::PropertyIoDelegate::UnMarshall(*m_IntrinsicClearance, sys->IntrinsicClearance());
-    if (HasSystemicClearance())
-      io::PropertyIoDelegate::UnMarshall(*m_SystemicClearance, sys->SystemicClearance());
-  }
-
-  if (HasRenalDynamic()) {
-    CDM::RenalDynamics* rd(new CDM::RenalDynamics());
-    data.RenalDynamics(std::unique_ptr<CDM::RenalDynamics>(rd));
-
-    if (m_RenalDynamic == RenalDynamic::Clearance && HasRenalClearance())
-      io::PropertyIoDelegate::UnMarshall(*m_RenalClearance, rd->Clearance());
-    else if (m_RenalDynamic == RenalDynamic::Regulation) {
-      CDM::Regulation* rdr(new CDM::Regulation());
-      rd->Regulation(std::unique_ptr<CDM::Regulation>(rdr));
-
-      if (HasChargeInBlood())
-        rdr->ChargeInBlood(m_ChargeInBlood);
-      if (HasFractionUnboundInPlasma())
-        io::PropertyIoDelegate::UnMarshall(*m_FractionUnboundInPlasma, rdr->FractionUnboundInPlasma());
-      if (HasRenalReabsorptionRatio())
-        io::PropertyIoDelegate::UnMarshall(*m_RenalReabsorptionRatio, rdr->ReabsorptionRatio());
-      if (HasRenalTransportMaximum())
-        io::PropertyIoDelegate::UnMarshall(*m_RenalTransportMaximum, rdr->TransportMaximum());
-    }
-    if (HasGlomerularFilterability())
-      io::PropertyIoDelegate::UnMarshall(*m_GlomerularFilterability, rd->GlomerularFilterability());
-    if (HasRenalFiltrationRate())
-      io::PropertyIoDelegate::UnMarshall(*m_RenalFiltrationRate, rd->FiltrationRate());
-    if (HasRenalReabsorptionRate())
-      io::PropertyIoDelegate::UnMarshall(*m_RenalReabsorptionRate, rd->ReabsorptionRate());
-    if (HasRenalExcretionRate())
-      io::PropertyIoDelegate::UnMarshall(*m_RenalExcretionRate, rd->ExcretionRate());
-  }
-};
 //-----------------------------------------------------------------------------
 CDM::enumCharge::value SESubstanceClearance::GetChargeInBlood() const
 {

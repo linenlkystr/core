@@ -14,14 +14,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-#include <biogears/schema/cdm/Substance.hxx>
-
 #include <biogears/cdm/substance/SESubstanceAerosolization.h>
 #include <biogears/cdm/substance/SESubstanceClearance.h>
 #include <biogears/cdm/substance/SESubstancePharmacodynamics.h>
 #include <biogears/cdm/substance/SESubstancePharmacokinetics.h>
 
-CDM_BIND_DECL(SubstanceData) 
+IO_DECL(Substance)
 
 namespace biogears {
 class SEScalarMass;
@@ -43,6 +41,8 @@ class SEScalarPressure;
 class PressureUnit;
 
 class BIOGEARS_API SESubstance : public Loggable {
+  friend class io::Substance;
+
 public:
   SESubstance(Logger* logger);
   virtual ~SESubstance();
@@ -52,13 +52,6 @@ public:
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 
-  virtual bool Load(const CDM::SubstanceData& in);
-  virtual CDM::SubstanceData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceData& data) const;
-
-public:
   virtual std::string GetName() const;
   virtual const char* GetName_cStr() const;
   virtual void SetName(const char* name);

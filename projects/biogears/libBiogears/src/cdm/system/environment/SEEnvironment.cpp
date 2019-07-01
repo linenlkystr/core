@@ -30,7 +30,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/environment/conditions/SEInitialEnvironment.h>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../utils/io/PropertyIoDelegate.h"  
+#include "../../utils/io/Environment.h"  
 namespace biogears {
 SEEnvironment::SEEnvironment(SESubstanceManager& substances)
   : SESystem(substances.GetLogger())
@@ -116,51 +116,12 @@ const SEScalar* SEEnvironment::GetScalar(const std::string& name)
   return nullptr;
 }
 //-------------------------------------------------------------------------------
-
-bool SEEnvironment::Load(const CDM::EnvironmentData& in)
+void SEEnvironment::Load(const char* patientFile)
 {
-  SESystem::Load(in);
-  if (in.Name().present()) {
-    m_Name = in.Name().get();
-  } else {
-    m_Name = "Local Environment";
-  }
-  if (in.ActiveHeating().present())
-    GetActiveHeating().Load(in.ActiveHeating().get());
-  if (in.ActiveCooling().present())
-    GetActiveCooling().Load(in.ActiveCooling().get());
-  if (in.AppliedTemperature().present())
-    GetAppliedTemperature().Load(in.AppliedTemperature().get());
-  if (in.Conditions().present())
-    GetConditions().Load(in.Conditions().get());
-
-  if (in.ConvectiveHeatLoss().present())
-    io::PropertyIoDelegate::Marshall(in.ConvectiveHeatLoss(), GetConvectiveHeatLoss());
-  if (in.ConvectiveHeatTranferCoefficient().present())
-    io::PropertyIoDelegate::Marshall(in.ConvectiveHeatTranferCoefficient(), GetConvectiveHeatTranferCoefficient());
-  if (in.EvaporativeHeatLoss().present())
-    io::PropertyIoDelegate::Marshall(in.EvaporativeHeatLoss(), GetEvaporativeHeatLoss());
-  if (in.EvaporativeHeatTranferCoefficient().present())
-    io::PropertyIoDelegate::Marshall(in.EvaporativeHeatTranferCoefficient(), GetEvaporativeHeatTranferCoefficient());
-  if (in.RadiativeHeatLoss().present())
-    io::PropertyIoDelegate::Marshall(in.RadiativeHeatLoss(), GetRadiativeHeatLoss());
-  if (in.RadiativeHeatTranferCoefficient().present())
-    io::PropertyIoDelegate::Marshall(in.RadiativeHeatTranferCoefficient(), GetRadiativeHeatTranferCoefficient());
-  if (in.RespirationHeatLoss().present())
-    io::PropertyIoDelegate::Marshall(in.RespirationHeatLoss(), GetRespirationHeatLoss());
-  if (in.SkinHeatLoss().present())
-    io::PropertyIoDelegate::Marshall(in.SkinHeatLoss(), GetSkinHeatLoss());
-
-  StateChange();
-  return true;
+  Load(std::string(patientFile));
 }
 //-------------------------------------------------------------------------------
-bool SEEnvironment::Load(const char* patientFile)
-{
-  return Load(std::string(patientFile));
-}
-//-------------------------------------------------------------------------------
-bool SEEnvironment::Load(const std::string& patientFile)
+void SEEnvironment::Load(const std::string& patientFile)
 {
   CDM::EnvironmentData* pData;
   std::unique_ptr<CDM::ObjectData> data;
@@ -171,58 +132,13 @@ bool SEEnvironment::Load(const std::string& patientFile)
     std::stringstream ss;
     ss << "Environment file could not be read : " << patientFile << std::endl;
     Error(ss);
-    return false;
+    throw CommonDataModelException(ss.str());
   }
-  return Load(*pData);
+  io::Environment::Marshall(*pData,*this);
 }
 //-------------------------------------------------------------------------------
 
-CDM::EnvironmentData* SEEnvironment::Unload() const
-{
-  CDM::EnvironmentData* data = new CDM::EnvironmentData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-
-void SEEnvironment::Unload(CDM::EnvironmentData& data) const
-{
-  SESystem::Unload(data);
-  if (HasName()) {
-    data.Name(m_Name);
-  } else {
-    data.Name("Unknown Environment");
-  }
-
-  if (HasActiveHeating() && m_ActiveHeating->GetPower().IsPositive())
-    data.ActiveHeating(std::unique_ptr<CDM::ActiveHeatingData>(m_ActiveHeating->Unload()));
-  if (HasActiveCooling() && m_ActiveCooling->GetPower().IsPositive())
-    data.ActiveCooling(std::unique_ptr<CDM::ActiveCoolingData>(m_ActiveCooling->Unload()));
-  if (HasAppliedTemperature())
-    data.AppliedTemperature(std::unique_ptr<CDM::AppliedTemperatureData>(m_AppliedTemperature->Unload()));
-  if (HasConditions())
-    data.Conditions(std::unique_ptr<CDM::EnvironmentalConditionsData>(m_Conditions->Unload()));
-
-  if (m_ConvectiveHeatLoss != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ConvectiveHeatLoss, data.ConvectiveHeatLoss());
-  if (m_ConvectiveHeatTranferCoefficient != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_ConvectiveHeatTranferCoefficient, data.ConvectiveHeatTranferCoefficient());
-  if (m_EvaporativeHeatLoss != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_EvaporativeHeatLoss, data.EvaporativeHeatLoss());
-  if (m_EvaporativeHeatTranferCoefficient != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_EvaporativeHeatTranferCoefficient, data.EvaporativeHeatTranferCoefficient());
-  if (m_RadiativeHeatLoss != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_RadiativeHeatLoss, data.RadiativeHeatLoss());
-  if (m_RadiativeHeatTranferCoefficient != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_RadiativeHeatTranferCoefficient, data.RadiativeHeatTranferCoefficient());
-  if (m_RespirationHeatLoss != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_RespirationHeatLoss, data.RespirationHeatLoss());
-  if (m_SkinHeatLoss != nullptr)
-      io::PropertyIoDelegate::UnMarshall(*m_SkinHeatLoss, data.SkinHeatLoss());
-};
-//-------------------------------------------------------------------------------
-
-bool SEEnvironment::ProcessChange(const SEInitialEnvironment& change)
+  bool SEEnvironment::ProcessChange(const SEInitialEnvironment& change)
 {
   // If we have data then we merge it, if a file was provided
   // we reset and set the environment to the file, so we only have the file data
@@ -240,7 +156,6 @@ bool SEEnvironment::ProcessChange(const SEInitialEnvironment& change)
   return true;
 }
 //-------------------------------------------------------------------------------
-
 bool SEEnvironment::ProcessChange(const SEEnvironmentChange& change)
 {
   // If we have data then we merge it, if a file was provided
@@ -260,12 +175,11 @@ bool SEEnvironment::ProcessChange(const SEEnvironmentChange& change)
 }
 //-------------------------------------------------------------------------------
 
-std::string SEEnvironment::GetName() const
+  std::string SEEnvironment::GetName() const
 {
   return m_Name;
 }
 //-------------------------------------------------------------------------------
-
 const char* SEEnvironment::GetName_cStr() const
 {
   return m_Name.c_str();

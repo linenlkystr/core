@@ -15,13 +15,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEUnitScalar.h>
 #include <biogears/cdm/utils/unitconversion/CompoundUnit.h>
 
-CDM_BIND_DECL(ScalarData)
 IO_DECL(IODelegate)
 
 namespace biogears {
 template <typename Unit>
 class  SEScalarQuantity : public SEUnitScalar {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarQuantity();
   SEScalarQuantity(const SEScalarQuantity&);

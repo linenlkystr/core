@@ -17,11 +17,11 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/conditions/SEChronicHeartFailure.h>
 #include <biogears/schema/cdm/PatientConditions.hxx>
 
-IO_DECL(PatientConditionsIoDelegate)
+IO_DECL(PatientConditions)
 
 namespace biogears {
 class BIOGEARS_API SEChronicVentricularSystolicDysfunction : public SEChronicHeartFailure {
-  friend class io::PatientConditionsIoDelegate;
+  friend class io::PatientConditions;
 
 public:
   SEChronicVentricularSystolicDysfunction();

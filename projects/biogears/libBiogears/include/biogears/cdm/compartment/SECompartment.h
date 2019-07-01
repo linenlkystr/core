@@ -9,14 +9,14 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
+#pragma once
+
 #include <string>
 #include <vector>
 
 #include <biogears/cdm/CommonDataModel.h>
 
-#pragma once
-
-CDM_BIND_DECL(CompartmentData)
+IO_DECL(Compartment)
 
 namespace biogears {
 
@@ -29,6 +29,8 @@ class SESubstance;
 class SECircuitManager;
 
 class BIOGEARS_API SECompartment : public Loggable {
+  friend class io::Compartment;
+
 protected:
   SECompartment(const char* name, Logger* logger);
   SECompartment(const std::string& name, Logger* logger);
@@ -37,12 +39,6 @@ public:
   virtual ~SECompartment() override;
 
   virtual void Clear();
-
-  virtual bool Load(const CDM::CompartmentData& in, SECircuitManager* circuits = nullptr);
-  virtual CDM::CompartmentData* Unload() = 0;
-
-protected:
-  virtual void Unload(CDM::CompartmentData& data);
 
 public:
   virtual std::string GetName() const;

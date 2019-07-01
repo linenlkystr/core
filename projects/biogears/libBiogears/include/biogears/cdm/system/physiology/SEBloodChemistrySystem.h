@@ -14,8 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/exports.h>
 #include <biogears/cdm/patient/actions/SEInflammationState.h>
 #include <biogears/cdm/system/SESystem.h>
-#include <biogears/schema/biogears/BioGearsPhysiology.hxx>
 
+IO_DECL(Physiology)
 
 namespace biogears {
 
@@ -39,11 +39,13 @@ class SEInflammationState;
 /** @copydoc Physiology_BloodChemistrySystemData
   @nosubgrouping */
 class BIOGEARS_API SEBloodChemistrySystem : public SESystem {
+  friend class io::Physiology;
+
 public:
   SEBloodChemistrySystem(Logger* logger);
   ~SEBloodChemistrySystem() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SEBloodChemistrySystem"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
@@ -53,14 +55,8 @@ public:
   const SEScalar* GetScalar(const char* name) override;
   const SEScalar* GetScalar(const std::string& name) override; /**< @copydoc DOXY_CDM_GET_SCALAR */
 
-  /**  @name Serialization */ //@{
-  bool Load(const CDM::BloodChemistrySystemData& in); /**< @copydoc DOXY_CDM_LOAD */
-  CDM::BloodChemistrySystemData* Unload() const override; /**< @copydoc DOXY_CDM_UNLOAD */
-
   Tree<const char*> GetPhysiologyRequestGraph() const override;
-protected:
-  void Unload(CDM::BloodChemistrySystemData& data) const; /**< @copydoc DOXY_CDM_UNLOAD_TO */ //@}
-public:
+
   /**  @name BloodDensity */ //@{ @copybrief Physiology_BloodChemistrySystemData_BloodDensity
   bool HasBloodDensity() const; /**< @copydoc DOXY_CDM_HAS */
   SEScalarMassPerVolume& GetBloodDensity(); /**< @copydoc DOXY_CDM_GET */

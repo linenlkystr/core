@@ -23,7 +23,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/container/Tree.tci.h>
 #include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 constexpr char idAchievedExerciseLevel[] = "AchievedExerciseLevel";
 constexpr char idChlorideLostToSweat[] = "ChlorideLostToSweat";
@@ -121,72 +121,6 @@ const SEScalar* SEEnergySystem::GetScalar(const std::string& name)
   if (name == idTotalWorkRateLevel)
     return &GetTotalWorkRateLevel();
   return nullptr;
-}
-//-------------------------------------------------------------------------------
-
-bool SEEnergySystem::Load(const CDM::EnergySystemData& in)
-{
-  SESystem::Load(in);
-
-  io::PropertyIoDelegate::Marshall(in.AchievedExerciseLevel(), GetAchievedExerciseLevel());
-  io::PropertyIoDelegate::Marshall(in.ChlorideLostToSweat(), GetChlorideLostToSweat());
-  io::PropertyIoDelegate::Marshall(in.CoreTemperature(), GetCoreTemperature());
-  io::PropertyIoDelegate::Marshall(in.CreatinineProductionRate(), GetCreatinineProductionRate());
-  io::PropertyIoDelegate::Marshall(in.EnergyDeficit(), GetEnergyDeficit());
-  io::PropertyIoDelegate::Marshall(in.ExerciseMeanArterialPressureDelta(), GetExerciseMeanArterialPressureDelta());
-  io::PropertyIoDelegate::Marshall(in.FatigueLevel(), GetFatigueLevel());
-  io::PropertyIoDelegate::Marshall(in.LactateProductionRate(), GetLactateProductionRate());
-  io::PropertyIoDelegate::Marshall(in.PotassiumLostToSweat(), GetPotassiumLostToSweat());
-  io::PropertyIoDelegate::Marshall(in.SkinTemperature(), GetSkinTemperature());
-  io::PropertyIoDelegate::Marshall(in.SodiumLostToSweat(), GetSodiumLostToSweat());
-  io::PropertyIoDelegate::Marshall(in.SweatRate(), GetSweatRate());
-  io::PropertyIoDelegate::Marshall(in.TotalMetabolicRate(), GetTotalMetabolicRate());
-  io::PropertyIoDelegate::Marshall(in.TotalWorkRateLevel(), GetTotalWorkRateLevel());
-
-  return true;
-}
-//-------------------------------------------------------------------------------
-
-CDM::EnergySystemData* SEEnergySystem::Unload() const
-{
-  CDM::EnergySystemData* data(new CDM::EnergySystemData());
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-
-void SEEnergySystem::Unload(CDM::EnergySystemData& data) const
-{
-  SESystem::Unload(data);
-
-  if (m_AchievedExerciseLevel != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_AchievedExerciseLevel, data.AchievedExerciseLevel());
-  if (m_ChlorideLostToSweat != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ChlorideLostToSweat, data.ChlorideLostToSweat());
-  if (m_CoreTemperature != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_CoreTemperature, data.CoreTemperature());
-  if (m_CreatinineProductionRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_CreatinineProductionRate, data.CreatinineProductionRate());
-  if (m_EnergyDeficit != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_EnergyDeficit, data.EnergyDeficit());
-  if (m_ExerciseMeanArterialPressureDelta != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ExerciseMeanArterialPressureDelta, data.ExerciseMeanArterialPressureDelta());
-  if (m_FatigueLevel != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_FatigueLevel, data.FatigueLevel());
-  if (m_LactateProductionRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_LactateProductionRate, data.LactateProductionRate());
-  if (m_PotassiumLostToSweat != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_PotassiumLostToSweat, data.PotassiumLostToSweat());
-  if (m_SkinTemperature != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_SkinTemperature, data.SkinTemperature());
-  if (m_SodiumLostToSweat != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_SodiumLostToSweat, data.SodiumLostToSweat());
-  if (m_SweatRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_SweatRate, data.SweatRate());
-  if (m_TotalMetabolicRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_TotalMetabolicRate, data.TotalMetabolicRate());
-  if (m_TotalWorkRateLevel != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_TotalWorkRateLevel, data.TotalWorkRateLevel());
 }
 //-------------------------------------------------------------------------------
 

@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitNode.h>
 
 //Private Includes
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SEThermalCircuitNode::SEThermalCircuitNode(const char* name, Logger* logger)
   : SEThermalCircuitNode(std::string{ name }, logger)
@@ -39,15 +39,15 @@ bool SEThermalCircuitNode::Load(const CDM::ThermalCircuitNodeData& in)
 {
   SECircuitNode::Load(in);
   if (in.Temperature().present())
-    io::PropertyIoDelegate::Marshall(in.Temperature(), GetTemperature());
+    io::Property::Marshall(in.Temperature(), GetTemperature());
   if (in.NextTemperature().present())
-    io::PropertyIoDelegate::Marshall(in.NextTemperature(), GetNextTemperature());
+    io::Property::Marshall(in.NextTemperature(), GetNextTemperature());
   if (in.Heat().present())
-    io::PropertyIoDelegate::Marshall(in.Heat(), GetHeat());
+    io::Property::Marshall(in.Heat(), GetHeat());
   if (in.NextHeat().present())
-    io::PropertyIoDelegate::Marshall(in.NextHeat(), GetNextHeat());
+    io::Property::Marshall(in.NextHeat(), GetNextHeat());
   if (in.HeatBaseline().present())
-    io::PropertyIoDelegate::Marshall(in.HeatBaseline(), GetHeatBaseline());
+    io::Property::Marshall(in.HeatBaseline(), GetHeatBaseline());
   return true;
 }
 //-------------------------------------------------------------------------------
@@ -62,15 +62,15 @@ void SEThermalCircuitNode::Unload(CDM::ThermalCircuitNodeData& data) const
 {
   SECircuitNode::Unload(data);
   if (HasTemperature())
-    io::PropertyIoDelegate::UnMarshall(*m_Potential, data.Temperature());
+    io::Property::UnMarshall(*m_Potential, data.Temperature());
   if (HasNextTemperature())
-    io::PropertyIoDelegate::UnMarshall(*m_NextPotential, data.NextTemperature());
+    io::Property::UnMarshall(*m_NextPotential, data.NextTemperature());
   if (HasHeat())
-    io::PropertyIoDelegate::UnMarshall(*m_Quantity, data.Heat());
+    io::Property::UnMarshall(*m_Quantity, data.Heat());
   if (HasNextHeat())
-    io::PropertyIoDelegate::UnMarshall(*m_NextQuantity, data.NextHeat());
+    io::Property::UnMarshall(*m_NextQuantity, data.NextHeat());
   if (HasHeatBaseline())
-    io::PropertyIoDelegate::UnMarshall(*m_QuantityBaseline, data.HeatBaseline());
+    io::Property::UnMarshall(*m_QuantityBaseline, data.HeatBaseline());
 }
 //-------------------------------------------------------------------------------
 bool SEThermalCircuitNode::HasTemperature() const

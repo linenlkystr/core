@@ -15,7 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../utils/io/PropertyIoDelegate.h"
+#include "../utils/io/Property.h"
 namespace biogears {
 SESubstanceConcentration::SESubstanceConcentration(SESubstance& substance)
   : Loggable(substance.GetLogger())
@@ -23,57 +23,39 @@ SESubstanceConcentration::SESubstanceConcentration(SESubstance& substance)
 {
   m_Concentration = nullptr;
 }
-
+//-----------------------------------------------------------------------------
 SESubstanceConcentration::~SESubstanceConcentration()
 {
   Clear();
 }
-
+//-----------------------------------------------------------------------------
 void SESubstanceConcentration::Clear()
 {
   SAFE_DELETE(m_Concentration);
 }
-
-bool SESubstanceConcentration::Load(const CDM::SubstanceConcentrationData& in)
-{
-  Clear();
-  io::PropertyIoDelegate::Marshall(in.Concentration(), GetConcentration());
-  return true;
-}
-
-CDM::SubstanceConcentrationData* SESubstanceConcentration::Unload() const
-{
-  CDM::SubstanceConcentrationData* data = new CDM::SubstanceConcentrationData();
-  Unload(*data);
-  return data;
-}
-
-void SESubstanceConcentration::Unload(CDM::SubstanceConcentrationData& data) const
-{
-  data.Name(m_Substance.GetName());
-  if (m_Concentration != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_Concentration, data.Concentration());
-}
-
+//-----------------------------------------------------------------------------
 bool SESubstanceConcentration::HasConcentration() const
 {
   return (m_Concentration == nullptr) ? false : m_Concentration->IsValid();
 }
+//-----------------------------------------------------------------------------
 SEScalarMassPerVolume& SESubstanceConcentration::GetConcentration()
 {
   if (m_Concentration == nullptr)
     m_Concentration = new SEScalarMassPerVolume();
   return *m_Concentration;
 }
+//-----------------------------------------------------------------------------
 double SESubstanceConcentration::GetConcentration(const MassPerVolumeUnit& unit) const
 {
   if (m_Concentration == nullptr)
     return SEScalar::dNaN();
   return m_Concentration->GetValue(unit);
 }
-
+//-----------------------------------------------------------------------------
 SESubstance& SESubstanceConcentration::GetSubstance() const
 {
   return m_Substance;
 }
+//-----------------------------------------------------------------------------
 }

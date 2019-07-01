@@ -14,8 +14,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEProperty.h>
 #include <biogears/cdm/utils/unitconversion/UCCommon.h>
 
-CDM_BIND_DECL(ScalarData)
-
 namespace biogears {
 class SEGenericScalar;
 
@@ -30,7 +28,7 @@ public:
 };
 
 class BIOGEARS_API SEScalar : public SEProperty {
-friend io::PropertyIoDelegate;
+friend io::Property;
 protected:
   double m_value;
   bool m_readOnly;

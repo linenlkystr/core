@@ -41,7 +41,7 @@ public:
 };
 
 class BIOGEARS_API SEScalarMassPerAmount : public SEScalarQuantity<MassPerAmountUnit> {
-friend io::PropertyIoDelegate;
+friend io::Property;
 public:
   SEScalarMassPerAmount() = default;
   virtual ~SEScalarMassPerAmount() = default;

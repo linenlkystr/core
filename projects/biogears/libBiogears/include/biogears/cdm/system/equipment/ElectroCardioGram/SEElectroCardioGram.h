@@ -14,18 +14,21 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/SESystem.h>
 #include <biogears/schema/cdm/ElectroCardioGram.hxx>
 
+IO_DECL(ElectroCardioGram)
+
 namespace biogears {
 class SEScalarElectricPotential;
 class ElectricPotentialUnit;
 
 class BIOGEARS_API SEElectroCardioGram : public SESystem {
-protected:
+  friend class io::ElectroCardioGram;
+
 public:
   SEElectroCardioGram(Logger* logger);
   ~SEElectroCardioGram() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
-  static constexpr char const * const  TypeTag() { return "SEElectroCardioGram"; }
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
+  static constexpr char const* const TypeTag() { return "SEElectroCardioGram"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
 
@@ -34,13 +37,8 @@ public:
   const SEScalar* GetScalar(const char* name) override;
   const SEScalar* GetScalar(const std::string& name) override;
 
-  bool Load(const CDM::ElectroCardioGramData& in);
-  CDM::ElectroCardioGramData* Unload() const override;
   Tree<const char*> GetPhysiologyRequestGraph() const override;
-protected:
-  void Unload(CDM::ElectroCardioGramData& data) const;
 
-public:
   bool HasLead1ElectricPotential() const;
   SEScalarElectricPotential& GetLead1ElectricPotential();
   double GetLead1ElectricPotential(const ElectricPotentialUnit& unit) const;

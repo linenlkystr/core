@@ -22,6 +22,8 @@ specific language governing permissions and limitations under the License.
 #include "biogears/cdm/properties/SEScalarVolume.h"
 #include "biogears/cdm/properties/SEScalarFraction.h"
 
+IO_DECL(Substance)
+
 namespace biogears {
 #define SUBSTANCE_TRANSPORTER_TEMPLATE typename GraphType, typename FluxUnit, typename QuantityUnit, typename ExtensiveUnit, typename IntensiveUnit
 #define TRANSPORT_AMOUNT_TYPES ExtensiveScalar, IntensiveScalar
@@ -29,6 +31,7 @@ template <typename ExtensiveScalar, typename IntensiveScalar>
 class SESubstanceTransportAmount {
   template <SUBSTANCE_TRANSPORTER_TEMPLATE>
   friend class SESubstanceTransporter;
+  friend class io::Substance;
 
 public:
   virtual ~SESubstanceTransportAmount() {}

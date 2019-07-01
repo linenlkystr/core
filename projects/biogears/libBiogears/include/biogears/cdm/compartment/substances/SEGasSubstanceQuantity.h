@@ -14,11 +14,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/substances/SESubstanceQuantity.h>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
 
+IO_DECL(SubstanceQuantity)
+
 namespace biogears {
 class SEGasCompartment;
 
-class BIOGEARS_API SEGasSubstanceQuantity : public SESubstanceQuantity, public SEGasTransportSubstance {
+class BIOGEARS_API  SEGasSubstanceQuantity : public SESubstanceQuantity, public SEGasTransportSubstance {
   friend class SEGasCompartment;
+  friend class io::SubstanceQuantity;
 
 protected:
   SEGasSubstanceQuantity(SESubstance& sub, SEGasCompartment& compartment);
@@ -28,12 +31,6 @@ public:
 
   virtual void Clear() override;
   virtual void Invalidate() override;
-
-  virtual bool Load(const CDM::GasSubstanceQuantityData& in);
-  virtual CDM::GasSubstanceQuantityData* Unload() override;
-
-protected:
-  virtual void Unload(CDM::GasSubstanceQuantityData& data);
 
 public:
   virtual void SetToZero();

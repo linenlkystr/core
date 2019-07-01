@@ -17,7 +17,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTime.h>
 #include <biogears/cdm/system/equipment/ElectroCardioGram/SEElectroCardioGramInterpolatorWaveform.h>
 
-#include "../../../utils/io/PropertyIoDelegate.h"
 #include "units.h"
 
 namespace biogears {
@@ -72,34 +71,6 @@ bool SEElectroCardioGramInterpolator::LoadWaveforms(const std::string& file, con
   return true;
 }
 //-------------------------------------------------------------------------------
-bool SEElectroCardioGramInterpolator::Load(const CDM::ElectroCardioGramWaveformInterpolatorData& in)
-{
-  Clear();
-  for (auto& w : in.Waveform()) {
-    SEElectroCardioGramInterpolatorWaveform* waveform = new SEElectroCardioGramInterpolatorWaveform(GetLogger());
-    if (!waveform->Load(w)) {
-      Error("Unable to load waveform");
-      return false;
-    } else
-      m_Waveforms[waveform->GetLeadNumber()][waveform->GetRhythm()] = waveform;
-  }
-  return true;
-}
-//-------------------------------------------------------------------------------
-CDM::ElectroCardioGramWaveformInterpolatorData* SEElectroCardioGramInterpolator::Unload() const
-{
-  CDM::ElectroCardioGramWaveformInterpolatorData* data(new CDM::ElectroCardioGramWaveformInterpolatorData());
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-void SEElectroCardioGramInterpolator::Unload(CDM::ElectroCardioGramWaveformInterpolatorData& data) const
-{
-  for (auto i : m_Waveforms)
-    for (auto j : i.second)
-      data.Waveform().push_back(std::unique_ptr<CDM::ElectroCardioGramInterpolationWaveformData>(j.second->Unload()));
-}
-//-------------------------------------------------------------------------------
 void SEElectroCardioGramInterpolator::Interpolate(const SEScalarTime& timeStep)
 {
   for (auto& l : m_Waveforms)
@@ -136,8 +107,8 @@ void SEElectroCardioGramInterpolator::Interpolate(SEElectroCardioGramInterpolato
     SEFunctionElectricPotentialVsTime* iWaveForm = data.InterpolateToTime(iTime, TimeUnit::s); // creates the new waveform data
     //TODO::Replace with Copy Operatotion CDM_COPY(iWaveForm, (&data));
     CDM::FunctionElectricPotentialVsTimeData cdm_data;
-    io::PropertyIoDelegate::UnMarshall(*iWaveForm, cdm_data);
-    io::PropertyIoDelegate::Marshall(cdm_data, data);
+    io::Property::UnMarshall(*iWaveForm, cdm_data);
+    io::Property::Marshall(cdm_data, data);
 
     delete iWaveForm;
   }

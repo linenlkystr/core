@@ -28,33 +28,7 @@ namespace biogears {
 
   SELiquidCompartmentGraph::~SELiquidCompartmentGraph() {}
 
-bool SELiquidCompartmentGraph::Load(const CDM::LiquidCompartmentGraphData& in, SECompartmentManager& cmptMgr)
-{
-  m_Name = in.Name();
-  for (auto name : in.Compartment()) {
-    SELiquidCompartment* cmpt = cmptMgr.GetLiquidCompartment(name);
-    if (cmpt == nullptr) {
-      Error("Could not find compartment " + std::string{ name } +" for graph " + m_Name);
-      return false;
-    }
-    AddCompartment(*cmpt);
-  }
-  for (auto name : in.Link()) {
-    SELiquidCompartmentLink* link = cmptMgr.GetLiquidLink(name);
-    if (link == nullptr) {
-      Error("Could not find link " + std::string{ name } +" for graph " + m_Name);
-      return false;
-    }
-    AddLink(*link);
-  }
-  return true;
-}
-CDM::LiquidCompartmentGraphData* SELiquidCompartmentGraph::Unload()
-{
-  CDM::LiquidCompartmentGraphData* data = new CDM::LiquidCompartmentGraphData();
-  Unload(*data);
-  return data;
-}
+
 void SELiquidCompartmentGraph::Unload(CDM::LiquidCompartmentGraphData& data)
 {
   data.Name(m_Name);

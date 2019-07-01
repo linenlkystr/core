@@ -15,7 +15,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/testing/SETestCase.h>
 #include <biogears/schema/cdm/TestReport.hxx>
 
-#include "../../utils/io/PropertyIoDelegate.h"
+#include "../../utils/io/Property.h"
 namespace biogears {
 SETestCase::SETestCase(Logger* logger)
   : Loggable(logger)
@@ -45,53 +45,6 @@ void SETestCase::Reset()
   m_Failure.clear();
   m_Duration.SetValue(0, TimeUnit::s);
   DELETE_VECTOR(m_CaseEqualsErrors);
-}
-//-----------------------------------------------------------------------------
-bool SETestCase::Load(const CDM::TestCase& in)
-{
-  Reset();
-
-  m_Name = in.Name();
-
-  io::PropertyIoDelegate::Marshall(in.Time(), GetDuration());
-  SETestErrorStatistics* ex;
-  CDM::TestErrorStatisticsData* eData;
-  for (unsigned int i = 0; i < in.CaseEqualError().size(); i++) {
-    eData = (CDM::TestErrorStatisticsData*)&in.CaseEqualError().at(i);
-    if (eData != nullptr) {
-      ex = new SETestErrorStatistics(GetLogger());
-      ex->Load(*eData);
-    }
-    m_CaseEqualsErrors.push_back(ex);
-  }
-
-  for (unsigned int i = 0; i < in.Failure().size(); i++) {
-    m_Failure.push_back(in.Failure().at(i));
-  }
-
-  return true;
-}
-//-----------------------------------------------------------------------------
-std::unique_ptr<CDM::TestCase> SETestCase::Unload() const
-{
-  std::unique_ptr<CDM::TestCase> data(new CDM::TestCase());
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SETestCase::Unload(CDM::TestCase& data) const
-{
-  data.Name(m_Name);
-
-
-  io::PropertyIoDelegate::UnMarshall(m_Duration, data.Time());
-  for (unsigned int i = 0; i < m_Failure.size(); i++) {
-    data.Failure().push_back(m_Failure.at(i));
-  }
-
-  for (unsigned int i = 0; i < m_CaseEqualsErrors.size(); i++) {
-    data.CaseEqualError().push_back(*m_CaseEqualsErrors.at(i)->Unload());
-  }
 }
 //-----------------------------------------------------------------------------
 void SETestCase::SetName(const std::string& Name)

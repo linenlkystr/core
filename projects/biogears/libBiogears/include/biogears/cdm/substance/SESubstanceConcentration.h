@@ -14,7 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
-CDM_BIND_DECL(SubstanceConcentrationData)
+IO_DECL(Substance)
 
 namespace biogears {
 class SESubstance;
@@ -24,6 +24,8 @@ class SEScalarMassPerVolume;
 class MassPerVolumeUnit;
 
 class BIOGEARS_API SESubstanceConcentration : public Loggable {
+  friend class io::Substance;
+
 protected:
   friend SEEnvironmentalConditions; // So it can add substances to the manager
 public:
@@ -31,12 +33,6 @@ public:
   virtual ~SESubstanceConcentration();
 
   virtual void Clear();
-
-  virtual bool Load(const CDM::SubstanceConcentrationData& in);
-  virtual CDM::SubstanceConcentrationData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::SubstanceConcentrationData& data) const;
 
 public:
   virtual bool HasConcentration() const;

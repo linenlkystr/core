@@ -20,7 +20,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../../utils/io/PropertyIoDelegate.h"
 namespace biogears {
 SEInhaler::SEInhaler(SESubstanceManager& substances)
   : SESystem(substances.GetLogger())
@@ -49,47 +48,6 @@ void SEInhaler::Clear()
   SAFE_DELETE(m_NozzleLoss);
   SAFE_DELETE(m_SpacerVolume);
   m_Substance = nullptr;
-}
-//-------------------------------------------------------------------------------
-
-bool SEInhaler::Load(const CDM::InhalerData& in)
-{
-  Clear();
-  if (in.State().present())
-    SetState(in.State().get());
-  if (in.MeteredDose().present())
-    io::PropertyIoDelegate::Marshall(in.MeteredDose(), GetMeteredDose());
-  if (in.NozzleLoss().present())
-      io::PropertyIoDelegate::Marshall(in.NozzleLoss(), GetNozzleLoss());
-  if (in.SpacerVolume().present())
-      io::PropertyIoDelegate::Marshall(in.SpacerVolume(), GetSpacerVolume());
-  if (in.Substance().present())
-    SetSubstance(m_Substances.GetSubstance(in.Substance().get()));
-  StateChange();
-  return true;
-}
-//-------------------------------------------------------------------------------
-
-CDM::InhalerData* SEInhaler::Unload() const
-{
-  CDM::InhalerData* data = new CDM::InhalerData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-
-void SEInhaler::Unload(CDM::InhalerData& data) const
-{
-  if (HasState())
-    data.State(m_State);
-  if (HasMeteredDose())
-    io::PropertyIoDelegate::UnMarshall(*m_MeteredDose, data.MeteredDose());
-  if (HasNozzleLoss())
-      io::PropertyIoDelegate::UnMarshall(*m_NozzleLoss, data.NozzleLoss());
-  if (HasSpacerVolume())
-      io::PropertyIoDelegate::UnMarshall(*m_SpacerVolume, data.SpacerVolume());
-  if (HasSubstance())
-    data.Substance(m_Substance->GetName());
 }
 //-------------------------------------------------------------------------------
 const SEScalar* SEInhaler::GetScalar(const char* name)

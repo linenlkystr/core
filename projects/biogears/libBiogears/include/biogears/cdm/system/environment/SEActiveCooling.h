@@ -12,8 +12,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
-#include <biogears/cdm/system/environment/actions/SEEnvironmentAction.h>
-#include <biogears/schema/cdm/Environment.hxx>
+
+IO_DECL(Environment)
 
 namespace biogears {
 class SEScalar;
@@ -24,6 +24,8 @@ class SEScalarArea;
 class AreaUnit;
 
 class BIOGEARS_API SEActiveCooling : public Loggable {
+  friend class io::Environment;
+
 public:
   SEActiveCooling(Logger* logger);
   virtual ~SEActiveCooling();
@@ -31,13 +33,6 @@ public:
   virtual void Clear();
   virtual void Reset();
 
-  virtual bool Load(const CDM::ActiveCoolingData& in);
-  virtual CDM::ActiveCoolingData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::ActiveCoolingData& data) const;
-
-public:
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 

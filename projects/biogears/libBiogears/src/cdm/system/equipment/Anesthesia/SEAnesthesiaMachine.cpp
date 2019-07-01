@@ -25,7 +25,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/SEEventHandler.h>
 #include <biogears/container/Tree.tci.h>
 
-#include "../../../utils/io/PropertyIoDelegate.h"
+#include "../../../utils/io/Anesthesia.h"
 namespace biogears {
 SEAnesthesiaMachine::SEAnesthesiaMachine(SESubstanceManager& substances)
   : SESystem(substances.GetLogger())
@@ -114,7 +114,7 @@ void SEAnesthesiaMachine::ProcessConfiguration(const SEAnesthesiaMachineConfigur
   StateChange();
 }
 //-----------------------------------------------------------------------------
-bool SEAnesthesiaMachine::Load(const std::string& file)
+void SEAnesthesiaMachine::Load(const std::string& file)
 {
   CDM::AnesthesiaMachineData* pData;
   std::unique_ptr<CDM::ObjectData> data;
@@ -125,111 +125,9 @@ bool SEAnesthesiaMachine::Load(const std::string& file)
     std::stringstream ss;
     ss << "Anesthesia Machine file could not be read : " << file << std::endl;
     Error(ss);
-    return false;
+    throw CommonDataModelException(ss.str());
   }
-  return Load(*pData);
-}
-//-----------------------------------------------------------------------------
-bool SEAnesthesiaMachine::Load(const CDM::AnesthesiaMachineData& in)
-{
-  SESystem::Load(in);
-
-  if (in.Connection().present())
-    m_Connection = in.Connection().get();
-  if (in.InletFlow().present())
-    io::PropertyIoDelegate::Marshall(in.InletFlow(), GetInletFlow());
-  if (in.InspiratoryExpiratoryRatio().present())
-    io::PropertyIoDelegate::Marshall(in.InspiratoryExpiratoryRatio(), GetInspiratoryExpiratoryRatio());
-  if (in.OxygenFraction().present())
-    io::PropertyIoDelegate::Marshall(in.OxygenFraction(), GetOxygenFraction());
-
-  if (in.OxygenSource().present())
-    SetOxygenSource(in.OxygenSource().get());
-  if (in.PositiveEndExpiredPressure().present())
-    io::PropertyIoDelegate::Marshall(in.PositiveEndExpiredPressure(), GetPositiveEndExpiredPressure());
-  if (in.PrimaryGas().present())
-    SetPrimaryGas(in.PrimaryGas().get());
-
-  if (in.RespiratoryRate().present())
-    io::PropertyIoDelegate::Marshall(in.RespiratoryRate(), GetRespiratoryRate());
-  if (in.ReliefValvePressure().present())
-    io::PropertyIoDelegate::Marshall(in.ReliefValvePressure(), GetReliefValvePressure());
-  if (in.VentilatorPressure().present())
-    io::PropertyIoDelegate::Marshall(in.VentilatorPressure(), GetVentilatorPressure());
-  if (in.LeftChamber().present())
-    GetLeftChamber().Load(in.LeftChamber().get());
-  if (in.RightChamber().present())
-    GetRightChamber().Load(in.RightChamber().get());
-  if (in.OxygenBottleOne().present())
-    GetOxygenBottleOne().Load(in.OxygenBottleOne().get());
-  if (in.OxygenBottleTwo().present())
-    GetOxygenBottleTwo().Load(in.OxygenBottleTwo().get());
-
-  SEScalarTime time;
-  for (auto e : in.ActiveEvent()) {
-    io::PropertyIoDelegate::Marshall(e.Duration(), time);
-    m_EventState[e.Event()] = true;
-    m_EventDuration_s[e.Event()] = time.GetValue(TimeUnit::s);
-  }
-
-  StateChange();
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::AnesthesiaMachineData* SEAnesthesiaMachine::Unload() const
-{
-  CDM::AnesthesiaMachineData* data = new CDM::AnesthesiaMachineData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEAnesthesiaMachine::Unload(CDM::AnesthesiaMachineData& data) const
-{
-  SESystem::Unload(data);
-
-  if (HasConnection())
-    data.Connection(m_Connection);
-  if (m_InletFlow != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_InletFlow, data.InletFlow());
-  if (m_InspiratoryExpiratoryRatio != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_InspiratoryExpiratoryRatio, data.InspiratoryExpiratoryRatio());
-  if (m_OxygenFraction != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_OxygenFraction, data.OxygenFraction());
-  if (HasOxygenSource())
-    data.OxygenSource(m_OxygenSource);
-  if (m_PositiveEndExpiredPressure != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_PositiveEndExpiredPressure, data.PositiveEndExpiredPressure());
-  if (HasPrimaryGas())
-    data.PrimaryGas(m_PrimaryGas);
-
-  if (m_RespiratoryRate != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_RespiratoryRate, data.RespiratoryRate());
-  if (m_ReliefValvePressure != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_ReliefValvePressure, data.ReliefValvePressure());
-  if (m_VentilatorPressure != nullptr)
-    io::PropertyIoDelegate::UnMarshall(*m_VentilatorPressure, data.VentilatorPressure());
-  if (HasLeftChamber())
-    data.LeftChamber(std::unique_ptr<CDM::AnesthesiaMachineChamberData>(m_LeftChamber->Unload()));
-  if (HasRightChamber())
-    data.RightChamber(std::unique_ptr<CDM::AnesthesiaMachineChamberData>(m_RightChamber->Unload()));
-  if (HasOxygenBottleOne())
-    data.OxygenBottleOne(std::unique_ptr<CDM::AnesthesiaMachineOxygenBottleData>(m_OxygenBottleOne->Unload()));
-  if (HasOxygenBottleTwo())
-    data.OxygenBottleTwo(std::unique_ptr<CDM::AnesthesiaMachineOxygenBottleData>(m_OxygenBottleTwo->Unload()));
-
-  SEScalarTime time;
-  for (auto itr : m_EventState) {
-    auto it2 = m_EventDuration_s.find(itr.first);
-    if (it2 == m_EventDuration_s.end()) // This should not happen...
-      time.SetValue(0, TimeUnit::s);
-    else
-      time.SetValue(it2->second, TimeUnit::s);
-
-    CDM::ActiveAnesthesiaMachineEventData* eData = new CDM::ActiveAnesthesiaMachineEventData();
-    eData->Event(itr.first);
-    io::PropertyIoDelegate::UnMarshall(time, eData->Duration());
-    data.ActiveEvent().push_back(std::unique_ptr<CDM::ActiveAnesthesiaMachineEventData>(eData));
-  }
+  io::Anesthesia::Marshall(*pData,*this);
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SEAnesthesiaMachine::GetScalar(const char* name)

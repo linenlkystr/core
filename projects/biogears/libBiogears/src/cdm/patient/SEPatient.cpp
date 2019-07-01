@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/Patient.hxx>
 #include <biogears/schema/cdm/Properties.hxx>
 
-#include "../utils/io/PropertyIoDelegate.h"
+#include "../utils/io/Property.h"
 namespace biogears {
 SEPatient::SEPatient(Logger* logger)
   : Loggable(logger)
@@ -200,126 +200,6 @@ const SEScalar* SEPatient::GetScalar(const std::string& name)
 
   return nullptr;
 }
-//-----------------------------------------------------------------------------
-bool SEPatient::Load(const CDM::PatientData& in)
-{
-  Clear();
-
-  m_Name = in.Name();
-  if (in.Sex().present()) {
-    m_Gender = in.Sex().get();
-  }
-  if (in.Age().present()) {
-    io::PropertyIoDelegate::Marshall(in.Age(), GetAge());
-  }
-  if (in.Weight().present()) {
-    io::PropertyIoDelegate::Marshall(in.Weight(), GetWeight());
-  }
-  if (in.Height().present()) {
-    io::PropertyIoDelegate::Marshall(in.Height(), GetHeight());
-  }
-  if (in.AlveoliSurfaceArea().present()) {
-    io::PropertyIoDelegate::Marshall(in.AlveoliSurfaceArea(), GetAlveoliSurfaceArea());
-  }
-  if (in.BasalMetabolicRate().present()) {
-    io::PropertyIoDelegate::Marshall(in.BasalMetabolicRate(), GetBasalMetabolicRate());
-  }
-  if (in.BloodVolumeBaseline().present()) {
-    io::PropertyIoDelegate::Marshall(in.BloodVolumeBaseline(), GetBloodVolumeBaseline());
-  }
-  if (in.BodyDensity().present()) {
-    io::PropertyIoDelegate::Marshall(in.BodyDensity(), GetBodyDensity());
-  }
-  if (in.BodyFatFraction().present()) {
-    io::PropertyIoDelegate::Marshall(in.BodyFatFraction(), GetBodyFatFraction());
-  }
-  if (in.DiastolicArterialPressureBaseline().present()) {
-    io::PropertyIoDelegate::Marshall(in.DiastolicArterialPressureBaseline(), GetDiastolicArterialPressureBaseline());
-  }
-  if (in.ExpiratoryReserveVolume().present()) {
-    io::PropertyIoDelegate::Marshall(in.ExpiratoryReserveVolume(), GetExpiratoryReserveVolume());
-  }
-  if (in.FunctionalResidualCapacity().present()) {
-    io::PropertyIoDelegate::Marshall(in.FunctionalResidualCapacity(), GetFunctionalResidualCapacity());
-  }
-  if (in.HeartRateBaseline().present()) {
-    io::PropertyIoDelegate::Marshall(in.HeartRateBaseline(), GetHeartRateBaseline());
-  }
-  if (in.HeartRateMaximum().present()) {
-    io::PropertyIoDelegate::Marshall(in.HeartRateMaximum(), GetHeartRateMaximum());
-  }
-  if (in.HeartRateMinimum().present()) {
-    io::PropertyIoDelegate::Marshall(in.HeartRateMinimum(), GetHeartRateMinimum());
-  }
-  if (in.Hyperhidrosis().present()) {
-    io::PropertyIoDelegate::Marshall(in.Hyperhidrosis(), GetHyperhidrosis());
-  }
-  if (in.InspiratoryCapacity().present()) {
-    io::PropertyIoDelegate::Marshall(in.InspiratoryCapacity(), GetInspiratoryCapacity());
-  }
-  if (in.InspiratoryReserveVolume().present()) {
-    io::PropertyIoDelegate::Marshall(in.InspiratoryReserveVolume(), GetInspiratoryReserveVolume());
-  }
-  if (in.LeanBodyMass().present()) {
-    io::PropertyIoDelegate::Marshall(in.LeanBodyMass(), GetLeanBodyMass());
-  }
-  if (in.MaxWorkRate().present()) {
-    io::PropertyIoDelegate::Marshall(in.MaxWorkRate(), GetMaxWorkRate());
-  }
-  if (in.MuscleMass().present()) {
-    io::PropertyIoDelegate::Marshall(in.MuscleMass(), GetMuscleMass());
-  }
-  if (in.MeanArterialPressureBaseline().present()) {
-    io::PropertyIoDelegate::Marshall(in.MeanArterialPressureBaseline(), GetMeanArterialPressureBaseline());
-  }
-  if (in.PainSusceptibility().present()) {
-    io::PropertyIoDelegate::Marshall(in.PainSusceptibility(), GetPainSusceptibility());
-  }
-  if (in.ResidualVolume().present()) {
-    io::PropertyIoDelegate::Marshall(in.ResidualVolume(), GetResidualVolume());
-  }
-  if (in.RespirationRateBaseline().present()) {
-    io::PropertyIoDelegate::Marshall(in.RespirationRateBaseline(), GetRespirationRateBaseline());
-  }
-  if (in.RightLungRatio().present()) {
-    io::PropertyIoDelegate::Marshall(in.RightLungRatio(), GetRightLungRatio());
-  }
-  if (in.SkinSurfaceArea().present()) {
-    io::PropertyIoDelegate::Marshall(in.SkinSurfaceArea(), GetSkinSurfaceArea());
-  }
-  if (in.SystolicArterialPressureBaseline().present()) {
-    io::PropertyIoDelegate::Marshall(in.SystolicArterialPressureBaseline(), GetSystolicArterialPressureBaseline());
-  }
-  if (in.TotalVentilationBaseline().present()) {
-    io::PropertyIoDelegate::Marshall(in.TotalVentilationBaseline(), GetTotalVentilationBaseline());
-  }
-  if (in.TidalVolumeBaseline().present()) {
-    io::PropertyIoDelegate::Marshall(in.TidalVolumeBaseline(), GetTidalVolumeBaseline());
-  }
-  if (in.TotalLungCapacity().present()) {
-    io::PropertyIoDelegate::Marshall(in.TotalLungCapacity(), GetTotalLungCapacity());
-  }
-  if (in.VitalCapacity().present()) {
-    io::PropertyIoDelegate::Marshall(in.VitalCapacity(), GetVitalCapacity());
-  }
-
-  SEScalarTime time;
-  for (auto e : in.ActiveEvent()) {
-    io::PropertyIoDelegate::Marshall(e.Duration(), time);
-    m_EventState[e.Event()] = true;
-    m_EventDuration_s[e.Event()] = time.GetValue(TimeUnit::s);
-  }
-
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::PatientData* SEPatient::Unload() const
-{
-  CDM::PatientData* data = new CDM::PatientData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
 void SEPatient::Unload(CDM::PatientData& data) const
 {
   if (HasName()) {
@@ -329,97 +209,97 @@ void SEPatient::Unload(CDM::PatientData& data) const
     data.Sex(m_Gender);
   }
   if (m_Age != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Age, data.Age());
+    io::Property::UnMarshall(*m_Age, data.Age());
   }
   if (m_Weight != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Weight, data.Weight());
+    io::Property::UnMarshall(*m_Weight, data.Weight());
   }
   if (m_Height != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Height, data.Height());
+    io::Property::UnMarshall(*m_Height, data.Height());
   }
   if (m_AlveoliSurfaceArea != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_AlveoliSurfaceArea, data.AlveoliSurfaceArea());
+    io::Property::UnMarshall(*m_AlveoliSurfaceArea, data.AlveoliSurfaceArea());
   }
   if (m_BasalMetabolicRate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_BasalMetabolicRate, data.BasalMetabolicRate());
+    io::Property::UnMarshall(*m_BasalMetabolicRate, data.BasalMetabolicRate());
   }
   if (m_BloodVolumeBaseline != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_BloodVolumeBaseline, data.BloodVolumeBaseline());
+    io::Property::UnMarshall(*m_BloodVolumeBaseline, data.BloodVolumeBaseline());
   }
   if (m_BodyDensity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_BodyDensity, data.BodyDensity());
+    io::Property::UnMarshall(*m_BodyDensity, data.BodyDensity());
   }
   if (m_BodyFatFraction != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_BodyFatFraction, data.BodyFatFraction());
+    io::Property::UnMarshall(*m_BodyFatFraction, data.BodyFatFraction());
   }
   if (m_DiastolicArterialPressureBaseline != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_DiastolicArterialPressureBaseline, data.DiastolicArterialPressureBaseline());
+    io::Property::UnMarshall(*m_DiastolicArterialPressureBaseline, data.DiastolicArterialPressureBaseline());
   }
   if (m_ExpiratoryReserveVolume != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_ExpiratoryReserveVolume, data.ExpiratoryReserveVolume());
+    io::Property::UnMarshall(*m_ExpiratoryReserveVolume, data.ExpiratoryReserveVolume());
   }
   if (m_FunctionalResidualCapacity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_FunctionalResidualCapacity, data.FunctionalResidualCapacity());
+    io::Property::UnMarshall(*m_FunctionalResidualCapacity, data.FunctionalResidualCapacity());
   }
   if (m_HeartRateBaseline != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_HeartRateBaseline, data.HeartRateBaseline());
+    io::Property::UnMarshall(*m_HeartRateBaseline, data.HeartRateBaseline());
   }
   if (m_HeartRateMaximum != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_HeartRateMaximum, data.HeartRateMaximum());
+    io::Property::UnMarshall(*m_HeartRateMaximum, data.HeartRateMaximum());
   }
   if (m_HeartRateMinimum != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_HeartRateMinimum, data.HeartRateMinimum());
+    io::Property::UnMarshall(*m_HeartRateMinimum, data.HeartRateMinimum());
   }
   if (m_Hyperhidrosis != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_Hyperhidrosis, data.Hyperhidrosis());
+    io::Property::UnMarshall(*m_Hyperhidrosis, data.Hyperhidrosis());
   }
   if (m_InspiratoryCapacity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_InspiratoryCapacity, data.InspiratoryCapacity());
+    io::Property::UnMarshall(*m_InspiratoryCapacity, data.InspiratoryCapacity());
   }
   if (m_InspiratoryReserveVolume != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_InspiratoryReserveVolume, data.InspiratoryReserveVolume());
+    io::Property::UnMarshall(*m_InspiratoryReserveVolume, data.InspiratoryReserveVolume());
   }
   if (m_LeanBodyMass != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_LeanBodyMass, data.LeanBodyMass());
+    io::Property::UnMarshall(*m_LeanBodyMass, data.LeanBodyMass());
   }
   if (m_MaxWorkRate != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_MaxWorkRate, data.MaxWorkRate());
+    io::Property::UnMarshall(*m_MaxWorkRate, data.MaxWorkRate());
   }
   if (m_MuscleMass != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_MuscleMass, data.MuscleMass());
+    io::Property::UnMarshall(*m_MuscleMass, data.MuscleMass());
   }
   if (m_MeanArterialPressureBaseline != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_MeanArterialPressureBaseline, data.MeanArterialPressureBaseline());
+    io::Property::UnMarshall(*m_MeanArterialPressureBaseline, data.MeanArterialPressureBaseline());
   }
   if (m_PainSusceptibility != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_PainSusceptibility, data.PainSusceptibility());
+    io::Property::UnMarshall(*m_PainSusceptibility, data.PainSusceptibility());
   }
   if (m_ResidualVolume != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_ResidualVolume, data.ResidualVolume());
+    io::Property::UnMarshall(*m_ResidualVolume, data.ResidualVolume());
   }
   if (m_RespirationRateBaseline != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_RespirationRateBaseline, data.RespirationRateBaseline());
+    io::Property::UnMarshall(*m_RespirationRateBaseline, data.RespirationRateBaseline());
   }
   if (m_RightLungRatio != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_RightLungRatio, data.RightLungRatio());
+    io::Property::UnMarshall(*m_RightLungRatio, data.RightLungRatio());
   }
   if (m_SkinSurfaceArea != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_SkinSurfaceArea, data.SkinSurfaceArea());
+    io::Property::UnMarshall(*m_SkinSurfaceArea, data.SkinSurfaceArea());
   }
   if (m_SystolicArterialPressureBaseline != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_SystolicArterialPressureBaseline, data.SystolicArterialPressureBaseline());
+    io::Property::UnMarshall(*m_SystolicArterialPressureBaseline, data.SystolicArterialPressureBaseline());
   }
   if (m_TotalVentilationBaseline != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_TotalVentilationBaseline, data.TotalVentilationBaseline());
+    io::Property::UnMarshall(*m_TotalVentilationBaseline, data.TotalVentilationBaseline());
   }
   if (m_TidalVolumeBaseline != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_TidalVolumeBaseline, data.TidalVolumeBaseline());
+    io::Property::UnMarshall(*m_TidalVolumeBaseline, data.TidalVolumeBaseline());
   }
   if (m_TotalLungCapacity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_TotalLungCapacity, data.TotalLungCapacity());
+    io::Property::UnMarshall(*m_TotalLungCapacity, data.TotalLungCapacity());
   }
   if (m_VitalCapacity != nullptr) {
-    io::PropertyIoDelegate::UnMarshall(*m_VitalCapacity, data.VitalCapacity());
+    io::Property::UnMarshall(*m_VitalCapacity, data.VitalCapacity());
   }
 
   SEScalarTime time;
@@ -438,7 +318,7 @@ void SEPatient::Unload(CDM::PatientData& data) const
     CDM::ActivePatientEventData* eData = new CDM::ActivePatientEventData();
     eData->Event(itr.first);
  
-    io::PropertyIoDelegate::UnMarshall(time, eData->Duration());
+    io::Property::UnMarshall(time, eData->Duration());
     ;
     data.ActiveEvent().push_back(std::unique_ptr<CDM::ActivePatientEventData>(eData));
   }

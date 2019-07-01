@@ -15,7 +15,8 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/patient/actions/SEPupillaryResponse.h>
 #include <biogears/cdm/system/SESystem.h>
-#include <biogears/schema/biogears/BioGearsPhysiology.hxx>
+
+IO_DECL(Physiology)
 
 namespace biogears {
 class SEScalarFraction;
@@ -28,11 +29,13 @@ class FrequencyUnit;
 class SEScalarVolume;
 class VolumeUnit;
 class BIOGEARS_API SEDrugSystem : public SESystem {
+  friend class io::Physiology;
+
 public:
   SEDrugSystem(Logger* logger);
   ~SEDrugSystem() override;
 
-  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }  //! Hopefully this returns a unique ID for every type
+  static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
   static constexpr char const * const  TypeTag() { return "SEDrugSystem"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
@@ -41,13 +44,7 @@ public:
 
   const SEScalar* GetScalar(const char* name) override;
   const SEScalar* GetScalar(const std::string& name) override;
-
-  bool Load(const CDM::DrugSystemData& in);
-  CDM::DrugSystemData* Unload() const override;
-
   Tree<const char*> GetPhysiologyRequestGraph() const override;
-protected:
-  void Unload(CDM::DrugSystemData& data) const;
 
 public:
   bool HasBronchodilationLevel() const;
