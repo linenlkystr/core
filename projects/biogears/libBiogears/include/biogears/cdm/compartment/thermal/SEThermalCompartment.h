@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitNode.h>
 #include <biogears/cdm/compartment/SECompartmentNodes.h>
 
+IO_DECL(Compartment)
+
 namespace biogears {
 class SEThermalCompartmentLink;
 class SEScalarPower;
@@ -24,6 +26,7 @@ class BIOGEARS_API SEThermalCompartment : public SECompartment {
   friend class SECompartmentManager;
   template <typename CompartmentType, typename CompartmentLinkType>
   friend class SECompartmentGraph;
+  friend class io::Compartment;
 
 protected:
   SEThermalCompartment(const char* name, Logger* logger);
@@ -32,12 +35,6 @@ public:
   virtual ~SEThermalCompartment() override;
 
   virtual void Clear() override;
-
-  virtual bool Load(const CDM::ThermalCompartmentData& in, SECircuitManager* circuits = nullptr);
-  virtual CDM::ThermalCompartmentData* Unload() override;
-
-protected:
-  virtual void Unload(CDM::ThermalCompartmentData& data);
 
 public:
   virtual const SEScalar* GetScalar(const std::string& name) override;

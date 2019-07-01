@@ -20,10 +20,13 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarPower.h>
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 
+IO_DECL(Circuit)
+
 namespace biogears {
 class SECircuitManager;
 class BIOGEARS_API SEThermalCircuitPath : public SECircuitPath<THERMAL_CIRCUIT_PATH> {
   friend class SECircuitManager;
+  friend class io::Circuit;
 
 protected:
   SEThermalCircuitPath(SEThermalCircuitNode& src, SEThermalCircuitNode& tgt, const char* name);
@@ -34,13 +37,6 @@ public:
 
   virtual void Clear() override; //clear memory
 
-  bool Load(const CDM::ThermalCircuitPathData& in);
-  CDM::ThermalCircuitPathData* Unload() const override;
-
-protected:
-  void Unload(CDM::ThermalCircuitPathData& data) const;
-
-public:
   virtual SEThermalCircuitNode& GetSourceNode() const override { return m_ThermalSourceNode; }
   virtual SEThermalCircuitNode& GetTargetNode() const override { return m_ThermalTargetNode; }
 

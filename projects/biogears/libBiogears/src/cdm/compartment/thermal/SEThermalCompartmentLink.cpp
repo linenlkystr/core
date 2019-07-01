@@ -15,7 +15,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/circuit/SECircuitManager.h>
 #include <biogears/cdm/properties/SEScalarPower.h>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 SEThermalCompartmentLink::SEThermalCompartmentLink(SEThermalCompartment& src, SEThermalCompartment& tgt, const char* name)
   : SEThermalCompartmentLink(src, tgt, std::string{ name })
@@ -33,36 +32,6 @@ SEThermalCompartmentLink::SEThermalCompartmentLink(SEThermalCompartment& src, SE
 //-------------------------------------------------------------------------------
 SEThermalCompartmentLink::~SEThermalCompartmentLink()
 {
-}
-//-------------------------------------------------------------------------------
-bool SEThermalCompartmentLink::Load(const CDM::ThermalCompartmentLinkData& in, SECircuitManager* circuits)
-{
-  if (!SECompartmentLink::Load(in, circuits))
-    return false;
-  if (in.Path().present()) {
-    if (circuits == nullptr) {
-      Error("Link is mapped to circuit path, " + std::string{ in.Path().get() } + ", but no circuit manager was provided, cannot load");
-      return false;
-    }
-    SEThermalCircuitPath* path = circuits->GetThermalPath(in.Path().get());
-    if (path == nullptr) {
-      Error("Link is mapped to circuit path, " + std::string{ in.Path().get() } + ", but provided circuit manager did not have that path");
-      return false;
-    }
-    MapPath(*path);
-  } else {
-    if (in.HeatTransferRate().present()) {
-      io::Property::Marshall(in.HeatTransferRate(), GetHeatTransferRate());
-    }
-  }
-  return true;
-}
-//-------------------------------------------------------------------------------
-CDM::ThermalCompartmentLinkData* SEThermalCompartmentLink::Unload()
-{
-  CDM::ThermalCompartmentLinkData* data = new CDM::ThermalCompartmentLinkData();
-  Unload(*data);
-  return data;
 }
 //-------------------------------------------------------------------------------
 void SEThermalCompartmentLink::Unload(CDM::ThermalCompartmentLinkData& data)

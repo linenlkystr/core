@@ -20,10 +20,13 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 
+IO_DECL(Circuit)
+
 namespace biogears {
 class SECircuitManager;
 class BIOGEARS_API SEFluidCircuitPath : public SECircuitPath<FLUID_CIRCUIT_PATH> {
   friend class SECircuitManager;
+  friend class io::Circuit;
 
 protected:
   SEFluidCircuitPath(SEFluidCircuitNode& src, SEFluidCircuitNode& tgt, const char* name);
@@ -34,13 +37,6 @@ public:
 
   virtual void Clear(); //clear memory
 
-  bool Load(const CDM::FluidCircuitPathData& in);
-  CDM::FluidCircuitPathData* Unload() const;
-
-protected:
-  void Unload(CDM::FluidCircuitPathData& data) const;
-
-public:
   virtual SEFluidCircuitNode& GetSourceNode() const { return m_FluidSourceNode; }
   virtual SEFluidCircuitNode& GetTargetNode() const { return m_FluidTargetNode; }
 

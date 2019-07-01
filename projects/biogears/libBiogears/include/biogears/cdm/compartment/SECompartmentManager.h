@@ -11,9 +11,9 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
 #pragma once
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 #include <biogears/exports.h>
 
@@ -25,21 +25,18 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/thermal/SEThermalCompartmentLink.h>
 #include <biogears/cdm/compartment/tissue/SETissueCompartment.h>
 
+IO_DECL(Compartment)
+
 namespace biogears {
 class BIOGEARS_API SECompartmentManager : public Loggable {
+  friend class io::Compartment;
+
 public:
   SECompartmentManager(SESubstanceManager& subMgr);
   virtual ~SECompartmentManager();
 
   virtual void Clear(); //clear memory
 
-  virtual bool Load(const CDM::CompartmentManagerData& in, SECircuitManager* circuits = nullptr);
-  virtual CDM::CompartmentManagerData* Unload() const;
-
-protected:
-  void Unload(CDM::CompartmentManagerData& data) const;
-
-public:
   virtual void StateChange(); // Identify leaves and other bookkeeping
   virtual void UpdateLinks();
   virtual void UpdateLinks(SEGasCompartmentGraph& graph);
@@ -58,7 +55,7 @@ public:
   virtual void DeleteGasCompartment(const std::string& name);
   virtual bool HasGasCompartment(const char* name) const;
   virtual bool HasGasCompartment(const std::string& name) const;
-  virtual SEGasCompartment* GetGasCompartment(const char* name); 
+  virtual SEGasCompartment* GetGasCompartment(const char* name);
   virtual SEGasCompartment* GetGasCompartment(const std::string& name);
   virtual const SEGasCompartment* GetGasCompartment(const char* name) const;
   virtual const SEGasCompartment* GetGasCompartment(const std::string& name) const;

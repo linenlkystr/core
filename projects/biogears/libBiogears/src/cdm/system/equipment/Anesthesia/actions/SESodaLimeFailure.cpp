@@ -12,69 +12,47 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SESodaLimeFailure.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../../../utils/io/Property.h"
 namespace biogears {
 SESodaLimeFailure::SESodaLimeFailure()
   : SEAnesthesiaMachineAction()
 {
   m_Severity = nullptr;
 }
-
+//----------------------------------------------------------------------------------
 SESodaLimeFailure::~SESodaLimeFailure()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SESodaLimeFailure::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
   SAFE_DELETE(m_Severity);
 }
-
+//----------------------------------------------------------------------------------
 bool SESodaLimeFailure::IsValid() const
 {
   return SEAnesthesiaMachineAction::IsValid() && HasSeverity();
 }
-
+//----------------------------------------------------------------------------------
 bool SESodaLimeFailure::IsActive() const
 {
   return HasSeverity() ? !m_Severity->IsZero() : false;
 }
-
-bool SESodaLimeFailure::Load(const CDM::SodaLimeFailureData& in)
-{
-  SEAnesthesiaMachineAction::Load(in);
-  io::Property::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::SodaLimeFailureData* SESodaLimeFailure::Unload() const
-{
-  CDM::SodaLimeFailureData* data = new CDM::SodaLimeFailureData();
-  Unload(*data);
-  return data;
-}
-
-void SESodaLimeFailure::Unload(CDM::SodaLimeFailureData& data) const
-{
-  SEAnesthesiaMachineAction::Unload(data);
-  if (m_Severity != nullptr)
-    io::Property::UnMarshall(*m_Severity, data.Severity());
-}
-
+//----------------------------------------------------------------------------------
 bool SESodaLimeFailure::HasSeverity() const
 {
   return m_Severity != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEScalar0To1& SESodaLimeFailure::GetSeverity()
 {
   if (m_Severity == nullptr)
     m_Severity = new SEScalar0To1();
   return *m_Severity;
 }
-
+//----------------------------------------------------------------------------------
 void SESodaLimeFailure::ToString(std::ostream& str) const
 {
   str << "Anesthesia Machine Action : Soda Lime Failure";
@@ -84,4 +62,5 @@ void SESodaLimeFailure::ToString(std::ostream& str) const
   HasSeverity() ? str << *m_Severity : str << "NaN";
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

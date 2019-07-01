@@ -12,69 +12,46 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEExpiratoryValveLeak.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
-
-#include "../../../../utils/io/Property.h"  
 namespace biogears {
 SEExpiratoryValveLeak::SEExpiratoryValveLeak()
   : SEAnesthesiaMachineAction()
 {
   m_Severity = nullptr;
 }
-
+//----------------------------------------------------------------------------------
 SEExpiratoryValveLeak::~SEExpiratoryValveLeak()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEExpiratoryValveLeak::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
   SAFE_DELETE(m_Severity);
 }
-
+//----------------------------------------------------------------------------------
 bool SEExpiratoryValveLeak::IsValid() const
 {
   return SEAnesthesiaMachineAction::IsValid() && HasSeverity();
 }
-
+//----------------------------------------------------------------------------------
 bool SEExpiratoryValveLeak::IsActive() const
 {
   return HasSeverity() ? !m_Severity->IsZero() : false;
 }
-
-bool SEExpiratoryValveLeak::Load(const CDM::ExpiratoryValveLeakData& in)
-{
-  SEAnesthesiaMachineAction::Load(in);
-  io::Property::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::ExpiratoryValveLeakData* SEExpiratoryValveLeak::Unload() const
-{
-  CDM::ExpiratoryValveLeakData* data = new CDM::ExpiratoryValveLeakData();
-  Unload(*data);
-  return data;
-}
-
-void SEExpiratoryValveLeak::Unload(CDM::ExpiratoryValveLeakData& data) const
-{
-  SEAnesthesiaMachineAction::Unload(data);
-  if (m_Severity != nullptr)
-    io::Property::UnMarshall(*m_Severity, data.Severity());
-}
-
+//----------------------------------------------------------------------------------
 bool SEExpiratoryValveLeak::HasSeverity() const
 {
   return m_Severity != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEScalar0To1& SEExpiratoryValveLeak::GetSeverity()
 {
   if (m_Severity == nullptr)
     m_Severity = new SEScalar0To1();
   return *m_Severity;
 }
-
+//----------------------------------------------------------------------------------
 void SEExpiratoryValveLeak::ToString(std::ostream& str) const
 {
   str << "Anesthesia Machine Action : Expiratory Valve Leak";
@@ -84,4 +61,5 @@ void SEExpiratoryValveLeak::ToString(std::ostream& str) const
   HasSeverity() ? str << *m_Severity : str << "NaN";
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

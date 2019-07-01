@@ -10,7 +10,7 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
-#include "../../utils/io/Property.h"
+
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitPath.h>
 
 namespace biogears {
@@ -34,97 +34,6 @@ SEThermalCircuitPath::~SEThermalCircuitPath()
 void SEThermalCircuitPath::Clear()
 {
   SECircuitPath::Clear();
-}
-//-------------------------------------------------------------------------------
-bool SEThermalCircuitPath::Load(const CDM::ThermalCircuitPathData& in)
-{
-  SECircuitPath::Load(in);
-  if (in.Resistance().present())
-    io::Property::Marshall(in.Resistance(), GetResistance());
-  if (in.NextResistance().present())
-    io::Property::Marshall(in.NextResistance(), GetNextResistance());
-  if (in.ResistanceBaseline().present())
-    io::Property::Marshall(in.ResistanceBaseline(), GetResistanceBaseline());
-  if (in.Capacitance().present())
-    io::Property::Marshall(in.Capacitance(), GetCapacitance());
-  if (in.NextCapacitance().present())
-    io::Property::Marshall(in.NextCapacitance(), GetNextCapacitance());
-  if (in.CapacitanceBaseline().present())
-    io::Property::Marshall(in.CapacitanceBaseline(), GetCapacitanceBaseline());
-  if (in.Inductance().present())
-    io::Property::Marshall(in.Inductance(), GetInductance());
-  if (in.NextInductance().present())
-    io::Property::Marshall(in.NextInductance(), GetNextInductance());
-  if (in.InductanceBaseline().present())
-    io::Property::Marshall(in.InductanceBaseline(), GetInductanceBaseline());
-  if (in.HeatTransferRate().present())
-    io::Property::Marshall(in.HeatTransferRate(), GetHeatTransferRate());
-  if (in.NextHeatTransferRate().present())
-    io::Property::Marshall(in.NextHeatTransferRate(), GetNextHeatTransferRate());
-  if (in.HeatSource().present())
-    io::Property::Marshall(in.HeatSource(), GetHeatSource());
-  if (in.NextHeatSource().present())
-    io::Property::Marshall(in.NextHeatSource(), GetNextHeatSource());
-  if (in.HeatSourceBaseline().present())
-    io::Property::Marshall(in.HeatSourceBaseline(), GetHeatSourceBaseline());
-  if (in.TemperatureSource().present())
-    io::Property::Marshall(in.TemperatureSource(), GetTemperatureSource());
-  if (in.NextTemperatureSource().present())
-    io::Property::Marshall(in.NextTemperatureSource(), GetNextTemperatureSource());
-  if (in.TemperatureSourceBaseline().present())
-    io::Property::Marshall(in.TemperatureSourceBaseline(), GetTemperatureSourceBaseline());
-  if (in.ValveBreakdownTemperature().present())
-    io::Property::Marshall(in.ValveBreakdownTemperature(), GetValveBreakdownTemperature());
-
-  return HasValidElements();
-}
-//-------------------------------------------------------------------------------
-CDM::ThermalCircuitPathData* SEThermalCircuitPath::Unload() const
-{
-  CDM::ThermalCircuitPathData* data = new CDM::ThermalCircuitPathData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-void SEThermalCircuitPath::Unload(CDM::ThermalCircuitPathData& data) const
-{
-  SECircuitPath::Unload(data);
-  if (HasResistance())
-    io::Property::UnMarshall(*m_Resistance, data.Resistance());
-  if (HasNextResistance())
-    io::Property::UnMarshall(*m_NextResistance, data.NextResistance());
-  if (HasResistanceBaseline())
-    io::Property::UnMarshall(*m_ResistanceBaseline, data.ResistanceBaseline());
-  if (HasCapacitance())
-    io::Property::UnMarshall(*m_Capacitance, data.Capacitance());
-  if (HasNextCapacitance())
-    io::Property::UnMarshall(*m_NextCapacitance, data.NextCapacitance());
-  if (HasCapacitanceBaseline())
-    io::Property::UnMarshall(*m_CapacitanceBaseline, data.CapacitanceBaseline());
-  if (HasInductance())
-    io::Property::UnMarshall(*m_Inductance, data.Inductance());
-  if (HasNextInductance())
-    io::Property::UnMarshall(*m_NextInductance, data.NextInductance());
-  if (HasInductanceBaseline())
-    io::Property::UnMarshall(*m_InductanceBaseline, data.InductanceBaseline());
-  if (HasHeatTransferRate())
-    io::Property::UnMarshall(*m_Flux, data.HeatTransferRate());
-  if (HasNextHeatTransferRate())
-    io::Property::UnMarshall(*m_NextFlux, data.NextHeatTransferRate());
-  if (HasHeatSource())
-    io::Property::UnMarshall(*m_FluxSource, data.HeatSource());
-  if (HasNextHeatSource())
-    io::Property::UnMarshall(*m_NextFluxSource, data.NextHeatSource());
-  if (HasHeatSourceBaseline())
-    io::Property::UnMarshall(*m_FluxSourceBaseline, data.HeatSourceBaseline());
-  if (HasTemperatureSource())
-    io::Property::UnMarshall(*m_PotentialSource, data.TemperatureSource());
-  if (HasNextTemperatureSource())
-    io::Property::UnMarshall(*m_NextPotentialSource, data.NextTemperatureSource());
-  if (HasTemperatureSourceBaseline())
-    io::Property::UnMarshall(*m_PotentialSourceBaseline, data.TemperatureSourceBaseline());
-  if (HasValveBreakdownTemperature())
-    io::Property::UnMarshall(*m_ValveBreakdownPotential, data.ValveBreakdownTemperature());
 }
 //-------------------------------------------------------------------------------
 

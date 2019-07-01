@@ -36,13 +36,6 @@ public:
 
   virtual void Clear(); //clear memory
 
-  virtual bool Load(const CDM::CircuitNodeData& in);
-  virtual CDM::CircuitNodeData* Unload() const = 0;
-
-protected:
-  virtual void Unload(CDM::CircuitNodeData& data) const;
-
-public:
   virtual std::string GetName() const;
   virtual const char* GetName_cStr() const;
 

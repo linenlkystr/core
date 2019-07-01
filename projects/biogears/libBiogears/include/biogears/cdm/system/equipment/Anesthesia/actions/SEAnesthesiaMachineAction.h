@@ -13,8 +13,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/SEAction.h>
 #include <biogears/schema/cdm/AnesthesiaActions.hxx>
 
+IO_DECL(AnesthesiaActions)
+
 namespace biogears {
 class BIOGEARS_API SEAnesthesiaMachineAction : public SEAction {
+  friend class io::AnesthesiaActions;
+
 public:
   SEAnesthesiaMachineAction();
   virtual ~SEAnesthesiaMachineAction();
@@ -23,13 +27,6 @@ public:
 
   virtual bool IsValid() const;
 
-  virtual bool Load(const CDM::AnesthesiaMachineActionData& in);
-  virtual CDM::AnesthesiaMachineActionData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::AnesthesiaMachineActionData& data) const;
-
-public:
   virtual void ToString(std::ostream& str) const = 0;
 };
 }

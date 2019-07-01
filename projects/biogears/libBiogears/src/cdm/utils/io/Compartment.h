@@ -10,7 +10,7 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
-#pragma once0
+#pragma once
 #include <memory>
 
 #include <biogears/exports.h>
@@ -91,16 +91,16 @@ namespace io {
     static void Marshall(const CDM::LiquidCompartmentGraphData& in, SELiquidCompartmentGraph& out, SECompartmentManager& cmptMgr);
     static void UnMarshall(const SELiquidCompartmentGraph& in, CDM::LiquidCompartmentGraphData& out);
     //class SETissueCompartment
-    static void Marshall(const CDM::TissueCompartmentData& in, SETissueCompartment& out);
+    static void Marshall(const CDM::TissueCompartmentData& in, SETissueCompartment& out, SESubstanceManager& subMgr, SECircuitManager* circuits = nullptr);
     static void UnMarshall(const SETissueCompartment& in, CDM::TissueCompartmentData& out);
     //class SEThermalCompartment
-    static void Marshall(const CDM::ThermalCompartmentData& in, SEThermalCompartment& out);
-    static void UnMarshall(const SEThermalCompartment& in, CDM::ThermalCompartmentData& out);
+    static void Marshall(const CDM::ThermalCompartmentData& in, SEThermalCompartment& out, SECircuitManager* circuits = nullptr);
+    static void UnMarshall(SEThermalCompartment& in, CDM::ThermalCompartmentData& out);
     //class SEThermalCompartmentLink
-    static void Marshall(const CDM::ThermalCompartmentLinkData& in, SEThermalCompartmentLink& out);
+    static void Marshall(const CDM::ThermalCompartmentLinkData& in, SEThermalCompartmentLink& out, SECircuitManager* circuits = nullptr);
     static void UnMarshall(const SEThermalCompartmentLink& in, CDM::ThermalCompartmentLinkData& out);
     //class SECompartmentManager
-    static void Marshall(const CDM::CompartmentManagerData& in, SECompartmentManager& out);
+    static void Marshall(CDM::CompartmentManagerData& in, SECompartmentManager& out, SECircuitManager* circuits = nullptr);
     static void UnMarshall(const SECompartmentManager& in, CDM::CompartmentManagerData& out);
   };
   //----------------------------------------------------------------------------------

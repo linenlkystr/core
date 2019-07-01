@@ -52,60 +52,6 @@ void SEThermalCompartment::Clear()
   m_Nodes.Clear();
 }
 //-----------------------------------------------------------------------------
-bool SEThermalCompartment::Load(const CDM::ThermalCompartmentData& in, SECircuitManager* circuits)
-{
-  if (!SECompartment::Load(in, circuits))
-    return false;
-  // Not Loading In/Out HeatTransferRate, those are calculated on demand
-  if (!in.Child().empty())
-    return true;
-  else if (!in.Node().empty()) {
-    if (circuits == nullptr) {
-      Error("Compartment is mapped to circuit nodes, but no circuit manager was provided, cannot load");
-      return false;
-    }
-    for (auto name : in.Node()) {
-      SEThermalCircuitNode* node = circuits->GetThermalNode(name);
-      if (node == nullptr) {
-        Error("Compartment is mapped to circuit node, " + std::string{ name } + ", but provided circuit manager did not have that node");
-        return false;
-      }
-      MapNode(*node);
-    }
-  } else { // Only load these if you don't have children or nodes
-    if (in.Heat().present())
-      io::Property::Marshall(in.Heat(), GetHeat());
-    if (in.Temperature().present())
-      io::Property::Marshall(in.Temperature(), GetTemperature());
-  }
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::ThermalCompartmentData* SEThermalCompartment::Unload()
-{
-  CDM::ThermalCompartmentData* data = new CDM::ThermalCompartmentData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEThermalCompartment::Unload(CDM::ThermalCompartmentData& data)
-{
-  SECompartment::Unload(data);
-  for (SEThermalCompartment* child : m_Children)
-    data.Child().push_back(child->GetName());
-  for (SEThermalCircuitNode* nodes : m_Nodes.GetNodes())
-    data.Node().push_back(nodes->GetName());
-  // Even if you have children or nodes, I am unloading everything, this makes the xml actually usefull...
-  if (HasHeatTransferRateIn())
-    io::Property::UnMarshall(GetHeatTransferRateIn(), data.HeatTransferRateIn());
-  if (HasHeatTransferRateOut())
-    io::Property::UnMarshall(GetHeatTransferRateOut(), data.HeatTransferRateOut());
-  if (HasHeat())
-    io::Property::UnMarshall(GetHeat(), data.Heat());
-  if (HasTemperature())
-    io::Property::UnMarshall(GetTemperature(), data.Temperature());
-}
-//-----------------------------------------------------------------------------
 const SEScalar* SEThermalCompartment::GetScalar(const char* name)
 {
   return GetScalar(std::string{ name });

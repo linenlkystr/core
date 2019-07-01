@@ -4,7 +4,6 @@
 #include <vector>
 
 #include <biogears/circuit_test_exports.h>
-// #include <biogears/schema/biogears-cdm.hxx>
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/cdm/circuit/SECircuitManager.h>
 #include <biogears/cdm/circuit/fluid/SEFluidCircuit.h>

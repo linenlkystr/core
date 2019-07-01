@@ -19,7 +19,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/substances/SEGasSubstanceQuantity.h>
 #include <biogears/cdm/properties/SEScalarFraction.h>
 #include <biogears/cdm/utils/Logger.h>
-#include <biogears/schema/cdm/Compartment.hxx>
 
 namespace biogears {
 SEGasCompartmentGraph::SEGasCompartmentGraph(const char* name, Logger* logger)
@@ -30,15 +29,6 @@ SEGasCompartmentGraph::SEGasCompartmentGraph(const char* name, Logger* logger)
 SEGasCompartmentGraph::SEGasCompartmentGraph(const std::string& name, Logger* logger)
 
   : SECompartmentTransportGraph(name, logger){};
-//-----------------------------------------------------------------------------
-void SEGasCompartmentGraph::Unload(CDM::GasCompartmentGraphData& data)
-{
-  data.Name(m_Name);
-  for (SEGasCompartment* cmpt : m_Compartments)
-    data.Compartment().push_back(cmpt->GetName());
-  for (SEGasCompartmentLink* link : m_CompartmentLinks)
-    data.Link().push_back(link->GetName());
-}
 //-----------------------------------------------------------------------------
 void SEGasCompartmentGraph::BalanceByIntensive()
 {

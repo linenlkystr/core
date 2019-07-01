@@ -14,12 +14,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/circuit/SECircuitNode.h>
 #include <biogears/cdm/properties/SEScalarElectricCharge.h>
 #include <biogears/cdm/properties/SEScalarElectricPotential.h>
-#include <biogears/schema/cdm/Properties.hxx>
+
+
+IO_DECL(Circuit)
 
 namespace biogears {
 class SECircuitManager;
 class BIOGEARS_API SEElectricalCircuitNode : public SECircuitNode<SEScalarElectricPotential, SEScalarElectricCharge> {
   friend class SECircuitManager;
+  friend class io::Circuit;
 
 protected:
   SEElectricalCircuitNode(const char* name, Logger* logger);
@@ -30,13 +33,6 @@ public:
 
   virtual void Clear(); //clear memory
 
-  virtual bool Load(const CDM::ElectricalCircuitNodeData& in);
-  virtual CDM::ElectricalCircuitNodeData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::ElectricalCircuitNodeData& data) const;
-
-public:
   virtual bool HasVoltage() const;
   virtual SEScalarElectricPotential& GetVoltage();
   virtual double GetVoltage(const ElectricPotentialUnit& unit) const;

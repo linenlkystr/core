@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEOxygenTankPressureLoss.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
 namespace biogears {
 SEOxygenTankPressureLoss::SEOxygenTankPressureLoss()
@@ -20,51 +19,33 @@ SEOxygenTankPressureLoss::SEOxygenTankPressureLoss()
 {
   m_State = CDM::enumOnOff::Off;
 }
-
+//----------------------------------------------------------------------------------
 SEOxygenTankPressureLoss::~SEOxygenTankPressureLoss()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEOxygenTankPressureLoss::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
   m_State = (CDM::enumOnOff::value)-1;
 }
-
+//----------------------------------------------------------------------------------
 bool SEOxygenTankPressureLoss::IsValid() const
 {
   return SEAnesthesiaMachineAction::IsValid();
 }
+//----------------------------------------------------------------------------------
 bool SEOxygenTankPressureLoss::IsActive() const
 {
   return m_State == CDM::enumOnOff::On;
 }
+//----------------------------------------------------------------------------------
 void SEOxygenTankPressureLoss::SetActive(bool b)
 {
   m_State = b ? CDM::enumOnOff::On : CDM::enumOnOff::Off;
 }
-
-bool SEOxygenTankPressureLoss::Load(const CDM::OxygenTankPressureLossData& in)
-{
-  SEAnesthesiaMachineAction::Load(in);
-  SetActive(in.State() == CDM::enumOnOff::On ? true : false);
-  return true;
-}
-
-CDM::OxygenTankPressureLossData* SEOxygenTankPressureLoss::Unload() const
-{
-  CDM::OxygenTankPressureLossData* data = new CDM::OxygenTankPressureLossData();
-  Unload(*data);
-  return data;
-}
-
-void SEOxygenTankPressureLoss::Unload(CDM::OxygenTankPressureLossData& data) const
-{
-  SEAnesthesiaMachineAction::Unload(data);
-  data.State(IsActive() ? CDM::enumOnOff::On : CDM::enumOnOff::Off);
-}
-
+//----------------------------------------------------------------------------------
 void SEOxygenTankPressureLoss::ToString(std::ostream& str) const
 {
   str << "Anesthesia Machine Action : Oxygen Tank Pressure Loss";
@@ -73,4 +54,5 @@ void SEOxygenTankPressureLoss::ToString(std::ostream& str) const
   str << "\n\tState: " << IsActive();
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

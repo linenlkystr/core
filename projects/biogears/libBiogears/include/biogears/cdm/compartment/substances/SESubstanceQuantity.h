@@ -12,9 +12,9 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 #include <biogears/cdm/substance/SESubstance.h>
-#include <biogears/schema/cdm/SubstanceQuantity.hxx>
 
 IO_DECL(SubstanceQuantity)
+
 namespace biogears {
 class BIOGEARS_API SESubstanceQuantity : public Loggable {
   friend class io::SubstanceQuantity;

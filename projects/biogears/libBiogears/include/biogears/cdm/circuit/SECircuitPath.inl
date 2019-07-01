@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/circuit/SECircuitNode.h>
 #include <biogears/cdm/circuit/SECircuitPath.h>
-#include <biogears/schema/cdm/Circuit.hxx>
 
 namespace biogears {
   template <CIRCUIT_PATH_TEMPLATE>
@@ -95,45 +94,6 @@ void SECircuitPath<CIRCUIT_PATH_TYPES>::Clear()
   SAFE_DELETE(m_NextPotentialSource);
   SAFE_DELETE(m_PotentialSourceBaseline);
   SAFE_DELETE(m_ValveBreakdownPotential);
-}
-//-------------------------------------------------------------------------------
-template <CIRCUIT_PATH_TEMPLATE>
-bool SECircuitPath<CIRCUIT_PATH_TYPES>::Load(const CDM::CircuitPathData& in)
-{
-  Clear();
-  if (in.Switch().present())
-    SetSwitch(in.Switch().get());
-  if (in.NextSwitch().present())
-    SetNextSwitch(in.NextSwitch().get());
-  if (in.Valve().present())
-    SetValve(in.Valve().get());
-  if (in.NextValve().present())
-    SetNextValve(in.NextValve().get());
-  if (in.PolarizedState().present())
-    SetPolarizedState(in.PolarizedState().get());
-  if (in.NextPolarizedState().present())
-    SetNextPolarizedState(in.NextPolarizedState().get());
-  return true;
-}
-//-------------------------------------------------------------------------------
-template <CIRCUIT_PATH_TEMPLATE>
-void SECircuitPath<CIRCUIT_PATH_TYPES>::Unload(CDM::CircuitPathData& data) const
-{
-  data.Name(m_Name);
-  data.SourceNode(m_SourceNode.GetName());
-  data.TargetNode(m_TargetNode.GetName());
-  if (HasSwitch())
-    data.Switch(m_Switch);
-  if (HasNextSwitch())
-    data.NextSwitch(m_NextSwitch);
-  if (HasValve())
-    data.Valve(m_Valve);
-  if (HasNextValve())
-    data.NextValve(m_NextValve);
-  if (HasPolarizedState())
-    data.PolarizedState(m_PolarizedState);
-  if (HasNextPolarizedState())
-    data.NextPolarizedState(m_NextPolarizedState);
 }
 //-------------------------------------------------------------------------------
 template <CIRCUIT_PATH_TEMPLATE>

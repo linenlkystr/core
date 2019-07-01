@@ -35,8 +35,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/engine/Equipment/ECG.h>
 #include <biogears/engine/Systems/Environment.h>
 #include <biogears/engine/Systems/Gastrointestinal.h>
-#include <biogears/schema/cdm/EnvironmentConditions.hxx>
-#include <biogears/schema/cdm/Patient.hxx>
 #include <biogears/cdm/utils/FileUtils.h>
 #include <biogears/engine/BioGearsPhysiologyEngine.h>
 

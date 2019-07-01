@@ -11,12 +11,15 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 #pragma once
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEAnesthesiaMachineAction.h>
-#include <biogears/schema/cdm/AnesthesiaActions.hxx>
+
+IO_DECL(AnesthesiaActions)
 
 namespace biogears {
 class SEScalar0To1;
 
 class BIOGEARS_API SETubeCuffLeak : public SEAnesthesiaMachineAction {
+  friend class io::AnesthesiaActions;
+
 public:
   SETubeCuffLeak();
   virtual ~SETubeCuffLeak() override;
@@ -29,13 +32,6 @@ public:
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
 
-  virtual bool Load(const CDM::TubeCuffLeakData& in);
-  virtual CDM::TubeCuffLeakData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::TubeCuffLeakData& data) const;
-
-public:
   virtual bool HasSeverity() const;
   virtual SEScalar0To1& GetSeverity();
 

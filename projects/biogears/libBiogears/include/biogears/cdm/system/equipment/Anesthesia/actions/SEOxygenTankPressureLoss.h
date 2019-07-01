@@ -11,12 +11,15 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 #pragma once
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEAnesthesiaMachineAction.h>
-#include <biogears/schema/cdm/AnesthesiaActions.hxx>
+
+IO_DECL(AnesthesiaActions)
 
 namespace biogears {
 class SEScalar0To1;
 
 class BIOGEARS_API SEOxygenTankPressureLoss : public SEAnesthesiaMachineAction {
+  friend class io::AnesthesiaActions;
+
 public:
   SEOxygenTankPressureLoss();
   virtual ~SEOxygenTankPressureLoss() override;
@@ -29,14 +32,6 @@ public:
   virtual bool IsValid() const override;
   virtual bool IsActive() const override;
   virtual void SetActive(bool b);
-
-  virtual bool Load(const CDM::OxygenTankPressureLossData& in);
-  virtual CDM::OxygenTankPressureLossData* Unload() const override;
-
-protected:
-  virtual void Unload(CDM::OxygenTankPressureLossData& data) const;
-
-public:
   virtual void ToString(std::ostream& str) const override;
 
 protected:

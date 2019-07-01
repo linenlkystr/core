@@ -14,7 +14,6 @@ specific language governing permissions and limitations under the License.
 #include <string>
 
 #include <biogears/cdm/properties/SEDecimalFormat.h>
-#include <biogears/schema/cdm/Scenario.hxx>
 
 IO_DECL(Scenario)
 

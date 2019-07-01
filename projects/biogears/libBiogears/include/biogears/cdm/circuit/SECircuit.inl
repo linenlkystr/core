@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 #pragma once
 
 #include <biogears/cdm/circuit/SECircuit.h>
-#include <biogears/schema/cdm/Circuit.hxx>
 
 #define OPEN_RESISTANCE 1e100
 
@@ -55,61 +54,6 @@ void SECircuit<CIRCUIT_TYPES>::Clear()
   m_CalculatorIndex.clear();
   m_ValvePaths.clear();
   m_PolarizedElementPaths.clear();
-}
-//-----------------------------------------------------------------------------
-template <CIRCUIT_TEMPLATE>
-bool SECircuit<CIRCUIT_TYPES>::Load(const CircuitBindType& in, const std::map<std::string, NodeType*>& nodes, const std::map<std::string, PathType*>& paths)
-{ // note: not clearing here as the derived class needs to clear and call this super class Load last to get the ref node hooked up
-  Clear();
-  m_Name = in.Name();
-  for (auto name : in.Node()) {
-    auto idx = nodes.find(name);
-    if (idx == nodes.end()) {
-      Error(m_Name + " could not find node " + name.c_str());
-      return false;
-    }
-    AddNode(*idx->second);
-  }
-  for (auto name : in.Path()) {
-    auto idx = paths.find(name);
-    if (idx == paths.end()) {
-      Error(m_Name + " could not find path " + name.c_str());
-      return false;
-    }
-    AddPath(*idx->second);
-  }
-  for (auto name : in.ReferenceNode()) {
-    auto idx = nodes.find(name);
-    if (idx == nodes.end()) {
-      Error(m_Name + " could not find reference node " + name.c_str());
-      return false;
-    }
-    AddReferenceNode(*idx->second);
-  }
-  StateChange();
-  return true;
-}
-//-----------------------------------------------------------------------------
-template <CIRCUIT_TEMPLATE>
-CircuitBindType* SECircuit<CIRCUIT_TYPES>::Unload() const
-{
-  CircuitBindType* data = new CircuitBindType();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-template <CIRCUIT_TEMPLATE>
-void SECircuit<CIRCUIT_TYPES>::Unload(CircuitBindType& data) const
-{
-  data.Name(m_Name);
-  if (HasReferenceNode()) {
-    for (NodeType* n : m_ReferenceNodes)
-      data.ReferenceNode().push_back(n->GetName());
-  }
-  for (auto* n : m_Nodes)
-    data.Node().push_back(n->GetName());
-  for (auto* p : m_Paths)
-    data.Path().push_back(p->GetName());
 }
 //-----------------------------------------------------------------------------
 template <CIRCUIT_TEMPLATE>

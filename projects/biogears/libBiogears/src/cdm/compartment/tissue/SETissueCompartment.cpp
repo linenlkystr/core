@@ -21,7 +21,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 SETissueCompartment::SETissueCompartment(const char* name, Logger* logger)
   : SETissueCompartment(std::string{ name }, logger)
@@ -61,68 +60,6 @@ void SETissueCompartment::Clear()
   SAFE_DELETE(m_TissueToPlasmaAlphaAcidGlycoproteinRatio);
   SAFE_DELETE(m_TissueToPlasmaLipoproteinRatio);
   SAFE_DELETE(m_TotalMass);
-}
-//-----------------------------------------------------------------------------
-bool SETissueCompartment::Load(const CDM::TissueCompartmentData& in, SESubstanceManager& subMgr, SECircuitManager* circuits)
-{
-  if (!SECompartment::Load(in))
-    return false;
-  if (in.AcidicPhospohlipidConcentration().present())
-    io::Property::Marshall(in.AcidicPhospohlipidConcentration(), GetAcidicPhospohlipidConcentration());
-  if (in.MatrixVolume().present())
-    io::Property::Marshall(in.MatrixVolume(), GetMatrixVolume());
-  if (in.MembranePotential().present())
-    io::Property::Marshall(in.MembranePotential(), GetMembranePotential());
-  if (in.NeutralLipidsVolumeFraction().present())
-    io::Property::Marshall(in.NeutralLipidsVolumeFraction(), GetNeutralLipidsVolumeFraction());
-  if (in.NeutralPhospholipidsVolumeFraction().present())
-    io::Property::Marshall(in.NeutralPhospholipidsVolumeFraction(), GetNeutralPhospholipidsVolumeFraction());
-  if (in.ReflectionCoefficient().present())
-    io::Property::Marshall(in.ReflectionCoefficient(), GetReflectionCoefficient());
-  if (in.TissueToPlasmaAlbuminRatio().present())
-    io::Property::Marshall(in.TissueToPlasmaAlbuminRatio(), GetTissueToPlasmaAlbuminRatio());
-  if (in.TissueToPlasmaAlphaAcidGlycoproteinRatio().present())
-    io::Property::Marshall(in.TissueToPlasmaAlphaAcidGlycoproteinRatio(), GetTissueToPlasmaAlphaAcidGlycoproteinRatio());
-  if (in.TissueToPlasmaLipoproteinRatio().present())
-    io::Property::Marshall(in.TissueToPlasmaLipoproteinRatio(), GetTissueToPlasmaLipoproteinRatio());
-  if (in.TotalMass().present())
-    io::Property::Marshall(in.TotalMass(), GetTotalMass());
-
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::TissueCompartmentData* SETissueCompartment::Unload()
-{
-  CDM::TissueCompartmentData* data = new CDM::TissueCompartmentData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SETissueCompartment::Unload(CDM::TissueCompartmentData& data)
-{
-  SECompartment::Unload(data);
-  if (HasAcidicPhospohlipidConcentration())
-    io::Property::UnMarshall(*m_AcidicPhospohlipidConcentration, data.AcidicPhospohlipidConcentration());
-  if (HasMatrixVolume())
-    io::Property::UnMarshall(*m_MatrixVolume, data.MatrixVolume());
-  if (HasMembranePotential())
-    io::Property::UnMarshall(*m_MembranePotential, data.MembranePotential());
-  if (HasNeutralLipidsVolumeFraction())
-    io::Property::UnMarshall(*m_NeutralLipidsVolumeFraction, data.NeutralLipidsVolumeFraction());
-  if (HasNeutralPhospholipidsVolumeFraction())
-    io::Property::UnMarshall(*m_NeutralPhospholipidsVolumeFraction, data.NeutralPhospholipidsVolumeFraction());
-  if (HasReflectionCoefficient())
-    io::Property::UnMarshall(*m_ReflectionCoefficient, data.ReflectionCoefficient());
-  if (HasTissueToPlasmaAlbuminRatio())
-    io::Property::UnMarshall(*m_TissueToPlasmaAlbuminRatio, data.TissueToPlasmaAlbuminRatio());
-  if (HasTissueToPlasmaAlbuminRatio())
-    io::Property::UnMarshall(*m_TissueToPlasmaAlbuminRatio, data.TissueToPlasmaAlbuminRatio());
-  if (HasTissueToPlasmaAlphaAcidGlycoproteinRatio())
-    io::Property::UnMarshall(*m_TissueToPlasmaAlphaAcidGlycoproteinRatio, data.TissueToPlasmaAlphaAcidGlycoproteinRatio());
-  if (HasTissueToPlasmaLipoproteinRatio())
-    io::Property::UnMarshall(*m_TissueToPlasmaLipoproteinRatio, data.TissueToPlasmaLipoproteinRatio());
-  if (HasTotalMass())
-    io::Property::UnMarshall(*m_TotalMass, data.TotalMass());
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SETissueCompartment::GetScalar(const char* name)

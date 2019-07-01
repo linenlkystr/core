@@ -15,10 +15,13 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarEnergy.h>
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 
+IO_DECL(Circuit)
+
 namespace biogears {
 class SECircuitManager;
 class BIOGEARS_API SEThermalCircuitNode : public SECircuitNode<THERMAL_CIRCUIT_NODE> {
   friend class SECircuitManager;
+  friend class io::Circuit;
 
 protected:
   SEThermalCircuitNode(const char* name, Logger* logger);
@@ -29,13 +32,6 @@ public:
 
   virtual void Clear(); //clear memory
 
-  virtual bool Load(const CDM::ThermalCircuitNodeData& in);
-  virtual CDM::ThermalCircuitNodeData* Unload() const;
-
-protected:
-  virtual void Unload(CDM::ThermalCircuitNodeData& data) const;
-
-public:
   virtual bool HasTemperature() const;
   virtual SEScalarTemperature& GetTemperature();
   virtual double GetTemperature(const TemperatureUnit& unit) const;

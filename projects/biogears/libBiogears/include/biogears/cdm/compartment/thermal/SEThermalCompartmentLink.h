@@ -15,12 +15,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/SECompartmentLink.h>
 #include <biogears/cdm/compartment/thermal/SEThermalCompartment.h>
 #include <biogears/cdm/substance/SESubstanceTransport.h>
-#include <biogears/schema/cdm/Compartment.hxx>
+
+IO_DECL(Compartment)
 
 namespace biogears {
 class SECompartmentManager;
 class BIOGEARS_API SEThermalCompartmentLink : public SECompartmentLink {
   friend class SECompartmentManager;
+  friend class io::Compartment;
 
 protected:
   SEThermalCompartmentLink(SEThermalCompartment& src, SEThermalCompartment& tgt, const char* name);
@@ -31,13 +33,6 @@ public:
 
   virtual void Clear() override;
 
-  virtual bool Load(const CDM::ThermalCompartmentLinkData& in, SECircuitManager* circuits = nullptr);
-  virtual CDM::ThermalCompartmentLinkData* Unload() override;
-
-protected:
-  virtual void Unload(CDM::ThermalCompartmentLinkData& data);
-
-public:
   virtual const SEScalar* GetScalar(const char* name) override;
   virtual const SEScalar* GetScalar(const std::string& name) override;
 

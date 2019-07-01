@@ -13,9 +13,7 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 SEHemorrhage::SEHemorrhage()
   : SEPatientAction()

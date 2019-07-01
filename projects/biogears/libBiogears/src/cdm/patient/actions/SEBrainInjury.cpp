@@ -12,9 +12,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/patient/actions/SEBrainInjury.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../utils/io/Property.h"
 namespace biogears {
 SEBrainInjury::SEBrainInjury()
   : SEPatientAction()

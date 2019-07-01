@@ -12,70 +12,47 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEMaskLeak.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../../../utils/io/Property.h"  
 namespace biogears {
 SEMaskLeak::SEMaskLeak()
   : SEAnesthesiaMachineAction()
 {
   m_Severity = nullptr;
 }
-
+//----------------------------------------------------------------------------------
 SEMaskLeak::~SEMaskLeak()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEMaskLeak::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
   SAFE_DELETE(m_Severity);
 }
-
+//----------------------------------------------------------------------------------
 bool SEMaskLeak::IsValid() const
 {
   return SEAnesthesiaMachineAction::IsValid() && HasSeverity();
 }
-
+//----------------------------------------------------------------------------------
 bool SEMaskLeak::IsActive() const
 {
   return HasSeverity() ? !m_Severity->IsZero() : false;
 }
-
-bool SEMaskLeak::Load(const CDM::MaskLeakData& in)
-{
-  SEAnesthesiaMachineAction::Load(in);
-  io::Property::Marshall(in.Severity(), GetSeverity());
-
-  return true;
-}
-
-CDM::MaskLeakData* SEMaskLeak::Unload() const
-{
-  CDM::MaskLeakData* data = new CDM::MaskLeakData();
-  Unload(*data);
-  return data;
-}
-
-void SEMaskLeak::Unload(CDM::MaskLeakData& data) const
-{
-  SEAnesthesiaMachineAction::Unload(data);
-  if (m_Severity != nullptr)
-    io::Property::UnMarshall(*m_Severity, data.Severity());
-}
-
+//----------------------------------------------------------------------------------
 bool SEMaskLeak::HasSeverity() const
 {
   return m_Severity != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEScalar0To1& SEMaskLeak::GetSeverity()
 {
   if (m_Severity == nullptr)
     m_Severity = new SEScalar0To1();
   return *m_Severity;
 }
-
+//----------------------------------------------------------------------------------
 void SEMaskLeak::ToString(std::ostream& str) const
 {
   str << "Anesthesia Machine Action : Mask Leak";
@@ -85,4 +62,5 @@ void SEMaskLeak::ToString(std::ostream& str) const
   HasSeverity() ? str << *m_Severity : str << "NaN";
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

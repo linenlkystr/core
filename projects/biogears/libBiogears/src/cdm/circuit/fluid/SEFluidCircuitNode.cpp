@@ -10,7 +10,7 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
-#include "../../utils/io/Property.h"
+
 #include <biogears/cdm/circuit/fluid/SEFluidCircuitNode.h>
 
 namespace biogears {
@@ -32,44 +32,6 @@ SEFluidCircuitNode::~SEFluidCircuitNode()
 void SEFluidCircuitNode::Clear()
 {
   SECircuitNode::Clear();
-}
-//-----------------------------------------------------------------------------
-bool SEFluidCircuitNode::Load(const CDM::FluidCircuitNodeData& in)
-{
-  SECircuitNode::Load(in);
-  if (in.Pressure().present())
-    io::Property::Marshall(in.Pressure(), GetPressure());
-  if (in.NextPressure().present())
-    io::Property::Marshall(in.NextPressure(), GetNextPressure());
-  if (in.Volume().present())
-    io::Property::Marshall(in.Volume(), GetVolume());
-  if (in.NextVolume().present())
-    io::Property::Marshall(in.NextVolume(), GetNextVolume());
-  if (in.VolumeBaseline().present())
-    io::Property::Marshall(in.VolumeBaseline(), GetVolumeBaseline());
-  return true;
-}
-//-----------------------------------------------------------------------------
-CDM::FluidCircuitNodeData* SEFluidCircuitNode::Unload() const
-{
-  CDM::FluidCircuitNodeData* data = new CDM::FluidCircuitNodeData();
-  Unload(*data);
-  return data;
-}
-//-----------------------------------------------------------------------------
-void SEFluidCircuitNode::Unload(CDM::FluidCircuitNodeData& data) const
-{
-  SECircuitNode::Unload(data);
-  if (HasPressure())
-    io::Property::UnMarshall(*m_Potential, data.Pressure());
-  if (HasNextPressure())
-    io::Property::UnMarshall(*m_NextPotential, data.NextPressure());
-  if (HasVolume())
-    io::Property::UnMarshall(*m_Quantity, data.Volume());
-  if (HasNextVolume())
-    io::Property::UnMarshall(*m_NextQuantity, data.NextVolume());
-  if (HasVolumeBaseline())
-    io::Property::UnMarshall(*m_QuantityBaseline, data.VolumeBaseline());
 }
 //-----------------------------------------------------------------------------
 bool SEFluidCircuitNode::HasPressure() const

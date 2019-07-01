@@ -17,37 +17,21 @@ SEAnesthesiaMachineAction::SEAnesthesiaMachineAction()
   : SEAction()
 {
 }
-
+//----------------------------------------------------------------------------------
 SEAnesthesiaMachineAction::~SEAnesthesiaMachineAction()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEAnesthesiaMachineAction::Clear()
 {
   SEAction::Clear();
 }
-
+//----------------------------------------------------------------------------------
 bool SEAnesthesiaMachineAction::IsValid() const
 {
   return SEAction::IsValid();
 }
+//----------------------------------------------------------------------------------
 
-bool SEAnesthesiaMachineAction::Load(const CDM::AnesthesiaMachineActionData& in)
-{
-  SEAction::Load(in);
-  return true;
-}
-
-CDM::AnesthesiaMachineActionData* SEAnesthesiaMachineAction::Unload() const
-{
-  CDM::AnesthesiaMachineActionData* data = new CDM::AnesthesiaMachineActionData();
-  Unload(*data);
-  return data;
-}
-
-void SEAnesthesiaMachineAction::Unload(CDM::AnesthesiaMachineActionData& data) const
-{
-  SEAction::Unload(data);
-}
 }

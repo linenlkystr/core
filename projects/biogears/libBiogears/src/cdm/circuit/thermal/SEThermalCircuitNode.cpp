@@ -35,44 +35,6 @@ void SEThermalCircuitNode::Clear()
   SECircuitNode::Clear();
 }
 //-------------------------------------------------------------------------------
-bool SEThermalCircuitNode::Load(const CDM::ThermalCircuitNodeData& in)
-{
-  SECircuitNode::Load(in);
-  if (in.Temperature().present())
-    io::Property::Marshall(in.Temperature(), GetTemperature());
-  if (in.NextTemperature().present())
-    io::Property::Marshall(in.NextTemperature(), GetNextTemperature());
-  if (in.Heat().present())
-    io::Property::Marshall(in.Heat(), GetHeat());
-  if (in.NextHeat().present())
-    io::Property::Marshall(in.NextHeat(), GetNextHeat());
-  if (in.HeatBaseline().present())
-    io::Property::Marshall(in.HeatBaseline(), GetHeatBaseline());
-  return true;
-}
-//-------------------------------------------------------------------------------
-CDM::ThermalCircuitNodeData* SEThermalCircuitNode::Unload() const
-{
-  CDM::ThermalCircuitNodeData* data = new CDM::ThermalCircuitNodeData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
-void SEThermalCircuitNode::Unload(CDM::ThermalCircuitNodeData& data) const
-{
-  SECircuitNode::Unload(data);
-  if (HasTemperature())
-    io::Property::UnMarshall(*m_Potential, data.Temperature());
-  if (HasNextTemperature())
-    io::Property::UnMarshall(*m_NextPotential, data.NextTemperature());
-  if (HasHeat())
-    io::Property::UnMarshall(*m_Quantity, data.Heat());
-  if (HasNextHeat())
-    io::Property::UnMarshall(*m_NextQuantity, data.NextHeat());
-  if (HasHeatBaseline())
-    io::Property::UnMarshall(*m_QuantityBaseline, data.HeatBaseline());
-}
-//-------------------------------------------------------------------------------
 bool SEThermalCircuitNode::HasTemperature() const
 {
   return HasPotential();

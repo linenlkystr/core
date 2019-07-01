@@ -12,69 +12,47 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SETubeCuffLeak.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../../../utils/io/Property.h"
 namespace biogears {
 SETubeCuffLeak::SETubeCuffLeak()
   : SEAnesthesiaMachineAction()
 {
   m_Severity = nullptr;
 }
-
+//----------------------------------------------------------------------------------
 SETubeCuffLeak::~SETubeCuffLeak()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SETubeCuffLeak::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
   SAFE_DELETE(m_Severity);
 }
-
+//----------------------------------------------------------------------------------
 bool SETubeCuffLeak::IsValid() const
 {
   return SEAnesthesiaMachineAction::IsValid() && HasSeverity();
 }
-
+//----------------------------------------------------------------------------------
 bool SETubeCuffLeak::IsActive() const
 {
   return HasSeverity() ? !m_Severity->IsZero() : false;
 }
-
-bool SETubeCuffLeak::Load(const CDM::TubeCuffLeakData& in)
-{
-  SEAnesthesiaMachineAction::Load(in);
-  io::Property::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::TubeCuffLeakData* SETubeCuffLeak::Unload() const
-{
-  CDM::TubeCuffLeakData* data = new CDM::TubeCuffLeakData();
-  Unload(*data);
-  return data;
-}
-
-void SETubeCuffLeak::Unload(CDM::TubeCuffLeakData& data) const
-{
-  SEAnesthesiaMachineAction::Unload(data);
-  if (m_Severity != nullptr)
-    io::Property::UnMarshall(*m_Severity, data.Severity());
-}
-
+//----------------------------------------------------------------------------------
 bool SETubeCuffLeak::HasSeverity() const
 {
   return m_Severity != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEScalar0To1& SETubeCuffLeak::GetSeverity()
 {
   if (m_Severity == nullptr)
     m_Severity = new SEScalar0To1();
   return *m_Severity;
 }
-
+//----------------------------------------------------------------------------------
 void SETubeCuffLeak::ToString(std::ostream& str) const
 {
   str << "Anesthesia Machine Action : Tube Cuff Leak";
@@ -84,4 +62,5 @@ void SETubeCuffLeak::ToString(std::ostream& str) const
   HasSeverity() ? str << *m_Severity : str << "NaN";
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

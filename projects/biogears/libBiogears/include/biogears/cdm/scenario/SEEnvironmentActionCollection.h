@@ -14,7 +14,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/cdm/system/environment/actions/SEEnvironmentChange.h>
 #include <biogears/cdm/system/environment/actions/SEThermalApplication.h>
-#include <biogears/schema/cdm/EnvironmentActions.hxx>
 
 namespace biogears {
 class BIOGEARS_API SEEnvironmentActionCollection : public Loggable {

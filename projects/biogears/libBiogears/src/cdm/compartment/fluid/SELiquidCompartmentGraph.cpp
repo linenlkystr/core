@@ -17,7 +17,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/compartment/fluid/SEFluidCompartment.inl>
 #include <biogears/cdm/compartment/fluid/SEFluidCompartmentLink.inl>
 #include <biogears/cdm/compartment/fluid/SELiquidCompartment.h>
-#include <biogears/schema/cdm/Compartment.hxx>
 
 namespace biogears {
   SELiquidCompartmentGraph::SELiquidCompartmentGraph(const char* name, Logger* logger)
@@ -28,15 +27,6 @@ namespace biogears {
 
   SELiquidCompartmentGraph::~SELiquidCompartmentGraph() {}
 
-
-void SELiquidCompartmentGraph::Unload(CDM::LiquidCompartmentGraphData& data)
-{
-  data.Name(m_Name);
-  for (SELiquidCompartment* cmpt : m_Compartments)
-    data.Compartment().push_back(cmpt->GetName());
-  for (SELiquidCompartmentLink* link : m_CompartmentLinks)
-    data.Link().push_back(link->GetName());
-}
 
 void SELiquidCompartmentGraph::BalanceByIntensive()
 {

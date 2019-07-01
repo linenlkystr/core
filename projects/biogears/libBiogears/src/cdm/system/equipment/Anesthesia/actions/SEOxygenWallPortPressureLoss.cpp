@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEOxygenWallPortPressureLoss.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
 namespace biogears {
 SEOxygenWallPortPressureLoss::SEOxygenWallPortPressureLoss()
@@ -20,51 +19,33 @@ SEOxygenWallPortPressureLoss::SEOxygenWallPortPressureLoss()
 {
   m_State = CDM::enumOnOff::Off;
 }
-
+//----------------------------------------------------------------------------------
 SEOxygenWallPortPressureLoss::~SEOxygenWallPortPressureLoss()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEOxygenWallPortPressureLoss::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
   m_State = (CDM::enumOnOff::value)-1;
 }
-
+//----------------------------------------------------------------------------------
 bool SEOxygenWallPortPressureLoss::IsValid() const
 {
   return SEAnesthesiaMachineAction::IsValid();
 }
+//----------------------------------------------------------------------------------
 bool SEOxygenWallPortPressureLoss::IsActive() const
 {
   return m_State == CDM::enumOnOff::On;
 }
+//----------------------------------------------------------------------------------
 void SEOxygenWallPortPressureLoss::SetActive(bool b)
 {
   m_State = b ? CDM::enumOnOff::On : CDM::enumOnOff::Off;
 }
-
-bool SEOxygenWallPortPressureLoss::Load(const CDM::OxygenWallPortPressureLossData& in)
-{
-  SEAnesthesiaMachineAction::Load(in);
-  SetActive(in.State() == CDM::enumOnOff::On ? true : false);
-  return true;
-}
-
-CDM::OxygenWallPortPressureLossData* SEOxygenWallPortPressureLoss::Unload() const
-{
-  CDM::OxygenWallPortPressureLossData* data = new CDM::OxygenWallPortPressureLossData();
-  Unload(*data);
-  return data;
-}
-
-void SEOxygenWallPortPressureLoss::Unload(CDM::OxygenWallPortPressureLossData& data) const
-{
-  SEAnesthesiaMachineAction::Unload(data);
-  data.State(IsActive() ? CDM::enumOnOff::On : CDM::enumOnOff::Off);
-}
-
+//----------------------------------------------------------------------------------
 void SEOxygenWallPortPressureLoss::ToString(std::ostream& str) const
 {
   str << "Anesthesia Machine Action : Oxygen Wall Port Pressure Loss";
@@ -73,4 +54,5 @@ void SEOxygenWallPortPressureLoss::ToString(std::ostream& str) const
   str << "\n\tState: " << IsActive();
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

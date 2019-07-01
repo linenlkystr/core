@@ -15,10 +15,12 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitNode.h>
 #include <biogears/cdm/circuit/thermal/SEThermalCircuitPath.h>
 
+IO_DECL(Circuit)
 namespace biogears {
 class SECircuitManager;
 class BIOGEARS_API SEThermalCircuit : public SECircuit<CDM::ThermalCircuitData, SEThermalCircuitNode, CDM::ThermalCircuitNodeData, SEThermalCircuitPath, CDM::ThermalCircuitPathData> {
   friend class SECircuitManager;
+  friend class io::Circuit;
 
 protected:
   SEThermalCircuit(const char* name, SECircuitManager& mgr);

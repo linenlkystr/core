@@ -28,13 +28,6 @@ public:
 
   virtual void Clear(); //clear memory
 
-  virtual bool Load(const CircuitBindType& in, const std::map<std::string, NodeType*>& nodes, const std::map<std::string, PathType*>& paths);
-  virtual CircuitBindType* Unload() const;
-
-protected:
-  virtual void Unload(CircuitBindType& data) const;
-
-public:
   virtual std::string GetName() const;
   virtual const char* GetName_cStr() const;
 

@@ -15,11 +15,14 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitNode.h>
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitPath.h>
 
+IO_DECL(Circuit)
+
 namespace biogears {
 class SECircuitManager;
 
 class BIOGEARS_API SEElectricalCircuit : public SECircuit<CDM::ElectricalCircuitData, SEElectricalCircuitNode, CDM::ElectricalCircuitNodeData, SEElectricalCircuitPath, CDM::ElectricalCircuitPathData> {
   friend class SECircuitManager;
+  friend class io::Circuit;
 
 protected:
   SEElectricalCircuit(const std::string& name, SECircuitManager& mgr);

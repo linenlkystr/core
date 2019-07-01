@@ -20,10 +20,13 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarElectricPotential.h>
 #include <biogears/cdm/properties/SEScalarElectricResistance.h>
 
+IO_DECL(Circuit)
+
 namespace biogears {
 class SECircuitManager;
 class BIOGEARS_API SEElectricalCircuitPath : public SECircuitPath<SEScalarElectricCurrent, SEScalarElectricResistance, SEScalarElectricCapacitance, SEScalarElectricInductance, SEScalarElectricPotential, SEScalarElectricCharge> {
   friend class SECircuitManager;
+  friend class io::Circuit;
 
 protected:
   SEElectricalCircuitPath(SEElectricalCircuitNode& src, SEElectricalCircuitNode& tgt, const std::string& name);
@@ -34,13 +37,6 @@ public:
 
   virtual void Clear(); //clear memory
 
-  bool Load(const CDM::ElectricalCircuitPathData& in);
-  CDM::ElectricalCircuitPathData* Unload() const;
-
-protected:
-  void Unload(CDM::ElectricalCircuitPathData& data) const;
-
-public:
   virtual SEElectricalCircuitNode& GetSourceNode() const { return m_ElectricalSourceNode; }
   virtual SEElectricalCircuitNode& GetTargetNode() const { return m_ElectricalTargetNode; }
 

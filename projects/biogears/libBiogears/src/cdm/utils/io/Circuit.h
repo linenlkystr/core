@@ -42,7 +42,7 @@ class SECircuitManager;
 #define CDM_CIRCUIT_UNMARSHAL_HELPER(xsd, func)                                      \
   if (m_##func) {                                                                    \
     xsd.func(std::make_unique<std::remove_reference<decltype(xsd.func())>::type>()); \
-    io::Property::UnMarshall(*m_##func, xsd.func());                       \
+    io::Property::UnMarshall(*m_##func, xsd.func());                                 \
   }
 namespace io {
   class BIOGEARS_PRIVATE_API Circuit {
@@ -54,7 +54,7 @@ namespace io {
     static void UnMarshall(const SE& in, xsd::cxx::tree::optional<XSD>& option_out);
     //class SECircuit
     template <CIRCUIT_TEMPLATE>
-    static void Marshall(const CDM::CircuitData& in, SECircuit<CIRCUIT_TYPES>& out);
+    static void Marshall(const CDM::CircuitData& in, SECircuit<CIRCUIT_TYPES>& out, const std::map<std::string, NodeType*>& nodes, const std::map<std::string, PathType*>& paths);
     template <CIRCUIT_TEMPLATE>
     static void UnMarshall(const SECircuit<CIRCUIT_TYPES>& in, CDM::CircuitData& out);
     //class SECircuitNode
@@ -103,7 +103,7 @@ namespace io {
   void Circuit::Marshall(xsd::cxx::tree::optional<XSD> const& option_in, SE& out)
   {
     if (!option_in.present()) {
-      out.Invalidate();
+      out.Clear();
     } else {
       Marshall(option_in.get(), out);
     }
@@ -118,35 +118,92 @@ namespace io {
   }
   //class SECircuit
   template <CIRCUIT_TEMPLATE>
-  void Circuit::Marshall(const CDM::CircuitData& in, SECircuit<CIRCUIT_TYPES>& out)
+  void Circuit::Marshall(const CDM::CircuitData& in, SECircuit<CIRCUIT_TYPES>& out, const std::map<std::string, NodeType*>& nodes, const std::map<std::string, PathType*>& paths)
   {
+    out.Clear();
+    out.m_Name = in.Name();
+    for (auto name : in.Node()) {
+      auto idx = nodes.find(name);
+      if (idx == nodes.end()) {
+        throw CommonDataModelException(out.m_Name + " could not find node " + name.c_str());
+      }
+      AddNode(*idx->second);
+    }
+    for (auto name : in.Path()) {
+      auto idx = paths.find(name);
+      if (idx == paths.end()) {
+        throw CommonDataModelException(out.m_Name + " could not find path " + name.c_str());
+      }
+      AddPath(*idx->second);
+    }
+    for (auto name : in.ReferenceNode()) {
+      auto idx = nodes.find(name);
+      if (idx == nodes.end()) {
+        throw CommonDataModelException(out.m_Name + " could not find reference node " + name.c_str());
+      }
+      AddReferenceNode(*idx->second);
+    }
+    out.StateChange();
   }
   //----------------------------------------------------------------------------------
   template <CIRCUIT_TEMPLATE>
   void Circuit::UnMarshall(const SECircuit<CIRCUIT_TYPES>& in, CDM::CircuitData& out)
   {
+    out.Name(in.m_Name);
+    if (HasReferenceNode()) {
+      for (NodeType* n : in.m_ReferenceNodes)
+        out.ReferenceNode().push_back(n->GetName());
+    }
+    for (auto* n : in.m_Nodes)
+      out.Node().push_back(n->GetName());
+    for (auto* p : in.m_Paths)
+      out.Path().push_back(p->GetName());
   }
   //----------------------------------------------------------------------------------
   //class SECircuitNode
   template <CIRCUIT_NODE_TEMPLATE>
   void Circuit::Marshall(const CDM::CircuitNodeData& in, SECircuitNode<CIRCUIT_NODE_TYPES>& out)
   {
+    out.Clear();
   }
   //----------------------------------------------------------------------------------
   template <CIRCUIT_NODE_TEMPLATE>
   void Circuit::UnMarshall(const SECircuitNode<CIRCUIT_NODE_TYPES>& in, CDM::CircuitNodeData& out)
   {
+    out.Name(in.m_Name);
   }
   //----------------------------------------------------------------------------------
   //class SECircuitPath
   template <CIRCUIT_PATH_TEMPLATE>
   void Circuit::Marshall(const CDM::CircuitPathData& in, SECircuitPath<CIRCUIT_PATH_TYPES>& out)
   {
+    out.Clear();
+    out.SetSwitch(in.Switch().get());
+    out.SetNextSwitch(in.NextSwitch().get());
+    out.SetValve(in.Valve().get());
+    out.SetNextValve(in.NextValve().get());
+    out.SetPolarizedState(in.PolarizedState().get());
+    out.SetNextPolarizedState(in.NextPolarizedState().get());
   }
   //----------------------------------------------------------------------------------
   template <CIRCUIT_PATH_TEMPLATE>
   void Circuit::UnMarshall(const SECircuitPath<CIRCUIT_PATH_TYPES>& in, CDM::CircuitPathData& out)
   {
+    out.Name(in.m_Name);
+    out.SourceNode(in.m_SourceNode.GetName());
+    out.TargetNode(in.m_TargetNode.GetName());
+    if (in.HasSwitch())
+      out.Switch(in.m_Switch);
+    if (in.HasNextSwitch())
+      out.NextSwitch(in.m_NextSwitch);
+    if (in.HasValve())
+      out.Valve(in.m_Valve);
+    if (in.HasNextValve())
+      out.NextValve(in.m_NextValve);
+    if (in.HasPolarizedState())
+      out.PolarizedState(in.m_PolarizedState);
+    if (in.HasNextPolarizedState())
+      out.NextPolarizedState(in.m_NextPolarizedState);
   }
   //----------------------------------------------------------------------------------
 } // Namespace IO

@@ -12,69 +12,46 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEExpiratoryValveObstruction.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
-
-#include "../../../../utils/io/Property.h"  
 namespace biogears {
 SEExpiratoryValveObstruction::SEExpiratoryValveObstruction()
   : SEAnesthesiaMachineAction()
 {
   m_Severity = nullptr;
 }
-
+//----------------------------------------------------------------------------------
 SEExpiratoryValveObstruction::~SEExpiratoryValveObstruction()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEExpiratoryValveObstruction::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
   SAFE_DELETE(m_Severity);
 }
-
+//----------------------------------------------------------------------------------
 bool SEExpiratoryValveObstruction::IsValid() const
 {
   return SEAnesthesiaMachineAction::IsValid() && HasSeverity();
 }
-
+//----------------------------------------------------------------------------------
 bool SEExpiratoryValveObstruction::IsActive() const
 {
   return HasSeverity() ? !m_Severity->IsZero() : false;
 }
-
-bool SEExpiratoryValveObstruction::Load(const CDM::ExpiratoryValveObstructionData& in)
-{
-  SEAnesthesiaMachineAction::Load(in);
-  io::Property::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::ExpiratoryValveObstructionData* SEExpiratoryValveObstruction::Unload() const
-{
-  CDM::ExpiratoryValveObstructionData* data = new CDM::ExpiratoryValveObstructionData();
-  Unload(*data);
-  return data;
-}
-
-void SEExpiratoryValveObstruction::Unload(CDM::ExpiratoryValveObstructionData& data) const
-{
-  SEAnesthesiaMachineAction::Unload(data);
-  if (m_Severity != nullptr)
-  io::Property::UnMarshall(*m_Severity, data.Severity());
-}
-
+//----------------------------------------------------------------------------------
 bool SEExpiratoryValveObstruction::HasSeverity() const
 {
   return m_Severity != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEScalar0To1& SEExpiratoryValveObstruction::GetSeverity()
 {
   if (m_Severity == nullptr)
     m_Severity = new SEScalar0To1();
   return *m_Severity;
 }
-
+//----------------------------------------------------------------------------------
 void SEExpiratoryValveObstruction::ToString(std::ostream& str) const
 {
   str << "Anesthesia Machine Action : Expiratory Valve Obstruction";
@@ -84,4 +61,5 @@ void SEExpiratoryValveObstruction::ToString(std::ostream& str) const
   HasSeverity() ? str << *m_Severity : str << "NaN";
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

@@ -12,69 +12,47 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEVentilatorPressureLoss.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
-#include <biogears/schema/cdm/Properties.hxx>
 
-#include "../../../../utils/io/Property.h"
 namespace biogears {
 SEVentilatorPressureLoss::SEVentilatorPressureLoss()
   : SEAnesthesiaMachineAction()
 {
   m_Severity = nullptr;
 }
-
+//----------------------------------------------------------------------------------
 SEVentilatorPressureLoss::~SEVentilatorPressureLoss()
 {
   Clear();
 }
-
+//----------------------------------------------------------------------------------
 void SEVentilatorPressureLoss::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
   SAFE_DELETE(m_Severity);
 }
-
+//----------------------------------------------------------------------------------
 bool SEVentilatorPressureLoss::IsValid() const
 {
   return SEAnesthesiaMachineAction::IsValid() && HasSeverity();
 }
-
+//----------------------------------------------------------------------------------
 bool SEVentilatorPressureLoss::IsActive() const
 {
   return HasSeverity() ? !m_Severity->IsZero() : false;
 }
-
-bool SEVentilatorPressureLoss::Load(const CDM::VentilatorPressureLossData& in)
-{
-  SEAnesthesiaMachineAction::Load(in);
-  io::Property::Marshall(in.Severity(), GetSeverity());
-  return true;
-}
-
-CDM::VentilatorPressureLossData* SEVentilatorPressureLoss::Unload() const
-{
-  CDM::VentilatorPressureLossData* data = new CDM::VentilatorPressureLossData();
-  Unload(*data);
-  return data;
-}
-
-void SEVentilatorPressureLoss::Unload(CDM::VentilatorPressureLossData& data) const
-{
-  SEAnesthesiaMachineAction::Unload(data);
-  if (m_Severity != nullptr)
-    io::Property::UnMarshall(*m_Severity, data.Severity());
-}
-
+//----------------------------------------------------------------------------------
 bool SEVentilatorPressureLoss::HasSeverity() const
 {
   return m_Severity != nullptr;
 }
+//----------------------------------------------------------------------------------
 SEScalar0To1& SEVentilatorPressureLoss::GetSeverity()
 {
   if (m_Severity == nullptr)
     m_Severity = new SEScalar0To1();
   return *m_Severity;
 }
-
+//----------------------------------------------------------------------------------
 void SEVentilatorPressureLoss::ToString(std::ostream& str) const
 {
   str << "Anesthesia Machine Action : Ventilator Pressure Loss";
@@ -84,4 +62,5 @@ void SEVentilatorPressureLoss::ToString(std::ostream& str) const
   HasSeverity() ? str << *m_Severity : str << "NaN";
   str << std::flush;
 }
+//----------------------------------------------------------------------------------
 }

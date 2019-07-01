@@ -19,6 +19,8 @@ specific language governing permissions and limitations under the License.
 #define CIRCUIT_LEDGER_TEMPLATE typename NodeType, typename PathType, typename CircuitType
 #define CIRCUIT_LEDGER_TYPES NodeType, PathType, CircuitType
 
+IO_DECL(Circuit)
+
 namespace biogears {
 
 class SECircuitManager;
@@ -48,23 +50,17 @@ public:
 #define THERMAL_LEDGER_TYPES SEThermalCircuitNode, SEThermalCircuitPath, SEThermalCircuit
 
 class BIOGEARS_API SECircuitManager : public Loggable {
+  friend class io::Circuit;
+
 public:
   SECircuitManager(Logger* logger);
   virtual ~SECircuitManager();
 
   virtual void Clear(); //clear memory
 
-  virtual bool Load(const CDM::CircuitManagerData& in);
-  virtual CDM::CircuitManagerData* Unload() const;
-
-protected:
-  void Unload(CDM::CircuitManagerData& data) const;
-
-public:
   void SetReadOnly(bool b);
 
-protected:
-public:
+
   virtual SEElectricalCircuitNode& CreateElectricalNode(const char* name) { return CreateNode<ELECTRICAL_LEDGER_TYPES>(name, m_ElectricalLedger); }
   virtual void DeleteElectricalNode(const char* name) { DeleteNode<ELECTRICAL_LEDGER_TYPES>(name, m_ElectricalLedger); }
   virtual bool HasElectricalNode(const char* name) const { return HasNode<ELECTRICAL_LEDGER_TYPES>(name, m_ElectricalLedger); }

@@ -32,7 +32,6 @@
 #include <string>
 //
 #include <biogears/cdm/properties/SEScalarNeg1To1.h>
-#include <biogears/schema/cdm/EnvironmentConditions.hxx>
 //
 #ifdef DISABLE_BIOGEARS_Gastrointestinal_TEST
 #define TEST_FIXTURE_NAME DISABLED_Circuit_Gastrointestinal_Fixture

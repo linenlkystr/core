@@ -95,7 +95,7 @@ namespace io {
   void AnesthesiaActions::Marshall(xsd::cxx::tree::optional<XSD> const& option_in, SE& out)
   {
     if (!option_in.present()) {
-      out.Invalidate();
+      out.Clear();
     } else {
       Marshall(option_in.get(), out);
     }

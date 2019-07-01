@@ -16,7 +16,8 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/cdm/compartment/SECompartment.h>
-#include <biogears/schema/cdm/Compartment.hxx>
+
+IO_DECL(Compartment)
 
 namespace biogears {
 
@@ -31,6 +32,7 @@ class ElectricPotentialUnit;
 class SECompartmentManager;
 class BIOGEARS_API SETissueCompartment : public SECompartment {
   friend class SECompartmentManager;
+  friend class io::Compartment;
 
 protected:
   SETissueCompartment(const char* name, Logger* logger);
@@ -41,13 +43,6 @@ public:
 
   virtual void Clear() override;
 
-  virtual bool Load(const CDM::TissueCompartmentData& in, SESubstanceManager& subMgr, SECircuitManager* circuits = nullptr);
-  virtual CDM::TissueCompartmentData* Unload() override;
-
-protected:
-  virtual void Unload(CDM::TissueCompartmentData& data);
-
-public:
   virtual const SEScalar* GetScalar(const char* name) override;
   virtual const SEScalar* GetScalar(const std::string& name) override;
 
