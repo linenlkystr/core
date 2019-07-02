@@ -20,12 +20,14 @@ specific language governing permissions and limitations under the License.
 #define FLUID_CIRCUIT_NODE SEScalarPressure, SEScalarVolume
 #define THERMAL_CIRCUIT_NODE SEScalarTemperature, SEScalarEnergy
 
+IO_DECL(Circuit)
 namespace biogears {
 
 template <CIRCUIT_NODE_TEMPLATE>
 class SECircuitNode : public Loggable {
   template <typename NodeType, typename PathType>
   friend class SECircuit;
+  friend class io::Circuit;
 
 protected:
   SECircuitNode(const char* name, Logger* logger);

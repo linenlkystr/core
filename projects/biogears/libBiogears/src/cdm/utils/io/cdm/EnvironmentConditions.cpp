@@ -26,14 +26,14 @@ namespace io {
     if (in.ConditionsFile().present())
       out.SetConditionsFile(in.ConditionsFile().get());
     if (in.Conditions().present())
-      out.GetConditions().Load(in.Conditions().get());
+      Marshall(in.Conditions(),out.GetConditions());
   }
   //----------------------------------------------------------------------------------
   void EnvironmentConditions::UnMarshall(const SEInitialEnvironment& in, CDM::InitialEnvironmentData& out)
   {
     io::Scenario::UnMarshall(static_cast<const SEEnvironmentCondition&>(in), static_cast<CDM::EnvironmentConditionData&>(out));
     if (in.HasConditions())
-      out.Conditions(std::unique_ptr<CDM::EnvironmentalConditionsData>(in.m_Conditions->Unload()));
+      UnMarshall(*in.m_Conditions, out.Conditions());
     else if (in.HasConditionsFile())
       out.ConditionsFile(in.m_ConditionsFile);
   }

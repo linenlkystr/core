@@ -6,6 +6,7 @@
 #include <biogears/cdm/properties/SEFunction.h>
 #include <biogears/cdm/properties/SEFunctionElectricPotentialVsTime.h>
 #include <biogears/cdm/properties/SEFunctionVolumeVsTime.h>
+#include <biogears/cdm/properties/SEHistogram.h>
 #include <biogears/cdm/properties/SEHistogramFractionVsLength.h>
 #include <biogears/cdm/properties/SEScalarAmount.h>
 #include <biogears/cdm/properties/SEScalarAreaPerTimePressure.h>
@@ -19,6 +20,7 @@
 #include <biogears/cdm/properties/SEScalarEnergyPerMass.h>
 #include <biogears/cdm/properties/SEScalarHeatCapacitance.h>
 #include <biogears/cdm/properties/SEScalarHeatCapacitancePerAmount.h>
+#include <biogears/cdm/properties/SEScalarHeatCapacitancePerMass.h>
 #include <biogears/cdm/properties/SEScalarHeatConductance.h>
 #include <biogears/cdm/properties/SEScalarHeatConductancePerArea.h>
 #include <biogears/cdm/properties/SEScalarHeatInductance.h>
@@ -30,9 +32,7 @@
 #include <biogears/cdm/properties/SEScalarVolumePerPressure.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTimeMass.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTimePressure.h>
-
-#include "biogears/cdm/properties/SEHistogram.h"
-#include <biogears/cdm/CommonDataModel.h>
+#include <biogears/cdm/utils/RunningAverage.h>
 
 #if defined(BIOGEARS_THROW_READONLY_EXCEPTIONS)
 #define READ_ONLY_CHECK() \
@@ -93,7 +93,7 @@ namespace io {
   //class SEFunctionElectricPotentialVsTime-------------------------------------------------
   void Property::Marshall(const CDM::FunctionElectricPotentialVsTimeData& in, SEFunctionElectricPotentialVsTime& out)
   {
-    Property::Marshall(static_cast<CDM::FunctionData const&>(in), static_cast<SEFunction&>(out));     
+    Property::Marshall(static_cast<CDM::FunctionData const&>(in), static_cast<SEFunction&>(out));
     out.m_TimeUnit = &TimeUnit::GetCompoundUnit(in.IndependentUnit().get());
     out.m_ElectricPotentialUnit = &ElectricPotentialUnit::GetCompoundUnit(in.DependentUnit().get());
   }
@@ -145,7 +145,6 @@ namespace io {
   {
     Property::Marshall(static_cast<CDM::HistogramData const&>(in), static_cast<SEHistogram&>(out));
     out.m_LengthUnit = &LengthUnit::GetCompoundUnit(in.IndependentUnit().get());
-   
   }
   void Property::UnMarshall(const SEHistogramFractionVsLength& in, CDM::HistogramFractionVsLengthData& out)
   {
@@ -383,7 +382,8 @@ namespace io {
   void Property::Marshall(const CDM::ScalarData& in, SEScalar& out)
   {
     READ_ONLY_CHECK()
-    out.Clear();;
+    out.Clear();
+    ;
     out.m_value = in.value();
     if (in.unit().present()) {
       std::string u = in.unit().get();
@@ -730,6 +730,17 @@ namespace io {
   void Property::UnMarshall(const SEScalarVolumePerTimePressure& in, CDM::ScalarVolumePerTimePressureData& out)
   {
     Property::UnMarshall(static_cast<SEScalarQuantity<VolumePerTimePressureUnit> const&>(in), static_cast<CDM::ScalarData&>(out));
+  }
+  //class SERunningAverage-------------------------------------------------
+  void Property::Marshall(const CDM::RunningAverageData& in, RunningAverage& out)
+  {
+    out.m_Sum = in.sum();
+    out.m_NumSamples = in.numSamples();
+  }
+  void Property::UnMarshall(const RunningAverage& in, CDM::RunningAverageData& out)
+  {
+    out.sum(in.m_Sum);
+    out.numSamples(in.m_NumSamples);
   }
 }
 }

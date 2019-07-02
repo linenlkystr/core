@@ -14,18 +14,13 @@ specific language governing permissions and limitations under the License.
 
 #include <biogears/exports.h>
 
-
+IO_DECL(Property)
 namespace biogears {
 class BIOGEARS_API RunningAverage {
+  friend class io::Property;
 public:
   RunningAverage();
   virtual ~RunningAverage();
-
-  bool Load(const CDM::RunningAverageData& in);
-  CDM::RunningAverageData* Unload() const;
-
-protected:
-  void Unload(CDM::RunningAverageData& data) const;
 
 public:
   /** Reset Counter info */

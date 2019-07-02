@@ -11,9 +11,12 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 #include <fstream>
 
+
 #include <biogears/cdm/utils/testing/SETestReport.h>
 
 #include <biogears/cdm/utils/FileUtils.h>
+
+#include "../../utils/io/cdm/TestReport.h"
 
 namespace biogears {
 SETestReport::SETestReport(Logger* logger)
@@ -44,8 +47,10 @@ bool SETestReport::WriteFile(const std::string& fileName)
   try {
     std::ofstream outFile;
     outFile.open(ResolvePath(fileName));
-    std::unique_ptr<CDM::TestReportData> unloaded = Unload();
-    CDM::TestReport(outFile, *unloaded, map);
+    
+    CDM::TestReportData unloaded;
+    io::TestReport::UnMarshall(*this,unloaded);
+    CDM::TestReport(outFile, unloaded, map);
   } catch (const xml_schema::exception& e) {
     Error(e.what());
     return false;

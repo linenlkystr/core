@@ -19,6 +19,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/schema/cdm/AnesthesiaActions.hxx>
 
 namespace biogears {
+class SEAnesthesiaMachineActionCollection;
 class SEAnesthesiaMachineAction;
 class SEAnesthesiaMachineConfiguration;
 class SEExpiratoryValveLeak;
@@ -42,6 +43,8 @@ class SEOxygenTankPressureLoss;
 namespace io {
   class BIOGEARS_PRIVATE_API AnesthesiaActions {
   public:
+    //
+    static void UnMarshall(const SEAnesthesiaMachineActionCollection&, std::vector<CDM::ActionData*>& out);
     //template <typename SE, typename XSD>  option
     template <typename SE, typename XSD>
     static void Marshall(xsd::cxx::tree::optional<XSD> const& option_in, SE& out);

@@ -18,9 +18,12 @@ specific language governing permissions and limitations under the License.
 #define CIRCUIT_TEMPLATE typename NodeType, typename PathType
 #define CIRCUIT_TYPES  NodeType,  PathType
 
+IO_DECL(Circuit)
 namespace biogears {
 template <CIRCUIT_TEMPLATE>
 class SECircuit : public Loggable {
+  friend class io::Circuit;
+
 public:
   SECircuit(const char* name, Logger* logger);
   SECircuit(const std::string& name, Logger* logger);

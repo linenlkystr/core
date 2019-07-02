@@ -253,17 +253,17 @@ private:
   // declare certain member function "const" when the function is supposed to be "read-only",
   // but in reality the "read" causes the update of cached values, and those must be
   // declared "mutable"
+#pragma warning(push, 0)
   mutable std::string m_strUnit;
   mutable double m_dBigness;
-#pragma warning(push, 0)
   CUEVecType m_CUEVec;
-#pragma warning(pop)
   mutable CUnitDimension* m_CUD;
   mutable bool m_bStaleBigness;
   mutable bool m_bStaleDimension;
   mutable bool m_bExplicitNonDBFlag;
   mutable bool m_bExplicitDBFlag;
   mutable bool m_bDBFlag;
+#pragma warning(pop)
 };
 
 inline CCompoundUnit pow(const CCompoundUnit& baseref, CCompoundUnitElement::ExponentType exp)

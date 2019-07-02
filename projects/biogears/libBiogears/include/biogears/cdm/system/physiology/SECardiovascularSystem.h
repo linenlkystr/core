@@ -13,6 +13,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/system/SESystem.h>
 
+#include <biogears/cdm/system/physiology/SEPhysiologyEnums.h>
+
 IO_DECL(Physiology)
 
 namespace biogears {
@@ -41,7 +43,7 @@ public:
   ~SECardiovascularSystem() override;
 
   static size_t TypeHash() { return reinterpret_cast<size_t>(&TypeHash); }
-  static constexpr char const * const  TypeTag() { return "SECardiovascularSystem"; }
+  static constexpr char const* const TypeTag() { return "SECardiovascularSystem"; }
   const char* classname() const override { return TypeTag(); }
   size_t hash_code() const override { return TypeHash(); }
 
@@ -93,8 +95,8 @@ public:
   SEScalarFrequency& GetHeartRate();
   double GetHeartRate(const FrequencyUnit& unit) const;
 
-  CDM::enumHeartRhythm::value GetHeartRhythm() const;
-  void SetHeartRhythm(CDM::enumHeartRhythm::value Rhythm);
+  SEHeartRhythm GetHeartRhythm() const;
+  void SetHeartRhythm(SEHeartRhythm Rhythm);
   bool HasHeartRhythm() const;
   void InvalidateHeartRhythm();
 
@@ -185,7 +187,7 @@ protected:
   SEScalarPressure* m_DiastolicArterialPressure;
   SEScalarFraction* m_HeartEjectionFraction;
   SEScalarFrequency* m_HeartRate;
-  CDM::enumHeartRhythm::value m_HeartRhythm;
+  SEHeartRhythm m_HeartRhythm;
   SEScalarVolume* m_HeartStrokeVolume;
   SEScalarPressure* m_IntracranialPressure;
   SEScalarPressure* m_MeanArterialPressure;

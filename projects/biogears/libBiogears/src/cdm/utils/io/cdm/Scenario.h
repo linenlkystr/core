@@ -48,9 +48,16 @@ class SESerializeState;
     io::Property::UnMarshall(*m_##func, xsd.func());                       \
   }
 
+class SEAnesthesiaMachineActionCollection;
+class SEEnvironmentActionCollection;
+class SEInhalerActionCollection;
+class SEPatientActionCollection;
+
 namespace io {
   class BIOGEARS_PRIVATE_API Scenario {
   public:
+    //ActionCollection
+    
     //template <typename SE, typename XSD>  option
     template <typename SE, typename XSD>
     static void Marshall(xsd::cxx::tree::optional<XSD> const& option_in, SE& out);

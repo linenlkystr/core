@@ -38,8 +38,8 @@ public:
 
   void Unload(std::vector<CDM::ActionData*>& to);
 
-  bool ProcessAction(const SEAnesthesiaMachineAction& action);
-  bool ProcessAction(const CDM::AnesthesiaMachineActionData& action);
+  //< Takes Ownership of the action processed 
+  bool ProcessAction(SEAnesthesiaMachineAction&& action);
 
   // STATE ACTION
   bool HasConfiguration() const;
@@ -52,8 +52,8 @@ public:
   SEOxygenTankPressureLoss* GetOxygenTankPressureLoss() const;
   void RemoveOxygenTankPressureLoss();
 
-  bool HasOxygenWallPortPressureLoss();
-  SEOxygenWallPortPressureLoss* GetOxygenWallPortPressureLoss();
+  bool HasOxygenWallPortPressureLoss() const;
+  SEOxygenWallPortPressureLoss* GetOxygenWallPortPressureLoss() const;
   void RemoveOxygenWallPortPressureLoss();
 
   // FAILURE ACTIONS

@@ -26,24 +26,6 @@ RunningAverage::~RunningAverage()
 {
 }
 
-bool RunningAverage::Load(const CDM::RunningAverageData& in)
-{
-  m_Sum = in.sum();
-  m_NumSamples = in.numSamples();
-  return true;
-}
-CDM::RunningAverageData* RunningAverage::Unload() const
-{
-  CDM::RunningAverageData* data = new CDM::RunningAverageData();
-  Unload(*data);
-  return data;
-}
-void RunningAverage::Unload(CDM::RunningAverageData& data) const
-{
-  data.sum(m_Sum);
-  data.numSamples(m_NumSamples);
-}
-
 void RunningAverage::Reset()
 {
   m_Sum = 0.0;

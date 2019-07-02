@@ -14,6 +14,7 @@ specific language governing permissions and limitations under the License.
 #include <string>
 
 #include <biogears/cdm/scenario/SEAction.h>
+#include <biogears/cdm/scenario/SEScenarioEnums.h>
 
 IO_DECL(Scenario)
 namespace biogears {
@@ -35,8 +36,8 @@ public:
 public:
   virtual void ToString(std::ostream& str) const override;
 
-  virtual CDM::enumSerializationType::value GetType() const;
-  virtual void SetType(CDM::enumSerializationType::value t);
+  virtual SESerializationType GetType() const;
+  virtual void SetType(SESerializationType t);
   virtual bool HasType() const;
   virtual void InvalidateType();
 
@@ -49,6 +50,6 @@ public:
 
 protected:
   std::string m_Filename;
-  CDM::enumSerializationType::value m_Type;
+  SESerializationType m_Type;
 };
 }

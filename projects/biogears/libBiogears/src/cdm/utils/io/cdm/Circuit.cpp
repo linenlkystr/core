@@ -1,21 +1,22 @@
 #include "Circuit.h"
 
 #include "Property.h"
+#include "Circuit.h"
 
 #include <biogears/cdm/circuit/SECircuit.h>
 
-#include <biogears/cdm/circuit/SECircuitManager.h>;
+#include <biogears/cdm/circuit/SECircuitManager.h>
 #include <biogears/cdm/circuit/SECircuitNode.inl>
 #include <biogears/cdm/circuit/SECircuitPath.h>
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuit.h>
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitNode.h>
 #include <biogears/cdm/circuit/electrical/SEElectricalCircuitPath.h>
 #include <biogears/cdm/circuit/fluid/SEFluidCircuit.h>
-#include <biogears/cdm/circuit/fluid/SEFluidCircuitNode.h>;
-#include <biogears/cdm/circuit/fluid/SEFluidCircuitPath.h>;
-#include <biogears/cdm/circuit/thermal/SEThermalCircuit.h>;
-#include <biogears/cdm/circuit/thermal/SEThermalCircuitNode.h>;
-#include <biogears/cdm/circuit/thermal/SEThermalCircuitPath.h>;
+#include <biogears/cdm/circuit/fluid/SEFluidCircuitNode.h>
+#include <biogears/cdm/circuit/fluid/SEFluidCircuitPath.h>
+#include <biogears/cdm/circuit/thermal/SEThermalCircuit.h>
+#include <biogears/cdm/circuit/thermal/SEThermalCircuitNode.h>
+#include <biogears/cdm/circuit/thermal/SEThermalCircuitPath.h>
 
 namespace biogears {
 namespace io {
@@ -393,7 +394,7 @@ namespace io {
   {
     out.Clear();
     for (const CDM::ElectricalCircuitNodeData& n : in.ElectricalNode())
-      out.CreateNode<ELECTRICAL_LEDGER_TYPES>(n.Name(), out.m_ElectricalLedger).Load(n);
+      io::Circuit::Marshall(n, out.CreateNode<ELECTRICAL_LEDGER_TYPES>(n.Name(), out.m_ElectricalLedger));
     for (const CDM::ElectricalCircuitPathData& p : in.ElectricalPath()) {
       SEElectricalCircuitNode* src = out.GetNode(p.SourceNode(), out.m_ElectricalLedger);
       if (src == nullptr) {
@@ -403,13 +404,13 @@ namespace io {
       if (tgt == nullptr) {
         throw CommonDataModelException(std::string{ "Could not find target node " } + std::string{ p.TargetNode() } + " from path " + p.Name().c_str());
       }
-      out.CreatePath<ELECTRICAL_LEDGER_TYPES>(*src, *tgt, p.Name(), out.m_ElectricalLedger).Load(p);
+      io::Circuit::Marshall(p, out.CreatePath<ELECTRICAL_LEDGER_TYPES>(*src, *tgt, p.Name(), out.m_ElectricalLedger));
     }
     for (const CDM::ElectricalCircuitData& c : in.ElectricalCircuit())
-      out.CreateCircuit<ELECTRICAL_LEDGER_TYPES>(c.Name(), out.m_ElectricalLedger).Load(c, out.m_ElectricalLedger.nodes, out.m_ElectricalLedger.paths);
+      io::Circuit::Marshall(c, out.CreateCircuit<ELECTRICAL_LEDGER_TYPES>(c.Name(), out.m_ElectricalLedger), out.m_ElectricalLedger.nodes, out.m_ElectricalLedger.paths);
 
     for (const CDM::FluidCircuitNodeData& n : in.FluidNode())
-      out.CreateNode<FLUID_LEDGER_TYPES>(n.Name(), out.m_FluidLedger).Load(n);
+      io::Circuit::Marshall(n,out.CreateNode<FLUID_LEDGER_TYPES>(n.Name(), out.m_FluidLedger));
     for (const CDM::FluidCircuitPathData& p : in.FluidPath()) {
       SEFluidCircuitNode* src = out.GetNode(p.SourceNode(), out.m_FluidLedger);
       if (src == nullptr) {
@@ -419,13 +420,13 @@ namespace io {
       if (tgt == nullptr) {
         throw CommonDataModelException(std::string{ "Could not find target node " } + std::string{ p.TargetNode() } + " from path " + p.Name().c_str());
       }
-      out.CreatePath<FLUID_LEDGER_TYPES>(*src, *tgt, p.Name(), out.m_FluidLedger).Load(p);
+      io::Circuit::Marshall(p, out.CreatePath<FLUID_LEDGER_TYPES>(*src, *tgt, p.Name(), out.m_FluidLedger));
     }
     for (const CDM::FluidCircuitData& c : in.FluidCircuit())
-      out.CreateCircuit<FLUID_LEDGER_TYPES>(c.Name(), out.m_FluidLedger).Load(c, out.m_FluidLedger.nodes, out.m_FluidLedger.paths);
+      io::Circuit::Marshall(c, out.CreateCircuit<FLUID_LEDGER_TYPES>(c.Name(), out.m_FluidLedger));
 
     for (const CDM::ThermalCircuitNodeData& n : in.ThermalNode())
-      out.CreateNode<THERMAL_LEDGER_TYPES>(n.Name(), out.m_ThermalLedger).Load(n);
+      io::Circuit::Marshall(n, out.CreateNode<THERMAL_LEDGER_TYPES>(n.Name(), out.m_ThermalLedger));
     for (const CDM::ThermalCircuitPathData& p : in.ThermalPath()) {
       SEThermalCircuitNode* src = out.GetNode(p.SourceNode(), out.m_ThermalLedger);
       if (src == nullptr) {
@@ -435,10 +436,11 @@ namespace io {
       if (tgt == nullptr) {
         throw CommonDataModelException(std::string{ "Could not find target node " } + std::string{ p.TargetNode() } + " from path " + p.Name().c_str());
       }
-      out.CreatePath<THERMAL_LEDGER_TYPES>(*src, *tgt, p.Name(), out.m_ThermalLedger).Load(p);
+      io::Circuit::Marshall(p, out.CreatePath<THERMAL_LEDGER_TYPES>(*src, *tgt, p.Name(), out.m_ThermalLedger));
     }
     for (const CDM::ThermalCircuitData& c : in.ThermalCircuit())
-      out.CreateCircuit<THERMAL_LEDGER_TYPES>(c.Name(), out.m_ThermalLedger).Load(c, out.m_ThermalLedger.nodes, out.m_ThermalLedger.paths);
+      io::Circuit::Marshall(c, out.CreateCircuit<THERMAL_LEDGER_TYPES>(c.Name(), out.m_ThermalLedger));
+    
   }
   //----------------------------------------------------------------------------------
   void Circuit::UnMarshall(const SECircuitManager& in, CDM::CircuitManagerData& out)

@@ -35,14 +35,6 @@ void SEEnvironmentActionCollection::Clear()
   RemoveThermalApplication();
 }
 
-void SEEnvironmentActionCollection::Unload(std::vector<CDM::ActionData*>& to)
-{
-  if (HasChange())
-    to.push_back(GetChange()->Unload());
-  if (HasThermalApplication())
-    to.push_back(GetThermalApplication()->Unload());
-}
-
 bool SEEnvironmentActionCollection::ProcessAction(const SEEnvironmentAction& action)
 {
   if (!IsValid(action))
@@ -51,10 +43,7 @@ bool SEEnvironmentActionCollection::ProcessAction(const SEEnvironmentAction& act
   bool b = ProcessAction(*bind);
   delete bind;
   return b;
-}
 
-bool SEEnvironmentActionCollection::ProcessAction(const CDM::EnvironmentActionData& action)
-{
   const CDM::EnvironmentChangeData* change = dynamic_cast<const CDM::EnvironmentChangeData*>(&action);
   if (change != nullptr) {
     if (m_Change == nullptr)
@@ -78,6 +67,10 @@ bool SEEnvironmentActionCollection::ProcessAction(const CDM::EnvironmentActionDa
   /// \error Unsupported Action
   Error("Unsupported Action");
   return false;
+}
+
+bool SEEnvironmentActionCollection::ProcessAction(const CDM::EnvironmentActionData& action)
+{
 }
 
 bool SEEnvironmentActionCollection::IsValid(const SEEnvironmentAction& action)

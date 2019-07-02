@@ -12,8 +12,9 @@ specific language governing permissions and limitations under the License.
 
 #pragma once
 
-#include "biogears/cdm/CommonDataModel.h"
-#include "biogears/cdm/properties/SEDecimalFormat.h"
+#include <biogears/cdm/properties/PropertyEnum.h>
+#include <biogears/cdm/CommonDataModel.h>
+#include <biogears/cdm/properties/SEDecimalFormat.h>
 #include <biogears/exports.h>
 
 #include <biogears/schema/cdm/Properties.hxx>
@@ -21,9 +22,11 @@ specific language governing permissions and limitations under the License.
 //#include <memory>
 
 namespace biogears {
+class RunningAverage;
+
+class SEDecimalFormat;
 template <typename T>
 class SEScalarQuantity;
-class SEDecimalFormat;
 class SEFunctionElectricPotentialVsTime;
 class SEFunction;
 class SEFunctionVolumeVsTime;
@@ -93,14 +96,13 @@ class SEScalarVolumePerTimePressureArea;
 class SEScalarVolumePerTimePressure;
 class SEUnitScalar;
 
-  
-  #define CDM_PROPERTY_UNMARSHAL_HELPER(xsd, func)                                                  \
-  if (in.m_##func) {                                                                    \
+#define CDM_PROPERTY_UNMARSHAL_HELPER(xsd, func)                                     \
+  if (in.m_##func) {                                                                 \
     xsd.func(std::make_unique<std::remove_reference<decltype(xsd.func())>::type>()); \
-    io::Property::UnMarshall(*in.m_##func, xsd.func());                       \
+    io::Property::UnMarshall(*in.m_##func, xsd.func());                              \
   }
-  
-  namespace io {
+
+namespace io {
   class BIOGEARS_PRIVATE_API Property {
   public:
     //template <typename SE, typename XSD>  option
@@ -317,6 +319,9 @@ class SEUnitScalar;
     //class SEScalarVolumePerTimePressure;
     static void Marshall(const CDM::ScalarVolumePerTimePressureData& in, SEScalarVolumePerTimePressure& out);
     static void UnMarshall(const SEScalarVolumePerTimePressure& in, CDM::ScalarVolumePerTimePressureData& out);
+    //class SERunningAverage
+    static void Marshall(const CDM::RunningAverageData& in, RunningAverage& out);
+    static void UnMarshall(const RunningAverage& in, CDM::RunningAverageData& out);
   };
 
   //-------------------------------------------------------------------------------

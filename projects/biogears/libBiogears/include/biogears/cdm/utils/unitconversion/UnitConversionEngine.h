@@ -195,7 +195,8 @@ private:
 
   int m_iNumFundamentalQuantities;
   int m_iNumQuantities;
-
+#pragma warning(push,0)
   std::string m_wrkDir; // I made this static and accessable for another project, so this is legacy and could be removed if causing issues
+#pragma warning(pop,0)
 };
 }

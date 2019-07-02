@@ -20,16 +20,4 @@ SEThermalCompartmentDataRequest::SEThermalCompartmentDataRequest(const SEDecimal
 {
 }
 //-------------------------------------------------------------------------------
-SEThermalCompartmentDataRequest::~SEThermalCompartmentDataRequest()
-{
-  Clear();
-}
-//-------------------------------------------------------------------------------
-CDM::ThermalCompartmentDataRequestData* SEThermalCompartmentDataRequest::Unload() const
-{
-  CDM::ThermalCompartmentDataRequestData* data = new CDM::ThermalCompartmentDataRequestData();
-  Unload(*data);
-  return data;
-}
-//-------------------------------------------------------------------------------
 }

@@ -17,7 +17,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/substance/SESubstanceManager.h>
 #include <biogears/container/Tree.tci.h>
 
-
 namespace biogears {
 constexpr char idBaroreceptorHeartRateScale[] = "BaroreceptorHeartRateScale";
 constexpr char idBaroreceptorHeartElastanceScale[] = "BaroreceptorHeartElastanceScale";
@@ -96,29 +95,6 @@ const SEScalar* SENervousSystem::GetScalar(const std::string& name)
       return GetRightEyePupillaryResponse().GetScalar(prop);
   }
   return nullptr;
-}
-//-------------------------------------------------------------------------------
-void SENervousSystem::Unload(CDM::NervousSystemData& data) const
-{
-  SESystem::Unload(data);
-  if (m_BaroreceptorHeartRateScale != nullptr)
-    io::Property::UnMarshall(*m_BaroreceptorHeartRateScale, data.BaroreceptorHeartRateScale());
-  if (m_BaroreceptorHeartElastanceScale != nullptr)
-    io::Property::UnMarshall(*m_BaroreceptorHeartElastanceScale, data.BaroreceptorHeartElastanceScale());
-  if (m_BaroreceptorResistanceScale != nullptr)
-    io::Property::UnMarshall(*m_BaroreceptorResistanceScale, data.BaroreceptorResistanceScale());
-  if (m_BaroreceptorComplianceScale != nullptr)
-    io::Property::UnMarshall(*m_BaroreceptorComplianceScale, data.BaroreceptorComplianceScale());
-  if (m_ChemoreceptorHeartRateScale != nullptr)
-    io::Property::UnMarshall(*m_ChemoreceptorHeartRateScale, data.ChemoreceptorHeartRateScale());
-  if (m_ChemoreceptorHeartElastanceScale != nullptr)
-    io::Property::UnMarshall(*m_ChemoreceptorHeartElastanceScale, data.ChemoreceptorHeartElastanceScale());
-  if (m_PainVisualAnalogueScale != nullptr)
-    io::Property::UnMarshall(*m_PainVisualAnalogueScale, data.PainVisualAnalogueScale());
-  if (m_LeftEyePupillaryResponse != nullptr)
-    data.LeftEyePupillaryResponse(std::unique_ptr<CDM::PupillaryResponseData>(m_LeftEyePupillaryResponse->Unload()));
-  if (m_RightEyePupillaryResponse != nullptr)
-    data.RightEyePupillaryResponse(std::unique_ptr<CDM::PupillaryResponseData>(m_RightEyePupillaryResponse->Unload()));
 }
 //-------------------------------------------------------------------------------
 

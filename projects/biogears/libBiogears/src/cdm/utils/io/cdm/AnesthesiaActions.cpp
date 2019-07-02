@@ -6,6 +6,8 @@
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
 
+#include <biogears/cdm/scenario/SEAnesthesiaMachineActionCollection.h>
+
 #include <biogears/cdm/system/equipment/Anesthesia/SEAnesthesiaMachine.h>
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEAnesthesiaMachineAction.h>
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEAnesthesiaMachineConfiguration.h>
@@ -23,6 +25,74 @@
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEYPieceDisconnect.h>
 namespace biogears {
 namespace io {
+  void AnesthesiaActions::UnMarshall(const SEAnesthesiaMachineActionCollection& in, std::vector<CDM::ActionData*>& out)
+  {
+    if (in.HasConfiguration()) {
+      auto data = std::make_unique<CDM::AnesthesiaMachineConfigurationData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetConfiguration(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasOxygenTankPressureLoss()) {
+      auto data = std::make_unique<CDM::OxygenTankPressureLossData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetOxygenTankPressureLoss(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasOxygenWallPortPressureLoss()) {
+      auto data = std::make_unique<CDM::OxygenWallPortPressureLossData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetOxygenWallPortPressureLoss(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasExpiratoryValveLeak()) {
+      auto data = std::make_unique<CDM::ExpiratoryValveLeakData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetExpiratoryValveLeak(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasExpiratoryValveObstruction()) {
+      auto data = std::make_unique<CDM::ExpiratoryValveObstructionData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetExpiratoryValveObstruction(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasInspiratoryValveLeak()) {
+      auto data = std::make_unique<CDM::InspiratoryValveLeakData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetInspiratoryValveLeak(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasInspiratoryValveObstruction()) {
+      auto data = std::make_unique<CDM::InspiratoryValveObstructionData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetInspiratoryValveObstruction(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasMaskLeak()) {
+      auto data = std::make_unique<CDM::MaskLeakData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetMaskLeak(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasSodaLimeFailure()) {
+      auto data = std::make_unique<CDM::SodaLimeFailureData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetSodaLimeFailure(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasTubeCuffLeak()) {
+      auto data = std::make_unique<CDM::TubeCuffLeakData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetTubeCuffLeak(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasVaporizerFailure()) {
+      auto data = std::make_unique<CDM::VaporizerFailureData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetVaporizerFailure(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasVentilatorPressureLoss()) {
+      auto data = std::make_unique<CDM::VentilatorPressureLossData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetVentilatorPressureLoss(), *data);
+      out.push_back(data.release());
+    }
+    if (in.HasYPieceDisconnect()) {
+      auto data = std::make_unique<CDM::YPieceDisconnectData>();
+      io::AnesthesiaActions::UnMarshall(*in.GetYPieceDisconnect(), *data);
+      out.push_back(data.release());
+    }
+  }
   //class SEAnesthesiaMachineAction
   void AnesthesiaActions::Marshall(const CDM::AnesthesiaMachineActionData& in, SEAnesthesiaMachineAction& out)
   {

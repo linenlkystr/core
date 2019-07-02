@@ -19,9 +19,9 @@ SEScenarioAutoSerialization::SEScenarioAutoSerialization(Logger* logger)
   : Loggable(logger)
 {
   m_Period = nullptr;
-  m_PeriodTimeStamps = (CDM::enumOnOff::value)-1;
-  m_AfterActions = (CDM::enumOnOff::value)-1;
-  m_ReloadState = (CDM::enumOnOff::value)-1;
+  m_PeriodTimeStamps = SEOnOff::Invalid;
+  m_AfterActions = SEOnOff::Invalid;
+  m_ReloadState = SEOnOff::Invalid;
   m_Directory = "";
   m_FileName = "";
 }
@@ -34,9 +34,9 @@ SEScenarioAutoSerialization::~SEScenarioAutoSerialization()
 void SEScenarioAutoSerialization::Clear()
 {
   SAFE_DELETE(m_Period);
-  m_PeriodTimeStamps = (CDM::enumOnOff::value)-1;
-  m_AfterActions = (CDM::enumOnOff::value)-1;
-  m_AfterActions = (CDM::enumOnOff::value)-1;
+  m_PeriodTimeStamps = SEOnOff::Invalid;
+  m_AfterActions = SEOnOff::Invalid;
+  m_AfterActions = SEOnOff::Invalid;
   m_Directory = "";
   m_FileName = "";
 }
@@ -79,64 +79,64 @@ double SEScenarioAutoSerialization::GetPeriod(const TimeUnit& unit) const
   return m_Period->GetValue(unit);
 }
 //-----------------------------------------------------------------------------
-CDM::enumOnOff::value SEScenarioAutoSerialization::GetPeriodTimeStamps() const
+SEOnOff SEScenarioAutoSerialization::GetPeriodTimeStamps() const
 {
   return m_PeriodTimeStamps;
 }
 //-----------------------------------------------------------------------------
-void SEScenarioAutoSerialization::SetPeriodTimeStamps(CDM::enumOnOff::value v)
+void SEScenarioAutoSerialization::SetPeriodTimeStamps(SEOnOff v)
 {
   m_PeriodTimeStamps = v;
 }
 //-----------------------------------------------------------------------------
 bool SEScenarioAutoSerialization::HasPeriodTimeStamps() const
 {
-  return m_PeriodTimeStamps == ((CDM::enumOnOff::value)-1) ? false : true;
+  return m_PeriodTimeStamps == (SEOnOff::Invalid) ? false : true;
 }
 //-----------------------------------------------------------------------------
 void SEScenarioAutoSerialization::InvalidatePeriodTimeStamps()
 {
-  m_PeriodTimeStamps = (CDM::enumOnOff::value)-1;
+  m_PeriodTimeStamps = SEOnOff::Invalid;
 }
 //-----------------------------------------------------------------------------
-CDM::enumOnOff::value SEScenarioAutoSerialization::GetAfterActions() const
+SEOnOff SEScenarioAutoSerialization::GetAfterActions() const
 {
   return m_AfterActions;
 }
 //-----------------------------------------------------------------------------
-void SEScenarioAutoSerialization::SetAfterActions(CDM::enumOnOff::value v)
+void SEScenarioAutoSerialization::SetAfterActions(SEOnOff v)
 {
   m_AfterActions = v;
 }
 //-----------------------------------------------------------------------------
 bool SEScenarioAutoSerialization::HasAfterActions() const
 {
-  return m_AfterActions == ((CDM::enumOnOff::value)-1) ? false : true;
+  return m_AfterActions == (SEOnOff::Invalid) ? false : true;
 }
 //-----------------------------------------------------------------------------
 void SEScenarioAutoSerialization::InvalidateAfterActions()
 {
-  m_AfterActions = (CDM::enumOnOff::value)-1;
+  m_AfterActions = SEOnOff::Invalid;
 }
 //-----------------------------------------------------------------------------
-CDM::enumOnOff::value SEScenarioAutoSerialization::GetReloadState() const
+SEOnOff SEScenarioAutoSerialization::GetReloadState() const
 {
   return m_ReloadState;
 }
 //-----------------------------------------------------------------------------
-void SEScenarioAutoSerialization::SetReloadState(CDM::enumOnOff::value v)
+void SEScenarioAutoSerialization::SetReloadState(SEOnOff v)
 {
   m_ReloadState = v;
 }
 //-----------------------------------------------------------------------------
 bool SEScenarioAutoSerialization::HasReloadState() const
 {
-  return m_ReloadState == ((CDM::enumOnOff::value)-1) ? false : true;
+  return m_ReloadState == (SEOnOff::Invalid) ? false : true;
 }
 //-----------------------------------------------------------------------------
 void SEScenarioAutoSerialization::InvalidateReloadState()
 {
-  m_ReloadState = (CDM::enumOnOff::value)-1;
+  m_ReloadState = SEOnOff::Invalid;
 }
 //-----------------------------------------------------------------------------
 const char* SEScenarioAutoSerialization::GetDirectory() const

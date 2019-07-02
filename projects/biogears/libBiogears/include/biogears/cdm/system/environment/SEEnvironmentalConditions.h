@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
+#include <biogears/cdm/system/environment/SEEnvironmentEnums.h>
+
 IO_DECL(Environment)
 
 namespace biogears {
@@ -65,8 +67,8 @@ public:
   virtual bool HasName() const;
   virtual void InvalidateName();
 
-  virtual CDM::enumSurroundingType::value GetSurroundingType() const;
-  virtual void SetSurroundingType(CDM::enumSurroundingType::value name);
+  virtual SESurroundingType GetSurroundingType() const;
+  virtual void SetSurroundingType(SESurroundingType name);
   virtual bool HasSurroundingType() const;
   virtual void InvalidateSurroundingType();
 
@@ -125,11 +127,10 @@ public:
   void RemoveAmbientAerosols();
 
 protected:
-  virtual void Unload(CDM::EnvironmentalConditionsData& data) const;
   virtual void Merge(const SEEnvironmentalConditions& from);
 
 protected:
-  CDM::enumSurroundingType::value m_SurroundingType;
+  SESurroundingType m_SurroundingType;
 
   std::string m_Name;
   SEScalarMassPerVolume* m_AirDensity;

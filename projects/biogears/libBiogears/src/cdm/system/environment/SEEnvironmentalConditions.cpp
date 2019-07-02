@@ -26,12 +26,15 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/FileUtils.h>
 
 
+#include <biogears/schema/cdm/EnvironmentConditions.hxx>
+#include "../../utils/io/cdm/Environment.h"
+
 namespace biogears {
 SEEnvironmentalConditions::SEEnvironmentalConditions(SESubstanceManager& substances)
   : Loggable(substances.GetLogger())
   , m_Substances(substances)
 {
-  m_SurroundingType = CDM::enumSurroundingType::value(-1);
+  m_SurroundingType = SESurroundingType(-1);
 
   m_AirDensity = nullptr;
   m_AirVelocity = nullptr;
@@ -51,7 +54,7 @@ SEEnvironmentalConditions::~SEEnvironmentalConditions()
 //-----------------------------------------------------------------------------
 void SEEnvironmentalConditions::Clear()
 {
-  m_SurroundingType = CDM::enumSurroundingType::value(-1);
+  m_SurroundingType = SESurroundingType(-1);
   SAFE_DELETE(m_AirDensity);
   SAFE_DELETE(m_AirVelocity);
   SAFE_DELETE(m_AmbientTemperature);
@@ -173,9 +176,7 @@ bool SEEnvironmentalConditions::Load(const std::string& given)
     Error(ss);
     return false;
   }
-  if (!Load(*eData))
-    return false;
-
+  io::Environment::Marshall(*eData,*this);
   return true;
 }
 //-----------------------------------------------------------------------------
@@ -209,24 +210,24 @@ void SEEnvironmentalConditions::InvalidateName()
   m_Name = "";
 }
 //-----------------------------------------------------------------------------
-CDM::enumSurroundingType::value SEEnvironmentalConditions::GetSurroundingType() const
+SESurroundingType SEEnvironmentalConditions::GetSurroundingType() const
 {
   return m_SurroundingType;
 }
 //-----------------------------------------------------------------------------
-void SEEnvironmentalConditions::SetSurroundingType(CDM::enumSurroundingType::value state)
+void SEEnvironmentalConditions::SetSurroundingType(SESurroundingType state)
 {
   m_SurroundingType = state;
 }
 //-----------------------------------------------------------------------------
 bool SEEnvironmentalConditions::HasSurroundingType() const
 {
-  return m_SurroundingType == ((CDM::enumSurroundingType::value)-1) ? false : true;
+  return m_SurroundingType == (SESurroundingType::Invalid) ? false : true;
 }
 //-----------------------------------------------------------------------------
 void SEEnvironmentalConditions::InvalidateSurroundingType()
 {
-  m_SurroundingType = (CDM::enumSurroundingType::value)-1;
+  m_SurroundingType = SESurroundingType::Invalid;
 }
 //-----------------------------------------------------------------------------
 bool SEEnvironmentalConditions::HasAirDensity() const

@@ -70,7 +70,7 @@ SECardiovascularSystem::SECardiovascularSystem(Logger* logger)
   m_DiastolicArterialPressure = nullptr;
   m_HeartEjectionFraction = nullptr;
   m_HeartRate = nullptr;
-  m_HeartRhythm = (CDM::enumHeartRhythm::value)-1;
+  m_HeartRhythm = SEHeartRhythm::Invalid;
   m_HeartStrokeVolume = nullptr;
   m_IntracranialPressure = nullptr;
   m_MeanArterialPressure = nullptr;
@@ -113,7 +113,7 @@ void SECardiovascularSystem::Clear()
   SAFE_DELETE(m_DiastolicArterialPressure);
   SAFE_DELETE(m_HeartEjectionFraction);
   SAFE_DELETE(m_HeartRate);
-  m_HeartRhythm = (CDM::enumHeartRhythm::value)-1;
+  m_HeartRhythm = SEHeartRhythm::Invalid;
   SAFE_DELETE(m_HeartStrokeVolume);
   SAFE_DELETE(m_IntracranialPressure);
   SAFE_DELETE(m_MeanArterialPressure);
@@ -402,24 +402,24 @@ double SECardiovascularSystem::GetHeartRate(const FrequencyUnit& unit) const
 }
 //-------------------------------------------------------------------------------
 
-CDM::enumHeartRhythm::value SECardiovascularSystem::GetHeartRhythm() const
+SEHeartRhythm SECardiovascularSystem::GetHeartRhythm() const
 {
   return m_HeartRhythm;
 }
 //-------------------------------------------------------------------------------
-void SECardiovascularSystem::SetHeartRhythm(CDM::enumHeartRhythm::value rhythm)
+void SECardiovascularSystem::SetHeartRhythm(SEHeartRhythm rhythm)
 {
   m_HeartRhythm = rhythm;
 }
 //-------------------------------------------------------------------------------
 bool SECardiovascularSystem::HasHeartRhythm() const
 {
-  return m_HeartRhythm == ((CDM::enumHeartRhythm::value)-1) ? false : true;
+  return m_HeartRhythm == (SEHeartRhythm::Invalid) ? false : true;
 }
 //-------------------------------------------------------------------------------
 void SECardiovascularSystem::InvalidateHeartRhythm()
 {
-  m_HeartRhythm = (CDM::enumHeartRhythm::value)-1;
+  m_HeartRhythm = SEHeartRhythm::Invalid;
 }
 //-------------------------------------------------------------------------------
 

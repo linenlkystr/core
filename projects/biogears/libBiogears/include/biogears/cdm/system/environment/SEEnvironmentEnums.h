@@ -1,5 +1,5 @@
 /**************************************************************************************
-Copyright 2015 Applied Research Associates, Inc.
+Copyright 2019 Applied Research Associates, Inc.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the License
 at:
@@ -11,24 +11,12 @@ specific language governing permissions and limitations under the License.
 **************************************************************************************/
 
 #pragma once
-#include <biogears/cdm/scenario/requests/SECompartmentDataRequest.h>
 
-IO_DECL(Scenario)
-
+#include <ostream>
 namespace biogears {
-class SESubstance;
-class SESubstanceManager;
-class SEDataRequestManager;
-
-class BIOGEARS_API SEThermalCompartmentDataRequest : public SECompartmentDataRequest {
-  friend class SEDataRequestManager;
-  friend class io::Scenario;
-
-protected:
-  SEThermalCompartmentDataRequest(const SEDecimalFormat* dfault = nullptr);
-
-public:
-  virtual ~SEThermalCompartmentDataRequest();
-
+enum class SESurroundingType {
+  Invalid = -1,
+  Air = 0,
+  Water
 };
 }

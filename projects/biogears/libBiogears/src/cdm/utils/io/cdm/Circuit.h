@@ -127,21 +127,21 @@ namespace io {
       if (idx == nodes.end()) {
         throw CommonDataModelException(out.m_Name + " could not find node " + name.c_str());
       }
-      AddNode(*idx->second);
+      out.AddNode(*idx->second);
     }
     for (auto name : in.Path()) {
       auto idx = paths.find(name);
       if (idx == paths.end()) {
         throw CommonDataModelException(out.m_Name + " could not find path " + name.c_str());
       }
-      AddPath(*idx->second);
+      out.AddPath(*idx->second);
     }
     for (auto name : in.ReferenceNode()) {
       auto idx = nodes.find(name);
       if (idx == nodes.end()) {
         throw CommonDataModelException(out.m_Name + " could not find reference node " + name.c_str());
       }
-      AddReferenceNode(*idx->second);
+      out.AddReferenceNode(*idx->second);
     }
     out.StateChange();
   }
