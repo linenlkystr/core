@@ -877,6 +877,13 @@ void BloodChemistry::AcuteInflammatoryResponse()
   GetAcuteInflammatoryResponse().GetNitricOxide().SetValue(nitricOxide);
 }
 
+//Will replace AcuteInflammatoryResponse function when tested
+void BloodChemistry::InflammatoryResponse()
+{
+
+}
+
+
 //--------------------------------------------------------------------------------------------------
 /// \brief
 /// determine override requirements from user defined inputs

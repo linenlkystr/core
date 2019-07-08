@@ -931,7 +931,7 @@ void Gastrointestinal::ProcessDrugCAT()
     //Dissolution data
     const double particleRadius_cm = 5.0e-4; //default for now
     const double subDensity_g_Per_mL = 1.0; //default for now
-    const double diffCoeff_cm2_Per_s = 1.2e-6; //default for now
+    const double diffCoeff_cm2_Per_s = 9.9e-5 * std::pow(molarMass_g_Per_mol, -0.453); //Ando2015New
     const double diffusionLayer_cm = 30.0e-4;
     const double dissolutionCoeff_mL_Per_s_ug = 3.0 * diffCoeff_cm2_Per_s / (subDensity_g_Per_mL * particleRadius_cm * diffusionLayer_cm) * 1.e-6; //Noyes-Whitney coefficient, 1e-6 factor converts g to ug basis
     //Permeability and solubility derivation--Use relationship from Wolk2019Segmental (perm) and Yang2016Appliation (sol)
