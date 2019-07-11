@@ -179,7 +179,7 @@ void Gastrointestinal::SetUp()
   m_TransitVolume_mL = { 50.0, 48., 175., 140., 109., 79., 56., 53., 57. }; //volume of each segment
   m_TransitRate_Per_s = { 2.0 / 3600.0, 3.846 / 3600., 1.053 / 3600., 1.316 / 3600., 1.695 / 3600., 2.326 / 3600., 3.226 / 3600., 0.222 / 3600., 0.074 / 3600. }; //transit rate constant in units 1/s
   m_TransitBileSalts_mM = { 0.0, 8.6, 7.25, 6.245, 4.375, 3.575, 0.435, 0., 0. }; //avg between fasted and fed states
-  //One exception--stomach has no enterocyte later, so this vector is only length 8 (same length as GetEnteroycyteMasses returns)
+  //One exception--stomach has no enterocyte layer, so this vector is only length 8 (same length as GetEnteroycyteMasses returns)
   m_EnterocyteVolumeFraction = { 7.7e-4, 1.9e-3, 1.9e-3, 1.4e-3, 1.4e-3, 1.4e-3, 4.0e-4, 8.5e-4 }; //volume of enterocyte as fraction of total body weight (assuming density = 1 g /mL)
 }
 
@@ -924,7 +924,7 @@ void Gastrointestinal::ProcessDrugCAT()
     const double pKa = subData->GetAcidDissociationConstant();
     const double molarMass_g_Per_mol = sub->GetMolarMass(MassPerAmountUnit::g_Per_mol);
     const double gutKP = 30.0; //Gut partition coefficient, hard-coded for fentanyl currently
-    double fMetabolized = 0.0;
+    double fMetabolized = 0.1;
     if (sub->GetName() == "Fentanyl") {
       fMetabolized = 0.25;  //Probably need to make this substance specific--part of clearance terms
 	}
@@ -937,7 +937,7 @@ void Gastrointestinal::ProcessDrugCAT()
     //Permeability and solubility derivation--Use relationship from Wolk2019Segmental (perm) and Yang2016Appliation (sol)
     const double A = 3.67e-5, B = 3.45e-5, C = -1.04e-7, D = -5.48e-6, E = -2.3e-8, F = 1.46e-4; //Permeability constants
     const double constTerms = A * logP + C * molarMass_g_Per_mol + D * hydrogenBondCount + E * polarSurfaceArea + F; //This part of permeability equation is constant across small intestine
-    const double solWaterStd_ug_Per_mL = 200.0; //fentanyl value-default for now
+    const double solWaterStd_ug_Per_mL = 24.0e3; //MFX value from Zhu2015Prediction (24 mg/mL --> ug/mL)--make this a sub parameter 
     const double solubilityRatio = std::pow(10.0, 0.606 * logP + 2.234); //Yang2016Application
     std::vector<double> fracUnionized; //fraction of drug un-ionized in each GI compartment
     std::vector<double> permeability_cm_Per_s; //drug permeability in each GI compartment
@@ -998,7 +998,7 @@ void Gastrointestinal::ProcessDrugCAT()
     dLumenDissolvedMass_ug_Per_s[0] = solidDissolutionRate_ug_Per_s - m_TransitRate_Per_s[0] * lumenDissolvedMasses_ug[0];
     //Equations for all other compartments are identical, can be looped
     size_t lumenPos; //Position in lumen compartment vectors: Start at 1 because we already did the stomach (element 0 in lumen vector)
-    size_t entPos; //Position in enterocyte vectors:  Will start at 0 because it has not stomach component, it starts at duodenum
+    size_t entPos; //Position in enterocyte vectors:  Will start at 0 because it has no stomach component, it starts at duodenum
     for (lumenPos = 1, entPos = 0; lumenPos < lumenSolidMasses_ug.size() && entPos < enterocyteMasses_ug.size(); ++lumenPos, ++entPos) {
       solidDissolutionRate_ug_Per_s = dissolutionCoeff_mL_Per_s_ug * lumenSolidMasses_ug[lumenPos] * (solubility_ug_Per_mL[lumenPos] - lumenDissolvedMasses_ug[lumenPos] / m_TransitVolume_mL[lumenPos]);
       permeationToEnterocyte_ug_Per_s = permeability_cm_Per_s[lumenPos] * m_TransitSurfaceArea_cm2[lumenPos] * fracUnionized[lumenPos] * (lumenDissolvedMasses_ug[lumenPos] / m_TransitVolume_mL[lumenPos] - enterocyteMasses_ug[entPos] / (m_EnterocyteVolumeFraction[entPos] * bodyMass_g));

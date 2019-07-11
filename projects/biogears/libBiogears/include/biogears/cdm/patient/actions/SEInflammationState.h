@@ -151,9 +151,13 @@ protected:
   virtual void Unload(CDM::InflammatoryResponseData& data) const;
 
 public:
-  virtual bool HasPathogen() const;
-  virtual SEScalar& GetPathogen();
-  virtual double GetPathogen() const;
+  virtual bool HasPathogenTissue() const;
+  virtual SEScalar& GetPathogenTissue();
+  virtual double GetPathogenTissue() const;
+
+  virtual bool HasPathogenBlood() const;
+  virtual SEScalar& GetPathogenBlood();
+  virtual double GetPathogenBlood() const;
 
   virtual bool HasTrauma() const;
   virtual SEScalar& GetTrauma();
@@ -177,7 +181,8 @@ public:
   virtual std::vector<CDM::enumInflammationSource>& GetInflammationSources();
 
 protected:
-  SEScalar* m_Pathogen;
+  SEScalar* m_PathogenTissue;
+  SEScalar* m_PathogenBlood;
   SEScalar* m_Trauma;
   SEImmuneMediators* m_TissueMediators;
   SEImmuneMediators* m_BloodMediators;
@@ -205,6 +210,10 @@ protected:
   virtual void Unload(CDM::ImmuneMediatorData& data) const;
 
 public:
+  virtual bool HasAntibodies() const;
+  virtual SEScalar& GetAntibodies();
+  virtual double GetAntibodies() const;
+
   virtual bool HasMacrophageResting() const;
   virtual SEScalar& GetMacrophageResting();
   virtual double GetMacrophageResting() const;
@@ -234,6 +243,7 @@ public:
   virtual double GetInterleukin10() const;
 
 protected:
+  SEScalar* m_Antibodies;
   SEScalar* m_Interleukin10;
   SEScalar* m_MacrophageResting;
   SEScalar* m_MacrophageActive;
