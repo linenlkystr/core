@@ -776,8 +776,7 @@ SEImmuneMediators& SEInflammatoryResponse::GetTissueMediators()
 
 /////////////////////////////////--SEImmuneMediators--////////////////////////////////////////
 SEImmuneMediators::SEImmuneMediators()
-  : m_Antibodies(nullptr)
-  , m_Interleukin10(nullptr)
+  : m_Interleukin10(nullptr)
   , m_MacrophageResting(nullptr)
   , m_MacrophageActive(nullptr)
   , m_NeutrophilResting(nullptr)
@@ -795,7 +794,6 @@ SEImmuneMediators::~SEImmuneMediators()
 //-------------------------------------------------------------------------------
 void SEImmuneMediators::Clear()
 {
-  SAFE_DELETE(m_Antibodies);
   SAFE_DELETE(m_Interleukin10);
   SAFE_DELETE(m_MacrophageActive);
   SAFE_DELETE(m_MacrophageResting);
@@ -807,7 +805,6 @@ void SEImmuneMediators::Clear()
 //-------------------------------------------------------------------------------
 bool SEImmuneMediators::Load(const CDM::ImmuneMediatorData& in)
 {
-  GetAntibodies().Load(in.Antibodies());
   GetInterleukin10().Load(in.Interleukin10());
   GetMacrophageResting().Load(in.MacrophageResting());
   GetMacrophageActive().Load(in.MacrophageActive());
@@ -828,7 +825,6 @@ CDM::ImmuneMediatorData* SEImmuneMediators::Unload() const
 //-------------------------------------------------------------------------------
 void SEImmuneMediators::Unload(CDM::ImmuneMediatorData& data) const
 {
-  data.Antibodies(std::unique_ptr<CDM::ScalarData> (m_Antibodies->Unload()));
   data.Interleukin10(std::unique_ptr<CDM::ScalarData>(m_Interleukin10->Unload()));
   data.MacrophageResting(std::unique_ptr<CDM::ScalarData>(m_MacrophageResting->Unload()));
   data.MacrophageActive(std::unique_ptr<CDM::ScalarData>(m_MacrophageActive->Unload()));
@@ -842,7 +838,6 @@ void SEImmuneMediators::Initialize(bool TissueSpace)
 {
   //Values from Reynolds2008Mathematical
   if (TissueSpace) {
-    GetAntibodies().SetValue(0.0075 / 0.0023);		//Ratio of resting synthesis rate to resting decay rate
     GetMacrophageResting().SetValue(10.0 / 0.12); //Ratio of resting synthesis rate to resting decay rate
     GetMacrophageActive().SetValue(0.0);
     GetNeutrophilResting().SetValue(0.0);
@@ -851,7 +846,6 @@ void SEImmuneMediators::Initialize(bool TissueSpace)
     GetTumorNecrosisFactor().SetValue(0.0);
     GetInterleukin10().SetValue(0.0);
   } else {
-    GetAntibodies().SetValue(0.0075 / 0.0023);    //Ratio of resting synthesis rate to resting decay rate
     GetMacrophageResting().SetValue(10.0 / 0.12); //Ratio of resting synthesis rate to resting decay rate
     GetMacrophageActive().SetValue(0.0);
     GetNeutrophilResting().SetValue(10.0 / 0.12); //Ratio of resting synthesis rate to resting decay rate
@@ -864,7 +858,7 @@ void SEImmuneMediators::Initialize(bool TissueSpace)
 //-------------------------------------------------------------------------------
 bool SEImmuneMediators::IsValid()
 {
-  if (HasAntibodies() && HasMacrophageResting() && HasMacrophageActive() && HasNeutrophilResting() && HasNeutrophilActive() && HasNitricOxide() && HasTumorNecrosisFactor() && HasInterleukin10())
+  if (HasMacrophageResting() && HasMacrophageActive() && HasNeutrophilResting() && HasNeutrophilActive() && HasNitricOxide() && HasTumorNecrosisFactor() && HasInterleukin10())
     return true;
   else
     return false;
@@ -877,8 +871,6 @@ const SEScalar* SEImmuneMediators::GetScalar(const char* name)
 //-------------------------------------------------------------------------------
 const SEScalar* SEImmuneMediators::GetScalar(const std::string& name)
 {
-  if (name.compare("Antibodies") == 0)
-    return &GetAntibodies();
   if (name.compare("MacrophageResting") == 0)
     return &GetMacrophageResting();
   if (name.compare("MacrophageActive") == 0)
@@ -897,25 +889,6 @@ const SEScalar* SEImmuneMediators::GetScalar(const std::string& name)
   return nullptr;
 }
 
-//-------------------------------------------------------------------------------
-bool SEImmuneMediators::HasAntibodies() const
-{
-  return m_Antibodies == nullptr ? false : m_Antibodies->IsValid();
-}
-//-------------------------------------------------------------------------------
-SEScalar& SEImmuneMediators::GetAntibodies()
-{
-  if (m_Antibodies == nullptr)
-    m_Antibodies = new SEScalar();
-  return *m_Antibodies;
-}
-//-------------------------------------------------------------------------------
-double SEImmuneMediators::GetAntibodies() const
-{
-  if (m_Antibodies == nullptr)
-    return SEScalar::dNaN();
-  return m_Antibodies->GetValue();
-}
 //-------------------------------------------------------------------------------
 bool SEImmuneMediators::HasInterleukin10() const
 {

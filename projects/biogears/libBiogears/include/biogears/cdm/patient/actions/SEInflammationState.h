@@ -210,9 +210,6 @@ protected:
   virtual void Unload(CDM::ImmuneMediatorData& data) const;
 
 public:
-  virtual bool HasAntibodies() const;
-  virtual SEScalar& GetAntibodies();
-  virtual double GetAntibodies() const;
 
   virtual bool HasMacrophageResting() const;
   virtual SEScalar& GetMacrophageResting();
@@ -243,7 +240,6 @@ public:
   virtual double GetInterleukin10() const;
 
 protected:
-  SEScalar* m_Antibodies;
   SEScalar* m_Interleukin10;
   SEScalar* m_MacrophageResting;
   SEScalar* m_MacrophageActive;
