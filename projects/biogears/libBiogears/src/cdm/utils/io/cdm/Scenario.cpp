@@ -3,6 +3,8 @@
 #include "PatientActions.h"
 #include "PatientConditions.h"
 #include "Property.h"
+#include "Patient.h"
+#include "EngineConfiguration.h"
 
 #include <biogears/cdm/scenario/SEAction.h>
 #include <biogears/cdm/scenario/SEAdvanceTime.h>
@@ -10,6 +12,7 @@
 
 #include <biogears/cdm/engine/PhysiologyEngineConfiguration.h>
 #include <biogears/cdm/patient/SEPatient.h>
+
 #include <biogears/cdm/scenario/SEAnesthesiaMachineActionCollection.h>
 #include <biogears/cdm/scenario/SEEnvironmentActionCollection.h>
 #include <biogears/cdm/scenario/SEInhalerActionCollection.h>
@@ -32,6 +35,7 @@
 #include <biogears/cdm/scenario/requests/SETissueCompartmentDataRequest.h>
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
+
 
 namespace biogears {
 namespace io {
@@ -63,6 +67,44 @@ namespace io {
   {
     if (in.HasComment()) {
       out.Comment(in.m_Comment);
+    }
+  }
+  //-----------------------------------------------------------------------------
+  //class SEDataRequestManager
+  void Scenario::Marshall(const CDM::DataRequestsData& in, const SESubstanceManager& subMgr, SEDataRequestManager& out)
+  {
+    out.Clear();
+    if (in.Filename().present())
+      out.m_ResultsFile = in.Filename().get();
+    if (in.SamplesPerSecond().present())
+      out.m_SamplesPerSecond = in.SamplesPerSecond().get();
+    if (in.DefaultDecimalFormatting().present())
+      io::Property::Marshall(in.DefaultDecimalFormatting(), out.GetDefaultDecimalFormatting());
+    if (in.OverrideDecimalFormatting().present())
+      io::Property::Marshall(in.OverrideDecimalFormatting(), out.GetOverrideDecimalFormatting());
+
+    for (unsigned int i = 0; i < in.DataRequest().size(); i++) {
+      SEDataRequest* dr = io::Scenario::make_unique(in.DataRequest()[i], subMgr, out.m_DefaultDecimalFormatting);
+      if (dr != nullptr) {
+        if (out.HasOverrideDecimalFormatting())
+          ((SEDecimalFormat*)dr)->Set(*out.m_OverrideDecimalFormatting);
+        out.m_Requests.push_back(dr);
+      }
+    }
+  }
+  //-----------------------------------------------------------------------------
+  void Scenario::UnMarshall(const SEDataRequestManager& in, CDM::DataRequestsData& out)
+  {
+    out.SamplesPerSecond(in.m_SamplesPerSecond);
+    if (in.HasResultsFilename())
+      out.Filename(in.m_ResultsFile);
+    if (in.HasDefaultDecimalFormatting())
+      io::Property::UnMarshall(*in.m_DefaultDecimalFormatting, out.DefaultDecimalFormatting());
+    if (in.HasOverrideDecimalFormatting())
+      io::Property::UnMarshall(*in.m_OverrideDecimalFormatting, out.OverrideDecimalFormatting());
+    for (auto* dr : in.m_Requests) {
+      CDM::DataRequestData data;    
+      out.DataRequest().push_back(io::Scenario::factory(dr));
     }
   }
   //-----------------------------------------------------------------------------
@@ -251,7 +293,7 @@ namespace io {
       Marshall(in.AutoSerialization(), out.GetAutoSerialization());
     }
     if (in.DataRequests().present()) {
-      out.m_DataRequestMgr.Load(in.DataRequests().get(), out.m_SubMgr);
+      Scenario::Marshall(in.DataRequests().get(), out.m_SubMgr, out.m_DataRequestMgr);
     }
     for (auto& action : in.Action()) {
       auto new_action = PatientActions::factory(action, out.m_SubMgr);
@@ -319,7 +361,7 @@ namespace io {
     if (in.HasPatientFile()) {
       out.PatientFile(in.m_PatientFile);
     } else if (in.HasPatient()) {
-      out.Patient(std::unique_ptr<CDM::PatientData>(in.m_Patient->Unload()));
+      Patient::UnMarshall(in.m_Patient,out.Patient());
     }
     for (SECondition* condition : in.m_Conditions) {
       CDM::ConditionData data;
@@ -327,7 +369,7 @@ namespace io {
       out.Condition().push_back(data);
     }
     if (in.HasConfiguration()) {
-      out.Configuration(std::unique_ptr<CDM::PhysiologyEngineConfigurationData>(in.m_Configuration->Unload()));
+      EngineConfiguration::UnMarshall(in.m_Configuration, out.Configuration());
     }
   }
   //-----------------------------------------------------------------------------
@@ -399,5 +441,128 @@ namespace io {
     }
   }
   //-----------------------------------------------------------------------------
+  std::unique_ptr<SEDataRequest> Scenario::factory(const CDM::DataRequestData& in, SESubstanceManager& substances, const SEDecimalFormat* default)
+  {
+    const CDM::DataRequestData* drData = &in;
+    const CDM::PhysiologyDataRequestData* physSysData = dynamic_cast<const CDM::PhysiologyDataRequestData*>(drData);
+    if (physSysData != nullptr) {
+      auto sys = std::make_unique<SEPhysiologyDataRequest>(default);
+      Scenario::Marshall(*physSysData , *sys);
+      return sys;
+    }
+    const CDM::GasCompartmentDataRequestData* gasData = dynamic_cast<const CDM::GasCompartmentDataRequestData*>(drData);
+    if (gasData != nullptr) {
+      auto Comp = std::make_unique<SEGasCompartmentDataRequest>(default);
+      Scenario::Marshall(*gasData , substances, *Comp);
+      return Comp;
+    }
+    const CDM::LiquidCompartmentDataRequestData* liquidData = dynamic_cast<const CDM::LiquidCompartmentDataRequestData*>(drData);
+    if (liquidData != nullptr) {
+      auto Comp = std::make_unique<SELiquidCompartmentDataRequest>(default);
+      Scenario::Marshall(*liquidData , substances, *Comp);
+      return Comp;
+    }
+    const CDM::ThermalCompartmentDataRequestData* thermData = dynamic_cast<const CDM::ThermalCompartmentDataRequestData*>(drData);
+    if (thermData != nullptr) {
+      auto Comp = std::make_unique<SEThermalCompartmentDataRequest>(default);
+      Scenario::Marshall(*thermData , *Comp);
+      return Comp;
+    }
+    const CDM::TissueCompartmentDataRequestData* tissueData = dynamic_cast<const CDM::TissueCompartmentDataRequestData*>(drData);
+    if (tissueData != nullptr) {
+      auto Comp = std::make_unique<SETissueCompartmentDataRequest>(default);
+      Scenario::Marshall(*tissueData , *Comp);
+      return Comp;
+    }
+    const CDM::PatientDataRequestData* patData = dynamic_cast<const CDM::PatientDataRequestData*>(drData);
+    if (patData != nullptr) {
+      auto sys = std::make_unique<SEPatientDataRequest>(default);
+      Scenario::Marshall(*patData , *sys);
+      return sys;
+    }
+    const CDM::SubstanceDataRequestData* subData = dynamic_cast<const CDM::SubstanceDataRequestData*>(drData);
+    if (subData != nullptr) {
+      auto sub = std::make_unique<SESubstanceDataRequest>(default);
+      Scenario::Marshall(*subData , substances, *sub);
+      return sub;
+    }
+    const CDM::EnvironmentDataRequestData* envData = dynamic_cast<const CDM::EnvironmentDataRequestData*>(drData);
+    if (envData != nullptr) {
+      auto env = std::make_unique<SEEnvironmentDataRequest>(default);
+      Scenario::Marshall(*envData , *env);
+      return env;
+    }
+    const CDM::EquipmentDataRequestData* equipSysData = dynamic_cast<const CDM::EquipmentDataRequestData*>(drData);
+    if (equipSysData != nullptr) {
+      auto sys = std::make_unique<SEEquipmentDataRequest>(default);
+      Scenario::Marshall(*equipSysData , *sys);
+      return sys;
+    }
+
+    if (substances.GetLogger() != nullptr)
+      substances.GetLogger()->Error("Unsupported DataRequest Received", "SEDataRequest::newFromBind");
+    return nullptr;
+  }
+  //-----------------------------------------------------------------------------
+  std::unique_ptr<CDM::DataRequestData> Scenario::factory(const SEDataRequest* in)
+  {
+
+    auto physSysData = dynamic_cast<const SEPhysiologyDataRequest*>(in);
+    if (physSysData != nullptr) {
+      auto sys = std::make_unique<CDM::PhysiologyDataRequestData>();
+      Scenario::UnMarshall(*physSysData, *sys);
+      return sys;
+    }
+    auto gasData = dynamic_cast<const SEGasCompartmentDataRequest*>(in);
+    if (gasData != nullptr) {
+      auto Comp = std::make_unique<CDM::GasCompartmentDataRequestData>();
+      Scenario::UnMarshall(*gasData, *Comp);
+      return Comp;
+    }
+    auto liquidData = dynamic_cast<const SELiquidCompartmentDataRequest*>(in);
+    if (liquidData != nullptr) {
+      auto Comp = std::make_unique<CDM::LiquidCompartmentDataRequestData>();
+      Scenario::UnMarshall(*liquidData, *Comp);
+      return Comp;
+    }
+    auto thermData = dynamic_cast<const SEThermalCompartmentDataRequest*>(in);
+    if (thermData != nullptr) {
+      auto Comp = std::make_unique<CDM::ThermalCompartmentDataRequestData>();
+      Scenario::UnMarshall(*thermData, *Comp);
+      return Comp;
+    }
+    auto tissueData = dynamic_cast<const SETissueCompartmentDataRequest*>(in);
+    if (tissueData != nullptr) {
+      auto Comp = std::make_unique<CDM::TissueCompartmentDataRequestData>();
+      Scenario::UnMarshall(*tissueData, *Comp);
+      return Comp;
+    }
+    auto patData = dynamic_cast<const SEPatientDataRequest*>(in);
+    if (patData != nullptr) {
+      auto sys = std::make_unique<CDM::PatientDataRequestData>();
+      Scenario::UnMarshall(*patData, *sys);
+      return sys;
+    }
+    auto subData = dynamic_cast<const SESubstanceDataRequest*>(in);
+    if (subData != nullptr) {
+      auto sub = std::make_unique<CDM::SubstanceDataRequestData>();
+      Scenario::UnMarshall(*subData, *sub);
+      return sub;
+    }
+    auto envData = dynamic_cast<const SEEnvironmentDataRequest*>(in);
+    if (envData != nullptr) {
+      auto env = std::make_unique<CDM::EnvironmentDataRequestData>();
+      Scenario::UnMarshall(*envData, *env);
+      return env;
+    }
+    auto equipSysData = dynamic_cast<const SEEquipmentDataRequest*>(in);
+    if (equipSysData != nullptr) {
+      auto sys = std::make_unique<CDM::EquipmentDataRequestData>();
+      Scenario::UnMarshall(*equipSysData, *sys);
+      return sys;
+    }
+
+    throw CommonDataModelException("No Acceptable DataRequest Conversion Found");
+  }
 }
 }

@@ -12,6 +12,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/properties/SEScalarFraction.h>
 
+#include <biogears/cdm/properties/PropertyEnum.h>
+
 IO_DECL(Environment)
 
 namespace biogears {
@@ -46,8 +48,8 @@ public:
   virtual SEScalarFraction& GetSurfaceAreaFraction();
   virtual double GetSurfaceAreaFraction() const;
 
-  virtual CDM::enumOnOff::value GetState() const;
-  virtual void SetState(CDM::enumOnOff::value onOff);
+  virtual SEOnOff GetState() const;
+  virtual void SetState(SEOnOff onOff);
 
   virtual void ToString(std::ostream& str) const;
 
@@ -55,6 +57,6 @@ protected:
   SEScalarTemperature* m_Temperature;
   SEScalarArea* m_SurfaceArea;
   SEScalarFraction* m_SurfaceAreaFraction;
-  CDM::enumOnOff::value m_State;
+  SEOnOff m_State;
 };
 }

@@ -39,4 +39,69 @@ enum class SEAnesthesiaMachineConnection {
   Mask,
   Tube
 };
+inline std::ostream& operator<<(std::ostream& os, const SEAnesthesiaMachineEvent& e)
+{
+  switch (e) {
+  case SEAnesthesiaMachineEvent::OxygenBottle1Exhausted:
+    os << "OxygenBottle1Exhausted";
+    break;
+  case SEAnesthesiaMachineEvent::OxygenBottle2Exhausted:
+    os << "OxygenBottle2Exhausted";
+    break;
+  case SEAnesthesiaMachineEvent::ReliefValveActive:
+    os << "ReliefValveActive";
+    break;
+  default:
+    os << "Invalid";
+  }
+  return os;
+}
+inline std::ostream& operator<<(std::ostream& os, const SEAnesthesiaMachineOxygenSource& e)
+{
+  switch (e) {
+  case SEAnesthesiaMachineOxygenSource::Wall:
+    os << "Wall";
+    break;
+  case SEAnesthesiaMachineOxygenSource::BottleOne:
+    os << "BottleOne";
+    break;
+  case SEAnesthesiaMachineOxygenSource::BottleTwo:
+    os << "BottleTwo";
+    break;
+  default:
+    os << "Invalid";
+  }
+  return os;
+}
+inline std::ostream& operator<<(std::ostream& os, const SEAnesthesiaMachinePrimaryGas& e)
+{
+  switch (e) {
+  case SEAnesthesiaMachinePrimaryGas::Air:
+    os << "Air";
+    break;
+  case SEAnesthesiaMachinePrimaryGas::Nitrogen:
+    os << "Nitrogen";
+    break;
+  default:
+    os << "Invalid";
+  }
+  return os;
+}
+inline std::ostream& operator<<(std::ostream& os, const SEAnesthesiaMachineConnection& e)
+{
+  switch (e) {
+  case SEAnesthesiaMachineConnection::Off:
+    os << "Off";
+    break;
+  case SEAnesthesiaMachineConnection::Mask:
+    os << "Mask";
+    break;
+  case SEAnesthesiaMachineConnection::Tube:
+    os << "Tube";
+    break;
+  default:
+    os << "Invalid";
+  }
+  return os;
+}
 }

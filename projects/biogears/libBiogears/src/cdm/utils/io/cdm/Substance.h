@@ -81,6 +81,13 @@ namespace io {
     //class SESubstanceConcentration
     static void Marshall(const CDM::SubstanceConcentrationData& in, SESubstanceConcentration& out);
     static void UnMarshall(const SESubstanceConcentration& in, CDM::SubstanceConcentrationData& out);
+
+
+    static void Copy(const SESubstanceClearance& in,  SESubstanceClearance& out);
+    static void Copy(const SESubstance& in,  SESubstance& out);
+    static void Copy(const SESubstanceCompound& in, const SESubstanceManager& subMgr, SESubstanceCompound& out);
+    static void Copy(const SESubstanceFraction& in,  SESubstanceFraction& out);
+    static void Copy(const SESubstanceConcentration& in,  SESubstanceConcentration& out);
   };
   //----------------------------------------------------------------------------------
   template <typename SE, typename XSD>
@@ -100,5 +107,6 @@ namespace io {
     UnMarshall(in, *item);
     option_out.set(*item);
   }
+  
 } // Namespace IO
 } //Namespace Biogears

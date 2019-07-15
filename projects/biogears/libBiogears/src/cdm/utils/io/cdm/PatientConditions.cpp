@@ -1,5 +1,6 @@
 #include "PatientConditions.h"
 
+#include "EnvironmentConditions.h"
 #include "Property.h"
 #include "Scenario.h"
 
@@ -17,6 +18,7 @@
 #include <biogears/cdm/patient/conditions/SELobarPneumonia.h>
 #include <biogears/cdm/patient/conditions/SEPatientCondition.h>
 #include <biogears/cdm/patient/conditions/SEStarvation.h>
+
 #include <biogears/cdm/scenario/SECondition.h>
 
 #include <biogears/cdm/properties/SEScalar0To1.h>
@@ -43,73 +45,73 @@ namespace io {
     const auto ccAnemiaData = dynamic_cast<const CDM::ChronicAnemiaData*>(&data);
     if (ccAnemiaData != nullptr) {
       auto cc = std::make_unique<SEChronicAnemia>();
-      PatientConditions::Marshall(*ccAnemiaData,*cc);
+      PatientConditions::Marshall(*ccAnemiaData, *cc);
       return cc;
     }
     const auto ccopdData = dynamic_cast<const CDM::ChronicObstructivePulmonaryDiseaseData*>(&data);
     if (ccopdData != nullptr) {
       auto cc = std::make_unique<SEChronicObstructivePulmonaryDisease>();
-      PatientConditions::Marshall(*ccopdData,*cc);
+      PatientConditions::Marshall(*ccopdData, *cc);
       return cc;
     }
     const auto ccVentSysDysfuncData = dynamic_cast<const CDM::ChronicVentricularSystolicDysfunctionData*>(&data);
     if (ccVentSysDysfuncData != nullptr) {
       auto cc = std::make_unique<SEChronicVentricularSystolicDysfunction>();
-      PatientConditions::Marshall(*ccVentSysDysfuncData,*cc);
+      PatientConditions::Marshall(*ccVentSysDysfuncData, *cc);
       return cc;
     }
     const auto ccPericardialEffusionData = dynamic_cast<const CDM::ChronicPericardialEffusionData*>(&data);
     if (ccPericardialEffusionData != nullptr) {
       auto cc = std::make_unique<SEChronicPericardialEffusion>();
-      PatientConditions::Marshall(*ccPericardialEffusionData,*cc);
+      PatientConditions::Marshall(*ccPericardialEffusionData, *cc);
       return cc;
     }
     const auto ccRenalStenosisData = dynamic_cast<const CDM::ChronicRenalStenosisData*>(&data);
     if (ccRenalStenosisData != nullptr) {
       auto cc = std::make_unique<SEChronicRenalStenosis>();
-      PatientConditions::Marshall(*ccRenalStenosisData,*cc);
+      PatientConditions::Marshall(*ccRenalStenosisData, *cc);
       return cc;
     }
     const auto ccDehydrationData = dynamic_cast<const CDM::DehydrationData*>(&data);
     if (ccDehydrationData != nullptr) {
       auto cc = std::make_unique<SEDehydration>();
-      PatientConditions::Marshall(*ccDehydrationData,*cc);
+      PatientConditions::Marshall(*ccDehydrationData, *cc);
       return cc;
     }
     const auto ccDiabetesType1Data = dynamic_cast<const CDM::DiabetesType1Data*>(&data);
     if (ccDiabetesType1Data != nullptr) {
       auto cc = std::make_unique<SEDiabetesType1>();
-      PatientConditions::Marshall(*ccDiabetesType1Data,*cc);
+      PatientConditions::Marshall(*ccDiabetesType1Data, *cc);
       return cc;
     }
     const auto ccDiabetesType2Data = dynamic_cast<const CDM::DiabetesType2Data*>(&data);
     if (ccDiabetesType2Data != nullptr) {
       auto cc = std::make_unique<SEDiabetesType2>();
-      PatientConditions::Marshall(*ccDiabetesType2Data,*cc);
+      PatientConditions::Marshall(*ccDiabetesType2Data, *cc);
       return cc;
     }
     const auto ccStarvationData = dynamic_cast<const CDM::StarvationData*>(&data);
     if (ccStarvationData != nullptr) {
       auto cc = std::make_unique<SEStarvation>();
-      PatientConditions::Marshall(*ccStarvationData,*cc);
+      PatientConditions::Marshall(*ccStarvationData, *cc);
       return cc;
     }
     const auto ccImpairedAlveolarExchangeData = dynamic_cast<const CDM::ImpairedAlveolarExchangeData*>(&data);
     if (ccImpairedAlveolarExchangeData != nullptr) {
       auto cc = std::make_unique<SEImpairedAlveolarExchange>();
-      PatientConditions::Marshall(*ccImpairedAlveolarExchangeData,*cc);
+      PatientConditions::Marshall(*ccImpairedAlveolarExchangeData, *cc);
       return cc;
     }
     const auto ccLobarPneumoniaData = dynamic_cast<const CDM::LobarPneumoniaData*>(&data);
     if (ccLobarPneumoniaData != nullptr) {
       auto cc = std::make_unique<SELobarPneumonia>();
-      PatientConditions::Marshall(*ccLobarPneumoniaData,*cc);
+      PatientConditions::Marshall(*ccLobarPneumoniaData, *cc);
       return cc;
     }
     const auto ccInitialEnvironmentData = dynamic_cast<const CDM::InitialEnvironmentData*>(&data);
     if (ccInitialEnvironmentData != nullptr) {
       auto cc = std::make_unique<SEInitialEnvironment>(substances);
-      cc->Load(*ccInitialEnvironmentData);
+      EnvironmentConditions::Marshall(*ccInitialEnvironmentData, *cc);
       return cc;
     }
 
@@ -242,7 +244,6 @@ namespace io {
   {
     PatientConditions::Marshall(static_cast<const CDM::PatientConditionData&>(in), static_cast<SEPatientCondition&>(out));
     io::Property::Marshall(in.InsulinProductionSeverity(), out.GetInsulinProductionSeverity());
-  
   }
   //----------------------------------------------------------------------------------
   void PatientConditions::UnMarshall(const SEDiabetesType1& in, CDM::DiabetesType1Data& out)
@@ -259,7 +260,6 @@ namespace io {
     PatientConditions::Marshall(static_cast<const CDM::PatientConditionData&>(in), static_cast<SEPatientCondition&>(out));
     io::Property::Marshall(in.InsulinProductionSeverity(), out.GetInsulinProductionSeverity());
     io::Property::Marshall(in.InsulinResistanceSeverity(), out.GetInsulinResistanceSeverity());
-  
   }
   //----------------------------------------------------------------------------------
   void PatientConditions::UnMarshall(const SEDiabetesType2& in, CDM::DiabetesType2Data& out)

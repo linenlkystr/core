@@ -30,6 +30,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/system/environment/conditions/SEInitialEnvironment.h>
 #include <biogears/container/Tree.tci.h>
 
+#include <biogears/schema/cdm/Environment.hxx>
+#include "cdm/utils/io/cdm/Environment.h"
 
 namespace biogears {
 SEEnvironment::SEEnvironment(SESubstanceManager& substances)
@@ -83,21 +85,21 @@ const SEScalar* SEEnvironment::GetScalar(const char* name)
 //-------------------------------------------------------------------------------
 const SEScalar* SEEnvironment::GetScalar(const std::string& name)
 {
-  if (name.compare("ConvectiveHeatLoss") == 0)
+  if ("ConvectiveHeatLoss" == name)
     return &GetConvectiveHeatLoss();
-  if (name.compare("ConvectiveHeatTranferCoefficient") == 0)
+  if ("ConvectiveHeatTranferCoefficient" == name)
     return &GetConvectiveHeatTranferCoefficient();
-  if (name.compare("EvaporativeHeatLoss") == 0)
+  if ("EvaporativeHeatLoss" == name)
     return &GetEvaporativeHeatLoss();
-  if (name.compare("EvaporativeHeatTranferCoefficient") == 0)
+  if ("EvaporativeHeatTranferCoefficient" == name)
     return &GetEvaporativeHeatTranferCoefficient();
-  if (name.compare("RadiativeHeatLoss") == 0)
+  if ("RadiativeHeatLoss" == name)
     return &GetRadiativeHeatLoss();
-  if (name.compare("RadiativeHeatTranferCoefficient") == 0)
+  if ("RadiativeHeatTranferCoefficient" == name)
     return &GetRadiativeHeatTranferCoefficient();
-  if (name.compare("RespirationHeatLoss") == 0)
+  if ("RespirationHeatLoss" == name)
     return &GetRespirationHeatLoss();
-  if (name.compare("SkinHeatLoss") == 0)
+  if ("SkinHeatLoss" == name)
     return &GetSkinHeatLoss();
 
   size_t split = name.find('-');

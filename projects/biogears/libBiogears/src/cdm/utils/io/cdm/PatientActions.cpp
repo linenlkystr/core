@@ -3,6 +3,12 @@
 #include "Property.h"
 #include "Scenario.h"
 
+#include <biogears/schema/cdm/AnesthesiaActions.hxx>
+#include <biogears/schema/cdm/EnvironmentActions.hxx>
+#include <biogears/schema/cdm/InhalerActions.hxx>
+#include <biogears/schema/cdm/PatientActions.hxx>
+#include <biogears/schema/cdm/PatientConditions.hxx>
+
 #include <biogears/cdm/patient/actions/SEAcuteStress.h>
 #include <biogears/cdm/patient/actions/SEAirwayObstruction.h>
 #include <biogears/cdm/patient/actions/SEApnea.h>
@@ -23,13 +29,17 @@
 #include <biogears/cdm/patient/actions/SEForcedExhale.h>
 #include <biogears/cdm/patient/actions/SEForcedInhale.h>
 #include <biogears/cdm/patient/actions/SEHemorrhage.h>
+#include <biogears/cdm/patient/actions/SEInflammationState.h>
 #include <biogears/cdm/patient/actions/SEIntubation.h>
 #include <biogears/cdm/patient/actions/SEMechanicalVentilation.h>
 #include <biogears/cdm/patient/actions/SENeedleDecompression.h>
 #include <biogears/cdm/patient/actions/SEOverride.h>
 #include <biogears/cdm/patient/actions/SEPainStimulus.h>
+#include <biogears/cdm/patient/actions/SEPatientAction.h>
+#include <biogears/cdm/patient/actions/SEPatientActionsEnums.h>
 #include <biogears/cdm/patient/actions/SEPatientAssessmentRequest.h>
 #include <biogears/cdm/patient/actions/SEPericardialEffusion.h>
+#include <biogears/cdm/patient/actions/SEPupillaryResponse.h>
 #include <biogears/cdm/patient/actions/SESepsis.h>
 #include <biogears/cdm/patient/actions/SESubstanceBolus.h>
 #include <biogears/cdm/patient/actions/SESubstanceCompoundInfusion.h>
@@ -85,353 +95,380 @@ namespace io {
     SESubstance* substance;
     SESubstanceCompound* compound;
 
-    auto action = (CDM::ActionData*)&data;
-    auto advData = dynamic_cast<CDM::AdvanceTimeData*>(action);
+    // Anesthesia Machine Actions
+    CDM::AnesthesiaMachineConfigurationData* anConfig;
+    // Anesthesia Machine Failure Action
+    CDM::ExpiratoryValveLeakData* anExLeak;
+    CDM::ExpiratoryValveObstructionData* anExObs;
+    CDM::InspiratoryValveLeakData* anInLeak;
+    CDM::InspiratoryValveObstructionData* anInObs;
+    CDM::MaskLeakData* anMskLeak;
+    CDM::SodaLimeFailureData* anSodaFail;
+    CDM::TubeCuffLeakData* anTubLeak;
+    CDM::VaporizerFailureData* anVapFail;
+    CDM::VentilatorPressureLossData* anVentLoss;
+    CDM::YPieceDisconnectData* anYDisc;
+    // Anesthesia Machine Incidents
+    CDM::OxygenWallPortPressureLossData* anO2WallLoss;
+    CDM::OxygenTankPressureLossData* anO2TankLoss;
+
+    CDM::ActionData* action = (CDM::ActionData*)&data;
+    CDM::AdvanceTimeData* advData = dynamic_cast<CDM::AdvanceTimeData*>(action);
     if (advData != nullptr) {
-      auto result = std::make_unique<SEAdvanceTime>();
-      Scenario::Marshall(*advData, *result);
-      return std::move(result);
+      auto a = std::make_unique<SEAdvanceTime>();
+      Scenario::Marshall(*advData, *a);
+      return a;
     }
 
-    auto stData = dynamic_cast<CDM::SerializeStateData*>(action);
+    CDM::SerializeStateData* stData = dynamic_cast<CDM::SerializeStateData*>(action);
     if (stData != nullptr) {
-      auto result = std::make_unique<SESerializeState>();
-      Scenario::Marshall(*stData, *result);
-      return result;
+      auto a = std::make_unique<SESerializeState>();
+      Scenario::Marshall(*stData, *a);
+      return a;
     }
 
     if (dynamic_cast<CDM::EnvironmentActionData*>(action) != nullptr) {
       if (dynamic_cast<CDM::EnvironmentChangeData*>(action) != nullptr) {
-        auto result = std::make_unique<SEEnvironmentChange>(substances);
-        result->Load(*(CDM::EnvironmentChangeData*)action);
-        return result;
+        auto a = std::make_unique<SEEnvironmentChange>(substances);
+        Scenario::Marshall(*(CDM::EnvironmentChangeData*)action, *a);
+        return a;
       }
       if (dynamic_cast<CDM::ThermalApplicationData*>(action) != nullptr) {
-        auto result = std::make_unique<SEThermalApplication>();
-        result->Load(*(CDM::ThermalApplicationData*)action);
-        return result;
+        auto a = std::make_unique<SEThermalApplication>();
+        Scenario::Marshall(*(CDM::ThermalApplicationData*)action, *a);
+        return a;
       }
       substances.GetLogger()->Error("Unsupported Environment Action Received", "SEScenario::Load");
     }
 
     if (dynamic_cast<CDM::PatientActionData*>(action) != nullptr) {
-      auto pAssessmentData = dynamic_cast<CDM::PatientAssessmentRequestData*>(action);
-      if (pAssessmentData != nullptr) {
-        auto result = std::make_unique<SEPatientAssessmentRequest>();
-        PatientActions::Marshall(*pAssessmentData, *result);
-        return result;
+      if (dynamic_cast<CDM::PatientAssessmentRequestData*>(action) != nullptr) {
+        auto a = std::make_unique<SEPatientAssessmentRequest>();
+        Scenario::Marshall(*(CDM::PatientAssessmentRequestData*)action, *a);
+        return a;
       }
 
-      auto aStressData = dynamic_cast<CDM::AcuteStressData*>(action);
+      CDM::AcuteStressData* aStressData = dynamic_cast<CDM::AcuteStressData*>(action);
       if (aStressData != nullptr) {
-        auto result = std::make_unique<SEAcuteStress>();
-        PatientActions::Marshall(*aStressData, *result);
-        return result;
+        auto a = std::make_unique<SEAcuteStress>();
+        Scenario::Marshall(*aStressData, *a);
+        return a;
       }
 
-      auto airObData = dynamic_cast<CDM::AirwayObstructionData*>(action);
+      CDM::AirwayObstructionData* airObData = dynamic_cast<CDM::AirwayObstructionData*>(action);
       if (airObData != nullptr) {
-        auto result = std::make_unique<SEAirwayObstruction>();
-        PatientActions::Marshall(*airObData, *result);
-        return result;
+        auto a = std::make_unique<SEAirwayObstruction>();
+        Scenario::Marshall(*airObData, *a);
+        return a;
       }
 
-      auto apneaData = dynamic_cast<CDM::ApneaData*>(action);
+      CDM::ApneaData* apneaData = dynamic_cast<CDM::ApneaData*>(action);
       if (apneaData != nullptr) {
-        auto result = std::make_unique<SEApnea>();
-        PatientActions::Marshall(*apneaData, *result);
-        return result;
+        auto a = std::make_unique<SEApnea>();
+        Scenario::Marshall(*apneaData, *a);
+        return a;
       }
 
-      auto brainInjData = dynamic_cast<CDM::BrainInjuryData*>(action);
+      CDM::BrainInjuryData* brainInjData = dynamic_cast<CDM::BrainInjuryData*>(action);
       if (brainInjData != nullptr) {
-        auto result = std::make_unique<SEBrainInjury>();
-        PatientActions::Marshall(*brainInjData, *result);
-        return result;
+        auto a = std::make_unique<SEBrainInjury>();
+        Scenario::Marshall(*brainInjData, *a);
+        return a;
       }
 
-      auto burnData = dynamic_cast<CDM::BurnWoundData*>(action);
+      CDM::BurnWoundData* burnData = dynamic_cast<CDM::BurnWoundData*>(action);
       if (burnData != nullptr) {
-        auto result = std::make_unique<SEBurnWound>();
-        PatientActions::Marshall(*burnData, *result);
-        return result;
+        auto burn = std::make_unique<SEBurnWound>();
+        Scenario::Marshall(*burnData, *burn);
+        return burn;
       }
 
-      auto bconData = dynamic_cast<CDM::BronchoconstrictionData*>(action);
+      CDM::BronchoconstrictionData* bconData = dynamic_cast<CDM::BronchoconstrictionData*>(action);
       if (bconData != nullptr) {
-        auto result = std::make_unique<SEBronchoconstriction>();
-        PatientActions::Marshall(*bconData, *result);
-        return result;
+        auto a = std::make_unique<SEBronchoconstriction>();
+        Scenario::Marshall(*bconData, *a);
+        return a;
       }
 
-      auto carrestData = dynamic_cast<CDM::CardiacArrestData*>(action);
+      CDM::CardiacArrestData* carrestData = dynamic_cast<CDM::CardiacArrestData*>(action);
       if (carrestData != nullptr) {
-        auto result = std::make_unique<SECardiacArrest>();
-        PatientActions::Marshall(*carrestData, *result);
-        return result;
+        auto a = std::make_unique<SECardiacArrest>();
+        Scenario::Marshall(*carrestData, *a);
+        return a;
       }
 
-      auto asthmaData = dynamic_cast<CDM::AsthmaAttackData*>(action);
+      CDM::AsthmaAttackData* asthmaData = dynamic_cast<CDM::AsthmaAttackData*>(action);
       if (asthmaData != nullptr) {
-        auto result = std::make_unique<SEAsthmaAttack>();
-        PatientActions::Marshall(*asthmaData, *result);
-        return result;
+        auto a = std::make_unique<SEAsthmaAttack>();
+        Scenario::Marshall(*asthmaData, *a);
+        return a;
       }
 
-      auto cprData = dynamic_cast<CDM::ChestCompressionData*>(action);
+      CDM::ChestCompressionData* cprData = dynamic_cast<CDM::ChestCompressionData*>(action);
       if (cprData != nullptr) {
-        auto cprForce = dynamic_cast<CDM::ChestCompressionForceData*>(cprData);
+        CDM::ChestCompressionForceData* cprForce = dynamic_cast<CDM::ChestCompressionForceData*>(cprData);
         if (cprForce != nullptr) {
-          auto result = std::make_unique<SEChestCompressionForce>();
-          PatientActions::Marshall(*cprForce, *result);
-          return result;
+          auto a = std::make_unique<SEChestCompressionForce>();
+          Scenario::Marshall(*cprForce, *a);
+          return a;
         }
-        auto cprScale = dynamic_cast<CDM::ChestCompressionForceScaleData*>(cprData);
+        CDM::ChestCompressionForceScaleData* cprScale = dynamic_cast<CDM::ChestCompressionForceScaleData*>(cprData);
         if (cprScale != nullptr) {
-          auto result = std::make_unique<SEChestCompressionForceScale>();
-          PatientActions::Marshall(*cprScale, *result);
-          return result;
+          auto a = std::make_unique<SEChestCompressionForceScale>();
+          Scenario::Marshall(*cprScale, *a);
+          return a;
         }
       }
 
-      auto codData = dynamic_cast<CDM::ChestOcclusiveDressingData*>(action);
+      CDM::ChestOcclusiveDressingData* codData = dynamic_cast<CDM::ChestOcclusiveDressingData*>(action);
       if (codData != nullptr) {
-        auto result = std::make_unique<SEChestOcclusiveDressing>();
-        PatientActions::Marshall(*codData, *result);
-        return result;
+        auto a = std::make_unique<SEChestOcclusiveDressing>();
+        Scenario::Marshall(*codData, *a);
+        return a;
       }
 
-      auto conRespData = dynamic_cast<CDM::ConsciousRespirationData*>(action);
+      CDM::ConsciousRespirationData* conRespData = dynamic_cast<CDM::ConsciousRespirationData*>(action);
       if (conRespData != nullptr) {
-        auto result = std::make_unique<SEConsciousRespiration>();
-        PatientActions::Marshall(*conRespData, *result);
-        return result;
+        auto a = std::make_unique<SEConsciousRespiration>();
+        PatientActions::Marshall(*conRespData, *a);
+        return a;
       }
 
-      auto consumeData = dynamic_cast<CDM::ConsumeNutrientsData*>(action);
+      CDM::ConsumeNutrientsData* consumeData = dynamic_cast<CDM::ConsumeNutrientsData*>(action);
       if (consumeData != nullptr) {
-        auto result = std::make_unique<SEConsumeNutrients>();
-        PatientActions::Marshall(*consumeData, *result);
-        return result;
+        auto a = std::make_unique<SEConsumeNutrients>();
+        Scenario::Marshall(*consumeData, *a);
+        return a;
       }
 
-      auto exerciseData = dynamic_cast<CDM::ExerciseData*>(action);
+      CDM::ExerciseData* exerciseData = dynamic_cast<CDM::ExerciseData*>(action);
       if (exerciseData != nullptr) {
-        auto result = std::make_unique<SEExercise>();
-        PatientActions::Marshall(*exerciseData, *result);
-        return result;
+        auto a = std::make_unique<SEExercise>();
+        Scenario::Marshall(*exerciseData, *a);
+        return a;
       }
 
-      auto intub8Data = dynamic_cast<CDM::IntubationData*>(action);
+      CDM::IntubationData* intub8Data = dynamic_cast<CDM::IntubationData*>(action);
       if (intub8Data != nullptr) {
-        auto result = std::make_unique<SEIntubation>();
-        PatientActions::Marshall(*intub8Data, *result);
-        return result;
+        auto a = std::make_unique<SEIntubation>();
+        Scenario::Marshall(*intub8Data, *a);
+        return a;
       }
 
-      auto mechVentData = dynamic_cast<CDM::MechanicalVentilationData*>(action);
+      CDM::MechanicalVentilationData* mechVentData = dynamic_cast<CDM::MechanicalVentilationData*>(action);
       if (mechVentData != nullptr) {
-        auto result = std::make_unique<SEMechanicalVentilation>();
-        PatientActions::Marshall(*mechVentData, *result);
-        return result;
+        auto a = std::make_unique<SEMechanicalVentilation>();
+        PatientActions::Marshall(*mechVentData, substances, *a);
+        return a;
       }
 
-      auto needlData = dynamic_cast<CDM::NeedleDecompressionData*>(action);
+      CDM::NeedleDecompressionData* needlData = dynamic_cast<CDM::NeedleDecompressionData*>(action);
       if (needlData != nullptr) {
-        auto result = std::make_unique<SENeedleDecompression>();
-        PatientActions::Marshall(*needlData, *result);
-        return result;
+        auto a = std::make_unique<SENeedleDecompression>();
+        Scenario::Marshall(*needlData, *a);
+        return a;
       }
 
-      auto overrideData = dynamic_cast<CDM::OverrideData*>(action);
+      CDM::OverrideData* overrideData = dynamic_cast<CDM::OverrideData*>(action);
       if (overrideData != nullptr) {
-        auto result = std::make_unique<SEOverride>();
-        PatientActions::Marshall(*overrideData, *result);
-        return result;
+        auto a = std::make_unique<SEOverride>();
+        Scenario::Marshall(*overrideData, *a);
+        return a;
       }
 
-      auto hemData = dynamic_cast<CDM::HemorrhageData*>(action);
+      CDM::HemorrhageData* hemData = dynamic_cast<CDM::HemorrhageData*>(action);
       if (hemData != nullptr) {
-        auto result = std::make_unique<SEHemorrhage>();
-        PatientActions::Marshall(*hemData, *result);
-        return result;
+        auto a = std::make_unique<SEHemorrhage>();
+        Scenario::Marshall(*hemData, *a);
+        return a;
       }
 
-      auto painData = dynamic_cast<CDM::PainStimulusData*>(action);
+      CDM::PainStimulusData* painData = dynamic_cast<CDM::PainStimulusData*>(action);
       if (painData != nullptr) {
-        auto result = std::make_unique<SEPainStimulus>();
-        PatientActions::Marshall(*painData, *result);
-        return result;
+        auto a = std::make_unique<SEPainStimulus>();
+        Scenario::Marshall(*painData, *a);
+        return a;
       }
 
-      auto pericData = dynamic_cast<CDM::PericardialEffusionData*>(action);
+      CDM::PericardialEffusionData* pericData = dynamic_cast<CDM::PericardialEffusionData*>(action);
       if (pericData != nullptr) {
-        auto result = std::make_unique<SEPericardialEffusion>();
-        PatientActions::Marshall(*pericData, *result);
-        return result;
+        auto a = std::make_unique<SEPericardialEffusion>();
+        Scenario::Marshall(*pericData, *a);
+        return a;
       }
 
-      auto sepData = dynamic_cast<CDM::SepsisData*>(action);
+      CDM::SepsisData* sepData = dynamic_cast<CDM::SepsisData*>(action);
       if (sepData != nullptr) {
-        auto result = std::make_unique<SESepsis>();
-        PatientActions::Marshall(*sepData, *result);
-        return result;
+        auto sep = std::make_unique<SESepsis>();
+        PatientActions::Marshall(*sepData, *sep);
+        return sep;
       }
 
-      auto pneumoData = dynamic_cast<CDM::TensionPneumothoraxData*>(action);
+      CDM::TensionPneumothoraxData* pneumoData = dynamic_cast<CDM::TensionPneumothoraxData*>(action);
       if (pneumoData != nullptr) {
-        auto result = std::make_unique<SETensionPneumothorax>();
-        PatientActions::Marshall(*pneumoData, *result);
-        return result;
+        auto a = std::make_unique<SETensionPneumothorax>();
+        Scenario::Marshall(*pneumoData, *a);
+        return a;
       }
 
-      auto bolusData = dynamic_cast<CDM::SubstanceBolusData*>(action);
+      CDM::SubstanceBolusData* bolusData = dynamic_cast<CDM::SubstanceBolusData*>(action);
       if (bolusData != nullptr) {
         substance = substances.GetSubstance(bolusData->Substance());
         if (substance == nullptr) {
           ss << "Unknown substance : " << bolusData->Substance();
           substances.GetLogger()->Fatal(ss, "SEScenario::Load");
         }
-        auto result = std::make_unique<SESubstanceBolus>(*substance);
-        PatientActions::Marshall(*bolusData, *result);
-        return result;
+        auto a = std::make_unique<SESubstanceBolus>(*substance);
+        Scenario::Marshall(*bolusData, *a);
+        return a;
       }
 
-      auto subInfuzData = dynamic_cast<CDM::SubstanceInfusionData*>(action);
+      //CDM::SubstanceOralDoseData* oralData = dynamic_cast<CDM::SubstanceOralDoseData*>(action);
+      //if (oralData != nullptr) {
+      //  substance = substances.GetSubstance(oralData->Substance());
+      //  if (substance == nullptr) {
+      //    ss << "Unknown substance : " << oralData->Substance();
+      //    substances.GetLogger()->Fatal(ss, "SEScenario::Load");
+      //  }
+      //  SESubstanceOralDose* od = new SESubstanceOralDose(*substance);
+      //  Scenario::Marshall(*oralData,*od);
+      //  return od;
+      //}
+
+      CDM::SubstanceInfusionData* subInfuzData = dynamic_cast<CDM::SubstanceInfusionData*>(action);
       if (subInfuzData != nullptr) {
         substance = substances.GetSubstance(subInfuzData->Substance());
         if (substance == nullptr) {
           ss << "Unknown substance : " << subInfuzData->Substance();
           substances.GetLogger()->Fatal(ss, "SEScenario::Load");
         }
-        auto result = std::make_unique<SESubstanceInfusion>(*substance);
-        PatientActions::Marshall(*subInfuzData, *result);
-        return result;
+        auto a = std::make_unique<SESubstanceInfusion>(*substance);
+        Scenario::Marshall(*subInfuzData, *a);
+        return a;
       }
 
-      auto subCInfuzData = dynamic_cast<CDM::SubstanceCompoundInfusionData*>(action);
+      CDM::SubstanceCompoundInfusionData* subCInfuzData = dynamic_cast<CDM::SubstanceCompoundInfusionData*>(action);
       if (subCInfuzData != nullptr) {
         compound = substances.GetCompound(subCInfuzData->SubstanceCompound());
         if (compound == nullptr) {
           ss << "Unknown substance : " << subCInfuzData->SubstanceCompound();
           substances.GetLogger()->Fatal(ss, "SEScenario::Load");
         }
-        auto result = std::make_unique<SESubstanceCompoundInfusion>(*compound);
-        PatientActions::Marshall(*subCInfuzData, *result);
-        return result;
+        auto a = std::make_unique<SESubstanceCompoundInfusion>(*compound);
+        Scenario::Marshall(*subCInfuzData, *a);
+        return a;
       }
 
-      auto urinateData = dynamic_cast<CDM::UrinateData*>(action);
+      CDM::UrinateData* urinateData = dynamic_cast<CDM::UrinateData*>(action);
       if (urinateData != nullptr) {
-        auto result = std::make_unique<SEUrinate>();
-        PatientActions::Marshall(*urinateData, *result);
-        return result;
+        auto a = std::make_unique<SEUrinate>();
+        PatientActions::Marshall(*urinateData, *a);
+        return a;
       }
       substances.GetLogger()->Error("Unsupported Patient Action Received", "SEScenario::Load");
     } else if (dynamic_cast<CDM::AnesthesiaMachineActionData*>(action) != nullptr) {
-      auto anConfig = dynamic_cast<CDM::AnesthesiaMachineConfigurationData*>(action);
+      anConfig = dynamic_cast<CDM::AnesthesiaMachineConfigurationData*>(action);
       if (anConfig != nullptr) {
-        auto result = std::make_unique<SEAnesthesiaMachineConfiguration>(substances);
-        result->Load(*anConfig);
-        return result;
+        auto a = std::make_unique<SEAnesthesiaMachineConfiguration>(substances);
+        Scenario::Marshall(*anConfig, *a);
+        return a;
       }
 
-      auto anO2WallLoss = dynamic_cast<CDM::OxygenWallPortPressureLossData*>(action);
+      anO2WallLoss = dynamic_cast<CDM::OxygenWallPortPressureLossData*>(action);
       if (anO2WallLoss != nullptr) {
-        auto result = std::make_unique<SEOxygenWallPortPressureLoss>();
-        result->Load(*anO2WallLoss);
-        return result;
+        auto a = std::make_unique<SEOxygenWallPortPressureLoss>();
+        Scenario::Marshall(*anO2WallLoss, *a);
+        return a;
       }
 
-      auto anO2TankLoss = dynamic_cast<CDM::OxygenTankPressureLossData*>(action);
+      anO2TankLoss = dynamic_cast<CDM::OxygenTankPressureLossData*>(action);
       if (anO2TankLoss != nullptr) {
-        auto result = std::make_unique<SEOxygenTankPressureLoss>();
-        result->Load(*anO2TankLoss);
-        return result;
+        auto a = std::make_unique<SEOxygenTankPressureLoss>();
+        Scenario::Marshall(*anO2TankLoss, *a);
+        return a;
       }
 
-      auto anExLeak = dynamic_cast<CDM::ExpiratoryValveLeakData*>(action);
+      anExLeak = dynamic_cast<CDM::ExpiratoryValveLeakData*>(action);
       if (anExLeak != nullptr) {
-        auto result = std::make_unique<SEExpiratoryValveLeak>();
-        result->Load(*anExLeak);
-        return result;
+        auto a = std::make_unique<SEExpiratoryValveLeak>();
+        Scenario::Marshall(*anExLeak, *a);
+        return a;
       }
 
-      auto anExObs = dynamic_cast<CDM::ExpiratoryValveObstructionData*>(action);
+      anExObs = dynamic_cast<CDM::ExpiratoryValveObstructionData*>(action);
       if (anExObs != nullptr) {
-        auto result = std::make_unique<SEExpiratoryValveObstruction>();
-        result->Load(*anExObs);
-        return result;
+        auto a = std::make_unique<SEExpiratoryValveObstruction>();
+        Scenario::Marshall(*anExObs, *a);
+        return a;
       }
 
-      auto anInLeak = dynamic_cast<CDM::InspiratoryValveLeakData*>(action);
+      anInLeak = dynamic_cast<CDM::InspiratoryValveLeakData*>(action);
       if (anInLeak != nullptr) {
-        auto result = std::make_unique<SEInspiratoryValveLeak>();
-        result->Load(*anInLeak);
-        return result;
+        auto a = std::make_unique<SEInspiratoryValveLeak>();
+        Scenario::Marshall(*anInLeak, *a);
+        return a;
       }
 
-      auto anInObs = dynamic_cast<CDM::InspiratoryValveObstructionData*>(action);
+      anInObs = dynamic_cast<CDM::InspiratoryValveObstructionData*>(action);
       if (anInObs != nullptr) {
-        auto result = std::make_unique<SEInspiratoryValveObstruction>();
-        result->Load(*anInObs);
-        return result;
+        auto a = std::make_unique<SEInspiratoryValveObstruction>();
+        Scenario::Marshall(*anInObs, *a);
+        return a;
       }
 
-      auto anMskLeak = dynamic_cast<CDM::MaskLeakData*>(action);
+      anMskLeak = dynamic_cast<CDM::MaskLeakData*>(action);
       if (anMskLeak != nullptr) {
-        auto result = std::make_unique<SEMaskLeak>();
-        result->Load(*anMskLeak);
-        return result;
+        auto a = std::make_unique<SEMaskLeak>();
+        Scenario::Marshall(*anMskLeak, *a);
+        return a;
       }
 
-      auto anSodaFail = dynamic_cast<CDM::SodaLimeFailureData*>(action);
+      anSodaFail = dynamic_cast<CDM::SodaLimeFailureData*>(action);
       if (anSodaFail != nullptr) {
-        auto result = std::make_unique<SESodaLimeFailure>();
-        result->Load(*anSodaFail);
-        return result;
+        auto a = std::make_unique<SESodaLimeFailure>();
+        Scenario::Marshall(*anSodaFail, *a);
+        return a;
       }
 
-      auto anTubLeak = dynamic_cast<CDM::TubeCuffLeakData*>(action);
+      anTubLeak = dynamic_cast<CDM::TubeCuffLeakData*>(action);
       if (anTubLeak != nullptr) {
-        auto result = std::make_unique<SETubeCuffLeak>();
-        result->Load(*anTubLeak);
-        return result;
+        auto a = std::make_unique<SETubeCuffLeak>();
+        Scenario::Marshall(*anTubLeak, *a);
+        return a;
       }
 
-      auto anVapFail = dynamic_cast<CDM::VaporizerFailureData*>(action);
+      anVapFail = dynamic_cast<CDM::VaporizerFailureData*>(action);
       if (anVapFail != nullptr) {
-        auto result = std::make_unique<SEVaporizerFailure>();
-        result->Load(*anVapFail);
-        return result;
+        auto a = std::make_unique<SEVaporizerFailure>();
+        Scenario::Marshall(*anVapFail, *a);
+        return a;
       }
 
-      auto anVentLoss = dynamic_cast<CDM::VentilatorPressureLossData*>(action);
+      anVentLoss = dynamic_cast<CDM::VentilatorPressureLossData*>(action);
       if (anVentLoss != nullptr) {
-        auto result = std::make_unique<SEVentilatorPressureLoss>();
-        result->Load(*anVentLoss);
-        return result;
+        auto a = std::make_unique<SEVentilatorPressureLoss>();
+        Scenario::Marshall(*anVentLoss, *a);
+        return a;
       }
 
-      auto anYDisc = dynamic_cast<CDM::YPieceDisconnectData*>(action);
+      anYDisc = dynamic_cast<CDM::YPieceDisconnectData*>(action);
       if (anYDisc != nullptr) {
-        auto result = std::make_unique<SEYPieceDisconnect>();
-        result->Load(*anYDisc);
-        return result;
+        auto a = std::make_unique<SEYPieceDisconnect>();
+        Scenario::Marshall(*anYDisc, *a);
+        return a;
       }
       substances.GetLogger()->Error("Unsupported Anesthesia Machine Action Received", "SEScenario::Load");
     } else if (dynamic_cast<CDM::InhalerActionData*>(action) != nullptr) {
-      auto inhaleConfig = dynamic_cast<CDM::InhalerConfigurationData*>(action);
+      CDM::InhalerConfigurationData* inhaleConfig = dynamic_cast<CDM::InhalerConfigurationData*>(action);
       if (inhaleConfig != nullptr) {
-        auto result = std::make_unique<SEInhalerConfiguration>(substances);
-        result->Load(*inhaleConfig);
-        return result;
+        auto a = std::make_unique<SEInhalerConfiguration>(substances);
+        Scenario::Marshall(*inhaleConfig, *a);
+        return a;
       }
     }
 
-    if (substances.GetLogger() != nullptr) {
+    if (substances.GetLogger() != nullptr)
       substances.GetLogger()->Error("Unsupported Action Received", "SEAction::newFromBind");
-    }
     return nullptr;
   }
   //----------------------------------------------------------------------------------
@@ -769,7 +806,7 @@ namespace io {
     for (SEConsciousRespirationCommand* cmd : in.m_Commands) {
       auto cmdData = std::unique_ptr<CDM::ConsciousRespirationCommandData>();
       PatientActions::UnMarshall(*cmd, *cmdData);
-      out.Command().push_back( std::move(cmdData) );
+      out.Command().push_back(std::move(cmdData));
     }
   }
   //----------------------------------------------------------------------------------

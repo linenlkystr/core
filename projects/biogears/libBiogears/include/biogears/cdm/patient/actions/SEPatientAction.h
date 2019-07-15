@@ -13,11 +13,11 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/scenario/SEAction.h>
 
-IO_DECL(PatientActionIo)
+IO_DECL(PatientAction)
 
 namespace biogears {
 class BIOGEARS_API SEPatientAction : public SEAction {
-  friend io::PatientActionIo;
+  friend io::PatientAction;
 
 public:
   SEPatientAction();

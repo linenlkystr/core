@@ -17,7 +17,9 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTime.h>
 #include <biogears/cdm/system/equipment/ElectroCardioGram/SEElectroCardioGramInterpolatorWaveform.h>
 
-#include "units.h"
+#include "cdm/utils/io/cdm/Property.h"
+#include "cdm/utils/io/cdm/ElectroCardioGram.h"
+#include "biogears/schema/cdm/ElectroCardioGram.hxx"
 
 namespace biogears {
 SEElectroCardioGramInterpolator::SEElectroCardioGramInterpolator(Logger* logger)
@@ -61,7 +63,9 @@ bool SEElectroCardioGramInterpolator::LoadWaveforms(const std::string& file, con
     Error(ss);
     return false;
   }
-  if (!Load(*pData)) {
+  try {
+    io::ElectroCardioGram::Marshall(*pData, *this);
+  } catch (...) {
     ss << "Unable to load waveform file: " << file << std::endl;
     Error(ss);
     return false;
@@ -114,7 +118,7 @@ void SEElectroCardioGramInterpolator::Interpolate(SEElectroCardioGramInterpolato
   }
 }
 //-------------------------------------------------------------------------------
-bool SEElectroCardioGramInterpolator::CanInterpolateLeadPotential(CDM::ElectroCardioGramWaveformLeadNumber lead, CDM::enumHeartRhythm::value rhythm) const
+bool SEElectroCardioGramInterpolator::CanInterpolateLeadPotential(unsigned int lead, SEHeartRhythm rhythm) const
 {
   if (!HasWaveform(lead, rhythm))
     return false;
@@ -124,12 +128,12 @@ bool SEElectroCardioGramInterpolator::CanInterpolateLeadPotential(CDM::ElectroCa
   return l->second != nullptr;
 }
 //-------------------------------------------------------------------------------
-void SEElectroCardioGramInterpolator::SetLeadElectricPotential(CDM::ElectroCardioGramWaveformLeadNumber lead, SEScalarElectricPotential& ep)
+void SEElectroCardioGramInterpolator::SetLeadElectricPotential(unsigned int lead, SEScalarElectricPotential& ep)
 {
   m_Leads[lead] = &ep;
 }
 //-------------------------------------------------------------------------------
-bool SEElectroCardioGramInterpolator::StartNewCycle(CDM::enumHeartRhythm::value rhythm)
+bool SEElectroCardioGramInterpolator::StartNewCycle(SEHeartRhythm rhythm)
 {
   for (auto l2rw : m_Waveforms) {
     if (m_Leads.find(l2rw.first) == m_Leads.end() && !HasWaveform(l2rw.first, rhythm)) {
@@ -182,7 +186,7 @@ void SEElectroCardioGramInterpolator::CalculateWaveformsElectricPotential()
   }
 }
 //-------------------------------------------------------------------------------
-bool SEElectroCardioGramInterpolator::HasWaveform(CDM::ElectroCardioGramWaveformLeadNumber lead, CDM::enumHeartRhythm::value rhythm) const
+bool SEElectroCardioGramInterpolator::HasWaveform(unsigned int lead, SEHeartRhythm rhythm) const
 {
   auto l = m_Waveforms.find(lead);
   if (l == m_Waveforms.end())
@@ -193,7 +197,7 @@ bool SEElectroCardioGramInterpolator::HasWaveform(CDM::ElectroCardioGramWaveform
   return w->second != nullptr;
 }
 //-------------------------------------------------------------------------------
-SEElectroCardioGramInterpolatorWaveform& SEElectroCardioGramInterpolator::GetWaveform(CDM::ElectroCardioGramWaveformLeadNumber lead, CDM::enumHeartRhythm::value rhythm)
+SEElectroCardioGramInterpolatorWaveform& SEElectroCardioGramInterpolator::GetWaveform(unsigned int lead, SEHeartRhythm rhythm)
 {
   SEElectroCardioGramInterpolatorWaveform* w = m_Waveforms[lead][rhythm];
   if (w == nullptr) {
@@ -203,7 +207,7 @@ SEElectroCardioGramInterpolatorWaveform& SEElectroCardioGramInterpolator::GetWav
   return *w;
 }
 //-------------------------------------------------------------------------------
-const SEElectroCardioGramInterpolatorWaveform* SEElectroCardioGramInterpolator::GetWaveform(CDM::ElectroCardioGramWaveformLeadNumber lead, CDM::enumHeartRhythm::value rhythm) const
+const SEElectroCardioGramInterpolatorWaveform* SEElectroCardioGramInterpolator::GetWaveform(unsigned int lead, SEHeartRhythm rhythm) const
 {
   auto l = m_Waveforms.find(lead);
   if (l == m_Waveforms.end())
@@ -214,7 +218,7 @@ const SEElectroCardioGramInterpolatorWaveform* SEElectroCardioGramInterpolator::
   return w->second;
 }
 //-------------------------------------------------------------------------------
-void SEElectroCardioGramInterpolator::RemoveWaveform(CDM::ElectroCardioGramWaveformLeadNumber lead, CDM::enumHeartRhythm::value rhythm)
+void SEElectroCardioGramInterpolator::RemoveWaveform(unsigned int lead, SEHeartRhythm rhythm)
 {
   auto l = m_Waveforms.find(lead);
   if (l == m_Waveforms.end())

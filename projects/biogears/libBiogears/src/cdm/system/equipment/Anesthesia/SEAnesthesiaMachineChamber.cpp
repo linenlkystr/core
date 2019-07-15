@@ -21,7 +21,7 @@ SEAnesthesiaMachineChamber::SEAnesthesiaMachineChamber(SESubstanceManager& subst
   : Loggable(substances.GetLogger())
   , m_Substances(substances)
 {
-  m_State = (CDM::enumOnOff::value)-1;
+  m_State = SEOnOff::Invalid;
   m_SubstanceFraction = nullptr;
   m_Substance = nullptr;
 }
@@ -35,7 +35,7 @@ SEAnesthesiaMachineChamber::~SEAnesthesiaMachineChamber()
 
 void SEAnesthesiaMachineChamber::Clear()
 {
-  m_State = (CDM::enumOnOff::value)-1;
+  m_State = SEOnOff::Invalid;
   SAFE_DELETE(m_SubstanceFraction);
   m_Substance = nullptr;
 }
@@ -73,24 +73,24 @@ const SEScalar* SEAnesthesiaMachineChamber::GetScalar(const std::string& name)
 }
 //-------------------------------------------------------------------------------
 
-CDM::enumOnOff::value SEAnesthesiaMachineChamber::GetState() const
+SEOnOff SEAnesthesiaMachineChamber::GetState() const
 {
   return m_State;
 }
 //-------------------------------------------------------------------------------
-void SEAnesthesiaMachineChamber::SetState(CDM::enumOnOff::value state)
+void SEAnesthesiaMachineChamber::SetState(SEOnOff state)
 {
   m_State = state;
 }
 //-------------------------------------------------------------------------------
 bool SEAnesthesiaMachineChamber::HasState() const
 {
-  return m_State == ((CDM::enumOnOff::value)-1) ? false : true;
+  return m_State == (SEOnOff::Invalid) ? false : true;
 }
 //-------------------------------------------------------------------------------
 void SEAnesthesiaMachineChamber::InvalidateState()
 {
-  m_State = (CDM::enumOnOff::value)-1;
+  m_State = SEOnOff::Invalid;
 }
 //-------------------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ double SEAnesthesiaMachineChamber::GetSubstanceFraction() const
 
 bool SEAnesthesiaMachineChamber::HasSubstance() const
 {
-  return m_Substance == nullptr ? false : true;
+  return m_Substance != nullptr;
 }
 //-------------------------------------------------------------------------------
 SESubstance* SEAnesthesiaMachineChamber::GetSubstance() const

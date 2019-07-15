@@ -24,19 +24,17 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/requests/SEThermalCompartmentDataRequest.h>
 #include <biogears/cdm/scenario/requests/SETissueCompartmentDataRequest.h>
 
+IO_DECL(Scenario)
+
 namespace biogears {
 class BIOGEARS_API SEDataRequestManager : public Loggable {
+  friend io::Scenario;
+
 public:
   SEDataRequestManager(Logger* logger);
   ~SEDataRequestManager();
 
   void Clear();
-
-  bool Load(const CDM::DataRequestsData& in, SESubstanceManager& subMgr);
-  CDM::DataRequestsData* Unload() const;
-
-protected:
-  void Unload(CDM::DataRequestsData& data) const;
 
 public:
   bool HasResultsFilename() const { return !m_ResultsFile.empty(); }
@@ -88,6 +86,5 @@ protected:
   SEDecimalFormat* m_DefaultDecimalFormatting;
   SEDecimalFormat* m_OverrideDecimalFormatting;
 
-  static SEDataRequest* newFromBind(const CDM::DataRequestData& dataRequest, SESubstanceManager& substances, const SEDecimalFormat* dfault = nullptr);
 };
 }

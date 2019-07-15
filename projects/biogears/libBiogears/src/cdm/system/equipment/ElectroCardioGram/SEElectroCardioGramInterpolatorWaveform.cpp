@@ -21,7 +21,7 @@ SEElectroCardioGramInterpolatorWaveform::SEElectroCardioGramInterpolatorWaveform
 {
   m_TimeStep = nullptr;
   m_Data = nullptr;
-  m_Rhythm = (CDM::enumHeartRhythm::value)-1;
+  m_Rhythm = SEHeartRhythm::Invalid;
   m_LeadNumber = 0;
 }
 
@@ -33,34 +33,17 @@ SEElectroCardioGramInterpolatorWaveform::~SEElectroCardioGramInterpolatorWavefor
 void SEElectroCardioGramInterpolatorWaveform::Clear()
 {
   m_LeadNumber = 0;
-  m_Rhythm = (CDM::enumHeartRhythm::value)-1;
+  m_Rhythm = SEHeartRhythm::Invalid;
   SAFE_DELETE(m_TimeStep);
   SAFE_DELETE(m_Data);
   m_ActiveIndicies.clear();
 }
 
-void SEElectroCardioGramInterpolatorWaveform::Unload(CDM::ElectroCardioGramInterpolationWaveformData& data) const
-{
-  if (HasRhythm())
-    data.Rhythm(m_Rhythm);
-  if (HasLeadNumber())
-    data.Lead(m_LeadNumber);
-  if (HasData()) {
-    io::Property::UnMarshall(*m_Data, data.Data());
-    data.ActiveIndicies(std::unique_ptr<CDM::IntegerArray>(new CDM::IntegerArray()));
-    data.ActiveIndicies().get().IntegerList(std::unique_ptr<CDM::IntegerList>(new CDM::IntegerList()));
-    for (int i : m_ActiveIndicies)
-      data.ActiveIndicies().get().IntegerList().push_back(i);
-  }
-  if (HasTimeStep())
-    io::Property::UnMarshall(*m_TimeStep, data.TimeStep());
-}
-
-CDM::ElectroCardioGramWaveformLeadNumber SEElectroCardioGramInterpolatorWaveform::GetLeadNumber() const
+unsigned int SEElectroCardioGramInterpolatorWaveform::GetLeadNumber() const
 {
   return m_LeadNumber;
 }
-void SEElectroCardioGramInterpolatorWaveform::SetLeadNumber(CDM::ElectroCardioGramWaveformLeadNumber n)
+void SEElectroCardioGramInterpolatorWaveform::SetLeadNumber(unsigned int n)
 {
   m_LeadNumber = n;
 }
@@ -73,21 +56,21 @@ void SEElectroCardioGramInterpolatorWaveform::InvalidateLeadNumber()
   m_LeadNumber = 0;
 }
 
-CDM::enumHeartRhythm::value SEElectroCardioGramInterpolatorWaveform::GetRhythm() const
+SEHeartRhythm SEElectroCardioGramInterpolatorWaveform::GetRhythm() const
 {
   return m_Rhythm;
 }
-void SEElectroCardioGramInterpolatorWaveform::SetRhythm(CDM::enumHeartRhythm::value rhythm)
+void SEElectroCardioGramInterpolatorWaveform::SetRhythm(SEHeartRhythm rhythm)
 {
   m_Rhythm = rhythm;
 }
 bool SEElectroCardioGramInterpolatorWaveform::HasRhythm() const
 {
-  return m_Rhythm == ((CDM::enumHeartRhythm::value)-1) ? false : true;
+  return m_Rhythm != SEHeartRhythm::Invalid;
 }
 void SEElectroCardioGramInterpolatorWaveform::InvalidateRhythm()
 {
-  m_Rhythm = (CDM::enumHeartRhythm::value)-1;
+  m_Rhythm = SEHeartRhythm::Invalid;
 }
 
 bool SEElectroCardioGramInterpolatorWaveform::HasData() const

@@ -17,7 +17,7 @@ namespace biogears {
 SEOxygenTankPressureLoss::SEOxygenTankPressureLoss()
   : SEAnesthesiaMachineAction()
 {
-  m_State = CDM::enumOnOff::Off;
+  m_State = SEOnOff::Off;
 }
 //----------------------------------------------------------------------------------
 SEOxygenTankPressureLoss::~SEOxygenTankPressureLoss()
@@ -28,7 +28,7 @@ SEOxygenTankPressureLoss::~SEOxygenTankPressureLoss()
 void SEOxygenTankPressureLoss::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
-  m_State = (CDM::enumOnOff::value)-1;
+  m_State = SEOnOff::Invalid;
 }
 //----------------------------------------------------------------------------------
 bool SEOxygenTankPressureLoss::IsValid() const
@@ -38,12 +38,12 @@ bool SEOxygenTankPressureLoss::IsValid() const
 //----------------------------------------------------------------------------------
 bool SEOxygenTankPressureLoss::IsActive() const
 {
-  return m_State == CDM::enumOnOff::On;
+  return m_State == SEOnOff::On;
 }
 //----------------------------------------------------------------------------------
 void SEOxygenTankPressureLoss::SetActive(bool b)
 {
-  m_State = b ? CDM::enumOnOff::On : CDM::enumOnOff::Off;
+  m_State = b ? SEOnOff::On : SEOnOff::Off;
 }
 //----------------------------------------------------------------------------------
 void SEOxygenTankPressureLoss::ToString(std::ostream& str) const

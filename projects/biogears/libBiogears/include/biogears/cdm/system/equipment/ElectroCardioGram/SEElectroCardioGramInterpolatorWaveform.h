@@ -13,6 +13,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/exports.h>
 
+#include <biogears/cdm/system/physiology/SEPhysiologyEnums.h>
+
 IO_DECL(ElectroCardioGram)
 
 namespace biogears {
@@ -28,12 +30,12 @@ public:
   virtual void Clear(); // Deletes all members
 
   virtual bool HasLeadNumber() const;
-  virtual CDM::ElectroCardioGramWaveformLeadNumber GetLeadNumber() const;
-  virtual void SetLeadNumber(CDM::ElectroCardioGramWaveformLeadNumber n);
+  virtual unsigned int GetLeadNumber() const;
+  virtual void SetLeadNumber(unsigned int n);
   virtual void InvalidateLeadNumber();
 
-  virtual CDM::enumHeartRhythm::value GetRhythm() const;
-  virtual void SetRhythm(CDM::enumHeartRhythm::value name);
+  virtual SEHeartRhythm GetRhythm() const;
+  virtual void SetRhythm(SEHeartRhythm name);
   virtual bool HasRhythm() const;
   virtual void InvalidateRhythm();
 
@@ -48,8 +50,8 @@ public:
   virtual std::vector<unsigned int>& GetActiveIndicies() { return m_ActiveIndicies; }
 
 protected:
-  CDM::ElectroCardioGramWaveformLeadNumber m_LeadNumber;
-  CDM::enumHeartRhythm::value m_Rhythm;
+  unsigned int m_LeadNumber;
+  SEHeartRhythm m_Rhythm;
   SEScalarTime* m_TimeStep;
   SEFunctionElectricPotentialVsTime* m_Data;
   std::vector<unsigned int> m_ActiveIndicies;

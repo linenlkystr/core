@@ -5,18 +5,16 @@
 #include <biogears/cdm/properties/SEScalar.h>
 #include <biogears/cdm/properties/SEScalarElectricResistance.h>
 #include <biogears/cdm/properties/SEScalarFraction.h>
+#include <biogears/cdm/properties/SEScalarInversePressure.h>
 #include <biogears/cdm/properties/SEScalarMass.h>
 #include <biogears/cdm/properties/SEScalarMassPerAmount.h>
 #include <biogears/cdm/properties/SEScalarMassPerAreaTime.h>
-#include <biogears/cdm/properties/SEScalarMassPerVolume.h>
-#include <biogears/cdm/properties/SEScalarVolumePerTime.h>
-#include <biogears/cdm/properties/SEScalarPressure.h>
-#include <biogears/cdm/properties/SEScalarElectricResistance.h>
-#include <biogears/cdm/properties/SEScalarVolumePerTime.h>
-#include <biogears/cdm/properties/SEScalarVolumePerTimePressure.h>
-#include <biogears/cdm/properties/SEScalarVolumePerTimeMass.h>
 #include <biogears/cdm/properties/SEScalarMassPerTime.h>
-#include <biogears/cdm/properties/SEScalarInversePressure.h>
+#include <biogears/cdm/properties/SEScalarMassPerVolume.h>
+#include <biogears/cdm/properties/SEScalarPressure.h>
+#include <biogears/cdm/properties/SEScalarVolumePerTime.h>
+#include <biogears/cdm/properties/SEScalarVolumePerTimeMass.h>
+#include <biogears/cdm/properties/SEScalarVolumePerTimePressure.h>
 
 #include <biogears/cdm/substance/SESubstance.h>
 #include <biogears/cdm/substance/SESubstanceAerosolization.h>
@@ -577,6 +575,42 @@ namespace io {
       io::Property::UnMarshall(*in.m_Concentration, out.Concentration());
     }
   }
+//-----------------------------------------------------------------------------
+template <typename SE, typename XSD>
+void Copy(const SE& in, SE& out)
+{
+  XSD data;
+  Substance::UnMarshall(in, data);
+  Substance::Marshall(data, out);
 }
 //-----------------------------------------------------------------------------
+void Substance::Copy(const SESubstanceClearance& in, SESubstanceClearance& out)
+{
+  ::biogears::io::Copy<SESubstanceClearance, CDM::SubstanceClearanceData>(in, out);
+}
+//-----------------------------------------------------------------------------
+void Substance::Copy(const SESubstance& in, SESubstance& out)
+{
+  ::biogears::io::Copy<SESubstance, CDM::SubstanceData>(in, out);
+}
+//-----------------------------------------------------------------------------
+void Substance::Copy(const SESubstanceCompound& in, const SESubstanceManager& subMgr, SESubstanceCompound& out)
+{
+  ::biogears::io::Copy<SESubstanceCompound, CDM::SubstanceCompoundData>(in, out);
+  CDM::SubstanceCompoundData data;
+  Substance::UnMarshall(in ,data);
+  Substance::Marshall(data, subMgr, out);
+}
+//-----------------------------------------------------------------------------
+void Substance::Copy(const SESubstanceFraction& in, SESubstanceFraction& out)
+{
+  ::biogears::io::Copy<SESubstanceFraction, CDM::SubstanceFractionData>(in, out);
+}
+//-----------------------------------------------------------------------------
+void Substance::Copy(const SESubstanceConcentration& in, SESubstanceConcentration& out)
+{
+  ::biogears::io::Copy<SESubstanceConcentration, CDM::SubstanceConcentrationData>(in, out);
+}
+//-----------------------------------------------------------------------------
+}
 }

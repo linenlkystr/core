@@ -12,6 +12,8 @@ specific language governing permissions and limitations under the License.
 #pragma once
 #include <biogears/cdm/system/equipment/Anesthesia/actions/SEAnesthesiaMachineAction.h>
 
+#include <biogears/cdm/properties/PropertyEnum.h>
+
 IO_DECL(AnesthesiaActions)
 
 namespace biogears {
@@ -35,6 +37,6 @@ public:
   virtual void ToString(std::ostream& str) const override;
 
 protected:
-  CDM::enumOnOff::value m_State;
+  SEOnOff m_State;
 };
 }

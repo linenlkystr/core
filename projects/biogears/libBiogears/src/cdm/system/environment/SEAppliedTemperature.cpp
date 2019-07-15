@@ -17,7 +17,6 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarTemperature.h>
 #include <biogears/cdm/substance/SESubstanceManager.h>
 
-
 namespace biogears {
 SEAppliedTemperature::SEAppliedTemperature(Logger* logger)
   : Loggable(logger)
@@ -25,7 +24,7 @@ SEAppliedTemperature::SEAppliedTemperature(Logger* logger)
   m_Temperature = nullptr;
   m_SurfaceArea = nullptr;
   m_SurfaceAreaFraction = nullptr;
-  m_State = CDM::enumOnOff::On;
+  m_State = SEOnOff::On;
 }
 //-----------------------------------------------------------------------------
 SEAppliedTemperature::~SEAppliedTemperature()
@@ -38,7 +37,7 @@ void SEAppliedTemperature::Clear()
   SAFE_DELETE(m_Temperature);
   SAFE_DELETE(m_SurfaceArea);
   SAFE_DELETE(m_SurfaceAreaFraction);
-  m_State = CDM::enumOnOff::On;
+  m_State = SEOnOff::On;
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SEAppliedTemperature::GetScalar(const char* name)
@@ -48,11 +47,11 @@ const SEScalar* SEAppliedTemperature::GetScalar(const char* name)
 //-----------------------------------------------------------------------------
 const SEScalar* SEAppliedTemperature::GetScalar(const std::string& name)
 {
-  if (name.compare("Temperature") == 0)
+  if ("Temperature" == name)
     return &GetTemperature();
-  if (name.compare("SurfaceArea") == 0)
+  if ("SurfaceArea" == name)
     return &GetSurfaceArea();
-  if (name.compare("SurfaceAreaFraction") == 0)
+  if ("SurfaceAreaFraction" == name)
     return &GetSurfaceAreaFraction();
   return nullptr;
 }
@@ -114,12 +113,12 @@ double SEAppliedTemperature::GetSurfaceAreaFraction() const
   return m_SurfaceAreaFraction->GetValue();
 }
 //-----------------------------------------------------------------------------
-CDM::enumOnOff::value SEAppliedTemperature::GetState() const
+SEOnOff SEAppliedTemperature::GetState() const
 {
   return m_State;
 }
 //-----------------------------------------------------------------------------
-void SEAppliedTemperature::SetState(CDM::enumOnOff::value onOff)
+void SEAppliedTemperature::SetState(SEOnOff onOff)
 {
   m_State = onOff;
 }

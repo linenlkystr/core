@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/CommonDataModel.h>
 #include <biogears/exports.h>
 
+#include <biogears/cdm/properties/PropertyEnum.h>
+
 IO_DECL(Anesthesia)
 
 namespace biogears {
@@ -41,8 +43,8 @@ public:
   virtual const SEScalar* GetScalar(const char* name);
   virtual const SEScalar* GetScalar(const std::string& name);
 
-  virtual CDM::enumOnOff::value GetState() const;
-  virtual void SetState(CDM::enumOnOff::value name);
+  virtual SEOnOff GetState() const;
+  virtual void SetState(SEOnOff name);
   virtual bool HasState() const;
   virtual void InvalidateState();
 
@@ -58,7 +60,7 @@ public:
   virtual void ToString(std::ostream& str) const;
 
 protected:
-  CDM::enumOnOff::value m_State;
+  SEOnOff m_State;
   const SESubstance* m_Substance;
   SEScalarFraction* m_SubstanceFraction;
 

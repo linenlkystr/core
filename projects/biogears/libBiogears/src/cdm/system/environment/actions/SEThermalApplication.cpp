@@ -55,7 +55,7 @@ bool SEThermalApplication::IsActive() const
     return true;
   if (HasActiveCooling() && m_ActiveCooling->GetPower().IsPositive())
     return true;
-  if (HasAppliedTemperature() && m_AppliedTemperature->GetState() == CDM::enumOnOff::On)
+  if (HasAppliedTemperature() && m_AppliedTemperature->GetState() == SEOnOff::On)
     return true;
   return false;
 }

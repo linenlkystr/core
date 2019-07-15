@@ -34,7 +34,7 @@ SEEnvironmentalConditions::SEEnvironmentalConditions(SESubstanceManager& substan
   : Loggable(substances.GetLogger())
   , m_Substances(substances)
 {
-  m_SurroundingType = SESurroundingType(-1);
+  m_SurroundingType = SESurroundingType::Invalid;
 
   m_AirDensity = nullptr;
   m_AirVelocity = nullptr;

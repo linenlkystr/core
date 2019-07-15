@@ -25,18 +25,20 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/SEEventHandler.h>
 #include <biogears/container/Tree.tci.h>
 
+#include "cdm/utils/io/cdm/Anesthesia.h"
+
 namespace biogears {
 SEAnesthesiaMachine::SEAnesthesiaMachine(SESubstanceManager& substances)
   : SESystem(substances.GetLogger())
   , m_Substances(substances)
 {
-  m_Connection = (CDM::enumAnesthesiaMachineConnection::value)-1;
+  m_Connection = SEAnesthesiaMachineConnection::Invalid;
   m_InletFlow = nullptr;
   m_InspiratoryExpiratoryRatio = nullptr;
   m_OxygenFraction = nullptr;
-  m_OxygenSource = (CDM::enumAnesthesiaMachineOxygenSource::value)-1;
+  m_OxygenSource = SEAnesthesiaMachineOxygenSource::Invalid;
   m_PositiveEndExpiredPressure = nullptr;
-  m_PrimaryGas = (CDM::enumAnesthesiaMachinePrimaryGas::value)-1;
+  m_PrimaryGas = SEAnesthesiaMachinePrimaryGas::Invalid;
   m_RespiratoryRate = nullptr;
   m_ReliefValvePressure = nullptr;
   m_VentilatorPressure = nullptr;
@@ -59,13 +61,13 @@ void SEAnesthesiaMachine::Clear()
   m_EventHandler = nullptr;
   m_EventState.clear();
   m_EventDuration_s.clear();
-  m_Connection = (CDM::enumAnesthesiaMachineConnection::value)-1;
+  m_Connection = SEAnesthesiaMachineConnection::Invalid;
   SAFE_DELETE(m_InletFlow);
   SAFE_DELETE(m_InspiratoryExpiratoryRatio);
   SAFE_DELETE(m_OxygenFraction);
-  m_OxygenSource = (CDM::enumAnesthesiaMachineOxygenSource::value)-1;
+  m_OxygenSource = SEAnesthesiaMachineOxygenSource::Invalid;
   SAFE_DELETE(m_PositiveEndExpiredPressure);
-  m_PrimaryGas = (CDM::enumAnesthesiaMachinePrimaryGas::value)-1;
+  m_PrimaryGas = SEAnesthesiaMachinePrimaryGas::Invalid;
   SAFE_DELETE(m_RespiratoryRate);
   SAFE_DELETE(m_ReliefValvePressure);
   SAFE_DELETE(m_VentilatorPressure);
@@ -108,8 +110,12 @@ void SEAnesthesiaMachine::ProcessConfiguration(const SEAnesthesiaMachineConfigur
   if (config.HasConfiguration())
     Merge(*config.GetConfiguration());
   else if (config.HasConfigurationFile())
-    if (!Load(config.GetConfigurationFile())) // Does NOT merge file in data, Should we ?
+    try {
+      // Does NOT merge file in data, Should we ?
+      Load(config.GetConfigurationFile());
+    } catch (CommonDataModelException e) { 
       Error("Unable to load configuration file", "SEAnesthesiaMachine::ProcessConfiguration");
+    }
   StateChange();
 }
 //-----------------------------------------------------------------------------
@@ -126,7 +132,7 @@ void SEAnesthesiaMachine::Load(const std::string& file)
     Error(ss);
     throw CommonDataModelException(ss.str());
   }
-  io::Anesthesia::Marshall(*pData,*this);
+  io::Anesthesia::Marshall(*pData, *this);
 }
 //-----------------------------------------------------------------------------
 const SEScalar* SEAnesthesiaMachine::GetScalar(const char* name)
@@ -168,7 +174,7 @@ const SEScalar* SEAnesthesiaMachine::GetScalar(const std::string& name)
   return nullptr;
 }
 //-----------------------------------------------------------------------------
-void SEAnesthesiaMachine::SetEvent(CDM::enumAnesthesiaMachineEvent::value type, bool active, const SEScalarTime& time)
+void SEAnesthesiaMachine::SetEvent(SEAnesthesiaMachineEvent type, bool active, const SEScalarTime& time)
 {
   bool b = false; // Default is off
   if (m_EventState.find(type) != m_EventState.end())
@@ -180,31 +186,31 @@ void SEAnesthesiaMachine::SetEvent(CDM::enumAnesthesiaMachineEvent::value type, 
     m_ss << "[Event] " << time << ", ";
     if (active) {
       switch (type) {
-      case CDM::enumAnesthesiaMachineEvent::OxygenBottle1Exhausted:
+      case SEAnesthesiaMachineEvent::OxygenBottle1Exhausted:
         m_ss << "Oxygen Bottle 1 has been exhausted";
         break;
-      case CDM::enumAnesthesiaMachineEvent::OxygenBottle2Exhausted:
+      case SEAnesthesiaMachineEvent::OxygenBottle2Exhausted:
         m_ss << "Oxygen Bottle 2 has been exhausted";
         break;
-      case CDM::enumAnesthesiaMachineEvent::ReliefValveActive:
+      case SEAnesthesiaMachineEvent::ReliefValveActive:
         m_ss << "Relief valve active - pressure exceeded";
         break;
       default:
-        m_ss << "Anesthesia Machine Event On : " << type; //TODO CDM::enumAnesthesiaMachineEvent::_xsd_enumAnesthesiaMachineEvent_literals_[type];
+        m_ss << "Anesthesia Machine Event On : " << type; //TODO SEAnesthesiaMachineEvent::_xsd_enumAnesthesiaMachineEvent_literals_[type];
       }
     } else {
       switch (type) {
-      case CDM::enumAnesthesiaMachineEvent::OxygenBottle1Exhausted:
+      case SEAnesthesiaMachineEvent::OxygenBottle1Exhausted:
         m_ss << "Oxygen Bottle 1 has been replenished";
         break;
-      case CDM::enumAnesthesiaMachineEvent::OxygenBottle2Exhausted:
+      case SEAnesthesiaMachineEvent::OxygenBottle2Exhausted:
         m_ss << "Oxygen Bottle 2 has been replenished";
         break;
-      case CDM::enumAnesthesiaMachineEvent::ReliefValveActive:
+      case SEAnesthesiaMachineEvent::ReliefValveActive:
         m_ss << "Relief valve inactive - pressure below setting";
         break;
       default:
-        m_ss << "Anesthesia Machine Event Off : " << type; // TODO CDM::enumAnesthesiaMachineEvent::_xsd_enumAnesthesiaMachineEvent_literals_[type];
+        m_ss << "Anesthesia Machine Event Off : " << type; // TODO SEAnesthesiaMachineEvent::_xsd_enumAnesthesiaMachineEvent_literals_[type];
       }
     }
     Info(m_ss);
@@ -215,7 +221,7 @@ void SEAnesthesiaMachine::SetEvent(CDM::enumAnesthesiaMachineEvent::value type, 
     m_EventHandler->HandleAnesthesiaMachineEvent(type, active, &time);
 }
 //-----------------------------------------------------------------------------
-bool SEAnesthesiaMachine::IsEventActive(CDM::enumAnesthesiaMachineEvent::value type) const
+bool SEAnesthesiaMachine::IsEventActive(SEAnesthesiaMachineEvent type) const
 {
   auto b = m_EventState.find(type);
   if (b == m_EventState.end())
@@ -223,7 +229,7 @@ bool SEAnesthesiaMachine::IsEventActive(CDM::enumAnesthesiaMachineEvent::value t
   return b->second;
 }
 //-----------------------------------------------------------------------------
-double SEAnesthesiaMachine::GetEventDuration(CDM::enumAnesthesiaMachineEvent::value type, const TimeUnit& unit) const
+double SEAnesthesiaMachine::GetEventDuration(SEAnesthesiaMachineEvent type, const TimeUnit& unit) const
 {
   auto i = m_EventDuration_s.find(type);
   if (i == m_EventDuration_s.end())
@@ -242,24 +248,24 @@ void SEAnesthesiaMachine::ForwardEvents(SEEventHandler* handler)
   m_EventHandler = handler;
 }
 //-----------------------------------------------------------------------------
-void SEAnesthesiaMachine::SetConnection(CDM::enumAnesthesiaMachineConnection::value c)
+void SEAnesthesiaMachine::SetConnection(SEAnesthesiaMachineConnection c)
 {
   m_Connection = c;
 }
 //-----------------------------------------------------------------------------
 bool SEAnesthesiaMachine::HasConnection() const
 {
-  return m_Connection == ((CDM::enumAnesthesiaMachineConnection::value)-1) ? false : true;
+  return m_Connection == (SEAnesthesiaMachineConnection::Invalid) ? false : true;
 }
 //-----------------------------------------------------------------------------
-CDM::enumAnesthesiaMachineConnection::value SEAnesthesiaMachine::GetConnection() const
+SEAnesthesiaMachineConnection SEAnesthesiaMachine::GetConnection() const
 {
   return m_Connection;
 }
 //-----------------------------------------------------------------------------
 void SEAnesthesiaMachine::InvalidateConnection()
 {
-  m_Connection = (CDM::enumAnesthesiaMachineConnection::value)-1;
+  m_Connection = SEAnesthesiaMachineConnection::Invalid;
 }
 //-----------------------------------------------------------------------------
 bool SEAnesthesiaMachine::HasInletFlow() const
@@ -319,24 +325,24 @@ double SEAnesthesiaMachine::GetOxygenFraction() const
   return m_OxygenFraction->GetValue();
 }
 //-----------------------------------------------------------------------------
-CDM::enumAnesthesiaMachineOxygenSource::value SEAnesthesiaMachine::GetOxygenSource() const
+SEAnesthesiaMachineOxygenSource SEAnesthesiaMachine::GetOxygenSource() const
 {
   return m_OxygenSource;
 }
 //-----------------------------------------------------------------------------
-void SEAnesthesiaMachine::SetOxygenSource(CDM::enumAnesthesiaMachineOxygenSource::value src)
+void SEAnesthesiaMachine::SetOxygenSource(SEAnesthesiaMachineOxygenSource src)
 {
   m_OxygenSource = src;
 }
 //-----------------------------------------------------------------------------
 bool SEAnesthesiaMachine::HasOxygenSource() const
 {
-  return m_OxygenSource == ((CDM::enumAnesthesiaMachineOxygenSource::value)-1) ? false : true;
+  return m_OxygenSource == (SEAnesthesiaMachineOxygenSource::Invalid) ? false : true;
 }
 //-----------------------------------------------------------------------------
 void SEAnesthesiaMachine::InvalidateOxygenSource()
 {
-  m_OxygenSource = (CDM::enumAnesthesiaMachineOxygenSource::value)-1;
+  m_OxygenSource = SEAnesthesiaMachineOxygenSource::Invalid;
 }
 //-----------------------------------------------------------------------------
 bool SEAnesthesiaMachine::HasPositiveEndExpiredPressure() const
@@ -358,24 +364,24 @@ double SEAnesthesiaMachine::GetPositiveEndExpiredPressure(const PressureUnit& un
   return m_PositiveEndExpiredPressure->GetValue(unit);
 }
 //-----------------------------------------------------------------------------
-CDM::enumAnesthesiaMachinePrimaryGas::value SEAnesthesiaMachine::GetPrimaryGas() const
+SEAnesthesiaMachinePrimaryGas SEAnesthesiaMachine::GetPrimaryGas() const
 {
   return m_PrimaryGas;
 }
 //-----------------------------------------------------------------------------
-void SEAnesthesiaMachine::SetPrimaryGas(CDM::enumAnesthesiaMachinePrimaryGas::value gas)
+void SEAnesthesiaMachine::SetPrimaryGas(SEAnesthesiaMachinePrimaryGas gas)
 {
   m_PrimaryGas = gas;
 }
 //-----------------------------------------------------------------------------
 bool SEAnesthesiaMachine::HasPrimaryGas() const
 {
-  return m_PrimaryGas == ((CDM::enumAnesthesiaMachinePrimaryGas::value)-1) ? false : true;
+  return m_PrimaryGas == (SEAnesthesiaMachinePrimaryGas::Invalid) ? false : true;
 }
 //-----------------------------------------------------------------------------
 void SEAnesthesiaMachine::InvalidatePrimaryGas()
 {
-  m_PrimaryGas = (CDM::enumAnesthesiaMachinePrimaryGas::value)-1;
+  m_PrimaryGas = SEAnesthesiaMachinePrimaryGas::Invalid;
 }
 //-----------------------------------------------------------------------------
 bool SEAnesthesiaMachine::HasRespiratoryRate() const

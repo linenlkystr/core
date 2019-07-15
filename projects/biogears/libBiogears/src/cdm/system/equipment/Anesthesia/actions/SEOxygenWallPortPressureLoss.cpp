@@ -17,18 +17,18 @@ namespace biogears {
 SEOxygenWallPortPressureLoss::SEOxygenWallPortPressureLoss()
   : SEAnesthesiaMachineAction()
 {
-  m_State = CDM::enumOnOff::Off;
+  m_State = SEOnOff::Off;
 }
 //----------------------------------------------------------------------------------
 SEOxygenWallPortPressureLoss::~SEOxygenWallPortPressureLoss()
 {
-  Clear();
+  SEOxygenWallPortPressureLoss::Clear();
 }
 //----------------------------------------------------------------------------------
 void SEOxygenWallPortPressureLoss::Clear()
 {
   SEAnesthesiaMachineAction::Clear();
-  m_State = (CDM::enumOnOff::value)-1;
+  m_State = SEOnOff::Invalid;
 }
 //----------------------------------------------------------------------------------
 bool SEOxygenWallPortPressureLoss::IsValid() const
@@ -38,12 +38,12 @@ bool SEOxygenWallPortPressureLoss::IsValid() const
 //----------------------------------------------------------------------------------
 bool SEOxygenWallPortPressureLoss::IsActive() const
 {
-  return m_State == CDM::enumOnOff::On;
+  return m_State == SEOnOff::On;
 }
 //----------------------------------------------------------------------------------
 void SEOxygenWallPortPressureLoss::SetActive(bool b)
 {
-  m_State = b ? CDM::enumOnOff::On : CDM::enumOnOff::Off;
+  m_State = b ? SEOnOff::On : SEOnOff::Off;
 }
 //----------------------------------------------------------------------------------
 void SEOxygenWallPortPressureLoss::ToString(std::ostream& str) const

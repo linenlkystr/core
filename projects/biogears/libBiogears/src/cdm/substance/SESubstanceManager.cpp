@@ -19,6 +19,9 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/utils/FileUtils.h>
 #include <biogears/cdm/utils/unitconversion/UnitConversionEngine.h>
 
+#include "cdm/utils/io/cdm/Substance.h"
+#include <commctrl.h>
+
 namespace biogears {
 SESubstanceManager::SESubstanceManager(Logger* logger)
   : Loggable(logger)
@@ -50,9 +53,10 @@ void SESubstanceManager::Reset()
   m_ActiveGases.clear();
   m_ActiveLiquids.clear();
   for (auto itr : m_OriginalSubstanceData)
-    itr.first->Load(*itr.second);
+    io::Substance::Copy(*itr.second, *itr.first);  
   for (auto itr : m_OriginalCompoundData)
-    itr.first->Load(*itr.second, *this);
+    io::Substance::Copy(*itr.second, *this, *itr.first);
+
 }
 //-----------------------------------------------------------------------------
 /**
@@ -110,9 +114,9 @@ void SESubstanceManager::AddActiveSubstance(SESubstance& substance)
 {
   if (IsActive(substance))
     return;
-  if (substance.GetState() == CDM::enumSubstanceState::Gas)
+  if (substance.GetState() == SESubstanceState::Gas)
     m_ActiveGases.push_back(&substance);
-  if (substance.GetState() == CDM::enumSubstanceState::Liquid)
+  if (substance.GetState() == SESubstanceState::Liquid)
     m_ActiveLiquids.push_back(&substance);
   m_ActiveSubstances.push_back(&substance);
 }
@@ -187,7 +191,7 @@ SESubstanceCompound* SESubstanceManager::GetCompound(const std::string& name) co
   SESubstanceCompound* c;
   for (unsigned int i = 0; i < m_Compounds.size(); i++) {
     c = m_Compounds.at(i);
-    if (name.compare(c->GetName()) == 0)
+    if (name == c->GetName())
       return c;
   }
   return nullptr;
@@ -271,7 +275,7 @@ SESubstance* SESubstanceManager::ReadSubstanceFile(const std::string& xmlFile)
   subData = dynamic_cast<CDM::SubstanceData*>(obj);
   if (subData != nullptr) {
     sub = new SESubstance(GetLogger());
-    sub->Load(*subData);
+    io::Substance::Marshall(*subData, *sub);
     return sub;
   }
   ss.str("");
@@ -296,20 +300,15 @@ bool SESubstanceManager::LoadSubstanceDirectory()
   dir = opendir(std::string(ResolvePath(std::string("substances/"))).c_str());
 
   if (dir != nullptr) {
-    CDM::ObjectData* obj;
 
-    SESubstance* sub;
     CDM::SubstanceData* subData;
 
-    SESubstanceCompound* compound;
     CDM::SubstanceCompoundData* compoundData;
 
     std::unique_ptr<CDM::ObjectData> data;
 
     while ((ent = readdir(dir)) != nullptr) {
-      obj = nullptr;
-      sub = nullptr;
-      subData = nullptr;
+   
       ss.str("");
       ss << workingDirectory << "substances/" << ent->d_name;
       if (!IsDirectory(ent) && strlen(ent->d_name) > 2) {
@@ -317,19 +316,24 @@ bool SESubstanceManager::LoadSubstanceDirectory()
         ss.str("");
         ss << "Reading substance file : ./substances/" << ent->d_name;
         Debug(ss);
-        obj = data.release();
-        subData = dynamic_cast<CDM::SubstanceData*>(obj);
+  
+        subData = dynamic_cast<CDM::SubstanceData*>(data.get());
         if (subData != nullptr) {
-          sub = new SESubstance(GetLogger());
-          sub->Load(*subData);
+          SESubstance * sub = new SESubstance(GetLogger());
+          SESubstance * subCopy = new SESubstance(GetLogger());
+          io::Substance::Marshall(*subData, *sub);
+          io::Substance::Marshall(*subData, *subCopy);
+
           AddSubstance(*sub);
-          m_OriginalSubstanceData[sub] = subData;
+          m_OriginalSubstanceData[sub] = subCopy;
           continue;
         }
-        compoundData = dynamic_cast<CDM::SubstanceCompoundData*>(obj);
+        compoundData = dynamic_cast<CDM::SubstanceCompoundData*>(data.get());
         if (compoundData != nullptr) { // Save this off and process it till later, once all substances are read
-          compound = new SESubstanceCompound(GetLogger());
-          m_OriginalCompoundData[compound] = compoundData;
+          SESubstanceCompound * compound = new SESubstanceCompound(GetLogger());
+          SESubstanceCompound * compoundCopy = new SESubstanceCompound(GetLogger());
+          io::Substance::Marshall(*compoundData, *this, *compoundCopy);
+          m_OriginalCompoundData[compound] = compoundCopy;
           AddCompound(*compound);
           continue;
         }
@@ -339,7 +343,7 @@ bool SESubstanceManager::LoadSubstanceDirectory()
     } // Done with directory search
     // Ok, now let's load up our compounds
     for (auto itr : m_OriginalCompoundData)
-      itr.first->Load((const CDM::SubstanceCompoundData&)*itr.second, *this);
+      io::Substance::Marshall(*dynamic_cast<const CDM::SubstanceCompoundData*>(itr.second), *this, *itr.first);
 
     return succeed;
 

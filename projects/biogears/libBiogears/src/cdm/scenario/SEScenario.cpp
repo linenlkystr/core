@@ -17,6 +17,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/scenario/SEScenario.h>
 #include <biogears/cdm/scenario/SEScenarioInitialParameters.h>
 
+#include "cdm/utils/io/cdm/Scenario.h"
+
 namespace biogears {
 SEScenario::SEScenario(SESubstanceManager& subMgr)
   : Loggable(subMgr.GetLogger())
@@ -63,7 +65,8 @@ bool SEScenario::Load(const std::string& scenarioFile)
     Error(ss);
     return false;
   }
-  return Scenario::Marshall(*pData,*this);
+  io::Scenario::Marshall(*pData,*this);
+  return true;
 }
 //-----------------------------------------------------------------------------
 bool SEScenario::IsValid() const

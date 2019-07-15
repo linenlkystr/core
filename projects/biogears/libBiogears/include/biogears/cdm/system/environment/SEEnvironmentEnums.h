@@ -19,4 +19,20 @@ enum class SESurroundingType {
   Air = 0,
   Water
 };
+
+std::ostream& operator<<(std::ostream& os, const SESurroundingType& event)
+{
+  switch (event) {
+  case SESurroundingType::Air:
+    os << "Air";
+    break;
+  case SESurroundingType::Water:
+    os << "Water";
+    break;
+
+  default:
+    os << "Invalid";
+  }
+  return os;
+}
 }
