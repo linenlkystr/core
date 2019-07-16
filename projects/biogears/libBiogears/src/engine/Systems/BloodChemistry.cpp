@@ -917,7 +917,6 @@ void BloodChemistry::InflammatoryResponse()
   //Tissue
   double tPathogen = m_InflammatoryResponse->GetPathogenTissue().GetValue();
   LLIM(tPathogen, ZERO_APPROX);	//Make sure this value can't go < 0 on rounding error because this will cause NaN value in diffentials
-  double tAntibodies = m_InflammatoryResponse->GetTissueMediators().GetAntibodies().GetValue();
   double tMacrophageResting = m_InflammatoryResponse->GetTissueMediators().GetMacrophageResting().GetValue();
   double tMacrophageActive = m_InflammatoryResponse->GetTissueMediators().GetMacrophageActive().GetValue();
   double tNeutrophilActive = m_InflammatoryResponse->GetTissueMediators().GetNeutrophilActive().GetValue();
@@ -927,7 +926,6 @@ void BloodChemistry::InflammatoryResponse()
   //Blood
   double bPathogen = m_InflammatoryResponse->GetPathogenBlood().GetValue();
   LLIM(bPathogen, ZERO_APPROX); //Make sure this value can't go < 0 on rounding error because this will cause NaN value in diffentials
-  double bAntibodies = m_InflammatoryResponse->GetBloodMediators().GetAntibodies().GetValue();
   double bNeutrophilResting = m_InflammatoryResponse->GetBloodMediators().GetNeutrophilResting().GetValue();
   double bNeutrophilActive = m_InflammatoryResponse->GetBloodMediators().GetNeutrophilActive().GetValue();
   double bTNF = m_InflammatoryResponse->GetBloodMediators().GetTumorNecrosisFactor().GetValue();
@@ -995,11 +993,8 @@ void BloodChemistry::InflammatoryResponse()
 
   //Differential Equations
   //Pathogen
-  double dTPathogen = kPt * tPathogen * (1.0 - tPathogen / infPt) - kP_MAt * inMt * tMacrophageActive * GeneralMath::HillActivation(tPathogen, xP_MAt, hP_MAt) - kP_NAt * inNAt * tNeutrophilActive * GeneralMath::HillActivation(tPathogen, xP_NAt, hP_NAt) - kP_Bt * sBt * tPathogen / (uBt + kB_Pt * tPathogen) + difP_Z * (difP_b - difP_t) / volT;//kP_Bt * tAntibodies * tPathogen   kP_Bt * sBt * tPathogen / (uBt + kB_Pt * tPathogen)
-  double dBPathogen = kPb * bPathogen * (1.0 - bPathogen / infPb) - kP_NAb * inNAb * bNeutrophilActive * GeneralMath::HillActivation(bPathogen, xP_NAb, hP_NAb) - kP_Bb * bPathogen * sBb / (uBb + kB_Pb * bPathogen) + difP_Z * (difP_t - difP_b) / volB;//kP_Bb * bPathogen * bAntibodies  kP_Bb * bPathogen * sBb / (uBb + kB_Pb * bPathogen)
-  //Antibodies
-  double dTAntibodies = sBt - uBt * tAntibodies - kB_Pt * tPathogen * tAntibodies;
-  double dBAntibodies = sBb - uBb * bAntibodies - kB_Pb * bPathogen * bAntibodies;
+  double dTPathogen = kPt * tPathogen * (1.0 - tPathogen / infPt) - kP_MAt * inMt * tMacrophageActive * GeneralMath::HillActivation(tPathogen, xP_MAt, hP_MAt) - kP_NAt * inNAt * tNeutrophilActive * GeneralMath::HillActivation(tPathogen, xP_NAt, hP_NAt) - kP_Bt * sBt * tPathogen / (uBt + kB_Pt * tPathogen) + difP_Z * (difP_b - difP_t) / volT;
+  double dBPathogen = kPb * bPathogen * (1.0 - bPathogen / infPb) - kP_NAb * inNAb * bNeutrophilActive * GeneralMath::HillActivation(bPathogen, xP_NAb, hP_NAb) - kP_Bb * bPathogen * sBb / (uBb + kB_Pb * bPathogen) + difP_Z * (difP_t - difP_b) / volB;
   //Resting macrophages (tissue only)
   double dTMacrophageResting = sMRt - uMRt * tMacrophageResting - (kMR_Pt * inMt * tMacrophageResting * GeneralMath::HillActivation(tPathogen, xMR_Pt, hMR_Pt) + kMR_TNFt * inMt * tMacrophageResting * GeneralMath::HillActivation(tTNF, xMR_TNFt, hMR_TNFt) + kMR_NOt * inMt * tMacrophageResting * tNO);
   //Active macrophages (tissue only)
@@ -1023,7 +1018,7 @@ void BloodChemistry::InflammatoryResponse()
   //Inflammation Level (Z)
   double dZ = kZ_TNF * (GeneralMath::HillActivation(tTNF, xZ_TNF, hZ_TNF) + rZ_TNFTI * (infTI - tissueIntegrity)) * (1.0 - inflLevel) - uZ * inflLevel;
 
-  double scale = 60.0;	//only for testing
+  double scale = 1.0;	//only for testing
 
   //Update state
   double dT_hr = m_data.GetTimeStep().GetValue(TimeUnit::hr);
@@ -1033,7 +1028,6 @@ void BloodChemistry::InflammatoryResponse()
   m_InflammatoryResponse->GetInflammationLevel().IncrementValue(dZ * dT_hr * scale);
   m_InflammatoryResponse->GetTissueIntegrity().IncrementValue(dTI * dT_hr * scale);
   //Tissue mediators
-  m_InflammatoryResponse->GetTissueMediators().GetAntibodies().IncrementValue(dTAntibodies * dT_hr * scale);
   m_InflammatoryResponse->GetTissueMediators().GetMacrophageResting().IncrementValue(dTMacrophageResting * dT_hr * scale);
   m_InflammatoryResponse->GetTissueMediators().GetMacrophageActive().IncrementValue(dTMacrophageActive * dT_hr * scale);
   m_InflammatoryResponse->GetTissueMediators().GetNeutrophilActive().IncrementValue(dTNeutrophilActive * dT_hr * scale);
@@ -1041,7 +1035,6 @@ void BloodChemistry::InflammatoryResponse()
   m_InflammatoryResponse->GetTissueMediators().GetNitricOxide().IncrementValue(dTNO * dT_hr * scale);
   m_InflammatoryResponse->GetTissueMediators().GetTumorNecrosisFactor().IncrementValue(dTTNF * dT_hr * scale);
   //Blood Mediators
-  m_InflammatoryResponse->GetBloodMediators().GetAntibodies().IncrementValue(dBAntibodies * dT_hr * scale);
   m_InflammatoryResponse->GetBloodMediators().GetNeutrophilResting().IncrementValue(dBNeutrophilResting * dT_hr * scale);
   m_InflammatoryResponse->GetBloodMediators().GetNeutrophilActive().IncrementValue(dBNeutrophilActive * dT_hr * scale);
   m_InflammatoryResponse->GetBloodMediators().GetInterleukin10().IncrementValue(dBIL10 * dT_hr * scale);

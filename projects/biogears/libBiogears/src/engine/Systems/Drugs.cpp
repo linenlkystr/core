@@ -30,6 +30,7 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarNeg1To1.h>
 #include <biogears/cdm/properties/SEScalarPressure.h>
 #include <biogears/cdm/properties/SEScalarTemperature.h>
+#include <biogears/cdm/properties/SEScalarTimeMassPerVolume.h>
 #include <biogears/cdm/properties/SEScalarVolume.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTime.h>
 #include <biogears/cdm/properties/SEScalarVolumePerTimeMass.h>
@@ -377,7 +378,7 @@ void Drugs::AdministerSubstanceInfusion()
 /// This function adminsters drug as lozenges which dissolve in the mouth (transmucosal) or as pills that
 /// are swallowed and dissolve in the stomarch (gastrointestinal).  The transmucosal route takes into account
 /// dissolved drug that is swallowed and enters circulation through the GI and thus intitiates a GI drug state.
-/// This function intiates the transmucosal and oral states--other functions (Drugs::ProcessOralTransmucosalModel, 
+/// This function intiates the transmucosal and oral states--other functions (Drugs::ProcessOralTransmucosalModel,
 /// Gastrointestinal::ProcessCATModel) handle the actual substance transport and absorption.
 
 void Drugs::AdministerSubstanceOral()
@@ -398,7 +399,7 @@ void Drugs::AdministerSubstanceOral()
       //Drug is being given transmucosally--get oral transmucosal (OT) state for this substance if it already exists
       SETransmucosalState* otState = m_TransmucosalStates[sub];
       if (otState == nullptr) {
-		//If it doesn't exist yet, make a new model state for the substance and initialize it
+        //If it doesn't exist yet, make a new model state for the substance and initialize it
         otState = new SETransmucosalState(*sub);
         if (!otState->Initialize(oDose->GetDose())) {
           Error("SEOralTransmucosalState::Probable vector length mismatch");
@@ -411,12 +412,12 @@ void Drugs::AdministerSubstanceOral()
           Error("SEGastrointestinalSystem::SEDrugAbsorptionTransitModelState: Probably vector length mismatch");
         }
       }
-	  //Process the transmucosal model for this substance--the function returns the total amount of drug remaining in the oral mucosal layers and mouth
+      //Process the transmucosal model for this substance--the function returns the total amount of drug remaining in the oral mucosal layers and mouth
       double massRemaining_ug = OralTransmucosalModel(sub, otState);
       //If 99.9% of the original dose has been removed from model (either through absorption or swallowing), deactivate the action and remove it
-	  // from the TransmucosalStates map.  This will not effect the GI Transit state--drug in GI will still be processed.
+      // from the TransmucosalStates map.  This will not effect the GI Transit state--drug in GI will still be processed.
       if (massRemaining_ug < 0.001 * oDose->GetDose().GetValue(MassUnit::ug)) {
-        deactiveSubs.emplace_back(sub);   
+        deactiveSubs.emplace_back(sub);
       }
     } else {
       //Oral dose is being given as a pill--initiate a GI absorption model state for it if it doesn't already exist.
@@ -426,11 +427,11 @@ void Drugs::AdministerSubstanceOral()
           Error("SEGastrointestinalSystem::SEDrugAbsorptionTransitModelState: Probably vector length mismatch");
         }
       } else {
-		  //If the drug already has as an existing GI state, that means we are repeat dosing.  Get the drug state and add the new dose to the stomach
+        //If the drug already has as an existing GI state, that means we are repeat dosing.  Get the drug state and add the new dose to the stomach
         m_data.GetGastrointestinal().GetDrugTransitState(sub)->IncrementStomachSolidMass(oDose->GetDose().GetValue(MassUnit::mg), MassUnit::mg);
       }
-	  //We can remove the action right away because the GI will keep processing the drug once the transit model state is initiated
-	  //By deactivating the Oral Dose action right away, we will be able to detect repeat dose actions
+      //We can remove the action right away because the GI will keep processing the drug once the transit model state is initiated
+      //By deactivating the Oral Dose action right away, we will be able to detect repeat dose actions
       deactiveSubs.emplace_back(sub);
     }
   }
@@ -704,7 +705,7 @@ void Drugs::CalculateDrugEffects()
     // and the blood gas setpoint reset for example).
     deltaHeartRate_Per_min += HRBaseline_per_min * pd.GetHeartRateModifier().GetValue() * concentrationEffects_unitless;
 
-    hemorrhageFlowRecoveryFraction += ((pd.GetHemorrhageModifier().GetValue()*1e-5) * concentrationEffects_unitless); // If the substance affects hemorrhage blood flow, scale unitless modifier dowwn to account for resistance sensitivity
+    hemorrhageFlowRecoveryFraction += ((pd.GetHemorrhageModifier().GetValue() * 1e-5) * concentrationEffects_unitless); // If the substance affects hemorrhage blood flow, scale unitless modifier dowwn to account for resistance sensitivity
 
     deltaDiastolicBP_mmHg += patient.GetDiastolicArterialPressureBaseline(PressureUnit::mmHg) * pd.GetDiastolicPressureModifier().GetValue() * concentrationEffects_unitless;
 
@@ -716,7 +717,7 @@ void Drugs::CalculateDrugEffects()
     deltaTubularPermeability += (pd.GetTubularPermeabilityModifier().GetValue()) * concentrationEffects_unitless;
 
     /// \todo Check levels for other sedative/anesthetic drugs for carry over so not specific to propofol. Carries over to respiratory.cpp if statements in driver function as well
-    if ((sedationLevel > 0.15 && sub->GetName() != "Propofol") || (sedationLevel > 0.5)) { 
+    if ((sedationLevel > 0.15 && sub->GetName() != "Propofol") || (sedationLevel > 0.5)) {
       deltaRespirationRate_Per_min += patient.GetRespirationRateBaseline(FrequencyUnit::Per_min) * pd.GetRespirationRateModifier().GetValue();
       deltaTidalVolume_mL += patient.GetTidalVolumeBaseline(VolumeUnit::mL) * pd.GetTidalVolumeModifier().GetValue();
     } else {
@@ -802,12 +803,14 @@ void Drugs::CalculatePlasmaSubstanceConcentration()
   double rate_Per_s = 0.0;
 
   for (SESubstance* sub : m_data.GetCompartments().GetLiquidCompartmentSubstances()) {
-	//--Old erroneous plasma calc---
+    if (!sub->HasPK())
+      continue;
+    //--Old erroneous plasma calc---
     //plasmaMass_ug = m_data.GetSubstances().GetSubstanceMass(*sub, m_data.GetCompartments().GetVascularLeafCompartments(), MassUnit::ug);
     //sub->GetPlasmaConcentration().SetValue(plasmaMass_ug / plasmaVolume_mL, MassPerVolumeUnit::ug_Per_mL);
-	
-	//--New better way---
-    double bloodPlasmaRatio = 1.0;		//Assume equal distribution for subs without a defined BP ratio
+
+    //--New better way---
+    double bloodPlasmaRatio = 1.0; //Assume equal distribution for subs without a defined BP ratio
     double massInBlood_ug = 0.0;
     if (sub->GetPK().GetPhysicochemicals().HasBloodPlasmaRatio()) {
       bloodPlasmaRatio = sub->GetPK().GetPhysicochemicals().GetBloodPlasmaRatio().GetValue();
@@ -815,9 +818,12 @@ void Drugs::CalculatePlasmaSubstanceConcentration()
     if (sub->HasMassInBlood()) {
       massInBlood_ug = sub->GetMassInBlood(MassUnit::ug);
     }
-	//K_bp = Cb/Cp  ---> Cp = Cb/K_bp
-	sub->GetPlasmaConcentration().SetValue((massInBlood_ug / bloodVolume_mL) / bloodPlasmaRatio, MassPerVolumeUnit::ug_Per_mL);
-
+    //K_bp = Cb/Cp  ---> Cp = Cb/K_bp
+    double plasmaConcentration_ug_Per_mL = massInBlood_ug / bloodVolume_mL / bloodPlasmaRatio;
+    sub->GetPlasmaConcentration().SetValue(plasmaConcentration_ug_Per_mL, MassPerVolumeUnit::ug_Per_mL);
+	//Increment area under curve--should be done for subs w/ PK
+    double deltaT_s = m_data.GetTimeStep().GetValue(TimeUnit::s);
+    sub->GetAreaUnderCurve().IncrementValue(plasmaConcentration_ug_Per_mL * 1.0e-6 * deltaT_s, TimeMassPerVolumeUnit::s_g_Per_mL);
 
     //Get substance PD Data if it exists, including rate constant describing transfer to effect compartment and previous effect site concentration
     if (sub->HasPD()) {
@@ -841,6 +847,12 @@ void Drugs::CalculatePlasmaSubstanceConcentration()
       sub->GetEffectSiteConcentration().SetValue(effectConcentration, MassPerVolumeUnit::ug_Per_mL);
     }
 
+    //If we have an antibiotic and an infection present, we need to track how long the antibiotic concentration is above the minimum inhibitory concentration of the bacteria
+    if (sub->HasAntibioticPD() && m_data.GetActions().GetPatientActions().HasInfection()) {
+		if (plasmaConcentration_ug_Per_mL > m_data.GetActions().GetPatientActions().GetInfection()->GetMinimumInhibitoryConcentration().GetValue(MassPerVolumeUnit::ug_Per_mL)) {
+			sub->GetTimeAboveMIC().IncrementValue(deltaT_s, TimeUnit::s);        
+		}
+    }
     if (sub->GetName() == "Sarin" && (m_data.GetSubstances().IsActive(*m_Sarin)))
       SarinKinetics();
   }
@@ -874,7 +886,6 @@ void Drugs::CalculateSubstanceClearance()
 
     //Renal Volume Cleared - Clearance happens through the renal system
     RenalVolumeCleared_mL = (clearance.GetRenalClearance().GetValue(VolumePerTimeMassUnit::mL_Per_s_kg) * PatientWeight_kg * m_dt_s);
-
 
     //Intrinsic Clearance
     IntrinsicClearance_mLPersPerkg = clearance.GetIntrinsicClearance().GetValue(VolumePerTimeMassUnit::mL_Per_s_kg);
@@ -971,7 +982,7 @@ void Drugs::SarinKinetics()
 /// \details
 /// This model assumes that drug has been given as a lozenge that dissolves completely in the mouth and
 /// enters circulation by diffusing across the mucosal layer.  The diffusion model assumes that drug
-/// can cross the sublingual and buccal mucosa, which are the most permeable sections of the mouth to 
+/// can cross the sublingual and buccal mucosa, which are the most permeable sections of the mouth to
 /// drugs.  The sublingual and buccal layers are discretized into seven compartments so that the diffusion
 /// equation can be estimated across them using finite difference methods. This number of compartments was
 /// used in study of Xia The model was designed originally by Xia2015Development. This mode was designed
@@ -981,129 +992,129 @@ void Drugs::SarinKinetics()
 //--------------------------------------------------------------------------------------------------
 double Drugs::OralTransmucosalModel(const SESubstance* sub, SETransmucosalState* ot)
 {
-	//Concentrations from last time step--set to 0 and then check if they exist because on the first time step after admin so we don't pull a null pointer
-	double plasmaConcentration_ug_Per_mL = 0.0;
-	if (sub->HasPlasmaConcentration()) {
-		plasmaConcentration_ug_Per_mL = sub->GetPlasmaConcentration(MassPerVolumeUnit::ug_Per_mL);
-	}
-	//Physiochemical constants
-	const double subLogP = sub->GetPK()->GetPhysicochemicals()->GetLogP();
-	const double fracUnbound_plasma = sub->GetPK()->GetPhysicochemicals()->GetFractionUnboundInPlasma();
-	const double subPka = sub->GetPK()->GetPhysicochemicals()->GetAcidDissociationConstant();
-	const double subBloodPlasmaRatio = sub->GetPK()->GetPhysicochemicals()->GetBloodPlasmaRatio();
-	const double molarMass_g_Per_mol = sub->GetMolarMass(MassPerAmountUnit::g_Per_mol);
-	const double subSolubility_ug_Per_mL = 200.0; //Add this to sub CDM later if we do more tranmucosal subs
-	//Defining mass transfer rates to stomach here so that we can accout for both routes if need be
-	double rateSwallowedDrugToStomach_ug_Per_s = 0.0; //Transmucosal route
-	double rateDrugDissolutionInStomach_ug_Per_s = 0.0; //Gastrointestinal route
-	//Characteristic mouth parameters
-	const double salivaThickness_cm = 30.0e-4;		//Tuned to get dissolution of OTFC in right time frame
-	const double buccalSA_cm2 = 50.0;
-	const double buccalThickness_cm = 400.0e-4; //@cite Xia2015Development
-	const double buccalH_cm = buccalThickness_cm / 6.0;
-	const double buccalLaminaThickness_cm = buccalH_cm; //This ensures that our mesh points are equally spaced
-	const double volumeSaliva_mL = 1.0; //@cite Xia2015Development
-	const double volumeBuccalSlice_mL = buccalH_cm * buccalSA_cm2; //volume of the Nth epithelial layer
-	const double volumeBuccalLamina_mL = buccalLaminaThickness_cm * buccalSA_cm2;
-	const double bloodSupplyBuccal_mL_Per_s = 2.4 / 60.0 * buccalSA_cm2; // @cite Sattar2014, buccal blood supply = 2.4 mL/min/cm2
-	const double tongueSA_cm2 = 15.0;		//@cite Xia2015Development
-	const double tongueThickness_cm = 125.0e-4; //@cite Xia2015Development
-	const double tongueH_cm = tongueThickness_cm / 6.0;
-	const double tongueLaminaThickness_cm = tongueH_cm;
-	const double volumeTongueSlice_mL = tongueH_cm * tongueSA_cm2;
-	const double volumeTongueLamina_mL = tongueLaminaThickness_cm * tongueSA_cm2;
-	const double bloodSupplyTongue_mL_Per_s = 1.0 / 60.0 * tongueSA_cm2;
+  //Concentrations from last time step--set to 0 and then check if they exist because on the first time step after admin so we don't pull a null pointer
+  double plasmaConcentration_ug_Per_mL = 0.0;
+  if (sub->HasPlasmaConcentration()) {
+    plasmaConcentration_ug_Per_mL = sub->GetPlasmaConcentration(MassPerVolumeUnit::ug_Per_mL);
+  }
+  //Physiochemical constants
+  const double subLogP = sub->GetPK()->GetPhysicochemicals()->GetLogP();
+  const double fracUnbound_plasma = sub->GetPK()->GetPhysicochemicals()->GetFractionUnboundInPlasma();
+  const double subPka = sub->GetPK()->GetPhysicochemicals()->GetAcidDissociationConstant();
+  const double subBloodPlasmaRatio = sub->GetPK()->GetPhysicochemicals()->GetBloodPlasmaRatio();
+  const double molarMass_g_Per_mol = sub->GetMolarMass(MassPerAmountUnit::g_Per_mol);
+  const double subSolubility_ug_Per_mL = 200.0; //Add this to sub CDM later if we do more tranmucosal subs
+  //Defining mass transfer rates to stomach here so that we can accout for both routes if need be
+  double rateSwallowedDrugToStomach_ug_Per_s = 0.0; //Transmucosal route
+  double rateDrugDissolutionInStomach_ug_Per_s = 0.0; //Gastrointestinal route
+  //Characteristic mouth parameters
+  const double salivaThickness_cm = 30.0e-4; //Tuned to get dissolution of OTFC in right time frame
+  const double buccalSA_cm2 = 50.0;
+  const double buccalThickness_cm = 400.0e-4; //@cite Xia2015Development
+  const double buccalH_cm = buccalThickness_cm / 6.0;
+  const double buccalLaminaThickness_cm = buccalH_cm; //This ensures that our mesh points are equally spaced
+  const double volumeSaliva_mL = 1.0; //@cite Xia2015Development
+  const double volumeBuccalSlice_mL = buccalH_cm * buccalSA_cm2; //volume of the Nth epithelial layer
+  const double volumeBuccalLamina_mL = buccalLaminaThickness_cm * buccalSA_cm2;
+  const double bloodSupplyBuccal_mL_Per_s = 2.4 / 60.0 * buccalSA_cm2; // @cite Sattar2014, buccal blood supply = 2.4 mL/min/cm2
+  const double tongueSA_cm2 = 15.0; //@cite Xia2015Development
+  const double tongueThickness_cm = 125.0e-4; //@cite Xia2015Development
+  const double tongueH_cm = tongueThickness_cm / 6.0;
+  const double tongueLaminaThickness_cm = tongueH_cm;
+  const double volumeTongueSlice_mL = tongueH_cm * tongueSA_cm2;
+  const double volumeTongueLamina_mL = tongueLaminaThickness_cm * tongueSA_cm2;
+  const double bloodSupplyTongue_mL_Per_s = 1.0 / 60.0 * tongueSA_cm2;
 
-	//Assumed substance particle paramters (for Noyes-Whitney equation)
-	const double rho_g_Per_mL = 1.2;
-	const double sol_ug_Per_mL = 200.0;
-	const double radius_cm = 5.0e-4;
+  //Assumed substance particle paramters (for Noyes-Whitney equation)
+  const double rho_g_Per_mL = 1.2;
+  const double sol_ug_Per_mL = 200.0;
+  const double radius_cm = 5.0e-4;
 
-	//Derived physiochemical data
-	const double Kp_SalivaToEpithelium = 25.0;	//Tuned to fentanyl response
-	const double fracUnbound_tis = 1.0 / Kp_SalivaToEpithelium;
-	double Diff_Mucosa_cm2_Per_s;
-	if (subLogP < 3.0) {
-		double exponent = -0.0803 * (subLogP * subLogP) + 0.5005 * subLogP - 6.7316;
-		Diff_Mucosa_cm2_Per_s = std::pow(10.0, exponent);
-	} else {
-		Diff_Mucosa_cm2_Per_s = std::pow(10.0, -5.9514);
-	}
-	const double Diff_Saliva_cm2_Per_s = 8.0e-6;		//Tuned to fentanyl response
-	//Rate constants
-	const double kSwallow_mL_Per_s = 0.5 / 60; //Tuned so that 75% of fentanyl dose is swallowed, value is consistent with rate of saliva production between 0.36 and 0.5 mL/min (@cite Xia2015Development @cite Sattar2014)
-	const double kDis_mL_Per_s_g = 3.0 * Diff_Saliva_cm2_Per_s / (rho_g_Per_mL * radius_cm * salivaThickness_cm);	//Noyes-Whitney equation
-	const double dT_s = m_data.GetTimeStep().GetValue(TimeUnit::s);
-	//Values from last time step
-	double mouthMass_ug = ot->GetMouthSolidMass().GetValue(MassUnit::ug);
-	if (mouthMass_ug < ZERO_APPROX) {
-		mouthMass_ug = 0.0;  //Make sure we don't take too big of a step near 0 and pull a negative mass
-	}
-	double salivaConcentration_ug_Per_mL = ot->GetSalivaConcentration().GetValue(MassPerVolumeUnit::ug_Per_mL);
-	std::vector<double> buccalCon = ot->GetBuccalConcentrations(MassPerVolumeUnit::ug_Per_mL);
-	std::vector<double> sublingualCon = ot->GetSublingualConcentrations(MassPerVolumeUnit::ug_Per_mL);
-	//Figure out total mass of drug in mouth--will use this check if it safe to remove substance admin action
-    double totalTransmucosalMass_ug = mouthMass_ug + salivaConcentration_ug_Per_mL * volumeSaliva_mL;
-	totalTransmucosalMass_ug += volumeTongueSlice_mL * std::accumulate(sublingualCon.begin(), sublingualCon.end(), 0.0);	//can pull volume out and add concentrations because volumes for all sublingual slices are equal
-    totalTransmucosalMass_ug += volumeBuccalSlice_mL * std::accumulate(buccalCon.begin(), buccalCon.end(), 0.0);		//can pull volume out and add concentrations because volumes for all buccal slices are equal
-	//Differential containers--could update this to Eigen implementation
-	std::vector<double> dBuccalMass(buccalCon.size());
-	std::vector<double> dSublingualMass(sublingualCon.size());
-	//Intermediate expressions -- makes typing out equations easier
-	double rateMassDissolutionInMouth_ug_Per_s = (kDis_mL_Per_s_g / 1.0e6) * mouthMass_ug * (sol_ug_Per_mL - salivaConcentration_ug_Per_mL);
-	rateSwallowedDrugToStomach_ug_Per_s = kSwallow_mL_Per_s * salivaConcentration_ug_Per_mL;
-	double scaleBuccal_Per_s = Diff_Mucosa_cm2_Per_s / (buccalH_cm * buccalH_cm);
-	double scaleTongue_Per_s = Diff_Mucosa_cm2_Per_s / (tongueH_cm * tongueH_cm);
-	//Figure out how to distribute mass in saliva and unbound in upper layers in buccal and sublingual
-	double totalMassSalivaInterface = salivaConcentration_ug_Per_mL * volumeSaliva_mL + fracUnbound_tis * buccalCon[0] * volumeBuccalSlice_mL + fracUnbound_tis * sublingualCon[0] * volumeTongueSlice_mL;
-	double volumeSum_mL = volumeSaliva_mL + volumeBuccalSlice_mL + volumeTongueSlice_mL;
-	double salivaMassNext = totalMassSalivaInterface * (volumeSaliva_mL / volumeSum_mL);
-	double buccalMassNext = totalMassSalivaInterface * (volumeBuccalSlice_mL / volumeSum_mL);
-	double tongueMassNext = totalMassSalivaInterface * (volumeTongueSlice_mL / volumeSum_mL);
-	double deltaMassSaliva = salivaConcentration_ug_Per_mL * volumeSaliva_mL - salivaMassNext;
-	double deltaMassBuccal = fracUnbound_tis * buccalCon[0] * volumeBuccalSlice_mL - buccalMassNext;
-	double deltaMassTongue = fracUnbound_tis * sublingualCon[0] * volumeTongueSlice_mL - tongueMassNext;
-	//Differential Expressions
-	double dm_MassMouth = -rateMassDissolutionInMouth_ug_Per_s;
-	double dmSaliva = rateMassDissolutionInMouth_ug_Per_s - rateSwallowedDrugToStomach_ug_Per_s;
-	//Buccal epithelial layer
-	dBuccalMass[0] = -scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[0] - buccalCon[1]) * volumeBuccalSlice_mL;
-	dBuccalMass[1] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[0] - 2 * buccalCon[1] + buccalCon[2]) * volumeBuccalSlice_mL;
-	dBuccalMass[2] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[1] - 2 * buccalCon[2] + buccalCon[3]) * volumeBuccalSlice_mL;
-	dBuccalMass[3] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[2] - 2 * buccalCon[3] + buccalCon[4]) * volumeBuccalSlice_mL;
-	dBuccalMass[4] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[3] - 2 * buccalCon[4] + buccalCon[5]) * volumeBuccalSlice_mL;
-	dBuccalMass[5] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[4] - 2 * buccalCon[5] + buccalCon[6]) * volumeBuccalSlice_mL;
-	//Buccal Lamina propria layer
-	dBuccalMass[6] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[5] - buccalCon[6]) * volumeBuccalLamina_mL - bloodSupplyBuccal_mL_Per_s * subBloodPlasmaRatio * (fracUnbound_tis * buccalCon[6] / fracUnbound_plasma - plasmaConcentration_ug_Per_mL);
-	////Sublingual epithelial layer
-	dSublingualMass[0] = -scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[0] - sublingualCon[1]) * volumeTongueSlice_mL;
-	dSublingualMass[1] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[0] - 2 * sublingualCon[1] + sublingualCon[2]) * volumeTongueSlice_mL;
-	dSublingualMass[2] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[1] - 2 * sublingualCon[2] + sublingualCon[3]) * volumeTongueSlice_mL;
-	dSublingualMass[3] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[2] - 2 * sublingualCon[3] + sublingualCon[4]) * volumeTongueSlice_mL;
-	dSublingualMass[4] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[3] - 2 * sublingualCon[4] + sublingualCon[5]) * volumeTongueSlice_mL;
-	dSublingualMass[5] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[4] - 2 * sublingualCon[5] + sublingualCon[6]) * volumeTongueSlice_mL;
-	//Sublingual Lamina propria layer
-	dSublingualMass[6] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[5] - sublingualCon[6]) * volumeTongueLamina_mL - bloodSupplyTongue_mL_Per_s * subBloodPlasmaRatio * (fracUnbound_tis * sublingualCon[6] / fracUnbound_plasma - plasmaConcentration_ug_Per_mL);
-	//Put substance in circulation
-	double massIntoVasculature = bloodSupplyBuccal_mL_Per_s * subBloodPlasmaRatio * (fracUnbound_tis * buccalCon[6] / fracUnbound_plasma - plasmaConcentration_ug_Per_mL) + bloodSupplyTongue_mL_Per_s * subBloodPlasmaRatio * (fracUnbound_tis * sublingualCon[6] / fracUnbound_plasma - plasmaConcentration_ug_Per_mL);
-	m_venaCavaVascular->GetSubstanceQuantity(*sub)->GetMass().IncrementValue(massIntoVasculature * dT_s, MassUnit::ug);
-	//Update states
-	ot->GetMouthSolidMass().IncrementValue(dm_MassMouth * dT_s, MassUnit::ug);
-	ot->GetSalivaConcentration().IncrementValue((1.0 / volumeSaliva_mL) * (dmSaliva * dT_s - deltaMassSaliva), MassPerVolumeUnit::ug_Per_mL);
-	buccalCon[0] += (1.0 / volumeBuccalSlice_mL) * (dBuccalMass[0] * dT_s - deltaMassBuccal);
-	for (size_t pos = 1; pos < dBuccalMass.size(); pos++) {
-		buccalCon[pos] += (1.0 / volumeBuccalSlice_mL) * (dBuccalMass[pos] * dT_s);
-	}
-	sublingualCon[0] += (1.0 / volumeTongueSlice_mL) * (dSublingualMass[0] * dT_s - deltaMassTongue);
-	for (size_t pos = 1; pos < dSublingualMass.size(); pos++) {
-		sublingualCon[pos] += (1.0 / volumeTongueSlice_mL) * (dSublingualMass[pos] * dT_s);
-	}
-	ot->SetBuccalConcentrations(buccalCon, MassPerVolumeUnit::ug_Per_mL);
-	ot->SetSublingualConcentrations(sublingualCon, MassPerVolumeUnit::ug_Per_mL);
-	//Put swallowed drug in GI transit model as dissolved drug in stomach
-	m_data.GetGastrointestinal().GetDrugTransitState(sub)->IncrementStomachDissolvedMass(rateSwallowedDrugToStomach_ug_Per_s * dT_s, MassUnit::ug);
+  //Derived physiochemical data
+  const double Kp_SalivaToEpithelium = 25.0; //Tuned to fentanyl response
+  const double fracUnbound_tis = 1.0 / Kp_SalivaToEpithelium;
+  double Diff_Mucosa_cm2_Per_s;
+  if (subLogP < 3.0) {
+    double exponent = -0.0803 * (subLogP * subLogP) + 0.5005 * subLogP - 6.7316;
+    Diff_Mucosa_cm2_Per_s = std::pow(10.0, exponent);
+  } else {
+    Diff_Mucosa_cm2_Per_s = std::pow(10.0, -5.9514);
+  }
+  const double Diff_Saliva_cm2_Per_s = 8.0e-6; //Tuned to fentanyl response
+  //Rate constants
+  const double kSwallow_mL_Per_s = 0.5 / 60; //Tuned so that 75% of fentanyl dose is swallowed, value is consistent with rate of saliva production between 0.36 and 0.5 mL/min (@cite Xia2015Development @cite Sattar2014)
+  const double kDis_mL_Per_s_g = 3.0 * Diff_Saliva_cm2_Per_s / (rho_g_Per_mL * radius_cm * salivaThickness_cm); //Noyes-Whitney equation
+  const double dT_s = m_data.GetTimeStep().GetValue(TimeUnit::s);
+  //Values from last time step
+  double mouthMass_ug = ot->GetMouthSolidMass().GetValue(MassUnit::ug);
+  if (mouthMass_ug < ZERO_APPROX) {
+    mouthMass_ug = 0.0; //Make sure we don't take too big of a step near 0 and pull a negative mass
+  }
+  double salivaConcentration_ug_Per_mL = ot->GetSalivaConcentration().GetValue(MassPerVolumeUnit::ug_Per_mL);
+  std::vector<double> buccalCon = ot->GetBuccalConcentrations(MassPerVolumeUnit::ug_Per_mL);
+  std::vector<double> sublingualCon = ot->GetSublingualConcentrations(MassPerVolumeUnit::ug_Per_mL);
+  //Figure out total mass of drug in mouth--will use this check if it safe to remove substance admin action
+  double totalTransmucosalMass_ug = mouthMass_ug + salivaConcentration_ug_Per_mL * volumeSaliva_mL;
+  totalTransmucosalMass_ug += volumeTongueSlice_mL * std::accumulate(sublingualCon.begin(), sublingualCon.end(), 0.0); //can pull volume out and add concentrations because volumes for all sublingual slices are equal
+  totalTransmucosalMass_ug += volumeBuccalSlice_mL * std::accumulate(buccalCon.begin(), buccalCon.end(), 0.0); //can pull volume out and add concentrations because volumes for all buccal slices are equal
+  //Differential containers--could update this to Eigen implementation
+  std::vector<double> dBuccalMass(buccalCon.size());
+  std::vector<double> dSublingualMass(sublingualCon.size());
+  //Intermediate expressions -- makes typing out equations easier
+  double rateMassDissolutionInMouth_ug_Per_s = (kDis_mL_Per_s_g / 1.0e6) * mouthMass_ug * (sol_ug_Per_mL - salivaConcentration_ug_Per_mL);
+  rateSwallowedDrugToStomach_ug_Per_s = kSwallow_mL_Per_s * salivaConcentration_ug_Per_mL;
+  double scaleBuccal_Per_s = Diff_Mucosa_cm2_Per_s / (buccalH_cm * buccalH_cm);
+  double scaleTongue_Per_s = Diff_Mucosa_cm2_Per_s / (tongueH_cm * tongueH_cm);
+  //Figure out how to distribute mass in saliva and unbound in upper layers in buccal and sublingual
+  double totalMassSalivaInterface = salivaConcentration_ug_Per_mL * volumeSaliva_mL + fracUnbound_tis * buccalCon[0] * volumeBuccalSlice_mL + fracUnbound_tis * sublingualCon[0] * volumeTongueSlice_mL;
+  double volumeSum_mL = volumeSaliva_mL + volumeBuccalSlice_mL + volumeTongueSlice_mL;
+  double salivaMassNext = totalMassSalivaInterface * (volumeSaliva_mL / volumeSum_mL);
+  double buccalMassNext = totalMassSalivaInterface * (volumeBuccalSlice_mL / volumeSum_mL);
+  double tongueMassNext = totalMassSalivaInterface * (volumeTongueSlice_mL / volumeSum_mL);
+  double deltaMassSaliva = salivaConcentration_ug_Per_mL * volumeSaliva_mL - salivaMassNext;
+  double deltaMassBuccal = fracUnbound_tis * buccalCon[0] * volumeBuccalSlice_mL - buccalMassNext;
+  double deltaMassTongue = fracUnbound_tis * sublingualCon[0] * volumeTongueSlice_mL - tongueMassNext;
+  //Differential Expressions
+  double dm_MassMouth = -rateMassDissolutionInMouth_ug_Per_s;
+  double dmSaliva = rateMassDissolutionInMouth_ug_Per_s - rateSwallowedDrugToStomach_ug_Per_s;
+  //Buccal epithelial layer
+  dBuccalMass[0] = -scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[0] - buccalCon[1]) * volumeBuccalSlice_mL;
+  dBuccalMass[1] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[0] - 2 * buccalCon[1] + buccalCon[2]) * volumeBuccalSlice_mL;
+  dBuccalMass[2] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[1] - 2 * buccalCon[2] + buccalCon[3]) * volumeBuccalSlice_mL;
+  dBuccalMass[3] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[2] - 2 * buccalCon[3] + buccalCon[4]) * volumeBuccalSlice_mL;
+  dBuccalMass[4] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[3] - 2 * buccalCon[4] + buccalCon[5]) * volumeBuccalSlice_mL;
+  dBuccalMass[5] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[4] - 2 * buccalCon[5] + buccalCon[6]) * volumeBuccalSlice_mL;
+  //Buccal Lamina propria layer
+  dBuccalMass[6] = scaleBuccal_Per_s * fracUnbound_tis * (buccalCon[5] - buccalCon[6]) * volumeBuccalLamina_mL - bloodSupplyBuccal_mL_Per_s * subBloodPlasmaRatio * (fracUnbound_tis * buccalCon[6] / fracUnbound_plasma - plasmaConcentration_ug_Per_mL);
+  ////Sublingual epithelial layer
+  dSublingualMass[0] = -scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[0] - sublingualCon[1]) * volumeTongueSlice_mL;
+  dSublingualMass[1] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[0] - 2 * sublingualCon[1] + sublingualCon[2]) * volumeTongueSlice_mL;
+  dSublingualMass[2] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[1] - 2 * sublingualCon[2] + sublingualCon[3]) * volumeTongueSlice_mL;
+  dSublingualMass[3] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[2] - 2 * sublingualCon[3] + sublingualCon[4]) * volumeTongueSlice_mL;
+  dSublingualMass[4] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[3] - 2 * sublingualCon[4] + sublingualCon[5]) * volumeTongueSlice_mL;
+  dSublingualMass[5] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[4] - 2 * sublingualCon[5] + sublingualCon[6]) * volumeTongueSlice_mL;
+  //Sublingual Lamina propria layer
+  dSublingualMass[6] = scaleTongue_Per_s * fracUnbound_tis * (sublingualCon[5] - sublingualCon[6]) * volumeTongueLamina_mL - bloodSupplyTongue_mL_Per_s * subBloodPlasmaRatio * (fracUnbound_tis * sublingualCon[6] / fracUnbound_plasma - plasmaConcentration_ug_Per_mL);
+  //Put substance in circulation
+  double massIntoVasculature = bloodSupplyBuccal_mL_Per_s * subBloodPlasmaRatio * (fracUnbound_tis * buccalCon[6] / fracUnbound_plasma - plasmaConcentration_ug_Per_mL) + bloodSupplyTongue_mL_Per_s * subBloodPlasmaRatio * (fracUnbound_tis * sublingualCon[6] / fracUnbound_plasma - plasmaConcentration_ug_Per_mL);
+  m_venaCavaVascular->GetSubstanceQuantity(*sub)->GetMass().IncrementValue(massIntoVasculature * dT_s, MassUnit::ug);
+  //Update states
+  ot->GetMouthSolidMass().IncrementValue(dm_MassMouth * dT_s, MassUnit::ug);
+  ot->GetSalivaConcentration().IncrementValue((1.0 / volumeSaliva_mL) * (dmSaliva * dT_s - deltaMassSaliva), MassPerVolumeUnit::ug_Per_mL);
+  buccalCon[0] += (1.0 / volumeBuccalSlice_mL) * (dBuccalMass[0] * dT_s - deltaMassBuccal);
+  for (size_t pos = 1; pos < dBuccalMass.size(); pos++) {
+    buccalCon[pos] += (1.0 / volumeBuccalSlice_mL) * (dBuccalMass[pos] * dT_s);
+  }
+  sublingualCon[0] += (1.0 / volumeTongueSlice_mL) * (dSublingualMass[0] * dT_s - deltaMassTongue);
+  for (size_t pos = 1; pos < dSublingualMass.size(); pos++) {
+    sublingualCon[pos] += (1.0 / volumeTongueSlice_mL) * (dSublingualMass[pos] * dT_s);
+  }
+  ot->SetBuccalConcentrations(buccalCon, MassPerVolumeUnit::ug_Per_mL);
+  ot->SetSublingualConcentrations(sublingualCon, MassPerVolumeUnit::ug_Per_mL);
+  //Put swallowed drug in GI transit model as dissolved drug in stomach
+  m_data.GetGastrointestinal().GetDrugTransitState(sub)->IncrementStomachDissolvedMass(rateSwallowedDrugToStomach_ug_Per_s * dT_s, MassUnit::ug);
 
-	//Return the amount of mass remaining in the transmucosal layers and mouth
-	return totalTransmucosalMass_ug;
-} 
+  //Return the amount of mass remaining in the transmucosal layers and mouth
+  return totalTransmucosalMass_ug;
+}
 };
