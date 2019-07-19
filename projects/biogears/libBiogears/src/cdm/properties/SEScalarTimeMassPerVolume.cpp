@@ -14,11 +14,11 @@ specific language governing permissions and limitations under the License.
 
 namespace biogears {
 const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::s_g_Per_L("s g/L");
-const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::min_kg_Per_L("min kg/L");
-const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::hr_kg_Per_L("hr kg/L");
-const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::s_g_Per_mL("s g/mL");
-const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::s_kg_Per_mL("s kg/mL");
-const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::min_kg_Per_uL("min kg/uL");
+const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::min_g_Per_L("min g/L");
+const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::hr_g_Per_L("hr g/L");    
+const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::s_ug_Per_mL("s ug/mL");
+const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::min_ug_Per_mL("min ug/mL");
+const TimeMassPerVolumeUnit TimeMassPerVolumeUnit::hr_ug_Per_mL("hr ug/mL");
 
 TimeMassPerVolumeUnit::TimeMassPerVolumeUnit(const char* u)
   : TimeMassPerVolumeUnit(std::string{ u })
@@ -43,15 +43,15 @@ bool TimeMassPerVolumeUnit::IsValidUnit(const char* unit)
 {
   if (strcmp(s_g_Per_L.GetString(), unit) == 0)
     return true;
-  if (strcmp(min_kg_Per_L.GetString(), unit) == 0)
+  if (strcmp(min_g_Per_L.GetString(), unit) == 0)
     return true;
-  if (strcmp(hr_kg_Per_L.GetString(), unit) == 0)
+  if (strcmp(hr_g_Per_L.GetString(), unit) == 0)
     return true;
-  if (strcmp(s_g_Per_mL.GetString(), unit) == 0)
+  if (strcmp(s_ug_Per_mL.GetString(), unit) == 0)
     return true;
-  if (strcmp(s_kg_Per_mL.GetString(), unit) == 0)
+  if (strcmp(min_ug_Per_mL.GetString(), unit) == 0)
     return true;
-  if (strcmp(min_kg_Per_uL.GetString(), unit) == 0)
+  if (strcmp(hr_ug_Per_mL.GetString(), unit) == 0)
     return true;
   return false;
 }
@@ -65,16 +65,16 @@ const TimeMassPerVolumeUnit& TimeMassPerVolumeUnit::GetCompoundUnit(const char* 
 {
   if (strcmp(s_g_Per_L.GetString(), unit) == 0)
     return s_g_Per_L;
-  if (strcmp(min_kg_Per_L.GetString(), unit) == 0)
-    return min_kg_Per_L;
-  if (strcmp(hr_kg_Per_L.GetString(), unit) == 0)
-    return hr_kg_Per_L;
-  if (strcmp(s_g_Per_mL.GetString(), unit) == 0)
-    return s_g_Per_mL;
-  if (strcmp(s_kg_Per_mL.GetString(), unit) == 0)
-    return s_kg_Per_mL;
-  if (strcmp(min_kg_Per_uL.GetString(), unit) == 0)
-    return min_kg_Per_uL;
+  if (strcmp(min_g_Per_L.GetString(), unit) == 0)
+    return min_g_Per_L;
+  if (strcmp(hr_g_Per_L.GetString(), unit) == 0)
+    return hr_g_Per_L;
+  if (strcmp(s_ug_Per_mL.GetString(), unit) == 0)
+    return s_ug_Per_mL;
+  if (strcmp(min_ug_Per_mL.GetString(), unit) == 0)
+    return min_ug_Per_mL;
+  if (strcmp(hr_ug_Per_mL.GetString(), unit) == 0)
+    return hr_ug_Per_mL;
   std::stringstream err;
   err << unit << " is not a valid TimeMassPerVolume unit";
   throw CommonDataModelException(err.str());

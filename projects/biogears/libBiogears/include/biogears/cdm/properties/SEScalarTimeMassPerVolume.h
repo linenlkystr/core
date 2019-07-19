@@ -28,11 +28,11 @@ public:
   static const TimeMassPerVolumeUnit& GetCompoundUnit(const std::string& unit);
 
   static const TimeMassPerVolumeUnit s_g_Per_L;
-  static const TimeMassPerVolumeUnit min_kg_Per_L;
-  static const TimeMassPerVolumeUnit hr_kg_Per_L;
-  static const TimeMassPerVolumeUnit s_g_Per_mL;
-  static const TimeMassPerVolumeUnit s_kg_Per_mL;
-  static const TimeMassPerVolumeUnit min_kg_Per_uL;
+  static const TimeMassPerVolumeUnit min_g_Per_L;
+  static const TimeMassPerVolumeUnit hr_g_Per_L;
+  static const TimeMassPerVolumeUnit s_ug_Per_mL;
+  static const TimeMassPerVolumeUnit min_ug_Per_mL;
+  static const TimeMassPerVolumeUnit hr_ug_Per_mL;
 };
 
 class BIOGEARS_API SEScalarTimeMassPerVolume : public SEScalarQuantity<TimeMassPerVolumeUnit> {
