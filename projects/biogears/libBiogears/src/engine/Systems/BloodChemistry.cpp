@@ -969,6 +969,7 @@ void BloodChemistry::InflammatoryResponse()
   double dP = 0.0, dMR = 0.0, dMA = 0.0, dNR = 0.0, dNA = 0.0, dER = 0.0, dEA = 0.0, dENOS = 0.0, dINOSd = 0.0, dINOS = 0.0, dNO3 = 0.0, dI6 = 0.0, dI10 = 0.0, dI12 = 0.0, dTNF = 0.0, dTI = 0.0, dTR = 0.0;
 
   TI = m_InflammatoryResponse->GetTissueIntegrity().GetValue();
+  double antibacterialEffect = m_data.GetDrugs().GetAntibioticActivity().GetValue();
 
   for (auto immunePair : m_InflammatoryResponse->GetImmuneResponses()) {
     std::string compName = immunePair.first;
@@ -991,7 +992,7 @@ void BloodChemistry::InflammatoryResponse()
     I12 = immuneCmpt->GetInterleukin12().GetValue();
     TNF = immuneCmpt->GetTumorNecrosisFactor().GetValue();
 
-    dP = kPG * P * (1.0 - P / maxPathogen) - P * kPN * NA * GeneralMath::HillActivation(P, xPN, 2.0) - sB * kPB * P / (uB + kBP * P); //This is assumed to be the driving force for infection / sepsis.
+    dP = (kPG-antibacterialEffect) * P * (1.0 - P / maxPathogen) - P * kPN * NA * GeneralMath::HillActivation(P, xPN, 2.0) - sB * kPB * P / (uB + kBP * P); //This is assumed to be the driving force for infection / sepsis.
     if (P < 0.001) {
       //Since pathogen decreases exponentially it will never actually hit 0.  Make sure it can't rebound when population becomes 0.1% of initial pop
       dP = 0.0;
