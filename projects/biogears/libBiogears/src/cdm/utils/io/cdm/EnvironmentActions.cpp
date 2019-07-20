@@ -68,5 +68,15 @@ namespace io {
       out.AppliedTemperature(std::unique_ptr<CDM::AppliedTemperatureData>(in.m_AppliedTemperature->Unload()));
   }
   //----------------------------------------------------------------------------------
-}
+  template <typename SE, typename XSD>
+  void Copy(const SE& in, SE& out)
+  {
+    XSD data;
+    Substance::UnMarshall(in, data);
+    Substance::Marshall(data, out);
+  }
+  //-----------------------------------------------------------------------------
+  void EnvironmentActions::Copy(const SEEnvironmentAction& in, SEEnvironmentAction& out){}
+  void EnvironmentActions::Copy(const SEEnvironmentChange& in, SEEnvironmentChange& out){}
+  void EnvironmentActions::Copy(const SEThermalApplication& in, SEThermalApplication& out){}
 }

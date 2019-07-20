@@ -23,9 +23,7 @@ public:
 
   void Clear();
 
-  
   bool ProcessAction(const SEEnvironmentAction& action);
-  bool ProcessAction(const CDM::EnvironmentActionData& action);
 
   // STATE ACTION
   bool HasChange() const;

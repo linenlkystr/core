@@ -45,6 +45,12 @@ namespace io {
     //class SEThermalApplication
     static void Marshall(const CDM::ThermalApplicationData& in, SEThermalApplication& out);
     static void UnMarshall(const SEThermalApplication& in, CDM::ThermalApplicationData& out);
+
+
+    //-----------------------------------------------------------------------------
+    static void Copy(const SEEnvironmentAction& in, SEEnvironmentAction& out);
+    static void Copy(const SEEnvironmentChange& in, SEEnvironmentChange& out);
+    static void Copy(const SEThermalApplication& in, SEThermalApplication& out);
   };
   //----------------------------------------------------------------------------------
   template <typename SE, typename XSD>

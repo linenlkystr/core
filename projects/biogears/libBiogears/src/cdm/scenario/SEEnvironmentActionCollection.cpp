@@ -14,6 +14,8 @@ specific language governing permissions and limitations under the License.
 #include <biogears/cdm/properties/SEScalarHeatConductancePerArea.h>
 #include <biogears/cdm/substance/SESubstanceFraction.h>
 
+#include <biogears/schema/cdm/Environment.hxx>
+#include <biogears/schema/cdm/EnvironmentActions.hxx>
 
 namespace biogears {
 SEEnvironmentActionCollection::SEEnvironmentActionCollection(SESubstanceManager& substances)
@@ -39,20 +41,17 @@ bool SEEnvironmentActionCollection::ProcessAction(const SEEnvironmentAction& act
 {
   if (!IsValid(action))
     return false;
-  CDM::EnvironmentActionData* bind = action.Unload();
-  bool b = ProcessAction(*bind);
-  delete bind;
-  return b;
 
-  const CDM::EnvironmentChangeData* change = dynamic_cast<const CDM::EnvironmentChangeData*>(&action);
+
+  const auto change = dynamic_cast<const SEEnvironmentChange*>(&action);
   if (change != nullptr) {
     if (m_Change == nullptr)
       m_Change = new SEEnvironmentChange(m_Substances);
-    m_Change->Load(*change);
+    io::EnvironmentActions::Copy(*change,*m_Change);
     return IsValid(*m_Change);
   }
 
-  const CDM::ThermalApplicationData* thermal = dynamic_cast<const CDM::ThermalApplicationData*>(&action);
+  const auto thermal = dynamic_cast<const SEThermalApplication*>(&action);
   if (thermal != nullptr) {
     if (m_ThermalApplication == nullptr)
       m_ThermalApplication = new SEThermalApplication();
@@ -67,10 +66,6 @@ bool SEEnvironmentActionCollection::ProcessAction(const SEEnvironmentAction& act
   /// \error Unsupported Action
   Error("Unsupported Action");
   return false;
-}
-
-bool SEEnvironmentActionCollection::ProcessAction(const CDM::EnvironmentActionData& action)
-{
 }
 
 bool SEEnvironmentActionCollection::IsValid(const SEEnvironmentAction& action)
