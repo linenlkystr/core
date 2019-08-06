@@ -94,7 +94,6 @@ void BloodChemistry::Initialize()
   GetBloodSpecificHeat().SetValue(3617, HeatCapacitancePerMassUnit::J_Per_K_kg);
   GetVolumeFractionNeutralLipidInPlasma().SetValue(0.0023);
   GetVolumeFractionNeutralPhospholipidInPlasma().SetValue(0.0013);
-  GetWhiteBloodCellCount().SetValue(7000, AmountPerVolumeUnit::ct_Per_uL);
   GetPhosphate().SetValue(1.1, AmountPerVolumeUnit::mmol_Per_L);
   GetStrongIonDifference().SetValue(40.5, AmountPerVolumeUnit::mmol_Per_L);
   GetTotalBilirubin().SetValue(0.70, MassPerVolumeUnit::mg_Per_dL); //Reference range is 0.2-1.0
@@ -103,6 +102,7 @@ void BloodChemistry::Initialize()
   m_ArterialOxygen_mmHg.Sample(m_aortaO2->GetPartialPressure(PressureUnit::mmHg));
   m_ArterialCarbonDioxide_mmHg.Sample(m_aortaCO2->GetPartialPressure(PressureUnit::mmHg));
   GetCarbonMonoxideSaturation().SetValue(0);
+
   Process(); // Calculate the initial system values
 }
 
@@ -199,6 +199,30 @@ void BloodChemistry::SetUp()
   SELiquidCompartment* pulmonaryVeins = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::PulmonaryVeins);
   m_pulmonaryVeinsO2 = pulmonaryVeins->GetSubstanceQuantity(m_data.GetSubstances().GetO2());
   m_pulmonaryVeinsCO2 = pulmonaryVeins->GetSubstanceQuantity(m_data.GetSubstances().GetCO2());
+
+  SESubstance& rbcA = m_data.GetSubstances().GetRBC_A();
+  rbcA.GetCellCount().SetReadOnly(false);
+  SESubstance& rbcB = m_data.GetSubstances().GetRBC_B();
+  rbcB.GetCellCount().SetReadOnly(false);
+  SESubstance& rbcO = m_data.GetSubstances().GetRBC_O();
+  rbcO.GetCellCount().SetReadOnly(false);
+  if (m_Patient->GetBloodType() == CDM::enumBloodType::A) {
+    rbcB.GetCellCount().SetValue(0, AmountPerVolumeUnit::ct_Per_uL);
+    rbcO.GetCellCount().SetValue(0, AmountPerVolumeUnit::ct_Per_uL);
+  } else if (m_Patient->GetBloodType() == CDM::enumBloodType::B) {
+    rbcA.GetCellCount().SetValue(0, AmountPerVolumeUnit::ct_Per_uL);
+    rbcO.GetCellCount().SetValue(0, AmountPerVolumeUnit::ct_Per_uL);
+  } else if (m_Patient->GetBloodType() == CDM::enumBloodType::O) {
+    rbcA.GetCellCount().SetValue(0, AmountPerVolumeUnit::ct_Per_uL);
+    rbcB.GetCellCount().SetValue(0, AmountPerVolumeUnit::ct_Per_uL);
+  } else if (m_Patient->GetBloodType() == CDM::enumBloodType::AB) {
+    rbcA.GetCellCount().SetValue(0.5 * rbcA.GetCellCount().GetValue(AmountPerVolumeUnit::ct_Per_uL), AmountPerVolumeUnit::ct_Per_uL);
+    rbcB.GetCellCount().SetValue(0.5 * rbcB.GetCellCount().GetValue(AmountPerVolumeUnit::ct_Per_uL), AmountPerVolumeUnit::ct_Per_uL);
+    rbcO.GetCellCount().SetValue(0, AmountPerVolumeUnit::ct_Per_uL);
+  }
+
+  m_ss << "TESTING A: " << rbcA.GetCellCount().GetValue(AmountPerVolumeUnit::ct_Per_uL) << "and B: " << rbcB.GetCellCount().GetValue(AmountPerVolumeUnit::ct_Per_uL) << "and O: " << rbcO.GetCellCount().GetValue(AmountPerVolumeUnit::ct_Per_uL);
+  Info(m_ss);
 
   double dT_s = m_data.GetTimeStep().GetValue(TimeUnit::s);
   m_PatientActions = &m_data.GetActions().GetPatientActions();
@@ -328,11 +352,13 @@ void BloodChemistry::Process()
   double bloodMass_ug;
   double tissueMass_ug;
   for (SESubstance* sub : m_data.GetSubstances().GetActiveSubstances()) {
-    bloodMass_ug = m_data.GetSubstances().GetSubstanceMass(*sub, m_data.GetCompartments().GetVascularLeafCompartments(), MassUnit::ug);
-    tissueMass_ug = m_data.GetSubstances().GetSubstanceMass(*sub, m_data.GetCompartments().GetTissueLeafCompartments(), MassUnit::ug);
-    sub->GetMassInBody().SetValue(bloodMass_ug + tissueMass_ug, MassUnit::ug);
-    sub->GetMassInBlood().SetValue(bloodMass_ug, MassUnit::ug);
-    sub->GetMassInTissue().SetValue(tissueMass_ug, MassUnit::ug);
+    if (sub->GetState() != CDM::enumSubstanceState::Cellular) {
+      bloodMass_ug = m_data.GetSubstances().GetSubstanceMass(*sub, m_data.GetCompartments().GetVascularLeafCompartments(), MassUnit::ug);
+      tissueMass_ug = m_data.GetSubstances().GetSubstanceMass(*sub, m_data.GetCompartments().GetTissueLeafCompartments(), MassUnit::ug);
+      sub->GetMassInBody().SetValue(bloodMass_ug + tissueMass_ug, MassUnit::ug);
+      sub->GetMassInBlood().SetValue(bloodMass_ug, MassUnit::ug);
+      sub->GetMassInTissue().SetValue(tissueMass_ug, MassUnit::ug);
+    }
   }
 }
 
@@ -351,7 +377,7 @@ void BloodChemistry::PostProcess()
       ProcessOverride();
     }
   }
-  }
+}
 
 //--------------------------------------------------------------------------------------------------
 /// \brief
@@ -396,10 +422,10 @@ void BloodChemistry::CheckBloodSubstanceLevels()
           if (!m_PatientActions->HasOverride()) {
             patient.SetEvent(CDM::enumPatientEvent::IrreversibleState, true, m_data.GetSimulationTime());
           } else {
-            if (m_PatientActions->GetOverride()->GetOverrideConformance()==CDM::enumOnOff::On) {
+            if (m_PatientActions->GetOverride()->GetOverrideConformance() == CDM::enumOnOff::On) {
               patient.SetEvent(CDM::enumPatientEvent::IrreversibleState, true, m_data.GetSimulationTime());
             }
-          }          
+          }
         }
       } else if (patient.IsEventActive(CDM::enumPatientEvent::Hypercapnia) && arterialCarbonDioxide_mmHg < (hypercapniaFlag - 3)) {
         /// \event Patient: End Hypercapnia. The carbon dioxide partial pressure has fallen below 57 mmHg. The patient is no longer considered to be hypercapnic.
@@ -659,7 +685,8 @@ bool BloodChemistry::CalculateCompleteBloodCount(SECompleteBloodCount& cbc)
   cbc.GetMeanCorpuscularHemoglobinConcentration().SetValue(m_data.GetSubstances().GetHb().GetBloodConcentration(MassPerVolumeUnit::g_Per_dL) / GetHematocrit().GetValue(), MassPerVolumeUnit::g_Per_dL); //Average range should be 32-36 g/dL. (https://en.wikipedia.org/wiki/Mean_corpuscular_hemoglobin_concentration)
   cbc.GetMeanCorpuscularVolume().SetValue(m_data.GetConfiguration().GetMeanCorpuscularVolume(VolumeUnit::uL), VolumeUnit::uL);
   cbc.GetRedBloodCellCount().Set(GetRedBloodCellCount());
-  cbc.GetWhiteBloodCellCount().Set(GetWhiteBloodCellCount());
+  double wbcCount_ct_Per_uL = m_data.GetSubstances().GetWBC().GetCellCount(AmountPerVolumeUnit::ct_Per_uL);
+  cbc.GetWhiteBloodCellCount().SetValue(wbcCount_ct_Per_uL, AmountPerVolumeUnit::ct_Per_uL);
   return true;
 }
 
@@ -674,13 +701,14 @@ void BloodChemistry::Sepsis()
   SEThermalCircuitPath* coreCompliance = m_data.GetCircuits().GetInternalTemperatureCircuit().GetPath(BGE::InternalTemperaturePath::InternalCoreToGround);
 
   //Physiological response
-  double wbcBaseline_ct_Per_uL = 7000.0;
+  SESubstance& wbcBaseline = m_data.GetSubstances().GetWBC();
   double tissueIntegrity = GetAcuteInflammatoryResponse().GetTissueIntegrity().GetValue();
   double neutrophilActive = GetAcuteInflammatoryResponse().GetNeutrophilActive().GetValue();
 
   //Set pathological effects, starting with updating white blood cell count.  Scaled down to get max levels around 25-30k ct_Per_uL
-  double wbcAbsolute_ct_Per_uL = wbcBaseline_ct_Per_uL * (1.0 + neutrophilActive / 0.25);
-  GetWhiteBloodCellCount().SetValue(wbcAbsolute_ct_Per_uL, AmountPerVolumeUnit::ct_Per_uL);
+  double wbcAbsolute_ct_Per_uL = wbcBaseline.GetCellCount().GetValue(AmountPerVolumeUnit::ct_Per_uL) * (1.0 + neutrophilActive / 0.25);
+  wbcBaseline.GetCellCount().SetValue(wbcAbsolute_ct_Per_uL, AmountPerVolumeUnit::ct_Per_uL);
+  //GetWhiteBloodCellCount().SetValue(wbcAbsolute_ct_Per_uL, AmountPerVolumeUnit::ct_Per_uL);
 
   //Use the delta above normal white blood cell values to track other Systemic Inflammatory metrics.  These relationships were all
   //empirically determined to time symptom onset (i.e. temperature > 38 degC) with the appropriate stage of sepsis
@@ -829,7 +857,7 @@ void BloodChemistry::AcuteInflammatoryResponse()
   //Adjust parameters depending on inflammation source
   if (burnTotalBodySurfaceArea != 0) {
     //Rate at which burn causes damage varies on the severity of the burn.  A larger burn causes a bigger initial hit to tissue damage
-    kDTR = 5.0*burnTotalBodySurfaceArea;
+    kDTR = 5.0 * burnTotalBodySurfaceArea;
   }
 
   double dPathogen = kPG * pathogen * (1.0 - pathogen / maxPathogen) - pathogen * kPN * neutrophilActive - sB * kPB * pathogen / (uB + kBP * pathogen); //This is assumed to be the driving force for infection / sepsis.
@@ -852,7 +880,6 @@ void BloodChemistry::AcuteInflammatoryResponse()
   double dIL12 = k12M * macrophageActive * GeneralMath::HillInhibition(IL10, x1210, 2.0) - k12 * IL12;
   double dCa = kCATR * autonomic - kCA * catecholamines;
   double dTissueIntegrity = kD * (1.0 - tissueIntegrity) - tissueIntegrity * (kDB * fB + kD6 * GeneralMath::HillActivation(IL6, xD6, 2.0) + kDTR * trauma + kDP * pathogen) * (1.0 / (std::pow(xDNO, 2.0) + std::pow(nitricOxide, 2.0)));
- 
 
   //Increment state values--make sure to scale nitrate, tnf, il6, and il10 back up
   GetAcuteInflammatoryResponse().GetPathogen().IncrementValue(dPathogen * dt_hr * scaleFactor);
@@ -891,7 +918,7 @@ void BloodChemistry::ProcessOverride()
 #ifdef BIOGEARS_USE_OVERRIDE_CONTROL
   OverrideControlLoop();
 #endif
-  
+
   if (override->HasArterialPHOverride()) {
     GetArterialBloodPH().SetValue(override->GetArterialPHOverride().GetValue());
   }
@@ -908,10 +935,7 @@ void BloodChemistry::ProcessOverride()
     GetOxygenSaturation().SetValue(override->GetO2SaturationOverride().GetValue());
   }
   if (override->HasPhosphateOverride()) {
-    GetPhosphate().SetValue(override->GetPhosphateOverride(AmountPerVolumeUnit::mmol_Per_mL),AmountPerVolumeUnit::mmol_Per_mL);
-  }
-  if (override->HasWBCCountOverride()) {
-    GetWhiteBloodCellCount().SetValue(override->GetWBCCountOverride(AmountPerVolumeUnit::ct_Per_uL), AmountPerVolumeUnit::ct_Per_uL);
+    GetPhosphate().SetValue(override->GetPhosphateOverride(AmountPerVolumeUnit::mmol_Per_mL), AmountPerVolumeUnit::mmol_Per_mL);
   }
   if (override->HasTotalBilirubinOverride()) {
     GetTotalBilirubin().SetValue(override->GetTotalBilirubinOverride(MassPerVolumeUnit::mg_Per_mL), MassPerVolumeUnit::mg_Per_mL);
@@ -949,8 +973,6 @@ void BloodChemistry::OverrideControlLoop()
   constexpr double minO2SaturationOverride = 0.0; //Oxygen Saturation
   constexpr double maxPhosphateOverride = 1000.0; // mmol/mL
   constexpr double minPhosphateOverride = 0.0; // mmol/mL
-  constexpr double maxWBCCountOverride = 50000.0; // ct/uL
-  constexpr double minWBCCountOverride = 0.0; // ct/uL
   constexpr double maxTotalBilirubinOverride = 500.0; // mg/dL
   constexpr double minTotalBilirubinOverride = 0.0; // mg/dL
   constexpr double maxCalciumConcentrationOverride = 500.0; // mg/dL
@@ -970,7 +992,6 @@ void BloodChemistry::OverrideControlLoop()
   double currentCOSaturationOverride = 0.0; //value gets changed in next check
   double currentO2SaturationOverride = 0.0; //value gets changed in next check
   double currentPhosphateOverride = 0.0; //value gets changed in next check
-  double currentWBCCountOverride = 0.0; //value gets changed in next check
   double currentTotalBilirubinOverride = 0.0; //value gets changed in next check
   double currentCalciumConcentrationOverride = 0.0; //value gets changed in next check
   double currentGlucoseConcentrationOverride = 0.0; //value gets changed in next check
@@ -982,8 +1003,8 @@ void BloodChemistry::OverrideControlLoop()
     currentArtPHOverride = override->GetArterialPHOverride().GetValue();
   }
   if (override->HasVenousPHOverride()) {
-      currentVenPHOverride = override->GetVenousPHOverride().GetValue();
-    }
+    currentVenPHOverride = override->GetVenousPHOverride().GetValue();
+  }
   if (override->HasCO2SaturationOverride()) {
     currentCO2SaturationOverride = override->GetCO2SaturationOverride().GetValue();
   }
@@ -995,9 +1016,6 @@ void BloodChemistry::OverrideControlLoop()
   }
   if (override->HasPhosphateOverride()) {
     currentPhosphateOverride = override->GetPhosphateOverride(AmountPerVolumeUnit::mmol_Per_mL);
-  }
-  if (override->HasWBCCountOverride()) {
-    currentWBCCountOverride = override->GetWBCCountOverride(AmountPerVolumeUnit::mmol_Per_mL);
   }
   if (override->HasTotalBilirubinOverride()) {
     currentTotalBilirubinOverride = override->GetTotalBilirubinOverride(MassPerVolumeUnit::mg_Per_mL);
@@ -1045,11 +1063,6 @@ void BloodChemistry::OverrideControlLoop()
   }
   if ((currentPhosphateOverride < minPhosphateOverride || currentPhosphateOverride > maxPhosphateOverride) && (override->GetOverrideConformance() == CDM::enumOnOff::On)) {
     m_ss << "Phosphate (BloodChemistry) Override set outside of bounds of validated parameter override. BioGears is no longer conformant.";
-    Info(m_ss);
-    override->SetOverrideConformance(CDM::enumOnOff::Off);
-  }
-  if ((currentWBCCountOverride < minWBCCountOverride || currentWBCCountOverride > maxWBCCountOverride) && (override->GetOverrideConformance() == CDM::enumOnOff::On)) {
-    m_ss << "White Blood Cell Count (BloodChemistry) Override set outside of bounds of validated parameter override. BioGears is no longer conformant.";
     Info(m_ss);
     override->SetOverrideConformance(CDM::enumOnOff::Off);
   }
