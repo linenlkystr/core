@@ -555,6 +555,9 @@ namespace tatrc {
         DEFINE_STATIC_STRING(RightKidney1ToGround);
         DEFINE_STATIC_STRING(RightKidney1ToRightKidney2);
         DEFINE_STATIC_STRING(RightKidney2ToVenaCava);
+        // Kidney
+        DEFINE_STATIC_STRING(Aorta1ToKidney);
+        DEFINE_STATIC_STRING(KidneyToVenaCava);
         // Right Leg
         DEFINE_STATIC_STRING(Aorta1ToRightLeg1);
         DEFINE_STATIC_STRING(RightLeg1ToGround);

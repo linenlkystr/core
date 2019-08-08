@@ -2381,8 +2381,8 @@ void BioGears::SetupRenalLite()
   SEFluidCircuitNode* Aorta1 = cCardiovascular.GetNode(BGE::CardiovascularNode::Aorta1);
   SEFluidCircuitNode* VenaCava = cCardiovascular.GetNode(BGE::CardiovascularNode::VenaCava);
   // Add the new connection paths
-  SEFluidCircuitPath& NewAorta1ToKidney = cCombinedCardiovascular.CreatePath(*Aorta1, AortaConnection, BGE::CardiovascularPath::Aorta1ToRightKidney1);
-  SEFluidCircuitPath& NewKidneyToVenaCava = cCombinedCardiovascular.CreatePath(VenaCavaConnection, *VenaCava, BGE::CardiovascularPath::RightKidney2ToVenaCava);
+  SEFluidCircuitPath& NewAorta1ToKidney = cCombinedCardiovascular.CreatePath(*Aorta1, AortaConnection, BGE::CardiovascularPath::Aorta1ToKidney);
+  SEFluidCircuitPath& NewKidneyToVenaCava = cCombinedCardiovascular.CreatePath(VenaCavaConnection, *VenaCava, BGE::CardiovascularPath::KidneyToVenaCava);
   
   // We need to move the resistances
   NewAorta1ToKidney.GetResistanceBaseline().Set(AortaConnectionToRenalArtery.GetResistanceBaseline());
@@ -2475,9 +2475,9 @@ void BioGears::SetupRenalLite()
   /////////////////////////////
 
   // Graph Dependencies
-  SELiquidCompartment& vAorta = *m_Compartments->GetLiquidCompartment(BGE::VascularCompartment::Aorta);
-  SELiquidCompartment& vVenaCava = *m_Compartments->GetLiquidCompartment(BGE::VascularCompartment::VenaCava);
-  SELiquidCompartment& vGround = *m_Compartments->GetLiquidCompartment(BGE::VascularCompartment::Ground);
+  SELiquidCompartment& vAorta = *m_Compartments->GetLiquidCompartment(BGE::VascularLiteCompartment::Aorta);
+  SELiquidCompartment& vVenaCava = *m_Compartments->GetLiquidCompartment(BGE::VascularLiteCompartment::VenaCava);
+  SELiquidCompartment& vGround = *m_Compartments->GetLiquidCompartment(BGE::VascularLiteCompartment::Ground);
 
   ///////////
   // Blood //
@@ -2557,7 +2557,7 @@ void BioGears::SetupRenalLite()
   gRenal.AddCompartment(vAorta);
   gRenal.AddCompartment(vVenaCava);
  
-  // Right Blood
+  // Blood
   gRenal.AddCompartment(vRenalArtery);
   gRenal.AddCompartment(vAfferentArteriole);
   gRenal.AddCompartment(vGlomerularCapillaries);
@@ -3867,8 +3867,8 @@ void BioGears::SetupTissue()
   KidneyI.GetVolumeBaseline().SetValue(KidneyIWFraction * KidneyTissueVolume * 1000.0, VolumeUnit::mL); //intracellular node
   KidneyL.GetPressure().SetValue(l1NodePressure, PressureUnit::mmHg);
 
-  SEFluidCircuitPath& LeftKidneyVToKidneyE1 = cCombinedCardiovascular.CreatePath(*KidneyV, KidneyE1, BGE::TissueLitePath::LeftKidneyVToKidneyE1);
-  LeftKidneyVToKidneyE1.GetPressureSourceBaseline().SetValue(-copVascular_mmHg, PressureUnit::mmHg);
+  SEFluidCircuitPath& KidneyVToKidneyE1 = cCombinedCardiovascular.CreatePath(*KidneyV, KidneyE1, BGE::TissueLitePath::LeftKidneyVToKidneyE1);
+  KidneyVToKidneyE1.GetPressureSourceBaseline().SetValue(-copVascular_mmHg, PressureUnit::mmHg);
   SEFluidCircuitPath& KidneyE1ToKidneyE2 = cCombinedCardiovascular.CreatePath(KidneyE1, KidneyE2, BGE::TissueLitePath::KidneyE1ToKidneyE2);
   KidneyE1ToKidneyE2.GetResistanceBaseline().SetValue(capillaryResistance_mmHg_min_Per_mL, FlowResistanceUnit::mmHg_min_Per_mL);
   SEFluidCircuitPath& KidneyE2ToKidneyE3 = cCombinedCardiovascular.CreatePath(KidneyE2, KidneyE3, BGE::TissueLitePath::KidneyE2ToKidneyE3);
@@ -3877,8 +3877,8 @@ void BioGears::SetupTissue()
   KidneyE3ToGround.GetComplianceBaseline().SetValue(KidneyE3.GetVolumeBaseline(VolumeUnit::mL) / vNodePressure, FlowComplianceUnit::mL_Per_mmHg); //Might need to change this
   SEFluidCircuitPath& KidneyE3ToLeftKidneyI = cCombinedCardiovascular.CreatePath(KidneyE3, KidneyI, BGE::TissueLitePath::KidneyE3ToKidneyI);
   KidneyE3ToLeftKidneyI.GetFlowSourceBaseline().SetValue(0.0, VolumePerTimeUnit::mL_Per_s);
-  SEFluidCircuitPath& LeftKidneyIToGround = cCombinedCardiovascular.CreatePath(KidneyI, *Ground, BGE::TissueLitePath::KidneyIToGround);
-  LeftKidneyIToGround.GetComplianceBaseline().SetValue(KidneyI.GetVolumeBaseline(VolumeUnit::mL) / KidneyI.GetPressure(PressureUnit::mmHg), FlowComplianceUnit::mL_Per_mmHg);
+  SEFluidCircuitPath& KidneyIToGround = cCombinedCardiovascular.CreatePath(KidneyI, *Ground, BGE::TissueLitePath::KidneyIToGround);
+  KidneyIToGround.GetComplianceBaseline().SetValue(KidneyI.GetVolumeBaseline(VolumeUnit::mL) / KidneyI.GetPressure(PressureUnit::mmHg), FlowComplianceUnit::mL_Per_mmHg);
 
   SEFluidCircuitPath& KidneyE3ToLeftKidneyL = cCombinedCardiovascular.CreatePath(KidneyE3, KidneyL, BGE::TissueLitePath::KidneyE3ToKidneyL);
   KidneyE3ToLeftKidneyL.GetPressureSourceBaseline().SetValue(lymphDrivePressure_mmHg, PressureUnit::mmHg);
