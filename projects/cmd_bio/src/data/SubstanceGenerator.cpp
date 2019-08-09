@@ -61,7 +61,11 @@ bool SubstanceGenerator::parse()
     } else if ("Pharmacodynamics (all or none)" == lineItr->first) {
       rValue &= process_pharmacodynamics(++lineItr);
       lineItr += 15;
-    } else if (lineItr->first.find("Tissue Pharmacokinetics") != std::string::npos) {
+    } else if ("Antibiotic Pharmacodynamics (all or none)" == lineItr->first) {
+      rValue &= process_antibioticPD(++lineItr);
+      lineItr += 2;
+	}
+	else if (lineItr->first.find("Tissue Pharmacokinetics") != std::string::npos) {
       rValue &= process_tissues(lineItr);
       lineItr += 1;
     } else {
@@ -549,6 +553,49 @@ bool SubstanceGenerator::process_pharmacodynamics(CSV_RowItr itr)
   }
   return rValue;
 }
+//-------------------------------------------------------------------------------
+//!
+//! \brief Reads in data for the xml tags nested inside the antibiotic pharmacodynamics tag
+//! \param itr, iterator for the data structure representation of csv rows
+//! \return
+//!
+bool SubstanceGenerator::process_antibioticPD(CSV_RowItr itr)
+{
+  namespace CDM = mil::tatrc::physiology::datamodel;
+
+  //TODO:Bounds Checking
+  //TODO:Exceptiom Handling
+  bool rValue = true;
+  bool apply_results = false;
+  size_t index = 0;
+  for (auto& substance : _substances) {
+    CDM::SubstanceData::AntibioticPharmacodynamics_type data;
+
+    auto& value = (itr)->second[index];
+    if (!value.empty()) {
+      try {
+        size_t pos = 0;
+
+        data.AntibacterialIndex(value);
+        value = (itr + 1)->second[index];
+        data.I50(std::stod(value));
+        value = (itr + 2)->second[index];
+        CDM::SubstanceData::AntibioticPharmacodynamics_type::AntibacterialEffect_type effectData;
+        effectData.value(std::stod(value, &pos));
+        effectData.unit(trim(value.substr(pos)));
+        data.AntibacterialEffect(effectData);
+        value = (itr + 3)->second[index];
+
+        substance.AntibioticPharmacodynamics(data);
+      } catch (std::exception e) {
+        rValue = false;
+      }
+    }
+    ++index;
+  }
+  return rValue;
+}
+
 //-----------------------------------------------------------------------------
 //!
 //! \brief Reads in data for the xml tags nested inside the tissues tag

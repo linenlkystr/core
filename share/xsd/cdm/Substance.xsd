@@ -254,10 +254,10 @@ specific language governing permissions and limitations under the License.
           <xs:element name="RelativeDiffusionCoefficient" type="ScalarData" minOccurs="0"  maxOccurs="1"/><!--<< @brief Represents the ability of the substance to diffuse across a membrane. A proportionality of the solubility and the square root of the molecular weight as defined relative to oxygen.-->
           <xs:element name="SolubilityCoefficient" type="ScalarInversePressureData" minOccurs="0"  maxOccurs="1"/><!--<< @brief Represents the ability of a substance to dissolve in a solution. -->          
           <!-- More complex Objects -->
-		  <xs:element name="AntibioticPharmacodynamics" type="AntibioticPharmacodynamicsData" minOccurs="0" maxOccurs="1"/>
           <xs:element name="Clearance" type="SubstanceClearanceData" minOccurs="0"  maxOccurs="1"/><!--<< @brief @copybrief Substance_SubstanceClearanceData --> 
           <xs:element name="Pharmacokinetics" type="SubstancePharmacokineticsData" minOccurs="0"  maxOccurs="1"/><!--<< @brief @copybrief Substance_SubstancePharmacokineticsData -->  
-          <xs:element name="Pharmacodynamics" type="SubstancePharmacodynamicsData" minOccurs="0"  maxOccurs="1"/><!--<< @brief @copybrief Substance_SubstancePharmacodynamicsData -->   
+          <xs:element name="Pharmacodynamics" type="SubstancePharmacodynamicsData" minOccurs="0"  maxOccurs="1"/><!--<< @brief @copybrief Substance_SubstancePharmacodynamicsData --> 
+		  <xs:element name="AntibioticPharmacodynamics" type="AntibioticPharmacodynamicsData" minOccurs="0" maxOccurs="1"/>          
         </xs:sequence>        
       </xs:extension>
     </xs:complexContent>
