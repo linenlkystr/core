@@ -84,11 +84,9 @@ void Endocrine::SetUp()
 {
   m_dt_s = m_data.GetTimeStep().GetValue(TimeUnit::s);
   SELiquidCompartment* aorta = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Aorta);
-  SELiquidCompartment* rkidney = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightEfferentArteriole);
-  SELiquidCompartment* lkidney = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftEfferentArteriole);
+  SELiquidCompartment* kidney = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::EfferentArteriole);
   m_aortaEpinephrine = aorta->GetSubstanceQuantity(m_data.GetSubstances().GetEpi());
-  m_rKidneyEpinephrine = rkidney->GetSubstanceQuantity(m_data.GetSubstances().GetEpi());
-  m_lKidneyEpinephrine = lkidney->GetSubstanceQuantity(m_data.GetSubstances().GetEpi());
+  m_KidneyEpinephrine = kidney->GetSubstanceQuantity(m_data.GetSubstances().GetEpi());
   m_aortaGlucose = aorta->GetSubstanceQuantity(m_data.GetSubstances().GetGlucose());
   SESubstance* insulin = &m_data.GetSubstances().GetInsulin();
   m_insulinMolarMass_g_Per_mol = insulin->GetMolarMass(MassPerAmountUnit::g_Per_mol);
@@ -318,8 +316,7 @@ void Endocrine::ReleaseEpinephrine()
 
   epinephrineRelease_ug *= releaseMultiplier;
 
-  m_rKidneyEpinephrine->GetMass().IncrementValue(0.5 * epinephrineRelease_ug, MassUnit::ug);
-  m_lKidneyEpinephrine->GetMass().IncrementValue(0.5 * epinephrineRelease_ug, MassUnit::ug);
+  m_KidneyEpinephrine->GetMass().IncrementValue(epinephrineRelease_ug, MassUnit::ug);
 }
 
 //--------------------------------------------------------------------------------------------------

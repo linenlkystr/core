@@ -279,18 +279,13 @@ void Renal::SetUp()
   m_aorta = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::Aorta);
   m_venaCava = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::VenaCava);
 
-  m_Glomerular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftGlomerularCapillaries);
-  m_Peritubular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftPeritubularCapillaries);
-  m_Bowmans = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftBowmansCapsules);
-  m_Tubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::LeftTubules);
-  m_rightGlomerular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightGlomerularCapillaries);
-  m_rightPeritubular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightPeritubularCapillaries);
-  m_rightBowmans = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightBowmansCapsules);
-  m_rightTubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularCompartment::RightTubules);
+  m_Glomerular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::GlomerularCapillaries);
+  m_Peritubular = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::PeritubularCapillaries);
+  m_Bowmans = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::BowmansCapsules);
+  m_Tubules = m_data.GetCompartments().GetLiquidCompartment(BGE::VascularLiteCompartment::Tubules);
 
-  m_bladder = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::Bladder);
-  m_Ureter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::LeftUreter);
-  m_rightUreter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineCompartment::RightUreter);
+  m_bladder = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineLiteCompartment::Bladder);
+  m_Ureter = m_data.GetCompartments().GetLiquidCompartment(BGE::UrineLiteCompartment::Ureter);
 
   //Configuration parameters
   m_defaultOpenResistance_mmHg_s_Per_mL = m_data.GetConfiguration().GetDefaultOpenFlowResistance(FlowResistanceUnit::mmHg_s_Per_mL);
@@ -333,13 +328,14 @@ void Renal::SetUp()
   m_bladderToGroundPressurePath = m_RenalCircuit->GetPath(BGE::RenalLitePath::BladderToGroundPressure);
   m_urethraPath = m_RenalCircuit->GetPath(BGE::RenalLitePath::BladderToGroundUrinate);
 
-  m_aortaLactate = m_aorta->GetSubstanceQuantity(*m_lactate);
-
   m_PeritubularGlucose = m_Peritubular->GetSubstanceQuantity(*m_glucose);
   m_PeritubularPotassium = m_Peritubular->GetSubstanceQuantity(*m_potassium);
   m_UreterLactate = m_Ureter->GetSubstanceQuantity(*m_lactate);
   m_UreterPotassium = m_Ureter->GetSubstanceQuantity(*m_potassium);
 
+  m_aortaLactate = m_aorta->GetSubstanceQuantity(*m_lactate);
+
+  
   m_bladderGlucose = m_bladder->GetSubstanceQuantity(*m_glucose);
   m_bladderPotassium = m_bladder->GetSubstanceQuantity(*m_potassium);
   m_bladderSodium = m_bladder->GetSubstanceQuantity(*m_sodium);
