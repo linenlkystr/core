@@ -42,7 +42,6 @@ SESubstance::SESubstance(Logger* logger)
   m_MembraneResistance = nullptr;
 
   m_Antigen = (CDM::enumBloodTypeABO::value)-1;
-  m_CellCount = nullptr;
 
   m_Aerosolization = nullptr;
   m_BloodConcentration = nullptr;
@@ -84,7 +83,6 @@ void SESubstance::Clear()
   SAFE_DELETE(m_MembraneResistance);
 
   m_Antigen = (CDM::enumBloodTypeABO::value)-1;
-  SAFE_DELETE(m_CellCount);
 
   SAFE_DELETE(m_BloodConcentration);
   SAFE_DELETE(m_MassInBody);
@@ -126,9 +124,6 @@ const SEScalar* SESubstance::GetScalar(const std::string& name)
     return &GetMichaelisCoefficient();
   if (name.compare("MembraneConductivity") == 0)
     return &GetMembraneResistance();
-
-  if (name.compare("CellCount") == 0)
-    return &GetCellCount();
 
   if (name.compare("BloodConcentration") == 0)
     return &GetBloodConcentration();
@@ -200,8 +195,6 @@ bool SESubstance::Load(const CDM::SubstanceData& in)
 
   if (in.Antigen().present())
     m_Antigen = in.Antigen().get();
-  if (in.CellCount().present())
-    GetCellCount().Load(in.CellCount().get());
 
   if (in.BloodConcentration().present())
     GetBloodConcentration().Load(in.BloodConcentration().get());
@@ -282,8 +275,6 @@ void SESubstance::Unload(CDM::SubstanceData& data) const
 
   if (HasAntigen())
     data.Antigen(m_Antigen);
-  if (HasCellCount())
-    data.CellCount(std::unique_ptr<CDM::ScalarAmountPerVolumeData>(m_CellCount->Unload()));
 
   if (HasBloodConcentration())
     data.BloodConcentration(std::unique_ptr<CDM::ScalarMassPerVolumeData>(m_BloodConcentration->Unload()));
@@ -796,25 +787,6 @@ bool SESubstance::HasAntigen() const
 void SESubstance::InvalidateAntigen()
 {
   m_Antigen = (CDM::enumBloodTypeABO::value)-1;
-}
-//-----------------------------------------------------------------------------
-bool SESubstance::HasCellCount() const
-{
-  return (m_CellCount == nullptr) ? false : m_CellCount->IsValid();
-}
-//----------------------------------------------------------------------------------------
-SEScalarAmountPerVolume& SESubstance::GetCellCount()
-{
-  if (m_CellCount == nullptr)
-    m_CellCount = new SEScalarAmountPerVolume();
-  return *m_CellCount;
-}
-//-----------------------------------------------------------------------------
-double SESubstance::GetCellCount(const AmountPerVolumeUnit& unit) const
-{
-  if (m_CellCount == nullptr)
-    return SEScalar::dNaN();
-  return m_CellCount->GetValue(unit);
 }
 //-----------------------------------------------------------------------------
 bool SESubstance::HasClearance() const

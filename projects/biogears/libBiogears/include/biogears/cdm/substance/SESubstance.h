@@ -105,10 +105,6 @@ public:
   bool SESubstance::HasAntigen() const;
   void SESubstance::InvalidateAntigen();
 
-  virtual bool HasCellCount() const;
-  virtual SEScalarAmountPerVolume& GetCellCount();
-  virtual double GetCellCount(const AmountPerVolumeUnit& unit) const;
-
   // Liquid-ish
   virtual bool HasAerosolization() const;
   virtual SESubstanceAerosolization& GetAerosolization();
@@ -199,7 +195,6 @@ protected:
   SEScalarElectricResistance* m_MembraneResistance;
 
   CDM::enumBloodTypeABO::value m_Antigen;
-  SEScalarAmountPerVolume* m_CellCount;
 
   SESubstanceAerosolization* m_Aerosolization;
   SEScalarMassPerVolume* m_BloodConcentration;
