@@ -88,6 +88,7 @@
     <TidalVolumeModifier readOnly="false" value="0"/>
     <TubularPermeabilityModifier readOnly="false" value="0"/>
     <CentralNervousModifier readOnly="false" value="0.75"/>
+    <AntibacterialEffect readOnly="false" unit="1/hr" value="0"/>
     <EffectSiteRateConstant readOnly="false" unit="1/min" value="2"/>
   </Pharmacodynamics>
 </Substance>

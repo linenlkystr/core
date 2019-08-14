@@ -890,13 +890,13 @@ void BloodChemistry::InflammatoryResponse()
       double initialPathogen = 0.0;
       switch (m_data.GetActions().GetPatientActions().GetInfection()->GetSeverity()) {
       case CDM::enumInfectionSeverity::Mild:
-        initialPathogen = 0.5;
+        initialPathogen = 2.0;
         break;
       case CDM::enumInfectionSeverity::Moderate:
-        initialPathogen = 2.5;
+        initialPathogen = 3.82;
         break;
       case CDM::enumInfectionSeverity::Severe:
-        initialPathogen = 10.0;
+        initialPathogen = 7.5;
         break;
       default:
         initialPathogen = 0.2; //Default to very mild infection
@@ -926,18 +926,20 @@ void BloodChemistry::InflammatoryResponse()
   //Source terms
   double sM = 1.0, sN = 1.0, s6 = 0.001, s10 = 0.01;
   //Pathogen parameters
-  double kPG = 1.25;
-  double kPN = 5.8; //Phagocytic effect of activated neutrophils on pathogen, determined empirically
-  double xPN = 10.0; //Level of pathogen that brings elimination of P by neutrophils to 50% of max
+  double kPG = 0.66;
+  double kPN = 5.0; //Phagocytic effect of activated neutrophils on pathogen, determined empirically
+  double kPM = 3.0; //Phagocytic effect of activated macrophages/monocytes on pathogen, determined empircally
+  double xPN = 2.0; //Level of pathogen that brings elimination of P by neutrophils to 50% of max
+  double xPM = 2.0; //Level of pathogen that brings elimination of P by macrophages to 50% of max
   double sB = 0.0075; //Source of non-specific immune response
   double kPB = 0.461; //Rate that non-specific response eliminates pathogen
   double uB = 0.0023; //Decay rate of non-specific immune response
-  double kBP = 0.0001; //Rate at which non-specific response exhausted by pathogen
-  double maxPathogen = 100.0; //Maximum pathogen population size
+  double kBP = 0.05; //Rate at which non-specific response exhausted by pathogen
+  double maxPathogen = 20.0; //Maximum pathogen population size
   //Trauma decay
   double kTr = 0.85; //Determined empirically to give good results
   //Macrophage interaction
-  double kML = 1.01, kMTR = 0.04, kM6 = 0.1, kMB = 0.0495, kMR = 0.05, kMD = 0.05, xML = 10.0, xMD = 0.5, xMTNF = 0.4, xM6 = 1.0, xM10 = 0.297, xMCA = 0.9; //Note xMD was 1.0 for burn, see if this messes things up
+  double kML = 1.01, kMTR = 0.04, kM6 = 0.1, kMB = 0.0495, kMR = 0.05, kMD = 0.05, xML = 10.0, xMD = 0.75, xMTNF = 0.4, xM6 = 1.0, xM10 = 0.297, xMCA = 0.9; //Note xMD was 1.0 for burn, see if this messes things up
   //Activate macrophage interactions
   double kMANO = 0.2, kMA = 0.2;
   //Neutrophil interactions
@@ -961,13 +963,14 @@ void BloodChemistry::InflammatoryResponse()
   //Blood pressure
   double kB = 4.0, kBNO = 0.2, xBNO = 0.05;
   //Damage --- changed kDB from 0.02, changed xD6 from 0.25, changed kDTR from 0.05,
-  double kDB = 0.005, kD6 = 0.4, kD = 0.05, xD6 = 0.5, xDNO = 0.7;
+  double kDB = 0.5, kD6 = 0.125, kD = 0.15, xD6 = 0.5, xDNO = 0.7;
   double kDTR = 0.0; //This is a base value that will be adjusted as a function of type and severity of trauma
   double kDP = 0.001; //Pathogen causes a small amount of damage by itself
+  double tiMin = 0.05;
   //Containers to hold states
-  double P = 0.0, MR = 0.0, MA = 0.0, NR = 0.0, NA = 0.0, ER = 0.0, EA = 0.0, eNOS = 0.0, iNOSd = 0.0, iNOS = 0.0, NO3 = 0.0, NO = 0.0, I6 = 0.0, I10 = 0.0, I12 = 0.0, TNF = 0.0, TI = 0.0, TR = 0.0;
+  double P = 0.0, MR = 0.0, MA = 0.0, NR = 0.0, NA = 0.0, ER = 0.0, EA = 0.0, eNOS = 0.0, iNOSd = 0.0, iNOS = 0.0, NO3 = 0.0, NO = 0.0, I6 = 0.0, I10 = 0.0, I12 = 0.0, TNF = 0.0, TI = 0.0, TR = 0.0, B = 0.0;
   //Differential containers
-  double dP = 0.0, dMR = 0.0, dMA = 0.0, dNR = 0.0, dNA = 0.0, dER = 0.0, dEA = 0.0, dENOS = 0.0, dINOSd = 0.0, dINOS = 0.0, dNO3 = 0.0, dI6 = 0.0, dI10 = 0.0, dI12 = 0.0, dTNF = 0.0, dTI = 0.0, dTR = 0.0;
+  double dP = 0.0, dMR = 0.0, dMA = 0.0, dNR = 0.0, dNA = 0.0, dER = 0.0, dEA = 0.0, dENOS = 0.0, dINOSd = 0.0, dINOS = 0.0, dNO3 = 0.0, dI6 = 0.0, dI10 = 0.0, dI12 = 0.0, dTNF = 0.0, dTI = 0.0, dTR = 0.0, dB = 0.0;
 
   //Previous state
   P = m_InflammatoryResponse->GetPathogen().GetValue();
@@ -985,11 +988,19 @@ void BloodChemistry::InflammatoryResponse()
   I12 = m_InflammatoryResponse->GetInterleukin12().GetValue();
   TNF = m_InflammatoryResponse->GetTumorNecrosisFactor().GetValue();
   TI = m_InflammatoryResponse->GetTissueIntegrity().GetValue();
+  B = m_InflammatoryResponse->GetAntibodies().GetValue();
   //Antibiotic effects
   double antibacterialEffect = m_data.GetDrugs().GetAntibioticActivity().GetValue();
+  //Blood pressure effects on damage
+  double fB = 0;
+  double bpRatio = m_data.GetCardiovascular().GetSystolicArterialPressure(PressureUnit::mmHg) / m_data.GetPatient().GetSystolicArterialPressureBaseline(PressureUnit::mmHg);
+  if (bpRatio < 1.0){
+    fB = std::pow(1.0 - bpRatio, 4.0);
+  }
 
   //Process equations
-  dP = (kPG-antibacterialEffect) * P * (1.0 - P / maxPathogen) - kPN * NA * GeneralMath::HillActivation(P, xPN, 2.0) - sB * kPB * P / (uB + kBP * P); //This is assumed to be the driving force for infection / sepsis.
+  //dP = (kPG-antibacterialEffect) * P * (1.0 - P / maxPathogen) - (kPM * MA * GeneralMath::HillActivation(P,xPM, 2.0) + kPN * NA * GeneralMath::HillActivation(P, xPN, 2.0) + kPB * B * P / (P + 0.5)); //This is assumed to be the driving force for infection / sepsis.
+  dP = kPG * P - (P * kPG/maxPathogen + antibacterialEffect) * P - (kPM * MA * GeneralMath::HillActivation(P, xPM, 2.0) + kPN * NA * GeneralMath::HillActivation(P, xPN, 2.0) + kPB * B * P / (P + 0.5)); //This is assumed to be the driving force for infection / sepsis.
   if (P < ZERO_APPROX) {
     //Make sure when we get close to P = 0 that we don't take too big a step and pull a negative P for next iteration
     dP = 0.0;
@@ -1007,10 +1018,10 @@ void BloodChemistry::InflammatoryResponse()
   dI6 = (k6N * NA + MA) * (k6M + k6TNF * GeneralMath::HillActivation(TNF, x6TNF, 2.0) + k6NO * GeneralMath::HillActivation(NO, x6NO, 2.0)) * GeneralMath::HillInhibition(I10, x610, 2.0) * GeneralMath::HillInhibition(I6, x66, 4.0) + k6 * (s6 - I6);
   dI10 = (k10N * NA + MA) * (k10MA + k10TNF * GeneralMath::HillActivation(TNF, x10TNF, 4.0) + k106 * GeneralMath::HillActivation(I6, x106, 4.0)) * ((1 - k10R) * GeneralMath::HillInhibition(I12, x1012, 4.0) + k10R) - k10 * (I10 - s10);
   dI12 = k12M * MA * GeneralMath::HillInhibition(I10, x1210, 2.0) - k12 * I12;
-  dTI += kD * (1.0 - TI) - TI * (kD6 * GeneralMath::HillActivation(I6, xD6, 2.0) + kDTR * TR + kDP * P) * (1.0 / (std::pow(xDNO, 2.0) + std::pow(NO, 2.0)));
+  dTI += kD * (1.0 - TI) * (TI - tiMin) * TI - TI * (kD6 * GeneralMath::HillActivation(I6, xD6, 4.0) + kDTR * TR + kDB * fB) * (1.0 / (std::pow(xDNO, 2.0) + std::pow(NO, 2.0)));
+  dB = sB - (uB + kBP * P) * B;
 
-
-  double scale = 1.0;  //Only change this if you want to test inflammation model by itself at faster rate!  Other Bg metrics will no longer align with model progression
+  double scale = 0.75;  //Only change this if you want to test inflammation model by itself at faster rate!  Other Bg metrics will no longer align with model progression
   //Increment state values--make sure to scale nitrate, tnf, il6, and il10 back up
   m_InflammatoryResponse->GetPathogen().IncrementValue(dP * dt_hr * scale);
   m_InflammatoryResponse->GetTrauma().IncrementValue(dTR * dt_hr * scale);
@@ -1027,6 +1038,7 @@ void BloodChemistry::InflammatoryResponse()
   m_InflammatoryResponse->GetInterleukin10().IncrementValue(dI10 * dt_hr * scale);
   m_InflammatoryResponse->GetInterleukin12().IncrementValue(dI12 * dt_hr * scale);
   m_InflammatoryResponse->GetTissueIntegrity().IncrementValue(dTI * dt_hr * scale);
+  m_InflammatoryResponse->GetAntibodies().IncrementValue(dB * dt_hr * scale);
   //Nitric oxide is an algebraic relationship--update it here using new macrophage and neutrophil values
   NO = iNOS * (1.0 + kNOMA * (m_InflammatoryResponse->GetMacrophageActive().GetValue() + m_InflammatoryResponse->GetNeutrophilActive().GetValue())) + eNOS;
   m_InflammatoryResponse->GetNitricOxide().SetValue(NO);
